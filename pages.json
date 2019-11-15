@@ -1,25 +1,20 @@
 {
     "pages": [ //pages数组中第一项表示应用启动页,
-        {
-            "path" : "pages/updatePswd/updatePswd",
-            "style" : {
-        		"navigationBarTitleText": "找回密码"
-        	}
-        },
+        
 		{
             "path": "pages/main/main",
             "style": {
                 "navigationBarTitleText": "登录模板"
             }
         }, 
-		// {
-  //           "path": "pages/login/login",
-  //           "style": {
-  //               "app-plus": {  
-  //                   "titleNView": false //禁用原生导航栏  
-  //               }  
-  //           }
-  //       }, 
+		{
+            "path": "pages/login/login",
+            "style": {
+                "app-plus": {  
+                    "titleNView": false //禁用原生导航栏  
+                }  
+            }
+        }, 
 		{
 		    "path": "pages/loginPwd/loginPwd",
 		    "style": {
@@ -62,6 +57,12 @@
 		    "path" : "pages/setPswd/setPswd",
 		    "style" : {
 				"navigationBarTitleText": "设置新密码"
+			}
+		},
+		{
+		    "path" : "pages/updatePswd/updatePswd",
+		    "style" : {
+				"navigationBarTitleText": "找回密码"
 			}
 		},
 		{
