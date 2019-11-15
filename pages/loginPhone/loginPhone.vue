@@ -100,6 +100,8 @@
 				            key:"token",
 				            data: res.data.token
 				        })
+						const token = res.data.token
+						
 				    }
 				})
                 

@@ -5,7 +5,7 @@ import store from './store'
 
 Vue.config.productionTip = false
 // Vue.prototype.url = "https://www.zhongjubang.com/api/"
-// Vue.prototype.url = "https://www.zhongjubang.com/test/"
+Vue.prototype.url = "https://www.zhongjubang.com/test/"
 
 Vue.prototype.$store = store
 
