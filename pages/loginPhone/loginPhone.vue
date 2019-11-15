@@ -1,39 +1,42 @@
+
 <template>
-    <view class="">
-    	<view class="bg">
-    		<image src="../../static/img/loginPhone/bg.png" mode=""></image>
-    	</view>
-    	<text class="left">手机登录</text>
-    	<text class="right" @tap="tologinPwd">密码登录</text>
-    	<view class="phone">
-    		<image src="../../static/img/loginPhone/phone.png" mode=""></image>
-    	</view>
-    	<text class="title-phone">
-    		请输入手机号
-    	</text>
-    	<view class="phone-number">
-    	     <input v-model="account" type="text" />
-    	</view>
-    	<view class="code">
-    		<image src="../../static/img/loginPhone/code.png" mode=""></image>
-    	</view>
-    	<text class="title-code">
-    		请输入密码
-    	</text>
-    	<view class="phone-code">
-    	     <!-- <input type="text" v-model="password"/> -->
-    		 <m-input type="password" displayable v-model="password"></m-input>
-    	</view>
-    	<text class="forget-pwd">忘记密码</text>
-    	<view class="phone-login" @tap="bindLogin">
-    		<image src="../../static/img/loginPhone/phone-login.png" mode=""></image>
-    	</view>
-    	<view class="wechat-login">
-    		<image src="../../static/img/loginPhone/wechat-login.png" mode=""></image>
-    	</view>
-    	<text class="bottom-left">点击登录按钮代表您同意</text>
-    	<text class="bottom-right">《众居邦用户协议》</text>
-    </view>
+	<view class="">
+		<view class="bg">
+			<image src="../../static/img/loginPhone/bg.png" mode=""></image>
+		</view>
+		<text class="left">手机登录</text>
+		<text class="right" @click="tologinPwd">密码登录</text>
+		<view class="phone">
+			<image src="../../static/img/loginPhone/phone.png" mode=""></image>
+		</view>
+		<text class="title-phone">
+			请输入手机号
+		</text>
+		<view class="phone-number">
+		     <input v-model="account" type="text" />
+		</view>
+		<view class="code">
+			<image src="../../static/img/loginPhone/code.png" mode=""></image>
+		</view>
+		<text class="title-code">
+			请输入验证码
+		</text>
+		<view class="phone-code">
+		     <input type="text" v-model="password"/>
+		</view>
+		<view class="send-code" @tap="sendCod">
+			发送验证码
+		</view>
+		<view class="phone-login" @tap="bindLogin">
+			<image src="../../static/img/loginPhone/phone-login.png" mode=""></image>
+		</view>
+		<view class="wechat-login">
+			<image src="../../static/img/loginPhone/wechat-login.png" mode=""></image>
+		</view>
+		<text class="bottom-left">点击登录按钮代表您同意</text>
+		<text class="bottom-right">《众居邦用户协议》</text>
+	</view>
+	
 </template>
 
 <script>
@@ -55,25 +58,48 @@
         },
         // computed: mapState(['forcedLogin']),
         methods: {
+			sendCod(){
+				if (this.account.length < 11) {
+				    uni.showToast({
+				        icon: 'none',
+				        title: '请输入正确的电话号码!'
+				    });
+				    return;
+				}
+				const data = {
+					phone: this.account,
+					type: "2"
+				}
+				const url = this.url
+				uni.request({
+				    url: url + '/public/public/sendverificationcode',
+				    data: data,
+				    method:"POST",
+				    header : {'content-type':'application/x-www-form-urlencoded'},
+				    success: function (res){
+				        console.log(res);
+				    }
+				})
+			},
             bindLogin() {
                 /**
                  * 客户端对账号信息进行一些必要的校验。
                  * 实际开发中，根据业务需要进行处理，这里仅做示例。
                  */
-                if (this.account.length < 5) {
+                if (this.account.length < 11) {
                     uni.showToast({
                         icon: 'none',
-                        title: '账号最短为 5 个字符'
+                        title: '请输入正确的电话号码!'
                     });
                     return;
                 }
-                if (this.password.length < 6) {
-                    uni.showToast({
-                        icon: 'none',
-                        title: '密码最短为 6 个字符'
-                    });
-                    return;
-                }
+                // if (this.password.length < 6) {
+                //     uni.showToast({
+                //         icon: 'none',
+                //         title: '密码最短为 6 个字符'
+                //     });
+                //     return;
+                // }
                 /**
                  * 下面简单模拟下服务端的处理
                  * 检测用户账号密码是否在已注册的用户列表中
@@ -81,26 +107,22 @@
                  */
                 
 				
-				let sha256 = require("js-sha256").sha256//这里用的是require方法
-				const password = sha256(this.password+"zhongjubang2019")//要加密的密码
-				
 				const data = {
 				    phone: this.account,
-				    password: password
+					type: "2",
+				    code: this.password
 				}
 				const url = this.url
 				uni.request({
-				    url: url + '/controller/usercontroller/appuserlogin',
+				    url: url + '/public/public/checkverificationcode',
 				    data: data,
 				    method:"POST",
 				    header : {'content-type':'application/x-www-form-urlencoded'},
 				    success: function (res){
-				        console.log(res.data.token);
-				        uni.setStorage({
-				            key:"token",
-				            data: res.data.token
+				        console.log(res);
+				        uni.navigateTo({
+				            url: "/pages/setPswd/setPswd"
 				        })
-						const token = res.data.token
 						
 				    }
 				})
@@ -114,6 +136,8 @@
             
         }
     }
+</script>
+
 </script>
 
 <style>

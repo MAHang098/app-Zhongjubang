@@ -7,7 +7,7 @@
 		<view class="input">
 			<view class="phone-number">
 				<!-- <input type="text" placeholder="请输入新密码" password  /> -->
-				<input class="uni-input" placeholder="请输入新密码" :password="showPassword" />
+				<input class="uni-input" placeholder="请输入新密码" :password="showPassword"  v-model="password"/>
 				<view class="uni-icon uni-icon-eye" :class="[!showPassword ? 'uni-active' : '']" @click="changePassword"></view>
 				<!-- <image src="../../static/phone.png" mode=""></image> -->
 			</view>
@@ -21,24 +21,40 @@
 		data() {
 			return {
 				showPassword: true,
+				token: [],
+				phone: '',
+				password: ''
 				// src: '../../../static/eye-1.png',
 			}
 		},
+		 onLoad:function(options){
+			 if(options){
+				 console.log(options.phone);
+				 this.phone = options.phone
+				 // this.setData({
+					//  phone: options.phone
+				 // })
+			 }
+		    
+		 },
 		methods: {
 			changePassword: function() {
 				this.showPassword = !this.showPassword;
 			},
 			completes() {
-				uni.navigateTo({
-					url: '../bindPhone/bindPhone'
-				})
+				console.log(this.options)
+				console.log(this.password)
+				console.log('phone:'+ this.phone)
+				// uni.navigateTo({
+				// 	url: '../bindPhone/bindPhone'
+				// })
 			}
 		}
 	}
 </script>
 
 <style>
-	@import './common/uni.css';
+	@import '../../common/uni.css';
 	/*每个页面公共css */
 	page {
 		min-height: 100%;

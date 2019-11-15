@@ -34,10 +34,14 @@
 		{
 		    "path": "pages/updatePswd/updatePswd",
 		    "style": {
-		        "app-plus": {  
-		            "titleNView": false //禁用原生导航栏  
-		        }  
-		    }
+                "navigationBarTitleText": ""
+            }
+		}, 
+		{
+		    "path": "pages/setPswd/setPswd",
+		    "style": {
+                "navigationBarTitleText": ""
+            }
 		}, 
 		{
             "path": "pages/reg/reg",
@@ -81,7 +85,7 @@
     },
     "globalStyle": {
         "navigationBarTextStyle": "white",
-        "navigationBarBackgroundColor": "#0faeff",
-        "backgroundColor": "#fbf9fe"
+        "navigationBarBackgroundColor": "#FFFFFF",
+        "backgroundColor": "#DDDDDD"
     }
 }

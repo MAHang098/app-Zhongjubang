@@ -7,33 +7,119 @@
 		<view class="input">
 			<view class="phone-number">
 				<image src="../../static/phone.png" mode=""></image>
-				<input type="text" placeholder="请输入手机号" />
+				<input v-model="account" type="text" placeholder="请输入手机号" />
 			</view>
 			<view class="yzm">
 				<image src="../../static/lock.png" mode=""></image>
-				<input type="text" placeholder="请输入手机号" />
-				<button size="mini" class="send">发送验证码</button>
+				<input type="text" placeholder="请输入验证码"  v-model="password"/>
+				<button size="mini" class="send" @tap="sendCod">发送验证码</button>
 			</view>
 		</view>
-		<button class="next" @click="next">下一步</button>
+		<button class="next" @tap="bindLogin">下一步</button>
 	</view>
 </template>
 
 <script>
+	import mInput from '../../components/m-input.vue'
 	export default {
-		data() {
-			return {
-				
-			}
-		},
-		methods: {
-			next() {
+	    components: {
+	        mInput
+	    },
+	    data() {
+	        return {
+	            providerList: [],
+	            hasProvider: false,
+	            account: '',
+	            password: '',
+	            positionTop: 0,
+				token: []
+	        }
+	    },
+	    // computed: mapState(['forcedLogin']),
+	    methods: {
+			sendCod(){
+				if (this.account.length < 11) {
+				    uni.showToast({
+				        icon: 'none',
+				        title: '请输入正确的电话号码!'
+				    });
+				    return;
+				}
+				const data = {
+					phone: this.account,
+					type: "2"
+				}
+				const url = this.url
+				uni.request({
+				    url: url + '/public/public/sendverificationcode',
+				    data: data,
+				    method:"POST",
+				    header : {'content-type':'application/x-www-form-urlencoded'},
+				    success: function (res){
+				        console.log(res);
+				    }
+				})
+			},
+	        bindLogin() {
+	            /**
+	             * 客户端对账号信息进行一些必要的校验。
+	             * 实际开发中，根据业务需要进行处理，这里仅做示例。
+	             */
+				console.log(this.account)
 				uni.navigateTo({
-					url: '../setPswd/setPswd'
-					// url: '../bindPhone/bindPhone'
+				    url: "/pages/setPswd/setPswd?phone=" + this.account
+				})
+				
+	            // if (this.account.length < 11) {
+	            //     uni.showToast({
+	            //         icon: 'none',
+	            //         title: '请输入正确的电话号码!'
+	            //     });
+	            //     return;
+	            // }
+	            // if (this.password.length < 6) {
+	            //     uni.showToast({
+	            //         icon: 'none',
+	            //         title: '密码最短为 6 个字符'
+	            //     });
+	            //     return;
+	            // }
+	            /**
+	             * 下面简单模拟下服务端的处理
+	             * 检测用户账号密码是否在已注册的用户列表中
+	             * 实际开发中，使用 uni.request 将账号信息发送至服务端，客户端在回调函数中获取结果信息。
+	             */
+	            
+				
+				// const data = {
+				//     phone: this.account,
+				// 	type: "2",
+				//     code: this.password
+				// }
+				// const phone = this.account
+				// const url = this.url
+				// uni.request({
+				//     url: url + '/public/public/checkverificationcode',
+				//     data: data,
+				//     method:"POST",
+				//     header : {'content-type':'application/x-www-form-urlencoded'},
+				//     success: function (res){
+				//         console.log(res);
+				//         uni.navigateTo({
+				//             url: "/pages/updatePswd/updatePswd?phone=" + phone
+				//         })
+						
+				//     }
+				// })
+	            
+	        },
+			tologinPwd(){
+				uni.navigateTo({
+				    url: "/pages/loginPwd/loginPwd"
 				})
 			}
-		}
+	        
+	    }
 	}
 </script>
 
