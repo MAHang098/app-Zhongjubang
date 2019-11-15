@@ -14,15 +14,6 @@
                 "navigationBarTitleText": "登录模板"
             }
         },
-        // {
-        //           "path": "pages/login/login",
-        //           "style": {
-        //               "app-plus": {  
-        //                   "titleNView": false //禁用原生导航栏  
-        //               }  
-        //           }
-        //       }, 
-
         {
             "path": "pages/loginPhone/loginPhone",
             "style": {
@@ -34,9 +25,13 @@
         {
             "path": "pages/updatePswd/updatePswd",
             "style": {
-                "app-plus": {
-                    "titleNView": false //禁用原生导航栏  
-                }
+                "navigationBarTitleText": ""
+            }
+        },
+        {
+            "path": "pages/setPswd/setPswd",
+            "style": {
+                "navigationBarTitleText": ""
             }
         },
         {
@@ -81,7 +76,7 @@
     },
     "globalStyle": {
         "navigationBarTextStyle": "white",
-        "navigationBarBackgroundColor": "#0faeff",
-        "backgroundColor": "#fbf9fe"
+        "navigationBarBackgroundColor": "#FFFFFF",
+        "backgroundColor": "#DDDDDD"
     }
 }
