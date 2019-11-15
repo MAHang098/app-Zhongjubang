@@ -5,12 +5,24 @@
             "style": {
                 "navigationBarTitleText": "登录模板"
             }
-        }, {
-            "path": "pages/login/login",
-            "style": {
-                "navigationBarTitleText": "登录"
-            }
-        }, {
+        }, 
+		// {
+  //           "path": "pages/login/login",
+  //           "style": {
+  //               "app-plus": {  
+  //                   "titleNView": false //禁用原生导航栏  
+  //               }  
+  //           }
+  //       }, 
+		{
+		    "path": "pages/loginPwd/loginPwd",
+		    "style": {
+		        "app-plus": {  
+		            "titleNView": false //禁用原生导航栏  
+		        }  
+		    }
+		}, 
+		{
             "path": "pages/reg/reg",
             "style": {
                 "navigationBarTitleText": "注册"

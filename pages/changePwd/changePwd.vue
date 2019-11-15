@@ -1,15 +1,18 @@
 <template>
     <view class="content">
-        <view class="input-group">
-            <view class="input-row">
-                <text class="title">修改密码：</text>
-                <m-input type="text" focus clearable v-model="pwd" placeholder="请输入密码"></m-input>
-            </view>
-        </view>
-
-        <view class="btn-row">
-            <button type="primary" class="primary" @tap="findPassword">提交</button>
-        </view>
+		<view class="bg">
+			<view class="input-group">
+			    <view class="input-row">
+			        <text class="title">修改密码：</text>
+			        <m-input type="text" focus clearable v-model="pwd" placeholder="请输入密码"></m-input>
+			    </view>
+			</view>
+			
+			<view class="btn-row">
+			    <button type="primary" class="primary" @tap="findPassword">提交</button>
+			</view>
+		</view>
+        
     </view>
 </template>
 
@@ -49,7 +52,6 @@
 						},
 					    success: function (res) {
 					        console.log(res);
-					        
 					    }
 					})
 				    }
@@ -65,6 +67,7 @@
 </script>
 
 <style>
+	
 	.input-row .title {
 		width: 30%;
 		height: 50upx;
