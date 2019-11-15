@@ -29,29 +29,35 @@
         methods: {
             findPassword() {
 				const url = this.url
+				console.log(url)
 				uni.getStorage({
 				    key:"token",
 				    success(e){
-				    console.log(e.data)//这就是你想要取的token
-					console.log(url)
+				    // console.log(e.data)//这就是你想要取的token
+					// console.log(url)
 					// const data = {
 					// 	token: e.data,
 					// 	port: "app"
 					// }
-					uni.request({
-					    url: url + 'controller/usercontroller/getappuser',
-					    data: {},
-					    method:"POST",
-					    header : {
-							'content-type':'application/x-www-form-urlencoded',
-							'token': 'a86ded50165f42e1a37f6096503d2aa1',
-							'port': "app"
-						},
-					    success: function (res) {
-					        console.log(res);
+					let params = {};
+					this.$api.getAppUser(params)
+						.then(res => {
+							console.log(res)
+						})
+					// uni.request({
+					//     url: url + 'controller/usercontroller/getappuser',
+					//     data: {},
+					//     method:"POST",
+					//     headers : {
+					// 		// 'content-type':'application/x-www-form-urlencoded'
+					// 		'token': e.data,
+					// 		'port': 'app'
+					// 	},
+					//     success: function (res) {
+					//         console.log(res);
 					        
-					    }
-					})
+					//     }
+					// })
 				    }
 				})
                 uni.showToast({
