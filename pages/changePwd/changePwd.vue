@@ -42,7 +42,6 @@
 					// 	token: e.data,
 					// 	port: "app"
 					// }
-<<<<<<< HEAD
 					let params = {};
 					this.$api.getAppUser(params)
 						.then(res => {
@@ -62,21 +61,6 @@
 					        
 					//     }
 					// })
-=======
-					uni.request({
-					    url: url + 'controller/usercontroller/getappuser',
-					    data: {},
-					    method:"POST",
-					    header : {
-							'content-type':'application/x-www-form-urlencoded',
-							'token': 'a86ded50165f42e1a37f6096503d2aa1',
-							'port': "app"
-						},
-					    success: function (res) {
-					        console.log(res);
-					    }
-					})
->>>>>>> origin/master
 				    }
 				})
                 uni.showToast({
