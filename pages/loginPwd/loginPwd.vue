@@ -1,7 +1,7 @@
 <template>
     <view class="">
     	<view class="bg">
-    		<image src="../../static/img/loginPhone/bg.png" mode=""></image>
+    		<image src="../../static/img/loginPhone/bg-2.png" mode=""></image>
     	</view>
     	<text class="left" @tap="tologinPhone">手机登录</text>
     	<text class="right">密码登录</text>
@@ -24,7 +24,7 @@
     	     <!-- <input type="text" v-model="password"/> -->
     		 <m-input type="password" displayable v-model="password"></m-input>
     	</view>
-    	<text class="forget-pwd">忘记密码</text>
+    	<text class="forget-pwd" @tap="toupdatePswd">忘记密码</text>
     	<view class="phone-login" @tap="bindLogin">
     		<image src="../../static/img/loginPhone/phone-login.png" mode=""></image>
     	</view>
@@ -107,15 +107,22 @@
 					},
 				    success: function (res){
 				        console.log(res.data.token);
-						// uni.request({
-						//     url: url + '/controller/usercontroller/getappuser',
-						//     data: {},
-						//     method:"POST",
-						//     header : {'content-type':'application/x-www-form-urlencoded'},
-						//     success: function (res){
-						//         console.log(res)
-						//     }
-						// })
+						console.log(url)
+						const token = res.data.token
+						uni.request({
+						    url: url + '/controller/usercontroller/getappuser',
+						    data: {},
+						    method:"POST",
+						    header : {
+								'content-type':'application/x-www-form-urlencoded',
+								'token': token,
+								'port': 'app'
+							},
+						    success: function (res){
+						        console.log(res)
+								
+						    }
+						})
 				        uni.setStorage({
 				            key:"token",
 				            data: res.data.token,
@@ -148,7 +155,12 @@
 				uni.navigateTo({
 				    url: "/pages/loginPhone/loginPhone"
 				})
-			}
+			},
+			toupdatePswd(){
+				uni.navigateTo({
+				    url: "/pages/updatePswd/updatePswd"
+				})
+			},
             
         }
     }
