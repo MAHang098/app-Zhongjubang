@@ -3,8 +3,8 @@
     	<view class="bg">
     		<image src="../../static/img/loginPhone/bg.png" mode=""></image>
     	</view>
-    	<text class="left" @tap="tologinPhone">手机登录</text>
-    	<text class="right">密码登录</text>
+    	<text class="left">手机登录</text>
+    	<text class="right" @tap="tologinPwd">密码登录</text>
     	<view class="phone">
     		<image src="../../static/img/loginPhone/phone.png" mode=""></image>
     	</view>
@@ -104,9 +104,9 @@
 				})
                 
             },
-			tologinPhone(){
+			tologinPwd(){
 				uni.navigateTo({
-				    url: "/pages/loginPhone/loginPhone"
+				    url: "/pages/loginPwd/loginPwd"
 				})
 			}
             
@@ -115,158 +115,165 @@
 </script>
 
 <style>
-    .bg{
-    	width: 750rpx;
-    	height: 1334rpx;
-    }
-    .bg image{
-    	width: 750rpx;
-    	height: 1334rpx;
-    }
-    .left{
-    	position: absolute;
-    	left: 73rpx;
-    	top: 449rpx;
-    	font-size:43rpx;
-    	font-family:PingFang SC;
-    	font-weight:bold;
-    	color:rgba(136,136,136,1);
-    }
-    .right{
-    	position: absolute;
-    	right: 73rpx;
-    	top: 449rpx;
-    	font-size:46rpx;
-    	font-family:PingFang SC;
-    	font-weight:500;
-    	color:rgba(249,183,44,1);
-    }
-    .phone{
-    	position: absolute;
-    	left: 44rpx;
-    	top: 580rpx;
-    	width: 36rpx;
-    	height: 42rpx;
-    }
-    .phone image{
-    	width: 36rpx;
-    	height: 42rpx;
-    }
-    .title-phone{
-    	position: absolute;
-    	left: 94rpx;
-    	top: 580rpx;
-    	font-size:34rpx;
-    	font-family:PingFang SC;
-    	font-weight:500;
-    	color:rgba(153,153,153,1);
-    }
-    .code{
-    	position: absolute;
-    	left: 44rpx;
-    	top: 750rpx;
-    	width: 36rpx;
-    	height: 42rpx;
-    }
-    .code image{
-    	width: 36rpx;
-    	height: 42rpx;
-    }
-    
-    .title-code{
-    	position: absolute;
-    	left: 94rpx;
-    	top: 749rpx;
-    	font-size:34rpx;
-    	font-family:PingFang SC;
-    	font-weight:500;
-    	color:rgba(153,153,153,1);
-    }
-    
-    .m-input{
-    	position: absolute;
-    	left: 65rpx;
-    	top: 643rpx;
-    	width: 635.8rpx;
-    	height: 60rpx;
-    }
-    .phone-login{
-    	position: absolute;
-    	left: 45rpx;
-    	bottom: 281rpx;
-    	width: 660rpx;
-    	height: 92rpx;
-    }
-    .phone-login image{
-    	width: 660rpx;
-    	height: 92rpx;
-    }
-    .wechat-login{
-    	position: absolute;
-    	left: 45rpx;
-    	bottom: 159rpx;
-    	width: 660rpx;
-    	height: 92rpx;
-    }
-    .wechat-login image{
-    	width: 660rpx;
-    	height: 92rpx;
-    }
-    .bottom-left{
-    	position: absolute;
-    	left: 136rpx;
-    	bottom: 27rpx;
-    	font-size:24rpx;
-    	font-family:PingFang SC;
-    	font-weight:500;
-    	color:rgba(153,153,153,1);
-    }
-    .bottom-right{
-    	position: absolute;
-    	right: 136rpx;
-    	bottom: 27rpx;
-    	font-size:24rpx;
-    	font-family:PingFang SC;
-    	font-weight:500;
-    	color:#F9B72C;
-    }
-    .phone-number{
-        /* display: flex;
-        justify-content: flex-start; */
-    	position: absolute;
-    	left: 65rpx;
-    	top: 630rpx;
-        height: 100rpx;
-    	width: 635rpx;;
-        border-bottom: 2px solid #DADADA;
-        box-sizing: border-box;
-        padding: 30rpx 0;
-        font-size: 34rpx;
-        color: #333333;
-        font-weight: 500;
-    }
-    .phone-code{
-          /* display: flex;
-          justify-content: flex-start; */
-      	position: absolute;
-      	left: 65rpx;
-      	top: 780rpx;
-        height: 100rpx;
-      	width: 635rpx;;
-    	border-bottom: 2px solid #DADADA;
-    	box-sizing: border-box;
-    	padding: 30rpx 0;
-    	font-size: 34rpx;
-    	color: #333333;
-    	font-weight: 500;
-    }
-    .forget-pwd{
-    	position: absolute;
-    	right: 68rpx;
-    	bottom: 393rpx;
-    	font-size:28rpx;
-    	font-family:PingFang SC;
-    	font-weight:500;
-    	color:rgba(102,102,102,1);
-    }
+	.bg{
+		width: 750rpx;
+		height: 1334rpx;
+	}
+	.bg image{
+		width: 750rpx;
+		height: 1334rpx;
+	}
+	.left{
+		position: absolute;
+		left: 73rpx;
+		top: 449rpx;
+		font-size:46rpx;
+		font-family:PingFang SC;
+		font-weight:bold;
+		color:rgba(249,183,44,1);
+	}
+	.right{
+		position: absolute;
+		right: 73rpx;
+		top: 449rpx;
+		font-size:43rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(136,136,136,1);
+	}
+	.phone{
+		position: absolute;
+		left: 44rpx;
+		top: 580rpx;
+		width: 36rpx;
+		height: 42rpx;
+	}
+	.phone image{
+		width: 36rpx;
+		height: 42rpx;
+	}
+	.title-phone{
+		position: absolute;
+		left: 94rpx;
+		top: 580rpx;
+		font-size:34rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(153,153,153,1);
+	}
+	.code{
+		position: absolute;
+		left: 44rpx;
+		top: 750rpx;
+		width: 36rpx;
+		height: 42rpx;
+	}
+	.code image{
+		width: 36rpx;
+		height: 42rpx;
+	}
+	
+	.title-code{
+		position: absolute;
+		left: 94rpx;
+		top: 749rpx;
+		font-size:34rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(153,153,153,1);
+	}
+	
+	.m-input{
+		position: absolute;
+		left: 65rpx;
+		top: 643rpx;
+		width: 635.8rpx;
+		height: 60rpx;
+	}
+	.send-code{
+		position: absolute;
+		text-align: center;
+		line-height: 57rpx;
+		top: 803rpx;
+		right: 48rpx;
+		width:176rpx;
+		height:57rpx;
+		background:rgba(235,235,235,1);
+		border-radius:28rpx;
+		font-size:26rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(153,153,153,1);
+	}
+	.phone-login{
+		position: absolute;
+		left: 45rpx;
+		bottom: 281rpx;
+		width: 660rpx;
+		height: 92rpx;
+	}
+	.phone-login image{
+		width: 660rpx;
+		height: 92rpx;
+	}
+	.wechat-login{
+		position: absolute;
+		left: 45rpx;
+		bottom: 159rpx;
+		width: 660rpx;
+		height: 92rpx;
+	}
+	.wechat-login image{
+		width: 660rpx;
+		height: 92rpx;
+	}
+	.bottom-left{
+		position: absolute;
+		left: 136rpx;
+		bottom: 27rpx;
+		font-size:24rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(153,153,153,1);
+	}
+	.bottom-right{
+		position: absolute;
+		right: 136rpx;
+		bottom: 27rpx;
+		font-size:24rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:#F9B72C;
+	}
+	.phone-number{
+	    /* display: flex;
+	    justify-content: flex-start; */
+		position: absolute;
+		left: 65rpx;
+		top: 630rpx;
+	    height: 100rpx;
+		width: 635rpx;;
+	    border-bottom: 2px solid #DADADA;
+	    box-sizing: border-box;
+	    padding: 30rpx 0;
+	    font-size: 34rpx;
+	    color: #333333;
+	    font-weight: 500;
+	}
+	.phone-code{
+	      /* display: flex;
+	      justify-content: flex-start; */
+	  	position: absolute;
+	  	left: 65rpx;
+	  	top: 780rpx;
+	    height: 100rpx;
+	  	width: 635rpx;;
+		border-bottom: 2px solid #DADADA;
+		box-sizing: border-box;
+		padding: 30rpx 0;
+		font-size: 34rpx;
+		color: #333333;
+		font-weight: 500;
+	}
+	
 </style>
