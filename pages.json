@@ -1,6 +1,35 @@
 {
     "pages": [ //pages数组中第一项表示应用启动页,
-	
+		{
+			"path" : "pages/updatePswd/updatePswd",
+			"style" : {
+				 "navigationBarTitleText": "找回密码"
+			}
+		},
+		{
+			"path" : "pages/add-adress/add-adress",
+			"style" : {
+				 "navigationBarTitleText": "添加收货地址",
+				 "app-plus": {
+				     "titleNView": {
+				         "buttons": [{
+				             "text": "保存",
+				             // "fontSrc": "/static/uni.ttf",
+				             "fontSize": "14px",
+							 "color":"#F9B72C"
+				         }]
+				     },
+				     "bounce": "none"
+				 }
+			}
+		},
+		{
+			"path" : "pages/setPswd/setPswd",
+			"style" : {
+				 "navigationBarTitleText": "设置密码"
+			}
+		},
+		
         {
             "path": "pages/loginPwd/loginPwd",
             "style": {
@@ -80,6 +109,7 @@
                 }
             }
         }
+        
     ],
     "tabBar": {
         "color": "#7a7e83",
@@ -113,8 +143,8 @@
         }]
     },
     "globalStyle": {
-        "navigationBarTextStyle": "white",
+        "navigationBarTextStyle": "black",
         "navigationBarBackgroundColor": "#FFFFFF",
-        "backgroundColor": "#DDDDDD"
+        "backgroundColor": "#333333"
     }
 }

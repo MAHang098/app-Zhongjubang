@@ -34,7 +34,7 @@
 			changePassword: function() {
 				this.showPassword = !this.showPassword;
 			},
-			// 修改密码成功
+			// 修改密码完成
 			completes() {
 				// 获取本地缓存内容
 				uni.getStorage({
@@ -84,9 +84,6 @@
 						}
 					}
 				})
-				// uni.navigateTo({
-				// 	url: '../bindPhone/bindPhone'
-				// })
 			}
 		}
 	}
@@ -260,5 +257,4 @@
 		font-weight: 500;
 		color: #FFFFFF;
 	}
-	
 </style>
