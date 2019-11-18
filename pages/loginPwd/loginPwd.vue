@@ -32,7 +32,7 @@
     		<image src="../../static/img/loginPhone/wechat-login.png" mode=""></image>
     	</view>
     	<text class="bottom-left">点击登录按钮代表您同意</text>
-    	<text class="bottom-right">《众居邦用户协议》</text>
+    	<text class="bottom-right" @tap="toAgreement">《众居邦用户协议》</text>
     </view>
 </template>
 
@@ -84,11 +84,11 @@
                 
 				const url = this.url
 				let sha256 = require("js-sha256").sha256//这里用的是require方法
-				const password = sha256("134283"+"zhongjubang2019")//要加密的密码
+				const password = sha256(this.password+"zhongjubang2019")//要加密的密码
 				uni.request({
 				    url: url + '/controller/usercontroller/appuserlogin',
 				    data: {
-						phone:"13428395153",
+						phone: this.account,
 						password: password
 					},
 				    method:"POST",
@@ -96,26 +96,37 @@
 						'content-type':'application/x-www-form-urlencoded'
 					},
 				    success: function (res){
-				        console.log(res.data.token);
-						console.log(url)
-						const token = res.data.token
-						uni.request({
-						    url: url + '/controller/usercontroller/getappuser',
-						    data: {},
-						    method:"POST",
-						    header : {
-								'content-type':'application/x-www-form-urlencoded',
-								'token': token,
-								'port': 'app'
-							},
-						    success: function (res){
-						        console.log(res)
-						    }
-						})
-				        uni.setStorage({
-				            key:"token",
-				            data: res.data.token,
-				        })
+						console.log(res)
+						if(res.data.code==200){
+							uni.switchTab({
+								url: "/pages/main/main"
+							})
+							// const token = res.data.token
+							// uni.request({
+							// 	url: url + '/controller/usercontroller/getappuser',
+							// 	data: {},
+							// 	method:"POST",
+							// 	header : {
+							// 		'content-type':'application/x-www-form-urlencoded',
+							// 		'token': token,
+							// 		'port': 'app'
+							// 	},
+							// 	success: function (res){
+							// 		console.log(res)
+							// 	}
+							// })
+							// uni.setStorage({
+							// 	key:"token",
+							// 	data: res.data.token
+							// })
+
+						}else{
+							uni.showToast({
+								icon: 'none',
+								title: '用户名密码错误!'
+							});
+						}
+						
 				    }
 				})
                 
@@ -150,6 +161,11 @@
 				    url: "/pages/updatePswd/updatePswd"
 				})
 			},
+			toAgreement(){
+				uni.navigateTo({
+					url: "/pages/agreement/agreement"
+				})
+			}
             
         }
     }

@@ -43,7 +43,6 @@
 						this.token = res.data.token;
 					}
 				})
-				console.log(this.password)
 				if(this.password.length < 6 || this.password.length > 20) {
 					uni.showToast({
 						title: '密码为6-20位英文或数字',
@@ -52,8 +51,12 @@
 					})
 					return;
 				}
+				let sha256 = require("js-sha256").sha256//这里用的是require方法
+				const password = sha256(this.password+"zhongjubang2019")//要加密的密码
+				console.log(password)
+
 				let params = {
-					password: this.password,
+					password: password,
 					phone: this.phone
 				}
 				uni.request({

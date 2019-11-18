@@ -8,6 +8,14 @@
                 }
             }
         },
+        {
+            "path": "pages/agreement/agreement",
+            "style": {
+                "app-plus": {
+                    "titleNView": false //禁用原生导航栏  
+                }
+            }
+        },
 		{
 			"path" : "pages/bindPhone/bindPhone",
 			"style" : {

@@ -1,6 +1,8 @@
 {
   "pages": [
     "pages/loginPhone/loginPhone",
+    "pages/agreement/agreement",
+    "pages/bindPhone/bindPhone",
     "pages/updatePswd/updatePswd",
     "pages/add-adress/add-adress",
     "pages/setPswd/setPswd",

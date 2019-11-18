@@ -38,7 +38,7 @@
 			<image src="../../static/img/loginPhone/wechat-login.png" mode=""></image>
 		</view>
 		<text class="bottom-left">点击登录按钮代表您同意</text>
-		<text class="bottom-right">《众居邦用户协议》</text>
+		<text class="bottom-right" @tap="toAgreement">《众居邦用户协议》</text>
 	</view>
 	
 </template>
@@ -184,12 +184,34 @@
 								provider: 'weixin',
 								success: function (loginRes) {
 									console.log(JSON.stringify(loginRes));
-									
+									// uni.navigateTo({
+									// 	url: "/pages/bindPhone/bindPhone"
+									// })
 								}
 							});
 						}
 					}
 				});
+				
+				// uni.login({
+				// 	provider: 'weixin',
+				//     // #ifdef MP-ALIPAY
+				//     scopes: 'auth_user',  //支付宝小程序需设置授权类型
+				//     // #endif
+				// 	success: (res) => {
+				// 		console.log('login success:', res);
+				// 		// 更新保存在 store 中的登录状态
+				// 		this.login('weixin');
+				// 	},
+				// 	fail: (err) => {
+				// 		console.log('login fail:', err);
+				// 	}
+				// });
+			},
+			toAgreement(){
+				uni.navigateTo({
+					url: "/pages/agreement/agreement"
+				})
 			}
             
         }
