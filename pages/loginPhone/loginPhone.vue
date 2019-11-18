@@ -56,7 +56,6 @@
 				token: []
             }
         },
-        // computed: mapState(['forcedLogin']),
         methods: {
 			sendCod(){
 				if (this.account.length < 11) {
@@ -95,13 +94,7 @@
                     });
                     return;
                 }
-                // if (this.password.length < 6) {
-                //     uni.showToast({
-                //         icon: 'none',
-                //         title: '密码最短为 6 个字符'
-                //     });
-                //     return;
-                // }
+                
                 /**
                  * 下面简单模拟下服务端的处理
                  * 检测用户账号密码是否在已注册的用户列表中
@@ -121,23 +114,35 @@
 				    method:"POST",
 				    header : {'content-type':'application/x-www-form-urlencoded'},
 				    success: function (res){
-				        console.log(res);
+						console.log(res.data.code);
+						if(res.data.code=="200"){
+							uni.request({
+								url: url + '/controller/usercontroller/addappuser',
+								data: {phone:phone},
+								method:"POST",
+								header : {'content-type':'application/x-www-form-urlencoded'},
+								success: function (res){
+									console.log(res);
+									uni.setStorage({
+										key:"token",
+										data: res.data.token,
+									})
+									uni.switchTab({
+										url: "/pages/main/main"
+									})
+								}
+							})
+						}else{
+							
+							uni.showToast({
+								icon: 'none',
+								title: '验证码错误'
+							});
+						}
 				        // uni.navigateTo({
 				        //     url: "/pages/setPswd/setPswd"
 				        // })
-						uni.request({
-						    url: url + '/controller/usercontroller/addappuser',
-						    data: {phone:phone},
-						    method:"POST",
-						    header : {'content-type':'application/x-www-form-urlencoded'},
-						    success: function (res){
-						        console.log(res);
-								// uni.setStorage({
-								//     key:"token",
-								//     data: res.data.token,
-								// })
-						    }
-						})
+						
 						
 				    }
 				})

@@ -94,6 +94,27 @@
                     "titleNView": false //禁用原生导航栏  
                 }
             }
+        }, {
+            "path": "pages/juquan/juquan",
+            "style": {
+                "app-plus": {
+                    "titleNView": false //禁用原生导航栏  
+                }
+            }
+        }, {
+            "path": "pages/release/release",
+            "style": {
+                "app-plus": {
+                    "titleNView": false //禁用原生导航栏  
+                }
+            }
+        }, {
+            "path": "pages/stop/stop",
+            "style": {
+                "app-plus": {
+                    "titleNView": false //禁用原生导航栏  
+                }
+            }
         }
         
     ],
@@ -106,6 +127,21 @@
             "text": "首页",
             "iconPath": "static/img/home.png",
             "selectedIconPath": "static/img/homeHL.png"
+        },{
+            "pagePath": "pages/juquan/juquan",
+            "text": "居圈",
+            "iconPath": "static/img/juquan.png",
+            "selectedIconPath": "static/img/juquanHL.png"
+        },{
+            "pagePath": "pages/release/release",
+            "text": "",
+            "iconPath": "static/img/release.png",
+            "selectedIconPath": "static/img/homeHL.png"
+        },{
+            "pagePath": "pages/stop/stop",
+            "text": "商城",
+            "iconPath": "static/img/stop.png",
+            "selectedIconPath": "static/img/stopHL.png"
         }, {
             "pagePath": "pages/user/user",
             "text": "我的",
