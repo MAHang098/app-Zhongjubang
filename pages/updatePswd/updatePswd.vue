@@ -53,7 +53,6 @@
 				// 发送验证码60s倒计时 start
 				let interval = setInterval(() => {
 				  --this.second;
-				  
 				}, 1000)
 				setTimeout(() => {
 					clearInterval(interval)
@@ -237,6 +236,7 @@
 	.send {
 		width: 164rpx;
 		height: 53rpx;
+		line-height: 53rpx;
 		border-radius: 27rpx;
 		/* background: #EBEBEB; */
 		background: #F9B72C;
