@@ -66,8 +66,9 @@
 				    });
 				    return;
 				}
+				const phone = this.account
 				const data = {
-					phone: this.account,
+					phone: phone,
 					type: "2"
 				}
 				const url = this.url
@@ -78,6 +79,7 @@
 				    header : {'content-type':'application/x-www-form-urlencoded'},
 				    success: function (res){
 				        console.log(res);
+						
 				    }
 				})
 			},
@@ -106,9 +108,9 @@
                  * 实际开发中，使用 uni.request 将账号信息发送至服务端，客户端在回调函数中获取结果信息。
                  */
                 
-				
+				const phone = this.account
 				const data = {
-				    phone: this.account,
+				    phone: phone,
 					type: "2",
 				    code: this.password
 				}
@@ -120,9 +122,22 @@
 				    header : {'content-type':'application/x-www-form-urlencoded'},
 				    success: function (res){
 				        console.log(res);
-				        uni.navigateTo({
-				            url: "/pages/setPswd/setPswd"
-				        })
+				        // uni.navigateTo({
+				        //     url: "/pages/setPswd/setPswd"
+				        // })
+						uni.request({
+						    url: url + '/controller/usercontroller/addappuser',
+						    data: {phone:phone},
+						    method:"POST",
+						    header : {'content-type':'application/x-www-form-urlencoded'},
+						    success: function (res){
+						        console.log(res);
+								// uni.setStorage({
+								//     key:"token",
+								//     data: res.data.token,
+								// })
+						    }
+						})
 						
 				    }
 				})

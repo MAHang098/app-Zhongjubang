@@ -62,36 +62,26 @@
                  * 客户端对账号信息进行一些必要的校验。
                  * 实际开发中，根据业务需要进行处理，这里仅做示例。
                  */
-                // if (this.account.length < 11) {
-                //     uni.showToast({
-                //         icon: 'none',
-                //         title: '请输入正确的电话号码!'
-                //     });
-                //     return;
-                // }
-                // if (this.password.length < 6) {
-                //     uni.showToast({
-                //         icon: 'none',
-                //         title: '密码最短为 6 个字符'
-                //     });
-                //     return;
-                // }
+                if (this.account.length < 11) {
+                    uni.showToast({
+                        icon: 'none',
+                        title: '请输入正确的电话号码!'
+                    });
+                    return;
+                }
+                if (this.password.length < 6) {
+                    uni.showToast({
+                        icon: 'none',
+                        title: '密码最短为 6 个字符'
+                    });
+                    return;
+                }
                 /**
                  * 下面简单模拟下服务端的处理
                  * 检测用户账号密码是否在已注册的用户列表中
                  * 实际开发中，使用 uni.request 将账号信息发送至服务端，客户端在回调函数中获取结果信息。
                  */
                 
-				
-				// let sha256 = require("js-sha256").sha256//这里用的是require方法
-				// const password = sha256(this.password+"zhongjubang2019")//要加密的密码
-				
-				// const data = {
-				//     phone: this.account,
-				//     password: password
-				// }
-				// this.uploadFile()
-				// return
 				const url = this.url
 				let sha256 = require("js-sha256").sha256//这里用的是require方法
 				const password = sha256("134283"+"zhongjubang2019")//要加密的密码

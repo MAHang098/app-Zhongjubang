@@ -45,6 +45,51 @@
 				console.log(this.options)
 				console.log(this.password)
 				console.log('phone:'+ this.phone)
+				const phone = this.phone
+				if (this.password.length < 6) {
+				    uni.showToast({
+				        icon: 'none',
+				        title: '密码最短为 6 个字符'
+				    });
+				    return;
+				}
+				const url = this.url
+				let sha256 = require("js-sha256").sha256//这里用的是require方法
+				const password = sha256(this.phone+"zhongjubang2019")//要加密的密码
+				uni.request({
+				    url: url + '/controller/usercontroller/appuserlogin',
+				    data: {
+						phone:phone,
+						password: password
+					},
+				    method:"POST",
+				    header : {
+						'content-type':'application/x-www-form-urlencoded'
+					},
+				    success: function (res){
+				        console.log(res.data.token);
+						console.log(url)
+						const token = res.data.token
+						uni.request({
+						    url: url + '/controller/usercontroller/getappuser',
+						    data: {},
+						    method:"POST",
+						    header : {
+								'content-type':'application/x-www-form-urlencoded',
+								'token': token,
+								'port': 'app'
+							},
+						    success: function (res){
+						        console.log(res)
+								
+						    }
+						})
+				        uni.setStorage({
+				            key:"token",
+				            data: res.data.token,
+				        })
+				    }
+				})
 				// uni.navigateTo({
 				// 	url: '../bindPhone/bindPhone'
 				// })
