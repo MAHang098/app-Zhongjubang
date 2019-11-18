@@ -7,12 +7,12 @@
 		<view class="input">
 			<view class="phone-number">
 				<image src="../../static/phone.png" mode=""></image>
-				<input v-model="account" type="text" placeholder="请输入手机号" />
+				<input v-model="phone" type="text" placeholder="请输入手机号" />
 			</view>
 			<view class="yzm">
 				<image src="../../static/lock.png" mode=""></image>
-				<input type="text" placeholder="请输入验证码"  v-model="password"/>
-				<button size="mini" class="send" @tap="sendCod">发送验证码</button>
+				<input type="text" placeholder="请输入验证码"  v-model="validationCode"/>
+				<button size="mini" class="send" v-bind:class="isActive == true ? 'in' : ''" @tap="sendCod">{{isActive == true ? second + 's' : '发送验证码'}}</button>
 			</view>
 		</view>
 		<button class="next" @tap="bindLogin">下一步</button>
@@ -29,46 +29,122 @@
 	        return {
 	            providerList: [],
 	            hasProvider: false,
-	            account: '',
-	            password: '',
+	            phone: '',
+	            validationCode: '',   // 验证码
 	            positionTop: 0,
-				token: []
+				token: [],
+				isActive: false,
+				second: 60
 	        }
 	    },
 	    // computed: mapState(['forcedLogin']),
 	    methods: {
+			// 发送验证码
 			sendCod(){
-				if (this.account.length < 11) {
+				
+				if (this.phone.length < 11 || this.phone.length > 11) {
 				    uni.showToast({
 				        icon: 'none',
 				        title: '请输入正确的电话号码!'
 				    });
 				    return;
 				}
+				this.isActive = true;
+				// 发送验证码60s倒计时 start
+				let interval = setInterval(() => {
+				  --this.second;
+				  
+				}, 1000)
+				setTimeout(() => {
+					clearInterval(interval)
+					this.isActive = false;
+				}, 60000);
+				// 发送验证码60s倒计时 end
 				const data = {
-					phone: this.account,
+					phone: this.phone,
 					type: "2"
 				}
 				const url = this.url
-				uni.request({
-				    url: url + '/public/public/sendverificationcode',
-				    data: data,
-				    method:"POST",
-				    header : {'content-type':'application/x-www-form-urlencoded'},
-				    success: function (res){
-				        console.log(res);
-				    }
-				})
+				
+				// uni.request({
+				//     url: url + '/public/public/sendverificationcode',
+				//     data: data,
+				//     method:"POST",
+				//     header : {'content-type':'application/x-www-form-urlencoded'},
+				//     success: function (res){
+				// 		if(res.code == 200) {
+				// 			uni.setStorage({
+				// 			    key:"token",
+				// 			    data: res.data.token,
+				// 			})
+				// 		}
+						
+				//     }
+				// })
 			},
+			
+			// 跳转到下一步
 	        bindLogin() {
+				if(this.phone == '' ) {
+					uni.showToast({
+						title: '请输入手机号',
+						icon: 'none',
+						duration: 2000,
+					});
+					return;
+				}
+				if (this.phone.length < 11 || this.phone.length > 11) {
+				    uni.showToast({
+				        icon: 'none',
+				        title: '请输入正确的电话号码!'
+				    });
+				    return;
+				}
+				if(this.validationCode == '') {
+					uni.showToast({
+						title: '请输入验证码',
+						icon: 'none',
+						duration: 2000,
+					})
+					return;
+				}
+				let params = {
+					phone: this.phone,
+					code: this.validationCode,
+					type: "2"
+				}
+				uni.navigateTo({
+					url: "/pages/setPswd/setPswd?phone=" + this.phone
+				})
+				// 校验验证码和手机， 后期解除注释
+				// uni.request({
+				// 	url: url + '/public/public/checkverificationcode',
+				// 	data: data,
+				// 	method:"POST",
+				// 	header : {'content-type':'application/x-www-form-urlencoded'},
+				// 	success: function (res){
+				// 		if(res.code == 200) {
+				// 			uni.navigateTo({
+				// 				url: "/pages/setPswd/setPswd?phone=" + this.account
+				// 			})
+				// 		} else {
+				// 			uni.showToast({
+				// 				title: res.message,
+				// 				icon: 'none',
+				// 				duration: 2000,
+				// 			})
+				// 		}
+						
+				// 	}
+				// })
 	            /**
 	             * 客户端对账号信息进行一些必要的校验。
 	             * 实际开发中，根据业务需要进行处理，这里仅做示例。
 	             */
-				console.log(this.account)
-				uni.navigateTo({
-				    url: "/pages/setPswd/setPswd?phone=" + this.account
-				})
+				// console.log(this.account)
+				// uni.navigateTo({
+				//     url: "/pages/setPswd/setPswd?phone=" + this.account
+				// })
 				
 	            // if (this.account.length < 11) {
 	            //     uni.showToast({
@@ -112,12 +188,8 @@
 				//     }
 				// })
 	            
-	        },
-			tologinPwd(){
-				uni.navigateTo({
-				    url: "/pages/loginPwd/loginPwd"
-				})
-			}
+	        }
+			
 	        
 	    }
 	}
@@ -165,8 +237,13 @@
 		width: 164rpx;
 		height: 53rpx;
 		border-radius: 27rpx;
-		background: #EBEBEB;
+		/* background: #EBEBEB; */
+		background: #F9B72C;
 		padding: 0;
+		color:#FFFFFF;
+	}
+	.in {
+		background: #EBEBEB;
 		color:#999999;
 	}
 	.send:after, .next:after {
