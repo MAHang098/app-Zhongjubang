@@ -13,15 +13,15 @@
 		<view class="input">
 			<view class="phone-number">
 				<image src="../../static/phone.png" mode=""></image>
-				<input type="text" placeholder="请输入手机号" />
+				<input type="text" placeholder="请输入手机号" v-model="phone" />
 			</view>
 			<view class="yzm">
 				<image src="../../static/lock.png" mode=""></image>
-				<input type="text" placeholder="请输入手机号" />
-				<button size="mini" class="send">发送验证码</button>
+				<input type="text" placeholder="请输入验证码" v-model="validationCode" />
+				<button size="mini" class="send" v-bind:class="isActive == true ? 'in' : ''" @tap="sendCod">{{isActive == true ? second + 's' : '发送验证码'}}</button>
 			</view>
 		</view>
-		<button class="next">绑定手机号</button>
+		<button class="next" @tap="bindPhone">绑定手机号</button>
 		<!-- 手机号输入框 end -->
 		
 		<!-- 跳过提示 start -->
@@ -47,6 +47,10 @@
 			return {
 				show: false,
 				type: '',
+				second: 60,
+				phone: '',
+				validationCode: '',
+				isActive: false
 			}
 		},
 		methods: {
@@ -86,6 +90,103 @@
 			},
 			change(e) {
 				console.log(e.show)
+			},
+			sendCod(){
+				
+				if (this.phone.length < 11 || this.phone.length > 11) {
+				    uni.showToast({
+				        icon: 'none',
+				        title: '请输入正确的电话号码!'
+				    });
+				    return;
+				}
+				this.isActive = true;
+				// 发送验证码60s倒计时 start
+				let interval = setInterval(() => {
+				  --this.second;
+				}, 1000)
+				setTimeout(() => {
+					clearInterval(interval)
+					this.isActive = false;
+					this.second = 60;
+				}, 60000);
+				// 发送验证码60s倒计时 end
+				const data = {
+					phone: this.phone,
+					type: "2"
+				}
+				const url = this.url
+				
+				// uni.request({
+				//     url: this.url + '/public/public/sendverificationcode',
+				//     data: data,
+				//     method:"POST",
+				//     header : {'content-type':'application/x-www-form-urlencoded'},
+				//     success: function (res){
+				// 		if(res.code == 200) {
+				// 			uni.setStorage({
+				// 			    key:"token",
+				// 			    data: res.data.token,
+				// 			})
+				// 		}
+						
+				//     }
+				// })
+			},
+			// 绑定手机号
+			bindPhone() {
+				if(this.phone == '' ) {
+					uni.showToast({
+						title: '请输入手机号',
+						icon: 'none',
+						duration: 2000,
+					});
+					return;
+				}
+				if (this.phone.length < 11 || this.phone.length > 11) {
+				    uni.showToast({
+				        icon: 'none',
+				        title: '请输入正确的电话号码!'
+				    });
+				    return;
+				}
+				if(this.validationCode == '') {
+					uni.showToast({
+						title: '请输入验证码',
+						icon: 'none',
+						duration: 2000,
+					})
+					return;
+				}
+				let params = {
+					phone: this.phone,
+					code: this.validationCode,
+					type: "2"
+				}
+				// uni.navigateTo({
+				// 	url: "/pages/setPswd/setPswd?phone=" + this.phone
+				// })
+				// 校验验证码和手机， 后期解除注释
+				uni.request({
+					url: this.url + '/public/public/checkverificationcode',
+					data: params,
+					method:"POST",
+					header : {'content-type':'application/x-www-form-urlencoded'},
+					success: function (res){
+						if(res.data.code == 200) {
+							// uni.navigateTo({
+							// 	// url: "/pages/setPswd/setPswd?phone=" +  params.phone
+							// })
+						} else {
+							uni.showToast({
+								title: res.data.message,
+								icon: 'none',
+								duration: 2000,
+							})
+						}
+						
+					}
+				})
 			}
 		}
 	}
@@ -142,9 +243,15 @@
 	.send {
 		width: 164rpx;
 		height: 53rpx;
+		line-height: 53rpx;
 		border-radius: 27rpx;
-		background: #EBEBEB;
+		/* background: #EBEBEB; */
+		background: #F9B72C;
 		padding: 0;
+		color:#FFFFFF;
+	}
+	.in {
+		background: #EBEBEB;
 		color:#999999;
 	}
 	.send:after, .next:after {

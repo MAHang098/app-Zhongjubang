@@ -1,6 +1,12 @@
 {
     "pages": [ //pages数组中第一项表示应用启动页,
 		{
+			"path" : "pages/bindPhone/bindPhone",
+			"style" : {
+				 "navigationBarTitleText": " "
+			}
+		},
+		{
 			"path" : "pages/updatePswd/updatePswd",
 			"style" : {
 				 "navigationBarTitleText": "找回密码"
@@ -23,6 +29,7 @@
 				 }
 			}
 		},
+		
 		{
 			"path" : "pages/setPswd/setPswd",
 			"style" : {

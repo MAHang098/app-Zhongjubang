@@ -53,11 +53,11 @@
 				// 发送验证码60s倒计时 start
 				let interval = setInterval(() => {
 				  --this.second;
-				  
 				}, 1000)
 				setTimeout(() => {
 					clearInterval(interval)
 					this.isActive = false;
+					this.second = 60;
 				}, 60000);
 				// 发送验证码60s倒计时 end
 				const data = {
@@ -125,7 +125,7 @@
 					success: function (res){
 						if(res.data.code == 200) {
 							uni.navigateTo({
-								url: "/pages/setPswd/setPswd?phone=" + this.account
+								url: "/pages/setPswd/setPswd?phone=" +  params.phone
 							})
 						} else {
 							uni.showToast({
@@ -236,6 +236,7 @@
 	.send {
 		width: 164rpx;
 		height: 53rpx;
+		line-height: 53rpx;
 		border-radius: 27rpx;
 		/* background: #EBEBEB; */
 		background: #F9B72C;
