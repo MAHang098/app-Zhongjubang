@@ -21,74 +21,68 @@
 		data() {
 			return {
 				showPassword: true,
-				token: [],
+				token: '',
 				phone: '',
 				password: ''
-				// src: '../../../static/eye-1.png',
 			}
 		},
-		 onLoad:function(options){
-			 if(options){
-				 console.log(options.phone);
-				 this.phone = options.phone
-				 // this.setData({
-					//  phone: options.phone
-				 // })
-			 }
-		    
-		 },
+		onLoad:function(options){
+			this.phone = options.phone;
+		},
 		methods: {
+			// 切换显示/隐藏密码
 			changePassword: function() {
 				this.showPassword = !this.showPassword;
 			},
+			// 修改密码成功
 			completes() {
-				console.log(this.options)
+				// 获取本地缓存内容
+				uni.getStorage({
+				    key:"token",
+				    success: function (res) {
+						this.token = res.data.token;
+					}
+				})
 				console.log(this.password)
-				console.log('phone:'+ this.phone)
-				const phone = this.phone
-				if (this.password.length < 6) {
-				    uni.showToast({
-				        icon: 'none',
-				        title: '密码最短为 6 个字符'
-				    });
-				    return;
+				if(this.password.length < 6 || this.password.length > 20) {
+					uni.showToast({
+						title: '密码为6-20位英文或数字',
+						icon: 'none',
+						duration: 2000,
+					})
+					return;
 				}
-				const url = this.url
-				let sha256 = require("js-sha256").sha256//这里用的是require方法
-				const password = sha256(this.phone+"zhongjubang2019")//要加密的密码
+				let params = {
+					password: this.password,
+					phone: this.phone
+				}
 				uni.request({
-				    url: url + '/controller/usercontroller/appuserlogin',
-				    data: {
-						phone:phone,
-						password: password
-					},
-				    method:"POST",
-				    header : {
-						'content-type':'application/x-www-form-urlencoded'
-					},
-				    success: function (res){
-				        console.log(res.data.token);
-						console.log(url)
-						const token = res.data.token
-						uni.request({
-						    url: url + '/controller/usercontroller/getappuser',
-						    data: {},
-						    method:"POST",
-						    header : {
-								'content-type':'application/x-www-form-urlencoded',
-								'token': token,
-								'port': 'app'
-							},
-						    success: function (res){
-						        console.log(res)
-								
-						    }
-						})
-				        uni.setStorage({
-				            key:"token",
-				            data: res.data.token,
-				        })
-				    }
+					url: this.url + '/controller/usercontroller/updateappuserpasswordbyphone',
+					data: params,
+					method:"POST",
+					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app'},
+					success: function (res){
+						console.log(res);
+						if(res.data.code == 200) {
+							uni.showToast({
+								title: '修改密码成功',
+								duration: 1000,
+							});
+							// 设置2s后跳转到登陆页
+							setTimeout(() => {
+								uni.navigateTo({
+									url: '/pages/loginPwd/loginPwd'
+								})
+							}, 2000);
+							
+						} else {
+							uni.showToast({
+								title: '修改密码失败',
+								icon: 'none',
+								duration: 2000,
+							})
+						}
+					}
 				})
 				// uni.navigateTo({
 				// 	url: '../bindPhone/bindPhone'
@@ -234,12 +228,6 @@
 		font-weight: 500;
 		margin-bottom: 195rpx;
 	}
-	/* .phone-number view {
-		width: 31rpx !important;
-		height: 24rpx !important;
-		display: inline-block;
-		padding-right: 27rpx;
-	} */
 	.phone-number {
 		display: flex;
 		justify-content: space-between;

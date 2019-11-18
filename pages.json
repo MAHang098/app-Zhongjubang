@@ -1,5 +1,6 @@
 {
     "pages": [ //pages数组中第一项表示应用启动页,
+	
         {
             "path": "pages/loginPwd/loginPwd",
             "style": {
@@ -23,7 +24,7 @@
             }
         },
         {
-            "path": "pages/updatePswd/updatePswd",
+            "path": "pages/updatePswd/updatePswd",   // 找回密码
             "style": {
                 "navigationBarTitleText": ""
             }
@@ -31,9 +32,10 @@
         {
             "path": "pages/setPswd/setPswd",
             "style": {
-                "navigationBarTitleText": ""
+                "navigationBarTitleText": ""  // 设置新密码
             }
         },
+        
         {
             "path": "pages/reg/reg",
             "style": {
