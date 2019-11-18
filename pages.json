@@ -1,49 +1,40 @@
 {
     "pages": [ //pages数组中第一项表示应用启动页,
-	{
-	    "path": "pages/loginPwd/loginPwd",
-	    "style": {
-	        "app-plus": {  
-	            "titleNView": false //禁用原生导航栏  
-	        }  
-	    }
-	}, 
+        {
+            "path": "pages/loginPwd/loginPwd",
+            "style": {
+                "app-plus": {
+                    "titleNView": false //禁用原生导航栏  
+                }
+            }
+        },
         {
             "path": "pages/main/main",
             "style": {
                 "navigationBarTitleText": "登录模板"
             }
-        }, 
-		// {
-  //           "path": "pages/login/login",
-  //           "style": {
-  //               "app-plus": {  
-  //                   "titleNView": false //禁用原生导航栏  
-  //               }  
-  //           }
-  //       }, 
-		
-		{
-		    "path": "pages/loginPhone/loginPhone",
-		    "style": {
-		        "app-plus": {  
-		            "titleNView": false //禁用原生导航栏  
-		        }  
-		    }
-		}, 
-		{
-		    "path": "pages/updatePswd/updatePswd",
-		    "style": {
+        },
+        {
+            "path": "pages/loginPhone/loginPhone",
+            "style": {
+                "app-plus": {
+                    "titleNView": false //禁用原生导航栏  
+                }
+            }
+        },
+        {
+            "path": "pages/updatePswd/updatePswd",
+            "style": {
                 "navigationBarTitleText": ""
             }
-		}, 
-		{
-		    "path": "pages/setPswd/setPswd",
-		    "style": {
+        },
+        {
+            "path": "pages/setPswd/setPswd",
+            "style": {
                 "navigationBarTitleText": ""
             }
-		}, 
-		{
+        },
+        {
             "path": "pages/reg/reg",
             "style": {
                 "navigationBarTitleText": "注册"
@@ -53,7 +44,7 @@
             "style": {
                 "navigationBarTitleText": "找回密码"
             }
-        },{
+        }, {
             "path": "pages/changePwd/changePwd",
             "style": {
                 "navigationBarTitleText": "修改密码"
@@ -63,7 +54,7 @@
             "style": {
                 "app-plus": {
                     "titleNView": false //禁用原生导航栏  
-                }  
+                }
             }
         }
     ],
