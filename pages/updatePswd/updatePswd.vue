@@ -113,30 +113,30 @@
 					code: this.validationCode,
 					type: "2"
 				}
-				uni.navigateTo({
-					url: "/pages/setPswd/setPswd?phone=" + this.phone
-				})
-				// 校验验证码和手机， 后期解除注释
-				// uni.request({
-				// 	url: url + '/public/public/checkverificationcode',
-				// 	data: data,
-				// 	method:"POST",
-				// 	header : {'content-type':'application/x-www-form-urlencoded'},
-				// 	success: function (res){
-				// 		if(res.code == 200) {
-				// 			uni.navigateTo({
-				// 				url: "/pages/setPswd/setPswd?phone=" + this.account
-				// 			})
-				// 		} else {
-				// 			uni.showToast({
-				// 				title: res.message,
-				// 				icon: 'none',
-				// 				duration: 2000,
-				// 			})
-				// 		}
-						
-				// 	}
+				// uni.navigateTo({
+				// 	url: "/pages/setPswd/setPswd?phone=" + this.phone
 				// })
+				// 校验验证码和手机， 后期解除注释
+				uni.request({
+					url: this.url + '/public/public/checkverificationcode',
+					data: params,
+					method:"POST",
+					header : {'content-type':'application/x-www-form-urlencoded'},
+					success: function (res){
+						if(res.data.code == 200) {
+							uni.navigateTo({
+								url: "/pages/setPswd/setPswd?phone=" + this.account
+							})
+						} else {
+							uni.showToast({
+								title: res.data.message,
+								icon: 'none',
+								duration: 2000,
+							})
+						}
+						
+					}
+				})
 	            /**
 	             * 客户端对账号信息进行一些必要的校验。
 	             * 实际开发中，根据业务需要进行处理，这里仅做示例。
