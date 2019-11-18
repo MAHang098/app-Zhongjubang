@@ -110,7 +110,6 @@
 							},
 						    success: function (res){
 						        console.log(res)
-								
 						    }
 						})
 				        uni.setStorage({
