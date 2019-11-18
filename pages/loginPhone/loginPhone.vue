@@ -24,13 +24,17 @@
 		<view class="phone-code">
 		     <input type="text" v-model="password"/>
 		</view>
-		<view class="send-code" @tap="sendCod">
+		<!-- <view class="send-code" @tap="sendCod">
 			发送验证码
+		</view> -->
+		<view size="mini" class="send-code" v-bind:class="isActive == true ? 'in' : ''" @tap="sendCod">
+			{{isActive == true ? second + 's' : '发送验证码'}}
 		</view>
+		<!-- <button size="mini" class="send-code" v-bind:class="isActive == true ? 'in' : ''" @tap="sendCod">{{isActive == true ? second + 's' : '发送验证码'}}</button> -->
 		<view class="phone-login" @tap="bindLogin">
 			<image src="../../static/img/loginPhone/phone-login.png" mode=""></image>
 		</view>
-		<view class="wechat-login">
+		<view class="wechat-login"  @tap="wechatbindLogin">
 			<image src="../../static/img/loginPhone/wechat-login.png" mode=""></image>
 		</view>
 		<text class="bottom-left">点击登录按钮代表您同意</text>
@@ -53,18 +57,32 @@
                 account: '',
                 password: '',
                 positionTop: 0,
-				token: []
+				token: [],
+				isActive: false,
+				second: 60
             }
         },
         methods: {
 			sendCod(){
-				if (this.account.length < 11) {
+				if (this.account.length != 11) {
 				    uni.showToast({
 				        icon: 'none',
 				        title: '请输入正确的电话号码!'
 				    });
 				    return;
 				}
+				this.isActive = true;
+				// 发送验证码60s倒计时 start
+				let interval = setInterval(() => {
+				  --this.second;
+				  
+				}, 1000)
+				setTimeout(() => {
+					clearInterval(interval)
+					this.isActive = false;
+					this.second = 60;
+				}, 60000);
+				// 发送验证码60s倒计时 end
 				const phone = this.account
 				const data = {
 					phone: phone,
@@ -87,7 +105,9 @@
                  * 客户端对账号信息进行一些必要的校验。
                  * 实际开发中，根据业务需要进行处理，这里仅做示例。
                  */
-                if (this.account.length < 11) {
+
+                if (this.account.length != 11) {
+
                     uni.showToast({
                         icon: 'none',
                         title: '请输入正确的电话号码!'
@@ -152,6 +172,24 @@
 				uni.navigateTo({
 				    url: "/pages/loginPwd/loginPwd"
 				})
+			},
+			wechatbindLogin(){
+				
+				uni.getProvider({
+					service: 'oauth',
+					success: function (res) {
+						console.log(res.provider)
+						if (~res.provider.indexOf('weixin')) {
+							uni.login({
+								provider: 'weixin',
+								success: function (loginRes) {
+									console.log(JSON.stringify(loginRes));
+									
+								}
+							});
+						}
+					}
+				});
 			}
             
         }

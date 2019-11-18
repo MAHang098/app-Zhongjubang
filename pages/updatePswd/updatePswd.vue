@@ -58,6 +58,7 @@
 				setTimeout(() => {
 					clearInterval(interval)
 					this.isActive = false;
+					this.second = 60;
 				}, 60000);
 				// 发送验证码60s倒计时 end
 				const data = {
@@ -66,21 +67,21 @@
 				}
 				const url = this.url
 				
-				// uni.request({
-				//     url: url + '/public/public/sendverificationcode',
-				//     data: data,
-				//     method:"POST",
-				//     header : {'content-type':'application/x-www-form-urlencoded'},
-				//     success: function (res){
-				// 		if(res.code == 200) {
-				// 			uni.setStorage({
-				// 			    key:"token",
-				// 			    data: res.data.token,
-				// 			})
-				// 		}
+				uni.request({
+				    url: url + '/public/public/sendverificationcode',
+				    data: data,
+				    method:"POST",
+				    header : {'content-type':'application/x-www-form-urlencoded'},
+				    success: function (res){
+						if(res.code == 200) {
+							uni.setStorage({
+							    key:"token",
+							    data: res.data.token,
+							})
+						}
 						
-				//     }
-				// })
+				    }
+				})
 			},
 			
 			// 跳转到下一步
@@ -125,7 +126,7 @@
 					success: function (res){
 						if(res.data.code == 200) {
 							uni.navigateTo({
-								url: "/pages/setPswd/setPswd?phone=" + this.account
+								url: "/pages/setPswd/setPswd?phone=" +  params.phone
 							})
 						} else {
 							uni.showToast({
