@@ -1,6 +1,18 @@
 {
     "pages": [ //pages数组中第一项表示应用启动页,
         {
+            "path": "pages/receiving-address/receiving-address",
+            "style": {
+                "navigationBarTitleText": "我的收货地址"
+            }
+        },
+		{
+            "path": "pages/receiving-address/receiving-address",
+            "style": {
+                "navigationBarTitleText": "我的收货地址"
+            }
+        },
+		{
             "path": "pages/release/release",
             "style": {
                 "app-plus": {
@@ -8,12 +20,7 @@
                 }
             }
         },
-        {
-            "path": "pages/receiving-address/receiving-address",
-            "style": {
-                "navigationBarTitleText": "我的收货地址"
-            }
-        },
+       
         {
             "path": "pages/loginPhone/loginPhone",
             "style": {

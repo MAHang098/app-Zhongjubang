@@ -1,6 +1,6 @@
 <template>
     <view class="wrap">
-		<view class="pic">
+		<view class="pic" @click="chooseImage">
 			<image src="../../static/img/release/pic.png" mode="" />
 		</view>
 		<text class="pic-text">图片</text>
@@ -33,11 +33,29 @@
 					count: 1,
 					sourceType: ['camera', 'album'],
 					success: function (res) {
+						console.log(res)
 						self.src = res.tempFilePath;
 					}
 				});
-            }
-            
+            },
+            chooseImage() {
+				uni.chooseImage({
+				    count: 9, //默认9
+				    sizeType:'compressed', //可以指定是原图还是压缩图，默认二者都有
+				    sourceType: ['album'], //从相册选择
+				    success: function (res) {
+						console.log(res)
+				        uni.previewImage({
+							 // 对选中的图片进行预览
+							 urls: res.tempFilePaths,
+							 success: function(res) {
+							 	console.log(res)
+							 }
+							// urls:['','']  图片的地址 是数组形式
+						 })
+				    }
+				});
+			}
         }
     }
 </script>
