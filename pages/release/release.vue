@@ -4,11 +4,11 @@
 			<image src="../../static/img/release/pic.png" mode="" />
 		</view>
 		<text class="pic-text">图片</text>
-		<view class="video">
+		<view class="video" @tap="chooseVideo">
 			<image src="../../static/img/release/video.png" mode="" />
 		</view>
 		<text class="video-text">视频</text>
-		<view class="close">
+		<view class="close" @tap="back">
 			<image src="../../static/img/release/close.png" mode="" />
 		</view>
 	</view>
@@ -18,9 +18,25 @@
     
 
     export default {
-        
+        data() {
+            return {
+               src: ''
+            }
+        },
         methods: {
-            
+            back(){
+				uni.navigateBack()
+			},
+			chooseVideo(){
+                var self = this;
+				uni.chooseVideo({
+					count: 1,
+					sourceType: ['camera', 'album'],
+					success: function (res) {
+						self.src = res.tempFilePath;
+					}
+				});
+            }
             
         }
     }

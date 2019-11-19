@@ -1,6 +1,9 @@
 {
   "pages": [
+    "pages/release/release",
+    "pages/receiving-address/receiving-address",
     "pages/loginPhone/loginPhone",
+    "pages/releaseVideo/releaseVideo",
     "pages/editInfo/editInfo",
     "pages/agreement/agreement",
     "pages/bindPhone/bindPhone",
@@ -16,7 +19,6 @@
     "pages/changePwd/changePwd",
     "pages/user/user",
     "pages/juquan/juquan",
-    "pages/release/release",
     "pages/stop/stop"
   ],
   "window": {
