@@ -28,7 +28,7 @@
     	<view class="phone-login" @tap="bindLogin">
     		<image src="../../static/img/loginPhone/phone-login.png" mode=""></image>
     	</view>
-    	<view class="wechat-login">
+    	<view class="wechat-login"  @tap="wechatbindLogin">
     		<image src="../../static/img/loginPhone/wechat-login.png" mode=""></image>
     	</view>
     	<text class="bottom-left">点击登录按钮代表您同意</text>
@@ -165,7 +165,36 @@
 				uni.navigateTo({
 					url: "/pages/agreement/agreement"
 				})
-			}
+			},
+			wechatbindLogin: function() {
+				uni.getProvider({
+					service: 'oauth',
+					success: function(res) {
+						console.log(res.provider);
+						//支持微信、qq和微博等
+						if (~res.provider.indexOf('weixin')) {
+							uni.login({
+								provider: 'weixin',
+								success: function(loginRes) {
+									console.log('-------获取openid(unionid)-----');
+									console.log(JSON.stringify(loginRes));
+									// 获取用户信息
+									uni.getUserInfo({
+										provider: 'weixin',
+										success: function(infoRes) {
+											console.log('-------获取微信用户所有-----');
+											console.log(JSON.stringify(infoRes.userInfo));
+											uni.navigateTo({
+												url: "/pages/bindPhone/bindPhone"
+											})
+										}
+									});
+								}
+							});
+						}
+					}
+				});
+			},
             
         }
     }
@@ -186,7 +215,7 @@
     	top: 449rpx;
     	font-size:43rpx;
     	font-family:PingFang SC;
-    	font-weight:bold;
+    	font-weight:500;
     	color:rgba(136,136,136,1);
     }
     .right{

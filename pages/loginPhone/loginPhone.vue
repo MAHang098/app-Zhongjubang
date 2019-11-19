@@ -173,40 +173,34 @@
 				    url: "/pages/loginPwd/loginPwd"
 				})
 			},
-			wechatbindLogin(){
-				
+			wechatbindLogin: function() {
 				uni.getProvider({
 					service: 'oauth',
-					success: function (res) {
-						console.log(res.provider)
+					success: function(res) {
+						console.log(res.provider);
+						//支持微信、qq和微博等
 						if (~res.provider.indexOf('weixin')) {
 							uni.login({
 								provider: 'weixin',
-								success: function (loginRes) {
+								success: function(loginRes) {
+									console.log('-------获取openid(unionid)-----');
 									console.log(JSON.stringify(loginRes));
-									// uni.navigateTo({
-									// 	url: "/pages/bindPhone/bindPhone"
-									// })
+									// 获取用户信息
+									uni.getUserInfo({
+										provider: 'weixin',
+										success: function(infoRes) {
+											console.log('-------获取微信用户所有-----');
+											console.log(JSON.stringify(infoRes.userInfo));
+											uni.navigateTo({
+												url: "/pages/bindPhone/bindPhone"
+											})
+										}
+									});
 								}
 							});
 						}
 					}
 				});
-				
-				// uni.login({
-				// 	provider: 'weixin',
-				//     // #ifdef MP-ALIPAY
-				//     scopes: 'auth_user',  //支付宝小程序需设置授权类型
-				//     // #endif
-				// 	success: (res) => {
-				// 		console.log('login success:', res);
-				// 		// 更新保存在 store 中的登录状态
-				// 		this.login('weixin');
-				// 	},
-				// 	fail: (err) => {
-				// 		console.log('login fail:', err);
-				// 	}
-				// });
 			},
 			toAgreement(){
 				uni.navigateTo({

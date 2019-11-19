@@ -1,0 +1,2 @@
+setCssToHead([".",[1],"input-row .",[1],"title { width: 30%; height: ",[0,50],"; min-height: ",[0,50],"; padding: ",[0,15]," 0; padding-left: ",[0,30],"; line-height: ",[0,50],"; }\n",],undefined,{path:"./pages/changePwd/changePwd.wxss"})();
+document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/changePwd/changePwd.wxml') } }));

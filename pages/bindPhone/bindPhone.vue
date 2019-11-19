@@ -82,8 +82,8 @@
 					return
 				}
 				if(type === 'skip') {
-					uni.navigateTo({
-						url: '../updatePswd/updatePswd'
+					uni.switchTab({
+						url: '../main/main'
 					})
 				}
 				// this.$refs[type].close()
@@ -117,21 +117,21 @@
 				}
 				const url = this.url
 				
-				// uni.request({
-				//     url: this.url + '/public/public/sendverificationcode',
-				//     data: data,
-				//     method:"POST",
-				//     header : {'content-type':'application/x-www-form-urlencoded'},
-				//     success: function (res){
-				// 		if(res.code == 200) {
-				// 			uni.setStorage({
-				// 			    key:"token",
-				// 			    data: res.data.token,
-				// 			})
-				// 		}
+				uni.request({
+				    url: this.url + '/public/public/sendverificationcode',
+				    data: data,
+				    method:"POST",
+				    header : {'content-type':'application/x-www-form-urlencoded'},
+				    success: function (res){
+						if(res.code == 200) {
+							uni.setStorage({
+							    key:"token",
+							    data: res.data.token,
+							})
+						}
 						
-				//     }
-				// })
+				    }
+				})
 			},
 			// 绑定手机号
 			bindPhone() {

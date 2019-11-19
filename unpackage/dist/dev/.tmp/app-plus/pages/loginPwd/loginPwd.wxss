@@ -13,7 +13,7 @@
 	top: 449rpx;
 	font-size:43rpx;
 	font-family:PingFang SC;
-	font-weight:bold;
+	font-weight:500;
 	color:rgba(136,136,136,1);
 }
 .right{
