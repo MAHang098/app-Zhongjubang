@@ -1,2 +1,0 @@
-setCssToHead([".",[1],"release-video{ position: relative; width:",[0,750],"; height:",[0,128],"; background:rgba(255,255,255,1); }\n.",[1],"back{ position: absolute; left: ",[0,31],"; bottom: ",[0,26],"; width:",[0,54],"; height:",[0,54],"; }\n.",[1],"back wx-image{ width:",[0,54],"; height:",[0,54],"; }\n",],undefined,{path:"./pages/releaseVideo/releaseVideo.wxss"})();
-document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/releaseVideo/releaseVideo.wxml') } }));
