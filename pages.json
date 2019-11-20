@@ -1,6 +1,7 @@
 {
     "pages": [ //pages数组中第一项表示应用启动页,
-        {
+        
+		{
             "path": "pages/receiving-address/receiving-address",
             "style" : {
             	 "navigationBarTitleText": "我的收货地址",
@@ -19,12 +20,6 @@
 				 
             }
         },
-		// {
-  //           "path": "pages/receiving-address/receiving-address",
-  //           "style": {
-  //               "navigationBarTitleText": "我的收货地址"
-  //           }
-  //       },
 		{
             "path": "pages/release/release",
             "style": {
@@ -165,8 +160,22 @@
                 }
             }
         }
-        
     ],
+	"subPackages": [
+		{
+			"root": "pages/releaseImage",
+			"pages": [
+				{
+				    "path": "search-title/search-title",
+				    "style": {
+				        "app-plus": {
+				            "titleNView": false //禁用原生导航栏  
+				        }
+				    }
+				}
+			]
+		}
+	],
     "tabBar": {
         "color": "#7a7e83",
         "selectedColor": "#0faeff",
