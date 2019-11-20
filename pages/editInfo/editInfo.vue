@@ -47,12 +47,48 @@
 	    
 	    data() {
 	        return {
-                nickName: ''
+                head: '',
+                nickName: '',
+                sex: '',
+                remarks: '',
+                birthday: '',
+                cover: ''
 	        }
 	    },
 	    methods: {
+            onShow:function(){
+                let token
+                let self = this
+                uni.getStorage({
+				    key:"token",
+				    success: function (res) {
+						token = res.data;
+					}
+                })
+                const url = this.url
+                uni.request({
+                    url: url + "/controller/usercontroller/getappuser",
+                    data: {},
+                    method: 'POST',
+                    header : {
+                        'content-type':'application/x-www-form-urlencoded', 
+                        'port': 'app',
+                        'token': token
+                    },
+                    success: function (res){
+                        console.log(res.data.nickName);
+                        self.nickName = res.data.nickName
+                        self.sex = res.data.sex
+                        self.remarks = res.data.remarks
+                        self.birthday = res.data.birthday
+                        self.cover = res.data.cover
+                        self.head = res.data.head
+                    }
+                })
+                
+            },
             save(){
-                var token;
+                let token;
                 uni.getStorage({
 				    key:"token",
 				    success: function (res) {

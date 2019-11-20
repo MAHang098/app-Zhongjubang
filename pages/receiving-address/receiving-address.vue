@@ -8,20 +8,20 @@
 		</view>
 		<!-- 无地址 end -->
 		
-		<view class="all-adress" v-show="isShowList">
-			<radio-group @change="radioChange">
-				<view class="message" v-for="(item, index) in items" :key="index">
+		<view class="all-adress">
+			<!-- <radio-group @change="radioChange"> -->
+				<view class="message" v-for="(item, index) in itemsList" :key="index">
 					<view class="user-message">
 						<view class="left">
-							<text>{{item.name}}</text>
-							<text>{{item.phone}}</text>
-							<text>{{item.adress}}</text>
+							<text>{{item.userName}}</text>
+							<text>{{item.userPhone}}</text>
+							<!-- <text>{{item.userAddress}}</text> -->
 						</view>
-						<view class="right" >
+						<!-- <view class="right" >
 							<label v-bind:class="index === current ? 'checkedIn' : 'radio'" >
-								<radio  :checked="index === current" color="#FFCC33 " style="transform:scale(0.7)"/> {{index == 0 ? '默认地址' : '设为默认'}}
+								<radio  :checked="index === current" color="#FFCC33 " style="transform:scale(0.7)"/> {{isDefault == 1 ? '默认地址' : '设为默认'}}
 							</label>
-						</view>
+						</view> -->
 					</view>
 					<view class="edit-message">
 						<view class="delete" @click="togglePopup('center', 'tip')">
@@ -34,7 +34,7 @@
 						</view>
 					</view>
 				</view>
-			</radio-group>
+			<!-- </radio-group> -->
 		</view>
 		<uni-popup :show="show" :type="type" :custom="true" :mask-click="false" @change="change">
 			<view class="uni-tip">
@@ -58,27 +58,78 @@
 			return {
 				show: false,
 				isShow: false,
-				items: [
-					{'id': 1, 'name': '张三', 'phone': '12456789012', 'adress': '广东省佛山市南海区大沥镇黄岐凯德mall180'},
-					{'id': 2, 'name': '小王', 'phone': '12456789012', 'adress': '广东省佛山市南海区大沥镇黄岐凯德mall180'},
-					{'id': 3, 'name': '小样', 'phone': '12456789012', 'adress': '广东省佛山市南海区大沥镇黄岐凯德mall180'},
-					{'id': 4, 'name': '王五', 'phone': '12456789012', 'adress': '广东省佛山市南海区大沥镇黄岐凯德mall180'},
-					{'id': 5, 'name': '李四', 'phone': '12456789012', 'adress': '广东省佛山市南海区大沥镇黄岐凯德mall180'},
-					{'id': 6, 'name': '李四', 'phone': '12456789012', 'adress': '广东省佛山市南海区大沥镇黄岐凯德mall180'},
-					{'id': 7, 'name': '李四', 'phone': '12456789012', 'adress': '广东省佛山市南海区大沥镇黄岐凯德mall180'},
+				itemsList: [
+					// {id: 5, appUserId: 20, userName: "张三", userPhone: "13189172519"},
+					// {id: 6, appUserId: 20, userName: "张三", userPhone: "13189172519"}
 				],
 				current: 0,
 				isShowList: true, // 是否显示地址列表
 				type: '',
+				
 			}
 		},
 		onShow() {
-			if(this.items.length == 0) {
-				this.isShow = true;
-				this.isShowList = false;
-			}
+			// if(this.items.length == 0) {
+			// 	this.isShow = true;
+			// 	this.isShowList = false;
+			// }
+			let token = '';
+			uni.getStorage({
+				key:"token",
+				success: function (res) {
+				 token = res.data;
+			  }
+			})
+			uni.request({
+				url: this.url + 'controller/usercontroller/getuseradresslist',
+				method: 'post',
+				header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
+				success: function(res) {
+					// console.log(res.data)
+					if(res.data.code == 200) {
+						this.itemsList = res.data.data;
+						// if(res.data.data.length == 0) {
+						// 	this.isShowList = false;
+						// } else {
+						// 	this.isShowList = true;
+						// }
+						
+						console.log(this.itemsList)
+					}
+				}
+			});
+		},
+		created() {
+			// this.init();
 		},
 		methods: {
+			init() {
+				let token = '';
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+					 token = res.data;
+				  }
+				})
+				uni.request({
+					url: this.url + 'controller/usercontroller/getuseradresslist',
+					method: 'post',
+					header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
+					success: function(res) {
+						// console.log(res.data)
+						if(res.data.code == 200) {
+							this.itemsList = res.data.data;
+							// if(res.data.data.length == 0) {
+							// 	this.isShowList = false;
+							// } else {
+							// 	this.isShowList = true;
+							// }
+							
+							console.log(this.itemsList)
+						}
+					}
+				});
+			},
 			radioChange(evt) {
 				for (let i = 0; i < this.items.length; i++) {
 					if (this.items[i].id === evt.target.id) {

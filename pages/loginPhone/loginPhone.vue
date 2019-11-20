@@ -174,6 +174,7 @@
 				})
 			},
 			wechatbindLogin: function() {
+				const self = this
 				uni.getProvider({
 					service: 'oauth',
 					success: function(res) {
@@ -191,9 +192,59 @@
 										success: function(infoRes) {
 											console.log('-------获取微信用户所有-----');
 											console.log(JSON.stringify(infoRes.userInfo));
-											uni.navigateTo({
-												url: "/pages/bindPhone/bindPhone"
+											let userInfo = JSON.stringify(infoRes.userInfo)
+											userInfo = JSON.parse(userInfo)
+											uni.request({
+												url: self.url + "/controller/usercontroller/weixinlogin",
+												data: {
+													wxToken: userInfo.openId,
+													nickName: userInfo.nickName,
+													sex: userInfo.gender,
+													region: userInfo.province,
+													head: userInfo.avatarUrl,
+													unionId: userInfo.unionId
+												},
+												method: 'POST',
+												header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app'},
+												success: function (res){
+													if(res.data.code==200){
+														console.log(res.data.token)
+														uni.setStorage({
+															key:"token",
+															data: res.data.token
+														})
+														// 获取APP用户资料判断是否有手机号
+														const token = res.data.token
+														uni.request({
+															url: self.url + "/controller/usercontroller/getappuser",
+															data: {},
+															method: 'POST',
+															header : {
+																'content-type':'application/x-www-form-urlencoded', 
+																'port': 'app',
+																'token': token
+															},
+															success: function (res){
+																console.log(res.data.state);
+																if(res.data.state==0){
+																	uni.switchTab({
+																		url: "/pages/main/main"
+																	})
+																}else{
+																	uni.navigateTo({
+																		url: "/pages/bindPhone/bindPhone"
+																	})
+																}
+															}
+														})
+														
+													}else{
+														console.log("请求异常")
+													}
+													console.log(res.data.code)
+												}
 											})
+											
 										}
 									});
 								}
