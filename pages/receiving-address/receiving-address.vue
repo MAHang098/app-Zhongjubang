@@ -220,9 +220,8 @@
 	}
 	.goAdd {
 		position: fixed;
-		/* z-index: 10; */
 		top: 12px;
-		z-index: 999;
+		z-index: 9999;
 		right: 15px;
 		font-size: 14px;
 		color: #666666;

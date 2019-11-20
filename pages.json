@@ -1,5 +1,6 @@
 {
     "pages": [ //pages数组中第一项表示应用启动页,
+<<<<<<< HEAD
 		{
 			"path": "pages/release/release",
 			"style": {
@@ -18,12 +19,41 @@
 		},
         
         {
+=======
+        {
             "path": "pages/receiving-address/receiving-address",
             "style": {
                 "navigationBarTitleText": "我的收货地址"
             }
         },
+		{
+>>>>>>> 4a5cca13954a4d5bf4125d70fe1d58298f2b09d8
+            "path": "pages/receiving-address/receiving-address",
+            "style": {
+                "navigationBarTitleText": "我的收货地址"
+            }
+        },
+<<<<<<< HEAD
         
+=======
+		{
+            "path": "pages/release/release",
+            "style": {
+                "app-plus": {
+                    "titleNView": false //禁用原生导航栏  
+                }
+            }
+        },
+       
+        {
+            "path": "pages/loginPhone/loginPhone",
+            "style": {
+                "app-plus": {
+                    "titleNView": false //禁用原生导航栏  
+                }
+            }
+        },
+>>>>>>> 4a5cca13954a4d5bf4125d70fe1d58298f2b09d8
         {
             "path": "pages/releaseVideo/releaseVideo",
             "style": {
