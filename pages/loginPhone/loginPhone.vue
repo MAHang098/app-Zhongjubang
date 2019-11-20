@@ -189,8 +189,8 @@
 									uni.getUserInfo({
 										provider: 'weixin',
 										success: function(infoRes) {
-											console.log('-------获取微信用户所有-----');
-											console.log(JSON.stringify(infoRes.userInfo));
+											let userInfo = JSON.stringify(infoRes.userInfo)
+											console.log(userInfo)
 											uni.navigateTo({
 												url: "/pages/bindPhone/bindPhone"
 											})

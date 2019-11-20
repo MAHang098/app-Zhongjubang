@@ -2,16 +2,29 @@
     "pages": [ //pages数组中第一项表示应用启动页,
         {
             "path": "pages/receiving-address/receiving-address",
-            "style": {
-                "navigationBarTitleText": "我的收货地址"
+            "style" : {
+            	 "navigationBarTitleText": "我的收货地址",
+				 "app-plus": {
+				     "titleNView": {
+				         "buttons": [{
+				             "text": "添加收获地址",
+				             // "fontSrc": "/static/uni.ttf",
+				             "fontSize": "14px",
+							 "color":"#666666",
+							 "width": "110px"
+				         }]
+				     },
+				     "bounce": "none"
+				 }
+				 
             }
         },
-		{
-            "path": "pages/receiving-address/receiving-address",
-            "style": {
-                "navigationBarTitleText": "我的收货地址"
-            }
-        },
+		// {
+  //           "path": "pages/receiving-address/receiving-address",
+  //           "style": {
+  //               "navigationBarTitleText": "我的收货地址"
+  //           }
+  //       },
 		{
             "path": "pages/release/release",
             "style": {
