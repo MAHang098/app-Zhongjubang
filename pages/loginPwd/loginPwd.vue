@@ -98,6 +98,10 @@
 				    success: function (res){
 						console.log(res)
 						if(res.data.code==200){
+							uni.setStorage({
+								key:"token",
+								data: res.data.token
+							})
 							uni.switchTab({
 								url: "/pages/main/main"
 							})
@@ -115,10 +119,7 @@
 							// 		console.log(res)
 							// 	}
 							// })
-							// uni.setStorage({
-							// 	key:"token",
-							// 	data: res.data.token
-							// })
+							
 
 						}else{
 							uni.showToast({
@@ -131,26 +132,6 @@
 				})
                 
             },
-			uploadFile(options = {}) {
-				options.url = "http://www.zhongjubang.com/test/controller/usercontroller/getappuser"
-				options.header = options.header || this.config.header
-				
-				
-					options.header = Object.assign({}, options.header, {
-						'Cookie': `dd`
-					})
-				
-				console.log(options)
-				return new Promise((resolve, reject) => {
-					options.success = function(result) {
-						resolve(JSON.parse(result.data))
-					}
-					options.fail = function(err) {
-						reject(err)
-					}
-					uni.uploadFile(options)
-				})
-			},
 			tologinPhone(){
 				uni.navigateTo({
 				    url: "/pages/loginPhone/loginPhone"

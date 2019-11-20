@@ -36,13 +36,6 @@
 			},
 			// 修改密码完成
 			completes() {
-				// 获取本地缓存内容
-				uni.getStorage({
-				    key:"token",
-				    success: function (res) {
-						this.token = res.data.token;
-					}
-				})
 				if(this.password.length < 6 || this.password.length > 20) {
 					uni.showToast({
 						title: '密码为6-20位英文或数字',

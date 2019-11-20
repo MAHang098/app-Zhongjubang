@@ -33,7 +33,9 @@
 					count: 1,
 					sourceType: ['camera', 'album'],
 					success: function (res) {
+						console.log(res)
 						self.src = res.tempFilePath;
+						console.log(self.src)
 					}
 				});
             }

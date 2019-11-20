@@ -1,6 +1,6 @@
 <template>
 	<view class="wrap">
-        <view class="save">保存</view>
+        <view class="save" @tap="save">保存</view>
         <!-- 点击更换头像 -->
         <view class="change-image">
             <view class="avater">
@@ -12,7 +12,7 @@
         <!-- 个人资料 -->
         <view class="nick-name">
             <view class="nick-name-text">昵称</view>
-            <view class="nick-name-text2">晴天小猪</view>
+            <input class="nick-name-text2" type="text" v-model="nickName" placeholder="晴天小猪" />
             <view class="nick-name-text3">4/10</view>
         </view>
         <view class="gender">
@@ -47,10 +47,20 @@
 	    
 	    data() {
 	        return {
-	            
+                nickName: ''
 	        }
 	    },
 	    methods: {
+            save(){
+                var token;
+                uni.getStorage({
+				    key:"token",
+				    success: function (res) {
+						token = res.data;
+					}
+				})
+                console.log(this.nickName)
+            }
 		}
 	}
 </script>
