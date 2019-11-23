@@ -192,6 +192,7 @@
 										success: function(infoRes) {
 											console.log('-------获取微信用户所有-----');
 											console.log(JSON.stringify(infoRes.userInfo));
+											console.log("88888")
 											let userInfo = JSON.stringify(infoRes.userInfo)
 											userInfo = JSON.parse(userInfo)
 											uni.request({
@@ -215,6 +216,7 @@
 														})
 														// 获取APP用户资料判断是否有手机号
 														const token = res.data.token
+														console.log("22222")
 														uni.request({
 															url: self.url + "/controller/usercontroller/getappuser",
 															data: {},
@@ -225,8 +227,10 @@
 																'token': token
 															},
 															success: function (res){
-																console.log(res.data.state);
-																if(res.data.state==0){
+																console.log("1111")
+																console.log(res)
+																console.log(res.data.data.state)
+																if(res.data.data.state==0){
 																	uni.switchTab({
 																		url: "/pages/main/main"
 																	})

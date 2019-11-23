@@ -124,6 +124,7 @@
 				    header : {'content-type':'application/x-www-form-urlencoded'},
 				    success: function (res){
 						if(res.code == 200) {
+							res.data.token
 							uni.setStorage({
 							    key:"token",
 							    data: res.data.token,
@@ -158,6 +159,7 @@
 					})
 					return;
 				}
+				const phone = this.phone
 				let params = {
 					phone: this.phone,
 					code: this.validationCode,
@@ -167,6 +169,7 @@
 				// 	url: "/pages/setPswd/setPswd?phone=" + this.phone
 				// })
 				// 校验验证码和手机， 后期解除注释
+				const url = this.url
 				uni.request({
 					url: this.url + '/public/public/checkverificationcode',
 					data: params,
@@ -177,6 +180,35 @@
 							// uni.navigateTo({
 							// 	// url: "/pages/setPswd/setPswd?phone=" +  params.phone
 							// })
+							console.log(phone)
+							let token
+							uni.getStorage({
+								key:"token",
+								success: function (res) {
+									token = res.data;
+								}
+							})
+							
+							uni.request({
+								url: url + "/controller/usercontroller/updateappuserphone",
+								data: {},
+								method: 'POST',
+								header : {
+									'content-type':'application/x-www-form-urlencoded', 
+									'port': 'app',
+									'token': token
+								},
+								success: function (res){
+									console.log(res.data.code);
+									if(res.data.code==200){
+										uni.switchTab({
+											url: "/pages/main/main"
+										})
+									}else{
+										console.log("请求异常")
+									}
+								}
+							})
 						} else {
 							uni.showToast({
 								title: res.data.message,
