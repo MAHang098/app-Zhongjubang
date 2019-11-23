@@ -10,7 +10,7 @@
 		
 		<view class="all-adress">
 			<!-- <radio-group @change="radioChange"> -->
-				<view class="message" v-for="(item, index) in itemsList" :key="index">
+				<view class="message" v-for="(item, index) in items" :key="index">
 					<view class="user-message">
 						<view class="left">
 							<text>{{item.userName}}</text>
@@ -21,7 +21,7 @@
 							<label v-bind:class="item.isDefault == '1' ? 'checkedIn' : 'radio'" >
 								<radio  :checked="item.isDefault == '1'" :color="item.isDefault == '1' ? '#FFCC33' : '' " style="transform:scale(0.7)"/> {{item.isDefault == '1' ? '默认地址' : '设为默认'}}
 							</label>
-						</view> -->
+						</view> 
 					</view>
 					<view class="edit-message">
 						<view class="delete" @click="togglePopup('center', 'tip', item.id)">

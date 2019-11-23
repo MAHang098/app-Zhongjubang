@@ -62,11 +62,14 @@
 </script>
 
 <style>
+	page {
+		background:rgba(255,255,255,0);
+	}
 	.wrap{
 		width:750rpx;
 		height:1334rpx;
-		background:rgba(255,255,255,1);
-		opacity:0.96;
+		background:rgba(255,255,255,.5);
+		/* opacity:0.96; */
 	}
 	.pic{
 		position: absolute;

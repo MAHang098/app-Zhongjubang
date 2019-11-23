@@ -1,6 +1,26 @@
 {
     "pages": [ //pages数组中第一项表示应用启动页,
-
+	{
+	    "path": "pages/user/user",
+	    "style": {
+	        "app-plus": {
+	            "titleNView": false //禁用原生导航栏  
+	        }
+	    }
+	},
+		{
+			"path" : "pages/updatePswd/updatePswd",
+			"style" : {
+				 "navigationBarTitleText": "找回密码"
+			}
+		},
+		{
+		    "path": "pages/main/main",
+		    "style": {
+		        "navigationBarTitleText": "登录模板"
+		    }
+		},
+		
 		{
 			"path": "pages/loginPhone/loginPhone",
 			"style": {
@@ -9,6 +29,8 @@
 				}
 			}
 		},
+		
+		
         {
             "path": "pages/receiving-address/receiving-address",
             "style" : {
@@ -56,7 +78,8 @@
             "path": "pages/agreement/agreement",
             "style": {
                 "app-plus": {
-                    "titleNView": false //禁用原生导航栏  
+                    "titleNView": true, //禁用原生导航栏  
+					"navigationBarTitleText": "众居邦用户协议"
                 }
             }
         },
@@ -139,14 +162,7 @@
             "style": {
                 "navigationBarTitleText": "修改密码"
             }
-        }, {
-            "path": "pages/user/user",
-            "style": {
-                "app-plus": {
-                    "titleNView": false //禁用原生导航栏  
-                }
-            }
-        }, {
+        },  {
             "path": "pages/juquan/juquan",
             "style": {
                 "app-plus": {
@@ -161,6 +177,9 @@
                 }
             }
         }
+        
+        
+       
     ],
 	"subPackages": [
 		{
@@ -168,6 +187,40 @@
 			"pages": [
 				{
 				    "path": "search-title/search-title",
+				    "style": {
+				        "app-plus": {
+				            "titleNView": false //禁用原生导航栏  
+				        }
+				    }
+				},
+				{
+				    "path": "search-tag/search-tag",
+				    "style": {
+				        "app-plus": {
+				            "titleNView": false //禁用原生导航栏  
+				        }
+				    }
+				},
+				{
+					"path" : "release-image/release-image",
+					"style" : {
+						"navigationBarTitleText": "发布",
+						"app-plus": {
+						    "titleNView": {
+						        "buttons": [{
+						            "text": "保存",
+						            "fontSrc": "/static/uni.ttf",
+						            "fontSize": "18px",
+									 "color":"#F9B72C"
+						        }]
+						    },
+						    "bounce": "none"
+						}
+						
+					}
+				},
+				{
+				    "path" : "add-tag/add-tag",
 				    "style": {
 				        "app-plus": {
 				            "titleNView": false //禁用原生导航栏  
@@ -192,12 +245,12 @@
             "iconPath": "static/img/juquan.png",
             "selectedIconPath": "static/img/juquanHL.png"
         },
-        {
-            "pagePath": "pages/release/release",
-            "text": "",
-            "iconPath": "static/img/release.png",
-            "selectedIconPath": "static/img/homeHL.png"
-        },
+        // {
+        //     "pagePath": "pages/release/release",
+        //     "text": "",
+        //     "iconPath": "static/img/release.png",
+        //     "selectedIconPath": "static/img/homeHL.png"
+        // },
         {
             "pagePath": "pages/stop/stop",
             "text": "商城",
@@ -208,7 +261,15 @@
             "text": "我的",
             "iconPath": "static/img/user.png",
             "selectedIconPath": "static/img/userHL.png"
-        }]
+        }],
+		"midButton": {
+		    "width": "75rpx",
+		    "height": "98px",
+		    "text": "发布",
+		    "iconPath": "static/img/release.png",
+		    "iconWidth": "47rpx"
+			// "iconHeight": "47rpx"
+		}
     },
     "globalStyle": {
         "navigationBarTextStyle": "black",
