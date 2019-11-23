@@ -48,15 +48,30 @@
 			</view>
 			<view class="answer">
 				<text class="user">屋主：</text> <text class="answer-content">好</text>
-				<!-- <text class="user">屋主：</text> <text class="user">回复</text> <text class="answer-content">晴天小猪：</text>
-				<text class="user">ok</text> -->
-				<text class="total-answer">共四条回复></text>
+				
 			</view>
-			<view class="say-something">
-				<text class="say-something-text">说点什么吧...</text> 
-			</view>
+			<view class="horizon3"></view>
+			<text class="check">查看全部评论</text>
 		</view>
 		
+
+		<view class="footer">
+			<view class="share">
+				<image src="../../static/img/user/share.png" mode=""></image>
+			</view>
+			<view class="message">
+				<image src="../../static/img/user/message.png" mode=""></image>
+			</view>
+			<text class="my-active-message">700</text>
+			<view class="star">
+				<image src="../../static/img/user/star.png" mode=""></image>
+			</view>
+			<text class="my-active-star">120</text>
+			<view class="good">
+				<image src="../../static/img/user/good.png" mode=""></image>
+			</view>
+			<text class="my-active-good">180</text>
+		</view>
 
     </view>
 </template>
@@ -280,24 +295,24 @@
 		position: absolute;
 		left: 30rpx;
 		top: 83rpx;
-		width:80rpx;
-		height:80rpx;
+		width:72rpx;
+		height:70rpx;
 		background:rgba(149,149,149,1);
 		border-radius:50%;
 	}
 	.my-active-image{
 		position: absolute;
 		left: 30rpx;
-		top: 158rpx;
-		width:80rpx;
-		height:80rpx;
+		top: 193rpx;
+		width:68rpx;
+		height:68rpx;
 		background:rgba(149,149,149,1);
 		border-radius:50%;
 	}
 	.my-active-nickName{
 		position: absolute;
 		left: 128rpx;
-		top: 157rpx;
+		top: 197rpx;
 		font-size:30rpx;
 		font-family:PingFang SC;
 		font-weight:500;
@@ -306,8 +321,8 @@
 	.my-active-data{
 		position: absolute;
 		left: 128rpx;
-		top: 203rpx;
-		font-size:24rpx;
+		top: 243rpx;
+		font-size:22rpx;
 		font-family:PingFang SC;
 		font-weight:500;
 		color:rgba(102,102,102,1);
@@ -315,7 +330,7 @@
 	.recommend-good{
 		position: absolute;
 		right: 30rpx;
-		top: 185rpx;
+		top: 225rpx;
 		width:31rpx;
 		height:31rpx;
 	}
@@ -326,7 +341,7 @@
 	.recommend-text{
 		position: absolute;
 		right: 57rpx;
-		top: 240rpx;
+		top: 280rpx;
 		width:568rpx;
 		height:67rpx;
 		font-size:26rpx;
@@ -338,7 +353,15 @@
 	.horizon2{
 		position: absolute;
 		right: 30rpx;
-		top: 347rpx;
+		top: 384rpx;
+		width:594rpx;
+		height:2rpx;
+		background:rgba(226,226,226,1);
+	}
+	.horizon2{
+		position: absolute;
+		right: 30rpx;
+		top: 694rpx;
 		width:594rpx;
 		height:2rpx;
 		background:rgba(226,226,226,1);
@@ -347,16 +370,16 @@
 	.my-active-image1{
 		position: absolute;
 		left: 30rpx;
-		top: 388rpx;
-		width:80rpx;
-		height:80rpx;
+		top: 428rpx;
+		width:68rpx;
+		height:68rpx;
 		background:rgba(149,149,149,1);
 		border-radius:50%;
 	}
 	.my-active-nickName1{
 		position: absolute;
 		left: 128rpx;
-		top: 388rpx;
+		top: 428rpx;
 		font-size:30rpx;
 		font-family:PingFang SC;
 		font-weight:500;
@@ -365,8 +388,8 @@
 	.my-active-data1{
 		position: absolute;
 		left: 128rpx;
-		top: 434rpx;
-		font-size:24rpx;
+		top: 474rpx;
+		font-size:22rpx;
 		font-family:PingFang SC;
 		font-weight:500;
 		color:rgba(102,102,102,1);
@@ -374,7 +397,7 @@
 	.recommend-good1{
 		position: absolute;
 		right: 30rpx;
-		top: 417rpx;
+		top: 457rpx;
 		width:31rpx;
 		height:31rpx;
 	}
@@ -385,7 +408,7 @@
 	.recommend-text1{
 		position: absolute;
 		right: 57rpx;
-		top: 471rpx;
+		top: 511rpx;
 		width:568rpx;
 		height:67rpx;
 		font-size:26rpx;
@@ -396,12 +419,12 @@
 	}
 	.answer{
 		position: absolute;
-		right: 61rpx;
-		top: 550rpx;
+		right: 58rpx;
+		top: 598rpx;
 		width:566rpx;
-		height:135rpx;
+		height:58rpx;
 		background:rgba(248,248,248,1);
-		border:1px solid rgba(239,239,239,1);
+		border:1rpx solid rgba(239,239,239,1);
 		border-radius:6rpx;
 	}
 	.user{
@@ -422,32 +445,94 @@
 		font-weight:500;
 		color:rgba(51,51,51,1);
 	}
-	.total-answer{
+	.check{
 		position: absolute;
-		left: 20rpx;
-		bottom: 20rpx;	
-		font-size:22rpx;
+		left: 292rpx;
+		top: 725rpx;	
+		font-size:28rpx;
 		font-family:PingFang SC;
 		font-weight:500;
-		color:rgba(249,183,44,1);
+		color:rgba(102,102,102,1);
 	}
-	.say-something{
-		position: absolute;
-		right: 30rpx;
-		bottom: 30rpx;	
-		width:691rpx;
-		height:70rpx;
-		background:rgba(240,240,240,1);
-		border-radius:30rpx;
-		
+	.footer{
+		position: relative;
+		margin-top: 10rpx;
+		width:750rpx;
+		height:100rpx;
+		background:rgba(255,255,255,1);
+		box-shadow:0px 0px 9rpx 0px rgba(93,93,93,0.08);
 	}
-	.say-something-text{
+
+	.share{
 		position: absolute;
-		left: 30rpx;
-		bottom: 24rpx;	
-		font-size:24rpx;
+		left: 26rpx;
+		bottom: 42rpx;
+		width:32rpx;
+		height:30rpx;
+	}
+	.share image{
+		width:32rpx;
+		height:30rpx;
+	}
+	.message{
+		position: absolute;
+		right: 322rpx;
+		bottom: 34rpx;
+		width:39rpx;
+		height:35rpx;
+	}
+	.message image{
+		width:39rpx;
+		height:35rpx;
+	}
+	.my-active-message{
+		position: absolute;
+		right: 274rpx;
+		bottom: 24rpx;
+		font-size:26rpx;
 		font-family:PingFang SC;
 		font-weight:500;
 		color:rgba(153,153,153,1);
 	}
+	.star{
+		position: absolute;
+		right: 204rpx;
+		bottom: 34rpx;
+		width:39rpx;
+		height:35rpx;
+	}
+	.star image{
+		width:39rpx;
+		height:35rpx;
+	}
+	.my-active-star{
+		position: absolute;
+		right: 153rpx;
+		bottom: 24rpx;
+		font-size:26rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(153,153,153,1);
+	}
+	.good{
+		position: absolute;
+		right: 83rpx;
+		bottom: 34rpx;
+		width:39rpx;
+		height:35rpx;
+	}
+	.good image{
+		width:39rpx;
+		height:35rpx;
+	}
+	.my-active-good{
+		position: absolute;
+		right: 31rpx;
+		bottom: 24rpx;
+		font-size:26rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(153,153,153,1);
+	}
+	
 </style>

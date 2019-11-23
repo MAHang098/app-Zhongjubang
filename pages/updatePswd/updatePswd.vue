@@ -16,6 +16,7 @@
 			</view>
 		</view>
 		<button class="next" @tap="bindLogin">下一步</button>
+		<button class="next" @click="navigateTo">测试</button>
 	</view>
 </template>
 
@@ -39,6 +40,12 @@
 	    },
 	    // computed: mapState(['forcedLogin']),
 	    methods: {
+			navigateTo() {
+				uni.navigateTo({
+					url: '/pages/releaseImage/add-tag/add-tag'
+					// url: '/pages/releaseImage/release-image/release-image'
+				})
+			},
 			// 发送验证码
 			sendCod(){
 				
