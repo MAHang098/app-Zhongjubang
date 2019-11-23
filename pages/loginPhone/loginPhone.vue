@@ -192,7 +192,6 @@
 										success: function(infoRes) {
 											console.log('-------获取微信用户所有-----');
 											console.log(JSON.stringify(infoRes.userInfo));
-											console.log("88888")
 											let userInfo = JSON.stringify(infoRes.userInfo)
 											userInfo = JSON.parse(userInfo)
 											uni.request({

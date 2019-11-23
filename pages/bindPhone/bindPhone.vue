@@ -124,11 +124,7 @@
 				    header : {'content-type':'application/x-www-form-urlencoded'},
 				    success: function (res){
 						if(res.code == 200) {
-							res.data.token
-							uni.setStorage({
-							    key:"token",
-							    data: res.data.token,
-							})
+							
 						}
 						
 				    }
@@ -188,10 +184,12 @@
 									token = res.data;
 								}
 							})
-							
+							console.log(token)
 							uni.request({
 								url: url + "/controller/usercontroller/updateappuserphone",
-								data: {},
+								data: {
+									phone: phone
+								},
 								method: 'POST',
 								header : {
 									'content-type':'application/x-www-form-urlencoded', 
@@ -200,6 +198,11 @@
 								},
 								success: function (res){
 									console.log(res.data.code);
+									console.log(res.data);
+									uni.setStorage({
+										key:"token",
+										data: res.data.token,
+									})
 									if(res.data.code==200){
 										uni.switchTab({
 											url: "/pages/main/main"
