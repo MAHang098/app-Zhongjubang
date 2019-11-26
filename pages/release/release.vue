@@ -15,12 +15,11 @@
 </template>
 
 <script>
-    
-
     export default {
         data() {
             return {
-               src: ''
+               src: '',
+			   imgList: []
             }
         },
         methods: {
@@ -40,20 +39,50 @@
 				});
             },
             chooseImage() {
+				let that = this;
 				uni.chooseImage({
 				    count: 9, //默认9
-				    sizeType:'compressed', //可以指定是原图还是压缩图，默认二者都有
+				    // sizeType:'compressed', //可以指定是原图还是压缩图，默认二者都有
 				    sourceType: ['album'], //从相册选择
 				    success: function (res) {
-						console.log(res)
-				        uni.previewImage({
-							 // 对选中的图片进行预览
-							 urls: res.tempFilePaths,
-							 success: function(res) {
-							 	console.log(res)
-							 }
-							// urls:['','']  图片的地址 是数组形式
-						 })
+						uni.showLoading({
+							title: '请稍等',
+							mask: true
+						})
+						const tempFilePaths = res.tempFilePaths;
+						for(let i in tempFilePaths) {
+							// this.imgList.push(tempFilePaths[i]);
+							uni.uploadFile({
+								url: that.url + '/upload', //仅为示例，非真实的接口地址
+								filePath: tempFilePaths[i],
+								name: 'file',
+								formData: {
+									'user': 'test'
+								},
+								success: (uploadFileRes) => {
+									uni.hideLoading();
+									
+									let data = JSON.parse(uploadFileRes.data);
+									console.log(data)
+										let obj = {
+											fileName: data.data.fileName,
+											fileUrl:data.data.fileUrl,
+											testArr: []
+										}
+										that.imgList.push(obj)
+									// console.log(that.imgList.length , tempFilePaths.length)
+									if(that.imgList.length == tempFilePaths.length) {
+										that.$store.commit('saveImage', that.imgList)
+										uni.navigateTo({
+											url: '/pages/releaseImage/add-tag/add-tag'
+										})
+									}
+									
+								}
+							});
+						}
+						
+						
 				    }
 				});
 			}

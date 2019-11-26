@@ -1,13 +1,22 @@
 {
     "pages": [ //pages数组中第一项表示应用启动页,
-	{
-	    "path": "pages/user/user",
-	    "style": {
-	        "app-plus": {
-	            "titleNView": false //禁用原生导航栏  
-	        }
-	    }
-	},
+		{
+		    "path": "pages/release/release",
+		    "style": {
+		        "app-plus": {
+		            "titleNView": false //禁用原生导航栏  
+		        }
+		    }
+		},
+		       
+		{
+			"path": "pages/user/user",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
 		{
 			"path" : "pages/updatePswd/updatePswd",
 			"style" : {
@@ -50,15 +59,7 @@
 				 
             }
         },
-		{
-            "path": "pages/release/release",
-            "style": {
-                "app-plus": {
-                    "titleNView": false //禁用原生导航栏  
-                }
-            }
-        },
-       
+		
         
         {
             "path": "pages/releaseVideo/releaseVideo",
@@ -186,7 +187,7 @@
 			"root": "pages/releaseImage",
 			"pages": [
 				{
-				    "path": "search-title/search-title",
+				    "path": "search-title/search-title",  //搜索话题
 				    "style": {
 				        "app-plus": {
 				            "titleNView": false //禁用原生导航栏  
@@ -194,7 +195,7 @@
 				    }
 				},
 				{
-				    "path": "search-tag/search-tag",
+				    "path": "search-tag/search-tag",   //搜索标签
 				    "style": {
 				        "app-plus": {
 				            "titleNView": false //禁用原生导航栏  
@@ -220,7 +221,7 @@
 					}
 				},
 				{
-				    "path" : "add-tag/add-tag",
+				    "path" : "add-tag/add-tag",  //图片添加标签
 				    "style": {
 				        "app-plus": {
 				            "titleNView": false //禁用原生导航栏  

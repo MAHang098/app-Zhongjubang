@@ -17,24 +17,16 @@
 		
 		<!-- 上传图片 start -->
 		<view class="upload-list">
-			<view class="img">
-				<image src="../../../static/topic/upload.png" mode=""></image>
-				<image src="../../../static/topic/deletes.png" mode="" class="delete"></image>
+			<view class="img" v-for="(item, index) in allImage" :key="index">
+				<image :src="item.fileUrl" mode="" @tap="previewImage(index)"></image>
+				<image src="../../../static/topic/deletes.png" mode="" class="delete" @click="deleteImage(item.fileName, index)"></image>
 			</view>
-			<view class="img">
-				<image src="../../../static/topic/upload.png" mode=""></image>
-				<image src="../../../static/topic/deletes.png" mode="" class="delete"></image>
-			</view>
-			<view class="img">
-				<image src="../../../static/topic/upload.png" mode=""></image>
-				<image src="../../../static/topic/deletes.png" mode="" class="delete"></image>
-			</view>
-			<image src="../../../static/topic/add-upload.png" mode=""></image>
+			<image src="../../../static/topic/add-upload.png" mode=""  @click="chooseImage" v-show="isUpload"></image>
 		</view>
 		
 		<!-- 底部 start -->
 		<view class="bottom">
-			<image src="../../../static/topic/img.png" mode=""></image>
+			<image src="../../../static/topic/img.png" mode="" @click="chooseImage"></image>
 			<view>存草稿</view>
 		</view>
 	</view>
@@ -45,15 +37,113 @@
 		data() {
 			return {
 				remnant: 0,
+				desc: '',
+				allImage: [],
+				allTag: [],
+				imgList: [],
+				isUpload: true
 			}
 		},
 		onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
-		        console.log(option); //打印出上个页面传递的参数。
-		        // console.log(option); //打印出上个页面传递的参数。
-		    },
+			// console.log(this.$store.state.itemImage); //打印出上个页面传递的参数。
+			// this.allTag = this.$store.state.itemImage;
+			this.allImage = this.$store.state.uploadImage;
+			console.log(this.allImage.length)
+			if(this.allImage.length > 8) {
+				this.isUpload = false;
+			}
+		},
 		methods: {
 			descInput() {
 				this.remnant = e.detail.value.length
+			},
+			previewImage(e) {
+				let uuuu = []
+				console.log(this.allImage[e].fileUrl)
+				uuuu = this.allImage[e].fileUrl
+				let uu = [uuuu]
+				console.log(uu)
+				let self = this
+				var pages = getCurrentPages();
+				var currPage = pages[pages.length - 1];  //当前页面
+				var prevPage = pages[pages.length - 2];  //上一个页面
+				prevPage.current= e;
+			   uni.navigateBack();
+			
+			},
+			// 删除图片
+			deleteImage(name, index) {
+				this.allImage.forEach((item, i, array) => {
+					if(item.fileName == name && index == i) {
+						// console.log(item)
+						array.splice(index,1)
+					}
+				})
+				this.isUpload = true;
+				this.$store.commit('saveImage', this.allImage);
+			},
+			// 选择上传图片
+			chooseImage() {
+				let pic = this.$store.state.uploadImage;
+				if(pic.length > 8) {
+					console.log("已经有9张图片了")
+					this.isUpload = false;
+					return;
+				}
+				let that = this;
+				uni.chooseImage({
+				    count: 9, //默认9
+				    // sizeType:'compressed', //可以指定是原图还是压缩图，默认二者都有
+				    sourceType: ['album'], //从相册选择
+				    success: function (res) {
+						uni.showLoading({
+							title: '请稍等',
+							mask: true
+						})
+						const tempFilePaths = res.tempFilePaths;
+						
+						for(let i in tempFilePaths) {
+							// this.imgList.push(tempFilePaths[i]);
+							uni.uploadFile({
+								url: that.url + '/upload', //仅为示例，非真实的接口地址
+								filePath: tempFilePaths[i],
+								name: 'file',
+								formData: {
+									'user': 'test'
+								},
+								success: (uploadFileRes) => {
+									uni.hideLoading();
+									
+									
+									let data = JSON.parse(uploadFileRes.data);
+									let obj = {
+										fileName: data.data.fileName,
+										fileUrl:data.data.fileUrl,
+										type: 'pre-release',
+										testArr: []
+									}
+									that.imgList.push(obj)
+									that.imgList.type = 'pre-release';
+									if(that.imgList.length == tempFilePaths.length) {
+										
+										let currentLength = that.allImage.length;
+										let pages = getCurrentPages();
+										let currPage = pages[pages.length - 1];  //当前页面
+										let prevPage = pages[pages.length - 2];  //上一个页面
+										prevPage.current= currentLength;
+										prevPage.indexImg = currentLength +1 ;
+										that.$store.commit('saveImage', that.imgList);
+										uni.navigateBack();
+										
+									}
+									
+								}
+							});
+						}
+						
+						
+				    }
+				});
 			}
 		}
 	}
