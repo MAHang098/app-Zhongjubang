@@ -27,16 +27,46 @@
 				uni.navigateBack()
 			},
 			chooseVideo(){
-                var self = this;
+				const url = this.url
+				// uni.chooseVideo({
+				// 	success: (chooseImageRes) => {
+				// 		const tempFilePaths = chooseImageRes.tempFilePaths;
+				// 		uni.uploadFile({
+				// 			url: url + "/upload", //仅为示例，非真实的接口地址
+				// 			filePath: tempFilePaths[0],
+				// 			name: 'file',
+				// 			formData: {
+				// 				'user': 'test'
+				// 			},
+				// 			success: (uploadFileRes) => {
+				// 				console.log(uploadFileRes.data);
+				// 			}
+				// 		});
+				// 	}
+				// });
 				uni.chooseVideo({
 					count: 1,
 					sourceType: ['camera', 'album'],
 					success: function (res) {
 						console.log(res)
-						self.src = res.tempFilePath;
-						console.log(self.src)
+						const src = res.tempFilePath;
+						console.log(src)
+						
+						uni.uploadFile({
+							url: url + "/upload", //仅为示例，非真实的接口地址
+							filePath: src,
+							name: 'file',
+							formData: {
+								'user': 'test'
+							},
+							success: (uploadFileRes) => {
+								console.log(uploadFileRes.data);
+							}
+						});
 					}
-				});
+				})
+
+				
             },
             chooseImage() {
 				let that = this;

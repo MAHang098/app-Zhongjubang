@@ -58,7 +58,9 @@
 			<view class="my-active-recommend">
 				某臣氏骑剑活动！水雾质地 很轻薄 不沾黏！在上待几分钟会变成雾面哑光感 超高级！显色很持久...
 				<text class="my-active-more">展开</text>
-				<view class="my-active-more-image">></view>
+				<view class="my-active-more-image">
+					<image src="../../static/img/user/down.png" mode=""></image>
+				</view>
 			</view>
 			<view class="my-active-pic"></view>
 			<view class="add-topic">
@@ -89,35 +91,24 @@
 		</view>
 
 
-		<view class="my-active">
-			<view class="my-active-title1">我的动态</view>
-			<view class="my-active-index"></view>
-			<view class="my-active-vertify"></view>
-			<view class="my-active-title2">短视频</view>
-			<view class="my-active-vertify2"></view>
-			<view class="my-active-title3">收藏</view>
-			<view class="my-active-image"></view>
-			<view class="my-active-nickName">晴天小猪</view>
-			<view class="my-active-data">2019-12-12  09:11</view>
-			<view class="edit-del">
+		<view class="my-active2">
+			<view class="my-active-image1"></view>
+			<view class="my-active-nickName1">晴天小猪</view>
+			<view class="my-active-data1">2019-12-12  09:11</view>
+			<view class="edit-del1">
 				<image src="../../static/img/user/edit-del.png" mode=""></image>
 			</view>
-			<view class="my-active-recommend">
+			<view class="my-active-recommend1">
 				某臣氏骑剑活动！水雾质地 很轻薄 不沾黏！在上待几分钟会变成雾面哑光感 超高级！显色很持久...
-				<text class="my-active-more">展开</text>
-				<view class="my-active-more-image">></view>
+				<text class="my-active-more1">展开</text>
+				<view class="my-active-more-image1">
+					<image src="../../static/img/user/down.png" mode=""></image>
+				</view>
 			</view>
 			
 			
-			<view class="my-active-pic"></view>
-			<view class="add-topic">
-				
-				
-			</view>
-			<view class="add-topic-image">
-				<image src="../../static/img/user/add-topic.png" mode=""></image>
-			</view>
-			<text class="add-topic-text">添加你的话题</text>
+			<view class="my-active-pic1"></view>
+			
 
 			<view class="share">
 				<image src="../../static/img/user/share.png" mode=""></image>
@@ -257,8 +248,8 @@
 	}
 	.user-nickName-image{
 		position: absolute;
-		left: 185rpx;
-		top: 110rpx;
+		left: 180rpx;
+		top: 98rpx;
 		width: 33rpx;
 		height: 33rpx;
 	}
@@ -289,7 +280,7 @@
 	}
 	.hot{
 		position: absolute;
-		right: 279rpx;
+		right: 350rpx;
 		bottom: 26rpx;
 	}
 	.hot image{
@@ -302,7 +293,7 @@
 		font-family:PingFang SC;
 		font-weight:500;
 		color:rgba(51,51,51,1);
-		right: 220rpx;
+		right: 304rpx;
 		bottom: 35rpx;
 	}
 	/* 我的动态 */
@@ -317,17 +308,29 @@
 		background:rgba(255,255,255,1);
 		box-shadow:0px 0px 9rpx 0px rgba(93,93,93,0.08);
 	}
+	.my-active2{
+		position: relative;
+		display: flex;
+		margin-bottom: 20rpx;
+		top: -10rpx;
+		/* top: 450rpx; */
+		width:750rpx;
+		height:776rpx;
+		background:rgba(255,255,255,1);
+		box-shadow:0px 0px 9rpx 0px rgba(93,93,93,0.08);
+	}
 	.my-active-title1{
 		position: absolute;
 		left: 29rpx;
 		top: 24rpx;
+		font-size:34rpx;
 		font-family:PingFang SC;
 		font-weight:bold;
 		color:rgba(51,51,51,1);
 	}
 	.my-active-index{
 		position: absolute;
-		left: 75rpx;
+		left: 70rpx;
 		top: 83rpx;
 		width:52rpx;
 		height:5rpx;
@@ -415,7 +418,7 @@
 		font-size:28rpx;
 		font-family:PingFang SC;
 		font-weight:500;
-		color:rgba(51,51,51,1);
+		color:#666;
 		line-height:33rpx;
 	}
 	.my-active-more{
@@ -428,14 +431,91 @@
 	}
 	.my-active-more-image{
 		display: inline-block;
-		padding-bottom: 6rpx;
-		margin-left: 6rpx;
-		transform: rotate(90deg);
-		font-size:36rpx;
+		width: 26rpx;
+		height: 19rpx;
+	}
+	.my-active-more-image image{
+		display: inline-block;
+		width: 26rpx;
+		height: 19rpx;
+	}
+
+
+	.my-active-image1{
+		position: absolute;
+		left: 30rpx;
+		top: 40rpx;
+		width:80rpx;
+		height:80rpx;
+		background:rgba(149,149,149,1);
+		border-radius:50%;
+	}
+	.my-active-nickName1{
+		position: absolute;
+		left: 128rpx;
+		top: 52rpx;
+		font-size:32rpx;
+		font-family:PingFang SC;
+		font-weight:bold;
+		color:rgba(51,51,51,1);
+	}
+	.my-active-data1{
+		position: absolute;
+		left: 128rpx;
+		top: 95rpx;
+		font-size:24rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(102,102,102,1);
+	}
+	.edit-del1{
+		position: absolute;
+		right: 28rpx;
+		top: 75rpx;
+		width: 36rpx;
+		height: 23rpx;
+	}
+	.edit-del1 image{
+		width: 36rpx;
+		height: 23rpx;
+	}
+	.my-active-recommend1{
+		position: absolute;
+		left: 34rpx;
+		top: 145rpx;
+		width:674rpx;
+		height:59rpx;
+		font-size:28rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(51,51,51,1);
+		line-height:33rpx;
+	}
+	.my-active-more1{
+		margin-left: 10rpx;
+		font-size:24rpx;
 		font-family:PingFang SC;
 		font-weight:500;
 		color:rgba(90,124,171,1);
-		line-height:49rpx;
+		line-height:33rpx;
+	}
+	.my-active-more-image1{
+		display: inline-block;
+		width: 26rpx;
+		height: 19rpx;
+	}
+	.my-active-more-image1 image{
+		display: inline-block;
+		width: 26rpx;
+		height: 19rpx;
+	}
+	.my-active-pic1{
+		position: absolute;
+		left: 29rpx;
+		bottom: 94rpx;
+		width:690rpx;
+		height:450rpx;
+		background: #959595;
 	}
 	.my-active-pic{
 		position: absolute;
@@ -502,7 +582,7 @@
 	.my-active-message{
 		position: absolute;
 		right: 274rpx;
-		bottom: 30rpx;
+		bottom: 24rpx;
 		font-size:26rpx;
 		font-family:PingFang SC;
 		font-weight:500;
@@ -522,7 +602,7 @@
 	.my-active-star{
 		position: absolute;
 		right: 153rpx;
-		bottom: 30rpx;
+		bottom: 24rpx;
 		font-size:26rpx;
 		font-family:PingFang SC;
 		font-weight:500;
@@ -542,7 +622,7 @@
 	.my-active-good{
 		position: absolute;
 		right: 31rpx;
-		bottom: 30rpx;
+		bottom: 24rpx;
 		font-size:26rpx;
 		font-family:PingFang SC;
 		font-weight:500;
