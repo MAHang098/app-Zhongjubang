@@ -5,6 +5,7 @@
 		</view>
 		<text class="pic-text">图片</text>
 		<view class="video" @tap="chooseVideo">
+			<!-- <view class="video" @tap="chooseVideo"> -->
 			<image src="../../static/img/release/video.png" mode="" />
 		</view>
 		<text class="video-text">视频</text>
@@ -29,22 +30,7 @@
 			},
 			chooseVideo(){
 				const url = this.url
-				// uni.chooseVideo({
-				// 	success: (chooseImageRes) => {
-				// 		const tempFilePaths = chooseImageRes.tempFilePaths;
-				// 		uni.uploadFile({
-				// 			url: url + "/upload", //仅为示例，非真实的接口地址
-				// 			filePath: tempFilePaths[0],
-				// 			name: 'file',
-				// 			formData: {
-				// 				'user': 'test'
-				// 			},
-				// 			success: (uploadFileRes) => {
-				// 				console.log(uploadFileRes.data);
-				// 			}
-				// 		});
-				// 	}
-				// });
+				
 				uni.chooseVideo({
 					count: 1,
 					sourceType: ['camera', 'album'],
@@ -52,6 +38,7 @@
 						console.log(res)
 						const src = res.tempFilePath;
 						console.log(src)
+						
 						
 						uni.uploadFile({
 							url: url + "/upload", //仅为示例，非真实的接口地址
@@ -62,28 +49,60 @@
 							},
 							success: (uploadFileRes) => {
 								console.log(uploadFileRes.data);
+								uploadFileRes.data = JSON.parse(uploadFileRes.data)
+								if(uploadFileRes.data.code==200){
+									uni.navigateTo({
+										url: "/pages/releaseVideo/releaseVideo?fileUrl=" + uploadFileRes.data.data.fileUrl
+									})
+								}else{
+									console.log("请求异常")
+								}
+								
 							}
-						});
+						})
 					}
 				})
 
 				
             },
             chooseImage() {
+				const url = this.url
 				uni.chooseImage({
-				    count: 9, //默认9
-				    sizeType:'compressed', //可以指定是原图还是压缩图，默认二者都有
-				    sourceType: ['album'], //从相册选择
+				    count: 4, //默认9
+				    sizeType: ['original', 'compressed'],//可以指定是原图还是压缩图，默认二者都有
+				    sourceType: ['album','camera'], //从相册选择
 				    success: function (res) {
 						console.log(res)
-				        uni.previewImage({
-							 // 对选中的图片进行预览
-							 urls: res.tempFilePaths,
-							 success: function(res) {
-							 	console.log(res)
-							 }
-							// urls:['','']  图片的地址 是数组形式
-						 })
+				   
+						const src = res.tempFilePaths;
+						console.log(src)
+						console.log(url)
+						
+						uni.uploadFile({
+							url: url + "/upload", //仅为示例，非真实的接口地址
+							filePath: src,
+							name: 'file',
+							formData: {
+								'user': 'test'
+							},
+							header:{"Content-Type": "multipart/form-data"},
+							success: (res) => {
+								console.log(res)
+								// uploadFileRes.data = JSON.parse(uploadFileRes.data)
+								// if(uploadFileRes.data.code==200){
+								// 	uni.navigateTo({
+								// 		url: "/pages/releaseVideo/releaseVideo?fileUrl=" + uploadFileRes.data.data.fileUrl
+								// 	})
+								// }else{
+								// 	console.log("请求异常")
+								// }
+								
+							},
+							fail: (err) => {
+								console.log(err)
+							}
+						})
+						
 				    }
 				});
 			}

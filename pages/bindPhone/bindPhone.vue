@@ -209,6 +209,11 @@
 										})
 									}else{
 										console.log("请求异常")
+										uni.showToast({
+											title: "电话已经注册",
+											icon: 'none',
+											duration: 2000,
+										})
 									}
 								}
 							})

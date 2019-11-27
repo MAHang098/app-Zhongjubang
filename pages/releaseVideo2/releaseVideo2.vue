@@ -6,38 +6,56 @@
         </view>
 		<!-- 内容 -->
 		<view class="release-content">
-			<view class="pic">
+			<!-- <view class="pic">
 				<image src="../../static/img/releaseVideo2/pic.png" mode="" />
+			</view> -->
+			<view class="pic">
+				<video :src="videoUrl" />
 			</view>
 			<view class="start">
 				<image src="../../static/img/releaseVideo2/start.png" mode="" />
 			</view>
-
-			<view class="my-active-image10"></view>
-			<view class="my-active-nickName10">晴天小猪</view>
-			<view class="edit-del">
-				<image src="../../static/img/topicDetails/interest.png" mode=""></image>
+			
+			<view class="user-info">
+				<view class="my-active-image10">
+					<image :src="head" mode="" />
+				</view>
+				<view class="my-active-nickName10">{{nickName}}</view>
+				<view class="edit-del">
+					<image src="../../static/img/topicDetails/interest.png" mode=""></image>
+				</view>
+				<view class="my-active-recommend">
+					<!-- 某臣氏骑剑活动！水雾质地 很轻薄 不沾黏！在上待几分钟会变成雾面哑光感 超高级！显色很持久... -->
+					<view :class="fold ? 'fold' : 'unfold'" >
+						<label>    
+							<span>{{content2}}</span>
+						</label>	
+					</view>
+					<text id="the-id" class="my-active-more" @tap="btn" v-show="fold">展开</text>
+					<text id="the-id" class="my-active-more" @tap="btn" v-show="!fold">收起</text>
+					<!-- <text class="my-active-more">展开</text> -->
+					<view class="my-active-more-image">></view>
+				</view>
 			</view>
-			<view class="my-active-recommend">
-				某臣氏骑剑活动！水雾质地 很轻薄 不沾黏！在上待几分钟会变成雾面哑光感 超高级！显色很持久...
-				<text class="my-active-more">展开</text>
-				<view class="my-active-more-image">></view>
-			</view>
+			
 		</view>
 		<!-- 底部 -->
 		<view class="footer">
+			<!-- 点赞 -->
 			<view class="good">
 				<image src="../../static/img/releaseVideo2/good.png" mode="" />
 			</view>
-			<text class="text10">180</text>
+			<text class="text10">{{shortVideoLikeNum}}</text>
+			<!-- 收藏 -->
 			<view class="star">
 				<image src="../../static/img/releaseVideo2/star.png" mode="" />
 			</view>
-			<text class="text11">120</text>
+			<text class="text11">{{shortVideoCollectionNum}}</text>
+			<!-- 评论 -->
 			<view class="message">
 				<image src="../../static/img/releaseVideo2/message.png" mode="" />
 			</view>
-			<text class="text12">722</text>
+			<text class="text12">{{shortVideoDiscussNum}}</text>
 				<button class="topic" type="button" @click="togglePopup('bottom', 'popup')">
 					<image class="topic-image" src="../../static/img/releaseVideo2/message.png" mode="" />
 					<text class="text20">说点什么吧...</text>
@@ -52,7 +70,8 @@
 				<view class="my-active-nickName">晴天小猪</view>
 				<view class="my-active-data">2019-12-12  09:11</view>
 				<image class="recommend-good" src="../../static/img/releaseVideo2/good.png" mode="" />
-				<view class="recommend-text">
+				<!-- <view class="recommend-text" @click="paste(spread_url)" @touchstart.prevent="touchstart(index)"   @touchend.prevent="touchend"> -->
+				<view class="recommend-text" @touchstart.prevent="touchstart(index)"   @touchend.prevent="touchend">
 					我的室内设计是这样的，我觉得很漂亮 我的室内设计是这样的，我觉得很漂亮 我的室内设计我觉得
 				</view>
 				<view class="horizon2"></view>
@@ -66,13 +85,12 @@
 				</view>
 				<view class="answer">
 					<text class="user">屋主：</text> <text class="answer-content">好</text>
-					<!-- <text class="user">屋主：</text> <text class="user">回复</text> <text class="answer-content">晴天小猪：</text>
-					<text class="user">ok</text> -->
+					<text class="user1">屋主回复晴天小猪：</text> <text class="answer-content1">ok</text>
 					<text class="total-answer">共四条回复></text>
 				</view>
-				<view class="say-something">
-					<text class="say-something-text">说点什么吧...</text> 
-				</view>
+				<input @confirm="recordName" class="say-something" placeholder="说点什么吧..." :value="inputValue" />
+
+					<!-- <text class="say-something-text">说点什么吧...</text>  -->
 			</uni-popup>
 		</view>
     </view>
@@ -81,6 +99,7 @@
 <script>
 	import uniPopup from '@/components/uni-popup/uni-popup.vue'
 	import uniIcons from '@/components/uni-icons/uni-icons.vue'
+	
 	export default {
 		components: {
 			uniPopup,
@@ -88,6 +107,11 @@
 		},
 		data() {
 			return {
+				spread_url: '我的室内设计是这样的，我觉得很漂亮 我的室内设计是这样的，我觉得很漂亮 我的室内设计我觉得',
+				onOff:true,    //默认开启 展示
+				onNO:false,    //默认关闭 收起
+				fold:true,
+				textfont:[],
 				show: false,
 				type: '',
 				list: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
@@ -122,10 +146,189 @@
 						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-5.png',
 						name: 'more'
 					}
-				]
+				],
+				head: '',
+				nickName: '',
+				noticeList: [{
+
+				}],
+				videoUrl: '',
+				content2: '',
+				shortVideoCollectionNum: '',//收藏次数
+				shortVideoDiscussNum: '',//评论次数
+				shortVideoLikeNum: '',//点赞次数
+				inputValue: '',
+				outUserId: '',
+				id: ''
+
 			}
 		},
+		onLoad() {
+			// var view = uni.createSelectorQuery().select(".fold");
+			// view.boundingClientRect(data => {
+			// console.log("节点离页面顶部的距离为" + data.height);
+			// }).exec();
+		},
+		onShow:function(){
+			let token
+			let self = this
+			let id = ''
+			uni.getStorage({
+				key:"token",
+				success: function (res) {
+					token = res.data;
+				}
+			})
+			const url = this.url
+			
+
+			uni.request({
+				url: url + "controller/usercontroller/getshortvideolist",
+				data: {},
+				method: 'POST',
+				header : {
+					'content-type':'application/x-www-form-urlencoded', 
+					'port': 'app',
+					'token': token
+				},
+				success: function (res){
+					console.log(res)
+					console.log(res.data.data.dataList[0].id)
+					id = res.data.data.dataList[0].id
+
+					self.id = res.data.data.dataList[0].id
+					self.textfont = res.data.data.dataList
+					//获取第一页内容
+					uni.request({
+						url: url + "/controller/usercontroller/getshortvideobyid",
+						data: {shortVideoId:res.data.data.dataList[0].id},
+						method: 'POST',
+						header : {
+							'content-type':'application/x-www-form-urlencoded', 
+							'port': 'app',
+							'token': token
+						},
+						success: function (res){
+							console.log(res)
+							console.log(res.data.data.nickName)
+							self.nickName = res.data.data.nickName
+							self.head = res.data.data.head
+							self.content2 = res.data.data.content
+							self.videoUrl = res.data.data.videoUrl
+							self.shortVideoCollectionNum = res.data.data.shortVideoCollectionNum
+							self.shortVideoDiscussNum = res.data.data.shortVideoDiscussNum
+							self.shortVideoLikeNum = res.data.data.shortVideoLikeNum
+							self.outUserId = res.data.data.id
+						}
+					})
+					// 获取评论内容
+					uni.request({
+						url: url + "controller/videocontroller/getsvdiscusslist",
+						data: {
+							id: res.data.data.dataList[0].id
+						},
+						method: 'POST',
+						header : {
+							'content-type':'application/x-www-form-urlencoded', 
+							'port': 'app',
+							'token': token
+						},
+						success: function (res){
+							console.log(res)
+						}
+					})
+				}
+			})
+			
+			
+		},
 		methods: {
+			recordName(e) {  
+				this.inputValue = e.detail.value;
+				console.log(e.detail.value)
+
+				let token
+				let self = this
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+						token = res.data;
+					}
+				})
+				const url = this.url
+				
+				console.log(self.outUserId)
+				console.log(self.nickName)
+				console.log(self.id)
+				uni.request({
+					url: url + "controller/usercontroller/addshortvideodiscuss",
+					data: {
+						outUserId: self.outUserId,
+						shortVideoId: self.id,
+						outUserName: self.nickName,
+						shortVideoDiscuss: e.detail.value
+					},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': token
+					},
+					success: function (res){
+						console.log(res.data.code)
+						if(res.data.code==200){
+							
+						}else{
+							console.log("请求异常")
+						}
+					}
+				})
+
+            },
+			// search(e){
+			// 	console.log("777777")
+			// 	console.log(e.event.detail)
+			// },
+			touchstart(index) {
+				let that = this;
+				clearInterval(this.Loop); //再次清空定时器，防止重复注册定时器
+				console.log(index)
+				this.Loop = setTimeout(function() {
+					uni.showModal({
+						title: '删除',
+						content: '请问要删除本条消息吗？',
+						success: function(res) {
+							if (res.confirm) {
+								console.log(this.noticeList)
+								//alert(this.noticeList[index].id)
+								deleteNotify(that.noticeList[index].id, '0').then(res => {
+									if (res.data.code == 1) {
+										uni.showToast({
+											title: '删除成功',
+											duration: 2000
+										})
+										that.getnotify();
+									}
+								})
+							} else if (res.cancel) {
+								console.log('用户点击取消');
+							}
+						}
+					});
+				}.bind(this), 1000);
+			},
+			touchend() {
+				console.log('结束')
+				clearInterval(this.Loop);
+			},
+			paste(value) {
+				uni.setClipboardData({
+					data: value
+				});
+			},
+			btn(){      // 收起 展开
+				this.fold=!this.fold;
+			},
 			togglePopup(type, open) {
 				switch (type) {
 					case 'top':
@@ -200,6 +403,10 @@
 		width:750rpx;
 	    height:1106rpx;
 	}
+	.pic video{
+		width:750rpx;
+	    height:1106rpx;
+	}
 	.pic image{
 		width:750rpx;
 	    height:1106rpx;
@@ -215,18 +422,33 @@
 		width:148rpx;
 	    height:162rpx;
 	}
-
+	.user-info{
+		position: relative;
+		/* display: flex;
+		justify-content: space-around; */
+		align-items: center;
+		left: 30rpx;
+		top: 441px;
+		width: 690rpx;
+		/* height: 300rpx; */
+	}
 	.my-active-image10{
-		position: absolute;
+		float: left;
 		left: 30rpx;
 		bottom: 152rpx;
+		margin-bottom: 0rpx;
 		width:80rpx;
 		height:80rpx;
 		background:#ff0;
 		border-radius:50%;
 	}
+	.my-active-image10 image{
+		border-radius:50%;
+		width:80rpx;
+		height:80rpx;
+	}
 	.my-active-nickName10{
-		position: absolute;
+		float: left;
 		left: 128rpx;
 		bottom: 177rpx;
 		font-size:32rpx;
@@ -235,7 +457,7 @@
 		color:rgba(255,255,255,1);
 	}
 	.edit-del{
-		position: absolute;
+		float: left;
 		left: 277rpx;
 		bottom: 168rpx;
 		width: 106rpx;
@@ -246,16 +468,37 @@
 		height: 48rpx;
 	}
 	.my-active-recommend{
-		position: absolute;
+		float: left;
 		left: 32rpx;
-		bottom: 64rpx;
+		/* bottom: 64rpx; */
+		bottom: 4rpx;
 		width:674rpx;
-		height:59rpx;
+		/* height:59rpx; */
 		font-size:26rpx;
 		font-family:PingFang SC;
 		font-weight:500;
 		color:rgba(255,255,255,1);
 		line-height:33rpx;
+	}
+	.fold{
+		display: -webkit-box;
+		 word-break: break-all;
+		 text-overflow: ellipsis;
+		 font-size:26rpx;
+		 font-family:PingFang SC;
+		 font-weight:500;
+		 color:rgba(255,255,255,1);
+		 line-height:33rpx;
+		 overflow: hidden;
+		 -webkit-box-orient: vertical;
+		 -webkit-line-clamp:2;
+	}
+	.unfold{
+		 font-size:26rpx;
+		 font-family:PingFang SC;
+		 font-weight:500;
+		 color:rgba(255,255,255,1);
+		 line-height:33rpx;
 	}
 	.my-active-more{
 		margin-left: 10rpx;
@@ -548,6 +791,24 @@
 		font-weight:500;
 		color:rgba(51,51,51,1);
 	}
+	.user1{
+		position: absolute;
+		left: 19rpx;
+		top: 52rpx;	
+		font-size:24rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(102,102,102,1);
+	}
+	.answer-content1{
+		position: absolute;
+		right: 304rpx;
+		top: 52rpx;	
+		font-size:24rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(51,51,51,1);
+	}
 	.total-answer{
 		position: absolute;
 		left: 20rpx;
@@ -561,10 +822,11 @@
 		position: absolute;
 		right: 30rpx;
 		bottom: 30rpx;	
-		width:691rpx;
+		width:671rpx;
 		height:70rpx;
 		background:rgba(240,240,240,1);
 		border-radius:30rpx;
+		padding-left: 30rpx;
 		
 	}
 	.say-something-text{
