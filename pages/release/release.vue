@@ -5,6 +5,7 @@
 		</view>
 		<text class="pic-text">图片</text>
 		<view class="video" @tap="chooseVideo">
+			<!-- <view class="video" @tap="chooseVideo"> -->
 			<image src="../../static/img/release/video.png" mode="" />
 		</view>
 		<text class="video-text">视频</text>
@@ -28,22 +29,7 @@
 			},
 			chooseVideo(){
 				const url = this.url
-				// uni.chooseVideo({
-				// 	success: (chooseImageRes) => {
-				// 		const tempFilePaths = chooseImageRes.tempFilePaths;
-				// 		uni.uploadFile({
-				// 			url: url + "/upload", //仅为示例，非真实的接口地址
-				// 			filePath: tempFilePaths[0],
-				// 			name: 'file',
-				// 			formData: {
-				// 				'user': 'test'
-				// 			},
-				// 			success: (uploadFileRes) => {
-				// 				console.log(uploadFileRes.data);
-				// 			}
-				// 		});
-				// 	}
-				// });
+				
 				uni.chooseVideo({
 					count: 1,
 					sourceType: ['camera', 'album'],
@@ -51,6 +37,7 @@
 						console.log(res)
 						const src = res.tempFilePath;
 						console.log(src)
+						
 						
 						uni.uploadFile({
 							url: url + "/upload", //仅为示例，非真实的接口地址
@@ -61,8 +48,17 @@
 							},
 							success: (uploadFileRes) => {
 								console.log(uploadFileRes.data);
+								uploadFileRes.data = JSON.parse(uploadFileRes.data)
+								if(uploadFileRes.data.code==200){
+									uni.navigateTo({
+										url: "/pages/releaseVideo/releaseVideo?fileUrl=" + uploadFileRes.data.data.fileUrl
+									})
+								}else{
+									console.log("请求异常")
+								}
+								
 							}
-						});
+						})
 					}
 				})
 
