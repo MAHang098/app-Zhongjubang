@@ -59,13 +59,13 @@
 					<image class="topic-image" src="../../static/img/releaseVideo2/message.png" mode="" />
 					<text class="text20">说点什么吧...</text>
 				</button>
-			<uni-popup ref="popup" :type="type" @change="change">
+			<uni-popup ref="popup" :type="type" @change="change" >
 				<view class="recommend">
 					<view class="recommend-content">
 						<view class="all-recommend">全部评论 ({{dataList_lenght}})</view>
 						<image class="close" src="../../static/img/releaseVideo2/close.png" mode="" />
 					</view>
-					<view v-for="(row, index) in dataList" :key="index">
+					<view v-for="(row, index) in dataList" :key="index" class="replay-detail">
 						<view class="recommend-content2">
 							<view class="my-active-image">
 								<image :src="row.head" mode="" />
@@ -100,7 +100,9 @@
 						<text class="user1">屋主回复晴天小猪：</text> <text class="answer-content1">ok</text>
 						<text class="total-answer">共四条回复></text>
 					</view> -->
-					<input @confirm="recordName" class="say-something" :placeholder="replySay" :value="inputValue" />
+					<view class="replay-input">
+						<input @confirm="recordName" class="say-something" :placeholder="replySay" :value="inputValue" />
+					</view>
 				</view>
 				
 			</uni-popup>
@@ -222,7 +224,7 @@
 						header : {
 							'content-type':'application/x-www-form-urlencoded', 
 							'port': 'app',
-							'token': token
+							'token': '3472497a5dbf4778896ab9221490b671'
 						},
 						success: function (res){
 							console.log(res)
@@ -247,7 +249,7 @@
 						header : {
 							'content-type':'application/x-www-form-urlencoded', 
 							'port': 'app',
-							'token': token
+							'token': '3472497a5dbf4778896ab9221490b671'
 						},
 						success: function (res){
 							console.log(res)
@@ -301,7 +303,7 @@
 					header : {
 						'content-type':'application/x-www-form-urlencoded', 
 						'port': 'app',
-						'token': token
+						'token': '3472497a5dbf4778896ab9221490b671'
 					},
 					success: function (res){
 						console.log(res.data.code)
@@ -392,6 +394,7 @@
 </script>
 
 <style>
+	
     .release-video{
         position: relative;
         width:750rpx;
@@ -651,9 +654,10 @@
 		margin-top: -30rpx;
 		margin-left: -30rpx;
 		width:750rpx;
-		height:799rpx;
+		height:auto;
 		background:rgba(255,255,255,1);
 		border-radius:22rpx 22rpx 0px 0px;
+		padding-bottom: 140rpx;
 	}
 	.recommend-content{
 		height: 111rpx;
@@ -862,16 +866,25 @@
 		font-weight:500;
 		color:rgba(249,183,44,1);
 	}
+	.replay-input {
+		width: 100%;
+		height: 120rpx;
+		background: #FFFFFF;
+		box-sizing: border-box;
+		padding: 20rpx;
+		position: fixed;
+		bottom: 0;
+	}
 	.say-something{
-		position: absolute;
+		/* position: absolute;
 		right: 30rpx;
 		bottom: 30rpx;	
-		width:671rpx;
-		height:70rpx;
+		width:671rpx;*/
+		height:70rpx; 
 		background:rgba(240,240,240,1);
 		border-radius:30rpx;
 		padding-left: 30rpx;
-		
+		/* border: 1px solid red; */
 	}
 	.say-something-text{
 		position: absolute;

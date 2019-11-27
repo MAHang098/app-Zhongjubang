@@ -26,7 +26,7 @@
 							<view class="operate-arrow"></view>
 							<view class="operate-btn">
 								<view><image src="../../static/edit.png" mode=""></image>编辑</view>
-								<view><image src="../../static/delete.png" mode=""></image>删除</view>
+								<view @click="deleteDraft(items.appUserDraftsId)"><image src="../../static/delete.png" mode=""></image>删除</view>
 							</view>
 						</view>
 					</view>
@@ -69,6 +69,7 @@
 		data() {
 			return {
 				tabType: ['图片', '视频'],
+				currentType: 1,
 				current: 0 ,
 				cIndex: -1,
 				activeIndex: -1,
@@ -104,15 +105,16 @@
 			// 切换草稿类型
 			changeProduct(index) {
 				this.current = index;
+				this.currentType = index + 1;
 				this.show = !this.show;
 				let type = 1;
 				if(index == 1) {
 					type = 2;
+					
 				} 
 				this.init(type);
 			},
 			open(index) {
-				console.log(index)
 				this.activeIndex = index;
 				this.isShowAllContent = !this.isShowAllContent;
 				this.brandFold = !this.brandFold
@@ -122,13 +124,35 @@
 				this.cIndex = index;
 				this.showEdit = !this.showEdit;
 			},
+			// 删除草稿箱
+			deleteDraft(id) {
+				console.log(this.currentType)
+				let params = {
+					appUserDraftsId: id,
+					type: this.currentType
+				}
+				uni.request({
+					url: this.url + 'controller/contentcontroller/delappuserdrafts',
+					method: 'post',
+					data: params,
+					header : {'content-type':'application/x-www-form-urlencoded', 'token': '024d0ef41526417b94e3d443f230f374', 'port': 'app'},
+					success: (res => {
+						if(res.data.code == 200) {
+							uni.showToast({
+								title: '删除成功'
+							});
+							this.init(this.currentType);
+						}
+					})
+				});
+			},
 			init(type) {
 				this.draftsList = [];
 				uni.request({
 					url: this.url + 'controller/videocontroller/getappuserdrafts',
 					method: 'post',
 					data: {'type': type},
-					header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
+					header : {'content-type':'application/x-www-form-urlencoded', 'token': '024d0ef41526417b94e3d443f230f374', 'port': 'app'},
 					success: (res => {
 						if(res.data.code == 200) {
 							this.draftsList = res.data.data;
