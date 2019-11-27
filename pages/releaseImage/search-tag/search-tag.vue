@@ -25,7 +25,7 @@
 				<view class="product-tag">
 					<view v-for="(item, index) in tabType" :class="index == current ? 'active' : '' " @click="changeProduct(index)" :key="index">
 						{{item}}
-						<text v-bind:class="index == current ? 'active-logo' : '' "></text>
+						<text v-bind:class="index == current ? 'active-status' : '' "></text>
 					</view>
 					<!-- <view class="">
 						
@@ -271,7 +271,7 @@
 		color:rgba(244,51,72,1);
 		margin-top: 20rpx;
 	}
-	.active-logo {
+	.active-status {
 	/* 	position: absolute;
 		top: 15%;
 		left: 13%; */

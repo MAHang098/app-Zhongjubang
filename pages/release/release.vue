@@ -93,7 +93,6 @@
 									uni.hideLoading();
 									
 									let data = JSON.parse(uploadFileRes.data);
-									console.log(data)
 										let obj = {
 											fileName: data.data.fileName,
 											fileUrl:data.data.fileUrl,

@@ -62,47 +62,6 @@
 			<text class="my-active-good">180</text>
 		</view>
 
-		<view class="my-active2">
-			<view class="my-active-image"></view>
-			<view class="my-active-nickName">晴天小猪</view>
-			<view class="my-active-data">2019-12-12  09:11</view>
-			<view class="identify">
-				<image src="../../static/img/topicDetails/identify.png" mode=""></image>
-			</view>
-			<view class="edit-del">
-				<image src="../../static/img/topicDetails/interest.png" mode=""></image>
-			</view>
-			<view class="my-active-recommend">
-				某臣氏骑剑活动！水雾质地 很轻薄 不沾黏！在上待几分钟会变成雾面哑光感 超高级！显色很持久...
-				<text class="my-active-more">展开</text>
-				<view class="my-active-more-image">></view>
-			</view>
-			<view class="my-active-pic"></view>
-			<view class="add-topic">
-			</view>
-			<view class="add-topic-image">
-				<image src="../../static/img/user/add-topic.png" mode=""></image>
-			</view>
-			<text class="add-topic-text">添加你的话题</text>
-
-			<view class="share">
-				<image src="../../static/img/user/share.png" mode=""></image>
-			</view>
-			<view class="message">
-				<image src="../../static/img/user/message.png" mode=""></image>
-			</view>
-			<text class="my-active-message">700</text>
-			<view class="star">
-				<image src="../../static/img/user/star.png" mode=""></image>
-			</view>
-			<text class="my-active-star">120</text>
-			<view class="good">
-				<image src="../../static/img/user/good.png" mode=""></image>
-			</view>
-			<text class="my-active-good">180</text>
-		</view>
-
-
     </view>
 </template>
 

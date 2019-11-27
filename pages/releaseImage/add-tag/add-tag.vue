@@ -20,9 +20,10 @@
 				<!-- 拖动视图 start -->
 				<movable-area :animation="false">
 					<movable-view :animation="false" :x="tag.tagX" :y="tag.tagY" :moveIndex="index" direction="all" 
-					@change.stop="onChange($event, tagIndex, index, tag.fileName)"
-					 class="tagText" v-for="(tag, tagIndex) in tagItems" :key="tagIndex">
-						<image src="../../../static/upload/indicator.png" mode="" @click="changeMove" ></image>
+					@change="onChange($event, tagIndex, index, tag.fileName)"
+					 class="tagText" v-for="(tag, tagIndex) in tagItems" :key="tagIndex" 
+					  @click.stop="togglePopup('center', 'tip', tagIndex, tag.tagName, index)">
+						<image src="../../../static/upload/indicator.png" mode="" @click.stop="changeMove" ></image>
 						<view class="tag-detail " :class="rotate ? 'moveright' : 'moveleft' ">{{tag.tagName}}</view>
 					</movable-view>
 				</movable-area>
@@ -30,12 +31,26 @@
 			</swiper-item>
 		</swiper>
 		<!-- 轮播 end -->
+		<!-- 删除标签 start -->
+		<uni-popup :show="show" :type="type" :custom="true" :mask-click="false" @change="currenChange">
+			<view class="uni-tip">
+				<!-- <view class="uni-tip-title">提示</view> -->
+				<view class="uni-tip-content">确定要删除该标签吗？</view>
+				<view class="uni-tip-group-button">
+					<view class="uni-tip-button" @click="cancelPopup('tip')">取消</view>
+					<view class="uni-tip-button insist-skip" @click="cancelPopup('skip')">删除</view>
+				</view>
+			</view>
+		</uni-popup>
+		<!-- 删除标签 end -->
 	</view>
 </template>
 
 <script>
+	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 	// import searchTag from '../search-tag/search-tag.vue'
 	export default {
+		components:{ uniPopup},
 		data() {
 			return {
 				clientHeight: '',
@@ -55,6 +70,12 @@
 				current: 0,
 				tagArr: [],
 				testIndex: null,
+				// 弹窗所用到的变量
+				show: false,
+				type: '',
+				currentTagIndex: '',  // 用于删除当前标签  当前标签的下标
+				currentTagName: '',  // 用于删除当前标签  当前标签的标签名
+				tagImageIndex: 0	// 用于删除当前标签  当前第几张图片
 			}
 		},
 		
@@ -62,36 +83,18 @@
 			
 		},
 		onShow: function() {
-			
 			this.items = this.$store.state.uploadImage;
 			this.allImg =  this.items.length;
-			let once = null;
 			this.items.forEach((item, index, arrar) => {
-				if(this.items[index].type==='pre-release'){
-					once = index;
-					return once;
-				}
  				if(item.testArr.length == 0) {
 					return;
 				}
 				this.isShowAddTag = false;
-				this.tagItems = item.testArr[0].allTagArr;
+				let imgI = this.indexImg -1;
+				if(parseInt(item.testArr[0].currentImage) == imgI) {
+					this.tagItems = item.testArr[0].allTagArr;
+				}
 			})
-			
-		},
-		beforeCreate: function() {
-			
-			// this.items = this.$store.state.uploadImage;
-			// let once = null;
-			// for(var i= 0;i<this.items.length;i++){
-			// 	console.log(this.items[i])
-			// 	if(this.items[i].type==='pre-release'){
-			// 		once = i + 1;
-			// 		break;
-			// 	}
-			// }
-			// this.current = once;
-			// console.log(this.current )
 		},
 		created:function(option) {
 			// 获取当前手机屏幕高度来设置swiper的高
@@ -102,18 +105,75 @@
 			    }
 			}); 
 			this.clientHeight = height;
-			
 		},
 		   
 		methods: {
-			init() {
-				
-			},
+			// 返回
 			cancel() {
-				uni.navigateBack({
-					 delta: 1,
-				});
+				this.items.forEach((item, i, array) => {
+					item.testArr = [];
+				})
+				this.$store.commit('saveImage', this.items);
+				uni.navigateTo({
+					url: '/pages/releaseImage/release-image/release-image'
+				})
 			},
+			// 弹出层弹出的方式  i:当前标签的下标, name: 当前标签的name
+			togglePopup(type, open, i, name, imgIndex) {
+				this.tagImageIndex = imgIndex;
+				this.currentTagIndex = i;
+				this.currentTagName = name;
+				switch (type) {
+					case 'top':
+						this.content = '顶部弹出 popup'
+						break
+			
+					case 'bottom':
+						this.content = '底部弹出 popup'
+						break
+					case 'center':
+						this.content = '居中弹出 popup'
+						break
+				}
+				this.type = type
+				if (open === 'tip') {
+					this.show = true
+				} else {
+					this.$refs[open].open()
+				}
+			},
+			// 取消弹出层
+			cancelPopup(type) {
+				if (type === 'tip') {
+					this.show = false
+					return
+				}
+				if(type === 'skip') {
+					// console.log(this.indexImg)
+					// console.log(this.items)
+					this.items.forEach((item, i) => {
+						let tagArr = item.testArr;
+						tagArr.forEach((tag, index) => {
+							let allTag = tag.allTagArr;
+							if(tag.currentImage == this.tagImageIndex) {
+								allTag.forEach((single, s, array) => {
+									if(s == this.currentTagIndex && single.tagName == this.currentTagName) {
+										array.splice(this.currentTagIndex,1);
+										this.show = false;
+									}
+								})
+							}
+						})
+					});
+					console.log(this.items)
+					
+				}
+			},
+			// 显示删除弹窗
+			currenChange(e) {
+				// console.log(e.show)
+			},
+			// 滑动图片
 			changeImage(e) {
 				let index = e.detail.current;
 				this.indexImg = index + 1;
@@ -316,5 +376,51 @@
 		/* transition: all 2s; */
 		margin-left: -125rpx;
 		border-radius:13rpx 0px  13rpx 0px;
+	}
+	/* 提示窗口 */
+	.uni-tip {
+		padding-top: 15px;
+		width: 300px;
+		background: #fff;
+		box-sizing: border-box;
+		border-radius: 10px;
+	}
+	
+	.uni-tip-title {
+		text-align: center;
+		font-weight: bold;
+		font-size: 41rpx;
+		color: #333;
+	}
+	
+	.uni-tip-content {
+		padding: 44rpx 0;
+		font-size: 32rpx;
+		color: #666;
+		width: 360rpx;
+		color: #666666;
+		font-weight: 500;
+		margin: auto;
+		text-align: center;
+	}
+	
+	.uni-tip-group-button {
+		margin-top: 10px;
+		display: flex;
+	}
+	
+	.uni-tip-button {
+		width: 100%;
+		text-align: center;
+		font-size: 14px;
+		color: #333333;
+		font-size: 37rpx;
+		font-weight: 500;
+		border-top: 1px solid #E2E2E2;
+		padding: 10px 0;
+	}
+	.insist-skip {
+		color: #F9B72C;
+		border-left: 1px solid #E2E2E2;
 	}
 </style>

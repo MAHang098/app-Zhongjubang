@@ -13,9 +13,9 @@
 		<!-- 列表 start -->
 		<view class="page-body">
 			<scroll-view class="nav-left" scroll-y :style="'height:'+height+'px'">
-				<view class="nav-left-item" @click="categoryClickMain(item,index)" :key="index" :class="index==categoryActive?'active':''"
+				<view class="nav-left-item" @click="categoryClickMain(item.id, index)"  :key="index" :class="index==categoryActive?'active':''"
 				    v-for="(item,index) in categoryList">
-					<text class="left-name" :class="index==categoryActive?'in':''">{{item.NAME}}</text>
+					<text class="left-name" :class="index==categoryActive?'in':''">{{item.talkThemeType}}</text>
 				</view>
 			</scroll-view>
 			<scroll-view class="nav-right" scroll-y :scroll-top="scrollTop" @scroll="scroll" :style="'height:'+height+'px'" scroll-with-animation>
@@ -23,14 +23,15 @@
 					<view class="contnet">
 						<view class="left">
 							<view class="list-image">
-								<image :src="item.LOGO" mode=""></image>
+								<image :src="item.talkThemeImg" mode=""></image>
 							</view>
 							<view class="detail">
-								<view class="title">{{item.NAME}}</view>
-								<view class="num">共700人参与</view>
+								<view class="title">{{item.talkTheme}}</view>
+								<!-- <view class="num">共{{item.participateCount}}人参与</view> -->
+								<view class="num">共0人参与</view>
 							</view>
 						</view>
-						<view class="right">
+						<view class="right" @click="chooseTopic(item.talkTheme)">
 							选择
 						</view>
 					</view>
@@ -58,6 +59,15 @@
 			}
 		},
 		methods: {
+			// 选择话题
+			chooseTopic(name) {
+				var pages = getCurrentPages();
+				var currPage = pages[pages.length - 1];  //当前页面
+				var prevPage = pages[pages.length - 2];  //上一个页面
+				prevPage.participationTopic= name;
+				prevPage.ishow= false;
+				uni.navigateBack();
+			},
 			cancel() {
 				uni.navigateBack()
 			},
@@ -69,12 +79,46 @@
 			scroll(e) {
 				this.scrollHeight = e.detail.scrollHeight;
 			},
-			categoryClickMain(categroy, index) {
-				this.categoryActive = index;
-				this.subCategoryList = categroy.subCategoryList;
+			categoryClickMain(id, index) {
+				uni.request({
+					url: this.url + '/controller/contentcontroller/gettalkthemelistbytypeid',
+					method: 'post',
+					header : {'content-type':'application/x-www-form-urlencoded'},
+					data:  {talkThemeTypeId: id},
+					success: (res => {
+						if(res.data.code == 200) {
+							this.subCategoryList = res.data.data;
+							
+						}
+						
+					})
+				});
+				// console.log(id, index)
+				// if(index) {
+					this.categoryActive = index;
+				// }
+				console.log(this.categoryActive, index)
+				// this.subCategoryList = categroy.subCategoryList;
 				this.scrollTop = -this.scrollHeight * index;
 			},
 			getCategory() {
+				// 获取话题类型(左侧)
+				uni.request({
+					url: this.url + '/controller/contentcontroller/gettalkthemetypeall',
+					method: 'post',
+					success: (res => {
+						
+						if(res.data.code == 200) {
+							// console.log(res.data.data)
+							this.categoryList = res.data.data;
+							console.log(this.categoryList[0].id)
+							this.categoryClickMain(this.categoryList[0].id, 0)
+							
+						}
+						
+					})
+				});
+				
 				for (var i = 1; i < 20; i++) {
 					var subList = [];
 					for (var j = 1; j < 31; j++) {
@@ -83,12 +127,12 @@
 							"LOGO": "http://placehold.it/50x50"
 						})
 					}
-					this.categoryList.push({
-						"NAME": "分类" + i,
-						"subCategoryList": subList
-					})
+					// this.categoryList.push({
+					// 	"NAME": "分类" + i,
+					// 	"subCategoryList": subList
+					// })
 				}
-				this.subCategoryList = this.categoryList[0].subCategoryList;
+				// this.subCategoryList = this.categoryList[0].subCategoryList;
 			}
 		},
 			
@@ -219,7 +263,6 @@
 	.nav-right-item image {
 		width: 73rpx;
 		height: 75rpx;
-		border: 1px solid red;
 		margin-right: 10px;
 	}
 	

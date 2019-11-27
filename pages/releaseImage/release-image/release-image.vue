@@ -1,15 +1,15 @@
 <template>
 	<view class="release">
 		<view class="desc">
-			<textarea placeholder="多多分享想法和经验..."  maxlength="200" class="release-text" v-model="desc"  @input = "descInput"/>
+			<textarea placeholder="多多分享想法和经验..."  maxlength="200" class="release-text" v-model="desc"  @input="descInput"/>
 			<view class="num">{{remnant}}/200</view>
 		</view>
-		<view class="topic">
+		<view class="topic" @click="addTopic">
 			<view class="left">
 				<image src="../../../static/topic/topic.png" mode=""></image>
-				<view>参与话题</view>
+				<view>{{participationTopic}}</view>
 			</view>
-			<view class="right">
+			<view class="right" v-show="ishow">
 				<view>选择合适的话题会获得更多关注哦~</view>
 				<image src="../../../static/topic/arrow.png" mode=""></image>
 			</view>
@@ -27,7 +27,7 @@
 		<!-- 底部 start -->
 		<view class="bottom">
 			<image src="../../../static/topic/img.png" mode="" @click="chooseImage"></image>
-			<view>存草稿</view>
+			<view @click="saveDrafts">存草稿</view>
 		</view>
 	</view>
 </template>
@@ -41,28 +41,130 @@
 				allImage: [],
 				allTag: [],
 				imgList: [],
-				isUpload: true
+				isUpload: true,
+				participationTopic: '参与话题',
+				ishow: true,
 			}
 		},
 		onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
 			// console.log(this.$store.state.itemImage); //打印出上个页面传递的参数。
 			// this.allTag = this.$store.state.itemImage;
 			this.allImage = this.$store.state.uploadImage;
-			console.log(this.allImage.length)
 			if(this.allImage.length > 8) {
 				this.isUpload = false;
 			}
+			
+		},
+		// 发布图片
+		onNavigationBarButtonTap(e) {
+			let token = '';
+			uni.getStorage({
+				key:"token",
+				success: function (res) {
+				 token = res.data;
+			  }
+			})
+			if(this.participationTopic == '参与话题') {
+				this.participationTopic = '';
+			}
+			let parmas = {
+				content: this.desc,
+				imgList: this.allImage,
+				title: this.participationTopic
+			}
+			uni.request({
+				url: this.url + 'controller/usercontroller/addgcirclecontent',
+				method: 'post',
+				data: parmas,
+				header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
+				success: function(res) {
+					if(res.data.code == 200) {
+						uni.showToast({
+							title: '发布成功',
+							duration: 500,
+						});
+						
+						// setTimeout(() => {
+						// 	uni.navigateTo({
+						// 		url: '/pages/receiving-address/receiving-address'
+						// 	})
+						// }, 1000);
+						// uni.hideToast();
+					} else {
+						uni.showToast({
+						    icon: 'none',
+						    title: res.data.message
+						});
+						uni.hideToast();
+					}
+				}
+			});
 		},
 		methods: {
-			descInput() {
+			// 存草稿
+			saveDrafts() {
+				let token = '';
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+					 token = res.data;
+				  }
+				})
+				if(this.participationTopic == '参与话题') {
+					this.participationTopic = '';
+				}
+				let draftsContent = [
+					{
+						content: this.desc,
+						imgList: this.allImage,
+						title: this.participationTopic
+					}
+				]
+				console.log(draftsContent)
+				let str = JSON.stringify(draftsContent);
+				let parmas = {
+					type: 1,
+					draftsContent:  str
+				}
+				
+				uni.request({
+					url: this.url + 'controller/videocontroller/addappuserdrafts',
+					method: 'post',
+					data: parmas,
+					header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
+					success: function(res) {
+						if(res.data.code == 200) {
+							uni.showToast({
+								title: '保存成功',
+								duration: 500,
+							});
+							
+							// setTimeout(() => {
+							// 	uni.navigateTo({
+							// 		url: '/pages/receiving-address/receiving-address'
+							// 	})
+							// }, 1000);
+							// uni.hideToast();
+						} else {
+							uni.showToast({
+							    icon: 'none',
+							    title: res.data.message
+							});
+							uni.hideToast();
+						}
+					}
+				});
+			},
+			descInput(e) {
 				this.remnant = e.detail.value.length
 			},
+			// 选择话题
+			addTopic() {
+				uni.navigateTo({
+					url: '/pages/releaseImage/search-title/search-title'
+				})
+			},
 			previewImage(e) {
-				let uuuu = []
-				console.log(this.allImage[e].fileUrl)
-				uuuu = this.allImage[e].fileUrl
-				let uu = [uuuu]
-				console.log(uu)
 				let self = this
 				var pages = getCurrentPages();
 				var currPage = pages[pages.length - 1];  //当前页面
@@ -82,6 +184,7 @@
 				this.isUpload = true;
 				this.$store.commit('saveImage', this.allImage);
 			},
+			
 			// 选择上传图片
 			chooseImage() {
 				let pic = this.$store.state.uploadImage;
@@ -125,7 +228,6 @@
 									that.imgList.push(obj)
 									that.imgList.type = 'pre-release';
 									if(that.imgList.length == tempFilePaths.length) {
-										
 										let currentLength = that.allImage.length;
 										let pages = getCurrentPages();
 										let currPage = pages[pages.length - 1];  //当前页面
@@ -134,7 +236,6 @@
 										prevPage.indexImg = currentLength +1 ;
 										that.$store.commit('saveImage', that.imgList);
 										uni.navigateBack();
-										
 									}
 									
 								}
@@ -183,7 +284,7 @@
 		justify-content: space-between;
 	}
 	.left {
-		width: 160rpx;
+		padding-right: 20rpx;
 		height: 50rpx;
 		line-height: 50rpx;
 		color: #F9B72C;

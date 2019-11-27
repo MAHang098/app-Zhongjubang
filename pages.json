@@ -1,6 +1,5 @@
 {
     "pages": [ //pages数组中第一项表示应用启动页,
-
 		{
 		    "path": "pages/release/release",
 		    "style": {
@@ -9,6 +8,21 @@
 		        }
 		    }
 		},
+		{
+		    "path" : "pages/topicDetails/topicDetails",   //草稿箱
+		    "style" : {
+				"app-plus": {
+				    "titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		{
+		    "path" : "pages/drafts/drafts",   //草稿箱
+		    "style" : {
+				"navigationBarTitleText": "我的草稿"
+			}
+		},
+		
 		       
 		{
 			"path": "pages/user/user",
@@ -194,6 +208,7 @@
         
         
        
+        
     ],
 	"subPackages": [
 		{
