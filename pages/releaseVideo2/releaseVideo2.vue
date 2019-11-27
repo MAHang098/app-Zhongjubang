@@ -202,7 +202,7 @@
 				header : {
 					'content-type':'application/x-www-form-urlencoded', 
 					'port': 'app',
-					'token': token
+					'token': '3472497a5dbf4778896ab9221490b671'
 				},
 				success: function (res){
 					console.log(res)
@@ -219,7 +219,7 @@
 						header : {
 							'content-type':'application/x-www-form-urlencoded', 
 							'port': 'app',
-							'token': token
+							'token': '3472497a5dbf4778896ab9221490b671'
 						},
 						success: function (res){
 							console.log(res)
@@ -244,7 +244,7 @@
 						header : {
 							'content-type':'application/x-www-form-urlencoded', 
 							'port': 'app',
-							'token': token
+							'token': '3472497a5dbf4778896ab9221490b671'
 						},
 						success: function (res){
 							console.log(res)
@@ -293,7 +293,7 @@
 					header : {
 						'content-type':'application/x-www-form-urlencoded', 
 						'port': 'app',
-						'token': token
+						'token': '3472497a5dbf4778896ab9221490b671'
 					},
 					success: function (res){
 						console.log(res.data.code)
@@ -855,23 +855,14 @@
 		color:rgba(249,183,44,1);
 	}
 	.say-something{
-		position: absolute;
-		right: 30rpx;
-		bottom: 30rpx;	
+		position: fixed;
+		/* right: 30rpx; */
+		bottom: 0rpx;	
 		width:671rpx;
 		height:70rpx;
 		background:rgba(240,240,240,1);
 		border-radius:30rpx;
 		padding-left: 30rpx;
 		
-	}
-	.say-something-text{
-		position: absolute;
-		left: 30rpx;
-		bottom: 24rpx;	
-		font-size:24rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(153,153,153,1);
 	}
 </style>
