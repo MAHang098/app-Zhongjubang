@@ -1,70 +1,52 @@
 <template>
-    <view>
-	  <view>
-	   <progress :percent="percent" stroke-width="10"></progress>
-	  </view>
-	  <view>
-	   <button type="primary" :loading="loading" :disabled="disabled" @click="upload">选择照片</button>
-	  </view>
-	</view>
- 
+    <view id="yuyue">
+     <input type="radio" name="sex" value="" checked="checked" class="sex" />
+     <view class="dianji"></view>
+     <input type="radio" name="sex" value="" class="sex sex1" />
+     <view class="dianji dianji1"></view>
+    </view>
 </template>
 <script>
-var _self;
+
 export default {
 	data() {
-	    return {
-	       percent:0,
-	       loading:false,
-	       disabled:false,
-		   imageList: []
-	    }
+	    return{
+
+        }
 	},
  methods : {
-  upload : function(){
-   _self = this;
-   console.log(_self.url)
-   uni.chooseImage({
-    count: 8 - _self.imageList.length,
-    sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
-    sourceType: ['album'], //从相册选择
-    success: function (res) {
-	_self.imageList = _self.imageList.concat(res.tempFilePaths)
-	let imgs = _self.imageList.map((value, index) => {
-		return {
-			name: "image" + index,
-			uri: value
-		}
-	})
-     const tempFilePaths = res.tempFilePaths;
-     const uploadTask = uni.uploadFile({
-      url : _self.url + "/upload",
-      // filePath: tempFilePaths,
-      // name: 'file',
-	  files: imgs,
-      formData: {
-       'user': 'test'
-      },
-      success: function (uploadFileRes) {
-       console.log(uploadFileRes.data);
-      }
-     });
- 
-     uploadTask.onProgressUpdate(function (res) {
-      _self.percent = res.progress;
-      console.log('上传进度' + res.progress);
-      console.log('已经上传的数据长度' + res.totalBytesSent);
-      console.log('预期需要上传的数据总长度' + res.totalBytesExpectedToSend);
-     });
-    },
-    error : function(e){
-     console.log(e);
-    }
-   });
-  }
- },
-    onLoad:function(){
   
-    }
+     
+    
+ },
+    
 }
 </script>
+<style>
+    #yuyue{
+        position: relative;
+    }
+    .sex{
+                width:20px;
+                height:20px;
+                top:158px;
+                left: 82px;
+                position: absolute;
+                opacity: 0;
+                z-index: 3;
+            }
+    .sex1{margin-left: 94px;}
+    .dianji{
+                width:20px;
+                height:20px;
+                left:86px;
+                top:161px;
+                position: absolute;
+                background: url("../../static/img/editInfo/gender-women.png") no-repeat;
+                z-index: 2;
+            }
+    .dianji1{margin-left: 90px;}
+    #yuyue input:checked + .dianji{
+        background: url("../../static/img/editInfo/gender-man.png") no-repeat;
+    }
+</style>

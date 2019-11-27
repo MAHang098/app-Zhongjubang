@@ -38,7 +38,8 @@
 				content: '',
 				remnant: 0,
 				desc: '',
-				token: []
+				token: [],
+				videoUrl: ''
 				// src: '../../static/img/releaseVideo/add.png'
 	        }
 		},
@@ -89,10 +90,10 @@
 								uploadFileRes.data = JSON.parse(uploadFileRes.data)
 								if(uploadFileRes.data.code==200){
 									self.src = uploadFileRes.data.data.fileName
+									self.videoUrl = uploadFileRes.data.data.fileUrl
 								}else{
 									console.log("请求异常")
 								}
-								
 							}
 						})
 						
@@ -115,6 +116,7 @@
 					}
 				})
 				console.log(token)
+
 				uni.request({
 					url: url + "/controller/usercontroller/addshortvideo",
 					data: {
@@ -129,6 +131,32 @@
 					},
 					success: function (res){
 						
+					}
+				})
+				let draftsContent = [
+					{
+						content: content,
+						videoName: self.src,
+						videoUrl: self.videoUrl
+					}
+				]
+				console.log(draftsContent)
+				let str = JSON.stringify(draftsContent);
+				let parmas = {
+					type: 2,
+					draftsContent: str
+				}
+				uni.request({
+					url: url + "/controller/videocontroller/addappuserdrafts",
+					data: parmas,
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': token
+					},
+					success: function (res){
+						console.log(res)
 					}
 				})
 			}

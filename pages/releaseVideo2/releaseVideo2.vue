@@ -37,13 +37,12 @@
 					<view class="my-active-more-image">></view>
 				</view>
 			</view>
-			
 		</view>
 		<!-- 底部 -->
 		<view class="footer">
 			<!-- 点赞 -->
 			<view class="good">
-				<image src="../../static/img/releaseVideo2/good.png" mode="" />
+				<image  src="../../static/img/releaseVideo2/good.png" />
 			</view>
 			<text class="text10">{{shortVideoLikeNum}}</text>
 			<!-- 收藏 -->
@@ -66,18 +65,26 @@
 						<view class="all-recommend">全部评论 ({{dataList_lenght}})</view>
 						<image class="close" src="../../static/img/releaseVideo2/close.png" mode="" />
 					</view>
-					<view class="recommend-content2" v-for="(row, index) in dataList" :key="index">
-						<view class="my-active-image">
-							<image :src="row.head" mode="" />
+					<view v-for="(row, index) in dataList" :key="index">
+						<view class="recommend-content2">
+							<view class="my-active-image">
+								<image :src="row.head" mode="" />
+							</view>
+							<view class="nickName-data">
+								<view class="my-active-nickName">{{row.nick_name}}</view>
+								<view class="my-active-data">{{row.cratee_time}}</view>
+							</view>
+							
+							<image class="recommend-good" src="../../static/img/releaseVideo2/good.png" mode="" />
+							
 						</view>
-						<view class="my-active-nickName">{{row.nick_name}}</view>
-						<view class="my-active-data">{{row.cratee_time}}</view>
-						<image class="recommend-good" src="../../static/img/releaseVideo2/good.png" mode="" />
 						<view class="recommend-text" @touchstart.prevent="touchstart(index)"   @touchend.prevent="touchend">
+						<!-- <view class="recommend-text" @touchstart.prevent="touchstart(index)"   @touchend.prevent="touchend"> -->
 							{{row.short_video_discuss}}
 						</view>
 						<view class="horizon2"></view>
 					</view>
+					
 					
 
 					<!-- <view class="my-active-image1"></view>
@@ -667,46 +674,52 @@
 		height:25rpx;
 	}
 	.recommend-content2{
-		height: 236rpx;
-		width:750rpx;
-		border-bottom: 1px solid rgba(226,226,226,1);
+		display: flex;
+		justify-content: space-around;
+		padding-top: 30rpx;
+		padding-left: 26rpx;
+		padding-right: 26rpx;
+		height: 100rpx;
+		/* height: 206rpx; */
+		width:698rpx;
 	}
 	.my-active-image{
-		float: left;
+		/* float: left;
 		margin-left: 30rpx;
-		margin-top: 30rpx;
-		width:80rpx;
-		height:80rpx;
+		margin-top: 30rpx; */
+		width:68rpx;
+		height:68rpx;
 		background:rgba(149,149,149,1);
 		border-radius:50%;
 	}
 	.my-active-image image{
-		width:80rpx;
-		height:80rpx;
+		width:68rpx;
+		height:68rpx;
 		border-radius:50%;
 	}
+	.nickName-data{
+		width: 530rpx;
+	}
 	.my-active-nickName{
-		float: left;
-		margin-left: 30rpx;
-		margin-top: 30rpx;
+		
 		font-size:30rpx;
 		font-family:PingFang SC;
 		font-weight:500;
 		color:rgba(102,102,102,1);
 	}
 	.my-active-data{
-		float: left;
-		margin-left: 30rpx;
-		margin-top: 30rpx;
+		
 		font-size:24rpx;
 		font-family:PingFang SC;
 		font-weight:500;
 		color:rgba(102,102,102,1);
+		line-height:60rpx;
 	}
 	.recommend-good{
-		float: left;
+		/* float: left;
 		right: 30rpx;
-		top: 185rpx;
+		top: 185rpx; */
+		padding-top: 40rpx;
 		width:31rpx;
 		height:31rpx;
 	}
@@ -715,11 +728,12 @@
 		height:31rpx;
 	}
 	.recommend-text{
-		float: left;
-		right: 57rpx;
-		top: 240rpx;
-		width:568rpx;
-		height:67rpx;
+		display: flex;
+		/* height:67rpx; */
+		overflow: hidden;
+		width: 568rpx;
+		padding-left: 125rpx;
+		padding-right: 57rpx;
 		font-size:26rpx;
 		font-family:PingFang SC;
 		font-weight:500;
@@ -727,9 +741,9 @@
 		line-height:40rpx;
 	}
 	.horizon2{
-		position: absolute;
-		right: 30rpx;
-		top: 347rpx;
+		float: right;
+		margin-right: 30rpx;
+		margin-top: 40rpx;
 		width:594rpx;
 		height:2rpx;
 		background:rgba(226,226,226,1);
