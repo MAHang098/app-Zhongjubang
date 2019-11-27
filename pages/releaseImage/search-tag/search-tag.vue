@@ -6,7 +6,7 @@
 				<image src="../../../static/search/nav-search.png" mode=""></image>
 				<input type="text" value=""  placeholder="搜索您需要的商品" @input="gainInput"/>
 			</view>
-			<view class="cancel">取消</view>
+			<view class="cancel" @click="cancel">取消</view>
 		</view>
 		<!-- 搜索栏 end -->
 		
@@ -49,8 +49,8 @@
 </template>
 
 <script>
+	// import {imageUpload} from 'vuex'
 	export default {
-		
 		data() {
 			return {
 				tabType: ["已添标商品", "已收藏商品"],
@@ -58,20 +58,31 @@
 				isShowAdd: false,   // 是否显示搜索出来的标签
 				searchInput: '',
 				currentImg: '', // 当前是第几张图片
-				arrImage: []   // 所有图片的详细信息
+				arrImage: [],   // 所有图片的详细信息
+				tagArr: [],
+				fileName: ''
 			}
 		},
 		onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
-			// console.log(option); //打印出上个页面传递的参数。
-			// console.log(option); //打印出上个页面传递的参数。
 			this.currentImg = option.index;
+			this.fileName = option.name;
+			// console.log(this.init());
 		},
 		methods: {
+			// 设置标签的x，y轴坐标
+			fRandomBy(under, over) {
+				switch(arguments.length){
+				case 1: return parseInt(Math.random()*under+1);
+				case 2: return parseInt(Math.random()*(over-under+1) + under);
+				default: return 0;
+				}
+			},
 			cancel() {
-				uni.navigateBack()
+				uni.navigateBack({
+					 delta: 1,
+				});
 			},
 			changeProduct(index) {
-				console.log();
 				this.current = index;
 			},
 			// 失去焦点后获取输入内容
@@ -86,32 +97,33 @@
 			},
 			// 点击添加标签按钮返回图片标签页面
 			goBack() {
+				// console.log(this.init(0,300));
+				// return;
 				let pages = getCurrentPages();  //获取所有页面栈实例列表
 				let nowPage = pages[ pages.length - 1];  //当前页页面实例
 				let prevPage = pages[ pages.length - 2 ];  //上一页页面实例
-				 
-				let tagArr = []; // 标签数组
-				let allImageTag = []; // 存所有图片对象的所有内容
+				// let tagArr = []; // 标签数组
+				
 				// 当前图片标签对象
-				let currentImage = {
-					tagName: this.searchInput
+				let ImageTag = {
+					tagName: this.searchInput,
+					tagX: this.fRandomBy(-20,300),
+					tagY: this.fRandomBy(-200,400)
 				}
-				tagArr.push(currentImage);
+				this.tagArr.push(ImageTag);
 				let arrObj = {
-					index: this.currentImg,
-					allTagArr: tagArr
+					currentImage: this.currentImg,
+					// fileName: this.fileName,
+					allTagArr: this.tagArr,
+					type: 'search'
 				}
-				allImageTag.push(arrObj);
-				prevPage.$vm.tagItems= allImageTag;
+				this.$store.commit('saveImage', arrObj)
 				uni.navigateBack({
 					 delta: 1,
-					// url: '/pages/releaseImage/add-tag/add-tag?tag=' + this.searchInput
-					// url: '/pages/releaseImage/release-image/release-image'
-				})
+				});
+				
 			}
 		},
-			
-		
 	}
 </script>
 

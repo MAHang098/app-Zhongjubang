@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
 	"pages": [ //pages数组中第一项表示应用启动页,
 		{
 			"path": "pages/releaseVideo2/releaseVideo2",
@@ -10,12 +11,28 @@
 		},
 		{
 			"path": "pages/loginPhone/loginPhone",
+=======
+    "pages": [ //pages数组中第一项表示应用启动页,
+
+		{
+		    "path": "pages/release/release",
+		    "style": {
+		        "app-plus": {
+		            "titleNView": false //禁用原生导航栏  
+		        }
+		    }
+		},
+		       
+		{
+			"path": "pages/user/user",
+>>>>>>> 4eb2c20b26aa21b0d404bc3e9e9fef3f783ca35e
 			"style": {
 				"app-plus": {
 					"titleNView": false //禁用原生导航栏  
 				}
 			}
 		},
+<<<<<<< HEAD
 		
 		{
             "path": "pages/release/release",
@@ -26,6 +43,8 @@
             }
         },
 		
+=======
+>>>>>>> 4eb2c20b26aa21b0d404bc3e9e9fef3f783ca35e
 		{
 			"path": "pages/answer/answer",
 			"style": {
@@ -81,7 +100,10 @@
             }
         },
 		
+<<<<<<< HEAD
        
+=======
+>>>>>>> 4eb2c20b26aa21b0d404bc3e9e9fef3f783ca35e
         
         {
             "path": "pages/releaseVideo/releaseVideo",
@@ -210,7 +232,7 @@
 			"root": "pages/releaseImage",
 			"pages": [
 				{
-				    "path": "search-title/search-title",
+				    "path": "search-title/search-title",  //搜索话题
 				    "style": {
 				        "app-plus": {
 				            "titleNView": false //禁用原生导航栏  
@@ -218,7 +240,7 @@
 				    }
 				},
 				{
-				    "path": "search-tag/search-tag",
+				    "path": "search-tag/search-tag",   //搜索标签
 				    "style": {
 				        "app-plus": {
 				            "titleNView": false //禁用原生导航栏  
@@ -244,7 +266,7 @@
 					}
 				},
 				{
-				    "path" : "add-tag/add-tag",
+				    "path" : "add-tag/add-tag",  //图片添加标签
 				    "style": {
 				        "app-plus": {
 				            "titleNView": false //禁用原生导航栏  
