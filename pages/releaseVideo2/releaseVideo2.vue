@@ -78,7 +78,8 @@
 							<image class="recommend-good" src="../../static/img/releaseVideo2/good.png" mode="" />
 							
 						</view>
-						<view class="recommend-text" @touchstart.prevent="touchstart(index)"   @touchend.prevent="touchend">
+						<!-- <view class="recommend-text" @touchstart.prevent="touchstart(index)"   @touchend.prevent="touchend"> -->
+						<view class="recommend-text" @click="testreply(row.id, row.nick_name)">
 						<!-- <view class="recommend-text" @touchstart.prevent="touchstart(index)"   @touchend.prevent="touchend"> -->
 							{{row.short_video_discuss}}
 						</view>
@@ -99,7 +100,7 @@
 						<text class="user1">屋主回复晴天小猪：</text> <text class="answer-content1">ok</text>
 						<text class="total-answer">共四条回复></text>
 					</view> -->
-					<input @confirm="recordName" class="say-something" placeholder="说点什么吧..." :value="inputValue" />
+					<input @confirm="recordName" class="say-something" :placeholder="replySay" :value="inputValue" />
 				</view>
 				
 			</uni-popup>
@@ -118,6 +119,7 @@
 		},
 		data() {
 			return {
+				replySay: '说点什么吧...',
 				spread_url: '我的室内设计是这样的，我觉得很漂亮 我的室内设计是这样的，我觉得很漂亮 我的室内设计我觉得',
 				onOff:true,    //默认开启 展示
 				onNO:false,    //默认关闭 收起
@@ -202,7 +204,8 @@
 				header : {
 					'content-type':'application/x-www-form-urlencoded', 
 					'port': 'app',
-					'token': token
+					// 'token': token
+					'token': '3472497a5dbf4778896ab9221490b671'
 				},
 				success: function (res){
 					console.log(res)
@@ -264,6 +267,11 @@
 			
 		},
 		methods: {
+			testreply(id, name){
+				console.log(id, name)
+				this.replySay = '回复' + name + ':';
+				console.log(this.replySay)
+			},
 			recordName(e) {  
 				this.inputValue = e.detail.value;
 				console.log(e.detail.value)
