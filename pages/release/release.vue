@@ -65,44 +65,6 @@
 				
             },
             chooseImage() {
-<<<<<<< HEAD
-				const url = this.url
-				uni.chooseImage({
-				    count: 4, //默认9
-				    sizeType: ['original', 'compressed'],//可以指定是原图还是压缩图，默认二者都有
-				    sourceType: ['album','camera'], //从相册选择
-				    success: function (res) {
-						console.log(res)
-				   
-						const src = res.tempFilePaths;
-						console.log(src)
-						console.log(url)
-						
-						uni.uploadFile({
-							url: url + "/upload", //仅为示例，非真实的接口地址
-							filePath: src,
-							name: 'file',
-							formData: {
-								'user': 'test'
-							},
-							header:{"Content-Type": "multipart/form-data"},
-							success: (res) => {
-								console.log(res)
-								// uploadFileRes.data = JSON.parse(uploadFileRes.data)
-								// if(uploadFileRes.data.code==200){
-								// 	uni.navigateTo({
-								// 		url: "/pages/releaseVideo/releaseVideo?fileUrl=" + uploadFileRes.data.data.fileUrl
-								// 	})
-								// }else{
-								// 	console.log("请求异常")
-								// }
-								
-							},
-							fail: (err) => {
-								console.log(err)
-							}
-						})
-=======
 				let that = this;
 				uni.chooseImage({
 				    count: 9, //默认9
@@ -146,7 +108,6 @@
 							});
 						}
 						
->>>>>>> 4eb2c20b26aa21b0d404bc3e9e9fef3f783ca35e
 						
 				    }
 				});

@@ -1,8 +1,7 @@
 {
-<<<<<<< HEAD
-	"pages": [ //pages数组中第一项表示应用启动页,
+    "pages": [ //pages数组中第一项表示应用启动页,
 		{
-			"path": "pages/releaseVideo2/releaseVideo2",
+			"path": "pages/release/release",
 			"style": {
 				"app-plus": {
 					"titleNView": false //禁用原生导航栏  
@@ -10,41 +9,23 @@
 			}
 		},
 		{
-			"path": "pages/loginPhone/loginPhone",
-=======
-    "pages": [ //pages数组中第一项表示应用启动页,
-
-		{
-		    "path": "pages/release/release",
+		    "path": "pages/releaseVideo2/releaseVideo2",
 		    "style": {
 		        "app-plus": {
 		            "titleNView": false //禁用原生导航栏  
 		        }
 		    }
 		},
+		
 		       
 		{
 			"path": "pages/user/user",
->>>>>>> 4eb2c20b26aa21b0d404bc3e9e9fef3f783ca35e
 			"style": {
 				"app-plus": {
 					"titleNView": false //禁用原生导航栏  
 				}
 			}
 		},
-<<<<<<< HEAD
-		
-		{
-            "path": "pages/release/release",
-            "style": {
-                "app-plus": {
-                    "titleNView": false //禁用原生导航栏  
-                }
-            }
-        },
-		
-=======
->>>>>>> 4eb2c20b26aa21b0d404bc3e9e9fef3f783ca35e
 		{
 			"path": "pages/answer/answer",
 			"style": {
@@ -100,10 +81,6 @@
             }
         },
 		
-<<<<<<< HEAD
-       
-=======
->>>>>>> 4eb2c20b26aa21b0d404bc3e9e9fef3f783ca35e
         
         {
             "path": "pages/releaseVideo/releaseVideo",

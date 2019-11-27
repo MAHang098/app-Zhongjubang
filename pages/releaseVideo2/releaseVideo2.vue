@@ -12,9 +12,9 @@
 			<view class="pic">
 				<video :src="videoUrl" />
 			</view>
-			<view class="start">
+			<!-- <view class="start">
 				<image src="../../static/img/releaseVideo2/start.png" mode="" />
-			</view>
+			</view> -->
 			
 			<view class="user-info">
 				<view class="my-active-image10">
@@ -62,35 +62,39 @@
 				</button>
 			<uni-popup ref="popup" :type="type" @change="change">
 				<view class="recommend">
-					<view class="all-recommend">全部评论 (40)</view>
-				</view>
-				<image class="close" src="../../static/img/releaseVideo2/close.png" mode="" />
-				<view class="horizon"></view>
-				<view class="my-active-image"></view>
-				<view class="my-active-nickName">晴天小猪</view>
-				<view class="my-active-data">2019-12-12  09:11</view>
-				<image class="recommend-good" src="../../static/img/releaseVideo2/good.png" mode="" />
-				<!-- <view class="recommend-text" @click="paste(spread_url)" @touchstart.prevent="touchstart(index)"   @touchend.prevent="touchend"> -->
-				<view class="recommend-text" @touchstart.prevent="touchstart(index)"   @touchend.prevent="touchend">
-					我的室内设计是这样的，我觉得很漂亮 我的室内设计是这样的，我觉得很漂亮 我的室内设计我觉得
-				</view>
-				<view class="horizon2"></view>
+					<view class="recommend-content">
+						<view class="all-recommend">全部评论 ({{dataList_lenght}})</view>
+						<image class="close" src="../../static/img/releaseVideo2/close.png" mode="" />
+					</view>
+					<view class="recommend-content2" v-for="(row, index) in dataList" :key="index">
+						<view class="my-active-image">
+							<image :src="row.head" mode="" />
+						</view>
+						<view class="my-active-nickName">{{row.nick_name}}</view>
+						<view class="my-active-data">{{row.cratee_time}}</view>
+						<image class="recommend-good" src="../../static/img/releaseVideo2/good.png" mode="" />
+						<view class="recommend-text" @touchstart.prevent="touchstart(index)"   @touchend.prevent="touchend">
+							{{row.short_video_discuss}}
+						</view>
+						<view class="horizon2"></view>
+					</view>
+					
 
-				<view class="my-active-image1"></view>
-				<view class="my-active-nickName1">晴天小猪</view>
-				<view class="my-active-data1">2019-12-12  09:11</view>
-				<image class="recommend-good1" src="../../static/img/releaseVideo2/good.png" mode="" />
-				<view class="recommend-text1">
-					我的室内设计是这样的，我觉得很漂亮 我的室内设计是这样的，我觉得很漂亮 我的室内设计我觉得
+					<!-- <view class="my-active-image1"></view>
+					<view class="my-active-nickName1">晴天小猪</view>
+					<view class="my-active-data1">2019-12-12  09:11</view>
+					<image class="recommend-good1" src="../../static/img/releaseVideo2/good.png" mode="" />
+					<view class="recommend-text1">
+						我的室内设计是这样的，我觉得很漂亮 我的室内设计是这样的，我觉得很漂亮 我的室内设计我觉得
+					</view>
+					<view class="answer">
+						<text class="user">屋主：</text> <text class="answer-content">好</text>
+						<text class="user1">屋主回复晴天小猪：</text> <text class="answer-content1">ok</text>
+						<text class="total-answer">共四条回复></text>
+					</view> -->
+					<input @confirm="recordName" class="say-something" placeholder="说点什么吧..." :value="inputValue" />
 				</view>
-				<view class="answer">
-					<text class="user">屋主：</text> <text class="answer-content">好</text>
-					<text class="user1">屋主回复晴天小猪：</text> <text class="answer-content1">ok</text>
-					<text class="total-answer">共四条回复></text>
-				</view>
-				<input @confirm="recordName" class="say-something" placeholder="说点什么吧..." :value="inputValue" />
-
-					<!-- <text class="say-something-text">说点什么吧...</text>  -->
+				
 			</uni-popup>
 		</view>
     </view>
@@ -159,7 +163,9 @@
 				shortVideoLikeNum: '',//点赞次数
 				inputValue: '',
 				outUserId: '',
-				id: ''
+				id: '',
+				dataList: {},
+				dataList_lenght: ''
 
 			}
 		},
@@ -235,6 +241,14 @@
 						},
 						success: function (res){
 							console.log(res)
+							console.log(res.data.code)
+							if(res.data.code==200){
+								console.log(res.data.data.dataList.length)
+								self.dataList = res.data.data.dataList
+								self.dataList_lenght = res.data.data.dataList.length
+							}else{
+								console.log('请求异常')
+							}
 						}
 					})
 				}
@@ -334,7 +348,6 @@
 					case 'top':
 						this.content = '顶部弹出 popup'
 						break
-
 					case 'bottom':
 						this.content = '底部弹出 popup'
 						break
@@ -620,16 +633,23 @@
 
 	}
 	.recommend{
-		position: relative;
+		margin-top: -30rpx;
+		margin-left: -30rpx;
 		width:750rpx;
 		height:799rpx;
 		background:rgba(255,255,255,1);
 		border-radius:22rpx 22rpx 0px 0px;
 	}
+	.recommend-content{
+		height: 111rpx;
+		width:750rpx;
+		border-bottom: 1px solid rgba(226,226,226,1);
+	}
+	
 	.all-recommend{
 		position: absolute;
-		/* left: 30rpx;
-		top: 41rpx; */
+		left: 30rpx;
+		top: 41rpx;
 		font-size:32rpx;
 		font-family:PingFang SC;
 		font-weight:bold;
@@ -646,43 +666,45 @@
 		width:25rpx;
 		height:25rpx;
 	}
-	.horizon{
-		position: absolute;
-		margin-left: -16px;
-		top: 111rpx;
+	.recommend-content2{
+		height: 236rpx;
 		width:750rpx;
-		height:2rpx;
-		background:rgba(226,226,226,1);
+		border-bottom: 1px solid rgba(226,226,226,1);
 	}
 	.my-active-image{
-		position: absolute;
-		left: 30rpx;
-		top: 158rpx;
+		float: left;
+		margin-left: 30rpx;
+		margin-top: 30rpx;
 		width:80rpx;
 		height:80rpx;
 		background:rgba(149,149,149,1);
 		border-radius:50%;
 	}
+	.my-active-image image{
+		width:80rpx;
+		height:80rpx;
+		border-radius:50%;
+	}
 	.my-active-nickName{
-		position: absolute;
-		left: 128rpx;
-		top: 157rpx;
+		float: left;
+		margin-left: 30rpx;
+		margin-top: 30rpx;
 		font-size:30rpx;
 		font-family:PingFang SC;
 		font-weight:500;
 		color:rgba(102,102,102,1);
 	}
 	.my-active-data{
-		position: absolute;
-		left: 128rpx;
-		top: 203rpx;
+		float: left;
+		margin-left: 30rpx;
+		margin-top: 30rpx;
 		font-size:24rpx;
 		font-family:PingFang SC;
 		font-weight:500;
 		color:rgba(102,102,102,1);
 	}
 	.recommend-good{
-		position: absolute;
+		float: left;
 		right: 30rpx;
 		top: 185rpx;
 		width:31rpx;
@@ -693,7 +715,7 @@
 		height:31rpx;
 	}
 	.recommend-text{
-		position: absolute;
+		float: left;
 		right: 57rpx;
 		top: 240rpx;
 		width:568rpx;
