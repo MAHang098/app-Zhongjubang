@@ -18,7 +18,8 @@
 					<text>标签</text>
 				</view>
 				<!-- 拖动视图 start -->
-				<movable-area :animation="false">
+				
+				<movable-area :animation="false" ref='singleDom'>
 					<movable-view :animation="false" :x="tag.tagX" :y="tag.tagY" :moveIndex="index" direction="all" 
 					@change="onChange($event, tagIndex, index, tag.fileName)"
 					 class="tagText" v-for="(tag, tagIndex) in tagItems" :key="tagIndex" 
@@ -75,27 +76,43 @@
 				type: '',
 				currentTagIndex: '',  // 用于删除当前标签  当前标签的下标
 				currentTagName: '',  // 用于删除当前标签  当前标签的标签名
-				tagImageIndex: 0	// 用于删除当前标签  当前第几张图片
+				tagImageIndex: 0	,// 用于删除当前标签  当前第几张图片,
+				autoIndex: null
 			}
 		},
 		
 		onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
-			
+			// if(option.length)
+			console.log(option.length)
+			if(option.current) {
+				this.current = option.current;
+				this.indexImg = option.indexImg;
+				console.log(this.current)
+			}
 		},
 		onShow: function() {
+			let mark = false, autoIndex ;
 			this.items = this.$store.state.uploadImage;
 			this.allImg =  this.items.length;
-			this.items.forEach((item, index, arrar) => {
- 				if(item.testArr.length == 0) {
-					return;
-				}
-				this.isShowAddTag = false;
+			this.tagItems = [];
+			for(let i = 0; i< this.items.length; i++) {
 				let imgI = this.indexImg -1;
-				if(parseInt(item.testArr[0].currentImage) == imgI) {
-					this.tagItems = item.testArr[0].allTagArr;
+				this.isShowAddTag = true;
+				if(this.items[i].testArr.length > 0) {
+					if(parseInt(this.items[i].testArr[0].currentImage) == imgI) {
+						this.isShowAddTag = false;
+						mark = true;
+						autoIndex = i;
+						break;
+					}
 				}
-			})
+			}
+			
+			if(mark) {
+				this.tagItems = this.items[autoIndex].testArr[0].allTagArr;
+			}
 		},
+		
 		created:function(option) {
 			// 获取当前手机屏幕高度来设置swiper的高
 			let height = '';
@@ -105,6 +122,7 @@
 			    }
 			}); 
 			this.clientHeight = height;
+			
 		},
 		   
 		methods: {
@@ -327,7 +345,7 @@
 		
 	}
 	movable-view {
-		position: absolute;
+		position: absolute ;
 		top: 25%;
 		display: flex;
 		align-items: center;
@@ -340,7 +358,7 @@
 	}
 	
 	movable-area {
-		position: absolute;
+		position: absolute !important;
 		top: 0;
 		height: 100%;
 		width: 100%;
@@ -364,7 +382,7 @@
 		margin-top: 58rpx;
 		font-size: 24rpx;
 		font-weight: 500;
-		
+		border: 1px solid rgba(255,255,255,.3);
 	}
 	.moveright {
 		margin-left: -1px;

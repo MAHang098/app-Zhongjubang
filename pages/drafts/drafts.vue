@@ -18,15 +18,15 @@
 							<view class="time">219-12-30 09:30</view>
 						</view>
 					</view>
-					<view class="operate" @click="operate(indexs)">
+					<view class="operate" @click.stop="operate(indexs)">
 						<text></text>
 						<text></text>
 						<text></text>
 						<view class="operate-detail" v-show="cIndex == indexs && showEdit">
 							<view class="operate-arrow"></view>
 							<view class="operate-btn">
-								<view><image src="../../static/edit.png" mode=""></image>编辑</view>
-								<view @click="deleteDraft(items.appUserDraftsId)"><image src="../../static/delete.png" mode=""></image>删除</view>
+								<view @click.stop="editRelease(item, items.appUserDraftsId)"><image src="../../static/edit.png" mode="" ></image>编辑</view>
+								<view @click.stop="deleteDraft(items.appUserDraftsId)"><image src="../../static/delete.png" mode=""></image>删除</view>
 							</view>
 						</view>
 					</view>
@@ -37,14 +37,16 @@
 				<view class="content">
 					<!-- <view class="text">{{activeIndex == indexs && !isShowAllContent  ? item.content : item.content | ellipsis }}</view> -->
 					<!-- <view class="text" v-show="!isShowAllContent">{{item.content }}</view> -->
-					<view v-if="activeIndex == indexs && !isShowAllContent" class="text">{{item.content }}</view>
-					<view v-else class="text">{{item.content | ellipsis}}</view>
-					<view  v-if="item.content.length > 60 " @click="open(indexs)">{{activeIndex == indexs && brandFold  ? '收起' : '展开'}}<image :class="brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
+					<view v-if="activeIndex == indexs && !isShowAllContent" class="text"  @click.stop="editRelease(item, items.appUserDraftsId)">{{item.content }}</view>
+					<view v-else class="text"  @click.stop="editRelease(item, items.appUserDraftsId)">{{item.content | ellipsis}}</view>
+					<view  v-if="item.content.length > 60 " @click.stop="open(indexs)">{{activeIndex == indexs && brandFold  ? '收起' : '展开'}}<image :class="brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
 				</view>
 				<!-- 草稿内容 end -->
 				
 				<!-- 图片/视频 start -->
-				<image :src="m.fileUrl" mode="" v-show="show" v-for="(m, i) in item.imgList" :key="i"></image>
+				<view class="imageList">
+					<image :src="m.fileUrl" mode="" v-show="show" v-for="(m, i) in item.imgList" :key="i" @click.stop="previewImage(i, item.imgList)"></image>
+				</view>
 				<video id="myVideo" :src="item.videoUrl" v-show="!show" enable-danmu danmu-btn controls></video>
 				<!-- 图片/视频 end -->
 				<!-- 话题 start -->
@@ -126,7 +128,6 @@
 			},
 			// 删除草稿箱
 			deleteDraft(id) {
-				console.log(this.currentType)
 				let params = {
 					appUserDraftsId: id,
 					type: this.currentType
@@ -139,8 +140,10 @@
 					success: (res => {
 						if(res.data.code == 200) {
 							uni.showToast({
-								title: '删除成功'
+								title: '删除成功',
+								duration: 500,
 							});
+							this.showEdit = !this.showEdit;
 							this.init(this.currentType);
 						}
 					})
@@ -159,7 +162,34 @@
 						}
 					})
 				});
-			}	
+			},
+			editRelease(item, id) {
+				console.log(id);
+				// let content = item.content;
+				// let topic = item.title;
+				this.$store.commit('saveImage', item.imgList);
+				let obj = {
+					id: id,
+					title: item.title,
+					content: item.content
+				}
+				this.$store.commit('saveDrafts', obj)
+				uni.navigateTo({
+					url: '/pages/releaseImage/release-image/release-image?type=drafts&id=' + id
+				})
+			},
+			// 预览图片
+			previewImage: function(i, arr) {
+				// console.log(this.imageList)
+				console.log(i)
+				this.$store.commit('saveImage', arr);
+				let e = i + 1;
+				uni.navigateTo({
+					url: '/pages/previewImage/previewImage?current=' + i + '&indexImg=' + e
+				})
+				// var current = e.target.dataset.src
+				// console.log(current)
+			},
 		},
 	}
 </script>
@@ -374,5 +404,22 @@
 		z-index: 999;
 		top: 0;
 		left: 0;
+	}
+	/* 图片样式 */
+	.imageList {
+		width: 100%;
+		display: flex;
+		justify-content: flex-start;
+		flex-wrap: wrap;
+	}
+	.imageList image {
+		width: 30%;
+		height: 210rpx;
+		display: block;
+		margin-right: 34rpx;
+		margin-bottom: 10rpx;
+	}
+	.imageList image:nth-of-type(3n) {
+		margin: 0 !important;
 	}
 </style>

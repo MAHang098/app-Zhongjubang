@@ -14,7 +14,8 @@ const store = new Vuex.Store({
         userName: "",
 		index:null,
 		testArr: [],
-		uploadImage: []
+		uploadImage: [],
+		drafts: []
     },
     mutations: {
         login(state, userName) {
@@ -66,6 +67,9 @@ const store = new Vuex.Store({
 			if(mark) {
 				state.uploadImage[index].testArr[0].allTagArr.push(imgArr.allTagArr[0])
 			} 
+		},
+		saveDrafts(state, obj) {
+			state.drafts.push(obj);
 		}
 		
     },

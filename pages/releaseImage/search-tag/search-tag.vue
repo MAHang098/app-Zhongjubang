@@ -60,12 +60,16 @@
 				currentImg: '', // 当前是第几张图片
 				arrImage: [],   // 所有图片的详细信息
 				tagArr: [],
-				fileName: ''
+				fileName: '',
+				imageHeight: 0,
+				imageWidth: 0
 			}
 		},
 		onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
 			this.currentImg = option.index;
 			this.fileName = option.name;
+			this.imageHeight = option.height;
+			this.imageWidth = option.width;
 			// console.log(this.init());
 		},
 		methods: {
@@ -107,8 +111,8 @@
 				// 当前图片标签对象
 				let ImageTag = {
 					tagName: this.searchInput,
-					tagX: this.fRandomBy(-20,300),
-					tagY: this.fRandomBy(-200,400)
+					tagX: this.fRandomBy(0,this.imageWidth),
+					tagY: this.fRandomBy(0, this.imageHeight)
 				}
 				this.tagArr.push(ImageTag);
 				let arrObj = {

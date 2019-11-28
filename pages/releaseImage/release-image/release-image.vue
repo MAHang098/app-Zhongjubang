@@ -44,11 +44,27 @@
 				isUpload: true,
 				participationTopic: '参与话题',
 				ishow: true,
+				type: '',
+				appUserDraftsId: '', // 用户草稿ID
 			}
 		},
 		onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
 			// console.log(this.$store.state.itemImage); //打印出上个页面传递的参数。
 			// this.allTag = this.$store.state.itemImage;
+			let drafts = this.$store.state.drafts;
+			console.log(drafts)
+			if(drafts.length > 0) {
+				this.desc = drafts[0].content;
+				this.appUserDraftsId = drafts[0].id
+				if(drafts[0].title != '') {
+					this.participationTopic = drafts[0].title;
+					
+				}
+			}
+			if(option.type) {
+				this.type = option.type;
+				
+			}
 			this.allImage = this.$store.state.uploadImage;
 			if(this.allImage.length > 8) {
 				this.isUpload = false;
@@ -127,6 +143,40 @@
 					draftsContent:  str
 				}
 				
+				if(this.appUserDraftsId) {
+					let parmas = {
+						appUserDraftsId: this.appUserDraftsId,
+						draftsContent:  str
+					}
+					uni.request({
+						url: this.url + 'controller/videocontroller/updateappuserdrafts',
+						method: 'post',
+						data: parmas,
+						header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
+						success: function(res) {
+							if(res.data.code == 200) {
+								uni.showToast({
+									title: '保存成功',
+									duration: 500,
+								});
+								this.$store.commit('saveDrafts', {})
+								// setTimeout(() => {
+								// 	uni.navigateTo({
+								// 		url: '/pages/receiving-address/receiving-address'
+								// 	})
+								// }, 1000);
+								// uni.hideToast();
+							} else {
+								uni.showToast({
+								    icon: 'none',
+								    title: res.data.message
+								});
+								uni.hideToast();
+							}
+						}
+					});
+					return;
+				}
 				uni.request({
 					url: this.url + 'controller/videocontroller/addappuserdrafts',
 					method: 'post',
@@ -164,14 +214,20 @@
 					url: '/pages/releaseImage/search-title/search-title'
 				})
 			},
+			// 预览图片
 			previewImage(e) {
-				let self = this
+				if(this.type == 'drafts') {
+					let i = e +1
+					uni.navigateTo({
+						url: '/pages/releaseImage/add-tag/add-tag?current=' + e + '&indexImg=' + i
+					})
+					return;
+				}
 				var pages = getCurrentPages();
 				var currPage = pages[pages.length - 1];  //当前页面
 				var prevPage = pages[pages.length - 2];  //上一个页面
 				prevPage.current= e;
-			   uni.navigateBack();
-			
+				uni.navigateBack();
 			},
 			// 删除图片
 			deleteImage(name, index) {
@@ -228,13 +284,23 @@
 									that.imgList.push(obj)
 									that.imgList.type = 'pre-release';
 									if(that.imgList.length == tempFilePaths.length) {
+										
 										let currentLength = that.allImage.length;
+										
+										
 										let pages = getCurrentPages();
 										let currPage = pages[pages.length - 1];  //当前页面
 										let prevPage = pages[pages.length - 2];  //上一个页面
 										prevPage.current= currentLength;
 										prevPage.indexImg = currentLength +1 ;
 										that.$store.commit('saveImage', that.imgList);
+										if(that.type == 'drafts') {
+											let i = currentLength +1
+											uni.navigateTo({
+												url: '/pages/releaseImage/add-tag/add-tag?current=' + currentLength + '&indexImg=' + i
+											})
+											return;
+										}
 										uni.navigateBack();
 									}
 									
