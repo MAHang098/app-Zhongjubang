@@ -8,12 +8,11 @@
 		<view class="release-content">
 			
 			<view class="pic">
-				<video v-show="videoShow" show-center-play-btn="false" :src="videoUrl" />
-				<video v-show="!videoShow" show-center-play-btn="false" :src="videoUrl" />
+				<video show-center-play-btn="false" :src="videoUrl" />
 			</view>
-			<view class="start">
+			<!-- <view class="start">
 				<image @play="start" src="../../static/img/releaseVideo2/start.png" mode="" />
-			</view>
+			</view> -->
 			
 			<view class="user-info">
 				<view class="my-active-image10" :style="{bottom:height-10+'px'}">
@@ -71,8 +70,8 @@
 							</view>
 							<text class="my-active-like">{{row.likenum}}</text>
 							<!-- <image @click="replyLike(row.id)" class="recommend-good" src="../../static/img/releaseVideo2/good.png" mode="" /> -->
-							<image  src="../../static/img/releaseVideo2/good.png" class="recommend-good" v-show="showUpImg3" @click="replyLike(row.id)" />
-							<image  src="../../static/topic/fabulous-select.png" class="recommend-good" v-show="!showUpImg3" @click="replyLike(row.id)" />
+							<image  src="../../static/img/releaseVideo2/good.png" class="recommend-good" v-if="showUpImg3"  @click="replyLike(row.id)" />
+							<image  src="../../static/topic/fabulous-select.png" class="recommend-good" v-if="!showUpImg3"  @click="replyLike(row.id)" />
 						</view>
 						<!-- <view class="recommend-text" @touchstart.prevent="touchstart(index)"   @touchend.prevent="touchend"> -->
 						<view class="recommend-text" @click="testreply(row.id, row.nick_name)">
@@ -179,7 +178,8 @@
 				height: 79,
 				userId: '',
 				recommendId: '',
-				recommendName: ''
+				recommendName: '',
+				panduanId: 0
 			}
 		},
 		filters: {
@@ -284,7 +284,9 @@
 							if(res.data.code==200){
 								self.dataList = res.data.data.dataList
 								console.log(res.data.data.dataList[1].id)
-								
+								if(res.data.data.shortVideoLike==1){
+									self.showUpImg2 = false
+								}
 								console.log(self.dataList)
 							}else{
 								console.log('请求异常')
@@ -324,6 +326,7 @@
 			},
 			replyLike(id){
 				this.showUpImg3 = !this.showUpImg3
+				this.panduanId = id
 				let token
 				let self = this
 				uni.getStorage({
@@ -357,9 +360,9 @@
 					}
 				})
 				if(this.showUpImg3==false){
-					self.shortVideoLikeNum = self.shortVideoLikeNum+1
+					self.state = self.state+1
 				}else{
-					self.shortVideoLikeNum = self.shortVideoLikeNum-1
+					self.state = self.state-1
 				}
 			},
 			good(){
@@ -634,6 +637,10 @@
 	page{
 		background-color: #000;
 	}
+	.in {
+		transform: rotate(180deg);
+		margin-bottom: 0 !important;
+	}
     .release-video{
         position: relative;
         width:750rpx;
@@ -892,6 +899,16 @@
 
 	}
 	.recommend{
+		z-index: 99;
+		margin-top: -30rpx;
+		margin-left: -30rpx;
+		width:750rpx;
+		height:100%;
+		background:rgba(255,255,255,1);
+		border-radius:22rpx 22rpx 0px 0px;
+		padding-bottom: 140rpx;
+	}
+	.replay-detail{
 		z-index: 99;
 		margin-top: -30rpx;
 		margin-left: -30rpx;

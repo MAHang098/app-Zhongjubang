@@ -10,34 +10,34 @@
 			<image src="../../static/img/user/right-wechat.png" mode=""></image>
 		</view>
 		<view class="user-avater">
-			<image src="../../static/img/user/user-avater.png" mode=""></image>
+			<image :src="head" mode=""></image>
 		</view>
 		<!-- 客户信息 -->
 		<view class="user-info">
 			<view class="user-state">
 				<image src="../../static/img/user/user-state.png" mode=""></image>
 			</view>
-			<view class="edit-info">
+			<view @tap="editInfo" class="edit-info">
 				<image src="../../static/img/user/edit-info.png" mode=""></image>
 			</view>
 			<view class="my-order">
 				<image src="../../static/img/user/my-order.png" mode=""></image>
 			</view>
 			<view class="user-nickName">
-				晴天小猪
+				{{nickName}}
 			</view>
-			<view class="user-nickName-image"><image src="../../static/img/user/user-gender.png" mode=""></image></view>
+			<view v-show="!show" class="user-nickName-image"><image src="../../static/img/user/user-gender.png" mode=""></image></view>
+			<view v-show="show" class="user-nickName-image"><image src="../../static/img/editInfo/gender-man.png" mode=""></image></view>
 			<view class="user-intro">
-				介绍一下自己吧！
+				{{remarks}}
 			</view>
 			<view class="user-recommend">
 				<text>粉丝{{fannum}}</text><text>关注{{attentionnum}}</text><text>获赞{{likenum}}</text>
-				<image src="../../static/img/user/hot.png" mode=""></image><text class="number">200</text>
-			</view>
-			<!-- <view class="hot">
 				<image src="../../static/img/user/hot.png" mode=""></image>
+				<text id="number">{{feverBranch}}</text>
 			</view>
-			<text class="number">200</text> -->
+			
+			
 		</view>
 		<!-- 我的动态 -->
 		<view class="my-active">
@@ -134,10 +134,15 @@
     export default {
 		data() {
 	        return {
+				show: '',
 				fannum: '',
 				attentionnum: '',
-				likenum: ''
-
+				likenum: '',
+				nickName: '',
+				head: '',
+				feverBranch: '',
+				remarks: '',
+				sex: '',
 	        }
 		},
         onShow(){
@@ -150,7 +155,7 @@
 				}
 			})
 			const url = this.url
-			//添加、删除点赞
+			//
 			uni.request({
 				url: url + "/controller/usercontroller/getfanattentionlikenum",
 				data: {},
@@ -172,10 +177,42 @@
 					}
 				}
 			})
+			// 
+			uni.request({
+				url: url + "/controller/usercontroller/getappuser",
+				data: {},
+				method: 'POST',
+				header : {
+					'content-type':'application/x-www-form-urlencoded', 
+					'port': 'app',
+					'token': token
+				},
+				success: function (res){
+					console.log(res.data.code)
+					if(res.data.code==200){
+						console.log(res.data.data)
+						self.feverBranch = res.data.data.feverBranch
+						self.head = res.data.data.head
+						self.nickName = res.data.data.nickName
+						self.remarks = res.data.data.remarks
+						self.sex = res.data.data.sex
+						if(res.data.data.sex==1){
+							self.show = true
+						}else if(res.data.data.sex==2){
+							self.show = false
+						}
+					}else{
+						console.log("请求异常")
+					}
+				}
+			})
 		},
         methods: {
-            
-            
+            editInfo(){
+				uni.navigateTo({
+					url: "/pages/editInfo/editInfo"
+				})
+			}
         }
     }
 </script>
@@ -226,6 +263,7 @@
 		z-index: 99;
 	}
 	.user-avater image{
+		border-radius: 50%;
 		width: 199rpx;
 		height: 193rpx;
 	}
@@ -314,18 +352,15 @@
 		left: 30rpx;
 		bottom: 35rpx;
 	}
-	.user-recommend image{
-		position: absolute;
-		margin-top: 4rpx;
-		width: 28rpx;
-		height: 32rpx;
-	}
 	.user-recommend text{
 		margin-right: 30rpx;
 	}
-	.number{
-		margin-right: 50rpx;
+	.user-recommend image{
+		top: 2px;
+		width: 28rpx;
+		height: 32rpx;
 	}
+	
 	/* 我的动态 */
 	.my-active{
 		position: relative;

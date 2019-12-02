@@ -1,6 +1,34 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页,
 		{
+			"path" : "pages/editInfo/editInfo",
+			"style": {
+		        "app-plus": {
+		            "titleNView": false //禁用原生导航栏  
+		        }
+		    }
+		},
+		{
+			"path" : "pages/updatePswd/updatePswd",
+			"style" : {
+				 "navigationBarTitleText": "找回密码"
+			}
+		},
+		{
+			"path" : "pages/updatePswd/updatePswd",
+			"style" : {
+				 "navigationBarTitleText": "找回密码"
+			}
+		},
+		{
+			"path" : "pages/topicDetails/topicDetails",  //话题详情
+		    "style": {
+		        "app-plus": {
+		            "titleNView": false //禁用原生导航栏  
+		        }
+		    }
+		},
+		{
 			"path": "pages/loginPhone/loginPhone",
 			"style": {
 				"app-plus": {
@@ -21,13 +49,14 @@
 		
 		
 		{
-		    "path" : "pages/topicDetails/topicDetails",  //话题详情
-		    "style" : {
+			"path": "pages/release/release",
+			"style": {
 				"app-plus": {
-				    "titleNView": false //禁用原生导航栏  
+					"titleNView": false //禁用原生导航栏  
 				}
 			}
 		},
+		
 		
 		{
 			"path": "pages/add-fans/add-fans",
@@ -143,12 +172,7 @@
 				 "navigationBarTitleText": " "
 			}
 		},
-		{
-			"path" : "pages/updatePswd/updatePswd",
-			"style" : {
-				 "navigationBarTitleText": "找回密码"
-			}
-		},
+		
 		{
 			"path" : "pages/add-adress/add-adress",
 			"style" : {
@@ -188,12 +212,7 @@
                 "navigationBarTitleText": "登录模板"
             }
         },
-        {
-            "path": "pages/updatePswd/updatePswd",   // 找回密码
-            "style": {
-                "navigationBarTitleText": ""
-            }
-        },
+		
         {
             "path": "pages/setPswd/setPswd",
             "style": {
