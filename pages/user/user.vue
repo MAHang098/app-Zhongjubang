@@ -9,9 +9,6 @@
 		<view class="right-wechat">
 			<image src="../../static/img/user/right-wechat.png" mode=""></image>
 		</view>
-		<view class="right-wechat">
-			<image src="../../static/img/user/right-wechat.png" mode=""></image>
-		</view>
 		<view class="user-avater">
 			<image src="../../static/img/user/user-avater.png" mode=""></image>
 		</view>
@@ -34,12 +31,13 @@
 				介绍一下自己吧！
 			</view>
 			<view class="user-recommend">
-				<text>粉丝799</text><text>关注899</text><text>获赞100</text>
+				<text>粉丝{{fannum}}</text><text>关注{{attentionnum}}</text><text>获赞{{likenum}}</text>
+				<image src="../../static/img/user/hot.png" mode=""></image><text class="number">200</text>
 			</view>
-			<view class="hot">
+			<!-- <view class="hot">
 				<image src="../../static/img/user/hot.png" mode=""></image>
 			</view>
-			<text class="number">200</text>
+			<text class="number">200</text> -->
 		</view>
 		<!-- 我的动态 -->
 		<view class="my-active">
@@ -134,7 +132,47 @@
     
 
     export default {
-        
+		data() {
+	        return {
+				fannum: '',
+				attentionnum: '',
+				likenum: ''
+
+	        }
+		},
+        onShow(){
+			let token
+			let self = this
+			uni.getStorage({
+				key:"token",
+				success: function (res) {
+					token = res.data;
+				}
+			})
+			const url = this.url
+			//添加、删除点赞
+			uni.request({
+				url: url + "/controller/usercontroller/getfanattentionlikenum",
+				data: {},
+				method: 'POST',
+				header : {
+					'content-type':'application/x-www-form-urlencoded', 
+					'port': 'app',
+					'token': token
+				},
+				success: function (res){
+					console.log(res.data.code)
+					if(res.data.code==200){
+						console.log(res.data.data.attentionnum)
+						self.attentionnum = res.data.data.attentionnum
+						self.fannum = res.data.data.fannum
+						self.likenum = res.data.data.likenum
+					}else{
+						console.log("请求异常")
+					}
+				}
+			})
+		},
         methods: {
             
             
@@ -197,6 +235,7 @@
 		top: -30rpx;
 		width:750rpx;
 		height:308rpx;
+		/* height:100%; */
 		background:rgba(255,255,255,1);
 		box-shadow:0px 0px 9rpx 0px rgba(93,93,93,0.08);
 		border-radius:32rpx 32rpx 0px 0px;
@@ -275,26 +314,17 @@
 		left: 30rpx;
 		bottom: 35rpx;
 	}
-	.user-recommend text{
-		margin-right: 30rpx;
-	}
-	.hot{
+	.user-recommend image{
 		position: absolute;
-		right: 350rpx;
-		bottom: 26rpx;
-	}
-	.hot image{
+		margin-top: 4rpx;
 		width: 28rpx;
 		height: 32rpx;
 	}
+	.user-recommend text{
+		margin-right: 30rpx;
+	}
 	.number{
-		position: absolute;
-		font-size:25rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(51,51,51,1);
-		right: 304rpx;
-		bottom: 35rpx;
+		margin-right: 50rpx;
 	}
 	/* 我的动态 */
 	.my-active{
