@@ -1,7 +1,7 @@
 <template>
 	<view class="wrap">
         <view class="release-video">
-            <image class="back" src="../../static/img/back.png" mode="" />
+            <image class="back" src="../../static/img/back.png" @tap="back" mode="" />
 			<text class="title">编辑个人资料</text>
             <view class="save" @tap="save">保存</view>
         </view>
@@ -122,7 +122,9 @@
             
         },
 	    methods: {
-            
+            back(){
+                uni.navigateBack()
+            },
             checkSex:function(e){
                 this.sex = e.currentTarget.dataset.index;
                 console.log(e.currentTarget.dataset.index)

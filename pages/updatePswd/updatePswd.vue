@@ -43,6 +43,7 @@
 			navigateTo() {
 				uni.navigateTo({
 					// url: '/pages/releaseImage/add-tag/add-tag'
+					
 					url: '/pages/releaseImage/search-title/search-title'
 				})
 			},

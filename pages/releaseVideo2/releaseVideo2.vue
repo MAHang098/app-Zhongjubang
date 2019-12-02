@@ -8,17 +8,17 @@
 		<view class="release-content">
 			
 			<view class="pic">
-				<video :src="videoUrl" />
+				<video show-center-play-btn="false" :src="videoUrl" />
 			</view>
 			<!-- <view class="start">
-				<image src="../../static/img/releaseVideo2/start.png" mode="" />
+				<image @play="start" src="../../static/img/releaseVideo2/start.png" mode="" />
 			</view> -->
 			
 			<view class="user-info">
-				<view class="my-active-image10" :style="{bottom:height+'px'}">
+				<view class="my-active-image10" :style="{bottom:height-10+'px'}">
 					<image :src="head" mode="" />
 				</view>
-				<view class="my-active-nickName10" :style="{bottom:height+'px'}">{{nickName}}</view>
+				<view class="my-active-nickName10" :style="{bottom:height+3+'px'}">{{nickName}}</view>
 				<view class="edit-del" :style="{bottom:height+'px'}" @tap="attention">
 					<image src="../../static/img/topicDetails/interest.png" mode=""></image>
 				</view>
@@ -35,13 +35,13 @@
 			<!-- 点赞 -->
 			<view class="good">
 				<image  src="../../static/img/releaseVideo2/good.png"  v-show="showUpImg2" @click="good" />
-				<image  src="../../static/img/releaseVideo2/good2.png"  v-show="!showUpImg2" @click="good" />
+				<image  src="../../static/topic/fabulous-select.png"  v-show="!showUpImg2" @click="good" />
 			</view>
 			<text class="text10">{{shortVideoLikeNum}}</text>
 			<!-- 收藏 -->
 			<view class="star">
 				<image src="../../static/img/releaseVideo2/star.png"  v-show="showUpImg" @click="collect" mode="" />
-				<image src="../../static/img/releaseVideo2/star2.png"  v-show="!showUpImg" @click="collect" mode="" />
+				<image src="../../static/topic/collect-select.png"  v-show="!showUpImg" @click="collect" mode="" />
 			</view>
 			<text class="text11">{{shortVideoCollectionNum}}</text>
 			<!-- 评论 -->
@@ -68,9 +68,10 @@
 								<view class="my-active-nickName">{{row.nick_name}}</view>
 								<view class="my-active-data">{{row.cratee_time}}</view>
 							</view>
-							
-							<image class="recommend-good" src="../../static/img/releaseVideo2/good.png" mode="" />
-							
+							<text class="my-active-like">{{row.likenum}}</text>
+							<!-- <image @click="replyLike(row.id)" class="recommend-good" src="../../static/img/releaseVideo2/good.png" mode="" /> -->
+							<image  src="../../static/img/releaseVideo2/good.png" class="recommend-good" v-if="showUpImg3"  @click="replyLike(row.id)" />
+							<image  src="../../static/topic/fabulous-select.png" class="recommend-good" v-if="!showUpImg3"  @click="replyLike(row.id)" />
 						</view>
 						<!-- <view class="recommend-text" @touchstart.prevent="touchstart(index)"   @touchend.prevent="touchend"> -->
 						<view class="recommend-text" @click="testreply(row.id, row.nick_name)">
@@ -114,6 +115,7 @@
 			return {
 				isShowAllContent: true,
 				brandFold: false,
+				showUpImg3:true,
 				showUpImg2:true,
 				showUpImg:true,//收藏点亮
 				replySay: '说点什么吧...',
@@ -176,7 +178,8 @@
 				height: 79,
 				userId: '',
 				recommendId: '',
-				recommendName: ''
+				recommendName: '',
+				panduanId: 0
 			}
 		},
 		filters: {
@@ -281,7 +284,9 @@
 							if(res.data.code==200){
 								self.dataList = res.data.data.dataList
 								console.log(res.data.data.dataList[1].id)
-								
+								if(res.data.data.shortVideoLike==1){
+									self.showUpImg2 = false
+								}
 								console.log(self.dataList)
 							}else{
 								console.log('请求异常')
@@ -294,7 +299,9 @@
 			
 		},
 		methods: {
-			
+			start(e){
+				console.log(e)
+			},
 			back(){
 				uni.navigatorBack()
 			},
@@ -316,6 +323,47 @@
 					}).exec();
 				},1)
 				
+			},
+			replyLike(id){
+				this.showUpImg3 = !this.showUpImg3
+				this.panduanId = id
+				let token
+				let self = this
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+						token = res.data;
+					}
+				})
+				const url = this.url
+				console.log(id)
+				//添加、删除点赞
+				uni.request({
+					url: url + "/controller/usercontroller/addshortvideolike",
+					data: {
+						shortVideoId: id,
+					},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': token
+					},
+					success: function (res){
+						console.log(res.data.code)
+						if(res.data.code==200){
+							console.log(res)
+							
+						}else{
+							console.log("请求异常")
+						}
+					}
+				})
+				if(this.showUpImg3==false){
+					self.state = self.state+1
+				}else{
+					self.state = self.state-1
+				}
 			},
 			good(){
 				this.showUpImg2 = !this.showUpImg2
@@ -589,6 +637,10 @@
 	page{
 		background-color: #000;
 	}
+	.in {
+		transform: rotate(180deg);
+		margin-bottom: 0 !important;
+	}
     .release-video{
         position: relative;
         width:750rpx;
@@ -672,8 +724,8 @@
 	}
 	.my-active-nickName10{
 		position: absolute;
-		left: 128rpx;
-		bottom: 177rpx;
+		left: 120rpx;
+		bottom: 173rpx;
 		font-size:32rpx;
 		font-family:PingFang SC;
 		font-weight:bold;
@@ -694,6 +746,7 @@
 	
 	/* 展开 */
 	.content {
+		z-index: 99;
 		position: absolute;
 		bottom: 0rpx;
 		padding: 30rpx 0;
@@ -855,6 +908,16 @@
 		border-radius:22rpx 22rpx 0px 0px;
 		padding-bottom: 140rpx;
 	}
+	.replay-detail{
+		z-index: 99;
+		margin-top: -30rpx;
+		margin-left: -30rpx;
+		width:750rpx;
+		height:100%;
+		background:rgba(255,255,255,1);
+		border-radius:22rpx 22rpx 0px 0px;
+		padding-bottom: 140rpx;
+	}
 	.recommend-content{
 		height: 111rpx;
 		width:750rpx;
@@ -922,6 +985,13 @@
 		font-weight:500;
 		color:rgba(102,102,102,1);
 		line-height:60rpx;
+	}
+	.my-active-like{
+		margin-top: 36rpx;
+		font-size:26rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(153,153,153,1);
 	}
 	.recommend-good{
 		/* float: left;

@@ -5,10 +5,12 @@
 				<image class="back" src="../../static/img/back.png" @tap="back" mode="" />
 				<text class="title">{{length}}条回复</text>
 			</view>
-			<view class="top-image"></view>
-			<view class="top-nickname">晴天小猪</view>
+			<view class="top-image">
+				<image :src="head" mode="" />
+			</view>
+			<view class="top-nickname">{{nickName}}</view>
 			<view class="top-date">11-18 09:12</view>
-			<view class="top-content">我的室内设计是这样的</view>
+			<view class="top-content">{{shortVideoDiscuss}}</view>
 			<view class="top-check" @tap="checkContent">查看原内容></view>
 			<image class="good" src="../../static/img/releaseVideo2/good.png" mode="" />
 
@@ -53,7 +55,11 @@
 	        return {
 				length: 0,
 				dataList: {},
-				id: 0
+				id: 0,
+				head: '',
+				nickName: '',
+				shortVideoDiscuss: '',
+
 	        }
 		},
 		// onLoad:function(options){
@@ -91,6 +97,11 @@
 						console.log(res)
 						console.log(res.data.data.dataList[0].ziList.length)
 						console.log(res.data.data.dataList[0].ziList)
+						console.log(res.data.data.dataList[0].head)
+
+						self.head = res.data.data.dataList[0].head
+						self.nickName = res.data.data.dataList[0].nickName
+						self.shortVideoDiscuss = res.data.data.dataList[0].shortVideoDiscuss
 						self.dataList = res.data.data.dataList[0].ziList
 						self.length = res.data.data.dataList[0].ziList.length
 					}else{
@@ -158,6 +169,11 @@
 		height:68rpx;
 		border-radius:50%;
 		background-color: #00f;
+	}
+	.top-image image{
+		width:68rpx;
+		height:68rpx;
+		border-radius:50%;
 	}
 	.top-nickname{
 		position: absolute;
