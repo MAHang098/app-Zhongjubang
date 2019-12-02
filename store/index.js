@@ -14,7 +14,9 @@ const store = new Vuex.Store({
         userName: "",
 		index:null,
 		testArr: [],
-		uploadImage: []
+		uploadImage: [],
+		drafts: [],
+		topic: '',
     },
     mutations: {
         login(state, userName) {
@@ -26,8 +28,6 @@ const store = new Vuex.Store({
             state.hasLogin = false;
         },
 		saveImage(state, imgArr) {
-			// console.log(state.uploadImage.push(imgArr))
-			// return;
 			// 如果是在发布页面上传图片，push到uploadImage中，由于push的时候会把发布传过来的type，因此push完后需要删除最后一个
 			if(imgArr.type == 'pre-release') {
 				for(let i in imgArr) {
@@ -66,7 +66,22 @@ const store = new Vuex.Store({
 			if(mark) {
 				state.uploadImage[index].testArr[0].allTagArr.push(imgArr.allTagArr[0])
 			} 
-		}
+		},
+		saveDrafts(state, obj) {
+			state.drafts.push(obj);
+		},
+		// 用于保存参与话题的title，使其发布页面不能在修改话题和添加话题
+		updateType(state, topic) {
+			state.topic = topic;
+		},
+		// 清空uploadImage的数据
+		clearData(state, arr) {
+			state.uploadImage = arr;
+		},
+		// 清空drafts的数据
+		clearDrafts(state, arr) {
+			state.drafts = arr;
+		},
 		
     },
 	modules: {

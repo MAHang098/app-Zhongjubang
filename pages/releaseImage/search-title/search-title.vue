@@ -3,8 +3,8 @@
 		<!-- 搜索栏 start -->
 		<view class="header">
 			<view class="search-input">
-				<image src="../../../static/nav-search.png" mode=""></image>
-				<input type="text" value=""  placeholder="搜索您需要的商品"/>
+				<image src="../../../static/search/nav-search.png" mode=""></image>
+				<input class="uni-input" placeholder="搜索您需要的商品" @focus="onFocus" @blur="onBlur" />
 			</view>
 			<view class="cancel">取消</view>
 		</view>
@@ -19,7 +19,7 @@
 				</view>
 			</scroll-view>
 			<scroll-view class="nav-right" scroll-y :scroll-top="scrollTop" @scroll="scroll" :style="'height:'+height+'px'" scroll-with-animation>
-				<view  :id="index===0?'first':''" class="nav-right-item" v-for="(item,index) in subCategoryList" :key="index">
+				<view  :id="index===0?'first':''" class="nav-right-item" v-for="(item,index) in subCategoryList" :key="index" @click.stop="topicDetail(item.id)">
 					<view class="contnet">
 						<view class="left">
 							<view class="list-image">
@@ -27,8 +27,7 @@
 							</view>
 							<view class="detail">
 								<view class="title">{{item.talkTheme}}</view>
-								<!-- <view class="num">共{{item.participateCount}}人参与</view> -->
-								<view class="num">共0人参与</view>
+								<view class="num">共{{item.participateCount}}人参与</view>
 							</view>
 						</view>
 						<view class="right" @click="chooseTopic(item.talkTheme)">
@@ -59,6 +58,16 @@
 			}
 		},
 		methods: {
+			onFocus() {
+				this.$mp.page.$getAppWebview().setStyle({
+					softinputNavBar: 'none'
+				})
+			},
+			onBlur() {
+				this.$mp.page.$getAppWebview().setStyle({
+					softinputNavBar: 'auto'
+				})
+			},
 			// 选择话题
 			chooseTopic(name) {
 				var pages = getCurrentPages();
@@ -93,11 +102,9 @@
 						
 					})
 				});
-				// console.log(id, index)
 				// if(index) {
 					this.categoryActive = index;
 				// }
-				console.log(this.categoryActive, index)
 				// this.subCategoryList = categroy.subCategoryList;
 				this.scrollTop = -this.scrollHeight * index;
 			},
@@ -109,9 +116,7 @@
 					success: (res => {
 						
 						if(res.data.code == 200) {
-							// console.log(res.data.data)
 							this.categoryList = res.data.data;
-							console.log(this.categoryList[0].id)
 							this.categoryClickMain(this.categoryList[0].id, 0)
 							
 						}
@@ -133,7 +138,14 @@
 					// })
 				}
 				// this.subCategoryList = this.categoryList[0].subCategoryList;
+			},
+			// 话题详情
+			topicDetail(id) {
+				uni.navigateTo({
+					url: '/pages/topicDetails/topicDetails?id=' + id
+				})
 			}
+			
 		},
 			
 		onLoad: function () {
@@ -149,8 +161,8 @@
 	}
 	.header {
 		width: 100%;
-		height: 100rpx;
-		line-height: 100rpx;
+		height: 140rpx;
+		/* line-height: 10rpx; */
 		display: flex;
 		justify-content: space-between;
 		box-sizing: border-box;
@@ -158,14 +170,18 @@
 		background: #FFFFFF;
 		position: fixed;
 		z-index: 1;
-		top: 50rpx;
+		/* top: 50rpx; */
 		left: 0;
 		right: 0;
 		border-bottom: 1px solid #E2E2E2;
 	}
+	.header view {
+		margin-top: 40rpx;
+	}
 	.search-input {
 		position: relative;
 		width: 100%;
+		/* line-height: 35rpx; */
 	}
 	.search-input image {
 		width: 26rpx;
@@ -180,6 +196,7 @@
 		width: 88%;
 		border-radius: 35rpx;
 		height: 70rpx;
+		line-height: 13px;
 		margin: 0;
 		font-size: 26rpx;
 		padding-left: 60rpx;

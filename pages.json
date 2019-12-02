@@ -20,42 +20,40 @@
 		
 		
 		{
-            "path": "pages/editInfo/editInfo",
-            "style": {
-                "app-plus": {
-                    "titleNView": false //禁用原生导航栏  
-                }
-            }
-        },
-		{
-			"path": "pages/test/test",
-			"style": {
-				"app-plus": {
-					"titleNView": false //禁用原生导航栏  
-				}
-			}
-		},
-		
-		
-		
-		{
-			"path": "pages/release/release",
-			"style": {
-				"app-plus": {
-					"titleNView": false //禁用原生导航栏  
-				}
-			}
-		},
-		
-
-		{
-		    "path" : "pages/topicDetails/topicDetails",   //草稿箱
+		    "path" : "pages/topicDetails/topicDetails",  //话题详情
 		    "style" : {
 				"app-plus": {
 				    "titleNView": false //禁用原生导航栏  
 				}
 			}
 		},
+		
+		{
+			"path": "pages/add-fans/add-fans",
+			"style": {
+				"navigationBarTitleText": "新增粉丝"
+			}
+		},
+		{
+		    "path" : "pages/previewImage/previewImage",
+		    "style" : {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		
+		{
+		    "path": "pages/releaseVideo2/releaseVideo2",
+		    "style": {
+		        "app-plus": {
+		            "titleNView": false //禁用原生导航栏  
+		        }
+		    }
+		},
+		
+
+		
 		{
 		    "path" : "pages/drafts/drafts",   //草稿箱
 		    "style" : {
@@ -236,6 +234,7 @@
         
        
         
+       
     ],
 	"subPackages": [
 		{
@@ -260,19 +259,9 @@
 				{
 					"path" : "release-image/release-image",
 					"style" : {
-						"navigationBarTitleText": "发布",
 						"app-plus": {
-						    "titleNView": {
-						        "buttons": [{
-						            "text": "保存",
-						            "fontSrc": "/static/uni.ttf",
-						            "fontSize": "18px",
-									 "color":"#F9B72C"
-						        }]
-						    },
-						    "bounce": "none"
+						    "titleNView": false //禁用原生导航栏  
 						}
-						
 					}
 				},
 				{
