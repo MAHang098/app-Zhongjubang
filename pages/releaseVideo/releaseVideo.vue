@@ -22,7 +22,7 @@
 		</view>
 
 		<!-- 底部 start -->
-		<view class="bottom">
+		<view class="bottom" @tap="save">
 			<image src="../../static/img/releaseVideo/save.png" mode=""></image>
 			<view>存草稿</view>
 		</view>
@@ -130,9 +130,34 @@
 						'token': token
 					},
 					success: function (res){
-						
+						console.log(res)
+						console.log(res.data.code)
+						if(res.data.code==200){
+							uni.navigateTo({
+								url: "/pages/releaseVideo2/releaseVideo2"
+							})
+						}else{
+							console.log('请求异常')
+						}
 					}
 				})
+				
+			},
+			save(){
+				// 添加草稿
+				const url = this.url
+				const content = this.desc
+				let token
+				const src = this.src;
+				let self = this
+				console.log(self.src)
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+						token = res.data;
+					}
+				})
+				console.log(token)
 				let draftsContent = [
 					{
 						content: content,
@@ -156,7 +181,14 @@
 						'token': token
 					},
 					success: function (res){
-						console.log(res)
+						console.log(res.data.code)
+						if(res.data.code==200){
+							uni.navigateTo({
+								url: "/pages/drafts/drafts"
+							})
+						}else{
+							console.log('请求异常')
+						}
 					}
 				})
 			}

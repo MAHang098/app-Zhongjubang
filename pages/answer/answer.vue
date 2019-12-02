@@ -2,65 +2,37 @@
 	<view>
 		<view class="top">
 			<view class="release-video">
-				<image class="back" src="../../static/img/back.png" mode="" />
-				<text class="title">4条回复</text>
+				<image class="back" src="../../static/img/back.png" @tap="back" mode="" />
+				<text class="title">{{length}}条回复</text>
 			</view>
 			<view class="top-image"></view>
 			<view class="top-nickname">晴天小猪</view>
 			<view class="top-date">11-18 09:12</view>
 			<view class="top-content">我的室内设计是这样的</view>
-			<view class="top-check">查看原内容></view>
+			<view class="top-check" @tap="checkContent">查看原内容></view>
 			<image class="good" src="../../static/img/releaseVideo2/good.png" mode="" />
 
 		</view>
 
 		<view class="all-content">
-			<view class="all-content-details">
-				<view class="content-details-image"></view>
+			<view v-for="(row, index) in dataList" :key="index" class="all-content-details">
+				<view class="content-details-image">
+					<image :src="row.ziHead" mode="" />
+				</view>
 				<view class="content-details-left">
-					<view class="content-details-nickname">晴天小猪</view>
-					<view class="content-details-date">11-18 09:12</view>
-					<view class="content-details-content">我的室内设计是这样的</view>
+					<view class="content-details-nickname">{{row.ziName}}</view>
+					<view class="content-details-date">{{row.ziCreateTime}}</view>
+					<view class="content-details-content">{{row.ziContext}}</view>
 					<!-- <image class="content-details-good" src="../../static/img/releaseVideo2/good.png" mode="" /> -->
 				</view>
-				<view class="content-details-good"><image src="../../static/img/releaseVideo2/good.png" mode="" /></view> 
+				<view class="content-details-good">
+					<image src="../../static/img/releaseVideo2/good.png" mode="" />
+					<view class="like">{{row.ziLikeNum}}</view>
+				</view> 
 				<view class="level"></view>
 			</view>
 			
-
-			<view class="all-content-details">
-				<view class="content-details-image"></view>
-				<view class="content-details-left">
-					<view class="content-details-nickname">晴天小猪</view>
-					<view class="content-details-date">11-18 09:12</view>
-					<view class="content-details-content">我的室内设计是这样的</view>
-					<!-- <image class="content-details-good" src="../../static/img/releaseVideo2/good.png" mode="" /> -->
-				</view>
-				<view class="content-details-good"><image src="../../static/img/releaseVideo2/good.png" mode="" /></view> 
-				<view class="level"></view>
-			</view>
-			<view class="all-content-details">
-				<view class="content-details-image"></view>
-				<view class="content-details-left">
-					<view class="content-details-nickname">晴天小猪</view>
-					<view class="content-details-date">11-18 09:12</view>
-					<view class="content-details-content">我的室内设计是这样的</view>
-					<!-- <image class="content-details-good" src="../../static/img/releaseVideo2/good.png" mode="" /> -->
-				</view>
-				<view class="content-details-good"><image src="../../static/img/releaseVideo2/good.png" mode="" /></view> 
-				<view class="level"></view>
-			</view>
-			<view class="all-content-details">
-				<view class="content-details-image"></view>
-				<view class="content-details-left">
-					<view class="content-details-nickname">晴天小猪</view>
-					<view class="content-details-date">11-18 09:12</view>
-					<view class="content-details-content">我的室内设计是这样的</view>
-					<!-- <image class="content-details-good" src="../../static/img/releaseVideo2/good.png" mode="" /> -->
-				</view>
-				<view class="content-details-good"><image src="../../static/img/releaseVideo2/good.png" mode="" /></view> 
-				<view class="level"></view>
-			</view>
+			
 			<view class="footter">
 				回复晴天小猪：
 			</view>
@@ -79,10 +51,63 @@
 	export default {
 	    data() {
 	        return {
-	            
+				length: 0,
+				dataList: {},
+				id: 0
 	        }
-	    },
+		},
+		// onLoad:function(options){
+		// 	console.log(options.Id);
+		// },
+		onLoad(options){
+			console.log(options.Id)
+			this.id = options.Id
+		},
+		onShow(){
+			let token
+			let self = this
+			uni.getStorage({
+				key:"token",
+				success: function (res) {
+					token = res.data;
+				}
+			})
+			const url = this.url
+			console.log(this.id)
+			uni.request({
+				url: url + "/controller/videocontroller/getallzizist",
+				data: {
+					shortVideoDiscussId: self.id,
+				},
+				method: 'POST',
+				header : {
+					'content-type':'application/x-www-form-urlencoded', 
+					'port': 'app',
+					'token': token
+				},
+				success: function (res){
+					console.log(res.data.code)
+					if(res.data.code==200){
+						console.log(res)
+						console.log(res.data.data.dataList[0].ziList.length)
+						console.log(res.data.data.dataList[0].ziList)
+						self.dataList = res.data.data.dataList[0].ziList
+						self.length = res.data.data.dataList[0].ziList.length
+					}else{
+						console.log("请求异常")
+					}
+				}
+			})
+		},
 	    methods: {
+			back(){
+				uni.navigateBack()
+			},
+			checkContent(){
+				uni.navigateTo({
+					url: "/pages/releaseVideo2/releaseVideo2"
+				})
+			}
 		}
 	}
 </script>
@@ -205,6 +230,11 @@
 		border-radius:50%;
 		background-color: #00f;
 	}
+	.content-details-image image{
+		border-radius:50%;
+		width:68rpx;
+		height:68rpx;
+	}
 	.content-details-left{
 		float: left;
 		font-size:30rpx;
@@ -226,13 +256,22 @@
 		color:rgba(51,51,51,1);
 		line-height:40rpx;
 	}
+	.like{
+		float: right;
+		font-size:26rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(153,153,153,1);
+	}
 	.content-details-good{
 		float: right;
-		top: 55rpx;
-		width: 31rpx;
+		margin-top: 45rpx;
+		width: 80rpx;
 		height: 31rpx;
 	}
 	.content-details-good image{
+		float: right;
+		margin-left: 4px;
 		width: 31rpx;
 		height: 31rpx;
 	}

@@ -9,6 +9,36 @@
 		    }
 		},
 		{
+			"path": "pages/loginPhone/loginPhone",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		
+		
+		
+		{
+            "path": "pages/editInfo/editInfo",
+            "style": {
+                "app-plus": {
+                    "titleNView": false //禁用原生导航栏  
+                }
+            }
+        },
+		{
+			"path": "pages/test/test",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		
+		
+		
+		{
 			"path": "pages/release/release",
 			"style": {
 				"app-plus": {
@@ -64,14 +94,7 @@
 				}
 			}
 		},
-		{
-			"path": "pages/text/text",
-			"style": {
-				"app-plus": {
-					"titleNView": false //禁用原生导航栏  
-				}
-			}
-		},
+		
 		
 		
 		
@@ -105,12 +128,7 @@
             }
         },
         
-        {
-            "path": "pages/editInfo/editInfo",
-            "style": {
-                "navigationBarTitleText": "编辑个人资料"
-            }
-        },
+        
         {
             "path": "pages/agreement/agreement",
             "style": {
