@@ -147,8 +147,11 @@
 										key:"token",
 										data: res.data.token,
 									})
-									uni.switchTab({
-										url: "/pages/main/main"
+									// uni.switchTab({
+									// 	url: "/pages/main/main"
+									// })
+									uni.navigateTo({
+										url: "/pages/releaseVideo2/releaseVideo2"
 									})
 								}
 							})
@@ -233,6 +236,9 @@
 																	uni.switchTab({
 																		url: "/pages/main/main"
 																	})
+																	// uni.navigateTo({
+																	// 	url: "/pages/releaseVideo2/releaseVideo2"
+																	// })
 																}else{
 																	uni.navigateTo({
 																		url: "/pages/bindPhone/bindPhone"

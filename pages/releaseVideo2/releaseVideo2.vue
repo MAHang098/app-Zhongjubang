@@ -1,14 +1,12 @@
 <template>
 	<view>
         <view class="release-video">
-            <image class="back" src="../../static/img/topicDetails/back.png" mode="" />
+            <image class="back" src="../../static/img/topicDetails/back.png" @tap="back" mode="" />
 			<image class="fly" src="../../static/img/releaseVideo2/share.png" mode="" />
         </view>
 		<!-- 内容 -->
 		<view class="release-content">
-			<!-- <view class="pic">
-				<image src="../../static/img/releaseVideo2/pic.png" mode="" />
-			</view> -->
+			
 			<view class="pic">
 				<video :src="videoUrl" />
 			</view>
@@ -17,41 +15,37 @@
 			</view> -->
 			
 			<view class="user-info">
-				<view class="my-active-image10">
+				<view class="my-active-image10" :style="{bottom:height+'px'}">
 					<image :src="head" mode="" />
 				</view>
-				<view class="my-active-nickName10">{{nickName}}</view>
-				<view class="edit-del">
+				<view class="my-active-nickName10" :style="{bottom:height+'px'}">{{nickName}}</view>
+				<view class="edit-del" :style="{bottom:height+'px'}" @tap="attention">
 					<image src="../../static/img/topicDetails/interest.png" mode=""></image>
 				</view>
-				<view class="my-active-recommend">
-					<!-- 某臣氏骑剑活动！水雾质地 很轻薄 不沾黏！在上待几分钟会变成雾面哑光感 超高级！显色很持久... -->
-					<view :class="fold ? 'fold' : 'unfold'" >
-						<label>    
-							<span>{{content2}}</span>
-						</label>	
-					</view>
-					<text id="the-id" class="my-active-more" @tap="btn" v-show="fold">展开</text>
-					<text id="the-id" class="my-active-more" @tap="btn" v-show="!fold">收起</text>
-					<!-- <text class="my-active-more">展开</text> -->
-					<view class="my-active-more-image">></view>
+				<view class="content">
+					<view v-if="!isShowAllContent" class="text">{{content2}}</view>
+					<view v-else class="text">{{content2 | ellipsis}}</view>
+					<view v-if="content2.length > 60 " @click="open()">{{brandFold  ? '收起' : '展开'}}<image :class="brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
 				</view>
+				
 			</view>
 		</view>
 		<!-- 底部 -->
 		<view class="footer">
 			<!-- 点赞 -->
 			<view class="good">
-				<image  src="../../static/img/releaseVideo2/good.png" />
+				<image  src="../../static/img/releaseVideo2/good.png"  v-show="showUpImg2" @click="good" />
+				<image  src="../../static/img/releaseVideo2/good2.png"  v-show="!showUpImg2" @click="good" />
 			</view>
 			<text class="text10">{{shortVideoLikeNum}}</text>
 			<!-- 收藏 -->
 			<view class="star">
-				<image src="../../static/img/releaseVideo2/star.png" mode="" />
+				<image src="../../static/img/releaseVideo2/star.png"  v-show="showUpImg" @click="collect" mode="" />
+				<image src="../../static/img/releaseVideo2/star2.png"  v-show="!showUpImg" @click="collect" mode="" />
 			</view>
 			<text class="text11">{{shortVideoCollectionNum}}</text>
 			<!-- 评论 -->
-			<view class="message">
+			<view @click="togglePopup('bottom', 'popup')" class="message">
 				<image src="../../static/img/releaseVideo2/message.png" mode="" />
 			</view>
 			<text class="text12">{{shortVideoDiscussNum}}</text>
@@ -59,10 +53,10 @@
 					<image class="topic-image" src="../../static/img/releaseVideo2/message.png" mode="" />
 					<text class="text20">说点什么吧...</text>
 				</button>
-			<uni-popup ref="popup" :type="type" @change="change" >
+			<uni-popup  ref="popup" :type="type" @change="change" >
 				<view class="recommend">
 					<view class="recommend-content">
-						<view class="all-recommend">全部评论 ({{dataList_lenght}})</view>
+						<view class="all-recommend">全部评论 ({{shortVideoDiscussNum}})</view>
 						<image class="close" src="../../static/img/releaseVideo2/close.png" mode="" />
 					</view>
 					<view v-for="(row, index) in dataList" :key="index" class="replay-detail">
@@ -83,23 +77,20 @@
 						<!-- <view class="recommend-text" @touchstart.prevent="touchstart(index)"   @touchend.prevent="touchend"> -->
 							{{row.short_video_discuss}}
 						</view>
+						<!-- <view class="recommend-text" @click="testreply(row.id, row.nick_name)">
+							{{row.zilist.length}}
+						</view> -->
+						
+						<view v-show="row.zilist.length>0" class="recommend-text-reply">
+							<view v-for="(rows, indexs) in row.zilist" :key="indexs">
+								<text class="recommend-text-reply-user">{{rows.nick_name}}:</text>
+								<text class="recommend-text-reply-user2">{{rows.short_video_discuss}}</text>
+							</view>
+							<text v-show="row.sonCount>2" class="recommend-text-reply-count" @tap="reply(row.id, row.nick_name)">共{{row.sonCount}}条回复></text>
+						</view>
 						<view class="horizon2"></view>
 					</view>
 					
-					
-
-					<!-- <view class="my-active-image1"></view>
-					<view class="my-active-nickName1">晴天小猪</view>
-					<view class="my-active-data1">2019-12-12  09:11</view>
-					<image class="recommend-good1" src="../../static/img/releaseVideo2/good.png" mode="" />
-					<view class="recommend-text1">
-						我的室内设计是这样的，我觉得很漂亮 我的室内设计是这样的，我觉得很漂亮 我的室内设计我觉得
-					</view>
-					<view class="answer">
-						<text class="user">屋主：</text> <text class="answer-content">好</text>
-						<text class="user1">屋主回复晴天小猪：</text> <text class="answer-content1">ok</text>
-						<text class="total-answer">共四条回复></text>
-					</view> -->
 					<view class="replay-input">
 						<input @confirm="recordName" class="say-something" :placeholder="replySay" :value="inputValue" />
 					</view>
@@ -121,11 +112,14 @@
 		},
 		data() {
 			return {
+				isShowAllContent: true,
+				brandFold: false,
+				showUpImg2:true,
+				showUpImg:true,//收藏点亮
 				replySay: '说点什么吧...',
 				spread_url: '我的室内设计是这样的，我觉得很漂亮 我的室内设计是这样的，我觉得很漂亮 我的室内设计我觉得',
 				onOff:true,    //默认开启 展示
 				onNO:false,    //默认关闭 收起
-				fold:true,
 				textfont:[],
 				show: false,
 				type: '',
@@ -170,21 +164,39 @@
 				videoUrl: '',
 				content2: '',
 				shortVideoCollectionNum: '',//收藏次数
+				shortVideoCollection: '',//收藏判断
 				shortVideoDiscussNum: '',//评论次数
 				shortVideoLikeNum: '',//点赞次数
 				inputValue: '',
 				outUserId: '',
 				id: '',
 				dataList: {},
-				dataList_lenght: ''
-
+				dataLists: {},
+				dataListss: {},
+				height: 79,
+				userId: '',
+				recommendId: '',
+				recommendName: ''
+			}
+		},
+		filters: {
+			ellipsis (value) {
+			  if (!value) return ''
+			  if (value.length > 45) {
+				return value.slice(0,45) + '...'
+			  }
+			  return value
 			}
 		},
 		onLoad() {
-			// var view = uni.createSelectorQuery().select(".fold");
-			// view.boundingClientRect(data => {
-			// console.log("节点离页面顶部的距离为" + data.height);
-			// }).exec();
+			let views = uni.createSelectorQuery().select(".content");
+			views.fields({
+				size: true
+			}, data => {
+				console.log("得到节点信息" + JSON.stringify(data));
+				// console.log("节点的宽为" + data.height);
+				// self.height = data.height
+			}).exec();
 		},
 		onShow:function(){
 			let token
@@ -207,7 +219,7 @@
 					'content-type':'application/x-www-form-urlencoded', 
 					'port': 'app',
 					// 'token': token
-					'token': '3472497a5dbf4778896ab9221490b671'
+					'token': token
 				},
 				success: function (res){
 					console.log(res)
@@ -215,6 +227,7 @@
 					id = res.data.data.dataList[0].id
 
 					self.id = res.data.data.dataList[0].id
+					self.userId = res.data.data.dataList[0].userId
 					self.textfont = res.data.data.dataList
 					//获取第一页内容
 					uni.request({
@@ -224,7 +237,7 @@
 						header : {
 							'content-type':'application/x-www-form-urlencoded', 
 							'port': 'app',
-							'token': '3472497a5dbf4778896ab9221490b671'
+							'token': token
 						},
 						success: function (res){
 							console.log(res)
@@ -232,14 +245,25 @@
 							self.nickName = res.data.data.nickName
 							self.head = res.data.data.head
 							self.content2 = res.data.data.content
+							console.log(self.content2.length)
 							self.videoUrl = res.data.data.videoUrl
 							self.shortVideoCollectionNum = res.data.data.shortVideoCollectionNum
 							self.shortVideoDiscussNum = res.data.data.shortVideoDiscussNum
 							self.shortVideoLikeNum = res.data.data.shortVideoLikeNum
 							self.outUserId = res.data.data.id
+							// res.data.data.shortVideoCollection
+							// res.data.data.shortVideoLike
+							
+							if(res.data.data.shortVideoCollection==1){
+								self.showUpImg = false
+							}
+							if(res.data.data.shortVideoLike==1){
+								self.showUpImg2 = false
+							}
 						}
 					})
 					// 获取评论内容
+					
 					uni.request({
 						url: url + "controller/videocontroller/getsvdiscusslist",
 						data: {
@@ -249,15 +273,16 @@
 						header : {
 							'content-type':'application/x-www-form-urlencoded', 
 							'port': 'app',
-							'token': '3472497a5dbf4778896ab9221490b671'
+							'token': token
 						},
 						success: function (res){
 							console.log(res)
 							console.log(res.data.code)
 							if(res.data.code==200){
-								console.log(res.data.data.dataList.length)
 								self.dataList = res.data.data.dataList
-								self.dataList_lenght = res.data.data.dataList.length
+								console.log(res.data.data.dataList[1].id)
+								
+								console.log(self.dataList)
 							}else{
 								console.log('请求异常')
 							}
@@ -269,15 +294,133 @@
 			
 		},
 		methods: {
+			
+			back(){
+				uni.navigatorBack()
+			},
+			attention(){
+
+			},
+			open() {
+				let self = this
+				this.isShowAllContent = !this.isShowAllContent;
+				this.brandFold = !this.brandFold
+				setTimeout(function() {
+					let views = uni.createSelectorQuery().select(".content");
+					views.fields({
+						size: true
+					}, data => {
+						console.log("得到节点信息" + JSON.stringify(data));
+						console.log("节点的宽为" + data.height);
+						self.height = data.height
+					}).exec();
+				},1)
+				
+			},
+			good(){
+				this.showUpImg2 = !this.showUpImg2
+				let token
+				let self = this
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+						token = res.data;
+					}
+				})
+				const url = this.url
+				
+				console.log(self.id)
+				//添加、删除点赞
+				uni.request({
+					url: url + "/controller/usercontroller/addshortvideolike",
+					data: {
+						shortVideoId: self.id,
+					},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': token
+					},
+					success: function (res){
+						console.log(res.data.code)
+						if(res.data.code==200){
+							console.log(res)
+							
+						}else{
+							console.log("请求异常")
+						}
+					}
+				})
+				if(this.showUpImg2==false){
+					self.shortVideoLikeNum = self.shortVideoLikeNum+1
+				}else{
+					self.shortVideoLikeNum = self.shortVideoLikeNum-1
+				}
+			},
+			collect(){
+				this.showUpImg = !this.showUpImg 
+				let token
+				let self = this
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+						token = res.data;
+					}
+				})
+				const url = this.url
+				
+				console.log(self.id)
+				uni.request({
+					url: url + "/controller/usercontroller/addusercollection",
+					data: {
+						type: 2,
+						collectionContentId: self.id,
+					},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': token
+					},
+					success: function (res){
+						console.log(res.data.code)
+						if(res.data.code==200){
+							console.log(res)
+						}else{
+							console.log("请求异常")
+						}
+					}
+				})
+				
+				if(this.showUpImg==false){
+					//添加收藏
+					self.shortVideoCollectionNum = self.shortVideoCollectionNum+1
+				}else{
+					self.shortVideoCollectionNum = self.shortVideoCollectionNum-1
+				}
+				
+			},
 			testreply(id, name){
 				console.log(id, name)
+				this.recommendId = id
+				this.recommendName = name
 				this.replySay = '回复' + name + ':';
 				console.log(this.replySay)
+			},
+			reply(id){
+				console.log(id)
+				uni.navigateTo({
+					url: "/pages/answer/answer?Id=" + id
+				})
+			},
+			testreply2(id){
+				console.log(id)
+				
 			},
 			recordName(e) {  
 				this.inputValue = e.detail.value;
 				console.log(e.detail.value)
-
 				let token
 				let self = this
 				uni.getStorage({
@@ -291,35 +434,57 @@
 				console.log(self.outUserId)
 				console.log(self.nickName)
 				console.log(self.id)
-				uni.request({
-					url: url + "controller/usercontroller/addshortvideodiscuss",
-					data: {
-						outUserId: self.outUserId,
-						shortVideoId: self.id,
-						outUserName: self.nickName,
-						shortVideoDiscuss: e.detail.value
-					},
-					method: 'POST',
-					header : {
-						'content-type':'application/x-www-form-urlencoded', 
-						'port': 'app',
-						'token': '3472497a5dbf4778896ab9221490b671'
-					},
-					success: function (res){
-						console.log(res.data.code)
-						if(res.data.code==200){
-							
-						}else{
-							console.log("请求异常")
+				if(this.recommendId!=''){
+					uni.request({
+						url: url + "controller/usercontroller/addanswershortvideodiscuss",
+						data: {
+							outUserId: self.outUserId,
+							id: self.recommendId,
+							outUserName: self.recommendName,
+							shortVideoDiscuss: e.detail.value
+						},
+						method: 'POST',
+						header : {
+							'content-type':'application/x-www-form-urlencoded', 
+							'port': 'app',
+							'token': token
+						},
+						success: function (res){
+							console.log(res)
+							if(res.data.code==200){
+								
+							}else{
+								console.log("请求异常")
+							}
 						}
-					}
-				})
-
+					})
+				}else{
+					uni.request({
+						url: url + "controller/usercontroller/addshortvideodiscuss",
+						data: {
+							outUserId: self.outUserId,
+							shortVideoId: self.id,
+							outUserName: self.nickName,
+							shortVideoDiscuss: e.detail.value
+						},
+						method: 'POST',
+						header : {
+							'content-type':'application/x-www-form-urlencoded', 
+							'port': 'app',
+							'token': token
+						},
+						success: function (res){
+							console.log(res.data.code)
+							if(res.data.code==200){
+								
+							}else{
+								console.log("请求异常")
+							}
+						}
+					})
+				}
+				
             },
-			// search(e){
-			// 	console.log("777777")
-			// 	console.log(e.event.detail)
-			// },
 			touchstart(index) {
 				let that = this;
 				clearInterval(this.Loop); //再次清空定时器，防止重复注册定时器
@@ -358,7 +523,34 @@
 				});
 			},
 			btn(){      // 收起 展开
-				this.fold=!this.fold;
+				let self = this
+				self.fold=!self.fold;
+				if(self.fold==false){
+					let views = uni.createSelectorQuery().select(".fold");
+					views.fields({
+						size: true
+					}, data => {
+						if(JSON.stringify(data) == "null") {
+							return
+						}
+						console.log("得到节点信息" + JSON.stringify(data));
+						console.log("节点的宽为" + data.height);
+						self.height = data.height
+					}).exec();
+				}else{
+					let view = uni.createSelectorQuery().select(".unfold");
+					console.log(view)
+					view.fields({
+						size: true
+					}, data => {
+						if(JSON.stringify(data) == "null") {
+							return
+						}
+						console.log("得到节点信息" + JSON.stringify(data));
+						console.log("节点的宽为" + data.height);
+						self.height = data.height
+					}).exec();
+				}
 			},
 			togglePopup(type, open) {
 				switch (type) {
@@ -394,7 +586,9 @@
 </script>
 
 <style>
-	
+	page{
+		background-color: #000;
+	}
     .release-video{
         position: relative;
         width:750rpx;
@@ -454,19 +648,17 @@
 	    height:162rpx;
 	}
 	.user-info{
-		position: relative;
-		/* display: flex;
-		justify-content: space-around; */
+		position: absolute;
 		align-items: center;
 		left: 30rpx;
-		top: 441px;
+		bottom: 0;
 		width: 690rpx;
-		/* height: 300rpx; */
+		height: 300rpx;
 	}
 	.my-active-image10{
-		float: left;
-		left: 30rpx;
-		bottom: 152rpx;
+		position: absolute;
+		left: 10rpx;
+		bottom: 158rpx;
 		margin-bottom: 0rpx;
 		width:80rpx;
 		height:80rpx;
@@ -479,7 +671,7 @@
 		height:80rpx;
 	}
 	.my-active-nickName10{
-		float: left;
+		position: absolute;
 		left: 128rpx;
 		bottom: 177rpx;
 		font-size:32rpx;
@@ -488,7 +680,8 @@
 		color:rgba(255,255,255,1);
 	}
 	.edit-del{
-		float: left;
+		/* position: absolute; */
+		display: none;
 		left: 277rpx;
 		bottom: 168rpx;
 		width: 106rpx;
@@ -498,39 +691,41 @@
 		width: 106rpx;
 		height: 48rpx;
 	}
-	.my-active-recommend{
-		float: left;
-		left: 32rpx;
-		/* bottom: 64rpx; */
-		bottom: 4rpx;
-		width:674rpx;
-		/* height:59rpx; */
-		font-size:26rpx;
+	
+	/* 展开 */
+	.content {
+		position: absolute;
+		bottom: 0rpx;
+		padding: 30rpx 0;
+		overflow: hidden;
+	}
+	.content view {
+		display: inline;
+	}
+	.text {
+		width: 100%;
+		font-size:28rpx;
 		font-family:PingFang SC;
 		font-weight:500;
 		color:rgba(255,255,255,1);
 		line-height:33rpx;
+		/* float: left; */
+		position: relative;
 	}
-	.fold{
-		display: -webkit-box;
-		 word-break: break-all;
-		 text-overflow: ellipsis;
-		 font-size:26rpx;
-		 font-family:PingFang SC;
-		 font-weight:500;
-		 color:rgba(255,255,255,1);
-		 line-height:33rpx;
-		 overflow: hidden;
-		 -webkit-box-orient: vertical;
-		 -webkit-line-clamp:2;
+	.content view:last-child {
+		font-size:24rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(90,124,171,1);
+		line-height:33rpx;
+		margin-left: 20rpx;
 	}
-	.unfold{
-		 font-size:26rpx;
-		 font-family:PingFang SC;
-		 font-weight:500;
-		 color:rgba(255,255,255,1);
-		 line-height:33rpx;
+	.content view:last-child image {
+		width: 26rpx;
+		height: 19rpx;
+		margin-bottom: -1rpx;
 	}
+	
 	.my-active-more{
 		margin-left: 10rpx;
 		font-size:24rpx;
@@ -558,8 +753,8 @@
 	}
 	.good{
 		position: absolute;
-		left: 27rpx;
-		bottom: 33rpx;
+		right: 27rpx;
+		bottom: 44rpx;
 		width: 31rpx;
 		height: 31rpx;
 	}
@@ -569,8 +764,8 @@
 	}
 	.text10{
 		position: absolute;
-		left: 66rpx;
-		bottom: 24rpx;
+		right: 62rpx;
+		bottom: 36rpx;
 		font-size:26rpx;
 		font-family:PingFang SC;
 		font-weight:500;
@@ -578,8 +773,8 @@
 	}
 	.star{
 		position: absolute;
-		left: 151rpx;
-		bottom: 33rpx;
+		right: 151rpx;
+		bottom: 44rpx;
 		width: 31rpx;
 		height: 31rpx;
 	}
@@ -589,8 +784,8 @@
 	}
 	.text11{
 		position: absolute;
-		left: 190rpx;
-		bottom: 24rpx;
+		right: 190rpx;
+		bottom: 36rpx;
 		font-size:26rpx;
 		font-family:PingFang SC;
 		font-weight:500;
@@ -598,8 +793,8 @@
 	}
 	.message{
 		position: absolute;
-		left: 274rpx;
-		bottom: 33rpx;
+		right: 274rpx;
+		bottom: 44rpx;
 		width: 31rpx;
 		height: 31rpx;
 	}
@@ -609,8 +804,8 @@
 	}
 	.text12{
 		position: absolute;
-		left: 311rpx;
-		bottom: 24rpx;
+		right: 311rpx;
+		bottom: 36rpx;
 		font-size:26rpx;
 		font-family:PingFang SC;
 		font-weight:500;
@@ -618,7 +813,7 @@
 	}
 	.topic{
 		position: absolute;
-		right: 30rpx;
+		left: 30rpx;
 		bottom: 14rpx;
 		width:302rpx;
 		height:70rpx;
@@ -651,10 +846,11 @@
 
 	}
 	.recommend{
+		z-index: 99;
 		margin-top: -30rpx;
 		margin-left: -30rpx;
 		width:750rpx;
-		height:auto;
+		height:100%;
 		background:rgba(255,255,255,1);
 		border-radius:22rpx 22rpx 0px 0px;
 		padding-bottom: 140rpx;
@@ -752,6 +948,42 @@
 		color:rgba(51,51,51,1);
 		line-height:40rpx;
 	}
+	.recommend-text-reply{
+		position: relative;
+		top: 12rpx;
+		left: 123rpx;
+		width:566rpx;
+		height:135rpx;
+		background:rgba(248,248,248,1);
+		border:1px solid rgba(239,239,239,1);
+		border-radius:6rpx;
+	}
+	.recommend-text-reply-user{
+		margin-left: 16rpx;
+		font-size:24rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(102,102,102,1);
+		line-height:28rpx;
+	}
+	.recommend-text-reply-user2{
+		margin-left: 16rpx;
+		font-size:24rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(102,102,102,1);
+		line-height:28rpx;
+	}
+	.recommend-text-reply-count{
+		position: absolute;
+		bottom: 2px;
+		margin-left: 16rpx;
+		font-size:22rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(249,183,44,1);
+		line-height:28rpx;
+	}
 	.horizon2{
 		float: right;
 		margin-right: 30rpx;
@@ -761,111 +993,7 @@
 		background:rgba(226,226,226,1);
 	}
 
-	.my-active-image1{
-		position: absolute;
-		left: 30rpx;
-		top: 388rpx;
-		width:80rpx;
-		height:80rpx;
-		background:rgba(149,149,149,1);
-		border-radius:50%;
-	}
-	.my-active-nickName1{
-		position: absolute;
-		left: 128rpx;
-		top: 388rpx;
-		font-size:30rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(102,102,102,1);
-	}
-	.my-active-data1{
-		position: absolute;
-		left: 128rpx;
-		top: 434rpx;
-		font-size:24rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(102,102,102,1);
-	}
-	.recommend-good1{
-		position: absolute;
-		right: 30rpx;
-		top: 417rpx;
-		width:31rpx;
-		height:31rpx;
-	}
-	.recommend-good1 image{
-		width:31rpx;
-		height:31rpx;
-	}
-	.recommend-text1{
-		position: absolute;
-		right: 57rpx;
-		top: 471rpx;
-		width:568rpx;
-		height:67rpx;
-		font-size:26rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(51,51,51,1);
-		line-height:40rpx;
-	}
-	.answer{
-		position: absolute;
-		right: 61rpx;
-		top: 550rpx;
-		width:566rpx;
-		height:135rpx;
-		background:rgba(248,248,248,1);
-		border:1px solid rgba(239,239,239,1);
-		border-radius:6rpx;
-	}
-	.user{
-		position: absolute;
-		left: 19rpx;
-		top: 18rpx;	
-		font-size:24rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(102,102,102,1);
-	}
-	.answer-content{
-		position: absolute;
-		left: 84rpx;
-		top: 18rpx;	
-		font-size:24rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(51,51,51,1);
-	}
-	.user1{
-		position: absolute;
-		left: 19rpx;
-		top: 52rpx;	
-		font-size:24rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(102,102,102,1);
-	}
-	.answer-content1{
-		position: absolute;
-		right: 304rpx;
-		top: 52rpx;	
-		font-size:24rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(51,51,51,1);
-	}
-	.total-answer{
-		position: absolute;
-		left: 20rpx;
-		bottom: 20rpx;	
-		font-size:22rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(249,183,44,1);
-	}
+	
 	.replay-input {
 		width: 100%;
 		height: 120rpx;
@@ -874,6 +1002,9 @@
 		padding: 20rpx;
 		position: fixed;
 		bottom: 0;
+	}
+	.replay-input2 {
+		display: none;
 	}
 	.say-something{
 		/* position: absolute;
@@ -885,14 +1016,5 @@
 		border-radius:30rpx;
 		padding-left: 30rpx;
 		/* border: 1px solid red; */
-	}
-	.say-something-text{
-		position: absolute;
-		left: 30rpx;
-		bottom: 24rpx;	
-		font-size:24rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(153,153,153,1);
 	}
 </style>
