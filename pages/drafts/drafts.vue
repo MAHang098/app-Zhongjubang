@@ -34,7 +34,7 @@
 				<!-- 用户信息 start -->
 				
 				<!-- 草稿内容 start -->
-				<view class="content">
+				<view class="content" v-if="item.content != '' ">
 					<!-- <view class="text">{{activeIndex == indexs && !isShowAllContent  ? item.content : item.content | ellipsis }}</view> -->
 					<!-- <view class="text" v-show="!isShowAllContent">{{item.content }}</view> -->
 					<view v-if="activeIndex == indexs && !isShowAllContent" class="text"  @click.stop="editRelease(item, items.appUserDraftsId)">{{item.content }}</view>
@@ -50,10 +50,10 @@
 				<video id="myVideo" :src="item.videoUrl" v-show="!show" enable-danmu danmu-btn controls></video>
 				<!-- 图片/视频 end -->
 				<!-- 话题 start -->
-				<view class="draftsTopic" v-show="show">
+				<view class="draftsTopic" v-show="show" v-if="item.title != '' ">
 					<view class="left">
 						<image src="../../static/topic/topic.png" mode=""></image>
-						<view>添加您的话题</view>
+						<view>{{item.title}}</view>
 					</view>
 					<view class="right"></view>
 				</view>
@@ -164,9 +164,6 @@
 				});
 			},
 			editRelease(item, id) {
-				console.log(id);
-				// let content = item.content;
-				// let topic = item.title;
 				this.$store.commit('saveImage', item.imgList);
 				let obj = {
 					id: id,
@@ -180,15 +177,13 @@
 			},
 			// 预览图片
 			previewImage: function(i, arr) {
-				// console.log(this.imageList)
-				console.log(i)
+				
 				this.$store.commit('saveImage', arr);
 				let e = i + 1;
 				uni.navigateTo({
 					url: '/pages/previewImage/previewImage?current=' + i + '&indexImg=' + e
 				})
 				// var current = e.target.dataset.src
-				// console.log(current)
 			},
 		},
 	}
@@ -244,6 +239,7 @@
 		line-height: 88rpx;
 		display: flex;
 		justify-content: space-between;
+		
 	}
 	.message {
 		display: flex;
@@ -287,7 +283,7 @@
 		margin-left: 6rpx;
 	}
 	.content {
-		padding: 25rpx 0;
+		padding-top: 25rpx;
 		overflow: hidden;
 		/* position: relative; */
 	}
@@ -411,6 +407,7 @@
 		display: flex;
 		justify-content: flex-start;
 		flex-wrap: wrap;
+		margin-top: 20rpx;
 	}
 	.imageList image {
 		width: 30%;

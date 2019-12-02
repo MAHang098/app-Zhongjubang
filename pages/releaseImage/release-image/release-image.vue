@@ -1,5 +1,10 @@
 <template>
 	<view class="release">
+		<view class="header">
+			<image src="../../../static/topic/topic-back.png" mode="" @click="cancel"></image>
+			<view class="release-image">发布图片</view>
+			<view class="next" @click="release">发布</view>
+		</view>
 		<view class="desc">
 			<textarea placeholder="多多分享想法和经验..."  maxlength="200" class="release-text" v-model="desc"  @input="descInput"/>
 			<view class="num">{{remnant}}/200</view>
@@ -18,22 +23,37 @@
 		<!-- 上传图片 start -->
 		<view class="upload-list">
 			<view class="img" v-for="(item, index) in allImage" :key="index">
-				<image :src="item.fileUrl" mode="" @tap="previewImage(index)"></image>
-				<image src="../../../static/topic/deletes.png" mode="" class="delete" @click="deleteImage(item.fileName, index)"></image>
+				<image :src="item.fileUrl" mode="scaleToFill" @click.stop="previewImage(index)"></image>
+				<image src="../../../static/topic/deletes.png" mode="" class="delete" @click.stop="deleteImage(item.fileName, index)"></image>
 			</view>
-			<image src="../../../static/topic/add-upload.png" mode=""  @click="chooseImage" v-show="isUpload"></image>
+			<image src="../../../static/topic/add-upload.png" mode=""  @click.stop="chooseImage" v-show="isUpload"></image>
 		</view>
 		
 		<!-- 底部 start -->
 		<view class="bottom">
-			<image src="../../../static/topic/img.png" mode="" @click="chooseImage"></image>
-			<view @click="saveDrafts">存草稿</view>
+			<image src="../../../static/topic/img.png" mode="" @click.stop="chooseImage"></image>
+			<view @click="togglePopup('center', 'tip')">存草稿</view>
 		</view>
+		
+		<!-- 删除标签 start -->
+		<uni-popup :show="show" :popupType ="popupType" :custom="true" :mask-click="false" >
+			<view class="uni-tip">
+				<!-- <view class="uni-tip-title">提示</view> -->
+				<view class="uni-tip-content">要保存到草稿箱吗？</view>
+				<view class="uni-tip-group-button">
+					<view class="uni-tip-button" @click="cancelPopup('tip')" style="color: #F9B72C;">不保存</view>
+					<view class="uni-tip-button insist-skip" @click="cancelPopup('skip')">保存</view>
+				</view>
+			</view>
+		</uni-popup>
+		<!-- 删除标签 end -->
 	</view>
 </template>
 
 <script>
+	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 	export default {
+		components:{ uniPopup},
 		data() {
 			return {
 				remnant: 0,
@@ -46,13 +66,19 @@
 				ishow: true,
 				type: '',
 				appUserDraftsId: '', // 用户草稿ID
+				// 弹窗所用到的变量
+				show: false,
+				popupType: '',
 			}
 		},
+		// 监听页面上和手机上的返回键
+		
 		onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
-			// console.log(this.$store.state.itemImage); //打印出上个页面传递的参数。
+			if(this.$store.state.topic != '') {
+				this.participationTopic = this.$store.state.topic;
+			}
 			// this.allTag = this.$store.state.itemImage;
 			let drafts = this.$store.state.drafts;
-			console.log(drafts)
 			if(drafts.length > 0) {
 				this.desc = drafts[0].content;
 				this.appUserDraftsId = drafts[0].id
@@ -69,54 +95,64 @@
 			if(this.allImage.length > 8) {
 				this.isUpload = false;
 			}
-			
 		},
 		// 发布图片
 		onNavigationBarButtonTap(e) {
-			let token = '';
-			uni.getStorage({
-				key:"token",
-				success: function (res) {
-				 token = res.data;
-			  }
-			})
-			if(this.participationTopic == '参与话题') {
-				this.participationTopic = '';
-			}
-			let parmas = {
-				content: this.desc,
-				imgList: this.allImage,
-				title: this.participationTopic
-			}
-			uni.request({
-				url: this.url + 'controller/usercontroller/addgcirclecontent',
-				method: 'post',
-				data: parmas,
-				header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
-				success: function(res) {
-					if(res.data.code == 200) {
-						uni.showToast({
-							title: '发布成功',
-							duration: 500,
-						});
-						
-						// setTimeout(() => {
-						// 	uni.navigateTo({
-						// 		url: '/pages/receiving-address/receiving-address'
-						// 	})
-						// }, 1000);
-						// uni.hideToast();
-					} else {
-						uni.showToast({
-						    icon: 'none',
-						    title: res.data.message
-						});
-						uni.hideToast();
-					}
-				}
-			});
+			
 		},
 		methods: {
+			// 发布
+			release() {
+				let token = '';
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+					 token = res.data;
+				  }
+				})
+				if(this.participationTopic == '参与话题') {
+					this.participationTopic = '';
+				}
+				let parmas = {
+					content: this.desc,
+					imgList: JSON.stringify(this.allImage),
+					title: this.participationTopic
+				}
+				uni.request({
+					url: this.url + 'controller/usercontroller/addgcirclecontent',
+					method: 'post',
+					data: parmas,
+					header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
+					success:(res) => {
+						if(res.data.code == 200) {
+							this.$store.commit('clearData', []);
+							
+							uni.showToast({
+								title: '发布成功',
+								duration: 500,
+							});
+							// setTimeout(() => {
+							// 	uni.navigateTo({
+							// 		url: '/pages/receiving-address/receiving-address'
+							// 	})
+							// }, 1000);
+							// uni.hideToast();
+						} else {
+							uni.showToast({
+							    icon: 'none',
+							    title: res.data.message
+							});
+							uni.hideToast();
+						}
+					}
+				});
+			},
+			// 返回键
+			cancel() {
+				this.togglePopup('center', 'tip');
+				// console.log(1111)
+				return true;
+			},
 			// 存草稿
 			saveDrafts() {
 				let token = '';
@@ -136,7 +172,6 @@
 						title: this.participationTopic
 					}
 				]
-				console.log(draftsContent)
 				let str = JSON.stringify(draftsContent);
 				let parmas = {
 					type: 1,
@@ -153,13 +188,15 @@
 						method: 'post',
 						data: parmas,
 						header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
-						success: function(res) {
+						success: (res) => {
 							if(res.data.code == 200) {
 								uni.showToast({
 									title: '保存成功',
 									duration: 500,
 								});
-								this.$store.commit('saveDrafts', {})
+								this.show = false;
+								this.$store.commit('clearData', []);
+								this.$store.commit('clearDrafts', [])
 								// setTimeout(() => {
 								// 	uni.navigateTo({
 								// 		url: '/pages/receiving-address/receiving-address'
@@ -182,13 +219,15 @@
 					method: 'post',
 					data: parmas,
 					header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
-					success: function(res) {
+					success: (res) => {
 						if(res.data.code == 200) {
 							uni.showToast({
 								title: '保存成功',
 								duration: 500,
 							});
-							
+							this.show = false;
+							this.$store.commit('clearData', []);
+							this.$store.commit('clearDrafts', [])
 							// setTimeout(() => {
 							// 	uni.navigateTo({
 							// 		url: '/pages/receiving-address/receiving-address'
@@ -210,6 +249,13 @@
 			},
 			// 选择话题
 			addTopic() {
+				if(this.$store.state.topic != '') {
+					uni.showToast({
+						icon: 'none',
+						title: '当前不能修改话题'
+					})
+					return;
+				}
 				uni.navigateTo({
 					url: '/pages/releaseImage/search-title/search-title'
 				})
@@ -233,7 +279,6 @@
 			deleteImage(name, index) {
 				this.allImage.forEach((item, i, array) => {
 					if(item.fileName == name && index == i) {
-						// console.log(item)
 						array.splice(index,1)
 					}
 				})
@@ -245,7 +290,6 @@
 			chooseImage() {
 				let pic = this.$store.state.uploadImage;
 				if(pic.length > 8) {
-					console.log("已经有9张图片了")
 					this.isUpload = false;
 					return;
 				}
@@ -311,7 +355,38 @@
 						
 				    }
 				});
-			}
+			},
+			// 弹出层弹出的方式  i:当前标签的下标, name: 当前标签的name
+			togglePopup(type, open) {
+				switch (type) {
+					case 'top':
+						this.content = '顶部弹出 popup'
+						break
+			
+					case 'bottom':
+						this.content = '底部弹出 popup'
+						break
+					case 'center':
+						this.content = '居中弹出 popup'
+						break
+				}
+				this.popupType = type
+				if (open === 'tip') {
+					this.show = true
+				} else {
+					this.$refs[open].open()
+				}
+			},
+			// 取消弹出层
+			cancelPopup(type) {
+				if (type === 'tip') {
+					this.show = false
+					return
+				}
+				if(type === 'skip') {
+					this.saveDrafts();
+				}
+			},
 		}
 	}
 </script>
@@ -320,6 +395,41 @@
 	page {
 		width: 100%;
 		height: 100%;
+	}
+	.header {
+		width: 100%;
+		height: 100rpx;
+		line-height: 100rpx;
+		display: flex;
+		justify-content: space-between;
+		box-sizing: border-box;
+		align-items: center;
+		padding: 10rpx 30rpx;
+		/* border-bottom: 1px solid #E2E2E2; */
+		color: #FFFFFF;
+		font-size: 36rpx;
+	}
+	.release-image {
+		font-size:36rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(51,51,51,1);
+	}
+	.header image {
+		width: 15rpx;
+		height: 31rpx;
+		display: block;
+		/* margin: auto 0; */
+	}
+	.next {
+		width: 106rpx;
+		height: 48rpx;
+		line-height: 48rpx;
+		margin: auto 0;
+		border-radius: 24rpx;
+		background: #F9B72C;
+		text-align: center;
+		font-size: 30rpx;
 	}
 	.desc {
 		position: relative;
@@ -379,6 +489,7 @@
 		color: #999999;
 		display: flex;
 		justify-content: flex-start;
+		align-items: center;
 	}
 	/* 图片上传 start */
 	.upload-list {
@@ -440,5 +551,48 @@
 		border-radius: 23rpx;
 		border: 1px solid #999999;
 		text-align: center;
+	}
+	
+	/* 提示窗口 */
+	.uni-tip {
+		padding-top: 15px;
+		width: 300px;
+		background: #fff;
+		box-sizing: border-box;
+		border-radius: 10px;
+	}
+	
+	.uni-tip-title {
+		text-align: center;
+		font-weight: bold;
+		font-size: 41rpx;
+		color: #333;
+	}
+	
+	.uni-tip-content {
+		padding: 44rpx 0;
+		font-size: 32rpx;
+		color: #666;
+		width: 360rpx;
+		color: #666666;
+		font-weight: 500;
+		margin: auto;
+		text-align: center;
+	}
+	
+	.uni-tip-group-button {
+		margin-top: 10px;
+		display: flex;
+	}
+	
+	.uni-tip-button {
+		width: 100%;
+		text-align: center;
+		font-size: 14px;
+		color: #333333;
+		font-size: 37rpx;
+		font-weight: 500;
+		border-top: 1px solid #E2E2E2;
+		padding: 10px 0;
 	}
 </style>

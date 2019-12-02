@@ -17,7 +17,10 @@
 				<view class="tag-list">
 					<view :style="{transform: 'translateX(' + tag.tagX+'px) translateY(' + tag.tagY+'px) translateZ(0px) scale(1)'}"  class="tagText" v-for="(tag, tagIndex) in tagItems" :key="tagIndex" >
 						<image src="../../static/upload/indicator.png" mode=""></image>
-						<view class="tag-detail "  :class="rotate ? 'moveright' : 'moveleft' ">{{tag.tagName}}</view>
+						<view class="tag-detail "  :class="rotate ? 'moveright' : 'moveleft' ">
+							<image src="../../static/tag/cart.png" mode="" v-show="tag.type == 'product' || tag.type != 'tag'"></image>
+							{{tag.tagName | ellipsis}}
+						</view>
 					</view>
 				</view>
 				<!-- 拖动视图 end -->
@@ -63,21 +66,26 @@
 				rotate: true
 			}
 		},
-		
+		filters: {
+			ellipsis (value) {
+			  if (!value) return ''
+			  if (value.length > 12) {
+				return value.slice(0,12) + '...'
+			  }
+			  return value
+			}
+		},
 		onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
 			// if(option.length)
-			console.log(option.length)
 			// if(option.current) {
 				this.current = option.current;
 				this.indexImg = option.indexImg;
-				console.log(this.current)
 			// }
 		},
 		onShow: function() {
 			let mark = false, autoIndex ;
 			this.items = this.$store.state.uploadImage;
 			this.allImg =  this.items.length;
-			
 			this.tagItems = [];
 			for(let i = 0; i< this.items.length; i++) {
 				let imgI = this.indexImg -1;
@@ -112,6 +120,7 @@
 		methods: {
 			// 返回
 			cancel() {
+				this.$store.commit('clearData', []);
 				uni.navigateBack();
 			},
 			
@@ -214,7 +223,7 @@
 		align-items: center;
 		justify-content: center;
 		height: 87rpx;
-		width: 100px;
+		width: auto;
 		/* border: 1px solid red; */
 		color: #fff;
 		z-index: 1;
@@ -240,12 +249,17 @@
 		display: block;
 	}
 	.tag-detail {
-		padding: 6rpx 25rpx;
+		padding: 8rpx 25rpx;
 		background: rgba(0,0,0,.6);
 		margin-top: 58rpx;
 		font-size: 24rpx;
 		font-weight: 500;
 		border: 1px solid rgba(255,255,255,.3);
+		display: flex;
+		align-items: center;
+	}
+	.tag-detail image {
+		margin-right: 10rpx;
 	}
 	.moveright {
 		margin-left: -1px;

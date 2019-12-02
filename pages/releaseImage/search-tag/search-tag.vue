@@ -1,10 +1,10 @@
 <template>
-	<view class="contant">
+	<view>
 		<!-- 搜索栏 start -->
 		<view class="header">
 			<view class="search-input">
 				<image src="../../../static/search/nav-search.png" mode=""></image>
-				<input type="text" value=""  placeholder="搜索您需要的商品" @input="gainInput"/>
+				<input type="text" value=""  placeholder="搜索您需要的商品" @input="gainInput" @focus="onFocus" @blur="onBlur"/>
 			</view>
 			<view class="cancel" @click="cancel">取消</view>
 		</view>
@@ -14,7 +14,7 @@
 		<view class="content-body" >
 			<!-- add tag start -->
 			<view class="tag-list" v-show="isShowAdd" >
-				<view class="add-tag" @click="goBack()">
+				<view class="add-tag" @click="goBack('tag')">
 					<image src="../../../static/img/release.png" mode=""></image>
 					<text>点击添加{{searchInput}}</text>
 				</view>
@@ -27,17 +27,13 @@
 						{{item}}
 						<text v-bind:class="index == current ? 'active-status' : '' "></text>
 					</view>
-					<!-- <view class="">
-						
-						<text class="active-logo"></text>
-					</view> -->
 				</view>
 				<view class="product-list">
-					<view class="list">
+					<view class="list" v-for="(item, index) in productItem" :key="index" @click.stop="goBack('product', item.title)">
 						<view><image src="../../../static/search/product.png" mode=""></image></view>
 						<view class="detail">
-							<view>百醇家具布衣111沙发小户型客厅整111装组合百醇1111家具布衣沙发小户型客厅整装组合户型客厅整装组合装组合</view>
-							<view class="price">￥8460.00</view>
+							<view>{{item.title}}</view>
+							<view class="price">{{item.price}}</view>
 						</view>
 					</view>
 				</view>
@@ -62,7 +58,15 @@
 				tagArr: [],
 				fileName: '',
 				imageHeight: 0,
-				imageWidth: 0
+				imageWidth: 0,
+				productItem: [
+					{title: '百醇家具布衣111沙发小户型客厅整111装组合百醇1111家具布衣沙发小户型客厅整装组合户型客厅整装组合装组合', price: '￥8460.00'},
+					{title: '百醇家具布衣111沙发小户型客厅整111装组合百醇1111家具布衣沙发小户型客厅整装组合户型客厅整装组合装组合', price: '￥8460.00'},
+					{title: '百醇家具布衣111沙发小户型客厅整111装组合百醇1111家具布衣沙发小户型客厅整装组合户型客厅整装组合装组合', price: '￥8460.00'},
+					{title: '百醇家具布衣111沙发小户型客厅整111装组合百醇1111家具布衣沙发小户型客厅整装组合户型客厅整装组合装组合', price: '￥8460.00'},
+					{title: '百醇家具布衣111沙发小户型客厅整111装组合百醇1111家具布衣沙发小户型客厅整装组合户型客厅整装组合装组合', price: '￥8460.00'},
+					{title: '百醇家具布衣111沙发小户型客厅整111装组合百醇1111家具布衣沙发小户型客厅整装组合户型客厅整装组合装组合', price: '￥8460.00'}
+				]
 			}
 		},
 		onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
@@ -70,9 +74,19 @@
 			this.fileName = option.name;
 			this.imageHeight = option.height;
 			this.imageWidth = option.width;
-			// console.log(this.init());
 		},
 		methods: {
+			// 输入框获取焦点/失去焦点
+			onFocus() {
+				// this.$mp.page.$getAppWebview().setStyle({
+				// 	softinputNavBar: 'none'
+				// })
+			},
+			onBlur() {
+				// this.$mp.page.$getAppWebview().setStyle({
+				// 	softinputNavBar: 'auto'
+				// })
+			},
 			// 设置标签的x，y轴坐标
 			fRandomBy(under, over) {
 				switch(arguments.length){
@@ -91,7 +105,6 @@
 			},
 			// 失去焦点后获取输入内容
 			gainInput(e) {
-				// console.log(e.detail.value)
 				if(e.detail.value == '') {
 					this.isShowAdd = false;
 					return;
@@ -100,9 +113,11 @@
 				this.isShowAdd = true;
 			},
 			// 点击添加标签按钮返回图片标签页面
-			goBack() {
-				// console.log(this.init(0,300));
-				// return;
+			goBack(type, name) {
+				
+				if(name) {
+					this.searchInput = name;
+				}
 				let pages = getCurrentPages();  //获取所有页面栈实例列表
 				let nowPage = pages[ pages.length - 1];  //当前页页面实例
 				let prevPage = pages[ pages.length - 2 ];  //上一页页面实例
@@ -111,8 +126,9 @@
 				// 当前图片标签对象
 				let ImageTag = {
 					tagName: this.searchInput,
-					tagX: this.fRandomBy(0,this.imageWidth),
-					tagY: this.fRandomBy(0, this.imageHeight)
+					tagX: this.fRandomBy(-20,300),
+					tagY: this.fRandomBy(-76,400),
+					type: type
 				}
 				this.tagArr.push(ImageTag);
 				let arrObj = {
@@ -138,8 +154,8 @@
 	}
 	.header {
 		width: 100%;
-		height: 100rpx;
-		line-height: 100rpx;
+		height: 140rpx;
+		/* line-height: 100rpx; */
 		display: flex;
 		justify-content: space-between;
 		box-sizing: border-box;
@@ -147,10 +163,14 @@
 		background: #FFFFFF;
 		position: fixed;
 		z-index: 1;
-		top: 50rpx;
+		/* top: 50rpx; */
+		top: 0;
 		left: 0;
 		right: 0;
 		border-bottom: 1px solid #E2E2E2;
+	}
+	.header view {
+		margin-top: 40rpx;
 	}
 	.search-input {
 		position: relative;
@@ -187,7 +207,8 @@
 		width: 100%;
 		height: 100%;
 		background: #F6F6F6;
-		margin-top: 150rpx;
+		position: relative;
+		top: 75px;
 	}
 	.tag-list {
 		height: 85rpx;
@@ -243,6 +264,7 @@
 	.list {
 		display: flex;
 		justify-content: flex-start;
+		margin-bottom: 10px;
 	}
 	.list image {
 		width: 214rpx;

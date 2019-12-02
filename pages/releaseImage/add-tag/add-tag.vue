@@ -24,8 +24,11 @@
 					@change="onChange($event, tagIndex, index, tag.fileName)"
 					 class="tagText" v-for="(tag, tagIndex) in tagItems" :key="tagIndex" 
 					  @click.stop="togglePopup('center', 'tip', tagIndex, tag.tagName, index)">
-						<image src="../../../static/upload/indicator.png" mode="" @click.stop="changeMove" ></image>
-						<view class="tag-detail " :class="rotate ? 'moveright' : 'moveleft' ">{{tag.tagName}}</view>
+						<image src="../../../static/upload/indicator.png" mode="" @click.stop="changeMove(tagIndex)" ></image>
+						<view class="tag-detail " :class="setIndex == tagIndex && rotate ? 'moveleft' : ' moveright' ">
+							<image src="../../../static/tag/cart.png" mode="" v-show="tag.type == 'product' || tag.type != 'tag'"></image>
+							{{tag.tagName | ellipsis}}
+						</view>
 					</movable-view>
 				</movable-area>
 				<!-- 拖动视图 end -->
@@ -58,13 +61,9 @@
 				vertical: false,
 				autoplay: false,
 				items: [],
-				x: 0,
-				y: 0,
-				maxY: 480,
-				minX: 310,
 				allImg: 0, // 图片总数
 				indexImg: 1, // 当前所在第几张图片
-				rotate: true,
+				rotate: false,
 				searchVal: 0,
 				tagItems: [],   // 标签数组
 				isShowAddTag: true, // 是否显示添加标签的样式
@@ -77,17 +76,24 @@
 				currentTagIndex: '',  // 用于删除当前标签  当前标签的下标
 				currentTagName: '',  // 用于删除当前标签  当前标签的标签名
 				tagImageIndex: 0	,// 用于删除当前标签  当前第几张图片,
-				autoIndex: null
+				autoIndex: null,
+				setIndex: -1
 			}
 		},
-		
+		filters: {
+			ellipsis (value) {
+			  if (!value) return ''
+			  if (value.length > 12) {
+				return value.slice(0,12) + '...'
+			  }
+			  return value
+			}
+		},
 		onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
 			// if(option.length)
-			console.log(option.length)
 			if(option.current) {
 				this.current = option.current;
 				this.indexImg = option.indexImg;
-				console.log(this.current)
 			}
 		},
 		onShow: function() {
@@ -167,8 +173,6 @@
 					return
 				}
 				if(type === 'skip') {
-					// console.log(this.indexImg)
-					// console.log(this.items)
 					this.items.forEach((item, i) => {
 						let tagArr = item.testArr;
 						tagArr.forEach((tag, index) => {
@@ -183,7 +187,6 @@
 							}
 						})
 					});
-					console.log(this.items)
 					
 				}
 			},
@@ -207,7 +210,6 @@
 			},
 			// 拖动标签 e拖动标签后的x，y轴标签， i：当前拖动标签的下表 ， imageIndex：拖动标签当前所在的图片是第几张
 			onChange(e, index, imageIndex, name) {
-				// console.log(e)
 				if(e.detail.source !== 'touch') {
 					return;
 				}
@@ -242,12 +244,36 @@
 					url: '/pages/releaseImage/search-tag/search-tag?index=' + index + '&name=' + name
 				})
 			},
-			changeMove() {
-				this.rotate=!this.rotate;
+			changeMove(index) {
+				// this.rotate=!this.rotate;
+				// this.setIndex = index;
+				// let mask = false, testIndex, arrTag=[];
+				// let arr = this.items[imageIndex].testArr[0];
+				// if(!arr) {
+				// 	return;
+				// }
+				// arrTag = arr.allTagArr;
+				// for(let a = 0; a < arrTag.length; a++) {
+				// 	if(a == index) {
+				// 		arrTag[index] = {
+				// 			tagName: arrTag[a].tagName,
+				// 			tagX: e.detail.x,
+				// 			tagY: e.detail.y,
+				// 			left: true
+				// 		}
+				// 		break; 
+				// 	}
+				// }
+				// let arrObj = {
+				// 	currentImage: imageIndex,
+				// 	fileName: name,
+				// 	allTagArr: arrTag,
+				// 	type: 'add'
+				// }
+				// this.$store.commit('saveImage', arrObj)
 			},
 			// 跳转到发布页面
 			nextRelease() {
-				// console.log(this.items)
 				uni.navigateTo({
 					url: '/pages/releaseImage/release-image/release-image'
 				})
@@ -351,7 +377,7 @@
 		align-items: center;
 		justify-content: center;
 		height: 87rpx;
-		width: 100px;
+		width: 420rpx;
 		/* border: 1px solid red; */
 		color: #fff;
 		z-index: 1;
@@ -377,12 +403,17 @@
 		display: block;
 	}
 	.tag-detail {
-		padding: 6rpx 25rpx;
+		padding: 8rpx 25rpx;
 		background: rgba(0,0,0,.6);
 		margin-top: 58rpx;
 		font-size: 24rpx;
 		font-weight: 500;
 		border: 1px solid rgba(255,255,255,.3);
+		display: flex;
+		align-items: center;
+	}
+	.tag-detail image {
+		margin-right: 10rpx;
 	}
 	.moveright {
 		margin-left: -1px;

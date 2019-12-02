@@ -47,7 +47,6 @@
 								'user': 'test'
 							},
 							success: (uploadFileRes) => {
-								console.log(uploadFileRes.data);
 								uploadFileRes.data = JSON.parse(uploadFileRes.data)
 								if(uploadFileRes.data.code==200){
 									uni.navigateTo({
@@ -95,7 +94,7 @@
 											testArr: []
 										}
 										that.imgList.push(obj)
-									// console.log(that.imgList.length , tempFilePaths.length)
+									console.log(that.imgList.length , tempFilePaths.length)
 									if(that.imgList.length == tempFilePaths.length) {
 										that.$store.commit('saveImage', that.imgList)
 										uni.navigateTo({
