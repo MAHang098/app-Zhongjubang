@@ -19,8 +19,7 @@
 						<text>{{topic}}</text>
 					</view>
 					<view class="Subheading">
-						<!-- {{talkThemeRemarks}} -->
-						因为点击按钮时，到了handleClick()方法中的this已经不是组件里的this了。因为点击按钮时，到了handleClick()方法中的this已经不是组件里的this了。因为点击按钮时，到了handleClick()方法中的this已经不是组件里的this了。
+						{{talkThemeRemarks}}
 					</view>
 					<view class="topic-sum">
 						<text>参与{{participateCount}}</text>
@@ -36,7 +35,7 @@
 					<view class="user-list">
 						<view class="left">
 							<view class="avatar">
-								<image src="../../static/avatar.png" mode=""></image>
+								<image :src="item.head" mode=""></image>
 							</view>
 							<view class="user-details">
 								<view class="name">{{item.nickName}} <image src="../../static/fans-logo.png" mode=""></image></view>
@@ -44,7 +43,7 @@
 							</view>
 						</view>
 						<view class="right" @click.stop="focus(index, item.userId)">
-							<image :src=" activeIndex == index && isShowFocus ? '../../static/topic/focus.png' : '../../static/img/topicDetails/interest.png'" mode=""></image>
+							<image :src=" activeIndex == index && isShowFocus || item.attentionState == '1' ? '../../static/topic/focus.png' : '../../static/img/topicDetails/interest.png'" mode=""></image>
 						</view>
 					</view>
 					
@@ -67,16 +66,16 @@
 					<view class="operate">
 						<view class="share"><image src="../../static/img/user/share.png" mode=""></image></view>
 						<view class="number">
-							<view class="message">
+							<view class="message" @click.stop="togglePopup('bottom', 'comments')">
 								<image src="../../static/img/user/message.png" mode=""></image>
 								<text>{{item.gCollectionDiscussNum}}</text>
 							</view>
 							<view class="collect" @click.stop="collect(index)">
-								<image :src="activeIndex == index && isShowCollect ? '../../static/topic/collect-select.png' : '../../static/img/user/star.png' " mode=""></image>
+								<image :src="activeIndex == index && isShowCollect || item.collectionState ? '../../static/topic/collect-select.png' : '../../static/img/user/star.png' " mode=""></image>
 								<text>{{item.collectionNum}}</text>
 							</view>
 							<view class="fabulous"  @click.stop="fabulous(index)">
-								<image :class="activeIndex == index && isShowFabulous ? 'select' : '' " :src="activeIndex == index && isShowFabulous ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
+								<image :class="activeIndex == index && isShowFabulous || item.gContentLikeState ? 'select' : '' " :src="activeIndex == index && isShowFabulous ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
 								<text>{{item.gCollectionLikeNum}}</text>
 							</view>
 						</view>
@@ -93,13 +92,150 @@
 				</view>
 			</view>
 		</view>
+		
+		<!-- 评论 start -->
+		<!-- <uni-popup ref="popup" :show="popupShow" :popupType ="popupType" :custom="true" :mask-click="false" >
+			<view class="uni-tip">
+				<view class="uni-tip-title">提示</view>
+				<view class="uni-tip-content">要保存到草稿箱吗？</view>
+				<view class="uni-tip-group-button">
+					<view class="uni-tip-button" @click="cancelPopup('tip')" style="color: #F9B72C;">不保存</view>
+					<view class="uni-tip-button insist-skip" @click="cancelPopup('skip')">保存</view>
+				</view>
+			</view>
+		</uni-popup> -->
+		
+		<uni-popup ref="comments" :type="popupType" :custom="true" class="comments-list">
+			<view class="uni-comments">
+				<view class="uni-comments-title">
+					<view>全部评论(40)</view>
+					<view>
+						<image src="../../static/img/releaseVideo2/close.png" mode=""></image>
+					</view>
+				</view>
+				<view class="uni-comments-content">
+					
+					<view class="comments-detail">
+						<view class="comments-user">
+							<image src="../../static/drafts.png" mode=""></image>
+							<view>
+								<text class="comments-name">晴天小猪</text>
+								<text class="date">11-18 09:30</text>
+							</view>
+							<view class="fabulous">
+								1 <image src="../../static/img/user/good.png" mode=""></image>
+							</view>
+						</view>
+						<view class="comments-content">
+							<text>我的室内设计是这样的，我觉得很漂亮 我的室内设 计是这样的，我觉得很漂亮 我的室内设计我觉得</text>
+							<view class="reply-comments">
+								<text>屋主：好</text>
+								<text>屋主回复晴天小猪: ok</text>
+								<text class="all-replay">共四条回复 ></text>
+							</view>
+							<text class="parting-line"></text>
+						</view>
+					</view>
+					
+					<view class="comments-detail">
+						<view class="comments-user">
+							<image src="../../static/drafts.png" mode=""></image>
+							<view>
+								<text class="comments-name">晴天小猪</text>
+								<text class="date">11-18 09:30</text>
+							</view>
+							<view class="fabulous">
+								1 <image src="../../static/img/user/good.png" mode=""></image>
+							</view>
+						</view>
+						<view class="comments-content">
+							<text>我的室内设计是这样的，我觉得很漂亮 我的室内设 计是这样的，我觉得很漂亮 我的室内设计我觉得</text>
+							<view class="reply-comments">
+								<text>屋主：好</text>
+								<text>屋主回复晴天小猪: ok</text>
+								<text class="all-replay">共四条回复 ></text>
+							</view>
+							<text class="parting-line"></text>
+						</view>
+					</view>
+					<view class="comments-detail">
+						<view class="comments-user">
+							<image src="../../static/drafts.png" mode=""></image>
+							<view>
+								<text class="comments-name">晴天小猪</text>
+								<text class="date">11-18 09:30</text>
+							</view>
+							<view class="fabulous">
+								1 <image src="../../static/img/user/good.png" mode=""></image>
+							</view>
+						</view>
+						<view class="comments-content">
+							<text>我的室内设计是这样的，我觉得很漂亮 我的室内设 计是这样的，我觉得很漂亮 我的室内设计我觉得</text>
+							<view class="reply-comments">
+								<text>屋主：好</text>
+								<text>屋主回复晴天小猪: ok</text>
+								<text class="all-replay">共四条回复 ></text>
+							</view>
+							<text class="parting-line"></text>
+						</view>
+					</view>
+					<view class="comments-detail">
+						<view class="comments-user">
+							<image src="../../static/drafts.png" mode=""></image>
+							<view>
+								<text class="comments-name">晴天小猪</text>
+								<text class="date">11-18 09:30</text>
+							</view>
+							<view class="fabulous">
+								1 <image src="../../static/img/user/good.png" mode=""></image>
+							</view>
+						</view>
+						<view class="comments-content">
+							<text>我的室内设计是这样的，我觉得很漂亮 我的室内设 计是这样的，我觉得很漂亮 我的室内设计我觉得</text>
+							<view class="reply-comments">
+								<text>屋主：好</text>
+								<text>屋主回复晴天小猪: ok</text>
+								<text class="all-replay">共四条回复 ></text>
+							</view>
+							<text class="parting-line"></text>
+						</view>
+					</view>
+					<view class="comments-detail">
+						<view class="comments-user">
+							<image src="../../static/drafts.png" mode=""></image>
+							<view>
+								<text class="comments-name">晴天小猪</text>
+								<text class="date">11-18 09:30</text>
+							</view>
+							<view class="fabulous">
+								1 <image src="../../static/img/user/good.png" mode=""></image>
+							</view>
+						</view>
+						<view class="comments-content">
+							<text>我的室内设计是这样的，我觉得很漂亮 我的室内设 计是这样的，我觉得很漂亮 我的室内设计我觉得</text>
+							<view class="reply-comments">
+								<text>屋主：好</text>
+								<text>屋主回复晴天小猪: ok</text>
+								<text class="all-replay">共四条回复 ></text>
+							</view>
+							<text class="parting-line"></text>
+						</view>
+					</view>
+				</view>
+				<!-- <view class="uni-share-btn" @click="cancel('share')">取消分享</view> -->
+				<view class="comments-botton">
+					<input type="text" value="" placeholder="说点什么把..."/>
+				</view>
+			</view>
+		</uni-popup>
+		<!-- 评论 end -->
     </view>
 </template>
 
 <script>
-    
-
+	import uniPopup from "@/components/uni-popup/uni-popup.vue"
     export default {
+		components:{ uniPopup},
         data() {
 			return {
 				topic: '我家阳台收纳神器',
@@ -116,6 +252,41 @@
 				isShowFocus: false,   //是否显示已关注图标
 				isShowFabulous: false,   //是否显示已点赞
 				isShowCollect: false,   //是否显示已收藏
+				topicId: '',
+				// 弹窗所用到的变量
+				popupShow: false,
+				popupType: '',
+				bottomData: [{
+						text: '微信',
+						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-2.png',
+						name: 'wx'
+					},
+					{
+						text: '支付宝',
+						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-8.png',
+						name: 'wx'
+					},
+					{
+						text: 'QQ',
+						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/gird-3.png',
+						name: 'qq'
+					},
+					{
+						text: '新浪',
+						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-1.png',
+						name: 'sina'
+					},
+					{
+						text: '百度',
+						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-7.png',
+						name: 'copy'
+					},
+					{
+						text: '其他',
+						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-5.png',
+						name: 'more'
+					}
+				]
 			}
 		},
 		filters: {
@@ -131,6 +302,7 @@
 			// window.addEventListener('scroll', this.handleScroll)
 		},
 		onLoad(option) {
+			this.topicId = option.id;
 			this.init(option.id)
 		},
 		// 监听页面滚动
@@ -142,8 +314,13 @@
 				_this.scrollFlag = false
 			}
 		},
+		
         methods: {
 			init(id) {
+				uni.showLoading({
+					title: '加载中',
+					mask: true
+				})
 				let token = '';
 				uni.getStorage({
 					key:"token",
@@ -162,6 +339,7 @@
 					data: parmas,
 					header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
 					success:(res) => {
+						uni.hideLoading();
 						if(res.data.code == 200) {
 							// console.log()
 							let data = res.data.data.dataList[0]
@@ -187,14 +365,31 @@
             },
 			// 关注
 			focus(index, id) {
-				this.activeIndex = index;
-				this.isShowFocus = !this.isShowFocus;
 				let token = '';
 				uni.getStorage({
 					key:"token",
 					success: function (res) {
 					 token = res.data;
 				  }
+				});
+				uni.request({
+					url: this.url + 'controller/usercontroller/addattentionrelationship',
+					method: 'post',
+					data: {outUserId: id},
+					header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
+					success:(res) => {
+						if(res.data.code == 200) {
+							this.init(this.topicId);
+							this.activeIndex = index;
+							this.isShowFocus = !this.isShowFocus;
+						} else {
+							uni.showToast({
+							    icon: 'none',
+							    title: res.data.message
+							});
+							uni.hideToast();
+						}
+					}
 				});
 			},
 			// 收藏
@@ -214,6 +409,37 @@
 					// url: '/pages/releaseImage/release-image/release-image'
 					url: '/pages/releaseImage/search-tag/search-tag'
 				})
+			},
+			// 弹出层弹出的方式  i:当前标签的下标, name: 当前标签的name
+			togglePopup(type, open) {
+				switch (type) {
+					case 'top':
+						this.content = '顶部弹出 popup'
+						break
+			
+					case 'bottom':
+						this.content = '底部弹出 popup'
+						break
+					case 'center':
+						this.content = '居中弹出 popup'
+						break
+				}
+				this.popupType = type
+				if (open === 'tip') {
+					this.popupShow = true
+				} else {
+					this.$refs[open].open()
+				}
+			},
+			// 取消弹出层
+			cancelPopup(type) {
+				if (type === 'tip') {
+					this.popupShow = false
+					return
+				}
+				if(type === 'skip') {
+					// this.saveDrafts();
+				}
 			},
         }
     }
@@ -308,12 +534,14 @@
 		margin-right: 10rpx;
 	}
 	.Subheading {
-		margin-bottom: 83rpx;
+		margin-bottom: 60rpx;
 		text-align: center;
-		height: 40rpx;
-		overflow: hidden;
+		height: 60rpx;
 		text-overflow: ellipsis;
-		line-clamp: 2;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
 	}
 	.topic-sum,  .Subheading {
 		font-size: 24rpx;
@@ -497,7 +725,7 @@
 		height: 36rpx;
 		display: inlin-block;
 	}
-	.collect image, .fabulous image {
+	.collect image, .fabulous image, .comments-user .fabulous image {
 		width: 32rpx;
 		height: 31rpx;
 		display: inlin-block;
@@ -539,5 +767,170 @@
 		display: inline-block;
 		margin-bottom: -5px;
 		margin-right: 7px;
+	}
+	/* 提示窗口 */
+	/* 底部分享 */
+	.comments-list {
+		height: 100%;
+	}
+	.uni-comments {
+		background: #fff;
+		height: 400px;
+		overflow-y: scroll;
+	}
+	
+	.uni-comments-title {
+		height: 115rpx;
+		/* line-height: 60upx;
+		font-size: 24upx;
+		padding: 15upx 0;
+		text-align: center; */
+		display: flex;
+		justify-content: space-between;
+		box-sizing: border-box;
+		padding: 41rpx 30rpx;
+		border-bottom: 1px solid #E2E2E2;
+		
+	}
+	.uni-comments-title image {
+		width: 25rpx;
+		height: 25rpx;
+		display: block;
+	}
+	.uni-comments-content {
+		display: flex;
+		flex-wrap: wrap;
+		padding: 15px;
+		padding-bottom: 150rpx;
+	}
+	
+	.uni-comments-content-box {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 25%;
+		box-sizing: border-box;
+	}
+	
+	.uni-comments-content-image {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 60upx;
+		height: 60upx;
+		overflow: hidden;
+		border-radius: 10upx;
+	}
+	
+	.uni-comments-content-image .image {
+		width: 100%;
+		height: 100%;
+	}
+	
+	.uni-comments-content-text {
+		font-size: 26upx;
+		color: #333;
+		padding-top: 5px;
+		padding-bottom: 10px;
+	}
+	
+	.uni-comments-btn {
+		height: 90upx;
+		line-height: 90upx;
+		border-top: 1px #f5f5f5 solid;
+		text-align: center;
+		color: #666;
+	}
+	.comments-botton {
+		width: 100%;
+		position: fixed;
+		bottom: 0;
+		z-index: 1;
+		height: 115rpx;
+		box-sizing: border-box;
+		padding: 22rpx 30rpx;
+		background: #FFFFFF;
+	}
+	.comments-botton input {
+		height: 100%;
+		width: 100%;
+		border-radius: 30rpx;
+		background: #F0F0F0;
+		box-sizing: border-box;
+		padding-left: 30rpx;
+	}
+	.comments-user {
+		width: 100%;
+		height: 90rpx;
+		overflow: hidden
+		/* display: flex; */
+	}
+	.comments-user image {
+		width: 78rpx;
+		height: 78rpx;
+		display: block;
+		float: left;
+	}
+	.comments-user view {
+		float: left;
+	}
+	.comments-user .comments-name {
+		font-size:30rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(102,102,102,1);
+		display: block;
+	}
+	.date {
+		font-size:22rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(102,102,102,1);
+		/* line-height:40rpx; */
+	}
+	.comments-user .fabulous {
+		float: right;
+	}
+	.comments-user .fabulous  {
+		font-size:26rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(153,153,153,1);
+		
+	}
+	.comments-user .fabulous image {
+		margin-left: 10rpx;
+	}
+	.comments-content {
+		width: 100%;
+		box-sizing: border-box;
+		FONT-VARIANT: padd;
+		padding-left: 36px;
+		padding-right: 3px;
+		font-size: 13px;
+		font-family: PingFang SC;
+		font-weight: 500;
+		color: rgba(51,51,51,1);
+	}
+	.reply-comments {
+		margin-top: 7px;
+		background: #EFEFEF;
+		border-radius: 3px;
+		padding: 7px 10px;
+	}
+	.reply-comments text {
+		display: block;
+		margin-bottom: 5px;
+	}
+	.all-replay {
+		margin: 0 !important;
+		color: #F9B72C;
+	}
+	.parting-line {
+		width: 100%;
+		height: 1px;
+		background: #E2E2E2;
+		display: block;
+		margin-top: 20px;
 	}
 </style>

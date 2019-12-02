@@ -42,8 +42,8 @@
 	    methods: {
 			navigateTo() {
 				uni.navigateTo({
-					url: '/pages/releaseImage/add-tag/add-tag'
-					// url: '/pages/releaseImage/release-image/release-image'
+					// url: '/pages/releaseImage/add-tag/add-tag'
+					url: '/pages/releaseImage/search-title/search-title'
 				})
 			},
 			// 发送验证码
@@ -54,6 +54,7 @@
 				        icon: 'none',
 				        title: '请输入正确的电话号码!'
 				    });
+					
 				    return;
 				}
 				this.isActive = true;
