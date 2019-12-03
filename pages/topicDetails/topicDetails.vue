@@ -154,6 +154,8 @@
 		components:{ uniPopup},
         data() {
 			return {
+				id: '',
+				nickName: '',
 				outUserId: '',
 				topic: '我家阳台收纳神器',
 				brandFold: false,
@@ -256,7 +258,7 @@
 						data: {
 							outUserId: self.outUserId,
 							id: self.recommendId,
-							outUserName: self.recommendName,
+							outUserName: self.nickName,
 							shortVideoDiscuss: e.detail.value
 						},
 						method: 'POST',
@@ -376,7 +378,6 @@
             },
 			// 关注
 			focus(index, id) {
-				this.outUserId = id
 				let token = '';
 				uni.getStorage({
 					key:"token",
@@ -874,7 +875,7 @@
 	.comments-user {
 		width: 100%;
 		height: 90rpx;
-		overflow: hidden
+		overflow: hidden;
 		/* display: flex; */
 	}
 	.comments-user image {

@@ -1,6 +1,24 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页,
 		{
+		    "path": "pages/releaseVideo2/releaseVideo2",
+		    "style": {
+		        "app-plus": {
+		            "titleNView": false //禁用原生导航栏  
+		        }
+		    }
+		},
+		{
+			"path": "pages/loginPhone/loginPhone",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		
+		
+		{
 			"path" : "pages/editInfo/editInfo",
 			"style": {
 		        "app-plus": {
@@ -28,22 +46,8 @@
 		        }
 		    }
 		},
-		{
-			"path": "pages/loginPhone/loginPhone",
-			"style": {
-				"app-plus": {
-					"titleNView": false //禁用原生导航栏  
-				}
-			}
-		},
-		{
-		    "path": "pages/releaseVideo2/releaseVideo2",
-		    "style": {
-		        "app-plus": {
-		            "titleNView": false //禁用原生导航栏  
-		        }
-		    }
-		},
+		
+		
 		
 		
 		

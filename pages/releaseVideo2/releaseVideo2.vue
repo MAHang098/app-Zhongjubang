@@ -8,7 +8,24 @@
 		<view class="release-content">
 			
 			<view class="pic">
-				<video show-center-play-btn="false" :src="videoUrl" />
+				<video 
+					:src="videoUrl" 
+					controls="controls"
+
+x5-playsinline=""
+
+playsinline="true"
+
+webkit-playsinline="true"
+
+x-webkit-airplay="true"
+
+x5-video-player-type="h5"
+
+x5-video-player-fullscreen=""
+
+x5-video-orientation="portraint"
+				/>
 			</view>
 			<!-- <view class="start">
 				<image @play="start" src="../../static/img/releaseVideo2/start.png" mode="" />
@@ -113,6 +130,7 @@
 		},
 		data() {
 			return {
+				btn: false,
 				isShowAllContent: true,
 				brandFold: true,
 				showUpImg3:true,
@@ -299,6 +317,10 @@
 			
 		},
 		methods: {
+			play: function() {
+				this.btn = true;
+			},
+
 			start(e){
 				console.log(e)
 			},
@@ -678,17 +700,18 @@
 	}
 	.pic{
 		position: absolute;
+		z-index: -1000;
 		width:750rpx;
 	    height:1106rpx;
+	    /* height:500rpx; */
 	}
 	.pic video{
+		z-index: -1000;
 		width:750rpx;
 	    height:1106rpx;
+	    /* height:500rpx; */
 	}
-	.pic image{
-		width:750rpx;
-	    height:1106rpx;
-	}
+	
 	.start{
 		position: absolute;
 		top: 458rpx;
