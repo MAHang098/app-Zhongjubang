@@ -132,11 +132,12 @@
 					appUserDraftsId: id,
 					type: this.currentType
 				}
+				let that = this
 				uni.request({
 					url: this.url + 'controller/contentcontroller/delappuserdrafts',
 					method: 'post',
 					data: params,
-					header : {'content-type':'application/x-www-form-urlencoded', 'token': '024d0ef41526417b94e3d443f230f374', 'port': 'app'},
+					header : {'content-type':'application/x-www-form-urlencoded', 'token': that.token, 'port': 'app'},
 					success: (res => {
 						if(res.data.code == 200) {
 							uni.showToast({
@@ -150,12 +151,13 @@
 				});
 			},
 			init(type) {
+				let that = this
 				this.draftsList = [];
 				uni.request({
 					url: this.url + 'controller/videocontroller/getappuserdrafts',
 					method: 'post',
 					data: {'type': type},
-					header : {'content-type':'application/x-www-form-urlencoded', 'token': '024d0ef41526417b94e3d443f230f374', 'port': 'app'},
+					header : {'content-type':'application/x-www-form-urlencoded', 'token': that.token, 'port': 'app'},
 					success: (res => {
 						if(res.data.code == 200) {
 							this.draftsList = res.data.data;

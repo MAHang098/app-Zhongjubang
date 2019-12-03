@@ -134,6 +134,7 @@
     export default {
 		data() {
 	        return {
+				tabType: ['图片', '视频','收藏'],
 				show: '',
 				fannum: '',
 				attentionnum: '',

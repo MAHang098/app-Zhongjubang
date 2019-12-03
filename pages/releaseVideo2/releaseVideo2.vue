@@ -114,7 +114,7 @@
 		data() {
 			return {
 				isShowAllContent: true,
-				brandFold: false,
+				brandFold: true,
 				showUpImg3:true,
 				showUpImg2:true,
 				showUpImg:true,//收藏点亮
@@ -339,9 +339,10 @@
 				console.log(id)
 				//添加、删除点赞
 				uni.request({
-					url: url + "/controller/usercontroller/addshortvideolike",
+					url: url + "/controller/usercontroller/adddiscusslike",
 					data: {
-						shortVideoId: id,
+						type: '2',
+						discussId: id,
 					},
 					method: 'POST',
 					header : {

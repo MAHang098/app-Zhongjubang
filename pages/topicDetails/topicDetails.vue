@@ -137,94 +137,10 @@
 						</view>
 					</view>
 					
-					<view class="comments-detail">
-						<view class="comments-user">
-							<image src="../../static/drafts.png" mode=""></image>
-							<view>
-								<text class="comments-name">晴天小猪</text>
-								<text class="date">11-18 09:30</text>
-							</view>
-							<view class="fabulous">
-								1 <image src="../../static/img/user/good.png" mode=""></image>
-							</view>
-						</view>
-						<view class="comments-content">
-							<text>我的室内设计是这样的，我觉得很漂亮 我的室内设 计是这样的，我觉得很漂亮 我的室内设计我觉得</text>
-							<view class="reply-comments">
-								<text>屋主：好</text>
-								<text>屋主回复晴天小猪: ok</text>
-								<text class="all-replay">共四条回复 ></text>
-							</view>
-							<text class="parting-line"></text>
-						</view>
-					</view>
-					<view class="comments-detail">
-						<view class="comments-user">
-							<image src="../../static/drafts.png" mode=""></image>
-							<view>
-								<text class="comments-name">晴天小猪</text>
-								<text class="date">11-18 09:30</text>
-							</view>
-							<view class="fabulous">
-								1 <image src="../../static/img/user/good.png" mode=""></image>
-							</view>
-						</view>
-						<view class="comments-content">
-							<text>我的室内设计是这样的，我觉得很漂亮 我的室内设 计是这样的，我觉得很漂亮 我的室内设计我觉得</text>
-							<view class="reply-comments">
-								<text>屋主：好</text>
-								<text>屋主回复晴天小猪: ok</text>
-								<text class="all-replay">共四条回复 ></text>
-							</view>
-							<text class="parting-line"></text>
-						</view>
-					</view>
-					<view class="comments-detail">
-						<view class="comments-user">
-							<image src="../../static/drafts.png" mode=""></image>
-							<view>
-								<text class="comments-name">晴天小猪</text>
-								<text class="date">11-18 09:30</text>
-							</view>
-							<view class="fabulous">
-								1 <image src="../../static/img/user/good.png" mode=""></image>
-							</view>
-						</view>
-						<view class="comments-content">
-							<text>我的室内设计是这样的，我觉得很漂亮 我的室内设 计是这样的，我觉得很漂亮 我的室内设计我觉得</text>
-							<view class="reply-comments">
-								<text>屋主：好</text>
-								<text>屋主回复晴天小猪: ok</text>
-								<text class="all-replay">共四条回复 ></text>
-							</view>
-							<text class="parting-line"></text>
-						</view>
-					</view>
-					<view class="comments-detail">
-						<view class="comments-user">
-							<image src="../../static/drafts.png" mode=""></image>
-							<view>
-								<text class="comments-name">晴天小猪</text>
-								<text class="date">11-18 09:30</text>
-							</view>
-							<view class="fabulous">
-								1 <image src="../../static/img/user/good.png" mode=""></image>
-							</view>
-						</view>
-						<view class="comments-content">
-							<text>我的室内设计是这样的，我觉得很漂亮 我的室内设 计是这样的，我觉得很漂亮 我的室内设计我觉得</text>
-							<view class="reply-comments">
-								<text>屋主：好</text>
-								<text>屋主回复晴天小猪: ok</text>
-								<text class="all-replay">共四条回复 ></text>
-							</view>
-							<text class="parting-line"></text>
-						</view>
-					</view>
 				</view>
 				<!-- <view class="uni-share-btn" @click="cancel('share')">取消分享</view> -->
 				<view class="comments-botton">
-					<input type="text" value="" placeholder="说点什么把..."/>
+					<!-- <input @confirm="recordName" :placeholder="replySay" :value="inputValue" type="text"/> -->
 				</view>
 			</view>
 		</uni-popup>
@@ -238,6 +154,7 @@
 		components:{ uniPopup},
         data() {
 			return {
+				outUserId: '',
 				topic: '我家阳台收纳神器',
 				brandFold: false,
 				isShowAllContent: true,
@@ -256,6 +173,7 @@
 				// 弹窗所用到的变量
 				popupShow: false,
 				popupType: '',
+				inputValue: '',
 				bottomData: [{
 						text: '微信',
 						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-2.png',
@@ -316,6 +234,73 @@
 		},
 		
         methods: {
+			recordName(e) {  
+				this.inputValue = e.detail.value;
+				console.log(e.detail.value)
+				let token
+				let self = this
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+						token = res.data;
+					}
+				})
+				const url = this.url
+				
+				console.log(self.outUserId)
+				console.log(self.nickName)
+				console.log(self.id)
+				if(this.recommendId!=''){
+					uni.request({
+						url: url + "controller/usercontroller/addanswershortvideodiscuss",
+						data: {
+							outUserId: self.outUserId,
+							id: self.recommendId,
+							outUserName: self.recommendName,
+							shortVideoDiscuss: e.detail.value
+						},
+						method: 'POST',
+						header : {
+							'content-type':'application/x-www-form-urlencoded', 
+							'port': 'app',
+							'token': token
+						},
+						success: function (res){
+							console.log(res)
+							if(res.data.code==200){
+								
+							}else{
+								console.log("请求异常")
+							}
+						}
+					})
+				}else{
+					uni.request({
+						url: url + "controller/usercontroller/addshortvideodiscuss",
+						data: {
+							outUserId: self.outUserId,
+							shortVideoId: self.id,
+							outUserName: self.nickName,
+							shortVideoDiscuss: e.detail.value
+						},
+						method: 'POST',
+						header : {
+							'content-type':'application/x-www-form-urlencoded', 
+							'port': 'app',
+							'token': token
+						},
+						success: function (res){
+							console.log(res.data.code)
+							if(res.data.code==200){
+								
+							}else{
+								console.log("请求异常")
+							}
+						}
+					})
+				}
+				
+            },
 			init(id) {
 				uni.showLoading({
 					title: '加载中',
@@ -333,6 +318,32 @@
 					pageIndex: 1,
 					pageSize: 1000
 				}
+				uni.request({
+					url: this.url + 'controller/contentcontroller/getgcriclecontentlistbytalkthemeid',
+					method: 'post',
+					data: parmas,
+					header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
+					success:(res) => {
+						uni.hideLoading();
+						if(res.data.code == 200) {
+							
+							let data = res.data.data.dataList[0]
+							console.log(data.allGContentList)
+							this.topic = data.talkTheme;
+							this.talkThemeNum = data.talkThemeNum;
+							this.participateCount = data.participateCount
+							this.topicList = data.allGContentList;
+							this.talkThemeRemarks = data.talkThemeRemarks;
+						} else {
+							uni.showToast({
+							    icon: 'none',
+							    title: res.data.message
+							});
+							uni.hideToast();
+						}
+					}
+				});
+				// 评论
 				uni.request({
 					url: this.url + 'controller/contentcontroller/getgcriclecontentlistbytalkthemeid',
 					method: 'post',
@@ -365,6 +376,7 @@
             },
 			// 关注
 			focus(index, id) {
+				this.outUserId = id
 				let token = '';
 				uni.getStorage({
 					key:"token",
