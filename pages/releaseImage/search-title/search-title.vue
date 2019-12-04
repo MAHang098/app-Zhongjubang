@@ -59,14 +59,14 @@
 		},
 		methods: {
 			onFocus() {
-				this.$mp.page.$getAppWebview().setStyle({
-					softinputNavBar: 'none'
-				})
+				// this.$mp.page.$getAppWebview().setStyle({
+				// 	softinputNavBar: 'none'
+				// })
 			},
 			onBlur() {
-				this.$mp.page.$getAppWebview().setStyle({
-					softinputNavBar: 'auto'
-				})
+				// this.$mp.page.$getAppWebview().setStyle({
+				// 	softinputNavBar: 'auto'
+				// })
 			},
 			// 选择话题
 			chooseTopic(name) {

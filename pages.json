@@ -8,6 +8,23 @@
 		},
 		
 		{
+		    "path": "pages/ganswer/ganswer",
+		    "style": {
+		        "app-plus": {
+		            "titleNView": false //禁用原生导航栏  
+		        }
+		    }
+		},
+		
+		{
+		    "path": "pages/releaseVideo2/releaseVideo2",
+		    "style": {
+		        "app-plus": {
+		            "titleNView": false //禁用原生导航栏  
+		        }
+		    }
+		},
+		{
 			"path": "pages/loginPhone/loginPhone",
 			"style": {
 				"app-plus": {
@@ -21,7 +38,6 @@
 		        "navigationBarTitleText": "登录模板"
 		    }
 		},
-		
 		{
 			"path" : "pages/editInfo/editInfo",
 			"style": {
@@ -54,9 +70,6 @@
 		        }
 		    }
 		},
-		
-		
-		
 		
 		{
 			"path": "pages/release/release",

@@ -25,6 +25,7 @@
 						<view class="operate-detail" v-show="cIndex == indexs && showEdit">
 							<view class="operate-arrow"></view>
 							<view class="operate-btn">
+								<!-- <view v-if="currentType==2" @tap="draftsVideo"></view> -->
 								<view @click.stop="editRelease(item, items.appUserDraftsId)"><image src="../../static/edit.png" mode="" ></image>编辑</view>
 								<view @click.stop="deleteDraft(items.appUserDraftsId)"><image src="../../static/delete.png" mode=""></image>删除</view>
 							</view>
@@ -38,7 +39,7 @@
 					<!-- <view class="text">{{activeIndex == indexs && !isShowAllContent  ? item.content : item.content | ellipsis }}</view> -->
 					<!-- <view class="text" v-show="!isShowAllContent">{{item.content }}</view> -->
 					<view v-if="activeIndex == indexs && !isShowAllContent" class="text"  @click.stop="editRelease(item, items.appUserDraftsId)">{{item.content }}</view>
-					<view v-else class="text"  @click.stop="editRelease(item, items.appUserDraftsId)">{{item.content | ellipsis}}</view>
+					<view v-else class="text"  @click.stop="editRelease(item, items.appUserDraftsId, type)">{{item.content | ellipsis}}</view>
 					<view  v-if="item.content.length > 60 " @click.stop="open(indexs)">{{activeIndex == indexs && brandFold  ? '收起' : '展开'}}<image :class="brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
 				</view>
 				<!-- 草稿内容 end -->
@@ -104,6 +105,10 @@
 			this.init(1);
 		},
 		methods: {
+			//视频草稿
+			draftsVideo(){
+				console.log('1111')
+			},
 			// 切换草稿类型
 			changeProduct(index) {
 				this.current = index;
@@ -132,11 +137,12 @@
 					appUserDraftsId: id,
 					type: this.currentType
 				}
+				let that = this
 				uni.request({
 					url: this.url + 'controller/contentcontroller/delappuserdrafts',
 					method: 'post',
 					data: params,
-					header : {'content-type':'application/x-www-form-urlencoded', 'token': '024d0ef41526417b94e3d443f230f374', 'port': 'app'},
+					header : {'content-type':'application/x-www-form-urlencoded', 'token': that.token, 'port': 'app'},
 					success: (res => {
 						if(res.data.code == 200) {
 							uni.showToast({
@@ -150,13 +156,14 @@
 				});
 			},
 			init(type) {
+				let that = this
 				this.draftsList = [];
 				uni.request({
 					url: this.url + 'controller/videocontroller/getappuserdrafts',
 					method: 'post',
 					data: {'type': type},
-					header : {'content-type':'application/x-www-form-urlencoded', 'token': '024d0ef41526417b94e3d443f230f374', 'port': 'app'},
-					success: (res => {
+					header : {'content-type':'application/x-www-form-urlencoded', 'token': that.token, 'port': 'app'},
+					success: ((res) => {
 						if(res.data.code == 200) {
 							this.draftsList = res.data.data;
 						}
@@ -164,16 +171,32 @@
 				});
 			},
 			editRelease(item, id) {
-				this.$store.commit('saveImage', item.imgList);
-				let obj = {
-					id: id,
-					title: item.title,
-					content: item.content
+				if(this.currentType==1){
+					this.$store.commit('saveImage', item.imgList);
+					let obj = {
+						id: id,
+						title: item.title,
+						content: item.content
+					}
+					this.$store.commit('saveDrafts', obj)
+					uni.navigateTo({
+						url: '/pages/releaseImage/release-image/release-image?type=drafts&id=' + id
+					})
+				}else{
+					// this.$store.commit('saveVideo', item.content);
+					let obj = {
+						id: id,
+						content: item.content,
+						url: item.videoUrl
+					}
+					this.$store.commit('getListVideo', obj)
+					// conole.log( this.$store.state.listVideo)
+					uni.navigateTo({
+						url: '/pages/releaseVideo/releaseVideo?id=' + id
+					})
 				}
-				this.$store.commit('saveDrafts', obj)
-				uni.navigateTo({
-					url: '/pages/releaseImage/release-image/release-image?type=drafts&id=' + id
-				})
+
+				
 			},
 			// 预览图片
 			previewImage: function(i, arr) {

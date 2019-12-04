@@ -18,7 +18,8 @@ const store = new Vuex.Store({
 		drafts: [],
 		topic: '',
 		pageType: '',
-		adress: {}
+		adress: {},
+		listVideo: {}
     },
     mutations: {
         login(state, userName) {
@@ -84,6 +85,7 @@ const store = new Vuex.Store({
 		clearDrafts(state, arr) {
 			state.drafts = arr;
 		},
+
 		// 用于存页面类型
 		defaultPage(state, type) {
 			state.pageType = type
@@ -91,6 +93,10 @@ const store = new Vuex.Store({
 		// 获取选择后的地址
 		getAdress(state, obj) {
 			state.adress = obj;
+		},
+		getListVideo(state, listVideo){
+			console.log(listVideo)
+			state.listVideo = listVideo
 		}
     },
 	modules: {
