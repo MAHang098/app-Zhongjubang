@@ -233,12 +233,12 @@
 																console.log(res)
 																console.log(res.data.data.state)
 																if(res.data.data.state==0){
-																	uni.switchTab({
-																		url: "/pages/main/main"
-																	})
-																	// uni.navigateTo({
-																	// 	url: "/pages/releaseVideo2/releaseVideo2"
+																	// uni.switchTab({
+																	// 	url: "/pages/main/main"
 																	// })
+																	uni.navigateTo({
+																		url: "/pages/releaseVideo2/releaseVideo2"
+																	})
 																}else{
 																	uni.navigateTo({
 																		url: "/pages/bindPhone/bindPhone"

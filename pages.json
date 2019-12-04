@@ -1,6 +1,23 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页,
 		{
+		    "path": "pages/ganswer/ganswer",
+		    "style": {
+		        "app-plus": {
+		            "titleNView": false //禁用原生导航栏  
+		        }
+		    }
+		},
+		{
+		    "path": "pages/test/test",
+		    "style": {
+		        "app-plus": {
+		            "titleNView": false //禁用原生导航栏  
+		        }
+		    }
+		},
+		
+		{
 		    "path": "pages/releaseVideo2/releaseVideo2",
 		    "style": {
 		        "app-plus": {
@@ -16,6 +33,10 @@
 				}
 			}
 		},
+		
+		
+		
+		
 		
 		
 		{
@@ -39,12 +60,12 @@
 			}
 		},
 		{
-			"path" : "pages/topicDetails/topicDetails",  //话题详情
-		    "style": {
-		        "app-plus": {
-		            "titleNView": false //禁用原生导航栏  
-		        }
-		    }
+			"path" : "pages/topicDetails/topicDetails",
+			"style" : {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
 		},
 		
 		

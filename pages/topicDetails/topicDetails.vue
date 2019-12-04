@@ -66,7 +66,7 @@
 					<view class="operate">
 						<view class="share"><image src="../../static/img/user/share.png" mode=""></image></view>
 						<view class="number">
-							<view class="message" @click.stop="togglePopup('bottom', 'comments')">
+							<view class="message" @click.stop="togglePopup('bottom', 'comments', item.userId, item.gcircleContentId, item.nickName,item.gCollectionDiscussNum)">
 								<image src="../../static/img/user/message.png" mode=""></image>
 								<text>{{item.gCollectionDiscussNum}}</text>
 							</view>
@@ -108,39 +108,43 @@
 		<uni-popup ref="comments" :type="popupType" :custom="true" class="comments-list">
 			<view class="uni-comments">
 				<view class="uni-comments-title">
-					<view>全部评论(40)</view>
+					<view>全部评论({{gCollectionDiscussNum}})</view>
 					<view>
 						<image src="../../static/img/releaseVideo2/close.png" mode=""></image>
 					</view>
 				</view>
-				<view class="uni-comments-content">
-					
-					<view class="comments-detail">
-						<view class="comments-user">
-							<image src="../../static/drafts.png" mode=""></image>
-							<view>
-								<text class="comments-name">晴天小猪</text>
-								<text class="date">11-18 09:30</text>
+				<view v-for="(row, index) in dataList" :key="index">
+					<view class="uni-comments-content">
+						
+						<view class="comments-detail">
+							<view class="comments-user">
+								<image src="../../static/drafts.png" mode=""></image>
+								<view>
+									<text class="comments-name">{{row.nick_name}}</text>
+									<text class="date">{{row.cratee_time}}</text>
+								</view>
+								<view class="fabulous">
+									1 <image :src="row.head" mode=""></image>
+								</view>
 							</view>
-							<view class="fabulous">
-								1 <image src="../../static/img/user/good.png" mode=""></image>
+							<view class="comments-content">
+								<text  @click="testreply(row.id, row.nick_name)">{{row.gcircle_content_discuss}}</text>
+									<view class="reply-comments">
+										<view v-for="(rows, indexs) in row.zilist" :key="indexs">
+											<text>{{rows.nick_name}}：{{rows.gcircle_content_discuss}}</text>
+										</view>
+										<text v-show="row.sonCount>2" class="all-replay" @tap="reply(row.id)">共{{row.sonCount}}条回复 ></text>
+
+										<!-- <text @click="reply(rows.id, rows.nick_name)">屋主回复晴天小猪: ok</text> -->
+									</view>
+								<text class="parting-line"></text>
 							</view>
-						</view>
-						<view class="comments-content">
-							<text>我的室内设计是这样的，我觉得很漂亮 我的室内设 计是这样的，我觉得很漂亮 我的室内设计我觉得</text>
-							<view class="reply-comments">
-								<text>屋主：好</text>
-								<text>屋主回复晴天小猪: ok</text>
-								<text class="all-replay">共四条回复 ></text>
-							</view>
-							<text class="parting-line"></text>
 						</view>
 					</view>
-					
 				</view>
 				<!-- <view class="uni-share-btn" @click="cancel('share')">取消分享</view> -->
 				<view class="comments-botton">
-					<!-- <input @confirm="recordName" :placeholder="replySay" :value="inputValue" type="text"/> -->
+					<input @confirm="recordName" :placeholder="replySay" :value="inputValue" type="text" />
 				</view>
 			</view>
 		</uni-popup>
@@ -154,9 +158,7 @@
 		components:{ uniPopup},
         data() {
 			return {
-				id: '',
-				nickName: '',
-				outUserId: '',
+				replySay: '说点什么吧...',
 				topic: '我家阳台收纳神器',
 				brandFold: false,
 				isShowAllContent: true,
@@ -175,7 +177,6 @@
 				// 弹窗所用到的变量
 				popupShow: false,
 				popupType: '',
-				inputValue: '',
 				bottomData: [{
 						text: '微信',
 						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-2.png',
@@ -206,7 +207,15 @@
 						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-5.png',
 						name: 'more'
 					}
-				]
+				],
+				inputValue: '',
+				outUserId: '',
+				gcircleContentId: '',
+				nickName: '',
+				gCollectionDiscussNum: '',
+				dataList: {},
+				recommendId: '',
+				recommendName: '',
 			}
 		},
 		filters: {
@@ -236,6 +245,13 @@
 		},
 		
         methods: {
+			testreply(id, name){
+				console.log(id, name)
+				this.recommendId = id
+				this.recommendName = name
+				this.replySay = '回复' + name + ':';
+				console.log(this.replySay)
+			},
 			recordName(e) {  
 				this.inputValue = e.detail.value;
 				console.log(e.detail.value)
@@ -248,18 +264,16 @@
 					}
 				})
 				const url = this.url
-				
-				console.log(self.outUserId)
 				console.log(self.nickName)
-				console.log(self.id)
+				
 				if(this.recommendId!=''){
 					uni.request({
-						url: url + "controller/usercontroller/addanswershortvideodiscuss",
+						url: url + "controller/usercontroller/addanswergcirclecontentdiscuss",
 						data: {
 							outUserId: self.outUserId,
 							id: self.recommendId,
-							outUserName: self.nickName,
-							shortVideoDiscuss: e.detail.value
+							outUserName: self.recommendName,
+							gcircleContentDiscuss: e.detail.value
 						},
 						method: 'POST',
 						header : {
@@ -278,12 +292,12 @@
 					})
 				}else{
 					uni.request({
-						url: url + "controller/usercontroller/addshortvideodiscuss",
+						url: url + "controller/usercontroller/addgcirclecontentdiscuss",
 						data: {
 							outUserId: self.outUserId,
-							shortVideoId: self.id,
+							gcircleContentId: self.gcircleContentId,
 							outUserName: self.nickName,
-							shortVideoDiscuss: e.detail.value
+							gcircleContentDiscuss: e.detail.value
 						},
 						method: 'POST',
 						header : {
@@ -292,7 +306,7 @@
 							'token': token
 						},
 						success: function (res){
-							console.log(res.data.code)
+							console.log(res)
 							if(res.data.code==200){
 								
 							}else{
@@ -302,7 +316,26 @@
 					})
 				}
 				
+
+				
+
+
+				
+				
             },
+			testreply(id, name){
+				console.log(id, name)
+				this.recommendId = id
+				this.recommendName = name
+				this.replySay = '回复' + name + ':';
+				console.log(this.replySay)
+			},
+			reply(id){
+				console.log(id)
+				uni.navigateTo({
+					url: "/pages/ganswer/ganswer?Id=" + id
+				})
+			},
 			init(id) {
 				uni.showLoading({
 					title: '加载中',
@@ -320,32 +353,6 @@
 					pageIndex: 1,
 					pageSize: 1000
 				}
-				uni.request({
-					url: this.url + 'controller/contentcontroller/getgcriclecontentlistbytalkthemeid',
-					method: 'post',
-					data: parmas,
-					header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
-					success:(res) => {
-						uni.hideLoading();
-						if(res.data.code == 200) {
-							
-							let data = res.data.data.dataList[0]
-							console.log(data.allGContentList)
-							this.topic = data.talkTheme;
-							this.talkThemeNum = data.talkThemeNum;
-							this.participateCount = data.participateCount
-							this.topicList = data.allGContentList;
-							this.talkThemeRemarks = data.talkThemeRemarks;
-						} else {
-							uni.showToast({
-							    icon: 'none',
-							    title: res.data.message
-							});
-							uni.hideToast();
-						}
-					}
-				});
-				// 评论
 				uni.request({
 					url: this.url + 'controller/contentcontroller/getgcriclecontentlistbytalkthemeid',
 					method: 'post',
@@ -424,7 +431,43 @@
 				})
 			},
 			// 弹出层弹出的方式  i:当前标签的下标, name: 当前标签的name
-			togglePopup(type, open) {
+			togglePopup(type, open, id, commendId, name, gCollectionDiscussNum) {
+				this.outUserId = id
+				this.gcircleContentId = commendId
+				this.gCollectionDiscussNum = gCollectionDiscussNum
+				this.nickName = name
+				let token
+				let self = this
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+						token = res.data;
+					}
+				})
+				const url = this.url
+				uni.request({
+					url: url + "controller/usercontroller/getgcdiscusslist",
+					data: {
+						id: commendId
+					},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': token
+					},
+					success: function (res){
+						console.log(res)
+						if(res.data.code==200){
+							console.log(res)
+							console.log(res.data.data.dataList)
+							self.dataList = res.data.data.dataList
+						}else{
+							console.log("请求异常")
+						}
+					}
+				})
+				console.log(name)
 				switch (type) {
 					case 'top':
 						this.content = '顶部弹出 popup'

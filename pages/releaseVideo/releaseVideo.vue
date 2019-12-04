@@ -1,7 +1,7 @@
 <template>
 	<view>
         <view class="release-video">
-            <image class="back" src="../../static/img/back.png" mode="" />
+            <image class="back" src="../../static/img/back.png" @click="cancel" mode="" />
 			<text class="title">发布视频</text>
 			<image class="fly" src="../../static/img/releaseVideo/release.png" mode="" @tap="release" />
         </view>
@@ -22,39 +22,92 @@
 		</view>
 
 		<!-- 底部 start -->
-		<view class="bottom" @tap="save">
+		<view class="bottom" @click="togglePopup('center', 'tip')">
 			<image src="../../static/img/releaseVideo/save.png" mode=""></image>
 			<view>存草稿</view>
 		</view>
+
+		<!-- 保存标签 start -->
+		<uni-popup :show="show" :popupType ="popupType" :custom="true" :mask-click="false" >
+			<view class="uni-tip">
+				<!-- <view class="uni-tip-title">提示</view> -->
+				<view class="uni-tip-content">要保存到草稿箱吗？</view>
+				<view class="uni-tip-group-button">
+					<view class="uni-tip-button" @click="cancelPopup('tip')" style="color: #F9B72C;">不保存</view>
+					<view class="uni-tip-button insist-skip" @click="cancelPopup('skip')">保存</view>
+				</view>
+			</view>
+		</uni-popup>
+		<!-- 保存标签 end -->
     </view>
 </template>
 
 <script>
+	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 	export default {
+		components:{ uniPopup},
 	    data() {
 	        return {
 				fileUrl: '',
 				src: '',
-				content: '',
 				remnant: 0,
 				desc: '',
 				token: [],
-				videoUrl: ''
+				videoUrl: '',
+				drafts: {},
+				show: false,
+				popupType: '',
+				type: '',
 				// src: '../../static/img/releaseVideo/add.png'
 	        }
 		},
 		onLoad(options){
 			let self = this
-			if(options){
+			if(options.fileUrl){
 				console.log(options.fileUrl)
 				self.src = options.fileUrl
+			}else{
+				
 			}
+			let drafts = this.$store.state.listVideo;
+			// let ddrafts = JSON.parse(drafts)
+			// this.drafts = drafts
+			console.log(drafts)
+			// console.log(ddrafts.url)
+			// console.log(ddrafts.content)
+			this.src = drafts.url
+			this.desc = drafts.content
 			
 		},
+		onShow(){
+
+		},
 	    methods: {
+			init() {
+				let that = this
+				this.draftsList = [];
+				uni.request({
+					url: this.url + 'controller/videocontroller/getappuserdrafts',
+					method: 'post',
+					data: {'type': 2},
+					header : {'content-type':'application/x-www-form-urlencoded', 'token': that.token, 'port': 'app'},
+					success: ((res) => {
+						if(res.data.code == 200) {
+							this.draftsList = res.data.data;
+						}
+					})
+				});
+			},
+			// 返回键
+			cancel() {
+				this.togglePopup('center', 'tip');
+				// console.log(1111)
+				return true;
+			},
 			descInput(e) {
 				this.remnant = e.detail.value.length
 			},
+			// 删除视频
 			delectVideo(){
 				let self = this
                 uni.showModal({
@@ -67,6 +120,7 @@
                     }
                 })
 			},
+			// 选择视频
 			chooseVideo(){
 				const url = this.url
 				let self = this
@@ -102,6 +156,7 @@
 
 				
 			},
+			// 发布视频
 			release(){
 				const url = this.url
 				const content = this.desc
@@ -143,8 +198,8 @@
 				})
 				
 			},
+			// 添加草稿
 			save(){
-				// 添加草稿
 				const url = this.url
 				const content = this.desc
 				let token
@@ -191,7 +246,41 @@
 						}
 					}
 				})
-			}
+			},
+			// 弹出层弹出的方式  i:当前标签的下标, name: 当前标签的name
+			togglePopup(type, open) {
+				switch (type) {
+					case 'top':
+						this.content = '顶部弹出 popup'
+						break
+			
+					case 'bottom':
+						this.content = '底部弹出 popup'
+						break
+					case 'center':
+						this.content = '居中弹出 popup'
+						break
+				}
+				this.popupType = type
+				if (open === 'tip') {
+					this.show = true
+				} else {
+					this.$refs[open].open()
+				}
+			},
+			// 取消弹出层
+			cancelPopup(type) {
+				if (type === 'tip') {
+					this.show = false
+					return
+				}
+				if(type === 'skip') {
+					this.save();
+					uni.switchTab({
+						url: "/pages/main/main"
+					})
+				}
+			},
 		}
 	}
 </script>
@@ -326,5 +415,48 @@
 		border-radius: 23rpx;
 		border: 1px solid #999999;
 		text-align: center;
+	}
+
+	/* 提示窗口 */
+	.uni-tip {
+		padding-top: 15px;
+		width: 300px;
+		background: #fff;
+		box-sizing: border-box;
+		border-radius: 10px;
+	}
+	
+	.uni-tip-title {
+		text-align: center;
+		font-weight: bold;
+		font-size: 41rpx;
+		color: #333;
+	}
+	
+	.uni-tip-content {
+		padding: 44rpx 0;
+		font-size: 32rpx;
+		color: #666;
+		width: 360rpx;
+		color: #666666;
+		font-weight: 500;
+		margin: auto;
+		text-align: center;
+	}
+	
+	.uni-tip-group-button {
+		margin-top: 10px;
+		display: flex;
+	}
+	
+	.uni-tip-button {
+		width: 100%;
+		text-align: center;
+		font-size: 14px;
+		color: #333333;
+		font-size: 37rpx;
+		font-weight: 500;
+		border-top: 1px solid #E2E2E2;
+		padding: 10px 0;
 	}
 </style>

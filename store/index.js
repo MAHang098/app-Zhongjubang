@@ -17,6 +17,7 @@ const store = new Vuex.Store({
 		uploadImage: [],
 		drafts: [],
 		topic: '',
+		listVideo: {}
     },
     mutations: {
         login(state, userName) {
@@ -82,7 +83,10 @@ const store = new Vuex.Store({
 		clearDrafts(state, arr) {
 			state.drafts = arr;
 		},
-		
+		getListVideo(state, listVideo){
+			console.log(listVideo)
+			state.listVideo = listVideo
+		}
     },
 	modules: {
 		imageUpload
