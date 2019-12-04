@@ -2,49 +2,52 @@
 <template>
 	<view class="contant">
 		<!-- 搜索栏 start -->
-		<view class="header">
+		<!-- <view class="header">
 			<view class="search-input">
 				<image src="../../../static/search/nav-search.png" mode=""></image>
 				<input type="text" value=""  placeholder="搜索您需要的商品"/>
 			</view>
 			<view class="cancel">取消</view>
-		</view>
+		</view> -->
 		<!-- 搜索栏 end -->
 		
 		<!-- 粉丝列表 start -->
 		<view class="all-follow">
 			<view class="tabList">
-				<view  v-for="(item, index) in tabList" :class="index == current ? 'active' : '' " @click="changeProduct(index)" :key="index">{{item}}</view>
+				<view  v-for="(item, index) in tabList" :class="index == current ? 'active' : '' " @click="changeProduct(index)" :key="index">
+					{{item}}
+					<text v-bind:class="index == current ? 'active-status' : '' "></text>
+				</view>
 			</view>
 			<view class="follow-fans"  v-show="current == 0">
 				<view class="fans-list">
 					<view class="left">
 						<view class="avatar">
-							<image src="../../static/avatar.png" mode=""></image>
+							<image src="../../../static/avatar.png" mode=""></image>
 						</view>
 						<view class="details">
-							<text class="name">我是一颗玻璃心 <image src="../../static/fans-logo.png" mode=""></image></text>
+							<text class="name">我是一颗玻璃心 <image src="../../../static/fans-logo.png" mode=""></image></text>
 							<text class="time">11/21 10:23</text>
 							<text class="follow">关注了你</text>
 						</view>
 					</view>
 					<view class="right">
-						<image src="../../static/follow-checked.png" mode=""></image>
+						<image src="../../../static/follow-checked.png" mode=""></image>
 					</view>
 				</view>
 				<view class="fans-list">
 					<view class="left">
 						<view class="avatar">
-							<image src="../../static/avatar.png" mode=""></image>
+							<image src="../../../static/avatar.png" mode=""></image>
 						</view>
 						<view class="details">
-							<text class="name">我是一颗玻璃心 <image src="../../static/fans-logo.png" mode=""></image></text>
+							<text class="name">我是一颗玻璃心 <image src="../../../static/fans-logo.png" mode=""></image></text>
 							<text class="time">11/21 10:23</text>
 							<text class="follow">关注了你</text>
 						</view>
 					</view>
 					<view class="right">
-						<image src="../../static/mutual-follow.png" mode=""></image>
+						<image src="../../../static/mutual-follow.png" mode=""></image>
 					</view>
 				</view>
 			</view>
@@ -54,22 +57,22 @@
 				<view class="fans-list">
 					<view class="left">
 						<view class="avatar">
-							<image src="../../static/avatar.png" mode=""></image>
+							<image src="../../../static/avatar.png" mode=""></image>
 						</view>
 						<view class="details">
-							<text class="name">我是一颗玻璃心 <image src="../../static/fans-logo.png" mode=""></image></text>
+							<text class="name">我是一颗玻璃心 <image src="../../../static/fans-logo.png" mode=""></image></text>
 							<text class="time">11/21 10:23</text>
 							<text class="follow">关注了你</text>
 						</view>
 					</view>
 					<view class="right">
-						<image src="../../static/follow.png" mode=""></image>
+						<image src="../../../static/follow.png" mode=""></image>
 					</view>
 				</view>
 				<view class="fans-list">
 					<view class="left">
 						<view class="avatar">
-							<image src="../../static/avatar.png" mode=""></image>
+							<image src="../../../static/avatar.png" mode=""></image>
 						</view>
 						<view class="details">
 							<text class="name">我是一颗玻璃心 <image src="../../static/fans-logo.png" mode=""></image></text>
@@ -78,15 +81,15 @@
 						</view>
 					</view>
 					<view class="right">
-						<image src="../../static/follow-checked.png" mode=""></image>
+						<image src="../../../static/follow-checked.png" mode=""></image>
 					</view>
 				</view>
 			</view>
 		</view>
 		<!-- 粉丝列表 end -->
 		
-		<view id="mask"></view>
-		<view class="bottom">
+		<view id="mask" v-show="isShow"></view>
+		<view class="bottom" v-show="isShow">
 			<view>不在关注</view>
 			<view>取消</view>
 		</view>
@@ -99,7 +102,7 @@
 			return {
 				tabList: ["关注", "粉丝"],
 				current: 0 ,
-				
+				isShow: false
 			}
 		},
 		methods: {
@@ -116,54 +119,6 @@
 		height: 100%;
 		box-sizing: border-box;
 	}
-	.header {
-		width: 100%;
-		height: 100rpx;
-		line-height: 100rpx;
-		display: flex;
-		justify-content: space-between;
-		box-sizing: border-box;
-		padding: 10rpx 30rpx;
-		background: #FFFFFF;
-		/* position: fixed;
-		z-index: 1;
-		top: 50rpx;
-		left: 0;
-		right: 0; */
-		margin-top: 50rpx;
-		border-bottom: 1px solid #E2E2E2;
-		
-	}
-	.search-input {
-		position: relative;
-		width: 100%;
-	}
-	.search-input image {
-		width: 26rpx;
-		height: 26rpx;
-		display: block;
-		position: absolute;
-		top: 23rpx;
-		left: 24rpx;
-		
-	}
-	.search-input input {
-		width: 88%;
-		border-radius: 35rpx;
-		height: 70rpx;
-		margin: 0;
-		font-size: 26rpx;
-		padding-left: 60rpx;
-		background: #f6f6f6;
-	}
-	.cancel {
-		width: 13%;
-		line-height: 80rpx;
-		text-align: center;
-		color: #333333;
-		font-size: 28rpx;
-	}
-	/* 搜索 end */
 	
 	/* 关注列表 */
 	.all-follow {
@@ -181,21 +136,28 @@
 		justify-content: flex-start;
 	}
 	.tabList view {
-		width: 70rpx;
-		height: 100%;
+		width: 20%;
+		height: 40rpx;
+		line-height: 40rpx;
 		color: #666666;
 		font-size: 33rpx;
 		font-weight: 500;
-		margin-right: 80rpx;
+		text-align: center;
+		/* margin-right: 80rpx; */
+		border-right: 1px solid #E2E2E2;
+	}
+	.tabList view:last-child {
+		border: none !important;
 	}
 	.active {
-		border-bottom: 4rpx solid #F9B72C;
+		/* border-bottom: 4rpx solid #F9B72C; */
 		color: #333333 !important;
 		font-weight: bold !important;
 	}
 	/* 列表 start */
 	.fans-list {
 		height: 188rpx;
+		/* width: 30%; */
 		box-sizing: border-box;
 		padding: 28rpx 0;
 		display: flex;
@@ -271,5 +233,16 @@
 		line-height: 125rpx;
 		text-align: center;
 		border-bottom: 1px solid #E2E2E2;
+	}
+	.active-status {
+	/* 	position: absolute;
+		top: 15%;
+		left: 13%; */
+		margin: 9px auto;
+		display: block;
+		width:70rpx;
+		height:6rpx;
+		background:rgba(249,183,44,1);
+		border-radius:3px;
 	}
 </style>

@@ -639,40 +639,7 @@
 		display: block;
 		margin-top: 25%;
 	}
-	/* 文字描述 start */
-.describe {
-	padding: 25rpx 0;
-	overflow: hidden;
-	line-height: 36rpx;
-	/* position: relative; */
-}
-.describe view {
-	display: inline;
-}
-.text {
-	font-size:28rpx;
-	/* font-family:PingFang SC; */
-	font-weight:400;
-	color:rgba(51,51,51,1); 
-	/* color: #333333; */
-	/* line-height:33rpx; */
-	/* line-height:33rpx; */
-	/* float: left; */
-	position: relative;
-}
-.describe .anCotent {
-	font-size:24rpx;
-	font-family:PingFang SC;
-	font-weight:500;
-	color:rgba(90,124,171,1);
-	line-height:33rpx;
-	margin-left: 20rpx;
-}
-.describe .anCotent image {
-	width: 26rpx;
-	height: 19rpx;
-	margin-bottom: -1rpx;
-}
+	
 	/* 图片样式 */
 	.imageList {
 		width: 100%;

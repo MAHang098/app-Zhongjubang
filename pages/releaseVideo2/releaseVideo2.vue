@@ -9,6 +9,7 @@
 			
 			<view class="pic">
 				<video show-center-play-btn="false" :src="videoUrl" />
+				<!-- <image src="../../static/draftsT.png" mode=""></image> -->
 			</view>
 			<!-- <view class="start">
 				<image @play="start" src="../../static/img/releaseVideo2/start.png" mode="" />
@@ -25,7 +26,7 @@
 				<view class="content">
 					<view v-if="!isShowAllContent" class="text">{{content2}}</view>
 					<view v-else class="text">{{content2 | ellipsis}}</view>
-					<view v-if="content2.length > 60 " @click="open()">{{brandFold  ? '收起' : '展开'}}<image :class="brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
+					<view class="anCotent" v-if="content2.length > 60 " @click="open()">{{brandFold  ? '收起' : '展开'}}<image :class="brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
 				</view>
 				
 			</view>
@@ -96,46 +97,46 @@
 				
 			</uni-popup> -->
 			<!-- 评论弹窗 start -->
-			<uni-popup ref="comments" :type="popupType" :custom="true" class="comments-list" :show="popupShow">
-				<view class="uni-comments">
-					<view class="uni-comments-title">
-						<view class="comments-number">全部评论({{commentsList.length}})</view>
-						<view @click="cancelPopup('comments')">
-							<image src="../../static/img/releaseVideo2/close.png" mode=""></image>
-						</view>
-					</view>
-					<view class="uni-comments-content">
-						
-						<view class="comments-detail" v-for="(item, index) in commentsList" :key="index">
-							<view class="comments-user">
-								<image src="../../static/drafts.png" mode=""></image>
-								<view>
-									<text class="comments-name">{{item.nick_name}}</text>
-									<text class="date">{{item.cratee_time}}</text>
-								</view>
-								<view class="fabulous" @click="commentsFabulous(index, item.id)">
-									{{item.likenum}}
-									<image :class="(activeIndex == index && isCommentsFabulous) ||  item.state == '1'? 'select' : '' " :src="(activeIndex == index && isCommentsFabulous) ||  item.state == '1' ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
-								</view>
-							</view>
-							<view class="comments-content" >
-								<text>{{item.short_video_discuss}}</text>
-								<view class="reply-comments" v-show="item.zilist.length > 0">
-									<text  v-for="(m, zIndex) in item.zilist" :key="zIndex">屋主：好</text>
-									<text class="all-replay" v-show="item.zilist.length > 2">共{{item.zilist.length}}条回复 ></text>
-								</view>
-								<text class="parting-line"></text>
-							</view>
-						</view>
-						
-					</view>
-					<view class="comments-botton">
-						<input type="text" value="" placeholder="说点什么把..."/>
-					</view>
-				</view>
-			</uni-popup>
+			
 			<!-- 评论弹窗 end -->
 		</view>
+		<uni-popup ref="comments" :type="popupType" :custom="true" class="comments-list" :show="popupShow">
+			<view class="uni-comments">
+				<view class="uni-comments-title">
+					<view class="comments-number">全部评论({{commentsList.length}})</view>
+					<view @click="cancelPopup('comments')">
+						<image src="../../static/img/releaseVideo2/close.png" mode=""></image>
+					</view>
+				</view>
+				<view class="uni-comments-content">
+					<view class="comments-detail" v-for="(item, index) in commentsList" :key="index">
+						<view class="comments-user">
+							<image src="../../static/drafts.png" mode=""></image>
+							<view>
+								<text class="comments-name">{{item.nick_name}}</text>
+								<text class="date">{{item.cratee_time}}</text>
+							</view>
+							<view class="fabulous" @click="commentsFabulous(index, item.id)">
+								{{item.likenum}}
+								<image :class="(activeIndex == index && isCommentsFabulous) ||  item.state == '1'? 'select' : '' " :src="(activeIndex == index && isCommentsFabulous) ||  item.state == '1' ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
+							</view>
+						</view>
+						<view class="comments-content" >
+							<text>{{item.short_video_discuss}}</text>
+							<view class="reply-comments" v-show="item.zilist.length > 0">
+								<text  v-for="(m, zIndex) in item.zilist" :key="zIndex">屋主：好</text>
+								<text class="all-replay" v-show="item.zilist.length > 2">共{{item.zilist.length}}条回复 ></text>
+							</view>
+							<text class="parting-line"></text>
+						</view>
+					</view>
+					
+				</view>
+				<view class="comments-botton">
+					<input type="text" value="" placeholder="说点什么把..."/>
+				</view>
+			</view>
+		</uni-popup>
     </view>
 </template>
 
@@ -266,7 +267,7 @@
 					'content-type':'application/x-www-form-urlencoded', 
 					'port': 'app',
 					// 'token': token
-					'token': token
+					'token': '024d0ef41526417b94e3d443f230f374'
 				},
 				success: function (res){
 					// console.log(res)
@@ -284,7 +285,7 @@
 						header : {
 							'content-type':'application/x-www-form-urlencoded', 
 							'port': 'app',
-							'token': token
+							'token': '024d0ef41526417b94e3d443f230f374'
 						},
 						success: function (res){
 							// console.log(res)
@@ -339,7 +340,7 @@
 					header : {
 						'content-type':'application/x-www-form-urlencoded', 
 						'port': 'app',
-						'token': token
+						'token': '024d0ef41526417b94e3d443f230f374'
 					},
 					success: (res) => {
 						// console.log(res)
@@ -702,7 +703,7 @@
 					url: this.url + 'controller/videocontroller/getsvdiscusslist',
 					method: 'post',
 					data: parmas,
-					header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
+					header : {'content-type':'application/x-www-form-urlencoded', 'token': '024d0ef41526417b94e3d443f230f374', 'port': 'app'},
 					success:(res) => {
 						if(res.data.code == 200) {
 							// console.log(res.data.data);
@@ -732,7 +733,7 @@
 					url: this.url + 'controller/usercontroller/adddiscusslike',
 					method: 'post',
 					data: {discussId: id, type: '2'},
-					header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
+					header : {'content-type':'application/x-www-form-urlencoded', 'token': '024d0ef41526417b94e3d443f230f374', 'port': 'app'},
 					success:(res) => {
 						if(res.data.code == 200) {
 							this.activeIndex = id;
@@ -898,7 +899,7 @@
 		/* float: left; */
 		position: relative;
 	}
-	.content view:last-child {
+	.content .anCotent {
 		font-size:24rpx;
 		font-family:PingFang SC;
 		font-weight:500;
@@ -906,7 +907,7 @@
 		line-height:33rpx;
 		margin-left: 20rpx;
 	}
-	.content view:last-child image {
+	.content .anCotent image {
 		width: 26rpx;
 		height: 19rpx;
 		margin-bottom: -1rpx;

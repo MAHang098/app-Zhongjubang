@@ -9,8 +9,8 @@
 		<!-- 无地址 end -->
 		
 		<view class="all-adress">
-			<!-- <radio-group @change="radioChange"> -->
-				<view class="message" v-for="(item, index) in items" :key="index">
+			<radio-group @change.stop="radioChange">
+				<view class="message" v-for="(item, index) in items" :key="index" @click.stop="checkedAdress(item)">
 					<view class="user-message">
 						<view class="left">
 							<text>{{item.userName}}</text>
@@ -18,31 +18,31 @@
 							<text class="detail-adress">{{item.userAddress}}</text>
 						</view>
 						<view class="right" >
-							<label v-bind:class="item.isDefault == '1' ? 'checkedIn' : 'radio'" >
-								<radio  :checked="item.isDefault == '1'" :color="item.isDefault == '1' ? '#FFCC33' : '' " style="transform:scale(0.7)"/> {{item.isDefault == '1' ? '默认地址' : '设为默认'}}
+							<label v-bind:class="item.isDefault == 1 || index === current ? 'checkedIn' : 'radio'" >
+								<radio :value="String(item.id)"  :checked="item.isDefault == 1 || index === current" :color="item.isDefault == 1 || index === current? '#FFCC33' : '' " style="transform:scale(0.7)"/> {{item.isDefault == 1 || index === current ? '默认地址' : '设为默认'}}
 							</label>
 						</view> 
 					</view>
 					<view class="edit-message">
-						<view class="delete" @click="togglePopup('center', 'tip', item.id)">
+						<view class="delete" @click.stop="togglePopup('center', 'tip', item.id)">
 							<img src="../../static/delete.png" alt="">
 							<text>删除</text>
 						</view>
-						<view class="edit" @click="editAdress(item.id)">
+						<view class="edit" @click.stop="editAdress(item.id)">
 							<img src="../../static/edit.png" alt="">
 							<text>编辑</text>
 						</view>
 					</view>
 				</view>
-			<!-- </radio-group> -->
+			</radio-group>
 		</view>
 		<uni-popup :show="show" :type="type" :custom="true" :mask-click="false" @change="change">
 			<view class="uni-tip">
 				<!-- <view class="uni-tip-title">提示</view> -->
 				<view class="uni-tip-content">确定要删除该地址吗？</view>
 				<view class="uni-tip-group-button">
-					<view class="uni-tip-button" @click="cancel('tip')">取消</view>
-					<view class="uni-tip-button insist-skip" @click="cancel('skip')">删除</view>
+					<view class="uni-tip-button" @click.stop="cancel('tip')">取消</view>
+					<view class="uni-tip-button insist-skip" @click.stop="cancel('skip')">删除</view>
 				</view>
 			</view>
 		</uni-popup>
@@ -62,7 +62,7 @@
 					// {id: 5, appUserId: 20, userName: "张三", userPhone: "13189172519"},
 					// {id: 6, appUserId: 20, userName: "张三", userPhone: "13189172519"}
 				],
-				current: 0,
+				current: -1,
 				isShowList: true, // 是否显示地址列表
 				type: '',
 				userAddress: '',
@@ -85,13 +85,19 @@
 				url: '/pages/add-adress/add-adress'
 			})
 		},
+		onBackPress() {
+			if(this.$store.state.pageType && this.$store.state.pageType == 'orderExchange') {
+				let obj = this.$store.state.adress
+				this.$store.commit('getAdress', obj);
+			}
+		},
 		methods: {
 			init() {
-				let that = this;
+				// let that = this;
 				uni.request({
 					url: this.url + 'controller/usercontroller/getuseradresslist',
 					method: 'post',
-					header : {'content-type':'application/x-www-form-urlencoded', 'token': that.token, 'port': 'app'},
+					header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 					success: (res => {
 						if(res.data.code == 200) {
 							if(res.data.data.length == 0) {
@@ -114,20 +120,56 @@
 					})
 				});
 			},
+			// 选择地址
+			checkedAdress(item) {
+				// console.log(this.$store.state.pageType)
+				// let type = this.$store.state.pageType;
+				if(this.$store.state.pageType && this.$store.state.pageType == 'orderExchange') {
+					this.$store.commit('getAdress', item);
+					this.$store.commit('defaultPage', '');
+					uni.navigateTo({
+						url: '/pages/personal/order-exchange/order-exchange'
+					})
+				}
+			},
 			// 切换选中地址
 			radioChange(evt) {
 				for (let i = 0; i < this.items.length; i++) {
-					if (this.items[i].id === evt.target.id) {
+					if (this.items[i].id === parseInt(evt.target.value)) {
 						this.current = i;
+						this.editDefaultAdress(this.items[i].id)
 						break;
 					}
 				}
 			},
+			// 修改默认地址
+			editDefaultAdress(id) {
+				uni.request({
+					url: this.url + 'controller/usercontroller/updateuseradress',
+					method: 'post',
+					data: {userAdressId: id, isDefault: 1},
+					header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
+					success: ((res) =>  {
+						if(res.data.code == 200) {
+							this.init()
+							// uni.hideToast();
+						} else {
+							uni.showToast({
+							    icon: 'none',
+							    title: res.data.message
+							});
+							uni.hideToast();
+						}
+					})
+				});
+			},
 			// 添加地址
 			goAddaDress() {
+				this.$store.commit('getAdress', {});
 				 uni.navigateTo({
 					url: '/pages/add-adress/add-adress'
-				})
+				});
+				
 			},
 			// 弹出层弹出的方式
 			togglePopup(type, open, id) {

@@ -5,7 +5,6 @@
 	background: #fff;
 	height: 500px;
 	border-radius:22rpx 22rpx 0px 0px;
-	
 	position: relative;
 }
 .comments-detail:first-child {
@@ -183,4 +182,34 @@
 }
 .select {
 	margin-bottom: 1px !important;
+}
+
+/* 文字超过展开收缩 */
+/* 文字描述 start */
+.describe {
+	padding: 25rpx 0;
+	overflow: hidden;
+	line-height: 36rpx;
+}
+.describe view {
+	display: inline;
+}
+.text {
+	font-size:28rpx;
+	font-weight:400;
+	color:rgba(51,51,51,1); 
+	position: relative;
+}
+.describe .anCotent {
+	font-size:24rpx;
+	font-family:PingFang SC;
+	font-weight:500;
+	color:rgba(90,124,171,1);
+	line-height:33rpx;
+	margin-left: 20rpx;
+}
+.describe .anCotent image {
+	width: 26rpx;
+	height: 19rpx;
+	margin-bottom: -1rpx;
 }

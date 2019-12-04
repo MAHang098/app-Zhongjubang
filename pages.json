@@ -1,6 +1,28 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页,
 		{
+			"path" : "pages/updatePswd/updatePswd",
+			"style" : {
+				 "navigationBarTitleText": "找回密码"
+			}
+		},
+		
+		{
+			"path": "pages/loginPhone/loginPhone",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		{
+		    "path": "pages/main/main",
+		    "style": {
+		        "navigationBarTitleText": "登录模板"
+		    }
+		},
+		
+		{
 			"path" : "pages/editInfo/editInfo",
 			"style": {
 		        "app-plus": {
@@ -8,12 +30,7 @@
 		        }
 		    }
 		},
-		{
-			"path" : "pages/updatePswd/updatePswd",
-			"style" : {
-				 "navigationBarTitleText": "找回密码"
-			}
-		},
+		
 		{
 			"path" : "pages/updatePswd/updatePswd",
 			"style" : {
@@ -28,14 +45,7 @@
 				}
 			}
 		},
-		{
-			"path": "pages/loginPhone/loginPhone",
-			"style": {
-				"app-plus": {
-					"titleNView": false //禁用原生导航栏  
-				}
-			}
-		},
+		
 		{
 		    "path": "pages/releaseVideo2/releaseVideo2",
 		    "style": {
@@ -54,14 +64,6 @@
 				"app-plus": {
 					"titleNView": false //禁用原生导航栏  
 				}
-			}
-		},
-		
-		
-		{
-			"path": "pages/add-fans/add-fans",
-			"style": {
-				"navigationBarTitleText": "新增粉丝"
 			}
 		},
 		{
@@ -255,8 +257,10 @@
        
         
        
+        
     ],
 	"subPackages": [
+		// 上传图片需要用到的页面
 		{
 			"root": "pages/releaseImage",
 			"pages": [
@@ -291,6 +295,97 @@
 				            "titleNView": false //禁用原生导航栏  
 				        }
 				    }
+				}
+			]
+		},
+		// 消息下的全部页面
+		{
+			"root": "pages/information",
+			"pages": [
+				{
+				    "path": "information-list/information-list",  // 消息列表
+				    "style": {
+				       "navigationBarTitleText": "消息"
+				    }
+				},
+				{
+				    "path": "add-fans/add-fans",  // 新增粉丝
+				    "style": {
+				       "navigationBarTitleText": "新增粉丝"
+				    }
+				},
+				{
+				    "path": "collection/collection",  // 收藏
+				    "style": {
+				       "navigationBarTitleText": "收藏"
+				    }
+				},
+				{
+				    "path": "give-like/give-like",  // 收藏
+				    "style": {
+				       "navigationBarTitleText": "点赞"
+				    }
+				},
+				{
+				    "path": "all-fans/all-fans",  // 所有粉丝
+				    "style": {
+				       "navigationBarTitleText": "所有粉丝"
+				    }
+				},
+				{
+					"path" : "comments/comments",
+					"style" : {
+						"navigationBarTitleText": "评论"
+					}
+				}
+			]
+		},
+		// 个人中心
+		{
+			"root": "pages/personal",
+			"pages": [
+				{
+				    "path": "hot-points/hot-points",  // 热度分
+				    "style": {
+				       "navigationBarTitleText": "热度分"
+				    }
+				} ,
+				{
+					"path" : "hot-detail/hot-detail",
+					"style" : {
+						 "navigationBarTitleText": "热度分明细"
+					}
+				},
+				{
+					"path" : "hot-exchange/hot-exchange",
+					"style" : {
+						"navigationBarTitleText": "热度分兑换",
+						"app-plus": {    
+						 
+						   "titleNView": {    
+						 
+						     "splitLine": {  
+						 
+						       "color":"#e2e2e2"  
+						 
+						     }    
+						 
+						   }    
+						 
+						}
+					}
+				},
+				{
+				    "path" : "order-exchange/order-exchange",
+				    "style" : {
+						"navigationBarTitleText": "确认兑换"
+					}
+				},
+				{
+				    "path" : "hot-rules/hot-rules",
+				    "style" : {
+						"navigationBarTitleText": "热度分规则"
+					}
 				}
 			]
 		}

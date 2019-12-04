@@ -17,6 +17,8 @@ const store = new Vuex.Store({
 		uploadImage: [],
 		drafts: [],
 		topic: '',
+		pageType: '',
+		adress: {}
     },
     mutations: {
         login(state, userName) {
@@ -82,7 +84,14 @@ const store = new Vuex.Store({
 		clearDrafts(state, arr) {
 			state.drafts = arr;
 		},
-		
+		// 用于存页面类型
+		defaultPage(state, type) {
+			state.pageType = type
+		},
+		// 获取选择后的地址
+		getAdress(state, obj) {
+			state.adress = obj;
+		}
     },
 	modules: {
 		imageUpload
