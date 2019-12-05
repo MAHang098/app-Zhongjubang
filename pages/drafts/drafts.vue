@@ -52,9 +52,9 @@
 				<!-- 图片/视频 end -->
 				<!-- 话题 start -->
 				<view class="draftsTopic" v-show="show" v-if="item.title != '' ">
-					<view class="left">
+					<view class="left" @click.stop="takePart(item.title.topicId)">
 						<image src="../../static/topic/topic.png" mode=""></image>
-						<view>{{item.title}}</view>
+						<view>{{item.title.name}}</view>
 					</view>
 					<view class="right"></view>
 				</view>
@@ -208,6 +208,18 @@
 				})
 				// var current = e.target.dataset.src
 			},
+			// 点击话题
+			takePart(id) {
+				// this.$store.commit('clearData', []);
+				// this.$store.commit('clearData', []);
+				// this.$store.commit('clearData', []);
+				// this.$store.commit('clearData', []);
+				// this.$store.commit('defaultPage', '');
+				// this.$store.commit('getAdress', {});
+				uni.navigateTo({
+					url: '/pages/topicDetails/topicDetails?id=' + id
+				})
+			}
 		},
 	}
 </script>

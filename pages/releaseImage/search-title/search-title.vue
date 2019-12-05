@@ -6,7 +6,7 @@
 				<image src="../../../static/search/nav-search.png" mode=""></image>
 				<input class="uni-input" placeholder="搜索您需要的商品" @focus="onFocus" @blur="onBlur" />
 			</view>
-			<view class="cancel">取消</view>
+			<view class="cancel" @click="cancel">取消</view>
 		</view>
 		<!-- 搜索栏 end -->
 		
@@ -30,7 +30,7 @@
 								<view class="num">共{{item.participateCount}}人参与</view>
 							</view>
 						</view>
-						<view class="right" @click="chooseTopic(item.talkTheme)">
+						<view class="right" @click.stop="chooseTopic(item.talkTheme, item.id)">
 							选择
 						</view>
 					</view>
@@ -54,8 +54,18 @@
 				categoryActive: 0,
 				scrollTop: 0,
 				scrollHeight: 0,
-				name: "七月_"
+				name: "七月_",
+				token: ''
 			}
+		},
+		onShow() {
+			let that = this;
+			uni.getStorage({
+				key:"token",
+				success: function (res) {
+				that.token = res.data;
+			  }
+			})
 		},
 		methods: {
 			onFocus() {
@@ -69,12 +79,24 @@
 				// })
 			},
 			// 选择话题
-			chooseTopic(name) {
-				var pages = getCurrentPages();
-				var currPage = pages[pages.length - 1];  //当前页面
-				var prevPage = pages[pages.length - 2];  //上一个页面
-				prevPage.participationTopic= name;
+			chooseTopic(name, id) {
+				
+				// let pages = getCurrentPages(), prevPage=null;
+				let pages = getCurrentPages();
+				let currPage = pages[pages.length - 1];  //当前页面
+				let prevPage = pages[pages.length - 2];  //上一个页面
+				if(prevPage) {
+						prevPage.participationTopic= name;
+						prevPage.participationTopicId = id ;
+					// #ifdef APP-PLUS || MP-WEIXIN
+						prevPage.setData({
+							participationTopic : name,
+							participationTopicId : id
+						})
+					// #endif
+				}
 				prevPage.ishow= false;
+				// console.log(prevPage)
 				uni.navigateBack();
 			},
 			cancel() {
@@ -92,7 +114,7 @@
 				uni.request({
 					url: this.url + '/controller/contentcontroller/gettalkthemelistbytypeid',
 					method: 'post',
-					header : {'content-type':'application/x-www-form-urlencoded'},
+					header : {'content-type':'application/x-www-form-urlencoded', token: this.token, 'port': 'app'},
 					data:  {talkThemeTypeId: id},
 					success: (res => {
 						if(res.data.code == 200) {
@@ -113,8 +135,8 @@
 				uni.request({
 					url: this.url + '/controller/contentcontroller/gettalkthemetypeall',
 					method: 'post',
+					header : {'content-type':'application/x-www-form-urlencoded',  token: this.token, 'port': 'app'},
 					success: (res => {
-						
 						if(res.data.code == 200) {
 							this.categoryList = res.data.data;
 							this.categoryClickMain(this.categoryList[0].id, 0)
@@ -142,7 +164,7 @@
 			// 话题详情
 			topicDetail(id) {
 				uni.navigateTo({
-					url: '/pages/topicDetails/topicDetails?id=' + id
+					url: '/pages/topicDetails/topicDetails?type=topic&id=' + id
 				})
 			}
 			

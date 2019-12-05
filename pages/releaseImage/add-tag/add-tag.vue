@@ -90,7 +90,6 @@
 			}
 		},
 		onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
-			// if(option.length)
 			if(option.current) {
 				this.current = option.current;
 				this.indexImg = option.indexImg;
@@ -116,6 +115,20 @@
 			
 			if(mark) {
 				this.tagItems = this.items[autoIndex].testArr[0].allTagArr;
+			}
+			
+			// 获取下一页修改这一页的数据
+			let pages = getCurrentPages();
+			let currPage = pages[pages.length-1];
+			if(currPage) {
+				// #ifdef APP-PLUS || MP-WEIXIN
+				if(currPage.data.current==undefined || currPage.data.current==''){
+					
+				}else{
+					this.current = currPage.data.current
+					this.indexImg = currPage.data.indexImg
+				}
+				// #endif
 			}
 		},
 		
@@ -275,7 +288,7 @@
 			// 跳转到发布页面
 			nextRelease() {
 				uni.navigateTo({
-					url: '/pages/releaseImage/release-image/release-image'
+					url: '/pages/releaseImage/release-image/release-image?type=addTag'
 				})
 			}
 		}

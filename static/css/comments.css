@@ -8,13 +8,13 @@
 	position: relative;
 }
 .comments-detail:first-child {
-	margin: 0!important;
+	margin-top: 115rpx;
 }
 .comments-detail:last-child {
 	margin-bottom: 300rpx;
 }
 .comments-detail {
-	margin-top: 40rpx;
+	margin-bottom: 30rpx;
 	width: 100%;
 }
 .uni-comments-title {
@@ -25,7 +25,12 @@
 	box-sizing: border-box;
 	padding: 41rpx 30rpx;
 	border-bottom: 1px solid #E2E2E2;
-	
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	width: 100%;
+	background: #FFFFFF;
+	border-radius:22rpx 22rpx 0px 0px;
 }	
 .uni-comments-title image {
 	width: 25rpx;
@@ -36,7 +41,6 @@
 	display: flex;
 	flex-wrap: wrap;
 	padding: 15px;
-	padding-bottom: 150rpx;
 	overflow-y: scroll;
 	-webkit-overflow-scrolling: touch; 
 	height: 100%;

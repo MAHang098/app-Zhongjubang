@@ -43,7 +43,7 @@
 			navigateTo() {
 				uni.navigateTo({
 					// url: '/pages/releaseImage/add-tag/add-tag'
-					url: '/pages/personal/order-exchange/order-exchange'
+					url: '/pages/release/release'
 				})
 			},
 			// 发送验证码

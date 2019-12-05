@@ -13,13 +13,13 @@ const store = new Vuex.Store({
         hasLogin: false,
         userName: "",
 		index:null,
-		testArr: [],
-		uploadImage: [],
+		uploadImage: [],   // 保存上传图片及标签的数组
 		drafts: [],
 		topic: '',
 		pageType: '',
 		adress: {},
-		listVideo: {}
+		listVideo: {},
+		topicId: ''
     },
     mutations: {
         login(state, userName) {
@@ -74,8 +74,9 @@ const store = new Vuex.Store({
 			state.drafts.push(obj);
 		},
 		// 用于保存参与话题的title，使其发布页面不能在修改话题和添加话题
-		updateType(state, topic) {
-			state.topic = topic;
+		updateType(state, obj) {
+			state.topic = obj.topic;
+			state.topicId = obj.topicId;
 		},
 		// 清空uploadImage的数据
 		clearData(state, arr) {
