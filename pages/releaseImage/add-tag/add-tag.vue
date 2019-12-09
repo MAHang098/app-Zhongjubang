@@ -26,7 +26,7 @@
 					  @click.stop="togglePopup('center', 'tip', tagIndex, tag.tagName, index)">
 						<image src="../../../static/upload/indicator.png" mode="" @click.stop="changeMove(tagIndex)" ></image>
 						<view class="tag-detail " :class="setIndex == tagIndex && rotate ? 'moveleft' : ' moveright' ">
-							<image src="../../../static/tag/cart.png" mode="" v-show="tag.type == 'product' || tag.type != 'tag'"></image>
+							<image src="../../../static/tag/cart.png" mode="" v-show="tag.type == 'product'"></image>
 							{{tag.tagName | ellipsis}}
 						</view>
 					</movable-view>
@@ -83,14 +83,13 @@
 		filters: {
 			ellipsis (value) {
 			  if (!value) return ''
-			  if (value.length > 12) {
-				return value.slice(0,12) + '...'
+			  if (value.length > 6) {
+				return value.slice(0,6) + '...'
 			  }
 			  return value
 			}
 		},
 		onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
-			// if(option.length)
 			if(option.current) {
 				this.current = option.current;
 				this.indexImg = option.indexImg;
@@ -116,6 +115,20 @@
 			
 			if(mark) {
 				this.tagItems = this.items[autoIndex].testArr[0].allTagArr;
+			}
+			
+			// 获取下一页修改这一页的数据
+			let pages = getCurrentPages();
+			let currPage = pages[pages.length-1];
+			if(currPage) {
+				// #ifdef APP-PLUS || MP-WEIXIN
+				if(currPage.data.current==undefined || currPage.data.current==''){
+					
+				}else{
+					this.current = currPage.data.current
+					this.indexImg = currPage.data.indexImg
+				}
+				// #endif
 			}
 		},
 		
@@ -275,7 +288,7 @@
 			// 跳转到发布页面
 			nextRelease() {
 				uni.navigateTo({
-					url: '/pages/releaseImage/release-image/release-image'
+					url: '/pages/releaseImage/release-image/release-image?type=addTag'
 				})
 			}
 		}
@@ -373,11 +386,11 @@
 	movable-view {
 		position: absolute ;
 		top: 25%;
-		display: flex;
+		/* display: flex;
 		align-items: center;
-		justify-content: center;
+		justify-content: center; */
 		height: 87rpx;
-		width: 420rpx;
+		width: auto;
 		/* border: 1px solid red; */
 		color: #fff;
 		z-index: 1;
@@ -405,7 +418,6 @@
 	.tag-detail {
 		padding: 8rpx 25rpx;
 		background: rgba(0,0,0,.6);
-		margin-top: 58rpx;
 		font-size: 24rpx;
 		font-weight: 500;
 		border: 1px solid rgba(255,255,255,.3);
@@ -416,9 +428,9 @@
 		margin-right: 10rpx;
 	}
 	.moveright {
-		margin-left: -1px;
+		margin-left: 14px;
 		border-radius:0px 13rpx 0px 13rpx;
-		/* transition: all 1s; */
+		margin-top: -2px;
 	}
 	.moveleft {
 		/* transform:rotate(-360deg);	 */

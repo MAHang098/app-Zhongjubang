@@ -40,37 +40,92 @@
 			
 		</view>
 		<!-- 我的动态 -->
-		<!-- <view class="my-active"> -->
-		<view class="drafts">
-			<!-- <view class="my-active-title1">我的动态</view>
+		<view class="my-active">
+			<view class="my-active-title1">我的动态</view>
 			<view class="my-active-index"></view>
 			<view class="my-active-vertify"></view>
 			<view class="my-active-title2">短视频</view>
 			<view class="my-active-vertify2"></view>
-			<view class="my-active-title3">收藏</view> -->
+			<view class="my-active-title3">收藏</view>
+		<!-- 	<view class="my-active-image"></view>
+			<view class="my-active-nickName">晴天小猪</view>
+			<view class="my-active-data">2019-12-12  09:11</view>
+			<view class="edit-del">
+				<image src="../../static/img/user/edit-del.png" mode=""></image>
+			</view>
+			<view class="my-active-recommend">
+				某臣氏骑剑活动！水雾质地 很轻薄 不沾黏！在上待几分钟会变成雾面哑光感 超高级！显色很持久...
+				<text class="my-active-more">展开</text>
+				<view class="my-active-more-image">
+					<image src="../../static/img/user/down.png" mode=""></image>
+				</view>
+			</view>
+			<view class="my-active-pic"></view>
+			<view class="add-topic">
+				
+				
+			</view>
+			<view class="add-topic-image">
+				<image src="../../static/img/user/add-topic.png" mode=""></image>
+			</view>
+			<text class="add-topic-text">添加你的话题</text>
 
-			<view class="drafts-type">
-				<view v-for="(item, index) in tabType" :class="index == current ? 'active' : '' " @click="changeProduct(index)" :key="index">
-					{{item}}
-					<text v-bind:class="index == current ? 'active-status' : '' "></text>
+			<view class="share">
+				<image src="../../static/img/user/share.png" mode=""></image>
+			</view>
+			<view class="message">
+				<image src="../../static/img/user/message.png" mode=""></image>
+			</view>
+			<text class="my-active-message">700</text>
+			<view class="star">
+				<image src="../../static/img/user/star.png" mode=""></image>
+			</view>
+			<text class="my-active-star">120</text>
+			<view class="good">
+				<image src="../../static/img/user/good.png" mode=""></image>
+			</view>
+			<text class="my-active-good">180</text>
+			
+		</view>
+
+
+		<view class="my-active2">
+			<view class="my-active-image1"></view>
+			<view class="my-active-nickName1">晴天小猪</view>
+			<view class="my-active-data1">2019-12-12  09:11</view>
+			<view class="edit-del1">
+				<image src="../../static/img/user/edit-del.png" mode=""></image>
+			</view>
+			<view class="my-active-recommend1">
+				某臣氏骑剑活动！水雾质地 很轻薄 不沾黏！在上待几分钟会变成雾面哑光感 超高级！显色很持久...
+				<text class="my-active-more1">展开</text>
+				<view class="my-active-more-image1">
+					<image src="../../static/img/user/down.png" mode=""></image>
 				</view>
 			</view>
 			
-			<view v-if="show1" >
-				<view class="comments-detail" v-for="(item, index) in videoList" :key="index">
-					<view class="video-content">
-						<image class="video-content-image" style="width:67px;height:67rpx" :src="item.head" mode=""></image>
-						<view>{{item.nickName}}</view>
-						<video style="width:359px;height:512rpx;background-color:transparents" :src="item.videoUrl"></video>
-						
-						
-					</view>
-					
-				</view>
-			</view>
+			
+			<view class="my-active-pic1"></view>
+			
 
+			<view class="share">
+				<image src="../../static/img/user/share.png" mode=""></image>
+			</view>
+			<view class="message">
+				<image src="../../static/img/user/message.png" mode=""></image>
+			</view>
+			<text class="my-active-message">700</text>
+			<view class="star">
+				<image src="../../static/img/user/star.png" mode=""></image>
+			</view>
+			<text class="my-active-star">120</text>
+			<view class="good">
+				<image src="../../static/img/user/good.png" mode=""></image>
+			</view>
+			<text class="my-active-good">180</text> -->
+			
 			<!-- G圈列表 start -->
-			<view v-if="!show1" class="relese-image"  >
+			<view class="relese-image"  >
 				<view v-for="(items, index) in releaseImgList" :key="index">
 					<view class="relese-image_detail" >
 						<!-- 用户信息 start -->
@@ -101,7 +156,7 @@
 						<view class="content"  v-if="items.gcircleContentDTO.content != '' ">
 							<view v-if="!isShowAllContent" class="text">{{items.gcircleContentDTO.content }}</view>
 							<view v-else class="text">{{items.gcircleContentDTO.content | ellipsis}}</view>
-							<view class="anCotent" v-if="items.gcircleContentDTO.content.length > 45 " @click="open()">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
+							<view class="anCotent" v-if="items.gcircleContentDTO.content.length > 60 " @click="open()">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
 						</view>
 						<!-- 草稿内容 end -->
 						
@@ -203,15 +258,14 @@
 </template>
 
 <script>
-    import uniPopup from "@/components/uni-popup/uni-popup.vue"
+    	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 
     export default {
 		components:{ uniPopup},
 		data() {
 	        return {
-				tabType: ['图片', '视频'],
+				tabType: ['图片', '视频','收藏'],
 				show: '',
-				show1: '',
 				fannum: '',
 				attentionnum: '',
 				likenum: '',
@@ -243,7 +297,6 @@
 				// nickName: '',
 				gCollectionDiscussNum: '',
 				dataList: [],
-				videoList: [],
 				recommendId: '',
 				recommendName: '',
 				getsvdiscussId: '',
@@ -255,17 +308,10 @@
 		filters: {
 			ellipsis (value) {
 			  if (!value) return ''
-			  if (value.length > 45) {
-				return value.slice(0,45) + '...'
+			  if (value.length > 60) {
+				return value.slice(0,60) + '...'
 			  }
 			  return value
-			}
-		},
-		onLoad(options){
-            if(options.userid!=''){
-				
-			}else{
-
 			}
 		},
         onShow(){
@@ -274,8 +320,8 @@
 			uni.getStorage({
 				key:"token",
 				success: function (res) {
-				token = res.data;
-				self.Tokens = res.data;
+					token = res.data;
+					self.Tokens = res.data;
 				}
 			})
 			const url = this.url
@@ -311,39 +357,19 @@
 					'token': token
 				},
 				success: function (res){
-				// console.log(res.data.code)
-				if(res.data.code==200){
-					// console.log(res.data.data)
-					self.feverBranch = res.data.data.feverBranch
-					self.head = res.data.data.head
-					self.nickName = res.data.data.nickName
-					self.remarks = res.data.data.remarks
-					self.sex = res.data.data.sex
-					if(res.data.data.sex==1){
-						self.show = true
-					}else if(res.data.data.sex==2){
-						self.show = false
-					}
-					}else{
-						console.log("请求异常")
-					}
-				}
-			});
-			//获取视频内容
-			uni.request({
-				url: url + "/controller/usercontroller/getshortvideobyuserid",
-				data: {},
-				method: 'POST',
-				header : {
-					'content-type':'application/x-www-form-urlencoded', 
-					'port': 'app',
-					'token': token
-				},
-				success: function (res){
 					// console.log(res.data.code)
 					if(res.data.code==200){
-						console.log(res)
-						self.videoList = res.data.data.dataList[0]
+						// console.log(res.data.data)
+						self.feverBranch = res.data.data.feverBranch
+						self.head = res.data.data.head
+						self.nickName = res.data.data.nickName
+						self.remarks = res.data.data.remarks
+						self.sex = res.data.data.sex
+						if(res.data.data.sex==1){
+							self.show = true
+						}else if(res.data.data.sex==2){
+							self.show = false
+						}
 					}else{
 						console.log("请求异常")
 					}
@@ -352,18 +378,6 @@
 			this.init();
 		},
         methods: {
-			
-			// 切换草稿类型
-			changeProduct(index) {
-				this.current = index;
-				this.currentType = index + 1;
-				this.show1 = !this.show1;
-				let type = 1;
-				if(index == 1) {
-					type = 2;
-				} 
-				this.init(type);
-			},
             editInfo(){
 				uni.navigateTo({
 					url: "/pages/editInfo/editInfo"
@@ -753,52 +767,6 @@
 <style>
 	@import '../../static/css/releaseImgList.css'; /*引入G圈列表样式*/
 	@import '../../static/css/comments.css'; /*引入评论弹窗的样式*/
-	
-	.uni-video-container{
-		background-color: transparent !important;
-	}
-	/* 内容导航栏start */
-	.drafts {
-		width: 100%;
-		height: 100%;
-		box-sizing: border-box;
-		padding: 40rpx 20rpx;
-		border-top: 1px solid #E2E2E2;
-		background: #fff;
-	}
-	.drafts-type {
-		height: 70rpx;
-	}
-	.drafts-type view {
-		width: 15%;
-		height: 34rpx;
-		line-height: 34rpx;
-		text-align: center;
-		color: #666666;
-		font-size: 32rpx;
-		display: inline-block;
-		border-right: 1rpx solid #E2E2E2;
-	}
-	.drafts-type view:last-child {
-		border: none;
-	}
-	.active {
-		color: #333333 !important;
-		font-size: 34rpx !important;
-		font-weight: bold;
-		border-width: 50rpx;
-		border-color: red;
-		
-	}
-	.active-status {
-		margin: 9px auto;
-		display: block;
-		width:50rpx;
-		height:4rpx;
-		background:#F9B72C;
-		/* border-radius:3px; */
-	}
-	/* 内容导航栏end */
 	.wrap{
 		background-color: #F7F7F7;
 		padding-bottom: 120rpx;

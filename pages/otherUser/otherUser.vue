@@ -261,21 +261,14 @@
 			  return value
 			}
 		},
-		onLoad(options){
-            if(options.userid!=''){
-				
-			}else{
-
-			}
-		},
         onShow(){
 			let token
 			let self = this
 			uni.getStorage({
 				key:"token",
 				success: function (res) {
-				token = res.data;
-				self.Tokens = res.data;
+					token = res.data;
+					self.Tokens = res.data;
 				}
 			})
 			const url = this.url
@@ -311,25 +304,25 @@
 					'token': token
 				},
 				success: function (res){
-				// console.log(res.data.code)
-				if(res.data.code==200){
-					// console.log(res.data.data)
-					self.feverBranch = res.data.data.feverBranch
-					self.head = res.data.data.head
-					self.nickName = res.data.data.nickName
-					self.remarks = res.data.data.remarks
-					self.sex = res.data.data.sex
-					if(res.data.data.sex==1){
-						self.show = true
-					}else if(res.data.data.sex==2){
-						self.show = false
-					}
+					// console.log(res.data.code)
+					if(res.data.code==200){
+						// console.log(res.data.data)
+						self.feverBranch = res.data.data.feverBranch
+						self.head = res.data.data.head
+						self.nickName = res.data.data.nickName
+						self.remarks = res.data.data.remarks
+						self.sex = res.data.data.sex
+						if(res.data.data.sex==1){
+							self.show = true
+						}else if(res.data.data.sex==2){
+							self.show = false
+						}
 					}else{
 						console.log("请求异常")
 					}
 				}
 			});
-			//获取视频内容
+			// 获取视频内容
 			uni.request({
 				url: url + "/controller/usercontroller/getshortvideobyuserid",
 				data: {},
@@ -342,6 +335,7 @@
 				success: function (res){
 					// console.log(res.data.code)
 					if(res.data.code==200){
+						// console.log(res.data.data)
 						console.log(res)
 						self.videoList = res.data.data.dataList[0]
 					}else{

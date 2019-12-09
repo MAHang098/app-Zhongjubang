@@ -2,11 +2,12 @@
     <view>
 		<view class="header" v-bind:class="{ 'in': scrollFlag }">
 			<view class="header-left">
-				<image :src="scrollFlag ? '../../static/topic/topic-back.png' : '../../static/img/topicDetails/back.png' " mode=""></image>
+				<image :src="scrollFlag ? '../../static/topic/topic-back.png' : '../../static/img/topicDetails/back.png' " mode="" @click.stop="cancel"></image>
 				<text class="header-topic">{{scrollFlag ? topic : ''}}</text>
 			</view>
 			<view class="header-right">
-				<image src="../../static/img/topicDetails/interest.png" mode=""></image>
+				<image v-if="!scrollFlag" :src="talkThemeState == 0 ? '../../static/img/topicDetails/interest.png' : '../../static/img/topicDetails/focus.png'" mode="" @click.stop="focusTopic"></image>
+				<image v-else :src="talkThemeState == 0 ? '../../static/img/topicDetails/interest.png' : '../../static/topic/focus.png'" mode="" @click.stop="focusTopic"></image>
 				<image :src="scrollFlag ? '../../static/topic/topic-share.png' : '../../static/img/topicDetails/share.png'" mode=""></image>
 			</view>
 		</view>
@@ -42,14 +43,14 @@
 								<view class="time">{{item.createTime}}</view>
 							</view>
 						</view>
-						<view class="right" @click.stop="focus(index, item.userId)">
-							<image :src=" activeIndex == index && isShowFocus || item.attentionState == '1' ? '../../static/topic/focus.png' : '../../static/img/topicDetails/interest.png'" mode=""></image>
+						<view class="right" @click.stop="focus(index, item.userId, item.attentionState)">
+							<image :src="( activeIndex == index && isShowFocus) || item.attentionState != 0 ? '../../static/topic/focus.png' : '../../static/img/topicDetails/interest.png'" mode=""></image>
 						</view>
 					</view>
 					
 					<!-- 文字内容 start -->
 					<view class="describe">
-						<view v-if="activeIndex == index && !isShowAllContent" class="text">{{item.content }}</view>
+						<view v-if="(activeIndex == index && !isShowAllContent)" class="text">{{item.content }}</view>
 						<view v-else class="text">{{item.content | ellipsis}}</view>
 						<view class="anCotent" v-if="item.content.length > 60 " @click.stop="open(index)">{{activeIndex == index && brandFold  ? '收起' : '展开'}}<image :class="brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
 					</view>
@@ -66,17 +67,18 @@
 					<view class="operate">
 						<view class="share"><image src="../../static/img/user/share.png" mode=""></image></view>
 						<view class="number">
-							<view class="message" @click.stop="togglePopup('bottom', 'comments', item.userId, item.gcircleContentId, item.nickName,item.gCollectionDiscussNum)">
+							<view class="message" @click.stop="togglePopup('bottom', 'comments',item.userId, item.gcircleContentId, item.nickName,item.gCollectionDiscussNum)">
 								<image src="../../static/img/user/message.png" mode=""></image>
 								<text>{{item.gCollectionDiscussNum}}</text>
 							</view>
-							<view class="collect" @click.stop="collect(index)">
-								<image :src="activeIndex == index && isShowCollect || item.collectionState ? '../../static/topic/collect-select.png' : '../../static/img/user/star.png' " mode=""></image>
+							<view class="collect" @click.stop="collect(index, item.gcircleContentId, item.collectionState)">
+								<image :src="(activeIndex == index && isShowCollect) || item.collectionState != 0 ? '../../static/topic/collect-select.png' : '../../static/img/user/star.png' " mode=""></image>
 								<text>{{item.collectionNum}}</text>
 							</view>
-							<view class="fabulous"  @click.stop="fabulous(index)">
-								<image :class="activeIndex == index && isShowFabulous || item.gContentLikeState ? 'select' : '' " :src="activeIndex == index && isShowFabulous ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
+							<view class="fabulous"  @click.stop="fabulous(index, item.gcircleContentId,  item.gContentLikeState)">
+								<image :src="(fabulousIndex == index && isShowFabulous) || item.gContentLikeState === 1 ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
 								<text>{{item.gCollectionLikeNum}}</text>
+								<!-- <text>{{fabulousIndex }}</text> -->
 							</view>
 						</view>
 					</view>
@@ -85,60 +87,44 @@
 				
 			</view>
 			
-			<view id="footer" @click.stop="goRelease">
+			<view id="footer" @click.stop="goRelease" v-show="isShowTopic">
 				<view>
 					<image src="../../static/topic/camera.png" mode=""></image>
 					参与话题
 				</view>
 			</view>
 		</view>
-		
-		<!-- 评论 start -->
-		<!-- <uni-popup ref="popup" :show="popupShow" :popupType ="popupType" :custom="true" :mask-click="false" >
-			<view class="uni-tip">
-				<view class="uni-tip-title">提示</view>
-				<view class="uni-tip-content">要保存到草稿箱吗？</view>
-				<view class="uni-tip-group-button">
-					<view class="uni-tip-button" @click="cancelPopup('tip')" style="color: #F9B72C;">不保存</view>
-					<view class="uni-tip-button insist-skip" @click="cancelPopup('skip')">保存</view>
-				</view>
-			</view>
-		</uni-popup> -->
-		
+		<!-- 评论弹窗 start -->
 		<uni-popup ref="comments" :type="popupType" :custom="true" class="comments-list">
 			<view class="uni-comments">
 				<view class="uni-comments-title">
 					<view>全部评论({{gCollectionDiscussNum}})</view>
-					<view>
+					<view @click.stop="cancelPopup('comments')">
 						<image src="../../static/img/releaseVideo2/close.png" mode=""></image>
 					</view>
 				</view>
-				<view v-for="(row, index) in dataList" :key="index">
-					<view class="uni-comments-content">
-						
-						<view class="comments-detail">
-							<view class="comments-user">
-								<image src="../../static/drafts.png" mode=""></image>
-								<view>
-									<text class="comments-name">{{row.nick_name}}</text>
-									<text class="date">{{row.cratee_time}}</text>
-								</view>
-								<view class="fabulous">
-									1 <image :src="row.head" mode=""></image>
-								</view>
+				<view class="uni-comments-content">
+					<view class="comments-detail" v-for="(row, index) in dataList" :key="index">
+						<view class="comments-user">
+							<image src="../../static/drafts.png" mode=""></image>
+							<view>
+								<text class="comments-name">{{row.nick_name}}</text>
+								<text class="date">{{row.cratee_time}}</text>
 							</view>
-							<view class="comments-content">
-								<text  @click="testreply(row.id, row.nick_name)">{{row.gcircle_content_discuss}}</text>
-									<view class="reply-comments">
-										<view v-for="(rows, indexs) in row.zilist" :key="indexs">
-											<text>{{rows.nick_name}}：{{rows.gcircle_content_discuss}}</text>
-										</view>
-										<text v-show="row.sonCount>2" class="all-replay" @tap="reply(row.id)">共{{row.sonCount}}条回复 ></text>
-
-										<!-- <text @click="reply(rows.id, rows.nick_name)">屋主回复晴天小猪: ok</text> -->
-									</view>
-								<text class="parting-line"></text>
+							<view class="fabulous"  @click.stop="commentsFabulous(index, row.id, row.state)">
+								{{row.likenum}}
+								<image :src="(activeIndex == index && isCommentsFabulous) ||  row.state != 0 ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
 							</view>
+						</view>
+						<view class="comments-content">
+							<text  @click="testreply(row.id, row.nick_name)">{{row.gcircle_content_discuss}}</text>
+							<view class="reply-comments" v-show="row.zilist.length > 0">
+								<view v-for="(rows, indexs) in row.zilist" :key="indexs">
+									<text>{{rows.nick_name}}：{{rows.gcircle_content_discuss}}</text>
+								</view>
+								<text v-show="row.sonCount>2" class="all-replay" @tap="reply(row.id)">共{{row.sonCount}}条回复 ></text>
+							</view>
+							<text class="parting-line"></text>
 						</view>
 					</view>
 				</view>
@@ -158,6 +144,8 @@
 		components:{ uniPopup},
         data() {
 			return {
+				isFoucs: false,   // 是否关注当前话题
+				talkThemeState: 0,  // 话题状态  0：未关注   1：已关注
 				replySay: '说点什么吧...',
 				topic: '我家阳台收纳神器',
 				brandFold: false,
@@ -167,9 +155,10 @@
 				participateCount: 0,
 				talkThemeRemarks: '',
 				scrollFlag:false,
-				content: '某臣氏骑剑活动！水雾质地 很轻薄 不沾黏！在上待几分钟会变成雾面哑光感某臣氏骑剑活动！水雾质地 很轻薄 不沾黏！在上待几分钟会变成雾面哑光感 超高级！显色很持久...不沾黏！在上待几分钟会变成雾面哑光感 超高级！显色很持久...',
+				content: '',
 				topicList: [],
 				activeIndex: -1,
+				fabulousIndex: -1,
 				isShowFocus: false,   //是否显示已关注图标
 				isShowFabulous: false,   //是否显示已点赞
 				isShowCollect: false,   //是否显示已收藏
@@ -177,45 +166,16 @@
 				// 弹窗所用到的变量
 				popupShow: false,
 				popupType: '',
-				bottomData: [{
-						text: '微信',
-						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-2.png',
-						name: 'wx'
-					},
-					{
-						text: '支付宝',
-						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-8.png',
-						name: 'wx'
-					},
-					{
-						text: 'QQ',
-						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/gird-3.png',
-						name: 'qq'
-					},
-					{
-						text: '新浪',
-						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-1.png',
-						name: 'sina'
-					},
-					{
-						text: '百度',
-						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-7.png',
-						name: 'copy'
-					},
-					{
-						text: '其他',
-						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-5.png',
-						name: 'more'
-					}
-				],
 				inputValue: '',
 				outUserId: '',
 				gcircleContentId: '',
 				nickName: '',
 				gCollectionDiscussNum: '',
-				dataList: {},
+				dataList: [],
 				recommendId: '',
 				recommendName: '',
+				getsvdiscussId: '',
+				isShowTopic: true
 			}
 		},
 		filters: {
@@ -231,6 +191,9 @@
 			// window.addEventListener('scroll', this.handleScroll)
 		},
 		onLoad(option) {
+			if(option.type == 'topic') {
+				this.isShowTopic = false;
+			}
 			this.topicId = option.id;
 			this.init(option.id)
 		},
@@ -250,11 +213,9 @@
 				this.recommendId = id
 				this.recommendName = name
 				this.replySay = '回复' + name + ':';
-				console.log(this.replySay)
 			},
 			recordName(e) {  
 				this.inputValue = e.detail.value;
-				console.log(e.detail.value)
 				let token
 				let self = this
 				uni.getStorage({
@@ -264,7 +225,6 @@
 					}
 				})
 				const url = this.url
-				console.log(self.nickName)
 				
 				if(this.recommendId!=''){
 					uni.request({
@@ -315,27 +275,43 @@
 						}
 					})
 				}
-				
-
-				
-
-
-				
-				
             },
-			testreply(id, name){
-				console.log(id, name)
-				this.recommendId = id
-				this.recommendName = name
-				this.replySay = '回复' + name + ':';
-				console.log(this.replySay)
-			},
+			
 			reply(id){
 				console.log(id)
 				uni.navigateTo({
 					url: "/pages/ganswer/ganswer?Id=" + id
 				})
 			},
+			// 关注话题
+			focusTopic() {
+				let token = '';
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+					 token = res.data;
+				  }
+				});
+				uni.request({
+					url: this.url + 'controller/contentcontroller/addtalkthemeuser',
+					method: 'post',
+					data: {talkThemeId: this.topicId},
+					header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
+					success:(res) => {
+						uni.hideLoading();
+						if(res.data.code == 200) {
+							this.init(this.topicId);
+						} else {
+							uni.showToast({
+							    icon: 'none',
+							    title: res.data.message
+							});
+							uni.hideToast();
+						}
+					}
+				});
+			},
+			// 获取话题列表
 			init(id) {
 				uni.showLoading({
 					title: '加载中',
@@ -367,7 +343,12 @@
 							this.talkThemeNum = data.talkThemeNum;
 							this.participateCount = data.participateCount
 							this.topicList = data.allGContentList;
-							this.talkThemeRemarks = data.talkThemeRemarks;
+							this.talkThemeState = data.talkThemeState;
+                            if(data.talkThemeRemarks == null) {
+                                this.talkThemeRemarks = ' ';
+                                return;
+                            }
+                            this.talkThemeRemarks = data.talkThemeRemarks;
 						} else {
 							uni.showToast({
 							    icon: 'none',
@@ -383,8 +364,120 @@
             	this.isShowAllContent = !this.isShowAllContent;
             	this.brandFold = !this.brandFold
             },
-			// 关注
-			focus(index, id) {
+            // 关注
+            focus(index, id, state) {
+                let token = '';
+                uni.getStorage({
+                    key:"token",
+                    success: function (res) {
+                        token = res.data;
+                    }
+                });
+                uni.request({
+                    url: this.url + 'controller/usercontroller/addattentionrelationship',
+                    method: 'post',
+                    data: {outUserId: id},
+                    header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
+                    success:(res) => {
+                        if(res.data.code == 200) {
+                            this.init(this.topicId);
+                            this.activeIndex = index;
+							if(state == 1) {
+								this.isShowFocus = false;
+								return;
+							}
+                            this.isShowFocus = !this.isShowFocus;
+                        } else {
+                            uni.showToast({
+                                icon: 'none',
+                                title: res.data.message
+                            });
+                            uni.hideToast();
+                        }
+                    }
+                });
+            },
+            // 收藏
+            collect(index, id, state) {
+                let token = '';
+                uni.getStorage({
+                    key:"token",
+                    success: function (res) {
+                        token = res.data;
+                    }
+                });
+                uni.request({
+                    url: this.url + 'controller/usercontroller/addusercollection',
+                    method: 'post',
+                    data: {collectionContentId: id, type: '1'},
+                    header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
+                    success:(res) => {
+                        if(res.data.code == 200) {
+                            this.init(this.topicId);
+                            this.activeIndex = index;
+							if(state == 1) {
+								this.isShowCollect = false;
+								return;
+							}
+                            this.isShowCollect = !this.isShowCollect;
+                        } else {
+                            uni.showToast({
+                                icon: 'none',
+                                title: res.data.message
+                            });
+                            uni.hideToast();
+                        }
+                    }
+                });
+            },
+            // 点赞
+            fabulous(index, id, state) {
+                let token = '';
+                uni.getStorage({
+                    key:"token",
+                    success: function (res) {
+                        token = res.data;
+                    }
+                });
+                uni.request({
+                    url: this.url + 'controller/usercontroller/addgcirclecontentlike',
+                    method: 'post',
+                    data: {gcircleContentId: id},
+                    header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
+                    success:((res) => {
+                        if(res.data.code == 200) {
+                            this.init(this.topicId);
+                            this.fabulousIndex = index;
+							if(state == 1) {
+								this.isShowFabulous = false;
+								return;
+							}
+							this.isShowFabulous = !this.isShowFabulous;
+                        } else {
+                            uni.showToast({
+                                icon: 'none',
+                                title: res.data.message
+                            });
+                            uni.hideToast();
+                        }
+                    })
+                });
+            },
+			// 发布话题
+			goRelease() {
+				let obj = {
+					topic: this.topic,
+					topicId: this.topicId
+				}
+				this.$store.commit('updateType', obj );
+				uni.navigateTo({
+					url: '/pages/releaseImage/release-image/release-image'
+					// url: '/pages/releaseImage/search-tag/search-tag'
+				})
+			},
+			// 评论点赞
+			commentsFabulous(index, id, state) {
+				
 				let token = '';
 				uni.getStorage({
 					key:"token",
@@ -393,81 +486,68 @@
 				  }
 				});
 				uni.request({
-					url: this.url + 'controller/usercontroller/addattentionrelationship',
+					url: this.url + 'controller/usercontroller/adddiscusslike',
 					method: 'post',
-					data: {outUserId: id},
+					data: {discussId: id, type: '1'},
 					header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
 					success:(res) => {
 						if(res.data.code == 200) {
-							this.init(this.topicId);
 							this.activeIndex = index;
-							this.isShowFocus = !this.isShowFocus;
+							this.comments(this.getsvdiscussId)
+							if(state == 1) {
+								this.isCommentsFabulous = false;
+								return;
+							}
+							this.isCommentsFabulous = !this.isCommentsFabulous;
 						} else {
 							uni.showToast({
-							    icon: 'none',
-							    title: res.data.message
+								icon: 'none',
+								title: res.data.message
 							});
 							uni.hideToast();
 						}
 					}
 				});
 			},
-			// 收藏
-			collect(index) {
-				this.activeIndex = index;
-				this.isShowCollect = !this.isShowCollect
-			},
-			// 点赞
-			fabulous(index) {
-				this.activeIndex = index;
-				this.isShowFabulous = !this.isShowFabulous 
-			},
-			// 发布话题
-			goRelease() {
-				this.$store.commit('updateType', this.topic );
-				uni.navigateTo({
-					// url: '/pages/releaseImage/release-image/release-image'
-					url: '/pages/releaseImage/search-tag/search-tag'
-				})
-			},
-			// 弹出层弹出的方式  i:当前标签的下标, name: 当前标签的name
-			togglePopup(type, open, id, commendId, name, gCollectionDiscussNum) {
-				this.outUserId = id
-				this.gcircleContentId = commendId
-				this.gCollectionDiscussNum = gCollectionDiscussNum
-				this.nickName = name
-				let token
-				let self = this
+			comments(id) {
+				let _this = this;
+				let token = '';
 				uni.getStorage({
 					key:"token",
 					success: function (res) {
 						token = res.data;
 					}
 				})
-				const url = this.url
+				let parmas = {
+					id: id,
+					pageIndex: 1,
+					pageSize: 10000
+				}
 				uni.request({
-					url: url + "controller/usercontroller/getgcdiscusslist",
-					data: {
-						id: commendId
-					},
+					url: _this.url + "controller/usercontroller/getgcdiscusslist",
+					data: parmas,
 					method: 'POST',
-					header : {
-						'content-type':'application/x-www-form-urlencoded', 
-						'port': 'app',
-						'token': token
-					},
+					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app','token': token},
 					success: function (res){
-						console.log(res)
 						if(res.data.code==200){
-							console.log(res)
-							console.log(res.data.data.dataList)
-							self.dataList = res.data.data.dataList
+							_this.dataList = res.data.data.dataList;
 						}else{
-							console.log("请求异常")
+							uni.showToast({
+								icon: 'none',
+								title: res.data.message
+							});
+							uni.hideToast();
 						}
 					}
 				})
-				console.log(name)
+			},
+			// 弹出层弹出的方式  i:当前标签的下标, name: 当前标签的name
+			togglePopup(type, open, id, commendId, name, gCollectionDiscussNum) {
+				this.getsvdiscussId = commendId;
+				this.outUserId = id
+				this.gcircleContentId = commendId
+				this.gCollectionDiscussNum = gCollectionDiscussNum
+				this.nickName = name
 				switch (type) {
 					case 'top':
 						this.content = '顶部弹出 popup'
@@ -486,22 +566,22 @@
 				} else {
 					this.$refs[open].open()
 				}
+				this.comments(commendId);
 			},
 			// 取消弹出层
 			cancelPopup(type) {
-				if (type === 'tip') {
-					this.popupShow = false
-					return
-				}
-				if(type === 'skip') {
-					// this.saveDrafts();
-				}
+				this.$refs[type].close()
 			},
+			// 返回上一级
+			cancel() {
+				uni.navigateBack()
+			}
         }
     }
 </script>
 
 <style>
+	@import '../../static/css/comments.css'; /*引入评论弹窗的样式*/
 	page {
 		background: #F9F9F9;
 		width: 100%;
@@ -523,7 +603,7 @@
 		/* background: #0FAEFF; */
 		position: fixed;
 		z-index: 1;
-		
+
 	}
 	.header view {
 		display:flex;
@@ -633,7 +713,7 @@
 	}
 	.detial:last-child {
 		margin-bottom: 124rpx;
-		
+
 	}
 	.user-list {
 		height: 126rpx;
@@ -646,7 +726,7 @@
 	}
 	.left view {
 		display: block;
-		margin-top: 26rpx;
+		margin-top: 18rpx;
 		margin-bottom: 6rpx;
 	}
 	.name {
@@ -669,12 +749,16 @@
 		width: 122rpx;
 		height: 130rpx;
 		display: inline-block;
+		margin-right: 14rpx;
+		margin-top: 0!important;
 	}
 	.avatar image {
 		width: 100%;
 		height: 100%;
 		margin: auto;
 		display: block;
+		border-radius: 50%;
+
 	}
 	.user-details image {
 		width: 94rpx;
@@ -709,7 +793,7 @@
 		font-size:28rpx;
 		/* font-family:PingFang SC; */
 		font-weight:400;
-		color:rgba(51,51,51,1); 
+		color:rgba(51,51,51,1);
 		/* color: #333333; */
 		/* line-height:33rpx; */
 		/* line-height:33rpx; */
@@ -749,7 +833,7 @@
 	.imageList image:nth-of-type(3n) {
 		margin: 0 !important;
 	} */
-	
+
 	/* 操作按钮 start */
 	.operate {
 		padding-top: 30rpx;
@@ -824,169 +908,5 @@
 		margin-bottom: -5px;
 		margin-right: 7px;
 	}
-	/* 提示窗口 */
-	/* 底部分享 */
-	.comments-list {
-		height: 100%;
-	}
-	.uni-comments {
-		background: #fff;
-		height: 400px;
-		overflow-y: scroll;
-	}
-	
-	.uni-comments-title {
-		height: 115rpx;
-		/* line-height: 60upx;
-		font-size: 24upx;
-		padding: 15upx 0;
-		text-align: center; */
-		display: flex;
-		justify-content: space-between;
-		box-sizing: border-box;
-		padding: 41rpx 30rpx;
-		border-bottom: 1px solid #E2E2E2;
-		
-	}
-	.uni-comments-title image {
-		width: 25rpx;
-		height: 25rpx;
-		display: block;
-	}
-	.uni-comments-content {
-		display: flex;
-		flex-wrap: wrap;
-		padding: 15px;
-		padding-bottom: 150rpx;
-	}
-	
-	.uni-comments-content-box {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		width: 25%;
-		box-sizing: border-box;
-	}
-	
-	.uni-comments-content-image {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: 60upx;
-		height: 60upx;
-		overflow: hidden;
-		border-radius: 10upx;
-	}
-	
-	.uni-comments-content-image .image {
-		width: 100%;
-		height: 100%;
-	}
-	
-	.uni-comments-content-text {
-		font-size: 26upx;
-		color: #333;
-		padding-top: 5px;
-		padding-bottom: 10px;
-	}
-	
-	.uni-comments-btn {
-		height: 90upx;
-		line-height: 90upx;
-		border-top: 1px #f5f5f5 solid;
-		text-align: center;
-		color: #666;
-	}
-	.comments-botton {
-		width: 100%;
-		position: fixed;
-		bottom: 0;
-		z-index: 1;
-		height: 115rpx;
-		box-sizing: border-box;
-		padding: 22rpx 30rpx;
-		background: #FFFFFF;
-	}
-	.comments-botton input {
-		height: 100%;
-		width: 100%;
-		border-radius: 30rpx;
-		background: #F0F0F0;
-		box-sizing: border-box;
-		padding-left: 30rpx;
-	}
-	.comments-user {
-		width: 100%;
-		height: 90rpx;
-		overflow: hidden;
-		/* display: flex; */
-	}
-	.comments-user image {
-		width: 78rpx;
-		height: 78rpx;
-		display: block;
-		float: left;
-	}
-	.comments-user view {
-		float: left;
-	}
-	.comments-user .comments-name {
-		font-size:30rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(102,102,102,1);
-		display: block;
-	}
-	.date {
-		font-size:22rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(102,102,102,1);
-		/* line-height:40rpx; */
-	}
-	.comments-user .fabulous {
-		float: right;
-	}
-	.comments-user .fabulous  {
-		font-size:26rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(153,153,153,1);
-		
-	}
-	.comments-user .fabulous image {
-		margin-left: 10rpx;
-	}
-	.comments-content {
-		width: 100%;
-		box-sizing: border-box;
-		FONT-VARIANT: padd;
-		padding-left: 36px;
-		padding-right: 3px;
-		font-size: 13px;
-		font-family: PingFang SC;
-		font-weight: 500;
-		color: rgba(51,51,51,1);
-	}
-	.reply-comments {
-		margin-top: 7px;
-		background: #EFEFEF;
-		border-radius: 3px;
-		padding: 7px 10px;
-	}
-	.reply-comments text {
-		display: block;
-		margin-bottom: 5px;
-	}
-	.all-replay {
-		margin: 0 !important;
-		color: #F9B72C;
-	}
-	.parting-line {
-		width: 100%;
-		height: 1px;
-		background: #E2E2E2;
-		display: block;
-		margin-top: 20px;
-	}
+
 </style>

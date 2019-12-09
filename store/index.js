@@ -13,11 +13,13 @@ const store = new Vuex.Store({
         hasLogin: false,
         userName: "",
 		index:null,
-		testArr: [],
-		uploadImage: [],
+		uploadImage: [],   // 保存上传图片及标签的数组
 		drafts: [],
 		topic: '',
-		listVideo: {}
+		pageType: '',
+		adress: {},
+		listVideo: {},
+		topicId: ''
     },
     mutations: {
         login(state, userName) {
@@ -72,8 +74,9 @@ const store = new Vuex.Store({
 			state.drafts.push(obj);
 		},
 		// 用于保存参与话题的title，使其发布页面不能在修改话题和添加话题
-		updateType(state, topic) {
-			state.topic = topic;
+		updateType(state, obj) {
+			state.topic = obj.topic;
+			state.topicId = obj.topicId;
 		},
 		// 清空uploadImage的数据
 		clearData(state, arr) {
@@ -82,6 +85,15 @@ const store = new Vuex.Store({
 		// 清空drafts的数据
 		clearDrafts(state, arr) {
 			state.drafts = arr;
+		},
+
+		// 用于存页面类型
+		defaultPage(state, type) {
+			state.pageType = type
+		},
+		// 获取选择后的地址
+		getAdress(state, obj) {
+			state.adress = obj;
 		},
 		getListVideo(state, listVideo){
 			console.log(listVideo)

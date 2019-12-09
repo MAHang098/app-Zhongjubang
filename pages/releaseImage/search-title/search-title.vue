@@ -4,17 +4,21 @@
 		<view class="header">
 			<view class="search-input">
 				<image src="../../../static/search/nav-search.png" mode=""></image>
-				<input class="uni-input" placeholder="搜索您需要的商品" @focus="onFocus" @blur="onBlur" />
+				<input class="uni-input" placeholder="搜索您需要的商品" @focus="onFocus" @blur="onBlur" @input="searchTopic" value=""/>
 			</view>
-			<view class="cancel">取消</view>
+			<view class="cancel" @click="cancel">取消</view>
 		</view>
 		<!-- 搜索栏 end -->
 		
 		<!-- 列表 start -->
 		<view class="page-body">
 			<scroll-view class="nav-left" scroll-y :style="'height:'+height+'px'">
+				<view class="nav-left-item" :class="'-1'==categoryActive?'active':''" @click.stop="allTopic('-1')">
+					<text class="left-name" :class="'-1'==categoryActive?'in':''">全部话题</text>
+				</view>
 				<view class="nav-left-item" @click="categoryClickMain(item.id, index)"  :key="index" :class="index==categoryActive?'active':''"
 				    v-for="(item,index) in categoryList">
+					
 					<text class="left-name" :class="index==categoryActive?'in':''">{{item.talkThemeType}}</text>
 				</view>
 			</scroll-view>
@@ -30,7 +34,7 @@
 								<view class="num">共{{item.participateCount}}人参与</view>
 							</view>
 						</view>
-						<view class="right" @click="chooseTopic(item.talkTheme)">
+						<view class="right" @click.stop="chooseTopic(item.talkTheme, item.id)">
 							选择
 						</view>
 					</view>
@@ -51,13 +55,47 @@
 				categoryList: [],
 				subCategoryList: [],
 				height: 0,
-				categoryActive: 0,
+				categoryActive: -1,
 				scrollTop: 0,
 				scrollHeight: 0,
-				name: "七月_"
+				name: "七月_",
+				token: ''
 			}
 		},
+		onShow() {
+			let that = this;
+			uni.getStorage({
+				key:"token",
+				success: function (res) {
+				that.token = res.data;
+			  }
+			});
+			this.init('');
+		},
 		methods: {
+			init(search) {
+				uni.request({
+					url: this.url + '/controller/contentcontroller/gettalkthemelist',
+					method: 'post',
+					header : {'content-type':'application/x-www-form-urlencoded', token: this.token, 'port': 'app'},
+					data:  {pageIndex: 1, pageSize: 1000, search: search},
+					success: ((res) => {
+						if(res.data.code == 200) {
+							this.subCategoryList = res.data.data.dataList;
+						}
+						
+					})
+				});
+			},
+			// 点击所有话题
+			allTopic(index) {
+				this.categoryActive = index;
+				this.init();
+			},
+			// 搜索话题
+			searchTopic(e) {
+				this.init(e.detail.value)
+			},
 			onFocus() {
 				// this.$mp.page.$getAppWebview().setStyle({
 				// 	softinputNavBar: 'none'
@@ -69,12 +107,24 @@
 				// })
 			},
 			// 选择话题
-			chooseTopic(name) {
-				var pages = getCurrentPages();
-				var currPage = pages[pages.length - 1];  //当前页面
-				var prevPage = pages[pages.length - 2];  //上一个页面
-				prevPage.participationTopic= name;
+			chooseTopic(name, id) {
+				
+				// let pages = getCurrentPages(), prevPage=null;
+				let pages = getCurrentPages();
+				let currPage = pages[pages.length - 1];  //当前页面
+				let prevPage = pages[pages.length - 2];  //上一个页面
+				if(prevPage) {
+						prevPage.participationTopic= name;
+						prevPage.participationTopicId = id ;
+					// #ifdef APP-PLUS || MP-WEIXIN
+						prevPage.setData({
+							participationTopic : name,
+							participationTopicId : id
+						})
+					// #endif
+				}
 				prevPage.ishow= false;
+				// console.log(prevPage)
 				uni.navigateBack();
 			},
 			cancel() {
@@ -101,24 +151,18 @@
 				uni.request({
 					url: this.url + '/controller/contentcontroller/gettalkthemelistbytypeid',
 					method: 'post',
-					header : {
-						'content-type':'application/x-www-form-urlencoded',
-						'port': 'app',
-						'token': token
-					},
+					header : {'content-type':'application/x-www-form-urlencoded', token: this.token, 'port': 'app'},
 					data:  {talkThemeTypeId: id},
-					success: (res => {
+					success: ((res) => {
 						if(res.data.code == 200) {
-							this.subCategoryList = res.data.data;
 							
+							this.subCategoryList = res.data.data;
 						}
 						
 					})
 				});
-				// if(index) {
-					this.categoryActive = index;
-				// }
-				// this.subCategoryList = categroy.subCategoryList;
+				
+				this.categoryActive = index;
 				this.scrollTop = -this.scrollHeight * index;
 			},
 			getCategory() {
@@ -135,41 +179,22 @@
 				uni.request({
 					url: this.url + '/controller/contentcontroller/gettalkthemetypeall',
 					method: 'post',
-					header : {
-						'content-type':'application/x-www-form-urlencoded',
-						'port': 'app',
-						'token': token
-					},
+					header : {'content-type':'application/x-www-form-urlencoded',  token: this.token, 'port': 'app'},
 					success: (res => {
-						
 						if(res.data.code == 200) {
 							this.categoryList = res.data.data;
-							this.categoryClickMain(this.categoryList[0].id, 0)
+							// this.categoryClickMain(this.categoryList[0].id, 0)
 							
 						}
 						
 					})
 				});
-				
-				for (var i = 1; i < 20; i++) {
-					var subList = [];
-					for (var j = 1; j < 31; j++) {
-						subList.push({
-							"NAME": "分类" + i + ":商品" + j,
-							"LOGO": "http://placehold.it/50x50"
-						})
-					}
-					// this.categoryList.push({
-					// 	"NAME": "分类" + i,
-					// 	"subCategoryList": subList
-					// })
-				}
-				// this.subCategoryList = this.categoryList[0].subCategoryList;
+			
 			},
 			// 话题详情
 			topicDetail(id) {
 				uni.navigateTo({
-					url: '/pages/topicDetails/topicDetails?id=' + id
+					url: '/pages/topicDetails/topicDetails?type=topic&id=' + id
 				})
 			}
 			
@@ -177,6 +202,7 @@
 			
 		onLoad: function () {
 			this.getCategory();
+			
 			this.height = uni.getSystemInfoSync().windowHeight;
 		}
 	}
@@ -241,7 +267,7 @@
 	.page-body {
 		display: flex;
 		position: relative;
-		top: 150rpx;
+		top: 140rpx;
 	}
 	
 	.nav {

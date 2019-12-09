@@ -88,13 +88,12 @@
 									uni.hideLoading();
 									
 									let data = JSON.parse(uploadFileRes.data);
-										let obj = {
-											fileName: data.data.fileName,
-											fileUrl:data.data.fileUrl,
-											testArr: []
-										}
-										that.imgList.push(obj)
-									console.log(that.imgList.length , tempFilePaths.length)
+									let obj = {
+										fileName: data.data.fileName,
+										fileUrl:data.data.fileUrl,
+										testArr: []
+									}
+									that.imgList.push(obj)
 									if(that.imgList.length == tempFilePaths.length) {
 										that.$store.commit('saveImage', that.imgList)
 										uni.navigateTo({

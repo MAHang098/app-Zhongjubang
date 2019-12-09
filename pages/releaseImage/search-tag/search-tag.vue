@@ -122,18 +122,28 @@
 				let nowPage = pages[ pages.length - 1];  //当前页页面实例
 				let prevPage = pages[ pages.length - 2 ];  //上一页页面实例
 				// let tagArr = []; // 标签数组
-				
-				// 当前图片标签对象
-				let ImageTag = {
-					tagName: this.searchInput,
-					tagX: this.fRandomBy(-20,300),
-					tagY: this.fRandomBy(-76,400),
-					type: type
+				let ImageTag = {};
+				if(type == 'product') {
+					// 当前图片标签对象
+					ImageTag = {
+						tagName: this.searchInput,
+						tagX: this.fRandomBy(0,225),
+						tagY: this.fRandomBy(-76,400),
+						type: type
+					}
+				} else {
+					// 当前图片标签对象
+					ImageTag = {
+						tagName: this.searchInput,
+						tagX: this.fRandomBy(-20,300),
+						tagY: this.fRandomBy(-76,400),
+						type: type
+					}
 				}
+				
 				this.tagArr.push(ImageTag);
 				let arrObj = {
 					currentImage: this.currentImg,
-					// fileName: this.fileName,
 					allTagArr: this.tagArr,
 					type: 'search'
 				}

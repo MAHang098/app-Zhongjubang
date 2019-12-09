@@ -1,21 +1,21 @@
 .comments-list {
 	height: 100%;
+	z-index: 100000;
 }
 .uni-comments {
 	background: #fff;
 	height: 500px;
 	border-radius:22rpx 22rpx 0px 0px;
-	
 	position: relative;
 }
 .comments-detail:first-child {
-	margin: 0!important;
+	margin-top: 115rpx;
 }
 .comments-detail:last-child {
 	margin-bottom: 300rpx;
 }
 .comments-detail {
-	margin-top: 40rpx;
+	margin-bottom: 30rpx;
 	width: 100%;
 }
 .uni-comments-title {
@@ -26,7 +26,13 @@
 	box-sizing: border-box;
 	padding: 41rpx 30rpx;
 	border-bottom: 1px solid #E2E2E2;
-	
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	width: 100%;
+	background: #FFFFFF;
+	border-radius:22rpx 22rpx 0px 0px;
+	font-size: 32rpx;
 }	
 .uni-comments-title image {
 	width: 25rpx;
@@ -37,7 +43,6 @@
 	display: flex;
 	flex-wrap: wrap;
 	padding: 15px;
-	padding-bottom: 150rpx;
 	overflow-y: scroll;
 	-webkit-overflow-scrolling: touch; 
 	height: 100%;
@@ -91,10 +96,11 @@
 .comments-botton input {
 	height: 100%;
 	width: 100%;
-	border-radius: 30rpx;
+	border-radius: 35rpx;
 	background: #F0F0F0;
 	box-sizing: border-box;
 	padding-left: 30rpx;
+	font-size: 24rpx;
 }
 .comments-user {
 	width: 100%;
@@ -107,12 +113,13 @@
 	height: 78rpx;
 	display: block;
 	float: left;
+	margin-right: 10rpx;
 }
 .comments-user view {
 	float: left;
 }
 .comments-user .comments-name {
-	font-size:30rpx;
+	font-size:28rpx;
 	font-family:PingFang SC;
 	font-weight:500;
 	color:rgba(102,102,102,1);
@@ -146,10 +153,9 @@
 .comments-content {
 	width: 100%;
 	box-sizing: border-box;
-	FONT-VARIANT: padd;
-	padding-left: 36px;
+	padding-left: 48px;
 	padding-right: 3px;
-	font-size: 13px;
+	font-size: 24rpx;
 	font-family: PingFang SC;
 	font-weight: 500;
 	color: rgba(51,51,51,1);
@@ -159,6 +165,7 @@
 	background: #EFEFEF;
 	border-radius: 3px;
 	padding: 7px 10px;
+	font-size: 24rpx;
 }
 .reply-comments text {
 	display: block;
@@ -183,4 +190,37 @@
 }
 .select {
 	margin-bottom: 1px !important;
+}
+
+/* 文字超过展开收缩 */
+/* 文字描述 start */
+.describe {
+	padding: 25rpx 0;
+	overflow: hidden;
+	line-height: 36rpx;
+}
+.describe view {
+	display: inline;
+}
+.text {
+	font-size:28rpx;
+	font-weight:400;
+	color:rgba(51,51,51,1); 
+	position: relative;
+}
+.describe .anCotent {
+	font-size:24rpx;
+	font-family:PingFang SC;
+	font-weight:500;
+	color:rgba(90,124,171,1);
+	line-height:33rpx;
+	margin-left: 20rpx;
+}
+.describe .anCotent image {
+	width: 26rpx;
+	height: 19rpx;
+	margin-bottom: -1rpx;
+}
+.uni-popup__mask {
+	z-index: 1000;
 }

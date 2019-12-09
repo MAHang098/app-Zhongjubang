@@ -10,12 +10,8 @@
 		</view>
 		<view class="mpvue-picker input">
 				<label for="">收货地址</label>
-				<input type="text" placeholder="请选择省市区" @click="showMulLinkageThreePicker" disabled v-model="cityAdress">
-			
-			<!-- <mpvue-picker :themeColor="themeColor" ref="mpvuePicker" :mode="mode" :deepLength="deepLength" :pickerValueDefault="pickerValueDefault"
-			 @onConfirm="onConfirm" @onCancel="onCancel" :pickerValueArray="pickerValueArray"></mpvue-picker>
-			<mpvue-city-picker :themeColor="themeColor" ref="mpvueCityPicker" :pickerValueDefault="cityPickerValueDefault"
-			 @onCancel="onCancel" @onConfirm="onConfirm"></mpvue-city-picker> -->
+				<input type="text" placeholder="请选择省市区" @click.stop="showMulLinkageThreePicker" disabled v-model="cityAdress">
+				
 		</view>
 		<view class="textarea">
 			<textarea value="" placeholder="请填写详细地址(街道 楼牌号等)" v-model="detailedAddress"/>
@@ -23,7 +19,8 @@
 		
 		<view class="set-address input">
 				<view class="uni-list-cell-db">设为默认地址</view>
-				<switch color="#FFCC33" style="transform:scale(0.7)"  :checked="isDefault" @change="changeSwith"/>
+				<switch color="#FFCC33" style="transform:scale(0.7)"  :checked="isDefault" @change.stop="changeSwith"/>
+					<!-- <switch color="#FFCC33" style="transform:scale(0.7)"/> -->
 		</view>
 		<!-- <button type="default" @click="showMulLinkageThreePicker">三级城市联动</button> -->
 		<mpvue-picker :themeColor="themeColor" ref="mpvuePicker" :mode="mode" :deepLength="deepLength" :pickerValueDefault="pickerValueDefault"
@@ -89,11 +86,18 @@
 				city: this.cityAdress,
 				detail: this.detailedAddress
 			}
+			
+			let city = this.cityAdress.split('-');
+			let obj = {
+				userName: this.userName,
+				userPhone: this.phoneNumber,
+				userAddress: city[0] + city[1] + city[2] + this.detailedAddress
+			}
 			let parmas = {
 				userName: this.userName,
 				userPhone: this.phoneNumber,
 				userAddress: JSON.stringify(userAddress),
-				isDefault: this.isDefault
+				isDefault: this.isDefault == true || this.isDefault == '1' ? '1' : '0'
 			}
 			if(this.detailsId) {
 				parmas.userAdressId = this.detailsId;
@@ -102,13 +106,20 @@
 					method: 'post',
 					data: parmas,
 					header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
-					success: function(res) {
+					success: ((res) => {
 						if(res.data.code == 200) {
 							uni.showToast({
 								title: '修改成功',
 								duration: 500,
 							});
-							
+							if(this.$store.state.pageType && this.$store.state.pageType == 'orderExchange') {
+								this.$store.commit('getAdress', obj);
+								this.$store.commit('defaultPage', '');
+								uni.navigateTo({
+									url: '/pages/personal/order-exchange/order-exchange'
+								})
+								return;
+							}
 							setTimeout(() => {
 								uni.navigateTo({
 									url: '/pages/receiving-address/receiving-address'
@@ -122,7 +133,7 @@
 							});
 							uni.hideToast();
 						}
-					}
+					})
 				});
 				return;
 			}
@@ -131,13 +142,20 @@
 				method: 'post',
 				data: parmas,
 				header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
-				success: function(res) {
+				success: ((res) => {
 					if(res.data.code == 200) {
 						uni.showToast({
 							title: '添加成功',
 							duration: 500,
 						});
-						
+						if(this.$store.state.pageType && this.$store.state.pageType == 'orderExchange') {
+							this.$store.commit('getAdress', obj);
+							this.$store.commit('defaultPage', '');
+							uni.navigateTo({
+								url: '/pages/personal/order-exchange/order-exchange'
+							})
+							return;
+						}
 						setTimeout(() => {
 							uni.navigateTo({
 								url: '/pages/receiving-address/receiving-address'
@@ -151,7 +169,7 @@
 						});
 						uni.hideToast();
 					}
-				}
+				})
 			});
 		},
 		onLoad: function (option) { 
@@ -275,7 +293,7 @@
 	.textarea textarea {
 		width: 100%;
 		padding-top: 15px;
-		/* height: 100%; */
+		height: 100%;
 		font-size: 28rpx;
 	}
 	.set-address {
