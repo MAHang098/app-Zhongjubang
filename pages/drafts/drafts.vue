@@ -187,7 +187,8 @@
 					let obj = {
 						id: id,
 						content: item.content,
-						url: item.videoUrl
+						url: item.videoUrl,
+						name: item.videoName
 					}
 					this.$store.commit('getListVideo', obj)
 					// conole.log( this.$store.state.listVideo)

@@ -89,10 +89,23 @@
 				this.scrollHeight = e.detail.scrollHeight;
 			},
 			categoryClickMain(id, index) {
+				let token
+				let self = this;
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+						token = res.data;
+					}
+				})
+				const url = this.url
 				uni.request({
 					url: this.url + '/controller/contentcontroller/gettalkthemelistbytypeid',
 					method: 'post',
-					header : {'content-type':'application/x-www-form-urlencoded'},
+					header : {
+						'content-type':'application/x-www-form-urlencoded',
+						'port': 'app',
+						'token': token
+					},
 					data:  {talkThemeTypeId: id},
 					success: (res => {
 						if(res.data.code == 200) {
@@ -110,9 +123,23 @@
 			},
 			getCategory() {
 				// 获取话题类型(左侧)
+				let token
+				let self = this;
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+						token = res.data;
+					}
+				})
+				const url = this.url
 				uni.request({
 					url: this.url + '/controller/contentcontroller/gettalkthemetypeall',
 					method: 'post',
+					header : {
+						'content-type':'application/x-www-form-urlencoded',
+						'port': 'app',
+						'token': token
+					},
 					success: (res => {
 						
 						if(res.data.code == 200) {

@@ -134,7 +134,7 @@
     export default {
 		data() {
 	        return {
-				tabType: ['图片', '视频','收藏'],
+				tabType: ['图片', '视频'],
 				show: '',
 				fannum: '',
 				attentionnum: '',
@@ -156,7 +156,7 @@
 				}
 			})
 			const url = this.url
-			//
+			//获取用户信息
 			uni.request({
 				url: url + "/controller/usercontroller/getfanattentionlikenum",
 				data: {},

@@ -84,7 +84,6 @@
 				this.appUserDraftsId = drafts[0].id
 				if(drafts[0].title != '') {
 					this.participationTopic = drafts[0].title;
-					
 				}
 			}
 			if(option.type) {
