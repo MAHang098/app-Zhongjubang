@@ -65,12 +65,12 @@
 				participationTopic: '参与话题',
 				participationTopicId: '',    // 话题Id
 				ishow: true,
-				type: '',
+				previewType: '',
 				appUserDraftsId: '', // 用户草稿ID
 				// 弹窗所用到的变量
 				show: false,
 				popupType: '',
-				aa: '123'
+				gcircleContentId: ''
 			}
 		},
 		onShow(e) {
@@ -98,20 +98,20 @@
 			}
 			// this.allTag = this.$store.state.itemImage;
 			let drafts = this.$store.state.drafts;
+			// this.participationTopic = '参与话题'
 			if(drafts.length > 0) {
 				this.desc = drafts[0].content;
 				this.remnant = drafts[0].content.length;
-				this.appUserDraftsId = drafts[0].id
-				if(drafts[0].title != '') {
-					this.participationTopic = drafts[0].title;
-					
+				this.appUserDraftsId = drafts[0].id;
+				if(drafts[0].type && drafts[0].type == 'user') {
+					this.gcircleContentId = drafts[0].editId;
 				}
+				
 			}
 			if(option.type) {
-				this.type = option.type;
+				this.previewType = option.type;
 			}
 			this.allImage = this.$store.state.uploadImage;
-			// console.log(this.allImage)
 			if(this.allImage.length > 8) {
 				this.isUpload = false;
 			}
@@ -134,7 +134,7 @@
 					this.participationTopic = '';
 				}
 				let topicObj = {
-						name: this.participationTopic,
+						topic: this.participationTopic,
 						topicId: this.participationTopicId
 					}
 				let parmas = {
@@ -142,7 +142,43 @@
 					imgList: JSON.stringify(this.allImage),
 					title: JSON.stringify(topicObj)
 				}
-				console.log(parmas)
+				
+				if(this.gcircleContentId) {
+					parmas.gcircleContentId = this.gcircleContentId;
+					uni.request({
+						url: this.url + 'controller/usercontroller/updategetgcirclecontent',
+						method: 'post',
+						data: parmas,
+						header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
+						success:(res) => {
+							if(res.data.code == 200) {
+								
+								this.$store.commit('clearData', []);    // 清空存在vuex中图片上的所有数据
+								this.$store.commit('clearDrafts', []);  // 清空草稿箱到发布页的数据
+								this.$store.commit('defaultPage', '');  // 清空页面类型
+								this.$store.commit('updateType', {topic: '', topicId: ''});
+								
+								uni.showToast({
+									title: '发布成功',
+									duration: 500,
+								});
+								setTimeout(() => {
+									uni.switchTab({
+										url: '/pages/user/user'
+									})
+								}, 1000);
+								// uni.hideToast();
+							} else {
+								uni.showToast({
+								    icon: 'none',
+								    title: res.data.message
+								});
+								uni.hideToast();
+							}
+						}
+					});
+					return;
+				}
 				uni.request({
 					url: this.url + 'controller/usercontroller/addgcirclecontent',
 					method: 'post',
@@ -179,7 +215,6 @@
 			// 返回键
 			cancel() {
 				this.togglePopup('center', 'tip');
-				// console.log(1111)
 				return true;
 			},
 			// 存草稿
@@ -200,7 +235,7 @@
 						content: this.desc,
 						imgList: this.allImage,
 						title: {
-							name: this.participationTopic,
+							topic: this.participationTopic,
 							topicId: this.participationTopicId
 						}
 					}
@@ -298,7 +333,7 @@
 			// 预览图片
 			previewImage(e) {
 				// if(this.type == 'drafts') {
-				if(this.type != 'addTag') {
+				if(this.previewType != 'addTag') {
 					let i = e +1
 					uni.navigateTo({
 						url: '/pages/releaseImage/add-tag/add-tag?current=' + e + '&indexImg=' + i
@@ -393,7 +428,7 @@
 										// prevPage.current= currentLength;
 										// prevPage.indexImg = currentLength +1 ;
 										that.$store.commit('saveImage', that.imgList);
-										if(that.type != 'addTag') {
+										if(that.previewType != 'addTag') {
 											let i = currentLength +1
 											uni.navigateTo({
 												url: '/pages/releaseImage/add-tag/add-tag?current=' + currentLength + '&indexImg=' + i

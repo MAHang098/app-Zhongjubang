@@ -69,8 +69,8 @@
 		filters: {
 			ellipsis (value) {
 			  if (!value) return ''
-			  if (value.length > 12) {
-				return value.slice(0,12) + '...'
+			  if (value.length > 6) {
+				return value.slice(0,6) + '...'
 			  }
 			  return value
 			}
@@ -234,8 +234,6 @@
 		top: 0;
 		height: 100%;
 		width: 100%;
-		/* border: 1px solid red; */
-		/* background-color: #D8D8D8; */
 		overflow: hidden;
 	}
 	

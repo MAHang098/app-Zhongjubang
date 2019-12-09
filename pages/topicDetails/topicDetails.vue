@@ -98,7 +98,7 @@
 		<uni-popup ref="comments" :type="popupType" :custom="true" class="comments-list">
 			<view class="uni-comments">
 				<view class="uni-comments-title">
-					<view>全部评论({{dataList.length}})</view>
+					<view>全部评论({{gCollectionDiscussNum}})</view>
 					<view @click.stop="cancelPopup('comments')">
 						<image src="../../static/img/releaseVideo2/close.png" mode=""></image>
 					</view>
@@ -213,11 +213,9 @@
 				this.recommendId = id
 				this.recommendName = name
 				this.replySay = '回复' + name + ':';
-				console.log(this.replySay)
 			},
 			recordName(e) {  
 				this.inputValue = e.detail.value;
-				console.log(e.detail.value)
 				let token
 				let self = this
 				uni.getStorage({
@@ -227,7 +225,6 @@
 					}
 				})
 				const url = this.url
-				console.log(self.nickName)
 				
 				if(this.recommendId!=''){
 					uni.request({
@@ -413,11 +410,11 @@
                     url: this.url + 'controller/usercontroller/addusercollection',
                     method: 'post',
                     data: {collectionContentId: id, type: '1'},
-                    header : {'content-type':'application/x-www-form-urlencoded', 'token': '024d0ef41526417b94e3d443f230f374', 'port': 'app'},
+                    header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
                     success:(res) => {
                         if(res.data.code == 200) {
                             this.init(this.topicId);
-                            this.fabulousIndex = index;
+                            this.activeIndex = index;
 							if(state == 1) {
 								this.isShowCollect = false;
 								return;

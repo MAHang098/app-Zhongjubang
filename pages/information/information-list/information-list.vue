@@ -1,23 +1,23 @@
 <template>
 	<view class="information">
 		<view class="information-list">
-			<view @click="goAddFans">
-				<text class="num">1</text>
+			<view @click.stop="goAddFans">
+				<text class="num" v-show="item.fanCount > 0">{{item.fanCount}}</text>
 				<image src="../../../static/img/information/people.png" mode=""></image>
 				<view class="name">新粉丝</view>
 			</view>
-			<view>
-				<text class="num">1</text>
+			<view @click.stop="goDiscussCount">
+				<text class="num" v-show="item.discussCount > 0">{{item.discussCount}}</text>
 				<image src="../../../static/img/information/message.png" mode=""></image>
 				<view class="name">评论</view>
 			</view>
-			<view @click="goCollect">
-				<text class="num">1</text>
+			<view @click.stop="goCollect">
+				<text class="num" v-show="item.collectionCount > 0">{{item.collectionCount}}</text>
 				<image src="../../../static/img/information/collection.png" mode=""></image>
 				<view class="name">收藏</view>
 			</view>
-			<view @click="goGiveLike">
-				<text class="num">1</text>
+			<view @click.stop="goGiveLike">
+				<text class="num" v-show="item.likeCount > 0">{{item.likeCount}}</text>
 				<image src="../../../static/img/information/fabulous.png" mode=""></image>
 				<view class="name">点赞</view>
 			</view>
@@ -25,36 +25,36 @@
 		
 		<!-- 信息详情 start -->
 		<view class="information-detail">
-			<view class="small-bell">
-				<text class="num">1</text>
+			<view class="small-bell" @click.stop="goSystem">
+				<text class="num" v-show="system.count > 0">{{system.count}}</text>
 				<view class="images">
 					<image src="../../../static/img/information/small-bell.png" mode=""></image>
 				</view>
 				<view class="message">
 					<text>系统信息</text>
-					<text>暂无消息</text>
+					<text>{{system.count > 0 ? '您有新的消息，请查看': '暂无消息'}}</text>
 				</view>
-				<view class="timers">11-19</view>
+				<view class="timers">{{system.createTime}}</view>
 			</view>
-			<view class="home">
-				<text class="num">1</text>
+			<view class="home" @click.stop="goGood">
+				<text class="num" v-show="good.count > 0">{{good.count}}</text>
 				<view class="images">
 					<image src="../../../static/img/information/home.png" mode=""></image>
 				</view>
 				<view class="message">
-					<text>系统信息</text>
-					<text>暂无消息</text>
+					<text>商品消息</text>
+					<text>{{good.count > 0 ? '您有新的消息，请查看': '暂无消息'}}</text>
 				</view>
-				<view class="timers">11-19</view>
+				<view class="timers">{{good.createTime}}</view>
 			</view>
 			<view class="private-letter">
-				<text class="num">1</text>
+				<text class="num" v-show="item.likeCount > 0">{{item.likeCount}}</text>
 				<view class="images">
 					<image src="../../../static/img/information/private-letter.png" mode=""></image>
 				</view>
 				<view class="message">
-					<text>系统信息</text>
-					<text>暂无消息</text>
+					<text>私信消息</text>
+					<text>{{item.likeCount > 0 ? '您有新的消息，请查看': '暂无消息'}}</text>
 				</view>
 				<view class="timers">11-19</view>
 			</view>
@@ -68,23 +68,93 @@
 		
 		data() {
 			return {
-				
+				token: '',
+				item: [],
+				good: {},
+				system: []
 			}
 		},
+		onShow() {
+			let _this = this;
+			uni.getStorage({
+				key:"token",
+				success: function (res) {
+					_this.token = res.data;
+				}
+			})
+			this.init();
+		},
 		methods: {
+			init() {
+				uni.request({
+					url: this.url + "/controller/messagecontroller/getallmsgtypemessage",
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': this.token
+					},
+					success: ((res) => {
+						// console.log(res.data.code)
+						if(res.data.code==200){
+							let data = res.data.data;
+							this.item = data;
+							this.good = data.goods[0];
+							this.system = data.system[0];
+						}
+					})
+				})
+			},
+			// 新粉丝
 			goAddFans() {
 				uni.navigateTo({
 					url: '/pages/information/add-fans/add-fans'
-				})
+				});
+				this.readMessage('1');
 			},
+			// 新收藏
 			goCollect() {
 				uni.navigateTo({
 					url: '/pages/information/collection/collection'
-				})
+				});
+				this.readMessage('4');
 			},
+			// 新的点赞
 			goGiveLike() {
 				uni.navigateTo({
 					url: '/pages/information/give-like/give-like'
+				});
+				this.readMessage('3');
+			},
+			// 新的评论
+			goDiscussCount() {
+				uni.navigateTo({
+					url: '/pages/information/comments/comments'
+				});
+				this.readMessage('2');
+			},
+			// 系统通知
+			goSystem() {
+				this.readMessage('5');
+			},
+			// 商品信息
+			goGood() {
+				this.readMessage('6');
+			},
+			// 消息为已读
+			readMessage(type) {
+				uni.request({
+					url: this.url + "/controller/messagecontroller/updateappusermsgstate",
+					method: 'POST',
+					data: {msgType: type},
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': this.token
+					},
+					success: ((res) => {
+						this.init();
+					})
 				})
 			}
 		}
@@ -198,7 +268,7 @@
 		font-family: PingFang SC;
 		font-weight: 500;
 		color: rgba(51,51,51,1);
-		
+		text-align: left;
 	}
 	.information-detail .message text:last-child {
 		font-size:24rpx;

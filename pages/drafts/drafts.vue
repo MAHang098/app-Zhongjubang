@@ -8,7 +8,7 @@
 		</view>
 		
 		<view v-for="(items, indexs) in draftsList" :key="indexs">
-			<view class="drafts-detail" v-for="(item, index) in JSON.parse(items.draftsContent)" :key="index">
+			<view class="drafts-detail" v-for="(item, index) in items.draftsContent" :key="index">
 				<!-- 用户信息 start -->
 				<view class="user">
 					<view class="message">
@@ -26,7 +26,7 @@
 							<view class="operate-arrow"></view>
 							<view class="operate-btn">
 								<!-- <view v-if="currentType==2" @tap="draftsVideo"></view> -->
-								<view @click.stop="editRelease(item, items.appUserDraftsId)"><image src="../../static/edit.png" mode="" ></image>编辑</view>
+								<view @click="editRelease(item, items.appUserDraftsId)"><image src="../../static/edit.png" mode="" ></image>编辑</view>
 								<view @click.stop="deleteDraft(items.appUserDraftsId)"><image src="../../static/delete.png" mode=""></image>删除</view>
 							</view>
 						</view>
@@ -39,22 +39,22 @@
 					<!-- <view class="text">{{activeIndex == indexs && !isShowAllContent  ? item.content : item.content | ellipsis }}</view> -->
 					<!-- <view class="text" v-show="!isShowAllContent">{{item.content }}</view> -->
 					<view v-if="activeIndex == indexs && !isShowAllContent" class="text"  @click.stop="editRelease(item, items.appUserDraftsId)">{{item.content }}</view>
-					<view v-else class="text"  @click.stop="editRelease(item, items.appUserDraftsId, type)">{{item.content | ellipsis}}</view>
-					<view  v-if="item.content.length > 60 " @click.stop="open(indexs)">{{activeIndex == indexs && brandFold  ? '收起' : '展开'}}<image :class="brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
+					<view v-else class="text"  @click.stop="editRelease(item, items.appUserDraftsId)">{{item.content | ellipsis}}</view>
+					<view class="anCotent" v-if="item.content.length > 60 " @click.stop="open(indexs)">{{activeIndex == indexs && brandFold  ? '收起' : '展开'}}<image :class="brandFold ? 'in' : ''" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
 				</view>
 				<!-- 草稿内容 end -->
 				
 				<!-- 图片/视频 start -->
 				<view class="imageList">
-					<image :src="m.fileUrl" mode="" v-show="show" v-for="(m, i) in item.imgList" :key="i" @click.stop="previewImage(i, item.imgList)"></image>
+					<image :src="m.fileUrl" mode="" v-show="show" v-for="(m, itemIndex) in item.imgList" :key="itemIndex" @click="previewImage(itemIndex, item.imgList)"></image>
 				</view>
 				<video id="myVideo" :src="item.videoUrl" v-show="!show" enable-danmu danmu-btn controls></video>
 				<!-- 图片/视频 end -->
 				<!-- 话题 start -->
-				<view class="draftsTopic" v-show="show" v-if="item.title != '' ">
+				<view class="draftsTopic" v-show="show" v-if="item.title.topic != '' ">
 					<view class="left" @click.stop="takePart(item.title.topicId)">
 						<image src="../../static/topic/topic.png" mode=""></image>
-						<view>{{item.title.name}}</view>
+						<view>{{item.title.topic}}</view>
 					</view>
 					<view class="right"></view>
 				</view>
@@ -176,12 +176,14 @@
 					let obj = {
 						id: id,
 						title: item.title,
-						content: item.content
+						content: item.content,
+						type: 'drafts'
 					}
-					this.$store.commit('saveDrafts', obj)
+					this.$store.commit('saveDrafts', obj);
 					uni.navigateTo({
 						url: '/pages/releaseImage/release-image/release-image?type=drafts&id=' + id
-					})
+					});
+					this.showEdit = !this.showEdit;
 				}else{
 					// this.$store.commit('saveVideo', item.content);
 					let obj = {
@@ -199,8 +201,7 @@
 				
 			},
 			// 预览图片
-			previewImage: function(i, arr) {
-				
+			previewImage(i, arr) {
 				this.$store.commit('saveImage', arr);
 				let e = i + 1;
 				uni.navigateTo({
@@ -335,7 +336,7 @@
 		/* float: left; */
 		position: relative;
 	}
-	.content view:last-child {
+	.content .anCotent {
 		font-size:24rpx;
 		font-family:PingFang SC;
 		font-weight:500;
@@ -343,7 +344,7 @@
 		line-height:33rpx;
 		margin-left: 20rpx;
 	}
-	.content view:last-child image {
+	.content .anCotent image {
 		width: 26rpx;
 		height: 19rpx;
 		margin-bottom: -1rpx;
