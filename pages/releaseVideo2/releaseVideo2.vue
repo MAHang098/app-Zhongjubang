@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 <template>
 	<view>
         <view class="release-video">
@@ -1092,4 +1090,3 @@
 		/* border: 1px solid red; */
 	}
 </style>
->>>>>>> 374866f6c7565a4fc77861842021507db94437d3

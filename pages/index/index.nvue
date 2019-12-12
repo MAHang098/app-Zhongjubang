@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="release-video">
-		    <image class="back" style="width:15rpx;height:31rpx;" src="../../static/img/topicDetails/back.png" mode="" />
+		    <div class="back" @tap="back"><image style="width:15rpx;height:31rpx;" src="../../static/img/topicDetails/back.png" mode="" /></div> 
 			<image class="fly" style="width:39rpx;height:37rpx;" src="../../static/img/releaseVideo2/share.png" mode="" />
 		</div>
 		<div class="release-content">
@@ -63,7 +63,7 @@
 			      <div class="recommend" style="border: 1px solid red;">
 					<div class="recommend-content">
 						<text class="all-recommend">全部评论 ({{shortVideoDiscussNum}})</text>
-						<image style="width: 25rpx;height: 25rpx;" @tap="popupOverlayBottomClick" class="close" src="../../static/img/releaseVideo2/close.png" mode="" />
+						<view  class="close" @tap="popupOverlayBottomClick" ><image style="width: 25rpx;height: 25rpx;" src="../../static/img/releaseVideo2/close.png" mode="" /></view> 
 					</div>
 					<div class="vertify"></div>
 					
@@ -94,7 +94,7 @@
 								</div>	
 							</div>
 							<div class="recommend-text-text-text">
-								<text style="border: 1px solid red;" class="recommend-text-text" @click="testreply(row.id, row.nick_name)">
+								<text class="recommend-text-text" @click="testreply(row.id, row.nick_name)">
 									{{row.short_video_discuss}}
 								</text>
 							</div>
@@ -117,12 +117,12 @@
 							
 							<div v-if="row.zilist.length>0" class="recommend-text-reply">
 								<div v-for="(rows, indexs) in row.zilist" :key="indexs">
-									<text class="recommend-text-reply-user">{{rows.nick_name}}:{{rows.short_video_discuss}}</text>
+									<text class="recommend-text-reply-user" @tap="testreply(row.id, row.nick_name)">{{rows.nick_name}} : {{rows.short_video_discuss}}</text>
+									<text class="recommend-text-reply-user" v-if="rows.nick_name!=row.nick_name" @tap="testreply(rows.id, rows.nick_name,rows.pid)">{{rows.nick_name}}回复{{row.nick_name}}:{{rows.short_video_discuss}}</text>
 								</div>
 								<text v-if="row.sonCount>2" class="recommend-text-reply-count" @tap="reply(row.id, row.nick_name)">共{{row.sonCount}}条回复></text>
 							</div>
 							<div class="horizon2"></div>
-							<!-- <text class="recommend-text-reply-user2"></text> -->
 						</div>
 						
 					</scroll-view>
@@ -220,6 +220,7 @@
 				popupType: '',
 				commentsList: [],
 				isCommentsFabulous: false,
+				userID222: ''
 			}
 		},
 		filters: {
@@ -231,10 +232,13 @@
 			  return value
 			}
 		},
+		onLoad(options){
+			console.log(options.id)
+			this.id = options.id
+		},
 		onShow:function(){
 			let token
-			let self = this
-			let id = ''
+			let id = this.id
 			uni.getStorage({
 				key:"token",
 				success: function (res) {
@@ -244,28 +248,71 @@
 			const url = this.url
 			
 		
+			let self = this
+			//获取短视频内容
 			uni.request({
-				url: "http://www.zhongjubang.com/test/controller/usercontroller/getshortvideolist",
-				data: {},
+				url: "http://www.zhongjubang.com/test/controller/usercontroller/getshortvideobyid",
+				data: {shortVideoId:id},
 				method: 'POST',
 				header : {
 					'content-type':'application/x-www-form-urlencoded', 
 					'port': 'app',
-					// 'token': token
 					'token': token
 				},
 				success: function (res){
 					// console.log(res)
-					// console.log(res.data.data.dataList[0].id)
-					id = res.data.data.dataList[0].id
-		
-					self.id = res.data.data.dataList[0].id
-					self.userId = res.data.data.dataList[0].userId
-					self.textfont = res.data.data.dataList
-					//获取第一页内容
+					// console.log(res.data.data.nickName)
+					self.nickName = res.data.data.nickName
+					self.head = res.data.data.head
+					self.content2 = res.data.data.content
+					// console.log(self.content2.length)
+					self.videoUrl = res.data.data.videoUrl
+					self.shortVideoCollectionNum = res.data.data.shortVideoCollectionNum
+					self.shortVideoDiscussNum = res.data.data.shortVideoDiscussNum
+					self.shortVideoLikeNum = res.data.data.shortVideoLikeNum
+					self.outUserId = res.data.data.id
+					console.log(res.data.data.id)
+					// res.data.data.shortVideoCollection
+					// res.data.data.shortVideoLike
+					
+					if(res.data.data.shortVideoCollection==1){
+						self.showUpImg = false
+					}
+					if(res.data.data.shortVideoLike==1){
+						self.showUpImg2 = false
+					}
+				}
+			})
+			// 获取评论内容
+			self.getsvdiscussId = id;
+			self.init(id);
+		},
+		methods: {
+			recordName(e) {
+				this.inputValue = e.detail.value;
+				console.log(e.detail.value)
+				let token
+				let self = this
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+						token = res.data;
+					}
+				})
+				const url = this.url
+				
+				console.log(self.outUserId)
+				console.log(self.nickName)
+				console.log(self.id)
+				if(this.recommendId!=''){
 					uni.request({
-						url: "http://www.zhongjubang.com/test/controller/usercontroller/getshortvideobyid",
-						data: {shortVideoId:res.data.data.dataList[0].id},
+						url: "http://www.zhongjubang.com/test/controller/usercontroller/addanswershortvideodiscuss",
+						data: {
+							outUserId: self.outUserId,
+							id: self.recommendId,
+							outUserName: self.recommendName,
+							shortVideoDiscuss: e.detail.value
+						},
 						method: 'POST',
 						header : {
 							'content-type':'application/x-www-form-urlencoded', 
@@ -273,38 +320,86 @@
 							'token': token
 						},
 						success: function (res){
-							// console.log(res)
-							// console.log(res.data.data.nickName)
-							self.nickName = res.data.data.nickName
-							self.head = res.data.data.head
-							self.content2 = res.data.data.content
-							// console.log(self.content2.length)
-							self.videoUrl = res.data.data.videoUrl
-							self.shortVideoCollectionNum = res.data.data.shortVideoCollectionNum
-							self.shortVideoDiscussNum = res.data.data.shortVideoDiscussNum
-							self.shortVideoLikeNum = res.data.data.shortVideoLikeNum
-							self.outUserId = res.data.data.id
-							// res.data.data.shortVideoCollection
-							// res.data.data.shortVideoLike
-							
-							if(res.data.data.shortVideoCollection==1){
-								self.showUpImg = false
-							}
-							if(res.data.data.shortVideoLike==1){
-								self.showUpImg2 = false
+							console.log(res)
+							if(res.data.code==200){
+								console.log('dsfhsdkjfhksdh')
+								self.init(self.id)
+								
+								self.recommendId=''
+								e.detail.value=''
+								self.inputValue = ''
+								self.replySay = '说点什么吧...'
+							}else{
+								console.log("请求异常")
 							}
 						}
 					})
-					// 获取评论内容
-					self.getsvdiscussId = res.data.data.dataList[0].id;
-					self.init(res.data.data.dataList[0].id);
+				}else if(this.userID222!=''){
+					uni.request({
+						url: "http://www.zhongjubang.com/test/controller/usercontroller/addanswershortvideodiscuss",
+						data: {
+							outUserId: self.userID222,
+							id: self.recommendId,
+							outUserName: self.recommendName,
+							shortVideoDiscuss: e.detail.value
+						},
+						method: 'POST',
+						header : {
+							'content-type':'application/x-www-form-urlencoded', 
+							'port': 'app',
+							'token': token
+						},
+						success: function (res){
+							console.log(res)
+							if(res.data.code==200){
+								console.log('dsfhsdkjfhksdh')
+								self.init(self.id)
+								self.userID222 = ''
+								self.recommendId=''
+								e.detail.value=''
+								self.inputValue = ''
+								self.replySay = '说点什么吧...'
+							}else{
+								console.log("请求异常")
+							}
+						}
+					})
+				}
+				else{
+					uni.request({
+						url: "http://www.zhongjubang.com/test/controller/usercontroller/addshortvideodiscuss",
+						data: {
+							outUserId: self.outUserId,
+							shortVideoId: self.id,
+							outUserName: self.nickName,
+							shortVideoDiscuss: e.detail.value
+						},
+						method: 'POST',
+						header : {
+							'content-type':'application/x-www-form-urlencoded', 
+							'port': 'app',
+							'token': token
+						},
+						success: function (res){
+							console.log(res.data.code)
+							if(res.data.code==200){
+								self.init(self.id)
+								self.recommendId=''
+								e.detail.value=''
+								self.inputValue = ''
+								self.replySay = '说点什么吧...'
+							}else{
+								console.log("请求异常")
+							}
+						}
+					})
 					
 				}
-			})
-			
-			
-		},
-		methods: {
+				
+			},
+			back(){
+				uni.navigateBack()
+			},
 			// 子回复跳转
 			reply(id){
 				console.log(id)
@@ -312,24 +407,28 @@
 					url: "/pages/answer/answer?Id=" + id
 				})
 			},
+			
 			// 点击视频内容获取id和名字
-			testreply(id, name){
+			testreply(id, name,pid){
 				console.log(id, name)
+				this.userID222 = pid
 				this.recommendId = id
 				this.recommendName = name
 				this.replySay = '回复' + name + ':';
+				this.inputValue = ''
 				console.log(this.replySay)
 			},
 			openBottomPopup () {
 				this.isBottomShow = true;
 				this.comments();
 			  },
-			  //非状态组件，需要在这里关闭
-				popupOverlayBottomClick () {
-				  this.isBottomShow = false;
-				},
+			 //非状态组件，需要在这里关闭
+			popupOverlayBottomClick () {
+				this.isBottomShow = false;
+			},
 			// 获取评论列表
 			init(id) {
+				console.log(id)
 				let token = '';
 				uni.getStorage({
 					key:"token",
@@ -355,7 +454,7 @@
 						// console.log(res.data.code)
 						if(res.data.code==200){
 							this.dataList = res.data.data.dataList
-							// console.log(res.data.data.dataList[1].id)
+							// console.log(res)
 							if(res.data.data.shortVideoLike==1){
 								this.showUpImg2 = false
 							}
@@ -527,8 +626,8 @@
 							// console.log(res.data.data);
 							// let data = res.data.data;
 							// this.commentsList = data.dataList;
-							this.comments(this.getsvdiscussId)
-							
+							this.comments()
+							// this.init(this.getsvdiscussId)
 						} else {
 							uni.showToast({
 								icon: 'none',
@@ -557,8 +656,8 @@
 		position:  absolute;
 		left: 31rpx;
 		top: 67rpx;
-		width: 15rpx;
-		height: 31rpx;
+		width: 15px;
+		height: 51rpx;
 	}
 	.fly{
 		position:  absolute;
@@ -623,7 +722,7 @@
 		position: absolute;
 		width: 690rpx;
 		/* height: 66rpx; */
-		bottom: 20px;
+		top: 100px;
 		padding: 0 30rpx;
 		/* overflow: hidden; */
 	}
@@ -763,9 +862,9 @@
 	.close{
 		position: absolute;
 		right: 30rpx;
-		top: 44rpx;
-		width:25rpx;
-		height:25rpx;
+		top: 54rpx;
+		width:40rpx;
+		height:40rpx;
 	}
 	.vertify{
 		width:750rpx;
@@ -876,43 +975,34 @@
 	}
 	
 	.recommend-text-reply{
-		/* flex: 1; */
-		/* white-space: pre-wrap; */
 		top: 12rpx;
 		left: 123rpx;
 		width:566rpx;
-		height:135rpx;
+		/* height:135rpx; */
+		padding-bottom: 14px;
+		margin-top: 8rpx;
+		position: relative;
+		color:rgba(102,102,102,1);
 		background-color:rgba(248,248,248,1);
-		/* border:1px solid rgba(239,239,239,1); */
+		border:1px solid rgba(239,239,239,1);
 		border-radius:6rpx;
 	}
 	.recommend-text-reply-user{
 		top: 10rpx;
-		margin-left: 16rpx;
 		margin-top: 8rpx;
-		position: relative;
+		margin-left: 16rpx;
 		font-size:24rpx;
 		font-family:PingFang SC;
-		font-weight:500;
 		color:rgba(102,102,102,1);
-		/* line-height:48rpx; */
 	}
-/* 	.recommend-text-reply-user2{
-		font-size:24rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(102,102,102,1);
-		line-height:28rpx;
-	} */
 	.recommend-text-reply-count{
-		position: absolute;
-		bottom: 5px;
+		top: 10rpx;
+		margin-top: 8rpx;
 		margin-left: 16rpx;
 		font-size:22rpx;
 		font-family:PingFang SC;
 		font-weight:500;
 		color:rgba(249,183,44,1);
-		line-height:28rpx;
 	}
 	.horizon2{
 		margin-left: 125rpx;

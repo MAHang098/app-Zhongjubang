@@ -147,12 +147,12 @@
 										key:"token",
 										data: res.data.token,
 									})
-									// uni.switchTab({
-									// 	url: "/pages/user/user"
-									// })
-									uni.navigateTo({
-										url: "/pages/releaseVideo2/releaseVideo2"
+									uni.switchTab({
+										url: "/pages/user/user"
 									})
+									// uni.navigateTo({
+									// 	url: "/pages/releaseVideo2/releaseVideo2"
+									// })
 								}
 							})
 						}else{

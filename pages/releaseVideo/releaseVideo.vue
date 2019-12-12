@@ -67,18 +67,21 @@
 			if(options.fileUrl){
 				console.log(options.fileUrl)
 				self.videoUrl = options.fileUrl
+				self.fileName = options.src
+			}else if(options.id){
+				let drafts = this.$store.state.listVideo;
+				if(drafts){
+					console.log(drafts)
+					console.log(drafts.url)
+					console.log(drafts.name)
+					self.videoUrl = drafts.url
+					self.src = drafts.name
+					self.desc = drafts.content
+					self.appUserDraftsId = options.id
+					self.init()
+				}
 			}
-			let drafts = this.$store.state.listVideo;
-			if(drafts){
-				console.log(drafts)
-				console.log(drafts.url)
-				console.log(drafts.name)
-				self.videoUrl = drafts.url
-				self.src = drafts.name
-				self.desc = drafts.content
-				self.appUserDraftsId = options.id
-				self.init()
-			}
+			
 			
 			
 			
@@ -168,7 +171,7 @@
 				const content = this.desc
 				let token
 				let self = this
-				console.log(self.src)
+				console.log(self.videoUrl)
 				uni.getStorage({
 					key:"token",
 					success: function (res) {
@@ -180,7 +183,7 @@
 				uni.request({
 					url: url + "/controller/usercontroller/addshortvideo",
 					data: {
-						videoUrl: self.src,
+						videoUrl: self.videoUrl,
 						content: content
 					},
 					method: 'POST',
@@ -193,8 +196,8 @@
 						console.log(res)
 						console.log(res.data.code)
 						if(res.data.code==200){
-							uni.navigateTo({
-								url: "/pages/releaseVideo2/releaseVideo2"
+							uni.switchTab({
+								url: "/pages/user/user"
 							})
 						}else{
 							console.log('请求异常')

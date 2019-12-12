@@ -1,27 +1,63 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页,
-	{
-		"path": "pages/index/index",
-		"style": {
-			"app-plus": {
-				"titleNView": false //禁用原生导航栏  
+		{
+			"path": "pages/loginPhone/loginPhone",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
 			}
-		}
-	},
-	{
-		"path": "pages/loginPhone/loginPhone",
-		"style": {
-			"app-plus": {
-				"titleNView": false //禁用原生导航栏  
+		},
+		{
+			"path": "pages/user/user",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
 			}
-		}
-	},
+		},
+		
+		
+		{
+			"path": "pages/index/index",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		
+		
+		{
+			"path": "pages/juquanSpecials/juquanSpecials",
+			"style" : {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/cover-view/cover-view",
+			"style" : {
+				"navigationBarTitleText": "cover-view"
+			}
+		},
+		
+		
+	
+	
 	{
 		"path": "pages/balanceDetails/balanceDetails",
 		"style" : {
 			"navigationBarTitleText": "余额明细"
 		}
 	},
+	
+	{
+		"path": "pages/drawer/drawer",
+		"style" : {
+			"navigationBarTitleText": "Drawer 抽屉"
+		}
+	},
+	
 	
 	
 		{
@@ -106,14 +142,7 @@
 		    }
 		},
 		
-		{
-			"path": "pages/user/user",
-			"style": {
-				"app-plus": {
-					"titleNView": false //禁用原生导航栏  
-				}
-			}
-		},
+		
 		
 		{
 		    "path": "pages/test/test",

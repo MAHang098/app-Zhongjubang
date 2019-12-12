@@ -3,9 +3,54 @@
         <view class="bg">
         	<image src="../../static/img/user/bg.png" mode=""></image>
         </view>
-		<view class="left-menu">
+		<view class="left-menu" @click="showDrawer('left')">
 			<image src="../../static/img/user/left-menu.png" mode=""></image>
 		</view>
+		<!-- 侧边栏start -->
+		<uni-drawer :visible="showLeft" mode="left" @close="closeDrawer('left')">
+			<view class="drawer-content">
+				<view class="drawer-more">更多</view>
+				<view class="more-list" @tap="goPockets">
+					<image class="more-list-image" style="width:33rpx;height:36rpx;margin-right:30rpx;" src="../../static/img/user/pockets.png" mode=""></image>
+					<text class="my-pockets">我的钱包</text>
+				</view>
+				<view class="more-list" @tap="goHot">
+					<image style="width:31rpx;height:41rpx;margin-right:30rpx;" src="../../static/img/user/hot-num.png" mode=""></image>
+					<text class="my-pockets">我的热度分</text>
+				</view>
+				<view class="more-list" @tap="goList">
+					<image style="width:30rpx;height:38rpx;margin-right:30rpx;" src="../../static/img/user/command.png" mode=""></image>
+					<text class="my-pockets">我的订单</text>
+				</view>
+				<view class="horizen"></view>
+				<view class="more-list" style="margin-top:30rpx" @tap="goDrafts">
+					<image style="width:35rpx;height:39rpx;margin-right:30rpx;" src="../../static/img/user/drafts.png" mode=""></image>
+					<text class="my-pockets">草稿箱</text>
+				</view>
+				<view class="more-list" @tap="goRecommend">
+					<image style="width:37rpx;height:36rpx;margin-right:30rpx;" src="../../static/img/user/my-recommend.png" mode=""></image>
+					<text class="my-pockets">我的评论</text>
+				</view>
+				<view class="more-list" @tap="goAccount">
+					<image style="width:38rpx;height:37rpx;margin-right:30rpx;" src="../../static/img/user/account.png" mode=""></image>
+					<text class="my-pockets">账号与绑定</text>
+				</view>
+				<view class="horizen"></view>
+				<view class="more-list" style="margin-top:30rpx" @tap="goRanked">
+					<image style="width:40rpx;height:38rpx;margin-right:30rpx;" src="../../static/img/user/ranked.png" mode=""></image>
+					<text class="my-pockets">我的称号</text>
+				</view>
+				<view class="more-list" @tap="goIdentify">
+					<image style="width:41rpx;height:31rpx;margin-right:30rpx;" src="../../static/img/user/identify.png" mode=""></image>
+					<text class="my-pockets">身份认证</text>
+				</view>
+				<view class="more-list" @tap="goSetting">
+					<image style="width:38rpx;height:39rpx;margin-right:30rpx;" src="../../static/img/user/setting.png" mode=""></image>
+					<text class="my-pockets">设置</text>
+				</view>
+			</view>
+		</uni-drawer>
+		<!-- 侧边栏end -->
 		<view class="right-wechat">
 			<image src="../../static/img/user/right-wechat.png" mode=""></image>
 		</view>
@@ -55,20 +100,23 @@
 					<text v-bind:class="index == current ? 'active-status' : '' "></text>
 				</view>
 			</view>
+			<!-- 短视频内容start -->
 			
-			<view v-if="show1" >
-				<view class="comments-detail" v-for="(item, index) in videoList" :key="index">
-					<view class="video-content">
-						<image class="video-content-image" style="width:67px;height:67rpx" :src="item.head" mode=""></image>
-						<view>{{item.nickName}}</view>
-						<video style="width:359px;height:512rpx;background-color:transparents" :src="item.videoUrl"></video>
-						
-						
+			<view class="video-wrap" v-if="show1" >
+				<view class="video-detail" v-for="(item, index) in videoList" :key="index">
+					<view class="video-content" @longtap="deleteVideo(item.shortVideoId)">
+						<image class="video-content-start" style="width:52rpx;height:52rpx;" src="../../static/img/user/start.png" mode=""></image>
+						<image class="video-content-avator" style="width:60rpx;height:60rpx;border-radius:50%;" :src="item.head" mode=""></image>
+						<view class="video-content-nickname">{{item.nickName}}</view>
+						<image v-if="activeIndex == item.shortVideoId && showDelete" @tap="videoDelete(item.shortVideoId)" class="video-content-delete" style="width:156rpx;height:156rpx;" src="../../static/img/user/delete.png" mode=""></image>
+						<!-- <video style="width:359rpx;height:512rpx;" :src="item.videoUrl"></video> -->
+						<image class="video-content-image" style="width:350rpx;height:512rpx;border-radius:3px;" :src="item.videoUrl" @tap="sendVideo(item.shortVideoId)"></image>
+						<view v-if="activeIndex == item.shortVideoId && showDelete" class="video-content-block" style="width:350rpx;height:512rpx;border-radius:3px;"></view>
 					</view>
 					
 				</view>
 			</view>
-
+			<!-- 短视频内容end -->
 			<!-- G圈列表 start -->
 			<view v-if="!show1" class="relese-image"  >
 				<view v-for="(items, index) in releaseImgList" :key="index">
@@ -152,7 +200,7 @@
 			
 			<!-- G圈列表 end -->
 			
-			<view class="more">-上拉查看更多-</view>
+			<!-- <view class="more">-上拉查看更多-</view> -->
 		</view>
 		
 		<!-- 评论弹窗 start -->
@@ -204,14 +252,24 @@
 
 <script>
     import uniPopup from "@/components/uni-popup/uni-popup.vue"
-
+	import uniDrawer from '@/components/uni-drawer/uni-drawer.vue'
+	import uniList from '@/components/uni-list/uni-list.vue'
+	import uniListItem from '@/components/uni-list-item/uni-list-item.vue'
     export default {
-		components:{ uniPopup},
+		components:{ 
+			uniPopup,
+			uniDrawer,
+			uniList,
+			uniListItem
+		},
 		data() {
 	        return {
+				showRigth: false,
+				showLeft: false,
 				tabType: ['图片', '视频'],
 				show: '',
 				show1: '',
+				showDelete: '',
 				fannum: '',
 				attentionnum: '',
 				likenum: '',
@@ -249,7 +307,8 @@
 				getsvdiscussId: '',
 				isShowTopic: true,
 				replySay: '说点什么把',
-				replyType: ''
+				replyType: '',
+				activeIndex: 0
 	        }
 		},
 		filters: {
@@ -330,29 +389,81 @@
 				}
 			});
 			//获取视频内容
-			uni.request({
-				url: url + "/controller/usercontroller/getshortvideobyuserid",
-				data: {},
-				method: 'POST',
-				header : {
-					'content-type':'application/x-www-form-urlencoded', 
-					'port': 'app',
-					'token': token
-				},
-				success: function (res){
-					// console.log(res.data.code)
-					if(res.data.code==200){
-						console.log(res)
-						self.videoList = res.data.data.dataList[0]
-					}else{
-						console.log("请求异常")
-					}
-				}
-			});
+			// uni.request({
+			// 	url: url + "/controller/usercontroller/getshortvideobyuserid",
+			// 	data: {
+			// 		pageSize: 100
+			// 	},
+			// 	method: 'POST',
+			// 	header : {
+			// 		'content-type':'application/x-www-form-urlencoded', 
+			// 		'port': 'app',
+			// 		'token': token
+			// 	},
+			// 	success: function (res){
+			// 		// console.log(res.data.code)
+			// 		if(res.data.code==200){
+			// 			// console.log(res)
+			// 			for(var i = 0;i < res.data.data.dataList[0].length;i++){
+							
+			// 				res.data.data.dataList[0][i].videoUrl = res.data.data.dataList[0][i].videoUrl.replace('MP4','jpg')
+			// 				res.data.data.dataList[0][i].videoUrl = res.data.data.dataList[0][i].videoUrl.replace('mp4','jpg')
+			// 				// console.log(res.data.data.dataList[0][i].videoUrl)
+			// 			}
+			// 			self.videoList = res.data.data.dataList[0]
+			// 		}else{
+			// 			console.log("请求异常")
+			// 		}
+			// 	}
+			// });
+			this.initVideo()
 			this.init();
 		},
         methods: {
-			
+			deleteVideo(activeIndex){
+				this.activeIndex = activeIndex
+				console.log("1111")
+				this.showDelete = !this.showDelete
+			},
+			videoDelete(id){
+				
+				let token
+				let self = this
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+					token = res.data;
+					self.Tokens = res.data;
+					}
+				})
+				const url = this.url
+				uni.request({
+					url: url + "/controller/usercontroller/delshortvideo",
+					data: {
+						shortVideoId: id
+					},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': token
+					},
+					success: function (res){
+						// console.log(res.data.code)
+						if(res.data.code==200){
+							console.log(res)
+							self.initVideo()
+						}else{
+							console.log('请求异常')
+						}
+					}
+				})
+			},
+			sendVideo(id){
+				uni.navigateTo({
+					url: '/pages/index/index?id=' + id
+				})
+			},
 			// 切换草稿类型
 			changeProduct(index) {
 				this.current = index;
@@ -414,6 +525,51 @@
 						}
 					})
 				})
+			},
+			// 获取短视频内容
+			initVideo() {
+				let token
+				let self = this
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+					token = res.data;
+					self.Tokens = res.data;
+					}
+				})
+				const url = this.url
+				// uni.showLoading({
+				// 	title: '加载中...',
+				// 	mask: true
+				// })
+				//获取视频内容
+				uni.request({
+					url: url + "/controller/usercontroller/getshortvideobyuserid",
+					data: {
+						pageSize: 100
+					},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': token
+					},
+					success: function (res){
+						// console.log(res.data.code)
+						if(res.data.code==200){
+							// console.log(res)
+							for(var i = 0;i < res.data.data.dataList[0].length;i++){
+								
+								res.data.data.dataList[0][i].videoUrl = res.data.data.dataList[0][i].videoUrl.replace('MP4','jpg')
+								res.data.data.dataList[0][i].videoUrl = res.data.data.dataList[0][i].videoUrl.replace('mp4','jpg')
+								// console.log(res.data.data.dataList[0][i].videoUrl)
+							}
+							self.videoList = res.data.data.dataList[0]
+						}else{
+							console.log("请求异常")
+						}
+					}
+				});
 			},
 			// 修改G圈内容
 			editRelease(item, id) {
@@ -745,8 +901,74 @@
 				} else {
 					uni.showTabBar();
 				}
+			},
+			//侧边栏start
+			goPockets(){
+				uni.navigateTo({
+					url: '/pages/wallet/wallet'
+				})
+			},
+			goHot(){
+				uni.navigateTo({
+					url: '/pages/personal/hot-points/hot-points'
+				})
+			},
+			goList(){
+			},
+			goDrafts(){
+				uni.navigateTo({
+					url: '/pages/drafts/drafts'
+				})
+			},
+			goRecommend(){
+			},
+			goAccount(){
+				uni.navigateTo({
+					url: '/pages/account/account'
+				})
+			},
+			goRanked(){
+			},
+			goIdentify(){
+				uni.navigateTo({
+					url: '/pages/ID-card/ID-card'
+				})
+			},
+			goSetting(){
+				uni.navigateTo({
+					url: '/pages/setting/setting'
+				})
+			},
+			showDrawer(e) {
+				if (e === 'left') {
+					this.showLeft = true
+				} else {
+					this.showRigth = true
+				}
+			},
+			hide() {
+				this.showLeft = false
+				this.showRigth = false
+			},
+			closeDrawer(e) {
+				if (e === 'left') {
+					this.showLeft = false
+				} else {
+					this.showRigth = false
+				}
+			},
+			// 侧边栏end
+		},
+		// 侧边栏
+		onNavigationBarButtonTap(e) {
+			this.showRigth = !this.showRigth
+		},
+		onBackPress() {
+			if (this.showRigth || this.showLeft) {
+				this.hide()
+				return true
 			}
-        }
+		}
     }
 </script>
 
@@ -1287,5 +1509,101 @@
 		margin-top: 1px;
 		display: block;
 	}
+	/* 侧边栏样式start */
+	.horizen{
+		float: left;
+		margin-top: 30rpx;
+		width:374rpx;
+		height:1px;
+		background:rgba(226,226,226,1);
+	}
+	.uni-drawer__content{
+		width: 50%;
+	}
+	.drawer-content{
+		float: left;
+
+	}
+	.drawer-more{
+		float: left;
+		margin-left: 44rpx;
+		margin-top: 121rpx;
+		font-size:42rpx;
+		font-family:PingFang SC;
+		font-weight:bold;
+		color:rgba(51,51,51,1);
+	}
 	
+	.more-list{
+		float: left;
+		margin-left: 44rpx;
+		margin-right: 90rpx;
+		margin-top: 64rpx;
+	}
+	.more-list:first-child{
+		margin-top: 72rpx;
+	}
+	.more-list-image{
+		float: left;
+	}
+	.my-pockets{
+		float: right;
+		font-size:29rpx;
+		font-family:PingFang SC;
+		color:rgba(51,51,51,1);
+	}
+	/* 侧边栏样式end */
+	/* 短视频样式start */
+	
+	.video-wrap{
+		margin-top: 30px;
+		background: #fff;
+	}
+	.video-detail{
+		float: left;
+		top: 20px;
+
+	}
+	.video-content{
+		position: relative;
+		margin-left: 3px;
+	}
+	.video-content-start{
+		position: absolute;
+		z-index: 100;
+		left: 154px;
+		top: 10px;
+	}
+	.video-content-avator{
+		position: absolute;
+		z-index: 100;
+		top: 239px;
+		left: 12px;
+	}
+	.video-content-delete{
+		position: absolute;
+		z-index: 300;
+		top: 102px;
+		left: 51px;
+	}
+	.video-content-image{
+	}
+	.video-content-block{
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		z-index: 200;
+		background: rgba(0,0,0,.3);
+	}
+	.video-content-nickname{
+		position: absolute;
+		z-index: 100;
+		top: 246px;
+		left: 52px;
+		font-size:24rpx;
+		font-family:PingFang SC;
+		font-weight:bold;
+		color:rgba(255,255,255,1);
+	}
+	/* 短视频样式end */
 </style>

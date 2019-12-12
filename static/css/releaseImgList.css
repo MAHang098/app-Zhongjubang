@@ -4,7 +4,8 @@
 	height: 100%;
 	box-sizing: border-box;
 	padding: 40rpx 20rpx;
-	margin-top: 30rpx;
+	/* margin-top: 30rpx; */
+	padding-top: 0;
 }
 .relese-image_detail {
 	width: 100%;
