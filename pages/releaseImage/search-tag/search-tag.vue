@@ -78,14 +78,20 @@
 		methods: {
 			// 输入框获取焦点/失去焦点
 			onFocus() {
-				// this.$mp.page.$getAppWebview().setStyle({
-				// 	softinputNavBar: 'none'
-				// })
+				// #ifdef APP-PLUS
+				this.$mp.page.$getAppWebview().setStyle({
+					softinputNavBar: 'none'
+				})
+				// #endif
+				
 			},
 			onBlur() {
-				// this.$mp.page.$getAppWebview().setStyle({
-				// 	softinputNavBar: 'auto'
-				// })
+				// #ifdef APP-PLUS
+				this.$mp.page.$getAppWebview().setStyle({
+					softinputNavBar: 'auto'
+				})
+				// #endif
+				
 			},
 			// 设置标签的x，y轴坐标
 			fRandomBy(under, over) {

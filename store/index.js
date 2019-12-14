@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import imageUpload from './module/image.js'
+import history from './module/history.js'
 
 Vue.use(Vuex)
 
@@ -64,7 +65,7 @@ const store = new Vuex.Store({
 				
 			}
 			if(updateTag) {
-				// console.log(state.uploadImage)
+				
 			}
 			if(mark) {
 				state.uploadImage[index].testArr[0].allTagArr.push(imgArr.allTagArr[0])
@@ -101,7 +102,8 @@ const store = new Vuex.Store({
 		}
     },
 	modules: {
-		imageUpload
+		imageUpload,
+		history
 	}
 })
 

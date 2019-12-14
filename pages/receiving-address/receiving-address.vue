@@ -166,7 +166,7 @@
 			// 添加地址
 			goAddaDress() {
 				this.$store.commit('getAdress', {});
-				 uni.navigateTo({
+				uni.navigateTo({
 					url: '/pages/add-adress/add-adress'
 				});
 				

@@ -1,41 +1,23 @@
 <template>
 	<view class="fans">
-		<view class="fans-list">
+		<view class="fans-list" v-for="(item, index) in allData" :key="index">
 			<view class="fans-details">
 				<view class="left">
 					<view class="avatar">
-						<image src="../../../static/avatar.png" mode=""></image>
+						<image :src="item.head" mode=""></image>
 					</view>
 					<view class="details">
-						<view class="name">我是一颗玻璃心 <image src="../../../static/fans-logo.png" mode=""></image></view>
-						<view class="time">11/21 10:23</view>
+						<view class="name">{{item.nickName}} <image src="../../../static/fans-logo.png" mode=""></image></view>
+						<view class="time">{{item.createTime}}</view>
 						<view class="follow">关注了你</view>
 					</view>
 				</view>
 				<view class="right">
-					<image src="../../../static/follow.png" mode=""></image>
+					<image :src="item.state == 0 ? '../../../static/follow.png' : '../../../static/mutual-follow.png' " mode="" @click.stop="followFnas(item.inUserId)"></image>
 				</view>
 			</view>
-			
 		</view>
-		<view class="fans-list">
-			<view class="fans-details">
-				<view class="left">
-					<view class="avatar">
-						<image src="../../../static/avatar.png" mode=""></image>
-					</view>
-					<view class="details">
-						<view class="name">我是一颗玻璃心 <image src="../../../static/fans-logo.png" mode=""></image></view>
-						<view class="time">11/21 10:23</view>
-						<view class="follow">关注了你</view>
-					</view>
-				</view>
-				<view class="right">
-					<image src="../../../static/mutual-follow.png" mode=""></image>
-				</view>
-			</view>
-			
-		</view>
+		
 	</view>
 </template>
 
@@ -43,11 +25,70 @@
 	export default {
 		data() {
 			return {
-				
+				count: 0,
+				allData: []
 			}
 		},
-		methods: {
+		onLoad(option) {
+			this.count = option.count;
+		},
+		mounted() {
 			
+			uni.getStorage({
+				key:"token",
+				success:((res) => {
+				this.token = res.data;
+			  })
+			});
+			this.init();
+		},
+		methods: {
+			// 所有粉丝
+			init() {
+				if(this.count == 0) {
+					this.count = 10;
+				}
+				uni.request({
+					url: this.url + "/controller/usercontroller/getfanattentionrelationlist",
+					method: 'POST',
+					data: {pageIndex: 1,pageSize: this.count},
+					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
+					success: ((res) => {
+						if(res.data.code == 200) {
+							let data = res.data.data;
+							this.allData = data;
+						}
+						if(res.data.code == 407) {
+							uni.showToast({
+								title: '请重新登录'
+								
+							})
+						}
+					})
+				})
+			},
+			// 关注/取消关注
+			followFnas(id) {
+				
+				uni.request({
+					url: this.url + "/controller/usercontroller/addattentionrelationship",
+					method: 'POST',
+					data: {outUserId: id},
+					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
+					success: ((res) => {
+						if(res.data.code == 200) {
+							let data = res.data.data;
+							this.init();
+						}
+						if(res.data.code == 407) {
+							uni.showToast({
+								title: '请重新登录'
+								
+							})
+						}
+					})
+				})
+			},
 		}
 	}
 </script>
@@ -98,12 +139,14 @@
 		width: 122rpx;
 		height: 130rpx;
 		display: inline-block;
+		margin-right: 5px;
 	}
 	.avatar image {
 		width: 100%;
 		height: 100%;
 		margin: auto;
 		display: block;
+		border-radius: 50%;
 	}
 	.details image {
 		width: 94rpx;

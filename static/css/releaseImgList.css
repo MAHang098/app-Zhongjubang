@@ -21,12 +21,14 @@
 	display: flex;
 	justify-content: flex-start;
 	line-height: 35rpx;
+	width: 80%;
 }
 .user-message image {
 	width: 90rpx;
 	height: 100%;
-	/* border-radius: 50%; */
+	border-radius: 50%;
 	display: inline-block;
+	margin-right: 10px;
 }
 .user-message .name {
 	/* width:123rpx; */
@@ -57,6 +59,17 @@
 	border-radius:50%;
 	display: inline-block;
 	margin-left: 6rpx;
+}
+.user-right {
+	display: flex;
+	height: 100%;
+	align-items: center;
+}
+.user-right image {
+	width: 106rpx;
+	height: 48rpx;
+	display: block;
+	margin-top: 25%;
 }
 .relese-image_detail .content {
 	padding-top: 25rpx;
