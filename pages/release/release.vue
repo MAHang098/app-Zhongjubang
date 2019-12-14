@@ -40,22 +40,23 @@
 						
 						
 						uni.uploadFile({
-							url: url + "/upload", //仅为示例，非真实的接口地址
+							url: url + "upload", //仅为示例，非真实的接口地址
 							filePath: src,
 							name: 'file',
 							formData: {
 								'user': 'test'
 							},
 							success: (uploadFileRes) => {
+								console.log("111111")
 								uploadFileRes.data = JSON.parse(uploadFileRes.data)
+								console.log(uploadFileRes.data)
 								if(uploadFileRes.data.code==200){
 									uni.navigateTo({
-										url: "/pages/releaseVideo/releaseVideo?fileUrl=" + uploadFileRes.data.data.fileUrl
+										url: "/pages/releaseVideo/releaseVideo?fileUrl=" + uploadFileRes.data.data.fileUrl + "&&fileName=" + uploadFileRes.data.data.fileName
 									})
 								}else{
 									console.log("请求异常")
 								}
-								
 							}
 						})
 					}

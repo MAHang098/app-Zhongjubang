@@ -97,14 +97,20 @@
 				this.init(e.detail.value)
 			},
 			onFocus() {
-				// this.$mp.page.$getAppWebview().setStyle({
-				// 	softinputNavBar: 'none'
-				// })
+				// #ifdef APP-PLUS
+				this.$mp.page.$getAppWebview().setStyle({
+					softinputNavBar: 'none'
+				})
+				// #endif
+				
 			},
 			onBlur() {
-				// this.$mp.page.$getAppWebview().setStyle({
-				// 	softinputNavBar: 'auto'
-				// })
+				// #ifdef APP-PLUS
+				this.$mp.page.$getAppWebview().setStyle({
+					softinputNavBar: 'auto'
+				})
+				// #endif
+				
 			},
 			// 选择话题
 			chooseTopic(name, id) {
@@ -139,6 +145,15 @@
 				this.scrollHeight = e.detail.scrollHeight;
 			},
 			categoryClickMain(id, index) {
+				let token
+				let self = this;
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+						token = res.data;
+					}
+				})
+				const url = this.url
 				uni.request({
 					url: this.url + '/controller/contentcontroller/gettalkthemelistbytypeid',
 					method: 'post',
@@ -158,6 +173,15 @@
 			},
 			getCategory() {
 				// 获取话题类型(左侧)
+				let token
+				let self = this;
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+						token = res.data;
+					}
+				})
+				const url = this.url
 				uni.request({
 					url: this.url + '/controller/contentcontroller/gettalkthemetypeall',
 					method: 'post',

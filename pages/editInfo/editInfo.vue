@@ -29,15 +29,11 @@
         <view class="gender">
             <view class="gender-text">性别</view>
             <view :class="sex==1?'active':''" data-index="1" @click="checkSex">
-                <!-- <image class="gender-man" src="../../static/img/editInfo/gender-man.png" mode=""></image> -->
                 <view class="gender-man"></view>
-                
             </view>
             <text class="gender-textMan">男</text>
             <view :class="sex==2?'active':''" data-index="2" @click="checkSex">
-                <!-- <image class="gender-women" src="../../static/img/editInfo/gender-women.png" mode=""></image> -->
                 <view class="gender-women"></view>
-                
             </view>
             <text class="gender-textWomen">女</text>
             
@@ -374,15 +370,14 @@
         left: 258rpx;
         bottom: 36rpx;
         
-        /* border:1rpx solid rgba(148,148,148,1); */
         width:28rpx;
         height:28rpx;
 		border-radius: 50%;
 		overflow: hidden;
         border: 1px solid #949494;
-		/* background: url("../../static/img/editInfo/gender-man.png") no-repeat center/cover; */
     }
     .active .gender-man{
+        border: 1px solid transparent;
         background: url("../../static/img/editInfo/gender-man.png") no-repeat center/cover;
     }
     
@@ -407,6 +402,7 @@
 		/* background: url("../../static/img/editInfo/gender-women.png") no-repeat center/cover; */
     }
     .active .gender-women{
+        border: 1px solid transparent;
         background: url("../../static/img/editInfo/gender-women.png") no-repeat center/cover;
     }
     .gender-textWomen{

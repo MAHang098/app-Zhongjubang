@@ -1,27 +1,36 @@
 /* 草稿详情 start */
-.relese-detail {
+.relese-image {
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	padding: 40rpx 20rpx;
+	/* margin-top: 30rpx; */
+	padding-top: 0;
+}
+.relese-image_detail {
 	width: 100%;
 	margin-top: 43rpx
 }
-.user {
+.relese-image_detail .user {
 	height: 88rpx;
 	line-height: 88rpx;
 	display: flex;
 	justify-content: space-between;
-	
 }
-.message {
+.user-message {
 	display: flex;
 	justify-content: flex-start;
 	line-height: 35rpx;
+	width: 80%;
 }
-.message image {
+.user-message image {
 	width: 90rpx;
 	height: 100%;
-	/* border-radius: 50%; */
+	border-radius: 50%;
 	display: inline-block;
+	margin-right: 10px;
 }
-.message .name {
+.user-message .name {
 	/* width:123rpx; */
 	height:31rpx;
 	font-size:32rpx;
@@ -31,7 +40,7 @@
 	margin-top: 16rpx;
 	margin-bottom: 12rpx;
 }
-.message .time {
+.user-message .time {
 	width:210rpx;
 	height:19rpx;
 	font-size:24rpx;
@@ -40,10 +49,10 @@
 	color:rgba(102,102,102,1);
 	
 }
-.operate {
+.operate-user {
 	position: relative;
 }
-.operate text {
+.operate-user text {
 	width:8rpx;
 	height:8rpx;
 	background:rgba(153,153,153,1);
@@ -51,15 +60,26 @@
 	display: inline-block;
 	margin-left: 6rpx;
 }
-.content {
+.user-right {
+	display: flex;
+	height: 100%;
+	align-items: center;
+}
+.user-right image {
+	width: 106rpx;
+	height: 48rpx;
+	display: block;
+	margin-top: 25%;
+}
+.relese-image_detail .content {
 	padding-top: 25rpx;
 	overflow: hidden;
 	/* position: relative; */
 }
-.content view {
+.relese-image_detail .content view {
 	display: inline;
 }
-.text {
+.relese-image_detail .text {
 	width: 100%;
 	font-size:28rpx;
 	font-family:PingFang SC;
@@ -69,7 +89,7 @@
 	/* float: left; */
 	position: relative;
 }
-.content view:last-child {
+.relese-image_detail .content .anCotent {
 	font-size:24rpx;
 	font-family:PingFang SC;
 	font-weight:500;
@@ -77,12 +97,12 @@
 	line-height:33rpx;
 	margin-left: 20rpx;
 }
-.content view:last-child image {
+.relese-image_detail .content .anCotent image {
 	width: 26rpx;
 	height: 19rpx;
 	margin-bottom: -1rpx;
 }
-.releseTopic {
+.release-image_topic {
 	margin-top: 10rpx;
 	box-sizing: border-box;
 	font-size: 22rpx;
@@ -90,7 +110,7 @@
 	display: flex;
 	justify-content: space-between;
 }
-.left {
+.relese-image_detail .left {
 	padding-right: 20rpx;
 	height: 50rpx;
 	line-height: 50rpx;
@@ -101,7 +121,7 @@
 	justify-content: flex-start;
 	text-align: center;
 }
-.left image {
+.relese-image_detail .left image {
 	width: 25rpx;
 	height: 25rpx;
 	display: block;
@@ -109,7 +129,7 @@
 	margin-left: 22rpx;
 	margin-right: 6rpx;
 }
-.in {
+.relese-image_detail .in {
 	transform: rotate(180deg);
 	margin-bottom: 0 !important;
 }
@@ -170,7 +190,49 @@
 	top: 0;
 	left: 0;
 }
-/* 图片样式 */
+/* 操作按钮 start */
+.operate-bottom {
+	padding-top: 30rpx;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.relese-image_detail.operate-bottom_share, .relese-image_detail .number-message, .relese-image_detail .collect, .relese-image_detail .fabulous {
+	display: flex;
+	align-items: center;
+	height: 100%;
+}
+.relese-image_detail .operate-bottom_share image {
+	width: 33rpx;
+	height: 31rpx;
+	display: block;
+}
+.relese-image_detail .fabulous image {
+	margin-bottom: -4rpx;
+}
+.relese-image_detail .operate-bottom_number {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+.relese-image_detail .operate-bottom_number view {
+	margin-left: 40rpx;
+}
+
+.relese-image_detail .collect image, .relese-image_detail .fabulous image, .relese-image_detail .comments-user .fabulous image, .relese-image_detail .number-message image  {
+	width: 32rpx;
+	height: 31rpx;
+	display: inlin-block;
+}
+.relese-image_detail .select {
+	margin-bottom: 1px !important;
+}
+.relese-image_detail .operate-bottom_number text {
+	color: #999999;
+	font-size: 26rpx;
+	font-weight: 500;
+	margin-left: 4rpx;
+}
 .imageList {
 	width: 100%;
 	display: flex;
@@ -178,13 +240,19 @@
 	flex-wrap: wrap;
 	margin-top: 20rpx;
 }
-.imageList image {
+.imageListIn {
 	width: 30%;
 	height: 210rpx;
 	display: block;
 	margin-right: 34rpx;
 	margin-bottom: 10rpx;
 }
-.imageList image:nth-of-type(3n) {
+.imageListIn:nth-of-type(3n) {
 	margin: 0 !important;
+}
+
+.imageListSingle {
+	width: 180px;
+	height: 400rpx;
+	display: block;
 }

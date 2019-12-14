@@ -1,9 +1,115 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页,
 		{
+			"path": "pages/loginPhone/loginPhone",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		{
+			"path": "pages/user/user",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		
+		
+		{
+			"path" : "pages/drafts/drafts",
+			"style" : {
+				 "navigationBarTitleText": "草稿箱"
+			}
+		},
+		
+		
+		{
 			"path" : "pages/updatePswd/updatePswd",
 			"style" : {
-				 "navigationBarTitleText": "找回密码"
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/cover-view/cover-view",
+			"style" : {
+				"navigationBarTitleText": "cover-view"
+			}
+		},
+	
+	
+	{
+		"path": "pages/balanceDetails/balanceDetails",
+		"style" : {
+			"navigationBarTitleText": "余额明细"
+		}
+	},
+	
+	{
+		"path": "pages/drawer/drawer",
+		"style" : {
+			"navigationBarTitleText": "Drawer 抽屉"
+		}
+	},
+		{
+			"path": "pages/myBank/myBank",
+			"style" : {
+				"navigationBarTitleText": "我的银行卡"
+			}
+		},
+		
+		{
+			"path": "pages/about/about",
+			"style" : {
+				"navigationBarTitleText": "关于众居邦"
+			}
+		},
+		
+	{
+		"path" : "pages/bindBank/bindBank",
+		"style" : {
+				"navigationBarTitleText": "绑定银行卡"
+		}
+	},
+	{
+		"path" : "pages/take-cash/take-cash",
+		"style" : {
+				"navigationBarTitleText": "提现"
+		}
+	},
+	{
+		"path" : "pages/setting/setting",
+		"style" : {
+				"navigationBarTitleText": "设置"
+		}
+	},
+	{
+		"path" : "pages/ID-card/ID-card",
+		"style" : {
+				"navigationBarTitleText": "身份认证"
+		}
+	},
+	
+		{
+			"path": "pages/releaseVideo2/releaseVideo2",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		{
+			"path" : "pages/wallet/wallet",
+			"style" : {
+				 "navigationBarTitleText": "我的钱包"
+			}
+		},
+		{
+			"path" : "pages/account/account",
+			"style" : {
+				 "navigationBarTitleText": "账号与绑定"
 			}
 		},
 		
@@ -16,28 +122,25 @@
 		    }
 		},
 		
+		
+		
 		{
-		    "path": "pages/releaseVideo2/releaseVideo2",
+		    "path": "pages/test/test",
 		    "style": {
 		        "app-plus": {
 		            "titleNView": false //禁用原生导航栏  
 		        }
 		    }
 		},
-		{
-			"path": "pages/loginPhone/loginPhone",
-			"style": {
-				"app-plus": {
-					"titleNView": false //禁用原生导航栏  
-				}
-			}
-		},
-		{
-		    "path": "pages/main/main",
-		    "style": {
-		        "navigationBarTitleText": "登录模板"
-		    }
-		},
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		{
 			"path" : "pages/editInfo/editInfo",
 			"style": {
@@ -47,6 +150,12 @@
 		    }
 		},
 		
+		{
+			"path" : "pages/updatePswd1/updatePswd1",
+			"style" : {
+				 "navigationBarTitleText": "修改密码"
+			}
+		},
 		{
 			"path" : "pages/updatePswd/updatePswd",
 			"style" : {
@@ -97,32 +206,8 @@
 		    }
 		},
 		
-
-		
-		{
-		    "path" : "pages/drafts/drafts",   //草稿箱
-		    "style" : {
-				"navigationBarTitleText": "我的草稿"
-			}
-		},  
-		{
-			"path": "pages/user/user",
-			"style": {
-				"app-plus": {
-					"titleNView": false //禁用原生导航栏  
-				}
-			}
-		},
 		{
 			"path": "pages/answer/answer",
-			"style": {
-				"app-plus": {
-					"titleNView": false //禁用原生导航栏  
-				}
-			}
-		},
-		{
-			"path": "pages/user/user",
 			"style": {
 				"app-plus": {
 					"titleNView": false //禁用原生导航栏  
@@ -133,6 +218,7 @@
 			"path": "pages/releaseImage-details/releaseImage-details",
 			"style": {
 				"app-plus": {
+					  // "softinputMode": "adjustResize",
 					"titleNView": false //禁用原生导航栏  
 				}
 			}
@@ -183,6 +269,12 @@
         },
 		{
 			"path" : "pages/bindPhone/bindPhone",
+			"style" : {
+				 "navigationBarTitleText": " "
+			}
+		},
+		{
+			"path" : "pages/bindPhone1/bindPhone1",
 			"style" : {
 				 "navigationBarTitleText": " "
 			}
@@ -250,13 +342,6 @@
             "style": {
                 "navigationBarTitleText": "修改密码"
             }
-        }, {
-            "path": "pages/juquan/juquan",
-            "style": {
-                "app-plus": {
-                    "titleNView": false //禁用原生导航栏  
-                }
-            }
         },  {
             "path": "pages/stop/stop",
             "style": {
@@ -265,12 +350,8 @@
                 }
             }
         }
-        
-        
        
-        
-       
-        
+      
     ],
 	"subPackages": [
 		// 上传图片需要用到的页面
@@ -400,6 +481,55 @@
 						"navigationBarTitleText": "热度分规则"
 					}
 				}
+			]
+		},
+		// G圈
+		{
+			"root": "pages/G-circle",
+			"pages": [
+				{
+				    "path": "search-content/search-content",   //搜索标签
+				    "style": {
+				        "app-plus": {
+				            "titleNView": false //禁用原生导航栏  
+				        }
+				    }
+				},
+				{
+					"path" : "search-list/search-list",
+					"style" : {
+						"app-plus": {
+						    "titleNView": false //禁用原生导航栏  
+						}
+					}
+				}
+			]
+		},
+		// 商城
+		{
+			"root": "pages/shopping-mall",
+			"pages": [
+				{
+				    "path": "all-order/all-order",   //所有订单
+				    "style": {
+				        "app-plus": {
+				            "titleNView": false //禁用原生导航栏  
+				        }
+				    }
+				}, 
+				{
+					"path" : "logistics/logistics",
+					"style" : {
+						"navigationBarTitleText": "查看物流"
+					}
+				}  ,
+				{
+					"path" : "replacement-apply/replacement-apply",
+					"style" : {
+						"navigationBarTitleText": "退款换货申请"
+					}
+				}
+				
 			]
 		}
 	],

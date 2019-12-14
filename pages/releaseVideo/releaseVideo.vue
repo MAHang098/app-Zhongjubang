@@ -16,8 +16,8 @@
 			<image class="add" src="../../static/img/releaseVideo/add.png" mode="" />
 		</view>
 		<!--  v-if="src" -->
-		<view class="video1" v-if="src">
-			<video :src="src" mode=""></video>
+		<view class="video1" v-if="videoUrl">
+			<video :src="videoUrl" mode=""></video>
 			<image class="close" @tap="delectVideo" src="../../static/img/releaseVideo/close.png" mode="" />
 		</view>
 
@@ -58,6 +58,7 @@
 				show: false,
 				popupType: '',
 				type: '',
+				appUserDraftsId: '',
 				// src: '../../static/img/releaseVideo/add.png'
 	        }
 		},
@@ -65,18 +66,24 @@
 			let self = this
 			if(options.fileUrl){
 				console.log(options.fileUrl)
-				self.src = options.fileUrl
-			}else{
-				
+				self.videoUrl = options.fileUrl
+				self.fileName = options.src
+			}else if(options.id){
+				let drafts = this.$store.state.listVideo;
+				if(drafts){
+					console.log(drafts)
+					console.log(drafts.url)
+					console.log(drafts.name)
+					self.videoUrl = drafts.url
+					self.src = drafts.name
+					self.desc = drafts.content
+					self.appUserDraftsId = options.id
+					self.init()
+				}
 			}
-			let drafts = this.$store.state.listVideo;
-			// let ddrafts = JSON.parse(drafts)
-			// this.drafts = drafts
-			console.log(drafts)
-			// console.log(ddrafts.url)
-			// console.log(ddrafts.content)
-			this.src = drafts.url
-			this.desc = drafts.content
+			
+			
+			
 			
 		},
 		onShow(){
@@ -115,7 +122,7 @@
                     content:"是否要删除此视频",
                     success:(res) =>{
                         if(res.confirm){
-                            self.src = ''
+                            self.videoUrl = ''
                         }
                     }
                 })
@@ -145,6 +152,8 @@
 								if(uploadFileRes.data.code==200){
 									self.src = uploadFileRes.data.data.fileName
 									self.videoUrl = uploadFileRes.data.data.fileUrl
+									console.log(self.src)
+									console.log(self.videoUrl)
 								}else{
 									console.log("请求异常")
 								}
@@ -161,9 +170,8 @@
 				const url = this.url
 				const content = this.desc
 				let token
-				const src = this.src;
 				let self = this
-				console.log(self.src)
+				console.log(self.videoUrl)
 				uni.getStorage({
 					key:"token",
 					success: function (res) {
@@ -175,7 +183,7 @@
 				uni.request({
 					url: url + "/controller/usercontroller/addshortvideo",
 					data: {
-						videoUrl: self.src,
+						videoUrl: self.videoUrl,
 						content: content
 					},
 					method: 'POST',
@@ -188,8 +196,8 @@
 						console.log(res)
 						console.log(res.data.code)
 						if(res.data.code==200){
-							uni.navigateTo({
-								url: "/pages/releaseVideo2/releaseVideo2"
+							uni.switchTab({
+								url: "/pages/user/user"
 							})
 						}else{
 							console.log('请求异常')
@@ -226,26 +234,57 @@
 					type: 2,
 					draftsContent: str
 				}
-				uni.request({
-					url: url + "/controller/videocontroller/addappuserdrafts",
-					data: parmas,
-					method: 'POST',
-					header : {
-						'content-type':'application/x-www-form-urlencoded', 
-						'port': 'app',
-						'token': token
-					},
-					success: function (res){
-						console.log(res.data.code)
-						if(res.data.code==200){
-							uni.navigateTo({
-								url: "/pages/drafts/drafts"
-							})
-						}else{
-							console.log('请求异常')
-						}
+				if(this.appUserDraftsId){
+					let parmas = {
+						appUserDraftsId: self.appUserDraftsId,
+						draftsContent:  str
 					}
-				})
+					console.log(parmas)
+					console.log(src)
+					uni.request({
+						url: url + "/controller/videocontroller/updateappuserdrafts",
+						data: parmas,
+						method: 'POST',
+						header : {
+							'content-type':'application/x-www-form-urlencoded', 
+							'port': 'app',
+							'token': token
+						},
+						success: function (res){
+							console.log(res)
+							console.log(res.data.code)
+							if(res.data.code==200){
+								uni.navigateTo({
+									url: "/pages/drafts/drafts"
+								})
+							}else{
+								console.log('请求异常')
+							}
+						}
+					})
+				}else{
+					uni.request({
+						url: url + "/controller/videocontroller/addappuserdrafts",
+						data: parmas,
+						method: 'POST',
+						header : {
+							'content-type':'application/x-www-form-urlencoded', 
+							'port': 'app',
+							'token': token
+						},
+						success: function (res){
+							console.log(res.data.code)
+							if(res.data.code==200){
+								uni.navigateTo({
+									url: "/pages/drafts/drafts"
+								})
+							}else{
+								console.log('请求异常')
+							}
+						}
+					})
+				}
+				
 			},
 			// 弹出层弹出的方式  i:当前标签的下标, name: 当前标签的name
 			togglePopup(type, open) {
@@ -276,9 +315,9 @@
 				}
 				if(type === 'skip') {
 					this.save();
-					uni.switchTab({
-						url: "/pages/main/main"
-					})
+					// uni.switchTab({
+					// 	url: "/pages/main/main"
+					// })
 				}
 			},
 		}
@@ -423,7 +462,7 @@
 		width: 300px;
 		background: #fff;
 		box-sizing: border-box;
-		border-radius: 10px;
+		border-radius: 10rpx;
 	}
 	
 	.uni-tip-title {
@@ -449,6 +488,17 @@
 		display: flex;
 	}
 	
+	.uni-tip-button:nth-child(1) {
+		width: 100%;
+		text-align: center;
+		font-size: 14px;
+		color: #333333;
+		font-size: 37rpx;
+		font-weight: 500;
+		border-top: 1px solid #E2E2E2;
+		border-right: 1px solid #E2E2E2;
+		padding: 10px 0;
+	}
 	.uni-tip-button {
 		width: 100%;
 		text-align: center;

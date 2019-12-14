@@ -28,7 +28,7 @@
 			发送验证码
 		</view> -->
 		<view size="mini" class="send-code" v-bind:class="isActive == true ? 'in' : ''" @tap="sendCod">
-			{{isActive == true ? second + 's' : '发送验证码'}}
+			{{isActive == true ? second + 's' : '获取验证码'}}
 		</view>
 		<!-- <button size="mini" class="send-code" v-bind:class="isActive == true ? 'in' : ''" @tap="sendCod">{{isActive == true ? second + 's' : '发送验证码'}}</button> -->
 		<view class="phone-login" @tap="bindLogin">
@@ -147,12 +147,12 @@
 										key:"token",
 										data: res.data.token,
 									})
-									// uni.switchTab({
-									// 	url: "/pages/main/main"
-									// })
-									uni.navigateTo({
-										url: "/pages/releaseVideo2/releaseVideo2"
+									uni.switchTab({
+										url: "/pages/user/user"
 									})
+									// uni.navigateTo({
+									// 	url: "/pages/releaseVideo2/releaseVideo2"
+									// })
 								}
 							})
 						}else{

@@ -1,561 +1,691 @@
 <template>
-    <view class="wrap">
-        <view class="bg">
-        	<image src="../../static/img/user/bg.png" mode=""></image>
-        </view>
-		<view class="left-menu">
-			<image src="../../static/img/user/left-menu.png" mode=""></image>
+	<view>
+		<!-- 搜索栏 start -->
+		<view class="header">
+			<view class="search-input">
+				<image src="../../static/search/nav-search.png" mode=""></image>
+				<input type="text" value=""  placeholder="搜索您需要的商品" @input="gainInput" @focus="onFocus" @blur="onBlur" @click.stop="goSearch"/>
+			</view>
+			<view class="cancel">
+				<image src="../../static/img/G-circle/more.png" mode="" class="more-list"></image>
+			</view>
 		</view>
-		<view class="right-wechat">
-			<image src="../../static/img/user/right-wechat.png" mode=""></image>
-		</view>
-		<view class="right-wechat">
-			<image src="../../static/img/user/right-wechat.png" mode=""></image>
-		</view>
-		<view class="user-avater">
-			<image src="../../static/img/user/user-avater.png" mode=""></image>
-		</view>
-		<!-- 客户信息 -->
-		<view class="user-info">
-			<view class="user-state">
-				<image src="../../static/img/user/user-state.png" mode=""></image>
+		<!-- 搜索栏 end -->
+		
+		<!-- G圈内容 start -->
+		<view class="G-cicle_content">
+			<!-- 居圈分类 居圈/关注/短视频 start-->
+			<view class="G-list_content">
+				<view v-for="(item, index) in tabType" :class="index == current ? 'active' : '' " @click="changeProduct(index)" :key="index">
+					{{item}}
+					<text v-bind:class="index == current ? 'active-status' : '' "></text>
+				</view>
 			</view>
-			<view class="edit-info">
-				<image src="../../static/img/user/edit-info.png" mode=""></image>
+			<view class="G-list_detial_one" v-show="isShow">
+				<view class="category-detial" v-for="(item, index) in recommendList" :key="index">
+					<!-- <image src="../../static/img/G-circle/test.png" mode="" class="album-img"></image> -->
+					<image :src="item.resource.img" mode="" class="album-img"></image> 
+					<view class="title">#{{item.resource.name}}#</view>
+					<view>{{item.resource.remarks}}</view>
+				</view>
 			</view>
-			<view class="my-order">
-				<image src="../../static/img/user/my-order.png" mode=""></image>
+			<view class="G-list_detial_two" v-show="!isShow">
+				<scroll-view class="G-list_detial_user scroll-view_H" scroll-x="true" :show-scrollbar="isScrollbar">
+					<view class="G-list_detial_userDteial scroll-view-item_H" v-for="(item, index) in userList" :key="index">
+						<image src="../../static/img/G-circle/test1.png" mode=""></image>
+						<view>{{item.nick_name}}</view>
+						<image src="../../static/topic/focus.png" mode=""></image>
+					</view>
+					
+				</scroll-view>
+				<view class="refresh">
+					<text>换一批</text>
+					<image src="../../static/img/G-circle/refresh.png" mode=""></image>
+				</view>
 			</view>
-			<view class="user-nickName">
-				晴天小猪
-			</view>
-			<view class="user-nickName-image"><image src="../../static/img/user/user-gender.png" mode=""></image></view>
-			<view class="user-intro">
-				介绍一下自己吧！
-			</view>
-			<view class="user-recommend">
-				<text>粉丝799</text><text>关注899</text><text>获赞100</text>
-			</view>
-			<view class="hot">
-				<image src="../../static/img/user/hot.png" mode=""></image>
-			</view>
-			<text class="number">200</text>
-		</view>
-		<!-- 我的动态 -->
-		<view class="my-active">
-			<view class="my-active-title1">我的动态</view>
-			<view class="my-active-index"></view>
-			<view class="my-active-vertify"></view>
-			<view class="my-active-title2">短视频</view>
-			<view class="my-active-vertify2"></view>
-			<view class="my-active-title3">收藏</view>
-			<view class="my-active-image"></view>
-			<view class="my-active-nickName">晴天小猪</view>
-			<view class="my-active-data">2019-12-12  09:11</view>
-			<view class="edit-del">
-				<image src="../../static/img/user/edit-del.png" mode=""></image>
-			</view>
-			<view class="my-active-recommend">
-				某臣氏骑剑活动！水雾质地 很轻薄 不沾黏！在上待几分钟会变成雾面哑光感 超高级！显色很持久...
-				<text class="my-active-more">展开</text>
-				<view class="my-active-more-image">></view>
-			</view>
-			<view class="my-active-pic"></view>
-			<view class="add-topic">
-				
-				
-			</view>
-			<view class="add-topic-image">
-				<image src="../../static/img/user/add-topic.png" mode=""></image>
-			</view>
-			<text class="add-topic-text">添加你的话题</text>
-
-			<view class="share">
-				<image src="../../static/img/user/share.png" mode=""></image>
-			</view>
-			<view class="message">
-				<image src="../../static/img/user/message.png" mode=""></image>
-			</view>
-			<text class="my-active-message">700</text>
-			<view class="star">
-				<image src="../../static/img/user/star.png" mode=""></image>
-			</view>
-			<text class="my-active-star">120</text>
-			<view class="good">
-				<image src="../../static/img/user/good.png" mode=""></image>
-			</view>
-			<text class="my-active-good">180</text>
+			<!-- 居圈分类 居圈/关注/短视频 end --> 
 			
-		</view>
-
-
-		<view class="my-active">
-			<view class="my-active-title1">我的动态</view>
-			<view class="my-active-index"></view>
-			<view class="my-active-vertify"></view>
-			<view class="my-active-title2">短视频</view>
-			<view class="my-active-vertify2"></view>
-			<view class="my-active-title3">收藏</view>
-			<view class="my-active-image"></view>
-			<view class="my-active-nickName">晴天小猪</view>
-			<view class="my-active-data">2019-12-12  09:11</view>
-			<view class="edit-del">
-				<image src="../../static/img/user/edit-del.png" mode=""></image>
-			</view>
-			<view class="my-active-recommend">
-				某臣氏骑剑活动！水雾质地 很轻薄 不沾黏！在上待几分钟会变成雾面哑光感 超高级！显色很持久...
-				<text class="my-active-more">展开</text>
-				<view class="my-active-more-image">></view>
+			<!-- G圈所有内容 start -->
+			<view class="relese-image"  v-for="(items, index) in releaseImgList" :key="index" @click.stop="contentDetail(items.gcircleContentId)">
+				<view class="relese-image_detail" >
+					<!-- 用户信息 start -->
+					<view class="user">
+						<view class="user-message">
+							<image :src="items.head" mode=""></image>
+							<view>
+								<view class="name">{{items.nickName}}</view>
+								<view class="time">{{items.createTime}}</view>
+							</view>
+						</view>
+						<view class="operate-user" @click.stop="operate(index)" v-if="items.state == 1">
+							<text></text>
+							<text></text>
+							<text></text>
+							<view class="operate-detail" v-show="cIndex && showEdit">
+								<view class="operate-arrow"></view>
+								<view class="operate-btn">
+									<!-- <view @click.stop="editRelease(items.gcircleContentDTO, items.gcircleContentDTO.id)"><image src="../../static/edit.png" mode=""></image>编辑</view>
+									<view @click.stop="deleteRelease(items.gcircleContentDTO.id)"><image src="../../static/delete.png" mode=""></image>删除</view> -->
+									<view><image src="../../static/edit.png" mode=""></image>编辑</view>
+									<view><image src="../../static/delete.png" mode=""></image>删除</view>
+								</view>
+							</view>
+						</view>
+						<view v-else class="user-right" @click.stop="focus(index, items.userId, items.attentionState)">
+							<!-- <image v-if="activeState == 0 || items.attentionState == 0 " src="../../static/follow.png" mode=""></image>
+							<image v-if="activeState == 1 || items.attentionState == 1 " src="../../static/follow-checked.png" mode=""></image>
+							<image v-if="activeState == 3 || items.attentionState == 2 " src="../../static/mutual-follow.png" mode=""></image> -->
+							<!-- <image :src="( activeIndex == index && isShowFocus) || items.attentionState == 1 ? '../../static/follow-checked.png' : '../../static/follow.png'" mode=""></image> -->
+							<image :src="items.attentionState == 0 ? '../../static/follow.png' : items.attentionState == 2 ? '../../static/mutual-follow.png' : '../../static/follow-checked.png'" mode=""></image>
+						</view>
+					</view>
+					<!-- 用户信息 start -->
+					
+					<!-- 草稿内容 start -->
+					<view class="content"  v-if="items.content != '' ">
+						<view v-if="!isShowAllContent" class="text">{{items.content }}</view>
+						<view v-else class="text">{{items.content | ellipsis}}</view>
+						<view class="anCotent" v-if="items.content.length > 60 " @click="open(index)">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
+					</view>
+					<!-- <view class="content">
+						<view v-if="!isShowAllContent" class="text">{{content }}</view>
+						<view v-else class="text">{{content | ellipsis}}</view>
+						<view class="anCotent" v-if="content.length > 60 " @click="open()">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
+					</view> -->
+					<!-- 草稿内容 end -->
+					
+					<!-- 图片/视频 start -->
+					<view class="imageList">
+						<image :mode="items.imgList.length > 1 ? 'aspectFit' : '' " :class="items.imgList.length > 1 ? 'imageListIn' : 'imageListSingle' " :src="row.fileUrl" v-for="(row, indexI) in items.imgList" :key="indexI" @click.stop="previewImage(indexI, items.imgList)"></image>
+						<!-- <image src="../../static/draftsT.png" mode="" ></image> -->
+					</view>
+					<!-- 图片/视频 end -->
+					
+					<!-- 话题 start -->
+					<view class="release-image_topic"  v-show="show" v-if="items.title.topic != '' ">
+						<view class="left" @click.stop="goTopic(items.title)">
+							<image src="../../static/topic/topic.png" mode=""></image>
+							<view>{{items.title.topic}}</view>
+						</view>
+						<view class="right"></view>
+					</view>
+					<!-- 话题 end -->
+					<!-- 操作按钮 start -->
+					<view class="operate-bottom">
+						<view class="operate-bottom_share"><image src="../../static/img/user/share.png" mode=""></image></view>
+						<view class="operate-bottom_number">
+							<view class="number-message">
+								<image src="../../static/img/user/message.png" mode=""></image>
+								<text>{{items.gCollectionDiscussNum}}</text>
+							</view>
+							<view class="collect">
+								<image @click.stop="collect(index, items.gcircleContentId, items.collectionState)" :src="(activeIndex == index && isShowCollect) || items.collectionState === 1 ? '../../static/topic/collect-select.png' : '../../static/img/user/star.png' " mode=""></image>
+								<text>{{items.collectionNum}}</text>
+							</view>
+							<view class="fabulous" >
+								<image @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState)" :src="(fabulousIndex == index && isShowFabulous) || items.gcircleContentLikeState === 1 ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
+								<text>{{items.gcircleContentLikeNum}}</text>
+							</view>
+						</view>
+					</view>
+					<!-- 操作按钮 end -->
+				</view>
+				
 			</view>
 			
-			
-			<view class="my-active-pic"></view>
-			<view class="add-topic">
-				
-				
-			</view>
-			<view class="add-topic-image">
-				<image src="../../static/img/user/add-topic.png" mode=""></image>
-			</view>
-			<text class="add-topic-text">添加你的话题</text>
-
-			<view class="share">
-				<image src="../../static/img/user/share.png" mode=""></image>
-			</view>
-			<view class="message">
-				<image src="../../static/img/user/message.png" mode=""></image>
-			</view>
-			<text class="my-active-message">700</text>
-			<view class="star">
-				<image src="../../static/img/user/star.png" mode=""></image>
-			</view>
-			<text class="my-active-star">120</text>
-			<view class="good">
-				<image src="../../static/img/user/good.png" mode=""></image>
-			</view>
-			<text class="my-active-good">180</text>
-			<view class="more">-上拉查看更多-</view>
+			<!-- 点击右边三点显示的遮罩层 start -->
+			<view id="mask" v-show="showEdit"></view>
+			<!-- 点击右边三点显示的遮罩层 end -->
+			<view class="look-more">-上拉查看更多-</view>
+			<!-- G圈所有内容 end -->
 		</view>
-    </view>
+		<!-- G圈内容 end -->
+		
+		
+	</view>
 </template>
 
 <script>
-    
-
-    export default {
-        
-        methods: {
-            
-            
-        }
-    }
+	export default {
+		data() {
+			return {
+				tabType: ['居圈', '关注', '短视频'],
+				current: 0,
+				cIndex: -1,
+				activeIndex: -1,
+				show: true,
+				token: '',
+				isShow: true,
+				brandFold: false,
+				isShowAllContent: true,
+				showEdit: false,
+				draftsList: [],
+				imageDrafts: [],
+				content: '某臣氏骑剑活动！水雾质地 很轻薄 不沾黏！在上待几分钟会变成雾面哑光感某臣氏骑剑活动！水雾质地 很轻薄 不沾黏！在上待几分钟会变成雾面哑光感 超高级！显色很持久...不沾黏！在上待几分钟会变成雾面哑光感 超高级！显色很持久...',
+				userList: [],
+				isScrollbar: false,
+				releaseImgList: [],
+				fabulousIndex: -1,
+				isShowFabulous: false,   //是否显示已点赞
+				isShowCollect: false,   //是否显示已收藏
+				isShowFocus: false,   //是否显示已关注图标
+				recommendList: [],   	  // G圈推荐
+				userListContent: []		// 关注用户的G圈列表
+			}
+		},
+		filters: {
+			ellipsis (value) {
+			  if (!value) return ''
+			  if (value.length > 45) {
+				return value.slice(0,45) + '...'
+			  }
+			  return value
+			}
+		},
+		onShow() {
+			uni.getStorage({
+				key:"token",
+				success:((res) => {
+				this.token = res.data;
+			  })
+			});
+			this.init();
+			this.recommend();
+		},
+		methods: {
+			// 获取G圈推荐
+			recommend() {
+				uni.request({
+					url: this.url + "/public/public/getGcircleListbyresourcestype",
+					data: {resourcesTypeName: 'app_top_list'},
+					method: 'POST',
+					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
+					success: ((res) => {
+						uni.hideLoading()
+						if(res.data.code == 200) {
+							let data = res.data.data;
+							this.recommendList = data;
+						}
+						if(res.data.code == 407) {
+							uni.showToast({
+								title: '请重新登录'
+								
+							})
+						}
+					})
+				})
+			},
+			// 获取居圈内容
+			init() {
+				let parmas = {
+					pageIndex: 1,
+					pageSize: 1000
+				}
+				uni.showLoading({
+					title: '加载中...',
+					mask: true
+				})
+				uni.request({
+					url: this.url + "/controller/contentcontroller/getallgcirclecontentlist",
+					data: parmas,
+					method: 'POST',
+					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
+					success: ((res) => {
+						uni.hideLoading()
+						if(res.data.code == 200) {
+							let data = res.data.data.dataList;
+							// 
+							for(let i=0; i<data.length; i++) {
+								// let test = data[i].gcircleContentDTO;
+								data[i].imgList = JSON.parse(data[i].imgList);
+								data[i].title = JSON.parse(data[i].title);
+							}
+							this.releaseImgList = data;
+						}
+						if(res.data.code == 407) {
+							uni.showToast({
+								title: '请重新登录'
+								
+							})
+						}
+					})
+				})
+			},
+			// 获取关注的用户
+			focusUser() {
+				uni.request({
+				    url: this.url + 'controller/usercontroller/getRecommendUserList',
+				    method: 'post',
+				    header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
+				    success:(res) => {
+				        if(res.data.code == 200) {
+				            this.userList = res.data.data;
+				        } else {
+				            uni.showToast({
+				                icon: 'none',
+				                title: res.data.message
+				            });
+				            uni.hideToast();
+				        }
+				    }
+				});
+			},
+			// 获取关注的用户的G圈内容
+			focusUserContent() {
+				uni.request({
+				    url: this.url + 'controller/contentcontroller/getGcircleContentListByAttention',
+				    method: 'post',
+					data: {pageSize: 100, pageIndex: 1},
+				    header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
+				    success:(res) => {
+				        if(res.data.code == 200) {
+							let data = res.data.data.dataList;
+							for(let i=0; i<data.length; i++) {
+								data[i].imgList = JSON.parse(data[i].imgList);
+								data[i].title = JSON.parse(data[i].title);
+							}
+				            this.releaseImgList = data;
+				        } else {
+				            uni.showToast({
+				                icon: 'none',
+				                title: res.data.message
+				            });
+				            uni.hideToast();
+				        }
+				    }
+				});
+			},
+			// 关注
+			focus(index, id, state) {
+			    uni.request({
+			        url: this.url + 'controller/usercontroller/addattentionrelationship',
+			        method: 'post',
+			        data: {outUserId: id},
+			        header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
+			        success:(res) => {
+			            if(res.data.code == 200) {
+			                this.init(this.topicId);
+			            } else {
+			                uni.showToast({
+			                    icon: 'none',
+			                    title: res.data.message
+			                });
+			                uni.hideToast();
+			            }
+			        }
+			    });
+			},
+			// 收藏
+			collect(index, id, state) {
+			    uni.request({
+			        url: this.url + 'controller/usercontroller/addusercollection',
+			        method: 'post',
+			        data: {collectionContentId: id, type: '1'},
+			        header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
+			        success:(res) => {
+			            if(res.data.code == 200) {
+			                 this.init();
+			                this.activeIndex = index;
+							if(state == 1) {
+								this.isShowCollect = false;
+								return;
+							}
+			                this.isShowCollect = !this.isShowCollect;
+			            } else {
+			                uni.showToast({
+			                    icon: 'none',
+			                    title: res.data.message
+			                });
+			                uni.hideToast();
+			            }
+			        }
+			    });
+			},
+			// 点赞
+			fabulous(index, id, state) {
+			    uni.request({
+			        url: this.url + 'controller/usercontroller/addgcirclecontentlike',
+			        method: 'post',
+			        data: {gcircleContentId: id},
+			        header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
+			        success:((res) => {
+			            if(res.data.code == 200) {
+			                this.init();
+			                this.fabulousIndex = index;
+							if(state == 1) {
+								this.isShowFabulous = false;
+								return;
+							}
+							this.isShowFabulous = !this.isShowFabulous;
+			            } else {
+			                uni.showToast({
+			                    icon: 'none',
+			                    title: res.data.message
+			                });
+			                uni.hideToast();
+			            }
+			        })
+			    });
+			},
+			// 预览图片
+			previewImage(i, arr) {
+				this.$store.commit('saveImage', arr);
+				let e = i + 1;
+				uni.navigateTo({
+					url: '/pages/previewImage/previewImage?current=' + i + '&indexImg=' + e
+				})
+				// var current = e.target.dataset.src
+			},
+			// 跳转到G圈详情
+			contentDetail(id) {
+				uni.navigateTo({
+					url: '/pages/releaseImage-details/releaseImage-details?id=' + id
+				})
+			},
+			// 切换居圈/关注/短视频
+			changeProduct(index) {
+				this.current = index;
+				if(index == 1) {
+					this.focusUser();
+					this.focusUserContent();
+				}
+				if(index == 0) {
+					this.init();
+				}
+				this.isShow = !this.isShow;
+			},
+			// 文字展开收起
+			open(index) {
+				// console.log(index)
+				this.activeIndex = index;
+				this.isShowAllContent = !this.isShowAllContent;
+				this.brandFold = !this.brandFold
+			},
+			// 操作删除/编辑弹窗
+			operate(index) {
+				this.cIndex = index;
+				this.showEdit = !this.showEdit;
+			},
+			// 失去焦点后获取输入内容
+			gainInput(e) {
+				if(e.detail.value == '') {
+					this.isShowAdd = false;
+					return;
+				}
+				this.searchInput = e.detail.value;
+				this.isShowAdd = true;
+			},
+			// 输入框获取焦点/失去焦点
+			onFocus() {
+				// #ifdef APP-PLUS
+				this.$mp.page.$getAppWebview().setStyle({
+					softinputNavBar: 'none'
+				})
+				// #endif
+				
+			},
+			onBlur() {
+				// #ifdef APP-PLUS
+				this.$mp.page.$getAppWebview().setStyle({
+					softinputNavBar: 'auto'
+				})
+				// #endif
+				
+			},
+			// 跳转到搜索页面
+			goSearch() {
+				uni.navigateTo({
+					url: '/pages/G-circle/search-content/search-content'
+				})
+			}
+		}
+	}
 </script>
 
-<style>
-	.wrap{
-		background-color: #F7F7F7;
-		padding-bottom: 120rpx;
+<style scoped>
+	@import '../../static/css/releaseImgList.css'; /*引入G圈列表样式*/
+	page {
+		width: 100%;
 		height: 100%;
+		background: #F6F6F6;
 	}
-	.bg{
-		position: relative;
-		width: 750rpx;
-		height: 463rpx;
-	}
-	.bg image{
-		width: 750rpx;
-		height: 463rpx;
-	}
-	.left-menu{
-		position: absolute;
-		left: 28rpx;
-		top: 49rpx;
-		width: 44rpx;
-		height: 44rpx;
-	}
-	.left-menu image{
-		width:44rpx;
-		height: 44rpx;
-	}
-	.right-wechat{
-		position: absolute;
-		right: 29rpx;
-		top: 51rpx;
-		width: 44rpx;
-		height: 44rpx;
-	}
-	.right-wechat image{
-		width:44rpx;
-		height: 44rpx;
-	}
-	.user-avater{
-		position: absolute;
-		left: 22rpx;
-		top: 326rpx;
-		width: 199rpx;
-		height: 193rpx;
-		z-index: 99;
-	}
-	.user-avater image{
-		width: 199rpx;
-		height: 193rpx;
-	}
-	/* 客户信息 */
-	.user-info{
-		position: relative;
-		top: -30rpx;
-		width:750rpx;
-		height:308rpx;
-		background:rgba(255,255,255,1);
-		box-shadow:0px 0px 9rpx 0px rgba(93,93,93,0.08);
-		border-radius:32rpx 32rpx 0px 0px;
-	}
-	.user-state{
-		position: absolute;
-		left: 45rpx;
-		top: 40rpx;
-		width: 149rpx;
-		height: 53rpx;
-		z-index: 100;
-	}
-	.user-state image{
-		width: 149rpx;
-		height: 53rpx;
-	}
-	.edit-info{
-		position: absolute;
-		right: 235rpx;
-		top: 30rpx;
-		width: 191rpx;
-		height: 58rpx;
-		z-index: 100;
-	}
-	.edit-info image{
-		width: 191rpx;
-		height: 58rpx;
-	}
-	.my-order{
-		position: absolute;
-		right: 30rpx;
-		top: 30rpx;
-		width: 191rpx;
-		height: 58rpx;
-		z-index: 100;
-	}
-	.my-order image{
-		width: 191rpx;
-		height: 58rpx;
-	}
-	.user-nickName{
-		position: absolute;
-		left: 29rpx;
-		top: 95rpx;
-		font-size:38rpx;
-		font-family:PingFang SC;
-		font-weight:bold;
-		color:rgba(51,51,51,1);
-	}
-	.user-nickName-image{
-		position: absolute;
-		left: 185rpx;
-		top: 110rpx;
-		width: 33rpx;
-		height: 33rpx;
-	}
-	.user-nickName-image image{
-		width: 33rpx;
-		height: 33rpx;
-	}
-	.user-intro{
-		position: absolute;
-		left: 28rpx;
-		bottom: 95rpx;
-		font-size:26rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(51,51,51,1);
-	}
-	.user-recommend{
-		position: absolute;
-		font-size:25rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(51,51,51,1);
-		left: 30rpx;
-		bottom: 35rpx;
-	}
-	.user-recommend text{
-		margin-right: 30rpx;
-	}
-	.hot{
-		position: absolute;
-		right: 279rpx;
-		bottom: 26rpx;
-	}
-	.hot image{
-		width: 28rpx;
-		height: 32rpx;
-	}
-	.number{
-		position: absolute;
-		font-size:25rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(51,51,51,1);
-		right: 220rpx;
-		bottom: 35rpx;
-	}
-	/* 我的动态 */
-	.my-active{
-		position: relative;
+	.header {
+		width: 100%;
+		height: 140rpx;
+		/* line-height: 100rpx; */
 		display: flex;
-		margin-bottom: 20rpx;
-		top: -10rpx;
-		/* top: 450rpx; */
-		width:749rpx;
-		height:899rpx;
-		background:rgba(255,255,255,1);
-		box-shadow:0px 0px 9rpx 0px rgba(93,93,93,0.08);
+		justify-content: space-between;
+		box-sizing: border-box;
+		padding: 10rpx 30rpx;
+		background: #FFFFFF;
+		position: fixed;
+		z-index: 1;
+		top: 0;
+		left: 0;
+		right: 0;
 	}
-	.my-active-title1{
+	.header view {
+		margin-top: 40rpx;
+	}
+	.search-input {
+		position: relative;
+		width: 100%;
+		height: 70rpx;
+		background: #f6f6f6;
+		border-radius: 35rpx;
+	}
+	.search-input image {
+		width: 26rpx;
+		height: 26rpx;
+		display: block;
 		position: absolute;
-		left: 29rpx;
-		top: 24rpx;
-		font-family:PingFang SC;
-		font-weight:bold;
-		color:rgba(51,51,51,1);
+		top: 23rpx;
+		left: 24rpx;
+		
 	}
-	.my-active-index{
-		position: absolute;
-		left: 75rpx;
-		top: 83rpx;
-		width:52rpx;
-		height:5rpx;
-		background:rgba(249,183,44,1);
-		border-radius:3rpx;
+	.search-input input {
+		width: 88%;
+		margin: 0;
+		font-size: 26rpx;
+		margin-left: 60rpx;
+		margin-top: 10rpx;
 	}
-	.my-active-vertify{
-		position: absolute;
-		left: 212rpx;
-		top: 34rpx;
-		width:1rpx;
-		height:36rpx;
-		background:rgba(226,226,226,1);
+	.cancel {
+		height: 35px;
 	}
-	.my-active-title2{
-		position: absolute;
-		right: 392rpx;
-		top: 28rpx;
-		font-size:32rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(116,116,116,1);
+	.more-list {
+		width: 47rpx;
+		height: 47rpx;
+		display: block;
+		margin-top: 6px;
+		margin-left: 15px;
 	}
-	.my-active-vertify2{
-		position: absolute;
-		left: 408rpx;
-		top: 34rpx;
-		width:1rpx;
-		height:36rpx;
-		background:rgba(226,226,226,1);
+	/* 搜索 end */
+	.G-cicle_content {
+		width: 100%;
+		height: 100%;
+		background: #F6F6F6;
+		position: relative;
+		top: 70px;
 	}
-	.my-active-title3{
-		position: absolute;
-		right: 222rpx;
-		top: 28rpx;
-		font-size:32rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(116,116,116,1);
+	/* 切换搜索内容 start */
+	.G-list_content {
+		height: 70rpx;
+		background: #FFFFFF;
 	}
-	.my-active-image{
-		position: absolute;
-		left: 30rpx;
-		top: 120rpx;
-		width:80rpx;
-		height:80rpx;
-		background:rgba(149,149,149,1);
-		border-radius:50%;
-	}
-	.my-active-nickName{
-		position: absolute;
-		left: 128rpx;
-		top: 132rpx;
-		font-size:32rpx;
-		font-family:PingFang SC;
-		font-weight:bold;
-		color:rgba(51,51,51,1);
-	}
-	.my-active-data{
-		position: absolute;
-		left: 128rpx;
-		top: 175rpx;
-		font-size:24rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(102,102,102,1);
-	}
-	.edit-del{
-		position: absolute;
-		right: 28rpx;
-		top: 146rpx;
-		width: 36rpx;
-		height: 23rpx;
-	}
-	.edit-del image{
-		width: 36rpx;
-		height: 23rpx;
-	}
-	.my-active-recommend{
-		position: absolute;
-		left: 34rpx;
-		top: 225rpx;
-		width:674rpx;
-		height:59rpx;
-		font-size:28rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(51,51,51,1);
-		line-height:33rpx;
-	}
-	.my-active-more{
-		margin-left: 10rpx;
-		font-size:24rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(90,124,171,1);
-		line-height:33rpx;
-	}
-	.my-active-more-image{
+	.G-list_content view {
+		width: 20%;
+		height: 34rpx;
+		line-height: 34rpx;
+		text-align: center;
+		color: #747474;
+		font-size: 32rpx;
 		display: inline-block;
-		padding-bottom: 6rpx;
-		margin-left: 6rpx;
-		transform: rotate(90deg);
-		font-size:36rpx;
+		border-right: 1rpx solid #E2E2E2;
+	}
+	.G-list_content view:last-child {
+		border: none;
+	}
+	.active {
+		color: #333333 !important;
+		font-weight: bold;
+		border-width: 50rpx;
+		border-color: red;
+		
+	}
+	.active-status {
+		margin: 9px auto;
+		display: block;
+		width:70rpx;
+		height:6rpx;
+		background:rgba(249,183,44,1);
+		border-radius:3px;
+	}
+	/* 切换搜索内容 end */
+	
+	/* G圈类别 start*/
+	.G-list_detial_one {
+		width: 100%;
+		height: 250rpx;
+		box-sizing: border-box;
+		padding: 25rpx 20rpx;
+		display: flex;
+		justify-content: flex-start;
+		background: #FFFFFF;
+	}
+	.category-detial {
+		width: 34%;
+		height: 100%;
+		position: relative;
+		background-image: url('../../static/img/G-circle/shadow.png') no-repeat;
+	}
+	.bg-shadow {
+		width: 100%;
+		height: 100%;
+		display: block;
+		position: absolute;
+		top: 0;
+	}
+	.category-detial .album-img {
+		width: 228rpx;
+		height: 190rpx;
+		display: block;
+		position: absolute;
+		top: 0;
+	}
+	.category-detial .title {
+		width: 100%;
+		font-size:30rpx;
 		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(90,124,171,1);
-		line-height:49rpx;
-	}
-	.my-active-pic{
+		color:rgba(255,205,99,1);
 		position: absolute;
-		left: 29rpx;
-		bottom: 137rpx;
-		width:690rpx;
-		height:450rpx;
-		background: #959595;
+		top: 54rpx;
+		text-align: center;
+		
 	}
-	.add-topic{
-		position: absolute;
-		left: 29rpx;
-		bottom: 79rpx;
-		width:181rpx;
-		height:42rpx;
-		background:rgba(249,183,44,.8);
-		opacity:0.2;
-		border-radius:21rpx;
-	}
-	.add-topic-image{
-		position: absolute;
-		left: 34rpx;
-		bottom: 110rpx;
-		width:20rpx;
-		height:20rpx;
-		z-index: 999;
-	}
-	.add-topic-image image{
-		width:20rpx;
-		height:20rpx;
-	}
-	.add-topic-text{
-		position: absolute;
-		left: 54rpx;
-		bottom: 78rpx;
-		font-size:22rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:#F9B72C;
-		line-height:42rpx;
-	}
-	.share{
-		position: absolute;
-		left: 26rpx;
-		bottom: 42rpx;
-		width:32rpx;
-		height:30rpx;
-	}
-	.share image{
-		width:32rpx;
-		height:30rpx;
-	}
-	.message{
-		position: absolute;
-		right: 322rpx;
-		bottom: 34rpx;
-		width:39rpx;
-		height:35rpx;
-	}
-	.message image{
-		width:39rpx;
-		height:35rpx;
-	}
-	.my-active-message{
-		position: absolute;
-		right: 274rpx;
-		bottom: 30rpx;
-		font-size:26rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(153,153,153,1);
-	}
-	.star{
-		position: absolute;
-		right: 204rpx;
-		bottom: 34rpx;
-		width:39rpx;
-		height:35rpx;
-	}
-	.star image{
-		width:39rpx;
-		height:35rpx;
-	}
-	.my-active-star{
-		position: absolute;
-		right: 153rpx;
-		bottom: 30rpx;
-		font-size:26rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(153,153,153,1);
-	}
-	.good{
-		position: absolute;
-		right: 83rpx;
-		bottom: 34rpx;
-		width:39rpx;
-		height:35rpx;
-	}
-	.good image{
-		width:39rpx;
-		height:35rpx;
-	}
-	.my-active-good{
-		position: absolute;
-		right: 31rpx;
-		bottom: 30rpx;
-		font-size:26rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(153,153,153,1);
-	}
-	.more{
-		position: absolute;
-		left: 289rpx;
-		bottom: -90rpx;
+	.category-detial view:last-child {
+		width: 100%;
 		font-size:24rpx;
 		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(204,204,204,1);
+		color:rgba(255,255,255,1);
+		position: absolute;
+		top: 100rpx;
+		text-align: center;
 	}
-	
+	/* G圈类别 end*/
+	/* G圈列表 start */
+	.relese-image {
+		margin-top: 20rpx;
+		background: #FFFFFF;
+		padding: 30rpx 20rpx;
+	}
+	.relese-image_detail {
+		margin: 0;
+	}
+	.release-image_topic {
+		margin-top: 10px;
+	}
+	.operate-bottom {
+		padding-top: 10px;
+	}
+	.look-more {
+		width: 100%;
+		height: 200rpx;
+		line-height: 140rpx;
+		text-align: center;
+		font-size:24rpx;
+		font-family:PingFang SC;
+		color:rgba(204,204,204,1);
+		margin-bottom: 100rpx;
+	}
+	/* 关注 start */
+	.G-list_detial_two {
+		width: 100%;
+		height: auto;
+		box-sizing: border-box;
+		padding-left: 20rpx;
+		padding-top: 20rpx;
+		background: #FFFFFF;
+	}
+	.scroll-view_H {
+		white-space: nowrap;
+		width: 100%;
+		
+	}
+	::-webkit-scrollbar {
+		width: 0;
+		height: 0;
+		background-color: transparent;
+	} 
+	.G-list_detial_userDteial {
+		width:274rpx;
+		height:353rpx;
+		background:rgba(255,255,255,1);
+		border:1px solid rgba(241, 241, 241, 1);
+		box-shadow:1px 1px 12rpx 0px rgba(4,0,0,0.07);
+		border-radius:10rpx;
+		box-sizing: border-box;
+		padding-top: 40rpx;
+		display: inline-block;
+		margin-right: 20rpx;
+	}
+	.G-list_detial_userDteial image:first-child {
+		width: 138rpx;
+		height: 138rpx;
+		display: block;
+		margin: 0 auto;
+	}
+	.G-list_detial_userDteial view {
+		width: 100%;
+		text-align: center;
+		height: 48rpx;
+		font-size:30rpx;
+		font-family:PingFang SC;
+		color:rgba(51,51,51,1);
+		line-height:48rpx;
+		margin: 20rpx 0;
+	}
+	.G-list_detial_userDteial image:last-child {
+		width: 127rpx;
+		height: 54rpx;
+		display: block;
+		margin: 0 auto;
+	}
+	.refresh {
+		width: 100%;
+		height: 100rpx;
+		line-height: 100rpx;
+		font-size:24rpx;
+		font-family:PingFang SC;
+		color:rgba(153,153,153,1);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.refresh image {
+		width: 23rpx;
+		height: 25rpx;
+		display: block;
+		margin-left: 10rpx;
+	}
 </style>

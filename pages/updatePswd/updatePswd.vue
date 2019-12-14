@@ -12,7 +12,7 @@
 			<view class="yzm">
 				<image src="../../static/lock.png" mode=""></image>
 				<input type="text" placeholder="请输入验证码"  v-model="validationCode"/>
-				<button size="mini" class="send" v-bind:class="isActive == true ? 'in' : ''" @tap="sendCod">{{isActive == true ? second + 's' : '发送验证码'}}</button>
+				<button size="mini" class="send" v-bind:class="isActive == true ? 'in' : ''" @tap="sendCod">{{isActive == true ? second + 's' : '获取验证码'}}</button>
 			</view>
 		</view>
 		<button class="next" @tap="bindLogin">下一步</button>
