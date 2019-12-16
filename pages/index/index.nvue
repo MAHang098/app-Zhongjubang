@@ -57,18 +57,17 @@
 			               @wxcPopupOverlayClicked="popupOverlayBottomClick"
 			               pos="bottom"
 			               height="450"
-						  
 						   ref="close"
 						   >
 			      <div class="recommend" style="border: 1px solid red;">
 					<div class="recommend-content">
 						<text class="all-recommend">全部评论 ({{shortVideoDiscussNum}})</text>
-						<view  class="close" @tap="popupOverlayBottomClick" ><image style="width: 25rpx;height: 25rpx;" src="../../static/img/releaseVideo2/close.png" mode="" /></view> 
+						<view class="close" @tap="popupOverlayBottomClick" ><image style="width: 25rpx;height: 25rpx;" src="../../static/img/releaseVideo2/close.png" mode="" /></view> 
 					</div>
 					<div class="vertify"></div>
 					
 					<scroll-view scroll-y="true" class="replay-detail">
-						<div v-for="(row, index) in dataList" :key="index" style="border: 1px solid red;">
+						<div v-for="(row, index) in dataList" :key="index">
 							<div>
 								<div class="replay-detail-left">
 									<div class="my-active-image">
@@ -81,12 +80,7 @@
 									
 								</div>
 								<div class="replay-detail-right">
-									<!-- <text class="my-active-like">{{row.likenum}}</text> -->
 									
-									<!-- <div class="my-active-good">
-										<image style="width: 31rpx;height: 31rpx;"  src="../../static/img/releaseVideo2/good.png" class="recommend-good" v-if="showUpImg3"  @click="replyLike(row.id)" />
-										<image style="width: 31rpx;height: 31rpx;"  src="../../static/topic/fabulous-select.png" class="recommend-good" v-if="!showUpImg3"  @click="replyLike(row.id)" />
-									</div> -->
 									<div @click="commentsFabulous(index, row.id)">
 										<text class="my-active-like">{{row.likenum}}</text>
 										<image  style="width: 31rpx;height: 31rpx;" class="my-active-good" :class="(activeIndex == index && isCommentsFabulous) ||  row.state == '1'? 'select' : '' " :src="(activeIndex == index && isCommentsFabulous) ||  row.state == '1' ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
@@ -94,31 +88,27 @@
 								</div>	
 							</div>
 							<div class="recommend-text-text-text">
-								<text class="recommend-text-text" @click="testreply(row.id, row.nick_name)">
+								<!-- <text class="recommend-text-text" @click="testreply(row.id, row.nick_name)"> -->
+								<text class="recommend-text-text" 
+									@touchstart.prevent="touchin(row.id)" 
+									@touchend.prevent="cleartime"
+									@click="testreply(row.id, row.nick_name)"
+								>
 									{{row.short_video_discuss}}
 								</text>
 							</div>
 							
-							<!-- <image @click="replyLike(row.id)" class="recommend-good" src="../../static/img/releaseVideo2/good.png" mode="" /> -->
-							<!-- <div style="border: 1px solid red;">
-								<div class="recommend-text" style="border: 1px solid red;">
-									
-								</div>
-							</div> -->
-							<!-- <div class="recommend-text" @touchstart.prevent="touchstart(index)"   @touchend.prevent="touchend"> -->
 							
-							<!-- </div> -->
-							<!-- <div class="recommend-text" @touchstart.prevent="touchstart(index)"   @touchend.prevent="touchend"> -->
-							
-							
-							<!-- <div class="recommend-text" @click="testreply(row.id, row.nick_name)">
-								{{row.zilist.length}}
-							</div> -->
 							
 							<div v-if="row.zilist.length>0" class="recommend-text-reply">
 								<div v-for="(rows, indexs) in row.zilist" :key="indexs">
-									<text class="recommend-text-reply-user" @tap="testreply(row.id, row.nick_name)">{{rows.nick_name}} : {{rows.short_video_discuss}}</text>
-									<text class="recommend-text-reply-user" v-if="rows.nick_name!=row.nick_name" @tap="testreply(rows.id, rows.nick_name,rows.pid)">{{rows.nick_name}}回复{{row.nick_name}}:{{rows.short_video_discuss}}</text>
+									<text class="recommend-text-reply-user" 
+										v-if="rows.nick_name==row.nick_name" 
+										@tap="testreply(row.id, row.nick_name)"
+										@touchstart.prevent="touchin(rows.id)"
+										@touchend.prevent="cleartime"
+									>{{rows.nick_name}} : {{rows.short_video_discuss}}</text>
+									<text class="recommend-text-reply-user" v-else @tap="testreply(rows.id, rows.nick_name,rows.inUserId)">{{rows.nick_name}}回复{{row.nick_name}}:{{rows.short_video_discuss}}</text>
 								</div>
 								<text v-if="row.sonCount>2" class="recommend-text-reply-count" @tap="reply(row.id, row.nick_name)">共{{row.sonCount}}条回复></text>
 							</div>
@@ -220,7 +210,8 @@
 				popupType: '',
 				commentsList: [],
 				isCommentsFabulous: false,
-				userID222: ''
+				userID222: '',
+				title: 'action-sheet'
 			}
 		},
 		filters: {
@@ -288,6 +279,63 @@
 			self.init(id);
 		},
 		methods: {
+			// 删除评论
+			 touchin(id,content) {
+				clearInterval(this.Loop); //再次清空定时器，防止重复注册定时器
+				this.Loop = setTimeout(function() {
+					this.actionSheetTap(id)
+					this.copyUrl(content)
+				}.bind(this), 1000);
+			},
+			cleartime(id) {
+				// 这个方法主要是用来将每次手指移出之后将计时器清零
+				clearInterval(this.Loop);
+			},
+			
+			actionSheetTap(id) {
+				let self = this
+				uni.showActionSheet({
+					itemList: ['删除'],
+					success: (e) => {
+						// console.log(e.tapIndex);
+						// uni.showToast({
+						// 	title:"点击了第" + e.tapIndex + "个选项",
+						// 	icon:"none"
+						// })
+						let idd = self.id
+						let token
+						uni.getStorage({
+							key:"token",
+							success: function (res) {
+								token = res.data;
+							}
+						})
+						const url = self.url
+						
+								
+						console.log(id)
+						//获取短视频内容
+						uni.request({
+							url: "http://www.zhongjubang.com/test/controller/usercontroller/delshortvideodiscuss",
+							data: {shortVideoDiscussId:id},
+							method: 'POST',
+							header : {
+								'content-type':'application/x-www-form-urlencoded', 
+								'port': 'app',
+								'token': token
+							},
+							success: function (res){
+								if(res.data.code==200){
+									console.log("请求成功")
+									self.init(idd)
+								}else{
+									console.log("请求失败")
+								}
+							}
+						})
+					}
+				})
+			},
 			recordName(e) {
 				this.inputValue = e.detail.value;
 				console.log(e.detail.value)
@@ -303,69 +351,72 @@
 				
 				console.log(self.outUserId)
 				console.log(self.nickName)
-				console.log(self.id)
 				if(this.recommendId!=''){
-					uni.request({
-						url: "http://www.zhongjubang.com/test/controller/usercontroller/addanswershortvideodiscuss",
-						data: {
-							outUserId: self.outUserId,
-							id: self.recommendId,
-							outUserName: self.recommendName,
-							shortVideoDiscuss: e.detail.value
-						},
-						method: 'POST',
-						header : {
-							'content-type':'application/x-www-form-urlencoded', 
-							'port': 'app',
-							'token': token
-						},
-						success: function (res){
-							console.log(res)
-							if(res.data.code==200){
-								console.log('dsfhsdkjfhksdh')
-								self.init(self.id)
-								
-								self.recommendId=''
-								e.detail.value=''
-								self.inputValue = ''
-								self.replySay = '说点什么吧...'
-							}else{
-								console.log("请求异常")
+					if(this.userID222!=''){
+						console.log('cechi::::'+self.userID222)
+						uni.request({
+							url: "http://www.zhongjubang.com/test/controller/usercontroller/addanswershortvideodiscuss",
+							data: {
+								outUserId: self.userID222,
+								id: self.recommendId,
+								outUserName: self.recommendName,
+								shortVideoDiscuss: e.detail.value
+							},
+							method: 'POST',
+							header : {
+								'content-type':'application/x-www-form-urlencoded', 
+								'port': 'app',
+								'token': token
+							},
+							success: function (res){
+								console.log(res)
+								if(res.data.code==200){
+									console.log(self.recommendId)
+									console.log('dsfhsdkjfhksdh')
+									self.init(self.id)
+									self.userID222 = ''
+									self.recommendId=''
+									e.detail.value=''
+									self.inputValue = ''
+									self.replySay = '说点什么吧...'
+								}else{
+									console.log("请求异常")
+								}
 							}
-						}
-					})
-				}else if(this.userID222!=''){
-					uni.request({
-						url: "http://www.zhongjubang.com/test/controller/usercontroller/addanswershortvideodiscuss",
-						data: {
-							outUserId: self.userID222,
-							id: self.recommendId,
-							outUserName: self.recommendName,
-							shortVideoDiscuss: e.detail.value
-						},
-						method: 'POST',
-						header : {
-							'content-type':'application/x-www-form-urlencoded', 
-							'port': 'app',
-							'token': token
-						},
-						success: function (res){
-							console.log(res)
-							if(res.data.code==200){
-								console.log('dsfhsdkjfhksdh')
-								self.init(self.id)
-								self.userID222 = ''
-								self.recommendId=''
-								e.detail.value=''
-								self.inputValue = ''
-								self.replySay = '说点什么吧...'
-							}else{
-								console.log("请求异常")
+						})
+					}else{
+						uni.request({
+							url: "http://www.zhongjubang.com/test/controller/usercontroller/addanswershortvideodiscuss",
+							data: {
+								outUserId: self.outUserId,
+								id: self.recommendId,
+								outUserName: self.recommendName,
+								shortVideoDiscuss: e.detail.value
+							},
+							method: 'POST',
+							header : {
+								'content-type':'application/x-www-form-urlencoded', 
+								'port': 'app',
+								'token': token
+							},
+							success: function (res){
+								console.log(res)
+								if(res.data.code==200){
+									console.log('dsfhsdkjfhksdh')
+									self.init(self.id)
+									
+									self.recommendId=''
+									e.detail.value=''
+									self.inputValue = ''
+									self.replySay = '说点什么吧...'
+								}else{
+									console.log("请求异常")
+								}
 							}
-						}
-					})
-				}
-				else{
+						})
+					}
+					
+				}else{
 					uni.request({
 						url: "http://www.zhongjubang.com/test/controller/usercontroller/addshortvideodiscuss",
 						data: {
@@ -409,9 +460,10 @@
 			},
 			
 			// 点击视频内容获取id和名字
-			testreply(id, name,pid){
+			testreply(id, name,inUserId){
 				console.log(id, name)
-				this.userID222 = pid
+				this.userID222 = inUserId
+				console.log(inUserId)
 				this.recommendId = id
 				this.recommendName = name
 				this.replySay = '回复' + name + ':';
@@ -984,7 +1036,7 @@
 		position: relative;
 		color:rgba(102,102,102,1);
 		background-color:rgba(248,248,248,1);
-		border:1px solid rgba(239,239,239,1);
+		/* border:1px solid rgba(239,239,239,1); */
 		border-radius:6rpx;
 	}
 	.recommend-text-reply-user{

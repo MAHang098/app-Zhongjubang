@@ -308,7 +308,8 @@
 				isShowTopic: true,
 				replySay: '说点什么把',
 				replyType: '',
-				activeIndex: 0
+				activeIndex: 0,
+				
 	        }
 		},
 		filters: {

@@ -35,9 +35,9 @@
 			</view>
 			
 			
-			<view class="footter">
-				回复晴天小猪：
-			</view>
+			<input placeholder="回复晴天小猪：" class="footter">
+				
+			</input>
 		</view>
 
 		
@@ -115,9 +115,7 @@
 				uni.navigateBack()
 			},
 			checkContent(){
-				uni.navigateTo({
-					url: "/pages/releaseVideo2/releaseVideo2"
-				})
+				uni.navigateBack()
 			}
 		}
 	}

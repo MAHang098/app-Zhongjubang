@@ -1,14 +1,6 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页,
 		{
-			"path": "pages/loginPhone/loginPhone",
-			"style": {
-				"app-plus": {
-					"titleNView": false //禁用原生导航栏  
-				}
-			}
-		},
-		{
 			"path": "pages/user/user",
 			"style": {
 				"app-plus": {
@@ -16,6 +8,17 @@
 				}
 			}
 		},
+		{
+			"path": "pages/loginPhone/loginPhone",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		
+		
+		
 		
 		
 		{
@@ -351,8 +354,10 @@
         },
         {
             "path": "pages/main/main",
-            "style": {
-                "navigationBarTitleText": "登录模板"
+			"style": {
+                "app-plus": {
+                    "titleNView": false //禁用原生导航栏  
+                }
             }
         },
 		
