@@ -9,6 +9,22 @@
 			}
 		},
 		{
+			"path": "pages/juquanVideo/juquanVideo",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		{
+			"path": "pages/juquan/juquan",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		{
 			"path": "pages/loginPhone/loginPhone",
 			"style": {
 				"app-plus": {
