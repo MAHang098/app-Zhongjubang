@@ -1,22 +1,22 @@
 <template>
 	<view class="information">
 		<view class="information-list">
-			<view @click.stop="goAddFans">
+			<view @click.stop="goAddFans(item.fanCount)">
 				<text class="num" v-show="item.fanCount > 0">{{item.fanCount}}</text>
 				<image src="../../../static/img/information/people.png" mode=""></image>
 				<view class="name">新粉丝</view>
 			</view>
-			<view @click.stop="goDiscussCount">
+			<view @click.stop="goDiscussCount(item.fanCount)">
 				<text class="num" v-show="item.discussCount > 0">{{item.discussCount}}</text>
 				<image src="../../../static/img/information/message.png" mode=""></image>
 				<view class="name">评论</view>
 			</view>
-			<view @click.stop="goCollect">
+			<view @click.stop="goCollect(item.fanCount)">
 				<text class="num" v-show="item.collectionCount > 0">{{item.collectionCount}}</text>
 				<image src="../../../static/img/information/collection.png" mode=""></image>
 				<view class="name">收藏</view>
 			</view>
-			<view @click.stop="goGiveLike">
+			<view @click.stop="goGiveLike(item.likeCount)">
 				<text class="num" v-show="item.likeCount > 0">{{item.likeCount}}</text>
 				<image src="../../../static/img/information/fabulous.png" mode=""></image>
 				<view class="name">点赞</view>
@@ -106,30 +106,30 @@
 				})
 			},
 			// 新粉丝
-			goAddFans() {
+			goAddFans(count) {
 				uni.navigateTo({
-					url: '/pages/information/add-fans/add-fans'
+					url: '/pages/information/add-fans/add-fans?type=1&count=' +count 
 				});
 				this.readMessage('1');
 			},
 			// 新收藏
-			goCollect() {
+			goCollect(count) {
 				uni.navigateTo({
-					url: '/pages/information/collection/collection'
+					url: '/pages/information/collection/collection?type=4&count=' +count 
 				});
 				this.readMessage('4');
 			},
 			// 新的点赞
-			goGiveLike() {
+			goGiveLike(count) {
 				uni.navigateTo({
-					url: '/pages/information/give-like/give-like'
+					url: '/pages/information/give-like/give-like?type=3&count='+count
 				});
 				this.readMessage('3');
 			},
 			// 新的评论
-			goDiscussCount() {
+			goDiscussCount(count) {
 				uni.navigateTo({
-					url: '/pages/information/comments/comments'
+					url: '/pages/information/comments/comments?type=2&count='+count
 				});
 				this.readMessage('2');
 			},

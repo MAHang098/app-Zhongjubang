@@ -70,6 +70,9 @@
 		data() {
 			return {
 				content: '某臣氏骑剑活动！水雾质地 很轻薄 不',
+				count: 0,
+				type: '',
+				token: ''
 			}
 		},
 		filters: {
@@ -81,7 +84,45 @@
 			  return value
 			}
 		},
+		onLoad(option) {
+			this.count = option.count;
+			this.type = option.type;
+			
+		},
+		mounted() {
+			uni.getStorage({
+				key:"token",
+				success:((res) => {
+				this.token = res.data;
+			  })
+			});
+			this.init();
+		},
 		methods: {
+			init() {
+				if(this.count == 0) {
+					this.count = 100;
+				}
+				uni.request({
+					url: this.url + "/controller/usercontroller/getusermsg",
+					method: 'POST',
+					data: {pageIndex: 1,pageSize: this.count, msgType: this.type},
+					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
+					success: ((res) => {
+						if(res.data.code == 200) {
+							let data = res.data.data;
+							console.log(data)
+							// this.allData = data;
+						}
+						if(res.data.code == 407) {
+							uni.showToast({
+								title: '请重新登录'
+								
+							})
+						}
+					})
+				})
+			}
 			
 		}
 	}

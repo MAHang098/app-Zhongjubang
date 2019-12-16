@@ -20,68 +20,36 @@
 				</view>
 			</view>
 			<view class="follow-fans"  v-show="current == 0">
-				<view class="fans-list">
+				<view class="fans-list" v-for="(item, index) in followData" :key="index">
 					<view class="left">
 						<view class="avatar">
-							<image src="../../../static/avatar.png" mode=""></image>
+							<image :src="item.head" mode=""></image>
 						</view>
 						<view class="details">
-							<text class="name">我是一颗玻璃心 <image src="../../../static/fans-logo.png" mode=""></image></text>
-							<text class="time">11/21 10:23</text>
-							<text class="follow">关注了你</text>
+							<view class="name">{{item.nickName}} <image src="../../../static/fans-logo.png" mode=""></image></view>
+							<text class="follow">粉丝{{item.fanCount}}</text>
 						</view>
 					</view>
 					<view class="right">
-						<image src="../../../static/follow-checked.png" mode=""></image>
-					</view>
-				</view>
-				<view class="fans-list">
-					<view class="left">
-						<view class="avatar">
-							<image src="../../../static/avatar.png" mode=""></image>
-						</view>
-						<view class="details">
-							<text class="name">我是一颗玻璃心 <image src="../../../static/fans-logo.png" mode=""></image></text>
-							<text class="time">11/21 10:23</text>
-							<text class="follow">关注了你</text>
-						</view>
-					</view>
-					<view class="right">
-						<image src="../../../static/mutual-follow.png" mode=""></image>
+						<image :src="item.state == 0 ? '../../../static/follow-checked.png' :'../../../static/mutual-follow.png'" mode=""  @click.stop="followFnas(item.outUserId, '0')"></image>
 					</view>
 				</view>
 			</view>
 			
 			
 			<view class="fans" v-show="current == 1">
-				<view class="fans-list">
+				<view class="fans-list" v-for="(item, index) in fansData" :key="index">
 					<view class="left">
 						<view class="avatar">
-							<image src="../../../static/avatar.png" mode=""></image>
+							<image :src="item.head" mode=""></image>
 						</view>
 						<view class="details">
-							<text class="name">我是一颗玻璃心 <image src="../../../static/fans-logo.png" mode=""></image></text>
-							<text class="time">11/21 10:23</text>
-							<text class="follow">关注了你</text>
+							<view class="name">{{item.nickName}} <image src="../../../static/fans-logo.png" mode=""></image></view>
+							<text class="follow">粉丝{{item.fanCount}}</text>
 						</view>
 					</view>
 					<view class="right">
-						<image src="../../../static/follow.png" mode=""></image>
-					</view>
-				</view>
-				<view class="fans-list">
-					<view class="left">
-						<view class="avatar">
-							<image src="../../../static/avatar.png" mode=""></image>
-						</view>
-						<view class="details">
-							<text class="name">我是一颗玻璃心 <image src="../../static/fans-logo.png" mode=""></image></text>
-							<text class="time">11/21 10:23</text>
-							<text class="follow">关注了你</text>
-						</view>
-					</view>
-					<view class="right">
-						<image src="../../../static/follow-checked.png" mode=""></image>
+						<image :src="item.state == 0 ? '../../../static/follow.png' : '../../../static/mutual-follow.png' " mode="" @click.stop="followFnas(item.inUserId, '1')"></image>
 					</view>
 				</view>
 			</view>
@@ -102,13 +70,98 @@
 			return {
 				tabList: ["关注", "粉丝"],
 				current: 0 ,
-				isShow: false
+				isShow: false,
+				token: '',
+				followData: [],
+				fansData: []
 			}
 		},
+		
+		mounted() {
+			uni.getStorage({
+				key:"token",
+				success:((res) => {
+				this.token = res.data;
+			  })
+			});
+			this.init();
+		},
 		methods: {
+			// 关注
+			init() {
+				uni.request({
+					url: this.url + "/controller/usercontroller/getattentionrelationlist",
+					method: 'POST',
+					data: {pageIndex: 1,pageSize: 100},
+					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
+					success: ((res) => {
+						if(res.data.code == 200) {
+							let data = res.data.data;
+							this.followData = data;
+						}
+						if(res.data.code == 407) {
+							uni.showToast({
+								title: '请重新登录'
+								
+							})
+						}
+					})
+				})
+			},
+			// 所有粉丝
+			fans() {
+				uni.request({
+					url: this.url + "/controller/usercontroller/getfanattentionrelationlist",
+					method: 'POST',
+					data: {pageIndex: 1,pageSize: 100},
+					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
+					success: ((res) => {
+						if(res.data.code == 200) {
+							let data = res.data.data;
+							this.fansData = data;
+						}
+						if(res.data.code == 407) {
+							uni.showToast({
+								title: '请重新登录'
+								
+							})
+						}
+					})
+				})
+			},
+			// 关注/取消关注
+			followFnas(id, type) {
+				
+				uni.request({
+					url: this.url + "/controller/usercontroller/addattentionrelationship",
+					method: 'POST',
+					data: {outUserId: id},
+					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
+					success: ((res) => {
+						if(res.data.code == 200) {
+							let data = res.data.data;
+							if(type == '1') {
+								this.fans();
+								return
+							}
+							this.init();
+						}
+						if(res.data.code == 407) {
+							uni.showToast({
+								title: '请重新登录'
+								
+							})
+						}
+					})
+				})
+			},
 			changeProduct(index) {
 				this.current = index;
-				
+				if(index == 1) {
+					this.fans();
+					return;
+				}
+				this.init();
 			}
 		}
 	}
@@ -163,6 +216,7 @@
 		display: flex;
 		justify-content: space-between;
 		border-bottom: 1px solid #E2E2E2;
+		align-items: center;
 	}
 	.left {
 		display: flex;
@@ -175,7 +229,8 @@
 		font-size: 28rpx;
 		color: #333333;
 		float: left;
-		/* display: inline-block; */
+		margin-top: 10px;
+		margin-bottom: 12px;
 	}
 	.time {
 		font-size: 24rpx;
@@ -189,12 +244,14 @@
 		width: 122rpx;
 		height: 130rpx;
 		display: inline-block;
+		margin-right: 5px;
 	}
 	.avatar image {
 		width: 100%;
 		height: 100%;
 		margin: auto;
 		display: block;
+		border-radius: 50%;
 	}
 	.details image {
 		width: 94rpx;
@@ -208,7 +265,6 @@
 		width: 127rpx;
 		height: 54rpx;
 		display: block;
-		margin-top: 25%;
 	}
 	/* 弹出层 start */
 	#mask {

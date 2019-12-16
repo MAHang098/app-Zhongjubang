@@ -59,11 +59,48 @@
 	export default {
 		data() {
 			return {
-				
+				count: 0,
+				allData: []
 			}
 		},
-		methods: {
+		onLoad(option) {
+			this.count = option.count;
+		},
+		mounted() {
 			
+			uni.getStorage({
+				key:"token",
+				success:((res) => {
+				this.token = res.data;
+			  })
+			});
+			this.init();
+		},
+		methods: {
+			// 所有点赞
+			init() {
+				if(this.count == 0) {
+					this.count = 100;
+				}
+				uni.request({
+					url: this.url + "/controller/usercontroller/getfanattentionrelationlist",
+					method: 'POST',
+					data: {pageIndex: 1,pageSize: this.count},
+					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
+					success: ((res) => {
+						if(res.data.code == 200) {
+							let data = res.data.data;
+							this.allData = data;
+						}
+						if(res.data.code == 407) {
+							uni.showToast({
+								title: '请重新登录'
+								
+							})
+						}
+					})
+				})
+			},
 		}
 	}
 </script>

@@ -1,16 +1,16 @@
 <template>
 	<view class="uni-steps">
 		<view :class="'uni-steps-' + direction" class="uni-steps-items">
-			<view v-for="(item, index) in options" :key="index" :class="{ 'uni-steps-process': index === active, 'uni-steps-finish': index < active }" class="uni-steps-item">
+			<view v-for="(item, index) in options" :key="index" v-if="index < 3" :class="{ 'uni-steps-process': index === active, 'uni-steps-finish': index < active }" class="uni-steps-item">
 				<view :style="{ color: index === active ? activeColor : '' }" class="uni-steps-item-title-container">
 					<view class="uni-steps-item-title">{{ item.title }}</view>
 					<view v-if="item.desc" class="uni-steps-item-desc">{{ item.desc }}</view>
 				</view>
 				<view class="uni-steps-item-circle-container">
-					<view v-if="index !== active" :style="{ backgroundColor: index < active ? activeColor : '' }" class="uni-steps-item-circle" />
-					<uni-icons v-else :color="activeColor" type="checkbox-filled" size="14" />
+					<view v-if="index !== active" :style="{ backgroundColor: index == active ? activeColor : '' }" class="uni-steps-item-circle"  />
+					<uni-icons v-else :color="activeColor" type="checkbox-filled" size="20" />
 				</view>
-				<view v-if="index !== options.length - 1" :style="{ backgroundColor: index < active ? activeColor : '' }" class="uni-steps-item-line" />
+				<view v-if=" index !== options.length - 1"  class="uni-steps-item-line" />
 			</view>
 		</view>
 	</view>
@@ -80,14 +80,14 @@
 	}
 
 	.uni-steps-items.uni-steps-column .uni-steps-item:after {
-		content: ' ';
+		/* content: ' ';
 		position: absolute;
 		height: 1px;
 		width: 100%;
 		bottom: 9px;
 		left: 0;
 		background-color: #ebedf0;
-		transform: scaleY(.5)
+		transform: scaleY(.5) */
 	}
 
 	.uni-steps-items.uni-steps-column .uni-steps-item:last-child {
@@ -138,7 +138,7 @@
 	.uni-steps-items.uni-steps-column .uni-steps-item-line {
 		height: 100%;
 		width: 1px;
-		left: -15px;
+		left: -13px;
 		top: -1px;
 		bottom: auto
 	}
@@ -151,7 +151,7 @@
 	.uni-steps-item {
 		flex: 1;
 		position: relative;
-		padding-bottom: 18px
+		padding-bottom: 36px
 	}
 
 	.uni-steps-item-title-container {
@@ -172,7 +172,7 @@
 
 	.uni-steps-item:first-child .uni-steps-item-title-container {
 		transform: none;
-		margin-left: 0
+		margin-left: 5px
 	}
 
 	.uni-steps-item:last-child {
@@ -200,8 +200,8 @@
 	}
 
 	.uni-steps-item-circle {
-		width: 5px;
-		height: 5px;
+		width: 10px;
+		height: 10px;
 		background-color: #999;
 		border-radius: 50%
 	}
@@ -225,4 +225,9 @@
 		line-height: 14px;
 		display: flex
 	}
+	.in {
+		width: 15px !important;
+		height: 15px !important;
+	}
+	
 </style>
