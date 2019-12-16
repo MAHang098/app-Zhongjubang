@@ -24,7 +24,14 @@
 				 "navigationBarTitleText": "草稿箱"
 			}
 		},
-		
+		{
+			"path" : "pages/juquan/juquan",
+			"style" : {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
 		
 		{
 			"path" : "pages/updatePswd/updatePswd",
@@ -352,6 +359,7 @@
         }
        
       
+       
     ],
 	"subPackages": [
 		// 上传图片需要用到的页面
@@ -527,6 +535,12 @@
 					"path" : "replacement-apply/replacement-apply",
 					"style" : {
 						"navigationBarTitleText": "退款换货申请"
+					}
+				} ,
+				{
+					"path" : "replacement-applyDetail/replacement-applyDetail",
+					"style" : {
+						"navigationBarTitleText": "退款换货详情"
 					}
 				}
 				

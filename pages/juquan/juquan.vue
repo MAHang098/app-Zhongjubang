@@ -71,7 +71,7 @@
 								</view>
 							</view>
 						</view>
-						<view v-else class="user-right" @click.stop="focus(index, items.userId, items.attentionState)">
+						<view v-else class="user-right" @click.stop="focus(index, items.userId, items.attentionState, current)">
 							<!-- <image v-if="activeState == 0 || items.attentionState == 0 " src="../../static/follow.png" mode=""></image>
 							<image v-if="activeState == 1 || items.attentionState == 1 " src="../../static/follow-checked.png" mode=""></image>
 							<image v-if="activeState == 3 || items.attentionState == 2 " src="../../static/mutual-follow.png" mode=""></image> -->
@@ -119,11 +119,11 @@
 								<text>{{items.gCollectionDiscussNum}}</text>
 							</view>
 							<view class="collect">
-								<image @click.stop="collect(index, items.gcircleContentId, items.collectionState)" :src="(activeIndex == index && isShowCollect) || items.collectionState === 1 ? '../../static/topic/collect-select.png' : '../../static/img/user/star.png' " mode=""></image>
+								<image @click.stop="collect(index, items.gcircleContentId, items.collectionState, current)" :src="(activeIndex == index && isShowCollect) || items.collectionState === 1 ? '../../static/topic/collect-select.png' : '../../static/img/user/star.png' " mode=""></image>
 								<text>{{items.collectionNum}}</text>
 							</view>
 							<view class="fabulous" >
-								<image @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState)" :src="(fabulousIndex == index && isShowFabulous) || items.gcircleContentLikeState === 1 ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
+								<image @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState, current)" :src="(fabulousIndex == index && isShowFabulous) || items.gcircleContentLikeState === 1 ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
 								<text>{{items.gcircleContentLikeNum}}</text>
 							</view>
 						</view>
@@ -296,7 +296,7 @@
 				});
 			},
 			// 关注
-			focus(index, id, state) {
+			focus(index, id, state, currents) {
 			    uni.request({
 			        url: this.url + 'controller/usercontroller/addattentionrelationship',
 			        method: 'post',
@@ -304,7 +304,13 @@
 			        header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 			        success:(res) => {
 			            if(res.data.code == 200) {
-			                this.init(this.topicId);
+							if(currents == 0) {
+								this.init();
+							}
+							if(currents == 1) {
+								this.focusUserContent();
+							}
+			                // this.init(this.topicId);
 			            } else {
 			                uni.showToast({
 			                    icon: 'none',
@@ -316,7 +322,7 @@
 			    });
 			},
 			// 收藏
-			collect(index, id, state) {
+			collect(index, id, state, currents) {
 			    uni.request({
 			        url: this.url + 'controller/usercontroller/addusercollection',
 			        method: 'post',
@@ -324,7 +330,12 @@
 			        header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 			        success:(res) => {
 			            if(res.data.code == 200) {
-			                 this.init();
+							if(currents == 0) {
+								this.init();
+							}
+			                if(currents == 1) {
+								this.focusUserContent();
+							}
 			                this.activeIndex = index;
 							if(state == 1) {
 								this.isShowCollect = false;
@@ -342,7 +353,7 @@
 			    });
 			},
 			// 点赞
-			fabulous(index, id, state) {
+			fabulous(index, id, state, currents) {
 			    uni.request({
 			        url: this.url + 'controller/usercontroller/addgcirclecontentlike',
 			        method: 'post',
@@ -350,7 +361,12 @@
 			        header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 			        success:((res) => {
 			            if(res.data.code == 200) {
-			                this.init();
+			               if(currents == 0) {
+								this.init();
+			               }
+							if(currents == 1) {
+								this.focusUserContent();
+							}
 			                this.fabulousIndex = index;
 							if(state == 1) {
 								this.isShowFabulous = false;
