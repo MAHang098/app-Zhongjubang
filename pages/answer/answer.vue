@@ -28,16 +28,17 @@
 					<!-- <image class="content-details-good" src="../../static/img/releaseVideo2/good.png" mode="" /> -->
 				</view>
 				<view class="content-details-good">
-					<image src="../../static/img/releaseVideo2/good.png" mode="" />
+					<image  style="width: 31rpx;height: 31rpx;" :class="(activeIndex == index && isCommentsFabulous) ||  row.state == '1'? 'select' : '' " :src="(activeIndex == index && isCommentsFabulous) ||  row.state == '1' ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
+					<!-- <image src="../../static/img/releaseVideo2/good.png" mode="" /> -->
 					<view class="like">{{row.ziLikeNum}}</view>
 				</view> 
 				<view class="level"></view>
 			</view>
 			
+			<view class="footter">
+				<input placeholder="回复晴天小猪：" class="footter-input" />
+			</view>
 			
-			<input placeholder="回复晴天小猪：" class="footter">
-				
-			</input>
 		</view>
 
 		
@@ -59,7 +60,8 @@
 				head: '',
 				nickName: '',
 				shortVideoDiscuss: '',
-
+				activeIndex: 0,
+				isCommentsFabulous: false,
 	        }
 		},
 		// onLoad:function(options){
@@ -70,6 +72,9 @@
 			this.id = options.Id
 		},
 		onShow(){
+			this.init()
+		},
+		init(){
 			let token
 			let self = this
 			uni.getStorage({
@@ -98,7 +103,7 @@
 						console.log(res.data.data.dataList[0].ziList.length)
 						console.log(res.data.data.dataList[0].ziList)
 						console.log(res.data.data.dataList[0].head)
-
+			
 						self.head = res.data.data.dataList[0].head
 						self.nickName = res.data.data.dataList[0].nickName
 						self.shortVideoDiscuss = res.data.data.dataList[0].shortVideoDiscuss
@@ -116,7 +121,38 @@
 			},
 			checkContent(){
 				uni.navigateBack()
-			}
+			},
+			// 评论点赞
+			commentsFabulous(index, id) {
+				let self = this
+				let token = '';
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+					 token = res.data;
+				  }
+				});
+				uni.request({
+					url: "https://www.zhongjubang.com/test/controller/usercontroller/adddiscusslike",
+					method: 'post',
+					data: {discussId: id, type: '2'},
+					header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
+					success:(res) => {
+						if(res.data.code == 200) {
+							self.activeIndex = id;
+							self.isCommentsFabulous = !self.isCommentsFabulous;
+							console.log(self.activeIndex, self.isCommentsFabulous)
+							self.init()
+						} else {
+							uni.showToast({
+								icon: 'none',
+								title: res.data.message
+							});
+							uni.hideToast();
+						}
+					}
+				});
+			},
 		}
 	}
 </script>
@@ -226,8 +262,9 @@
 		/* float: left; */
 		margin-top: 10rpx;
 		padding:0 30rpx;
+		padding-bottom: 90rpx;
 		width:690rpx;
-		height:988rpx;
+		height:100%;
 		background:rgba(255,255,255,1);
 		box-shadow:0px 0px 9rpx 0px rgba(93,93,93,0.08);
 	}
@@ -298,9 +335,18 @@
 		background:rgba(226,226,226,1);
 	}
 	.footter{
-		position: absolute;
+		position: fixed;
+		width: 750rpx;
+		height: 90rpx;
+		bottom: 0;
+		background-color: #fff;
+		z-index: 10;
+	}
+	.footter-input{
+		position: fixed;
+		z-index: 100;
 		left: 31rpx;
-		bottom: 23rpx;
+		bottom: 20rpx;
 		width:661rpx;
 		padding-left: 30rpx;
 		height:70rpx;

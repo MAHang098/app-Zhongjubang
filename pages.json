@@ -1,6 +1,30 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页,
 		{
+			"path": "pages/wanghong/wanghong",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		{
+			"path": "pages/shop/shop",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		{
+			"path": "pages/category/category",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		{
 			"path": "pages/user/user",
 			"style": {
 				"app-plus": {
@@ -8,6 +32,33 @@
 				}
 			}
 		},
+		{
+			"path": "pages/answer/answer",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		{
+			"path": "pages/loginPhone/loginPhone",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		
+		
+		{
+			"path": "pages/index/index",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		
 		{
 			"path": "pages/juquanVideo/juquanVideo",
 			"style": {
@@ -24,14 +75,7 @@
 				}
 			}
 		},
-		{
-			"path": "pages/loginPhone/loginPhone",
-			"style": {
-				"app-plus": {
-					"titleNView": false //禁用原生导航栏  
-				}
-			}
-		},
+		
 		
 		
 		
@@ -232,14 +276,7 @@
 		    }
 		},
 		
-		{
-			"path": "pages/answer/answer",
-			"style": {
-				"app-plus": {
-					"titleNView": false //禁用原生导航栏  
-				}
-			}
-		},
+		
 		{
 			"path": "pages/releaseImage-details/releaseImage-details",
 			"style": {

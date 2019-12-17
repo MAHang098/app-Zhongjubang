@@ -88,7 +88,6 @@
 								</div>	
 							</div>
 							<div class="recommend-text-text-text">
-								<!-- <text class="recommend-text-text" @click="testreply(row.id, row.nick_name)"> -->
 								<text class="recommend-text-text" 
 									@touchstart.prevent="touchin(row.id)" 
 									@touchend.prevent="cleartime"
@@ -242,7 +241,7 @@
 			let self = this
 			//获取短视频内容
 			uni.request({
-				url: "http://www.zhongjubang.com/test/controller/usercontroller/getshortvideobyid",
+				url: "https://www.zhongjubang.com/test/controller/usercontroller/getshortvideobyid",
 				data: {shortVideoId:id},
 				method: 'POST',
 				header : {
@@ -316,7 +315,7 @@
 						console.log(id)
 						//获取短视频内容
 						uni.request({
-							url: "http://www.zhongjubang.com/test/controller/usercontroller/delshortvideodiscuss",
+							url: "https://www.zhongjubang.com/test/controller/usercontroller/delshortvideodiscuss",
 							data: {shortVideoDiscussId:id},
 							method: 'POST',
 							header : {
@@ -352,10 +351,10 @@
 				console.log(self.outUserId)
 				console.log(self.nickName)
 				if(this.recommendId!=''){
-					if(this.userID222!=''){
+					if(this.userID222!=undefined){
 						console.log('cechi::::'+self.userID222)
 						uni.request({
-							url: "http://www.zhongjubang.com/test/controller/usercontroller/addanswershortvideodiscuss",
+							url: "https://www.zhongjubang.com/test/controller/usercontroller/addanswershortvideodiscuss",
 							data: {
 								outUserId: self.userID222,
 								id: self.recommendId,
@@ -372,7 +371,6 @@
 								console.log(res)
 								if(res.data.code==200){
 									console.log(self.recommendId)
-									console.log('dsfhsdkjfhksdh')
 									self.init(self.id)
 									self.userID222 = ''
 									self.recommendId=''
@@ -386,7 +384,7 @@
 						})
 					}else{
 						uni.request({
-							url: "http://www.zhongjubang.com/test/controller/usercontroller/addanswershortvideodiscuss",
+							url: "https://www.zhongjubang.com/test/controller/usercontroller/addanswershortvideodiscuss",
 							data: {
 								outUserId: self.outUserId,
 								id: self.recommendId,
@@ -402,7 +400,8 @@
 							success: function (res){
 								console.log(res)
 								if(res.data.code==200){
-									console.log('dsfhsdkjfhksdh')
+									console.log('子评论回复')
+									console.log(self.recommendId)
 									self.init(self.id)
 									
 									self.recommendId=''
@@ -418,7 +417,7 @@
 					
 				}else{
 					uni.request({
-						url: "http://www.zhongjubang.com/test/controller/usercontroller/addshortvideodiscuss",
+						url: "https://www.zhongjubang.com/test/controller/usercontroller/addshortvideodiscuss",
 						data: {
 							outUserId: self.outUserId,
 							shortVideoId: self.id,
@@ -434,6 +433,8 @@
 						success: function (res){
 							console.log(res.data.code)
 							if(res.data.code==200){
+								console.log('评论内容')
+								console.log(self.id)
 								self.init(self.id)
 								self.recommendId=''
 								e.detail.value=''
@@ -449,7 +450,9 @@
 				
 			},
 			back(){
-				uni.navigateBack()
+				uni.switchTab({
+					url: '/pages/user/user'
+				})
 			},
 			// 子回复跳转
 			reply(id){
@@ -472,51 +475,13 @@
 			},
 			openBottomPopup () {
 				this.isBottomShow = true;
-				this.comments();
+				// this.comments();
 			  },
 			 //非状态组件，需要在这里关闭
 			popupOverlayBottomClick () {
 				this.isBottomShow = false;
 			},
-			// 获取评论列表
-			init(id) {
-				console.log(id)
-				let token = '';
-				uni.getStorage({
-					key:"token",
-					success: function (res) {
-						token = res.data;
-					}
-				})
-				uni.request({
-					url: "http://www.zhongjubang.com/test/controller/videocontroller/getsvdiscusslist",
-					data: {
-						id: id,
-						pageIndex: 1,
-						pageSize: 1000
-					},
-					method: 'POST',
-					header : {
-						'content-type':'application/x-www-form-urlencoded', 
-						'port': 'app',
-						'token': token
-					},
-					success: (res) => {
-						// console.log(res)
-						// console.log(res.data.code)
-						if(res.data.code==200){
-							this.dataList = res.data.data.dataList
-							// console.log(res)
-							if(res.data.data.shortVideoLike==1){
-								this.showUpImg2 = false
-							}
-							// console.log(this.dataList)
-						}else{
-							console.log('请求异常')
-						}
-					}
-				})
-			},
+			
 			open() {
 				let self = this
 				this.isShowAllContent = !this.isShowAllContent;
@@ -550,7 +515,7 @@
 				console.log(self.id)
 				//添加、删除点赞
 				uni.request({
-					url: "http://www.zhongjubang.com/test/controller/usercontroller/addshortvideolike",
+					url: "https://www.zhongjubang.com/test/controller/usercontroller/addshortvideolike",
 					data: {
 						shortVideoId: self.id,
 					},
@@ -591,7 +556,7 @@
 				
 				console.log(self.id)
 				uni.request({
-					url: "http://www.zhongjubang.com/test/controller/usercontroller/addusercollection",
+					url: "https://www.zhongjubang.com/test/controller/usercontroller/addusercollection",
 					data: {
 						type: 2,
 						collectionContentId: self.id,
@@ -620,7 +585,48 @@
 				}
 				
 			},
-			
+			// 获取评论列表
+			init(id) {
+				console.log(id)
+				let token = '';
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+						token = res.data;
+					}
+				})
+				console.log(id)
+				uni.request({
+					url: "https://www.zhongjubang.com/test/controller/videocontroller/getsvdiscusslist",
+					data: {
+						id: id,
+						pageIndex: 1,
+						pageSize: 1000
+					},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': token
+					},
+					success: (res) => {
+						// console.log(res)
+						// console.log(res.data.code)
+						if(res.data.code==200){
+							console.log('init请求成功')
+							console.log(res)
+							this.dataList = res.data.data.dataList
+							// console.log(res)
+							if(res.data.data.shortVideoLike==1){
+								this.showUpImg2 = false
+							}
+							// console.log(this.dataList)
+						}else{
+							console.log('请求异常')
+						}
+					}
+				})
+			},
 			// 评论详情
 			comments() {
 				let token = '';
@@ -636,7 +642,7 @@
 					pageSize: 10000
 				}
 				uni.request({
-					url: "http://www.zhongjubang.com/test/controller/videocontroller/getsvdiscusslist",
+					url: "https://www.zhongjubang.com/test/controller/videocontroller/getsvdiscusslist",
 					method: 'post',
 					data: parmas,
 					header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
@@ -657,7 +663,7 @@
 			},
 			// 评论点赞
 			commentsFabulous(index, id) {
-				
+				let self = this
 				let token = '';
 				uni.getStorage({
 					key:"token",
@@ -666,20 +672,20 @@
 				  }
 				});
 				uni.request({
-					url: "http://www.zhongjubang.com/test/controller/usercontroller/adddiscusslike",
+					url: "https://www.zhongjubang.com/test/controller/usercontroller/adddiscusslike",
 					method: 'post',
 					data: {discussId: id, type: '2'},
 					header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
 					success:(res) => {
 						if(res.data.code == 200) {
-							this.activeIndex = id;
-							this.isCommentsFabulous = !this.isCommentsFabulous;
-							console.log(this.activeIndex, this.isCommentsFabulous)
+							self.activeIndex = id;
+							self.isCommentsFabulous = !self.isCommentsFabulous;
+							console.log(self.activeIndex, self.isCommentsFabulous)
 							// console.log(res.data.data);
 							// let data = res.data.data;
 							// this.commentsList = data.dataList;
-							this.comments()
-							// this.init(this.getsvdiscussId)
+							// self.comments()
+							self.init(self.getsvdiscussId)
 						} else {
 							uni.showToast({
 								icon: 'none',

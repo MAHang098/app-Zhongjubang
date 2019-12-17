@@ -6,13 +6,13 @@
 			<image class="arrow" style="width:23upx;height:19upx;" src="../../static/img/main/arrow.png" mode="" />
 			<image class="info" style="width:44upx;height:44upx;" src="../../static/img/main/info.png" mode="" />
 			<image class="search-image" style="width:29upx;height:29upx;" src="../../static/img/main/search.png" mode="" />
-			<input class="search" type="text" placeholder="搜你想搜的一切">
+			<input @tap="goSearch" class="search" type="text" placeholder="搜你想搜的一切">
 			<image class="search-white" style="width:750upx;height:105upx;" src="../../static/img/main/white.png" mode="" />
-			<uni-swiper-dot :info="info" :current="current" :mode="mode" :dots-styles="dotStyle" field="content">
+			<uni-swiper-dot :info=bannerList :current="current" :mode="mode" :dots-styles="dotStyle" field="content">
 				<swiper class="swiper-box" @change="change">
-					<swiper-item v-for="(item, index) in info" :key="index">
+					<swiper-item v-for="(item, index) in bannerList" :key="index">
 						<view :class="item.colorClass" class="swiper-item">
-							<image :src="item.url" mode="aspectFill" />
+							<image :src="item.resource" mode="aspectFill" />
 						</view>
 					</swiper-item>
 				</swiper>
@@ -59,19 +59,18 @@
 				<image class="video-nav-more-image" style="width:11upx;height:20upx;" src="../../static/img/main/more.png" mode="" />
 			</view>
 
-			<!-- <view v-for="(item, index) in zhongList" :key="index"> -->
+			<view >
 				<view class="zhong-content">
-					<view class="zhong-content-image">
-						<!-- <image style="width:346upx;height:218upx;" src="../../static/img/main/zhongbg.png" mode="" /> -->
-						<text>#我家阳台收纳神器</text>
-					</view> 
-					<view class="zhong-content-image">
-						<!-- <image style="width:346upx;height:218upx;" src="../../static/img/main/zhongbg.png" mode="" /> -->
-						<text>#我家阳台收纳神器</text>
+					<view class="zhong-content-image" v-for="(item, index) in zhongList" :key="index">
+						<view class="zhong-content-image-content">
+							<image class="zhong-content-image-content-image" style="width:346upx;height:218upx;" src="item.top_img_list[0]" mode="" />
+							<text class="zhong-content-text">#{{item.talk_theme}}</text>
+						</view>
 					</view> 
 				</view>
-			<!-- </view> -->
+			</view>
 		</view>
+		<view style="clear:both"></view>
 		<!-- 精选好物 -->
 		<view class="quality">
 			<view class="zhong-nav">
@@ -97,20 +96,13 @@
 							<!-- <image :src="item.url" mode="aspectFill" v-if="item.type == 'image'"></image> -->
 							<!-- <video :src="item.url" autoplay loop muted :show-play-btn="false" :controls="false" objectFit="cover" v-if="item.type == 'video'"></video> -->
 							
-							<view class="immeuble">
-								<image class="" style="width:179upx;height:160upx;" src="../../static/img/main/immeuble.png" mode="" />
-								<view class="immeuble-desc">百纯家具布厅整装组合...</view>
-								<view class="immeuble-price">￥8460.00</view>
-							</view>
-							<view class="immeuble">
-								<image class="" style="width:179upx;height:160upx;" src="../../static/img/main/immeuble.png" mode="" />
-								<view class="immeuble-desc">百纯家具布厅整装组合...</view>
-								<view class="immeuble-price">￥8460.00</view>
-							</view>
-							<view class="immeuble">
-								<image class="" style="width:179upx;height:160upx;" src="../../static/img/main/immeuble.png" mode="" />
-								<view class="immeuble-desc">百纯家具布厅整装组合...</view>
-								<view class="immeuble-price">￥8460.00</view>
+							<view v-for="(item, index) in gootList" :key="index">
+								<view class="immeuble">
+									<image class="" style="width:179upx;height:160upx;" :src="item.top_img_list[0]" mode="" />
+									<view class="immeuble-desc">{{item.goods_name}}</view>
+									<view class="immeuble-price">￥{{item.goods_price}}</view>
+								</view>
+								
 							</view>
 						</view>
 					</swiper-item>
@@ -159,19 +151,6 @@
 		},
 		data() {
 			return {
-				info: [{
-						url: '../../static/img/main/bg.png',
-						content: '内容 A'
-					},
-					{
-						url: '../../static/img/main/bg.png',
-						content: '内容 B'
-					},
-					{
-						url: '../../static/img/main/bg.png',
-						content: '内容 C'
-					}
-				],
 				dotStyle: {
 					backgroundColor: '#CCCCCC',
 					border: '1px #CCCCCC solid',
@@ -218,6 +197,7 @@
 				gootList: [],
 				topList: [],
 				zhongList: [],
+				bannerList: [],
 			}
 		},
 		onLoad() {},
@@ -229,14 +209,14 @@
 			uni.request({
 				url: url + 'public/public/getresourcesbyresourcestype',
 				data: {
-					resourcesTypeName:'app_index_banner'
+					resourcesTypeName:'app_shop_index_img'
 				},
 				method:"POST",
 				header : {'content-type':'application/x-www-form-urlencoded','port':'app'},
 				success: function (res){
 					console.log(res.data.code);
 					if(res.data.code=="200"){
-						console.log(res);
+						self.bannerList = res.data.data
 					}
 				}
 			})
@@ -250,7 +230,6 @@
 				method:"POST",
 				header : {'content-type':'application/x-www-form-urlencoded','port':'app'},
 				success: function (res){
-					console.log(res.data.code);
 					if(res.data.code=="200"){
 						for(var i = 0;i < res.data.data.dataList.length;i++){
 							
@@ -273,7 +252,7 @@
 				success: function (res){
 					console.log(res.data.code);
 					if(res.data.code=="200"){
-						console.log(res)
+						self.zhongList = res.data.data.dataList
 					}
 				}
 			})
@@ -289,7 +268,6 @@
 				success: function (res){
 					console.log(res.data.code);
 					if(res.data.code=="200"){
-						console.log(res)
 						self.gootList = res.data.data.dataList
 					}
 				}
@@ -312,6 +290,11 @@
 			})
 		},
 		methods: {
+			goSearch(){
+				uni.navigateTo({
+					url: "/pages/G-circle/search-list/search-list"
+				})
+			},
 			change(e) {
 				this.current = e.detail.current
 			},
@@ -531,30 +514,38 @@
 		margin-bottom: 20px;
 	}
 	.zhong-content{
-		display: flex;
-		justify-content: space-between;
-		box-sizing: border-box;
-		padding: 5upx 24upx;
+		float: left;
+		margin-top: 10px;
 	}
 	.zhong-content-image{
-		text-align: center;
+		float: left;
+		margin-left: 16px;
+		margin-bottom: 6px;
 		width:346upx;
 		height:218upx;
-		background: url(../../static/img/main/zhongbg.png) no-repeat 100%;
+		background: url("http://www.zhongjubang.com/api/upload/bfb59673-9bc0-4064-9123-df0b59bb0918-9729.jpeg") no-repeat 100%;
 		background-size:346upx 218upx;
 	}
-	/* .zhong-content-image image{
+	.zhong-content-image:nth-child(even){
+		margin-left: 10upx;
+	}
+	.zhong-content-image-content{
+		position: relative;
+		text-align: center;
+		margin-left: 0;
+
+	}
+	.zhong-content-image-content-image{
 		position: absolute;
-	} */
-	.zhong-content-image text{
-		/* position: absolute; */
-		
+	}
+	.zhong-content-text{
 
 		line-height: 218upx;
 		font-size:30upx;
 		font-family:PingFang SC;
 		color:rgba(255,255,255,1);
 	}
+	
 	/* 精选好物 */
 	.quality{
 		margin-bottom: 10px;
@@ -589,11 +580,6 @@
 		transition: all 0.2s ease-in 0s;
 	}
 	.swiper-item-immeuble{
-		/* display: flex;
-		justify-content: space-around;
-		box-sizing: border-box;
-		background-color: #fff;
-		padding: 30upx; */
 		float: left;
 		box-sizing: border-box;
 		padding: 12upx 22upx;
