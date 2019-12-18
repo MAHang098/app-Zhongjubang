@@ -42,5 +42,4 @@
         font-family:PingFang SC;
         color:rgba(249,183,44,1);
     }
-    .content-shop
 </style>

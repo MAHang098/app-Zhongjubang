@@ -1,6 +1,14 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页,
 		{
+			"path": "pages/loginPhone/loginPhone",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		{
 			"path": "pages/wanghong/wanghong",
 			"style": {
 				"app-plus": {
@@ -41,16 +49,6 @@
 			}
 		},
 		{
-			"path": "pages/loginPhone/loginPhone",
-			"style": {
-				"app-plus": {
-					"titleNView": false //禁用原生导航栏  
-				}
-			}
-		},
-		
-		
-		{
 			"path": "pages/index/index",
 			"style": {
 				"app-plus": {
@@ -75,12 +73,6 @@
 				}
 			}
 		},
-		
-		
-		
-		
-		
-		
 		{
 			"path" : "pages/drafts/drafts",
 			"style" : {
@@ -202,15 +194,6 @@
 		        }
 		    }
 		},
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		{
 			"path" : "pages/editInfo/editInfo",
 			"style": {
