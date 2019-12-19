@@ -1,14 +1,6 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页,
 		{
-			"path": "pages/loginPhone/loginPhone",
-			"style": {
-				"app-plus": {
-					"titleNView": false //禁用原生导航栏  
-				}
-			}
-		},
-		{
 			"path": "pages/user/user",
 			"style": {
 				"app-plus": {
@@ -16,6 +8,15 @@
 				}
 			}
 		},
+		{
+			"path": "pages/loginPhone/loginPhone",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		
 		
 		
 		{
@@ -360,6 +361,8 @@
        
       
        
+       
+        
     ],
 	"subPackages": [
 		// 上传图片需要用到的页面
@@ -542,6 +545,20 @@
 					"style" : {
 						"navigationBarTitleText": "退款换货详情"
 					}
+				} ,
+				{
+					"path" : "detail/detail",   // 商品详情
+					"style" : {
+						"app-plus": {
+						    "titleNView": false //禁用原生导航栏  
+						}
+					}
+				},
+				{
+					"path" : "detail-evaluate/detail-evaluate",
+					"style" : {
+						"navigationBarTitleText": "全部评价"
+					}
 				}
 				
 			]
@@ -578,15 +595,15 @@
             "text": "我的",
             "iconPath": "static/img/user.png",
             "selectedIconPath": "static/img/userHL.png"
-        }],
-		"midButton": {
-		    "width": "75rpx",
-		    "height": "98px",
-		    "text": "发布",
-		    "iconPath": "static/img/release.png",
-		    "iconWidth": "47rpx"
-			// "iconHeight": "47rpx"
-		}
+        }]
+		// "midButton": {
+		//     "width": "75rpx",
+		//     "height": "98px",
+		//     "text": "发布",
+		//     "iconPath": "static/img/release.png",
+		//     "iconWidth": "47rpx"
+		// 	// "iconHeight": "47rpx"
+		// }
     },
     "globalStyle": {
         "navigationBarTextStyle": "black",

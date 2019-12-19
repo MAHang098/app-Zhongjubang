@@ -148,6 +148,18 @@
 			},
 			// 点击搜索列表的其中一个，跳转到商品详情
 			searchContent(name) {
+				// let reg = /(<text([^]*)>)(.*)(<\/text([^>]*)>)/gi;;
+				// let reg = /<text>([\s\S]*?)<\/text>/;
+				// let reg =  /(?:<text[^>]*>)(.*?)(?:<\/text[^>]*>)/gi;
+				// let ar = name.match(reg);
+				// for(var i=0;i<ar.length;i++){
+				// 	console.log(reg.exec(ar[i])[1]);
+				// 	// rrr.exec('');//求高手，去掉这一行会出问题，Y
+				// }
+				if(name!= null && name!= ""){  
+					var reg = /[\u4e00-\u9fa5]/g;   
+					name = name.match(reg).join("");  
+				}  
 				uni.navigateTo({
 					url: '/pages/G-circle/search-list/search-list?name=' + name
 				});

@@ -117,92 +117,92 @@
 				</view>
 			</view>
 			<!-- 短视频内容end -->
-			<!-- G圈列表 start -->
-			<view v-if="!show1" class="relese-image"  >
-				<view v-for="(items, index) in releaseImgList" :key="index">
-					<view class="relese-image_detail" >
-						<!-- 用户信息 start -->
-						<view class="user">
-							<view class="user-message">
-								<image src="../../static/drafts.png" mode=""></image>
-								<view>
-									<view class="name">晴天小猪</view>
-									<view class="time">219-12-30 09:30</view>
-								</view>
-							</view>
-							<view class="operate-user" @click.stop="operate(index)">
-								<text></text>
-								<text></text>
-								<text></text>
-								<view class="operate-detail" v-show="cIndex == index && showEdit">
-									<view class="operate-arrow"></view>
-									<view class="operate-btn">
-										<view @click.stop="editRelease(items.gcircleContentDTO, items.gcircleContentDTO.id)"><image src="../../static/edit.png" mode=""></image>编辑</view>
-										<view @click.stop="deleteRelease(items.gcircleContentDTO.id)"><image src="../../static/delete.png" mode=""></image>删除</view>
-									</view>
-								</view>
-							</view>
-						</view>
-						<!-- 用户信息 start -->
-						
-						<!-- 草稿内容 start -->
-						<view class="content"  v-if="items.gcircleContentDTO.content != '' ">
-							<view v-if="!isShowAllContent" class="text">{{items.gcircleContentDTO.content }}</view>
-							<view v-else class="text">{{items.gcircleContentDTO.content | ellipsis}}</view>
-							<view class="anCotent" v-if="items.gcircleContentDTO.content.length > 45 " @click="open()">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
-						</view>
-						<!-- 草稿内容 end -->
-						
-						<!-- 图片/视频 start -->
-						<view class="imageList">
-						<!-- 	<view v-for="(tese, indexT) in JSON.stringify(JSON.parse(items.gcircleContentDTO.imgList))" :key="indexT">
-								{{1111}}
-							</view> -->
-							<image :mode="items.gcircleContentDTO.imgList.length > 1 ? 'aspectFit' : '' " :class="items.gcircleContentDTO.imgList.length > 1 ? 'imageListIn' : 'imageListSingle' " :src="row.fileUrl" v-for="(row, indexI) in items.gcircleContentDTO.imgList" :key="indexI" @click.stop="previewImage(indexI, items.gcircleContentDTO.imgList)"></image>
-						</view>
-						<!-- 图片/视频 end -->
-						
-						<!-- 话题 start -->
-						<view class="release-image_topic"  v-show="show" v-if="items.gcircleContentDTO.title.topic != '' " >
-							<view class="left" @click.stop="goTopic(items.gcircleContentDTO.title)">
-								<image src="../../static/topic/topic.png" mode=""></image>
-								<view>{{items.gcircleContentDTO.title.topic}}</view>
-							</view>
-							<view class="right"></view>
-						</view>
-						<!-- 话题 end -->
-						<!-- 操作按钮 start -->
-						<view class="operate-bottom">
-							<view class="operate-bottom_share"><image src="../../static/img/user/share.png" mode=""></image></view>
-							<view class="operate-bottom_number">
-								<view class="number-message"  @click.stop="togglePopup('bottom', 'comments',items.gcircleContentDTO.userId, items.gcircleContentDTO.id, nickName,items.gCollectionDiscussNum)">
-									<image src="../../static/img/topicDetails/message.png" mode=""></image>
-									<text>{{items.gCollectionDiscussNum}}</text>
-								</view>
-								<view class="collect">
-									<image @click.stop="collect(index, items.gcircleContentDTO.id, items.collectionState)" :src="(activeIndex == index && isShowCollect) || items.collectionState === 1 ? '../../static/topic/collect-select.png' : '../../static/img/user/star.png' " mode=""></image>
-									<text>{{items.collectionNum}}</text>
-								</view>
-								<view class="fabulous" >
-									<image @click.stop="fabulous(index, items.gcircleContentDTO.id, items.gcircleContentLikeState)" :src="(fabulousIndex == index && isShowFabulous) || items.gcircleContentLikeState === 1 ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
-									<text>{{items.gcircleContentLikeNum}}</text>
-								</view>
-							</view>
-						</view>
-						<!-- 操作按钮 end -->
-					</view>
-				</view>
-				
-			</view>
-			<!-- 点击右边三点显示的遮罩层 start -->
-			<view id="mask" v-show="showEdit"></view>
-			<!-- 点击右边三点显示的遮罩层 end -->
+			
 			
 			<!-- G圈列表 end -->
 			
 			<!-- <view class="more">-上拉查看更多-</view> -->
 		</view>
-		
+		<!-- G圈列表 start -->
+		<view v-if="!show1" class="relese-image"  >
+			<!-- <view > -->
+				<view class="relese-image_detail" v-for="(items, index) in releaseImgList" :key="index">
+					<!-- 用户信息 start -->
+					<view class="user">
+						<view class="user-message">
+							<image src="../../static/drafts.png" mode=""></image>
+							<view>
+								<view class="name">晴天小猪</view>
+								<view class="time">219-12-30 09:30</view>
+							</view>
+						</view>
+						<view class="operate-user" @click.stop="operate(index)">
+							<text></text>
+							<text></text>
+							<text></text>
+							<view class="operate-detail" v-show="cIndex == index && showEdit">
+								<view class="operate-arrow"></view>
+								<view class="operate-btn">
+									<view @click.stop="editRelease(items, items.gcircleContentId)"><image src="../../static/edit.png" mode=""></image>编辑</view>
+									<view @click.stop="deleteRelease(items.gcircleContentId)"><image src="../../static/delete.png" mode=""></image>删除</view>
+								</view>
+							</view>
+						</view>
+					</view>
+					<!-- 用户信息 start -->
+					
+					<!-- 草稿内容 start -->
+					<view class="content"  v-if="items.content != '' ">
+						<view v-if="!isShowAllContent" class="text">{{items.content }}</view>
+						<view v-else class="text">{{items.content | ellipsis}}</view>
+						<view class="anCotent" v-if="items.content.length > 45 " @click="open()">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
+					</view>
+					<!-- 草稿内容 end -->
+					
+					<!-- 图片/视频 start -->
+					<view class="imageList">
+					<!-- 	<view v-for="(tese, indexT) in JSON.stringify(JSON.parse(items.gcircleContentDTO.imgList))" :key="indexT">
+							{{1111}}
+						</view> -->
+						<image :mode="items.imgList.length > 1 ? 'aspectFit' : '' " :class="items.imgList.length > 1 ? 'imageListIn' : 'imageListSingle' " :src="row.fileUrl" v-for="(row, indexI) in items.imgList" :key="indexI" @click.stop="previewImage(indexI, items.imgList)"></image>
+					</view>
+					<!-- 图片/视频 end -->
+					
+					<!-- 话题 start -->
+					<view class="release-image_topic"  v-show="show" v-if="items.title.topic != '' " >
+						<view class="left" @click.stop="goTopic(items.title)">
+							<image src="../../static/topic/topic.png" mode=""></image>
+							<view>{{items.title.topic}}</view>
+						</view>
+						<view class="right"></view>
+					</view>
+					<!-- 话题 end -->
+					<!-- 操作按钮 start -->
+					<view class="operate-bottom">
+						<view class="operate-bottom_share"><image src="../../static/img/user/share.png" mode=""></image></view>
+						<view class="operate-bottom_number">
+							<view class="number-message"  @click.stop="togglePopup('bottom', 'comments',items.userId, items.gcircleContentId, nickName,items.gCollectionDiscussNum)">
+								<image src="../../static/img/topicDetails/message.png" mode=""></image>
+								<text>{{items.gCollectionDiscussNum}}</text>
+							</view>
+							<view class="collect">
+								<image @click.stop="collect(index, items.gcircleContentId, items.collectionState)" :src="(activeIndex == index && isShowCollect) || items.collectionState === 1 ? '../../static/topic/collect-select.png' : '../../static/img/user/star.png' " mode=""></image>
+								<text>{{items.collectionNum}}</text>
+							</view>
+							<view class="fabulous" >
+								<image @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState)" :src="(fabulousIndex == index && isShowFabulous) || items.gcircleContentLikeState === 1 ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
+								<text>{{items.gcircleContentLikeNum}}</text>
+							</view>
+						</view>
+					</view>
+					<!-- 操作按钮 end -->
+				</view>
+			<!-- </view> -->
+			
+		</view>
+		<!-- 点击右边三点显示的遮罩层 start -->
+		<view id="mask" v-show="showEdit"></view>
+		<!-- 点击右边三点显示的遮罩层 end -->
 		<!-- 评论弹窗 start -->
 		
 		<uni-popup ref="comments" :type="popupType" :custom="true" class="comments-list" @change="popupChange">
@@ -214,12 +214,12 @@
 					</view>
 				</view>
 				<view class="uni-comments-content">
-					<view class="comments-detail" v-for="(row, index) in dataList" :key="index">
+					<view class="comments-detail" v-for="(row, index) in commentItem" :key="index">
 						<view class="comments-user">
-							<image src="../../static/drafts.png" mode=""></image>
+							<image :src="row.head" mode=""></image>
 							<view>
 								<text class="comments-name">{{row.nick_name}}</text>
-								<text class="date">{{row.cratee_time}}</text>
+								<text class="date">{{row.createTime}}</text>
 							</view>
 							<view class="fabulous"  @click.stop="commentsFabulous(index, row.id, row.state)">
 								{{row.likenum}}
@@ -230,8 +230,7 @@
 							<text  @click="testreply(row.id, row.nick_name)">{{row.gcircle_content_discuss}}</text>
 							<view class="reply-comments" v-show="row.zilist.length > 0">
 								<view v-for="(rows, indexs) in row.zilist" :key="indexs">
-									<!-- <text @click.stop="deleteComment(rows.id)">{{rows.nick_name}}：{{rows.gcircle_content_discuss}}</text> -->
-									<text @click.stop="replyComments(rows.pid, rows.id, rows.nick_name)">{{rows.nick_name}}：{{rows.gcircle_content_discuss}}</text>
+									<text @click.stop="replyComments(rows.pid, rows.id, rows.nick_name)">{{rows.ziNickName+'回复'+rows.outUserName}}：{{rows.gcircle_content_discuss}}</text>
 								</view>
 								<text v-show="row.sonCount>2" class="all-replay" @tap="reply(row.id)">共{{row.sonCount}}条回复 ></text>
 							</view>
@@ -308,7 +307,7 @@
 				isShowTopic: true,
 				replySay: '说点什么把',
 				replyType: '',
-				activeIndex: 0
+				commentItem: []
 	        }
 		},
 		filters: {
@@ -513,9 +512,9 @@
 							let data = res.data.data.dataList;
 							// 
 							for(let i=0; i<data.length; i++) {
-								let test = data[i].gcircleContentDTO;
-								data[i].gcircleContentDTO.imgList = JSON.parse(data[i].gcircleContentDTO.imgList);
-								data[i].gcircleContentDTO.title = JSON.parse(data[i].gcircleContentDTO.title);
+							// 	let test = data[i].gcircleContentDTO;
+								data[i].imgList = JSON.parse(data[i].imgList);
+								data[i].title = JSON.parse(data[i].title);
 							}
 							// data.forEach((item, i) => {
 							// 	item.gcircleContentDTO.imgList = JSON.stringify(item.gcircleContentDTO.imgList);
@@ -701,7 +700,7 @@
 			},
 			// 评论详情
 			comments(id) {
-				let _this = this;
+				// let _this = this;
 				let token = '';
 				uni.getStorage({
 					key:"token",
@@ -710,18 +709,18 @@
 					}
 				})
 				let parmas = {
-					id: id,
+					gcircleContentId: id,
 					pageIndex: 1,
 					pageSize: 1000
 				}
 				uni.request({
-					url: _this.url + "controller/usercontroller/getgcdiscusslist",
+					url: this.url + "controller/usercontroller/getgcdiscusslist",
 					data: parmas,
 					method: 'POST',
 					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app','token': token},
-					success: function (res){
+					success: ((res) => {
 						if(res.data.code==200){
-							_this.dataList = res.data.data.dataList;
+							this.commentItem = res.data.data.dataList[0].listFu;
 						}else{
 							uni.showToast({
 								icon: 'none',
@@ -729,7 +728,7 @@
 							});
 							uni.hideToast();
 						}
-					}
+					})
 				})
 			},
 			// 回复谁
@@ -865,10 +864,10 @@
 			// 弹出层弹出的方式  i:当前标签的下标, name: 当前标签的name
 			togglePopup(type, open, id, commendId, name, gCollectionDiscussNum) {
 				this.getsvdiscussId = commendId;
-				this.outUserId = id
-				this.gcircleContentId = commendId
-				this.gCollectionDiscussNum = gCollectionDiscussNum
-				this.nickName = name
+				this.outUserId = id;
+				this.gcircleContentId = commendId;
+				this.gCollectionDiscussNum = gCollectionDiscussNum;
+				this.nickName = name;
 				switch (type) {
 					case 'top':
 						this.content = '顶部弹出 popup'
@@ -1606,4 +1605,21 @@
 		color:rgba(255,255,255,1);
 	}
 	/* 短视频样式end */
+	
+	/* G圈样式 start */
+	.relese-image {
+		background: #F6F6F6;
+		padding: 0;
+	}
+	.relese-image_detail:first-child {
+		box-shadow: 0px 0px 0px 0px rgba(93,93,93,0.08);
+	}
+	.relese-image_detail {
+		margin: 0;
+		background: #FFFFFF;
+		box-sizing: border-box;
+		padding: 20rpx 30rpx;
+		margin-bottom: 10px;
+		box-shadow:0px 0px 9rpx 0px rgba(93,93,93,0.08);
+	}
 </style>

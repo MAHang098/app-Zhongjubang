@@ -14,7 +14,7 @@
 				<text></text>
 				<text>后台售后管理人员反馈售后进度</text>
 			</view>
-			<view class="revoke-apply">撤销申请</view>
+			<view class="revoke-apply" @click.stop="togglePopup('center', 'tip')">撤销申请</view>
 		</view>
 		
 		<uni-popup :show="show" :type="type" :custom="true" :mask-click="false">
@@ -63,12 +63,8 @@
 				}
 			},
 			// 弹框关闭
-			cancel(type) {
-				if (type === 'tip') {
-					this.show = false
-					return
-				}
-				this.$refs[type].close()
+			cancel() {
+				this.show = false
 			},
 		}
 	}

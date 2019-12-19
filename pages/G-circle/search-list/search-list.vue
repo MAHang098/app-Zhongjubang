@@ -5,7 +5,7 @@
 			<image src="../../../static/img/G-circle/search-back.png" mode="" class="back" @click.stop="gainInput"></image>
 			<view class="search-input">
 				<image src="../../../static/search/nav-search.png" mode=""></image>
-				<input type="text" :value="searchValue"  placeholder="搜索您需要的商品" @input="gainInput" @focus="onFocus" @blur="onBlur"/>
+				<input type="text" :value="searchValue"  placeholder="搜索您需要的商品" @input.stop="gainInput" @focus="onFocus" @blur="onBlur"/>
 			</view>
 			<view class="cancel" @click.stop="gainInput">取消</view>
 		</view>
@@ -103,7 +103,6 @@
 		},
 		onLoad(option) {
 			this.searchValue = option.name;
-			
 		},
 		onShow() {
 			let that = this;
@@ -213,11 +212,30 @@
 			},
 			// 返回搜索页面
 			gainInput() {
+				console.log(111)
 				uni.navigateTo({
 					url: '/pages/G-circle/search-content/search-content'
 				})
 			},
-			
+			// 输入框获取焦点/失去焦点
+			onFocus() {
+				// #ifdef APP-PLUS
+				this.$mp.page.$getAppWebview().setStyle({
+					softinputNavBar: 'none'
+				})
+				// #endif
+				uni.navigateTo({
+					url: '/pages/G-circle/search-content/search-content'
+				})
+			},
+			onBlur() {
+				// #ifdef APP-PLUS
+				this.$mp.page.$getAppWebview().setStyle({
+					softinputNavBar: 'auto'
+				})
+				// #endif
+				
+			},
 		}
 	}
 </script>
