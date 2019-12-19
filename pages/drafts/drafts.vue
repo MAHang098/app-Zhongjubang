@@ -51,7 +51,7 @@
 				<video id="myVideo" :src="item.videoUrl" v-show="!show" enable-danmu danmu-btn controls></video>
 				<!-- 图片/视频 end -->
 				<!-- 话题 start -->
-				<view class="draftsTopic" v-show="show" v-if="item.title != '' && current == 0 ">
+				<view class="draftsTopic" v-show="show" v-if="item.title.topic != '' && current == 0 ">
 					<view class="left" @click.stop="takePart(item.title.topicId)">
 						<image src="../../static/topic/topic.png" mode=""></image>
 						<view>{{item.title.topic}}</view>

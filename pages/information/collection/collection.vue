@@ -12,47 +12,14 @@
 						<view class="follow">{{item.msg.text}}</view>
 					</view>
 				</view>
+				<!-- <view class="right" v-for="(it, dex) in item.msg.imgList" :key="dex"> -->
 				<view class="right">
-					<!-- {{item.msg.imgList.fileUrl}} -->
-					<!-- <image :src="item.msg.imgList" mode=""></image> -->
+					<image :src="item.topImg" v-if="item.topImg" @click.stop="contentDetail(item.msg.id, item.topImg)"></image>
+					<!-- {{it.fileUrl}} -->
+					<image :src="item.msg.imgList[0].fileUrl" mode="" v-else @click.stop="contentDetail(item.msg.id, item.topImg)"></image>
 				</view>
 			</view>
 		</view>
-		<!-- <view class="collection-list">
-			<view class="details-list">
-				<view class="left">
-					<view class="avatar">
-						<image src="../../../static/avatar.png" mode=""></image>
-					</view>
-					<view class="details">
-						<view class="name">我是一颗玻璃心 <image src="../../../static/fans-logo.png" mode=""></image></view>
-						<view class="time">11/21 10:23</view>
-						<view class="follow">收藏了你的照片</view>
-					</view>
-				</view>
-				<view class="right">
-					<image src="../../../static/collection.png" mode=""></image>
-				</view>
-			</view>
-			
-		</view>
-		<view class="collection-list">
-			<view class="details-list">
-				<view class="left">
-					<view class="avatar">
-						<image src="../../../static/avatar.png" mode=""></image>
-					</view>
-					<view class="details">
-						<view class="name">我是一颗玻璃心 <image src="../../../static/fans-logo.png" mode=""></image></view>
-						<view class="time">11/21 10:23</view>
-						<view class="follow">收藏了你的照片</view>
-					</view>
-				</view>
-				<view class="right">
-					<image src="../../../static/collection.png" mode=""></image>
-				</view>
-			</view>
-		</view> -->
 	</view>
 </template>
 
@@ -94,11 +61,11 @@
 					success: ((res) => {
 						if(res.data.code == 200) {
 							let data = res.data.data.dataList;
-							console.log(data[0].msg);
+							// console.log(data[0].msg);
 							// console.log(data)
-							// for(let i=0; i<data.length; i++) {
-							// 	data[i].msg = JSON.parse(data[i].msg);
-							// }
+							for(let i=0; i<data.length; i++) {
+								data[i].msg = JSON.parse(data[i].msg);
+							}
 							this.allData = data;
 						}
 						if(res.data.code == 407) {
@@ -109,8 +76,18 @@
 						}
 					})
 				})
-			}
-			
+			},
+			// 跳转到G圈详情
+			contentDetail(id, img) {
+				if(img) {
+					// 跳转到视频详情
+				} else {
+					// 跳转到G圈
+					uni.navigateTo({
+						url: '/pages/releaseImage-details/releaseImage-details?id=' + id
+					})
+				}
+			},
 		}
 	}
 </script>

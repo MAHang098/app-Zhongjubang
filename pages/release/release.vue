@@ -83,7 +83,6 @@
 								filePath: tempFilePaths[i],
 								name: 'file',
 								formData: {
-									'user': 'test'
 								},
 								success: (uploadFileRes) => {
 									uni.hideLoading();

@@ -95,11 +95,11 @@
 		},
 		
 		methods: {
-			 clearTimer () {
-			      if (this.timer) {
-			        clearTimeout(this.timer)
-			      }
-			    },
+			clearTimer () {
+				if (this.timer) {
+					clearTimeout(this.timer)
+				}
+			},
 			gainInput(e) {
 				this.clearTimer();
 				this.timer = setTimeout(() => {
@@ -115,13 +115,12 @@
 								this.changeColor(res.data.data)
 				  			// this.productList = res.data.data;
 								this.isShowList = !this.isShowList;
-							} else {
-								uni.showToast({
-									icon: 'none',
-									title: res.data.message
-								});
-								uni.hideToast();
-				          }
+							} 
+							if(res.data.code == 421) {
+								uni.navigateTo({
+									url: '/pages/loginPhone/loginPhone'
+								})
+							}
 						})
 				  });
 				  // }
@@ -136,18 +135,23 @@
 			          let replaceReg = new RegExp(this.searchInput, 'g')
 			          // 高亮替换v-html值
 			          let replaceString =
-			            '<text class="search-text" style="color: #F9B72C">' + this.searchInput + '</text>'
+			            '<span class="search-text" style="color: #F9B72C">' + this.searchInput + '</span>'
 			          resultsList[index].resourcesValue = item.resourcesValue.replace(
 			            replaceReg,
 			            replaceString
 			          )
 			        }
-			      })
+			      });
+				 
 			      this.productList = []
 			      this.productList = resultsList
 			},
 			// 点击搜索列表的其中一个，跳转到商品详情
 			searchContent(name) {
+				if(name!= null && name!= ""){  
+					var reg = /[\u4e00-\u9fa5]/g;   
+					name = name.match(reg).join("");  
+				}  
 				uni.navigateTo({
 					url: '/pages/G-circle/search-list/search-list?name=' + name
 				});
@@ -431,5 +435,4 @@
 		color: #F9B72C;
 		border-left: 1px solid #E2E2E2;
 	}
-	
 </style>

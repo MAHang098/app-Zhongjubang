@@ -136,7 +136,9 @@
                         console.log(res.data.code)
                         if(res.data.code==200){
                             console.log(res)
-                            
+                            uni.navigateTo({
+                                url: '/pages/loginPhone/loginPhone'
+                            })
                         }else{
                             console.log("请求异常")
                         }

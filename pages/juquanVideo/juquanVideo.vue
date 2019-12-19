@@ -1,0 +1,356 @@
+<template>
+	<view>
+		<!-- G圈内容 start -->
+        <view class="G-cicle_content" v-if="!show">
+            <image style="width:38upx;height:56upx;" src="../../static/img/juquanVideo/back.png" mode="" class="back"  @tap="back"></image>
+		    <image style="width:30upx;height:28upx;" src="../../static/img/juquanVideo/search.png" mode="" class="input-search"></image>
+            <text class="search-text" @tap="search">取消</text>
+			<input class="input" @confirm="recordName" placeholder="搜索视频内容" type="text" :value="inputValue">
+			<view class="search-wrap">
+			    <view class="video-detail" v-for="(item, index) in searchList" :key="index">
+			        <view class="video-content">
+			            <image class="video-content-start" style="width:52rpx;height:52rpx;" src="../../static/img/user/start.png" mode=""></image>
+			            <image class="video-content-avator" style="width:60rpx;height:60rpx;border-radius:50%;" :src="item.head" mode=""></image>
+			            <view class="video-content-nickname">{{item.nickName}}</view>
+			            <image class="video-content-image" style="width:350rpx;height:512rpx;border-radius:3px;" :src="item.videoUrl" @tap="sendVideo(item.shortVideoId)"></image>
+			        </view>
+			    </view>
+			</view>
+        </view>
+		<view v-if="show" class="G-cicle_content">
+			<!-- 居圈分类 居圈/关注/短视频 start-->
+		    <image style="width:38upx;height:56upx;" src="../../static/img/juquanVideo/back.png" mode="" class="back"  @tap="back"></image>
+		    <image style="width:38upx;height:38upx;" src="../../static/img/juquanVideo/search.png" mode="" class="search"  @tap="search"></image>
+			<view class="G-list_content">
+				<view v-for="(item, index) in tabType" :class="index == current ? 'active' : '' " @click="changeProduct(index)" :key="index">
+					{{item}}
+					<text v-bind:class="index == current ? 'active-status' : '' "></text>
+				</view>
+			</view>
+            
+            <view class="video-all">
+				<!-- 全部 -->
+                <view class="video-wrap" v-show="isShow">
+                    <view class="video-detail" v-for="(item, index) in videoList" :key="index">
+                        <view class="video-content">
+                            <image class="video-content-start" style="width:52rpx;height:52rpx;" src="../../static/img/user/start.png" mode=""></image>
+                            <image class="video-content-avator" style="width:60rpx;height:60rpx;border-radius:50%;" :src="item.head" mode=""></image>
+                            <view class="video-content-nickname">{{item.nickName}}</view>
+                            <image @tap="sendVideo(item.shortVideoId)" class="video-content-image" style="width:350rpx;height:512rpx;border-radius:3px;" :src="item.videoUrl"></image>
+                        </view>
+                    </view>
+                </view>
+				<!-- 网红 -->
+                <view class="video-wrap" v-show="!isShow">
+                    <image class="video-wrap-image" style="width:750rpx;height:359rpx;" src="../../static/img/juquanVideo/miao.png" mode=""></image>
+                    <view class="video-detail" v-for="(item, index) in InternetCelebrityList" :key="index">
+                        <view class="video-content">
+                            <image class="video-content-start" style="width:52rpx;height:52rpx;" src="../../static/img/user/start.png" mode=""></image>
+                            <image class="video-content-avator" style="width:60rpx;height:60rpx;border-radius:50%;" :src="item.head" mode=""></image>
+                            <view class="video-content-nickname">{{item.nickName}}</view>
+                            <image class="video-content-image" style="width:350rpx;height:512rpx;border-radius:3px;" :src="item.videoUrl" @tap="sendVideo(item.shortVideoId)"></image>
+                        </view>
+                    </view>
+                </view>
+			</view>
+		</view>
+		
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+                tabType: ['全部视频', '网红视频'],
+                current: 0,
+                isShow: true,
+                show: true,
+                videoList: [],
+                InternetCelebrityList: [],
+				searchList: [],
+				inputValue: '',
+			}
+		},
+		onShow() {
+			this.initVideo()
+		},
+		
+		methods: {
+			recordName(e) {
+				this.inputValue = e.detail.value;
+				console.log(e.detail.value)
+				let self = this
+				
+				const url = this.url
+				// 获取全部视频内容
+				uni.request({
+					url: url + "controller/videocontroller/getallshortvideolist",
+					data: {
+				        pageIndex: 1,
+						pageSize: 100,
+						search: e.detail.value
+					},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded'
+					},
+					success: function (res){
+						// console.log(res.data.code)
+						if(res.data.code==200){
+				            console.log(res)
+							for(var i = 0;i < res.data.data.dataList.length;i++){
+								
+								res.data.data.dataList[i].videoUrl = res.data.data.dataList[i].videoUrl.replace('MP4','jpg')
+								res.data.data.dataList[i].videoUrl = res.data.data.dataList[i].videoUrl.replace('mp4','jpg')
+							}
+				            self.searchList = res.data.data.dataList
+						}else{
+							console.log("请求异常")
+						}
+					}
+				});
+			},
+			
+            search(){
+                this.show = !this.show
+            },
+			// 全部视频/网红视频
+			changeProduct(index) {
+				this.current = index;
+				this.isShow = !this.isShow;
+				
+            },
+            back(){
+                uni.navigateBack()
+            },
+            // 获取短视频内容
+			initVideo() {
+				let self = this
+				
+				const url = this.url
+				// 获取全部视频内容
+				uni.request({
+					url: url + "controller/videocontroller/getallshortvideolist",
+					data: {
+                        pageIndex: 1,
+						pageSize: 100
+					},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded'
+					},
+					success: function (res){
+						// console.log(res.data.code)
+						if(res.data.code==200){
+                            console.log(res)
+							for(var i = 0;i < res.data.data.dataList.length;i++){
+								
+								res.data.data.dataList[i].videoUrl = res.data.data.dataList[i].videoUrl.replace('MP4','jpg')
+								res.data.data.dataList[i].videoUrl = res.data.data.dataList[i].videoUrl.replace('mp4','jpg')
+							}
+                            self.videoList = res.data.data.dataList
+						}else{
+							console.log("请求异常")
+						}
+					}
+				});
+				// 获取网红视频内容
+				uni.request({
+					url: url + "controller/videocontroller/getInternetCelebrityShortVideo",
+					data: {
+                        pageIndex: 1,
+						pageSize: 100
+					},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded'
+					},
+					success: function (res){
+						// console.log(res.data.code)
+						if(res.data.code==200){
+                            console.log(res)
+							for(var i = 0;i < res.data.data.dataList.length;i++){
+								
+								res.data.data.dataList[i].videoUrl = res.data.data.dataList[i].videoUrl.replace('MP4','jpg')
+								res.data.data.dataList[i].videoUrl = res.data.data.dataList[i].videoUrl.replace('mp4','jpg')
+							}
+                            self.InternetCelebrityList = res.data.data.dataList
+						}else{
+							console.log("请求异常")
+						}
+					}
+				});
+            },
+            sendVideo(id){
+				uni.navigateTo({
+					url: '/pages/index/index?id=' + id
+				})
+			},
+			
+			
+			
+		
+			
+		}
+	}
+</script>
+
+<style>
+    /* 搜索 */
+    .search-text {
+        position: absolute;
+		top: 7px;
+        left: 660upx;
+        font-size:32upx;
+        font-family:PingFang SC;
+        font-weight:400;
+        color:rgba(51,51,51,1);
+	}
+	.G-cicle_content {
+		width: 100%;
+		height: 100%;
+		background: #fff;
+		position: relative;
+		
+		top: 41upx;
+	}
+    .input{
+        position: absolute;
+        left: 87upx;
+        padding-left: 67upx;
+        box-sizing: border-box;
+        width:547upx;
+        height:70upx;
+        background:rgba(246,246,246,1);
+        border-radius:35upx;
+        font-size:28upx;
+        font-family:PingFang SC;
+        font-weight:400;
+        color:rgba(51,51,51,1);
+        line-height: 70upx;
+    }
+    .input-search{
+        position: absolute;
+		top: 11px;
+        left: 114upx;
+        z-index: 10;
+    }
+	.search-wrap{
+		
+		background: #fff;
+		width: 100%;
+		height: 100%;
+		box-sizing: border-box;
+		padding: 0 20rpx;
+		padding-top: 60px;
+	}
+	/* 切换视频类型 start */
+	.back {
+        position: absolute;
+		top: 3px;
+        left: 10px;
+	}
+	.search {
+        position: absolute;
+		top: 7px;
+        left: 683upx;
+	}
+	.G-list_content {
+        box-sizing: border-box;
+        padding-left: 90px;
+		height: 70rpx;
+		background: #FFFFFF;
+	}
+	.G-list_content view {
+		width: 38%;
+		height: 34rpx;
+		line-height: 34rpx;
+		text-align: center;
+		color: #747474;
+		font-size: 32rpx;
+		display: inline-block;
+		/* border-right: 1rpx solid #E2E2E2; */
+	}
+	.G-list_content view:last-child {
+		border: none;
+	}
+	.active {
+		color: #333333 !important;
+		font-weight: bold;
+		border-width: 50rpx;
+		border-color: red;
+		
+	}
+	.active-status {
+		margin: 9px auto;
+		display: block;
+		width:52rpx;
+		height:6rpx;
+		background:rgba(249,183,44,1);
+        border-radius:4px;
+	}
+	/* 切换视频类型 end */
+	
+    /* 短视频样式start */
+	.video-all{
+        width: 100%;
+		height: 100%;
+        box-sizing: border-box;
+		padding: 0 20rpx;
+    }
+	.video-wrap{
+		margin-top: 15px;
+		background: #fff;
+	}
+	.video-wrap-image{
+		box-sizing: border-box;
+		margin-left: -11px;
+	}
+	.video-detail{
+		float: left;
+		top: 20px;
+	}
+	.video-content{
+		position: relative;
+		margin-left: 3px;
+	}
+	.video-content-start{
+		position: absolute;
+		z-index: 100;
+		left: 154px;
+		top: 10px;
+	}
+	.video-content-avator{
+		position: absolute;
+		z-index: 100;
+		top: 239px;
+		left: 12px;
+	}
+	.video-content-delete{
+		position: absolute;
+		z-index: 300;
+		top: 102px;
+		left: 51px;
+	}
+	.video-content-image{
+	}
+	.video-content-block{
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		z-index: 200;
+		background: rgba(0,0,0,.3);
+	}
+	.video-content-nickname{
+		position: absolute;
+		z-index: 100;
+		top: 246px;
+		left: 52px;
+		font-size:24rpx;
+		font-family:PingFang SC;
+		font-weight:bold;
+		color:rgba(255,255,255,1);
+	}
+	/* 短视频样式end */
+</style>

@@ -21,24 +21,23 @@
 					<text v-bind:class="index == current ? 'active-status' : '' "></text>
 				</view>
 			</view>
-			<view class="G-list_detial_one" v-show="isShow">
-				<view class="category-detial" v-for="(item, index) in recommendList" :key="index">
-					<!-- <image src="../../static/img/G-circle/test.png" mode="" class="album-img"></image> -->
+			<view class="G-list_detial_one" v-if="isShow">
+				<view class="category-detial" v-for="(item, index) in recommendList" :key="index" @click.stop="homologousPage(index, item.resource.resource)">
 					<image :src="item.resource.img" mode="" class="album-img"></image> 
 					<view class="title">#{{item.resource.name}}#</view>
 					<view>{{item.resource.remarks}}</view>
 				</view>
 			</view>
-			<view class="G-list_detial_two" v-show="!isShow">
+			<view class="G-list_detial_two" v-else>
 				<scroll-view class="G-list_detial_user scroll-view_H" scroll-x="true" :show-scrollbar="isScrollbar">
 					<view class="G-list_detial_userDteial scroll-view-item_H" v-for="(item, index) in userList" :key="index">
 						<image src="../../static/img/G-circle/test1.png" mode=""></image>
 						<view>{{item.nick_name}}</view>
-						<image src="../../static/topic/focus.png" mode=""></image>
+						<image @click.stop="focus(item.id,  current)" :src="item.followState == '0' ? '../../static/follow.png' : item.followState == '2' ? '../../static/mutual-follow.png' : '../../static/follow-checked.png'" mode=""></image>
 					</view>
 					
 				</scroll-view>
-				<view class="refresh">
+				<view class="refresh" @click.stop="refreshUser">
 					<text>换一批</text>
 					<image src="../../static/img/G-circle/refresh.png" mode=""></image>
 				</view>
@@ -61,38 +60,27 @@
 							<text></text>
 							<text></text>
 							<text></text>
-							<view class="operate-detail" v-show="cIndex && showEdit">
+							<view class="operate-detail" v-show="cIndex == index && showEdit">
 								<view class="operate-arrow"></view>
 								<view class="operate-btn">
-									<!-- <view @click.stop="editRelease(items.gcircleContentDTO, items.gcircleContentDTO.id)"><image src="../../static/edit.png" mode=""></image>编辑</view>
-									<view @click.stop="deleteRelease(items.gcircleContentDTO.id)"><image src="../../static/delete.png" mode=""></image>删除</view> -->
-									<view><image src="../../static/edit.png" mode=""></image>编辑</view>
-									<view><image src="../../static/delete.png" mode=""></image>删除</view>
+									<view @click.stop="editRelease(items, items.gcircleContentId)"><image src="../../static/edit.png" mode=""></image>编辑</view>
+									<view @click.stop="deleteRelease(items.gcircleContentId)"><image src="../../static/delete.png" mode=""></image>删除</view>
 								</view>
 							</view>
 						</view>
-						<view v-else class="user-right" @click.stop="focus(index, items.userId, items.attentionState, current)">
-							<!-- <image v-if="activeState == 0 || items.attentionState == 0 " src="../../static/follow.png" mode=""></image>
-							<image v-if="activeState == 1 || items.attentionState == 1 " src="../../static/follow-checked.png" mode=""></image>
-							<image v-if="activeState == 3 || items.attentionState == 2 " src="../../static/mutual-follow.png" mode=""></image> -->
-							<!-- <image :src="( activeIndex == index && isShowFocus) || items.attentionState == 1 ? '../../static/follow-checked.png' : '../../static/follow.png'" mode=""></image> -->
+						<view v-else class="user-right" @click.stop="focus(items.userId, current)">
 							<image :src="items.attentionState == 0 ? '../../static/follow.png' : items.attentionState == 2 ? '../../static/mutual-follow.png' : '../../static/follow-checked.png'" mode=""></image>
 						</view>
 					</view>
 					<!-- 用户信息 start -->
 					
-					<!-- 草稿内容 start -->
+					<!-- 文字展开/收起 start -->
 					<view class="content"  v-if="items.content != '' ">
 						<view v-if="!isShowAllContent" class="text">{{items.content }}</view>
 						<view v-else class="text">{{items.content | ellipsis}}</view>
 						<view class="anCotent" v-if="items.content.length > 60 " @click="open(index)">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
 					</view>
-					<!-- <view class="content">
-						<view v-if="!isShowAllContent" class="text">{{content }}</view>
-						<view v-else class="text">{{content | ellipsis}}</view>
-						<view class="anCotent" v-if="content.length > 60 " @click="open()">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
-					</view> -->
-					<!-- 草稿内容 end -->
+					<!-- 文字展开/收起 end -->
 					
 					<!-- 图片/视频 start -->
 					<view class="imageList">
@@ -103,7 +91,7 @@
 					
 					<!-- 话题 start -->
 					<view class="release-image_topic"  v-show="show" v-if="items.title.topic != '' ">
-						<view class="left" @click.stop="goTopic(items.title)">
+						<view class="left" @click.stop="goTopic(items.title.topicId)">
 							<image src="../../static/topic/topic.png" mode=""></image>
 							<view>{{items.title.topic}}</view>
 						</view>
@@ -189,6 +177,8 @@
 				this.token = res.data;
 			  })
 			});
+			this.current = 0;
+			this.isShow = true;
 			this.init();
 			this.recommend();
 		},
@@ -206,10 +196,9 @@
 							let data = res.data.data;
 							this.recommendList = data;
 						}
-						if(res.data.code == 407) {
-							uni.showToast({
-								title: '请重新登录'
-								
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
 							})
 						}
 					})
@@ -242,42 +231,54 @@
 							}
 							this.releaseImgList = data;
 						}
-						if(res.data.code == 407) {
-							uni.showToast({
-								title: '请重新登录'
-								
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
 							})
 						}
 					})
 				})
 			},
-			// 获取关注的用户
+			// 获取关注页面的用户列表
 			focusUser() {
+				uni.showLoading({
+					title: '加载中',
+					mask: true
+				})
 				uni.request({
 				    url: this.url + 'controller/usercontroller/getRecommendUserList',
 				    method: 'post',
 				    header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 				    success:(res) => {
+						uni.hideLoading()
 				        if(res.data.code == 200) {
 				            this.userList = res.data.data;
-				        } else {
-				            uni.showToast({
-				                icon: 'none',
-				                title: res.data.message
-				            });
-				            uni.hideToast();
-				        }
+				        } 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 				    }
 				});
 			},
+			// 刷新用户
+			refreshUser() {
+				this.focusUser();
+			},
 			// 获取关注的用户的G圈内容
 			focusUserContent() {
+				uni.showLoading({
+					title: '加载中...',
+					mask: true
+				})
 				uni.request({
 				    url: this.url + 'controller/contentcontroller/getGcircleContentListByAttention',
 				    method: 'post',
 					data: {pageSize: 100, pageIndex: 1},
 				    header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 				    success:(res) => {
+						uni.hideLoading();
 				        if(res.data.code == 200) {
 							let data = res.data.data.dataList;
 							for(let i=0; i<data.length; i++) {
@@ -285,40 +286,39 @@
 								data[i].title = JSON.parse(data[i].title);
 							}
 				            this.releaseImgList = data;
-				        } else {
-				            uni.showToast({
-				                icon: 'none',
-				                title: res.data.message
-				            });
-				            uni.hideToast();
 				        }
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 				    }
 				});
 			},
 			// 关注
-			focus(index, id, state, currents) {
+			focus(id,currents) {
 			    uni.request({
 			        url: this.url + 'controller/usercontroller/addattentionrelationship',
 			        method: 'post',
 			        data: {outUserId: id},
 			        header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
-			        success:(res) => {
+			        success:((res) => {
 			            if(res.data.code == 200) {
 							if(currents == 0) {
 								this.init();
 							}
 							if(currents == 1) {
 								this.focusUserContent();
+								this.focusUser();
 							}
 			                // this.init(this.topicId);
-			            } else {
-			                uni.showToast({
-			                    icon: 'none',
-			                    title: res.data.message
-			                });
-			                uni.hideToast();
-			            }
-			        }
+			            } 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+			        })
 			    });
 			},
 			// 收藏
@@ -342,13 +342,12 @@
 								return;
 							}
 			                this.isShowCollect = !this.isShowCollect;
-			            } else {
-			                uni.showToast({
-			                    icon: 'none',
-			                    title: res.data.message
-			                });
-			                uni.hideToast();
-			            }
+			            } 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 			        }
 			    });
 			},
@@ -373,13 +372,12 @@
 								return;
 							}
 							this.isShowFabulous = !this.isShowFabulous;
-			            } else {
-			                uni.showToast({
-			                    icon: 'none',
-			                    title: res.data.message
-			                });
-			                uni.hideToast();
-			            }
+			            } 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 			        })
 			    });
 			},
@@ -452,6 +450,70 @@
 			goSearch() {
 				uni.navigateTo({
 					url: '/pages/G-circle/search-content/search-content'
+				})
+			},
+			// 修改G圈内容
+			editRelease(item, id) {
+				this.$store.commit('saveImage', item.imgList);
+				let obj = {
+					editId: id,
+					title: item.title,
+					content: item.content,
+					type: 'juquan'
+				}
+				this.$store.commit('saveDrafts', obj)
+				this.$store.commit('updateType', item.title);
+				uni.navigateTo({
+					url: '/pages/releaseImage/release-image/release-image'
+				});
+				this.showEdit = !this.showEdit;
+			},
+			// 删除G圈内容
+			deleteRelease(id) {
+				uni.request({
+					url: this.url + "/controller/usercontroller/delgcirclecontent",
+					data: {circlecontentId: id},
+					method: 'POST',
+					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
+					success: ((res) => {
+						if(res.data.code == 200) {
+							uni.showToast({
+								title: '删除成功',
+								duration: 500,
+							});
+							this.showEdit = !this.showEdit;
+							this.init();
+						}
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+					})
+				})
+			},
+			// 专辑模块跳转
+			homologousPage(index, id) {
+				if(index == 0) {
+					// 跳转到专辑页面
+					return;
+				}
+				if(index == 1) {
+					// 跳转到网红视频页面
+					return;
+				}
+				if(index == 2) {
+					// 跳转到话题页面
+					uni.navigateTo({
+						url:'/pages/topicDetails/topicDetails?id=' + id
+					})
+					
+				}
+			},
+			// 点击话题跳转到话题详情
+			goTopic(id) {
+				uni.navigateTo({
+					url:'/pages/topicDetails/topicDetails?id=' + id
 				})
 			}
 		}

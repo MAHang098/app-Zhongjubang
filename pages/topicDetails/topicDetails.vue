@@ -581,7 +581,7 @@
 </script>
 
 <style>
-	@import '../../static/css/comments.css'; /*引入评论弹窗的样式*/
+	/*@import '../../static/css/comments.css'; *//*引入评论弹窗的样式 */
 	page {
 		background: #F9F9F9;
 		width: 100%;

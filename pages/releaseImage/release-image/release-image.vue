@@ -103,7 +103,7 @@
 				this.desc = drafts[0].content;
 				this.remnant = drafts[0].content.length;
 				this.appUserDraftsId = drafts[0].id;
-				if(drafts[0].type && drafts[0].type == 'user') {
+				if(drafts[0].type && drafts[0].type == 'user' || drafts[0].type && drafts[0].type == 'juquan') {
 					this.gcircleContentId = drafts[0].editId;
 				}
 				
@@ -142,7 +142,6 @@
 					imgList: JSON.stringify(this.allImage),
 					title: JSON.stringify(topicObj)
 				}
-				
 				if(this.gcircleContentId) {
 					parmas.gcircleContentId = this.gcircleContentId;
 					uni.request({
@@ -168,12 +167,11 @@
 									})
 								}, 1000);
 								// uni.hideToast();
-							} else {
-								uni.showToast({
-								    icon: 'none',
-								    title: res.data.message
-								});
-								uni.hideToast();
+							} 
+							if(res.data.code == 421) {
+								uni.navigateTo({
+									url: '/pages/loginPhone/loginPhone'
+								})
 							}
 						}
 					});
@@ -202,12 +200,11 @@
 								})
 							}, 1000);
 							// uni.hideToast();
-						} else {
-							uni.showToast({
-							    icon: 'none',
-							    title: res.data.message
-							});
-							uni.hideToast();
+						} 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
 						}
 					}
 				});
@@ -271,12 +268,11 @@
 										url: '/pages/user/user'
 									})
 								}, 1000);
-							} else {
-								uni.showToast({
-								    icon: 'none',
-								    title: res.data.message
-								});
-								uni.hideToast();
+							} 
+							if(res.data.code == 421) {
+								uni.navigateTo({
+									url: '/pages/loginPhone/loginPhone'
+								})
 							}
 						}
 					});
@@ -304,12 +300,11 @@
 								})
 							}, 1000);
 							// uni.hideToast();
-						} else {
-							uni.showToast({
-							    icon: 'none',
-							    title: res.data.message
-							});
-							uni.hideToast();
+						} 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
 						}
 					}
 				});
@@ -391,9 +386,7 @@
 								url: that.url + '/upload', //仅为示例，非真实的接口地址
 								filePath: tempFilePaths[i],
 								name: 'file',
-								formData: {
-									'user': 'test'
-								},
+								formData: {},
 								success: (uploadFileRes) => {
 									uni.hideLoading();
 									
@@ -469,8 +462,38 @@
 			},
 			// 取消弹出层
 			cancelPopup(type) {
+				let drafts = this.$store.state.drafts;
 				if (type === 'tip') {
 					this.show = false;
+					this.$store.commit('clearData', []);    // 清空存在vuex中图片上的所有数据
+					this.$store.commit('clearDrafts', []);  // 清空草稿箱到发布页的数据
+					this.$store.commit('defaultPage', '');  // 清空页面类型
+					this.$store.commit('updateType', {topic: '', topicId: ''});
+					if(this.previewType == '') {
+						uni.navigateBack({
+							delta:1
+						})
+						return;
+					}
+					if(this.previewType == 'drafts' || drafts.length != 0 && drafts[0].type == 'drafts') {
+						uni.navigateTo({
+							url: '/pages/drafts/drafts'
+						})
+						return;
+					}
+					if(this.previewType == 'user' || drafts.length != 0 && drafts[0].type == 'drafts') {
+						uni.switchTab({
+							url: '/pages/main/main'
+						})
+						return;
+					}
+					if(this.previewType == 'juquan' || drafts.length != 0 && drafts[0].type == 'juquan') {
+						uni.switchTab({
+							url: '/pages/juquan/juquan'
+						})
+						return;
+					}
+					
 					setTimeout(() => {
 						uni.switchTab({
 							url: '/pages/user/user'

@@ -1,561 +1,672 @@
 <template>
-    <view class="wrap">
-        <view class="bg">
-        	<image src="../../static/img/user/bg.png" mode=""></image>
-        </view>
-		<view class="left-menu">
-			<image src="../../static/img/user/left-menu.png" mode=""></image>
+	<view>
+		<!-- 轮播图 -->
+		<view class="banner">
+			<text class="address">广州</text>
+			<image class="arrow" style="width:23upx;height:19upx;" src="../../static/img/main/arrow.png" mode="" />
+			<image class="info" style="width:44upx;height:44upx;" src="../../static/img/main/info.png" mode="" />
+			<image class="search-image" style="width:29upx;height:29upx;" src="../../static/img/main/search.png" mode="" />
+			<input @tap="goSearch" class="search" type="text" placeholder="搜你想搜的一切">
+			<image class="search-white" style="width:750upx;height:105upx;" src="../../static/img/main/white.png" mode="" />
+			<uni-swiper-dot :info=bannerList :current="current" :mode="mode" :dots-styles="dotStyle" field="content">
+				<swiper class="swiper-box" @change="change">
+					<swiper-item v-for="(item, index) in bannerList" :key="index">
+						<view :class="item.colorClass" class="swiper-item">
+							<image :src="item.resource" mode="aspectFill" />
+						</view>
+					</swiper-item>
+				</swiper>
+			</uni-swiper-dot>
 		</view>
-		<view class="right-wechat">
-			<image src="../../static/img/user/right-wechat.png" mode=""></image>
-		</view>
-		<view class="right-wechat">
-			<image src="../../static/img/user/right-wechat.png" mode=""></image>
-		</view>
-		<view class="user-avater">
-			<image src="../../static/img/user/user-avater.png" mode=""></image>
-		</view>
-		<!-- 客户信息 -->
-		<view class="user-info">
-			<view class="user-state">
-				<image src="../../static/img/user/user-state.png" mode=""></image>
-			</view>
-			<view class="edit-info">
-				<image src="../../static/img/user/edit-info.png" mode=""></image>
-			</view>
-			<view class="my-order">
-				<image src="../../static/img/user/my-order.png" mode=""></image>
-			</view>
-			<view class="user-nickName">
-				晴天小猪
-			</view>
-			<view class="user-nickName-image"><image src="../../static/img/user/user-gender.png" mode=""></image></view>
-			<view class="user-intro">
-				介绍一下自己吧！
-			</view>
-			<view class="user-recommend">
-				<text>粉丝799</text><text>关注899</text><text>获赞100</text>
-			</view>
-			<view class="hot">
-				<image src="../../static/img/user/hot.png" mode=""></image>
-			</view>
-			<text class="number">200</text>
-		</view>
-		<!-- 我的动态 -->
-		<view class="my-active">
-			<view class="my-active-title1">我的动态</view>
-			<view class="my-active-index"></view>
-			<view class="my-active-vertify"></view>
-			<view class="my-active-title2">短视频</view>
-			<view class="my-active-vertify2"></view>
-			<view class="my-active-title3">收藏</view>
-			<view class="my-active-image"></view>
-			<view class="my-active-nickName">晴天小猪</view>
-			<view class="my-active-data">2019-12-12  09:11</view>
-			<view class="edit-del">
-				<image src="../../static/img/user/edit-del.png" mode=""></image>
-			</view>
-			<view class="my-active-recommend">
-				某臣氏骑剑活动！水雾质地 很轻薄 不沾黏！在上待几分钟会变成雾面哑光感 超高级！显色很持久...
-				<text class="my-active-more">展开</text>
-				<view class="my-active-more-image">></view>
-			</view>
-			<view class="my-active-pic"></view>
-			<view class="add-topic">
-				
-				
-			</view>
-			<view class="add-topic-image">
-				<image src="../../static/img/user/add-topic.png" mode=""></image>
-			</view>
-			<text class="add-topic-text">添加你的话题</text>
-
-			<view class="share">
-				<image src="../../static/img/user/share.png" mode=""></image>
-			</view>
-			<view class="message">
-				<image src="../../static/img/user/message.png" mode=""></image>
-			</view>
-			<text class="my-active-message">700</text>
-			<view class="star">
-				<image src="../../static/img/user/star.png" mode=""></image>
-			</view>
-			<text class="my-active-star">120</text>
-			<view class="good">
-				<image src="../../static/img/user/good.png" mode=""></image>
-			</view>
-			<text class="my-active-good">180</text>
-			
-		</view>
-
-
-		<view class="my-active">
-			<view class="my-active-title1">我的动态</view>
-			<view class="my-active-index"></view>
-			<view class="my-active-vertify"></view>
-			<view class="my-active-title2">短视频</view>
-			<view class="my-active-vertify2"></view>
-			<view class="my-active-title3">收藏</view>
-			<view class="my-active-image"></view>
-			<view class="my-active-nickName">晴天小猪</view>
-			<view class="my-active-data">2019-12-12  09:11</view>
-			<view class="edit-del">
-				<image src="../../static/img/user/edit-del.png" mode=""></image>
-			</view>
-			<view class="my-active-recommend">
-				某臣氏骑剑活动！水雾质地 很轻薄 不沾黏！在上待几分钟会变成雾面哑光感 超高级！显色很持久...
-				<text class="my-active-more">展开</text>
-				<view class="my-active-more-image">></view>
+		<!-- 短视频导航 -->
+		<view class="video-nav-wrap">
+			<!-- <view :style="'background: ' + swiperList[cardCur].backs + ';'"> -->
+			<view class="video-nav">
+				<text class="video-nav-hot">网红短视频</text>
+				<text class="video-nav-eye">一秒吸引你的眼球</text>
+				<text class="video-nav-more">更多</text>
+				<image class="video-nav-more-image" style="width:11upx;height:20upx;" src="../../static/img/main/more.png" mode="" />
 			</view>
 			
-			
-			<view class="my-active-pic"></view>
-			<view class="add-topic">
-				
-				
+			<view>
+				<swiper
+					class="card-swiper"
+					:class="dotStyle ? 'square-dot' : 'round-dot'"
+					:indicator-dots="false"
+					:circular="true"
+					interval="3000"
+					duration="500"
+					@change="cardSwiper"
+					indicator-color="#8799a3"
+					indicator-active-color="#0081ff"
+				>
+					<swiper-item v-for="(item, index) in videoList" :key="index" :class="cardCur == index ? 'cur' : ''">
+						<view class="swiper-item">
+							<image :src="item.videoUrl" mode="aspectFill"></image>
+							<image class="video-image" style="width:94upx;height:94upx;z-index:400;" src="../../static/img/main/start.png" mode="aspectFill"></image>
+							<!-- <video :src="item.url" autoplay loop muted :show-play-btn="false" :controls="false" objectFit="cover" v-if="item.type == 'video'"></video> -->
+						</view>
+					</swiper-item>
+				</swiper>
 			</view>
-			<view class="add-topic-image">
-				<image src="../../static/img/user/add-topic.png" mode=""></image>
-			</view>
-			<text class="add-topic-text">添加你的话题</text>
-
-			<view class="share">
-				<image src="../../static/img/user/share.png" mode=""></image>
-			</view>
-			<view class="message">
-				<image src="../../static/img/user/message.png" mode=""></image>
-			</view>
-			<text class="my-active-message">700</text>
-			<view class="star">
-				<image src="../../static/img/user/star.png" mode=""></image>
-			</view>
-			<text class="my-active-star">120</text>
-			<view class="good">
-				<image src="../../static/img/user/good.png" mode=""></image>
-			</view>
-			<text class="my-active-good">180</text>
-			<view class="more">-上拉查看更多-</view>
 		</view>
-    </view>
+		<!-- 众话题 -->
+		<view class="zhong">
+			<view class="zhong-nav">
+				<text class="video-nav-hot">众话题</text>
+				<text class="video-nav-eye">热门话题等你来参与</text>
+				<text class="video-nav-more">更多</text>
+				<image class="video-nav-more-image" style="width:11upx;height:20upx;" src="../../static/img/main/more.png" mode="" />
+			</view>
+
+			<view >
+				<view class="zhong-content">
+					<view class="zhong-content-image" v-for="(item, index) in zhongList" :key="index">
+						<view class="zhong-content-image-content">
+							<image class="zhong-content-image-content-image" style="width:346upx;height:218upx;" src="item.top_img_list[0]" mode="" />
+							<text class="zhong-content-text">#{{item.talk_theme}}</text>
+						</view>
+					</view> 
+				</view>
+			</view>
+		</view>
+		<view style="clear:both"></view>
+		<!-- 精选好物 -->
+		<view class="quality">
+			<view class="zhong-nav">
+				<text class="video-nav-hot">精选好物</text>
+				<text class="video-nav-eye">什么值得买</text>
+				<text class="video-nav-more">更多</text>
+				<image class="video-nav-more-image" style="width:11upx;height:20upx;" src="../../static/img/main/more.png" mode="" />
+			</view>
+			<view>
+				<swiper
+					class="card-swiper-immeuble"
+					:class="dotStyle ? 'square-dot' : 'round-dot'"
+					:indicator-dots="false"
+					:circular="true"
+					interval="3000"
+					duration="500"
+					@change="cardSwiper"
+					indicator-color="#8799a3"
+					indicator-active-color="#0081ff"
+				>
+					<swiper-item v-for="(item, index) in swiperList" :key="index" :class="cardCur == index ? 'cur' : ''">
+						<view class="swiper-item-immeuble">
+							<!-- <image :src="item.url" mode="aspectFill" v-if="item.type == 'image'"></image> -->
+							<!-- <video :src="item.url" autoplay loop muted :show-play-btn="false" :controls="false" objectFit="cover" v-if="item.type == 'video'"></video> -->
+							
+							<view v-for="(item, index) in gootList" :key="index">
+								<view class="immeuble">
+									<image class="" style="width:179upx;height:160upx;" :src="item.top_img_list[0]" mode="" />
+									<view class="immeuble-desc">{{item.goods_name}}</view>
+									<view class="immeuble-price">￥{{item.goods_price}}</view>
+								</view>
+								
+							</view>
+						</view>
+					</swiper-item>
+				</swiper>
+			</view>
+		</view>
+		<!-- 居圈 -->
+		<view class="juquan">
+			<view class="juquan-nav">
+				<text class="video-nav-hot">居圈</text>
+				<text class="video-nav-eye">居家生活趣味多</text>
+				<text class="video-nav-more">更多</text>
+				<image class="video-nav-more-image" style="width:11upx;height:20upx;" src="../../static/img/main/more.png" mode="" />
+			</view>
+			<image class="" style="width:750upx;height:230upx;" src="../../static/img/main/juquan-bg.png" mode="" />
+			<view class="juquan-content" v-for="(item, index) in topList" :key="index">
+				<view class="juquan-content-model">
+					<image class="juquan-content-model-image" style="width:347upx;height:355upx;" :src="item.img_list[0].fileUrl" mode="" />
+					<view class="juquan-content-model-des">{{item.content | ellipsis}}</view>
+					<image class="juquan-content-info-avator" style="width:52upx;height:55upx;border-radius: 50%;" :src="item.head" mode="" />
+					<view class="juquan-content-info-nickname">{{item.nickName}}</view>
+				</view>
+				
+			</view>
+			
+		</view>
+		<view class="footer-more">- 查看更多 -</view>
+	</view>
 </template>
 
 <script>
-    
-
-    export default {
-        
-        methods: {
-            
-            
-        }
-    }
+	import uniSwiperDot from '@/components/uni-swiper-banner/uni-swiper-banner.vue'
+	export default {
+		components: {
+			uniSwiperDot
+		},
+		data() {
+			return {
+				dotStyle: {
+					backgroundColor: '#CCCCCC',
+					border: '1px #CCCCCC solid',
+					color: '#F9B72C',
+					selectedBackgroundColor: '#F9B72C',
+					selectedBorder: '1px #F9B72C solid'
+				},
+				modeIndex: 2,
+				current: 0,
+				mode: 'round',
+				cardCur: 0,
+				swiperList: [{
+				id: 0,
+				type: 'image',
+				url: '../../static/img/main/video.png'
+				}, {
+				id: 1,
+					type: 'image',
+					url: '../../static/img/main/video.png',
+				}, {
+				id: 2,
+				type: 'image',
+				url: '../../static/img/main/video.png'
+				}, {
+				id: 3,
+				type: 'image',
+				url: '../../static/img/main/video.png'
+				}, {
+				id: 4,
+				type: 'image',
+				url: '../../static/img/main/video.png'
+				}, {
+				id: 5,
+				type: 'image',
+				url: '../../static/img/main/video.png'
+				}, {
+				id: 6,
+				type: 'image',
+				url: '../../static/img/main/video.png'
+				}],
+				cardCur: '',
+				backs: '',
+				videoList: [],
+				gootList: [],
+				topList: [],
+				zhongList: [],
+				bannerList: [],
+			}
+		},
+		filters: {
+			ellipsis (value) {
+			  if (!value) return ''
+			  if (value.length > 22) {
+				return value.slice(0,22) + '...'
+			  }
+			  return value
+			}
+		},
+		onLoad() {},
+		onShow() {
+			
+			const url = this.url
+			let self = this
+			// app主页轮播图
+			uni.request({
+				url: url + 'public/public/getresourcesbyresourcestype',
+				data: {
+					resourcesTypeName:'app_shop_index_img'
+				},
+				method:"POST",
+				header : {'content-type':'application/x-www-form-urlencoded','port':'app'},
+				success: function (res){
+					if(res.data.code=="200"){
+						self.bannerList = res.data.data
+					}
+				}
+			})
+			// 网红短视频
+			uni.request({
+				url: url + 'controller/videocontroller/getInternetCelebrityShortVideo',
+				data: {
+					pageIndex: 1,
+					pageSize: 100
+				},
+				method:"POST",
+				header : {'content-type':'application/x-www-form-urlencoded','port':'app'},
+				success: function (res){
+					if(res.data.code=="200"){
+						for(var i = 0;i < res.data.data.dataList.length;i++){
+							
+							res.data.data.dataList[i].videoUrl = res.data.data.dataList[i].videoUrl.replace('MP4','jpg')
+							res.data.data.dataList[i].videoUrl = res.data.data.dataList[i].videoUrl.replace('mp4','jpg')
+						}
+						self.videoList = res.data.data.dataList
+					}
+				}
+			})
+			// 众话题
+			uni.request({
+				url: url + 'controller/videocontroller/getZhongTalkThemeList',
+				data: {
+					pageIndex: 1,
+					pageSize: 100
+				},
+				method:"POST",
+				header : {'content-type':'application/x-www-form-urlencoded','port':'app'},
+				success: function (res){
+					if(res.data.code=="200"){
+						self.zhongList = res.data.data.dataList
+					}
+				}
+			})
+			// 获取精品好物
+			uni.request({
+				url: url + 'controller/shopcontroller/getGoodThingsToShare',
+				data: {
+					pageIndex: 1,
+					pageSize: 100
+				},
+				method:"POST",
+				header : {'content-type':'application/x-www-form-urlencoded','port':'app'},
+				success: function (res){
+					if(res.data.code=="200"){
+						self.gootList = res.data.data.dataList
+					}
+				}
+			})
+			// 居圈专辑
+			uni.request({
+				url: url + 'controller/contentcontroller/getIndexRecommendGcircleContent',
+				data: {
+					pageIndex: 1,
+					pageSize: 1000
+				},
+				method:"POST",
+				header : {'content-type':'application/x-www-form-urlencoded'},
+				success: function (res){
+					if(res.data.code=="200"){
+						console.log(res)
+						for(var i = 0; i<res.data.data.dataList.length;i++){
+							res.data.data.dataList[i].img_list = JSON.parse(res.data.data.dataList[i].img_list);
+							// console.log(res.data.data.dataList[i].img_list[0].fileUrl)
+						}
+						self.topList = res.data.data.dataList
+					}
+				}
+			})
+		},
+		methods: {
+			goSearch(){
+				uni.navigateTo({
+					url: "/pages/G-circle/search-list/search-list"
+				})
+			},
+			change(e) {
+				this.current = e.detail.current
+			},
+			// 卡片轮播
+			DotStyle(e) {
+				this.dotStyle = e.detail.value;
+			},
+			// cardSwiper
+			cardSwiper(e) {
+				this.cardCur = e.detail.current;
+			},
+			// towerSwiper
+			// 初始化towerSwiper
+			TowerSwiper(name) {
+				let list = this[name];
+				for (let i = 0; i < list.length; i++) {
+					list[i].zIndex = parseInt(list.length / 2) + 1 - Math.abs(i - parseInt(list.length / 2));
+					list[i].mLeft = i - parseInt(list.length / 2);
+				}
+				this.swiperList = list;
+			},
+	
+			// towerSwiper触摸开始
+			TowerStart(e) {
+				this.towerStart = e.touches[0].pageX;
+			},
+	
+			// towerSwiper计算方向
+			TowerMove(e) {
+				this.direction = e.touches[0].pageX - this.towerStart > 0 ? 'right' : 'left';
+			},
+	
+			// towerSwiper计算滚动
+			TowerEnd(e) {
+				let direction = this.direction;
+				let list = this.swiperList;
+				if (direction == 'right') {
+					let mLeft = list[0].mLeft;
+					let zIndex = list[0].zIndex;
+					for (let i = 1; i < this.swiperList.length; i++) {
+						this.swiperList[i - 1].mLeft = this.swiperList[i].mLeft;
+						this.swiperList[i - 1].zIndex = this.swiperList[i].zIndex;
+					}
+					this.swiperList[list.length - 1].mLeft = mLeft;
+					this.swiperList[list.length - 1].zIndex = zIndex;
+				} else {
+					let mLeft = list[list.length - 1].mLeft;
+					let zIndex = list[list.length - 1].zIndex;
+					for (let i = this.swiperList.length - 1; i > 0; i--) {
+						this.swiperList[i].mLeft = this.swiperList[i - 1].mLeft;
+						this.swiperList[i].zIndex = this.swiperList[i - 1].zIndex;
+					}
+					this.swiperList[0].mLeft = mLeft;
+					this.swiperList[0].zIndex = zIndex;
+				}
+				this.direction = '';
+				this.swiperList = this.swiperList;
+			}
+			
+		}
+	}
 </script>
 
 <style>
-	.wrap{
-		background-color: #F7F7F7;
-		padding-bottom: 120rpx;
-		height: 100%;
+	.uni-swiper__dots-box{
+		bottom: 29px !important;
 	}
-	.bg{
+	.banner{
 		position: relative;
-		width: 750rpx;
-		height: 463rpx;
+		width: 750upx;
+		height: 466upx;
+		background-color: #fff;
 	}
-	.bg image{
-		width: 750rpx;
-		height: 463rpx;
-	}
-	.left-menu{
+	.address{
 		position: absolute;
-		left: 28rpx;
-		top: 49rpx;
-		width: 44rpx;
-		height: 44rpx;
-	}
-	.left-menu image{
-		width:44rpx;
-		height: 44rpx;
-	}
-	.right-wechat{
-		position: absolute;
-		right: 29rpx;
-		top: 51rpx;
-		width: 44rpx;
-		height: 44rpx;
-	}
-	.right-wechat image{
-		width:44rpx;
-		height: 44rpx;
-	}
-	.user-avater{
-		position: absolute;
-		left: 22rpx;
-		top: 326rpx;
-		width: 199rpx;
-		height: 193rpx;
-		z-index: 99;
-	}
-	.user-avater image{
-		width: 199rpx;
-		height: 193rpx;
-	}
-	/* 客户信息 */
-	.user-info{
-		position: relative;
-		top: -30rpx;
-		width:750rpx;
-		height:308rpx;
-		background:rgba(255,255,255,1);
-		box-shadow:0px 0px 9rpx 0px rgba(93,93,93,0.08);
-		border-radius:32rpx 32rpx 0px 0px;
-	}
-	.user-state{
-		position: absolute;
-		left: 45rpx;
-		top: 40rpx;
-		width: 149rpx;
-		height: 53rpx;
 		z-index: 100;
+		top: 63upx;
+		left: 30upx;
+		font-size:24upx;
+		font-family:PingFang SC;
+		color:rgba(255,255,255,1);
 	}
-	.user-state image{
-		width: 149rpx;
-		height: 53rpx;
-	}
-	.edit-info{
+	.arrow{
 		position: absolute;
-		right: 235rpx;
-		top: 30rpx;
-		width: 191rpx;
-		height: 58rpx;
 		z-index: 100;
+		top: 68upx;
+		left: 79upx;
 	}
-	.edit-info image{
-		width: 191rpx;
-		height: 58rpx;
-	}
-	.my-order{
+	.info{
 		position: absolute;
-		right: 30rpx;
-		top: 30rpx;
-		width: 191rpx;
-		height: 58rpx;
 		z-index: 100;
+		top: 59upx;
+		left: 678upx;
 	}
-	.my-order image{
-		width: 191rpx;
-		height: 58rpx;
-	}
-	.user-nickName{
+	.search-image{
 		position: absolute;
-		left: 29rpx;
-		top: 95rpx;
-		font-size:38rpx;
-		font-family:PingFang SC;
-		font-weight:bold;
-		color:rgba(51,51,51,1);
+		z-index: 1000;
+		top: 337upx;
+		left: 93upx;
 	}
-	.user-nickName-image{
+	.search-white{
 		position: absolute;
-		left: 185rpx;
-		top: 110rpx;
-		width: 33rpx;
-		height: 33rpx;
+		z-index: 1000;
+		top: 200px;
 	}
-	.user-nickName-image image{
-		width: 33rpx;
-		height: 33rpx;
-	}
-	.user-intro{
+	.search{
 		position: absolute;
-		left: 28rpx;
-		bottom: 95rpx;
-		font-size:26rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(51,51,51,1);
-	}
-	.user-recommend{
-		position: absolute;
-		font-size:25rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(51,51,51,1);
-		left: 30rpx;
-		bottom: 35rpx;
-	}
-	.user-recommend text{
-		margin-right: 30rpx;
-	}
-	.hot{
-		position: absolute;
-		right: 279rpx;
-		bottom: 26rpx;
-	}
-	.hot image{
-		width: 28rpx;
-		height: 32rpx;
-	}
-	.number{
-		position: absolute;
-		font-size:25rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(51,51,51,1);
-		right: 220rpx;
-		bottom: 35rpx;
-	}
-	/* 我的动态 */
-	.my-active{
-		position: relative;
-		display: flex;
-		margin-bottom: 20rpx;
-		top: -10rpx;
-		/* top: 450rpx; */
-		width:749rpx;
-		height:899rpx;
-		background:rgba(255,255,255,1);
-		box-shadow:0px 0px 9rpx 0px rgba(93,93,93,0.08);
-	}
-	.my-active-title1{
-		position: absolute;
-		left: 29rpx;
-		top: 24rpx;
-		font-family:PingFang SC;
-		font-weight:bold;
-		color:rgba(51,51,51,1);
-	}
-	.my-active-index{
-		position: absolute;
-		left: 75rpx;
-		top: 83rpx;
-		width:52rpx;
-		height:5rpx;
-		background:rgba(249,183,44,1);
-		border-radius:3rpx;
-	}
-	.my-active-vertify{
-		position: absolute;
-		left: 212rpx;
-		top: 34rpx;
-		width:1rpx;
-		height:36rpx;
-		background:rgba(226,226,226,1);
-	}
-	.my-active-title2{
-		position: absolute;
-		right: 392rpx;
-		top: 28rpx;
-		font-size:32rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(116,116,116,1);
-	}
-	.my-active-vertify2{
-		position: absolute;
-		left: 408rpx;
-		top: 34rpx;
-		width:1rpx;
-		height:36rpx;
-		background:rgba(226,226,226,1);
-	}
-	.my-active-title3{
-		position: absolute;
-		right: 222rpx;
-		top: 28rpx;
-		font-size:32rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(116,116,116,1);
-	}
-	.my-active-image{
-		position: absolute;
-		left: 30rpx;
-		top: 120rpx;
-		width:80rpx;
-		height:80rpx;
-		background:rgba(149,149,149,1);
-		border-radius:50%;
-	}
-	.my-active-nickName{
-		position: absolute;
-		left: 128rpx;
-		top: 132rpx;
-		font-size:32rpx;
-		font-family:PingFang SC;
-		font-weight:bold;
-		color:rgba(51,51,51,1);
-	}
-	.my-active-data{
-		position: absolute;
-		left: 128rpx;
-		top: 175rpx;
-		font-size:24rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(102,102,102,1);
-	}
-	.edit-del{
-		position: absolute;
-		right: 28rpx;
-		top: 146rpx;
-		width: 36rpx;
-		height: 23rpx;
-	}
-	.edit-del image{
-		width: 36rpx;
-		height: 23rpx;
-	}
-	.my-active-recommend{
-		position: absolute;
-		left: 34rpx;
-		top: 225rpx;
-		width:674rpx;
-		height:59rpx;
-		font-size:28rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(51,51,51,1);
-		line-height:33rpx;
-	}
-	.my-active-more{
-		margin-left: 10rpx;
-		font-size:24rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(90,124,171,1);
-		line-height:33rpx;
-	}
-	.my-active-more-image{
-		display: inline-block;
-		padding-bottom: 6rpx;
-		margin-left: 6rpx;
-		transform: rotate(90deg);
-		font-size:36rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(90,124,171,1);
-		line-height:49rpx;
-	}
-	.my-active-pic{
-		position: absolute;
-		left: 29rpx;
-		bottom: 137rpx;
-		width:690rpx;
-		height:450rpx;
-		background: #959595;
-	}
-	.add-topic{
-		position: absolute;
-		left: 29rpx;
-		bottom: 79rpx;
-		width:181rpx;
-		height:42rpx;
-		background:rgba(249,183,44,.8);
-		opacity:0.2;
-		border-radius:21rpx;
-	}
-	.add-topic-image{
-		position: absolute;
-		left: 34rpx;
-		bottom: 110rpx;
-		width:20rpx;
-		height:20rpx;
-		z-index: 999;
-	}
-	.add-topic-image image{
-		width:20rpx;
-		height:20rpx;
-	}
-	.add-topic-text{
-		position: absolute;
-		left: 54rpx;
-		bottom: 78rpx;
-		font-size:22rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:#F9B72C;
-		line-height:42rpx;
-	}
-	.share{
-		position: absolute;
-		left: 26rpx;
-		bottom: 42rpx;
-		width:32rpx;
-		height:30rpx;
-	}
-	.share image{
-		width:32rpx;
-		height:30rpx;
-	}
-	.message{
-		position: absolute;
-		right: 322rpx;
-		bottom: 34rpx;
-		width:39rpx;
-		height:35rpx;
-	}
-	.message image{
-		width:39rpx;
-		height:35rpx;
-	}
-	.my-active-message{
-		position: absolute;
-		right: 274rpx;
-		bottom: 30rpx;
-		font-size:26rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(153,153,153,1);
-	}
-	.star{
-		position: absolute;
-		right: 204rpx;
-		bottom: 34rpx;
-		width:39rpx;
-		height:35rpx;
-	}
-	.star image{
-		width:39rpx;
-		height:35rpx;
-	}
-	.my-active-star{
-		position: absolute;
-		right: 153rpx;
-		bottom: 30rpx;
-		font-size:26rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(153,153,153,1);
-	}
-	.good{
-		position: absolute;
-		right: 83rpx;
-		bottom: 34rpx;
-		width:39rpx;
-		height:35rpx;
-	}
-	.good image{
-		width:39rpx;
-		height:35rpx;
-	}
-	.my-active-good{
-		position: absolute;
-		right: 31rpx;
-		bottom: 30rpx;
-		font-size:26rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(153,153,153,1);
-	}
-	.more{
-		position: absolute;
-		left: 289rpx;
-		bottom: -90rpx;
-		font-size:24rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(204,204,204,1);
+		box-sizing: border-box;
+		z-index: 100;
+		top: 316upx;
+		left: 63upx;
+		width: 624upx;
+		height: 72upx;
+		background:rgba(246,246,246,1);
+		border-radius:36upx;
+		padding-left: 39px;
 	}
 	
+	.swiper-box {
+		height: 466upx;
+		z-index: -1;
+	}
+
+	.swiper-item {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+		background: #eee;
+		color: #fff;
+	}
+
+	.swiper-item image {
+		width: 100%;
+		height: 100%;
+	}
+	/* 卡片轮播 */
+	.video-nav{
+		position: relative;
+		padding-bottom: 13px;
+	}
+	.video-nav-hot{
+		position: absolute;
+		top: 0;
+		left: 30upx;
+		font-size:34upx;
+		font-family:PingFang SC;
+		font-weight:600;
+		color:rgba(51,51,51,1);
+	}
+	.video-nav-eye{
+		position: absolute;
+		top: 6px;
+		left: 242upx;
+		font-size:24upx;
+		font-family:PingFang SC;
+		color:rgba(102,102,102,1);
+	}
+	.video-nav-more{
+		position: absolute;
+		top: 5px;
+		left: 656upx;
+		font-size:24upx;
+		font-family:PingFang SC;
+		color:rgba(102,102,102,1);
+	}
+	.video-nav-more-image{
+		position: absolute;
+		top: 8px;
+		left: 710upx;
+	}
+	.swiper-item{
+		background-color: #fff;
+	}
+	.swiper-item image,
+	.swiper-item video {
+		width: 100%;
+		display: block;
+		height: 100%;
+		margin: 0;
+		pointer-events: none;
+	}
+	.card-swiper {
+		height: 323px !important;
+	}
+
+	.card-swiper swiper-item {
+		width: 368upx !important;
+		left: 180upx;
+		box-sizing: border-box;
+		padding: 40rpx 0rpx 70rpx;
+		overflow: initial;
+	}
+
+	.card-swiper swiper-item .swiper-item {
+		width: 100%;
+		display: block;
+		height: 100%;
+		border-radius: 10rpx;
+		transform: scale(0.9);
+		transition: all 0.2s ease-in 0s;
+		overflow: hidden;
+	}
+
+	.card-swiper swiper-item.cur .swiper-item {
+		transform: none;
+		transition: all 0.2s ease-in 0s;
+	}
+	/* 众话题 */
+	.zhong{
+		margin-top: -12px;
+		margin-bottom: 16px;
+	}
+	.zhong-nav{
+		position: relative;
+		padding-bottom: 13px;
+		margin-bottom: 20px;
+	}
+	.zhong-content{
+		float: left;
+		margin-top: 10px;
+	}
+	.zhong-content-image{
+		float: left;
+		margin-left: 16px;
+		margin-bottom: 6px;
+		width:346upx;
+		height:218upx;
+		background: url("http://www.zhongjubang.com/api/upload/bfb59673-9bc0-4064-9123-df0b59bb0918-9729.jpeg") no-repeat 100%;
+		background-size:346upx 218upx;
+	}
+	.zhong-content-image:nth-child(even){
+		margin-left: 10upx;
+	}
+	.zhong-content-image-content{
+		position: relative;
+		text-align: center;
+		margin-left: 0;
+
+	}
+	.zhong-content-image-content-image{
+		position: absolute;
+	}
+	.zhong-content-text{
+
+		line-height: 218upx;
+		font-size:30upx;
+		font-family:PingFang SC;
+		color:rgba(255,255,255,1);
+	}
+	
+	/* 精选好物 */
+	.quality{
+		margin-bottom: 10px;
+	}
+	.card-swiper-immeuble{
+		margin-top: -10px;
+	}
+	.card-swiper-immeuble swiper-item {
+		width: 626upx !important;
+		left: 26upx;
+		box-sizing: border-box;
+		padding: 40rpx 0rpx 70rpx;
+		overflow: initial;
+	}
+
+	.card-swiper-immeuble swiper-item .swiper-item-immeuble {
+		height: 322rpx !important;
+		border:1px solid rgba(226,226,226,1);
+		box-shadow:-2upx 1upx 16upx 0px rgba(0, 0, 0, 0.08);
+		border-radius:20upx;
+		width: 100%;
+		display: block;
+		height: 100%;
+		border-radius: 10rpx;
+		transform: scale(0.9);
+		transition: all 0.2s ease-in 0s;
+		overflow: hidden;
+	}
+
+	.card-swiper-immeuble swiper-item.cur .swiper-item-immeuble {
+		transform: none;
+		transition: all 0.2s ease-in 0s;
+	}
+	.swiper-item-immeuble{
+		float: left;
+		box-sizing: border-box;
+		padding: 12upx 22upx;
+		padding-top: 30upx;
+	}
+	.immeuble{
+		float: left;
+		margin-left: 12upx;
+		width: 179upx;
+	}
+	.immeuble-desc{
+		margin: 5px 0;
+		font-size:24upx;
+		line-height: 24upx !important;
+		font-family:PingFang SC;
+		color:rgba(51,51,51,1);
+		line-height: 30upx;
+	}
+	.immeuble-price{
+		font-size:24upx;
+		font-family:PingFang SC;
+		font-weight:bold;
+		color:rgba(244,51,72,1);
+	}
+	.card-swiper-immeuble {
+		height: 392rpx !important;
+		margin-right: 26upx;
+	}
+	/* 居圈 */
+	.juquan{
+		margin-bottom: 60px;
+	}
+	.juquan-nav{
+		position: relative;
+		padding-bottom: 13px;
+		margin-bottom: 26px;
+	}
+	.juquan-content{
+		float: left;
+		margin-top:10px;
+		margin-left: 11px;
+	}
+	.juquan-content:nth-last-child(1){
+		margin-bottom: 60px;
+	}
+	.juquan-content-model{
+		position: relative;
+		width: 347upx;
+		height: 508upx;
+	}
+	
+	.juquan-content-model-image{
+		position: absolute;
+	}
+	.juquan-content-model-des{
+		position: absolute;
+		left: 20upx;
+		top: 363upx;
+		width: 298upx;
+		height: 58upx;
+		font-size:24upx;
+		font-family:PingFang SC;
+		font-weight:bold;
+		color:rgba(51,51,51,1);
+		line-height:32upx;
+	}
+	.juquan-content-info-avator{
+		position: absolute;
+		left: 20upx;
+		top: 434upx;
+	}
+	.juquan-content-info-nickname{
+		position: absolute;
+		left: 86upx;
+		top: 236px;
+		font-size:22upx;
+		font-family:PingFang SC;
+		font-weight:bold;
+		color:rgba(102,102,102,1);
+		line-height:64upx;
+	}
+	.footer-more{
+		position: relative;
+		left: 305upx;
+		bottom: 40px;
+		font-size:24upx;
+		font-family:PingFang SC;
+		color:rgba(204,204,204,1);
+	}
 </style>
