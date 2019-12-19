@@ -7,6 +7,35 @@
 					"titleNView": false //禁用原生导航栏  
 				}
 			}
+		},{
+			"path": "pages/confirm-order/confirm-order",
+			"style" : {
+				 "navigationBarTitleText": "确认订单"
+			}
+		},
+		{
+			"path": "pages/wanghong/wanghong",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		{
+			"path": "pages/shop/shop",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		{
+			"path": "pages/category/category",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
 		},
 		{
 			"path": "pages/loginPhone/loginPhone",
@@ -16,9 +45,39 @@
 				}
 			}
 		},
+		{
+			"path": "pages/answer/answer",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		{
+			"path": "pages/index/index",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
 		
-		
-		
+		{
+			"path": "pages/juquanVideo/juquanVideo",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		{
+			"path": "pages/juquan/juquan",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
 		{
 			"path" : "pages/drafts/drafts",
 			"style" : {
@@ -140,15 +199,6 @@
 		        }
 		    }
 		},
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		{
 			"path" : "pages/editInfo/editInfo",
 			"style": {
@@ -214,14 +264,7 @@
 		    }
 		},
 		
-		{
-			"path": "pages/answer/answer",
-			"style": {
-				"app-plus": {
-					"titleNView": false //禁用原生导航栏  
-				}
-			}
-		},
+		
 		{
 			"path": "pages/releaseImage-details/releaseImage-details",
 			"style": {
@@ -323,8 +366,10 @@
         },
         {
             "path": "pages/main/main",
-            "style": {
-                "navigationBarTitleText": "登录模板"
+			"style": {
+                "app-plus": {
+                    "titleNView": false //禁用原生导航栏  
+                }
             }
         },
 		

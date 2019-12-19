@@ -196,10 +196,9 @@
 							let data = res.data.data;
 							this.recommendList = data;
 						}
-						if(res.data.code == 407) {
-							uni.showToast({
-								title: '请重新登录'
-								
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
 							})
 						}
 					})
@@ -232,10 +231,9 @@
 							}
 							this.releaseImgList = data;
 						}
-						if(res.data.code == 407) {
-							uni.showToast({
-								title: '请重新登录'
-								
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
 							})
 						}
 					})
@@ -255,13 +253,12 @@
 						uni.hideLoading()
 				        if(res.data.code == 200) {
 				            this.userList = res.data.data;
-				        } else {
-				            uni.showToast({
-				                icon: 'none',
-				                title: res.data.message
-				            });
-				            uni.hideToast();
-				        }
+				        } 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 				    }
 				});
 			},
@@ -289,29 +286,24 @@
 								data[i].title = JSON.parse(data[i].title);
 							}
 				            this.releaseImgList = data;
-				        } else {
-				            uni.showToast({
-				                icon: 'none',
-				                title: res.data.message
-				            });
-				            uni.hideToast();
 				        }
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 				    }
 				});
 			},
 			// 关注
 			focus(id,currents) {
-				
 			    uni.request({
 			        url: this.url + 'controller/usercontroller/addattentionrelationship',
 			        method: 'post',
 			        data: {outUserId: id},
 			        header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 			        success:((res) => {
-						console.log(this.token)
-						console.log(res.data)
 			            if(res.data.code == 200) {
-							console.log(currents)
 							if(currents == 0) {
 								this.init();
 							}
@@ -320,13 +312,12 @@
 								this.focusUser();
 							}
 			                // this.init(this.topicId);
-			            } else {
-			                uni.showToast({
-			                    icon: 'none',
-			                    title: res.data.message
-			                });
-			                uni.hideToast();
-			            }
+			            } 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 			        })
 			    });
 			},
@@ -351,13 +342,12 @@
 								return;
 							}
 			                this.isShowCollect = !this.isShowCollect;
-			            } else {
-			                uni.showToast({
-			                    icon: 'none',
-			                    title: res.data.message
-			                });
-			                uni.hideToast();
-			            }
+			            } 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 			        }
 			    });
 			},
@@ -382,13 +372,12 @@
 								return;
 							}
 							this.isShowFabulous = !this.isShowFabulous;
-			            } else {
-			                uni.showToast({
-			                    icon: 'none',
-			                    title: res.data.message
-			                });
-			                uni.hideToast();
-			            }
+			            } 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 			        })
 			    });
 			},
@@ -495,6 +484,11 @@
 							this.showEdit = !this.showEdit;
 							this.init();
 						}
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 					})
 				})
 			},
@@ -518,7 +512,6 @@
 			},
 			// 点击话题跳转到话题详情
 			goTopic(id) {
-				
 				uni.navigateTo({
 					url:'/pages/topicDetails/topicDetails?id=' + id
 				})

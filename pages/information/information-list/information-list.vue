@@ -102,6 +102,11 @@
 							this.good = data.goods[0];
 							this.system = data.system[0];
 						}
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 					})
 				})
 			},
@@ -153,7 +158,14 @@
 						'token': this.token
 					},
 					success: ((res) => {
-						this.init();
+						if(res.data.code == 200) {
+							this.init();
+						}
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 					})
 				})
 			}

@@ -92,10 +92,9 @@
 							}
 							this.allData = data;
 						}
-						if(res.data.code == 407) {
-							uni.showToast({
-								title: '请重新登录'
-								
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
 							})
 						}
 					})

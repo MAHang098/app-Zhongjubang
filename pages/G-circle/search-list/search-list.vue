@@ -60,14 +60,16 @@
 		
 		<!-- 居圈列表 start-->
 		<view class="gCircle-list" v-show="current == 0">
-			<view class="list-detail" v-for="(item, index) in circleData" :key="index">
-				<image src="../../../static/img/G-circle/liu1.png" mode="widthFix"></image>
+			<view class="list-detail" v-for="(item, index) in circleData" :key="index" @click.stop="goGcicle(item.gcircleContentId)">
+				<view  class="product-image">
+					<image :src="item.imgList[0].fileUrl" mode="widthFix"></image>
+				</view>
 				<text>{{item.content | ellipsis}}</text>
 				<view class="gCircle-message">
-					<image src="../../../static/avatar.png" mode="" class="avatar"></image>
+					<image :src="item.head" mode="" class="avatar"></image>
 					<text class="nikename">{{item.nickName}}</text>
 					<text class="count">{{item.count}}</text>
-					<image :src="(activeIndex == index && isShowCollect) || item.state === 1 ? '../../../static/topic/collect-select.png' : '../../../static/img/user/star.png' " mode="" class="collect"></image>
+					<image :src="item.state === 1 ? '../../../static/topic/collect-select.png' : '../../../static/img/user/star.png' " mode="" class="collect"></image>
 				</view>
 			</view>
 			
@@ -95,8 +97,8 @@
 		filters: {
 			ellipsis (value) {
 			  if (!value) return ''
-			  if (value.length > 30) {
-				return value.slice(0,30) + '...'
+			  if (value.length > 20) {
+				return value.slice(0,20) + '...'
 			  }
 			  return value
 			}
@@ -133,13 +135,12 @@
 								data[i].imgList = JSON.parse(data[i].imgList);
 							}
 							this.circleData = data;
-				        } else {
-				            uni.showToast({
-				                icon: 'none',
-				                title: res.data.message
-				            });
-				            uni.hideToast();
-				        }
+				        } 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 				    })
 				});
 			},
@@ -159,13 +160,12 @@
 				        if(res.data.code == 200) {
 							let data = res.data.data.dataList;
 							this.productList = data;
-				        } else {
-				            uni.showToast({
-				                icon: 'none',
-				                title: res.data.message
-				            });
-				            uni.hideToast();
-				        }
+				        } 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 				    })
 				});
 			},
@@ -185,13 +185,12 @@
 				        if(res.data.code == 200) {
 							let data = res.data.data.dataList;
 							this.userList = data;
-				        } else {
-				            uni.showToast({
-				                icon: 'none',
-				                title: res.data.message
-				            });
-				            uni.hideToast();
 				        }
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 				    })
 				});
 			},
@@ -212,7 +211,6 @@
 			},
 			// 返回搜索页面
 			gainInput() {
-				console.log(111)
 				uni.navigateTo({
 					url: '/pages/G-circle/search-content/search-content'
 				})
@@ -236,6 +234,12 @@
 				// #endif
 				
 			},
+			// 跳转G圈详情
+			goGcicle(id) {
+				uni.navigateTo({
+					url: '/pages/releaseImage-details/releaseImage-details?id=' + id
+				})
+			}
 		}
 	}
 </script>
@@ -329,35 +333,38 @@
 		height: 100%;
 		box-sizing: border-box;
 		padding: 0 20rpx;
-		-moz-column-count: 2;  
-		-webkit-column-count: 2;  
-		column-count: 2;     
-		-moz-column-gap: 10px;
-		-webkit-column-gap: 10px;
-		column-gap: 10px;
 		padding-bottom: 100px;
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
 	}
 	.list-detail {
-		-moz-page-break-inside: avoid;
-		-webkit-column-break-inside: avoid;
-		break-inside: avoid;
-		height: 100%;
+		width: 48%;
+		height: 530rpx;
 		box-shadow:1px 0px 4px 0px rgba(136,136,136,0.4);
 		border-radius:4px;
 		background: #FFFFFF;
 		overflow: auto;
-		/* margin-bottom: 30px; */
+		margin-bottom: 10px;
 	}
 	
-	.list-detail image {
+	.list-detail .product-image {
 		width: 100%;
+		height: 340rpx;
 		display: block;
 		border-top-left-radius: 4px;
 		border-top-right-radius: 4px;
 		overflow: hidden;
+		display: flex;
+		align-items: center;
+	}
+	.product-image image {
+		width: 100%;
+		height: 100%;
 	}
 	.list-detail text {
 		font-size:12px;
+		height: 70rpx;
 		font-family:PingFang SC;
 		font-weight:bold;
 		color:rgba(51,51,51,1);
@@ -379,6 +386,7 @@
 		width: 52rpx;
 		height: 55rpx;
 		display: block;
+		border-radius: 50%;
 	}
 	.gCircle-message .nikename {
 		font-size:11px;

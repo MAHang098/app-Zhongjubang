@@ -19,7 +19,7 @@
 		<view class="uni-padding-wrap" id="swiper">
 			<view class="page-section">
 				<view class="page-section-spacing">
-					<swiper class="swiper" :indicator-dots="true" :autoplay="false" :interval="2000" :duration="500">
+					<swiper class="swiper" :indicator-dots="true" :autoplay="true" :interval="2000" :duration="1000" :circular="true">
 						<swiper-item v-for="(item, index) in swiperItem" :key="index">
 							<image :src="item" mode=""></image>
 						</swiper-item>
@@ -69,7 +69,7 @@
 		
 		<!-- 商品评论 start -->
 		<view class="comment-list">
-			<view class="all-comment">评论(20)</view>
+			<view class="all-comment">评论({{commentList.length}})</view>
 			<view>
 				<view class="comment-detail" v-for="(item, index) in commentList" :key="index">
 					<image :src="item.head" mode=""></image>
@@ -77,12 +77,6 @@
 					<view class="comment-date">{{item.crateeTime}}</view>
 					<view>{{item.goodsContentDiscuss}} </view>
 				</view>
-				<!-- <view class="comment-detail">
-					<image src="" mode=""></image>
-					<text>猪猪侠</text>
-					<view class="comment-date">2019-10-11</view>
-					<view>索菲亚衣柜索菲亚衣柜索菲亚衣柜索菲亚衣索菲亚衣柜柜索菲亚衣 索菲亚衣柜</view>
-				</view> -->
 			</view>
 			<view class="get-comment" @click.stop="getAllComments(detailItem.id)">查看全部评论 <image src="../../../static/img/shopping-mall/detail/y-arrow.png" mode=""></image></view>
 		</view>
@@ -97,8 +91,8 @@
 					<view>{{shopItem.num}}粉丝</view>
 				</view>
 				<view class="shop-collect">
-					<text  @click.stop="collectShop" v-if="shopItem.state == 0">+收藏</text>
-					<text class="isShop-collect" @click.stop="collectShop" v-else>已收藏</text>
+					<text  @click.stop="collectShop(shopItem.shopId)" v-if="shopItem.state == 0">+收藏</text>
+					<text class="isShop-collect" @click.stop="collectShop(shopItem.shopId)" v-else>已收藏</text>
 					<text>进店逛逛</text>
 				</view>
 			</view>
@@ -107,7 +101,7 @@
 				<view>商品推荐</view>
 				<view class="page-section swiper-product">
 					<view class="page-section-spacing">
-						<swiper class="swipers" :indicator-dots="false" :autoplay="false" :interval="2000" :duration="500" :display-multiple-items="2" :next-margin="40+'px'">
+						<swiper class="swipers" :indicator-dots="false" :autoplay="true" :circular="true" :interval="2000" :duration="1000" :display-multiple-items="2" :next-margin="40+'px'">
 							<swiper-item class="swiper-item" v-for="(item, index) in recommendItem" :key="index" @click.stop="recommendDetails(item.id)">
 								<!-- <view class="swiper-item uni-bg-red">A</view> -->
 								<view class="recommend-detail">
@@ -143,14 +137,14 @@
 		<uni-popup ref="spec" :type="popupType" :custom="true" id="spec" >
 			<view class="spec-type">
 				<view class="message">
-					<image src="" mode=""></image>
-					<view><text>{{'￥' + detailItem.goodsPrice}}</text><text>库存:请选择规格</text></view>
+					<image :src="swiperItem[0]" mode=""></image>
+					<view><text>{{'￥' + detailItem.goodsPrice}}</text><text>库存:{{activeIndex == -1 ? '请选择规格' :  reserve}}</text></view>
 					<image src="../../../static/img/shopping-mall/detail/close.png" mode="" @click.stop="cancelPopup('spec')"></image>
 				</view>	
 				<view class="category">
 					<view>分类</view>
 					<view class="types"> 
-						<text v-for="(item, index) in typeItem" :key="index" @click.stop="choseType(item.specifications, index, item.id)" :class="activeIndex == index ? 'inTypes' : '' ">{{item.specifications}}</text>
+						<text v-for="(item, index) in typeItem" :key="index" @click.stop="choseType(item.specifications, index, item.id, item.reserve)" :class="activeIndex == index ? 'inTypes' : '' ">{{item.specifications}}</text>
 					</view>
 				</view>
 				
@@ -168,6 +162,10 @@
 		<!-- 弹窗 end -->
 		
 		<view id="detail-bottom">
+			<view class="kefu">
+				<image src="../../../static/img/shopping-mall/detail/kefu.png" mode=""></image>
+				<view>客服</view>
+			</view>
 			<view class="kefu">
 				<image src="../../../static/img/shopping-mall/detail/kefu.png" mode=""></image>
 				<view>客服</view>
@@ -207,7 +205,8 @@
 				addType: 0,
 				recommendItem: [],
 				detailId: '',
-				shopItem: {}
+				shopItem: {},
+				reserve: ''
 			}
 		},
 		filters: {
@@ -235,8 +234,8 @@
 			uni.getStorage({
 				key:"token",
 				success:((res) => {
-				this.token = res.data;
-			  })
+					this.token = res.data;
+				})
 			});
 			this.init();
 			this.gainProductRecommend();
@@ -247,7 +246,7 @@
 				    url: this.url + 'controller/shopcontroller/getgoodsbyid',
 				    method: 'post',
 				    data: {goodsId: this.detailId},
-				    header : {'content-type':'application/x-www-form-urlencoded'},
+				    header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 				    success:((res) => {
 				        if(res.data.code == 200) {
 							let result = [];
@@ -282,17 +281,16 @@
 				    url: this.url + 'controller/shopcontroller/getAppGoodsRecommendGoods',
 				    method: 'post',
 				    data: {pageIndex: 1, pageSize: 100},
-				     header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
+				    header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 				    success:((res) => {
 				        if(res.data.code == 200) {
 							this.recommendItem = res.data.data.dataList;
-				        } else {
-				            uni.showToast({
-				                icon: 'none',
-				                title: res.data.message
-				            });
-				            uni.hideToast();
-				        }
+				        } 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 				    })
 				});
 			},
@@ -303,9 +301,9 @@
 			// 弹出层弹出的方式  i:当前标签的下标, name: 当前标签的name
 			togglePopup(type, open) {
 				this.specDetail();
-				this.popupType = type
+				this.popupType = type;
 				if (open === 'tip') {
-					this.popupShow = true
+					// this.showLogin = true;
 				} else {
 					this.$refs[open].open()
 				}
@@ -331,13 +329,24 @@
 				});
 			},
 			// 收藏店铺
-			collectShop() {
-				console.log(this.token)
-				if(!this.token) {
-					console.log(请登陆)
-					return;
-				}
-				this.showPlus = !this.showPlus;
+			collectShop(id) {
+				uni.request({
+				    url: this.url + 'controller/usercontroller/addusercollection',
+				    method: 'post',
+				    data: {type: '4', collectionContentId: id},
+				    header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
+				    success:((res) => {
+				        if(res.data.code == 200) {
+							// this.typeItem = res.data.data;
+							this.init();
+				        } 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+				    })
+				});
 			},
 			// 商品规格
 			specDetail() {
@@ -349,20 +358,19 @@
 				    success:((res) => {
 				        if(res.data.code == 200) {
 							this.typeItem = res.data.data;
-				        } else {
-				            uni.showToast({
-				                icon: 'none',
-				                title: res.data.message
-				            });
-				            uni.hideToast();
-				        }
+				        } 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 				    })
 				});
 			},
 			// 选择规格
-			choseType(name, index, id) {
+			choseType(name, index, id, num) {
 				this.spec_type_name = name;
-				
+				this.reserve = num;
 				if(index == this.activeIndex) {
 					this.activeIndex = -1;
 					return;
@@ -373,7 +381,9 @@
 			// 点击确定关闭弹窗
 			define() {
 				this.cancelPopup('spec');
-				console.log()
+				if(this.spec_type_name == '') {
+					return;
+				}
 				if(this.addType == 1) {
 					// 跳转到购物车
 					this.addCart();
@@ -405,13 +415,12 @@
 				    success:((res) => {
 				        if(res.data.code == 200) {
 							console.log(res.data)
-				        } else {
-				            uni.showToast({
-				                icon: 'none',
-				                title: res.data.message
-				            });
-				            uni.hideToast();
-				        }
+				        } 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 				    })
 				});
 			},
@@ -443,7 +452,7 @@
 				uni.navigateBack({
 					delta:1
 				})
-			}
+			},
 				
 		}
 	}
@@ -657,7 +666,6 @@
 	.message image:first-child {
 		width: 93px;
 		height: 93px;
-		border: 1px solid red;
 		float: left;
 	}
 	.message view {
@@ -992,5 +1000,51 @@
 		height: 100%;
 		display: inline-block;
 		text-align: center;
+	}
+	/* 提示窗口 */
+	.uni-tip {
+		padding-top: 15px;
+		width: 300px;
+		background: #fff;
+		box-sizing: border-box;
+		border-radius: 10px;
+	}
+	
+	.uni-tip-title {
+		text-align: center;
+		font-weight: bold;
+		font-size: 41rpx;
+		color: #333;
+	}
+	
+	.uni-tip-content {
+		padding: 15px 0;
+		font-size: 32rpx;
+		color: #666;
+		width: 360rpx;
+		color: #666666;
+		font-weight: 500;
+		margin: auto;
+		text-align: center;
+	}
+	
+	.uni-tip-group-button {
+		margin-top: 10px;
+		display: flex;
+	}
+	
+	.uni-tip-button {
+		width: 100%;
+		text-align: center;
+		font-size: 14px;
+		color: #333333;
+		font-size: 37rpx;
+		font-weight: 500;
+		border-top: 1px solid #E2E2E2;
+		padding: 10px 0;
+	}
+	.insist-skip {
+		color: #F9B72C;
+		border-left: 1px solid #E2E2E2;
 	}
 </style>

@@ -130,10 +130,10 @@
 					<!-- 用户信息 start -->
 					<view class="user">
 						<view class="user-message">
-							<image src="../../static/drafts.png" mode=""></image>
+							<image :src="items.head" mode=""></image>
 							<view>
-								<view class="name">晴天小猪</view>
-								<view class="time">219-12-30 09:30</view>
+								<view class="name">{{items.nickName}}</view>
+								<view class="time">{{items.createTime}}</view>
 							</view>
 						</view>
 						<view class="operate-user" @click.stop="operate(index)">
@@ -203,8 +203,8 @@
 		<!-- 点击右边三点显示的遮罩层 start -->
 		<view id="mask" v-show="showEdit"></view>
 		<!-- 点击右边三点显示的遮罩层 end -->
-		<!-- 评论弹窗 start -->
 		
+		<!-- 评论弹窗 start -->
 		<uni-popup ref="comments" :type="popupType" :custom="true" class="comments-list" @change="popupChange">
 			<view class="uni-comments">
 				<view class="uni-comments-title">
@@ -307,7 +307,7 @@
 				isShowTopic: true,
 				replySay: '说点什么把',
 				replyType: '',
-				commentItem: []
+				commentItem: [],
 	        }
 		},
 		filters: {

@@ -32,7 +32,7 @@
 				<view class="anCotent" v-if="contentLength > 45 " @click="open()">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
 			</view>
 			<view class="release-image_topic" v-if="titleItem.topic != '' ">
-				<view class="left">
+				<view class="left"  @click.stop="goTopic(titleItem.title.topicId)">
 					<image src="../../static/topic/topic.png" mode=""></image>
 					<view>{{titleItem.topic}}</view>
 				</view>
@@ -191,13 +191,12 @@
 							this.contentLength = data.content.length;
 							this.titleItem = JSON.parse(data.title);
 							this.dataItem = data;
-				        } else {
-				            uni.showToast({
-				                icon: 'none',
-				                title: res.data.message
-				            });
-				            uni.hideToast();
-				        }
+				        } 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 				    })
 				});
 			},
@@ -211,13 +210,12 @@
 			        success:(res) => {
 			            if(res.data.code == 200) {
 			                this.init();
-			            } else {
-			                uni.showToast({
-			                    icon: 'none',
-			                    title: res.data.message
-			                });
-			                uni.hideToast();
-			            }
+			            } 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 			        }
 			    });
 			},
@@ -231,13 +229,12 @@
 			        success:(res) => {
 			            if(res.data.code == 200) {
 							this.init();
-			            } else {
-			                uni.showToast({
-			                    icon: 'none',
-			                    title: res.data.message
-			                });
-			                uni.hideToast();
-			            }
+			            } 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 			        }
 			    });
 			},
@@ -251,13 +248,12 @@
 			        success:((res) => {
 			            if(res.data.code == 200) {
 			                this.init();
-			            } else {
-			                uni.showToast({
-			                    icon: 'none',
-			                    title: res.data.message
-			                });
-			                uni.hideToast();
-			            }
+			            } 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 			        })
 			    });
 			},
@@ -272,12 +268,11 @@
 						if(res.data.code == 200) {
 							this.init()
 							
-						} else {
-							uni.showToast({
-								icon: 'none',
-								title: res.data.message
-							});
-							uni.hideToast();
+						} 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
 						}
 					}
 				});
@@ -366,12 +361,11 @@
 								duration: 500
 							})
 							this.init()
-						} else {
-							uni.showToast({
-								icon: 'none',
-								title: res.data.message
-							});
-							uni.hideToast();
+						} 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
 						}
 					}
 				});
@@ -413,10 +407,9 @@
 							});
 							this.init();
 						}
-						if(res.data.code == 407) {
-							uni.showToast({
-								title: '请重新登录'
-								
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
 							})
 						}
 					})
@@ -426,6 +419,12 @@
 			reply(id){
 				uni.navigateTo({
 					url: "/pages/ganswer/ganswer?Id=" + id
+				})
+			},
+			// 点击话题跳转到话题详情
+			goTopic(id) {
+				uni.navigateTo({
+					url:'/pages/topicDetails/topicDetails?id=' + id
 				})
 			},
 			// 返回上一页

@@ -167,12 +167,11 @@
 									})
 								}, 1000);
 								// uni.hideToast();
-							} else {
-								uni.showToast({
-								    icon: 'none',
-								    title: res.data.message
-								});
-								uni.hideToast();
+							} 
+							if(res.data.code == 421) {
+								uni.navigateTo({
+									url: '/pages/loginPhone/loginPhone'
+								})
 							}
 						}
 					});
@@ -201,12 +200,11 @@
 								})
 							}, 1000);
 							// uni.hideToast();
-						} else {
-							uni.showToast({
-							    icon: 'none',
-							    title: res.data.message
-							});
-							uni.hideToast();
+						} 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
 						}
 					}
 				});
@@ -270,12 +268,11 @@
 										url: '/pages/user/user'
 									})
 								}, 1000);
-							} else {
-								uni.showToast({
-								    icon: 'none',
-								    title: res.data.message
-								});
-								uni.hideToast();
+							} 
+							if(res.data.code == 421) {
+								uni.navigateTo({
+									url: '/pages/loginPhone/loginPhone'
+								})
 							}
 						}
 					});
@@ -303,12 +300,11 @@
 								})
 							}, 1000);
 							// uni.hideToast();
-						} else {
-							uni.showToast({
-							    icon: 'none',
-							    title: res.data.message
-							});
-							uni.hideToast();
+						} 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
 						}
 					}
 				});
@@ -390,9 +386,7 @@
 								url: that.url + '/upload', //仅为示例，非真实的接口地址
 								filePath: tempFilePaths[i],
 								name: 'file',
-								formData: {
-									'user': 'test'
-								},
+								formData: {},
 								success: (uploadFileRes) => {
 									uni.hideLoading();
 									

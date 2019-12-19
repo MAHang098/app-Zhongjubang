@@ -49,13 +49,12 @@
 				    success:((res) => {
 				        if(res.data.code == 200) {
 							this.commentList = res.data.data.dataList;
-				        } else {
-				            uni.showToast({
-				                icon: 'none',
-				                title: res.data.message
-				            });
-				            uni.hideToast();
-				        }
+				        } 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 				    })
 				});
 			}
