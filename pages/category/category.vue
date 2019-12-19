@@ -3,8 +3,8 @@
 		<!-- 搜索栏 start -->
 		<view class="header">
 			<view class="search-input">
-				<image src="../../../static/search/nav-search.png" mode=""></image>
-				<input class="uni-input" placeholder="搜索您需要的商品" @focus="onFocus" @blur="onBlur" @input="searchTopic" value=""/>
+				<image src="../../static/search/nav-search.png" mode=""></image>
+				<input class="uni-input" placeholder="搜索您所需要的商品" @focus="onFocus" @blur="onBlur" @input="searchTopic" value=""/>
 			</view>
 			<view class="cancel" @click="cancel">取消</view>
 		</view>
@@ -13,33 +13,26 @@
 		<!-- 列表 start -->
 		<view class="page-body">
 			<scroll-view class="nav-left" scroll-y :style="'height:'+height+'px'">
-				<view class="nav-left-item" :class="'-1'==categoryActive?'active':''" @click.stop="allTopic('-1')">
+				<!-- <view class="nav-left-item" :class="'-1'==categoryActive?'active':''" @click.stop="allTopic('-1')">
 					<text class="left-name" :class="'-1'==categoryActive?'in':''">全部话题</text>
-				</view>
-				<view class="nav-left-item" @click="categoryClickMain(item.id, index)"  :key="index" :class="index==categoryActive?'active':''"
-				    v-for="(item,index) in categoryList">
+				</view> -->
+				<view 
+					class="nav-left-item" 
+					@click="categoryClickMain(item.id, index)"  :key="index" 
+					:class="index==categoryActive?'active':''"
+				    v-for="(item,index) in categoryList"
+				>
 					
-					<text class="left-name" :class="index==categoryActive?'in':''">{{item.talkThemeType}}</text>
+					<text class="left-name" :class="index==categoryActive?'in':''">{{item.goodsRemarks}}</text>
 				</view>
 			</scroll-view>
 			<scroll-view class="nav-right" scroll-y :scroll-top="scrollTop" @scroll="scroll" :style="'height:'+height+'px'" scroll-with-animation>
 				<view  :id="index===0?'first':''" class="nav-right-item" v-for="(item,index) in subCategoryList" :key="index" @click.stop="topicDetail(item.id)">
 					<view class="contnet">
-						<view class="left">
-							<view class="list-image">
-								<image :src="item.talkThemeImg" mode=""></image>
-							</view>
-							<view class="detail">
-								<view class="title">{{item.talkTheme}}</view>
-								<view class="num">共{{item.participateCount}}人参与</view>
-							</view>
-						</view>
-						<view class="right" @click.stop="chooseTopic(item.talkTheme, item.id)">
-							选择
-						</view>
+						<image style="width: 130upx;height: 30upx;" :src="item.goodsStyleImg" mode="" />
+						<text>{{item.goodsStyleRemarks}}</text>
 					</view>
 					
-					<text class="border"></text>
 				</view>
 			</scroll-view>
 		</view>
@@ -75,13 +68,14 @@
 		methods: {
 			init(search) {
 				uni.request({
-					url: this.url + '/controller/contentcontroller/gettalkthemelist',
+					url: this.url + 'controller/shopcontroller/getgoodsstyle',
 					method: 'post',
-					header : {'content-type':'application/x-www-form-urlencoded', token: this.token, 'port': 'app'},
-					data:  {pageIndex: 1, pageSize: 1000, search: search},
+					header : {'content-type':'application/x-www-form-urlencoded', token: '', 'port': 'app'},
+					data:  {goodsTypeId: search},
 					success: ((res) => {
 						if(res.data.code == 200) {
-							this.subCategoryList = res.data.data.dataList;
+							console.log(res)
+							this.subCategoryList = res.data;
 						}
 						
 					})
@@ -155,14 +149,14 @@
 				})
 				const url = this.url
 				uni.request({
-					url: this.url + '/controller/contentcontroller/gettalkthemelistbytypeid',
+					url: this.url + 'controller/shopcontroller/getgoodsstyle',
 					method: 'post',
-					header : {'content-type':'application/x-www-form-urlencoded', token: this.token, 'port': 'app'},
-					data:  {talkThemeTypeId: id},
+					header : {'content-type':'application/x-www-form-urlencoded', token: '', 'port': 'app'},
+					data:  {goodsTypeId: id},
 					success: ((res) => {
 						if(res.data.code == 200) {
 							
-							this.subCategoryList = res.data.data;
+							this.subCategoryList = res.data;
 						}
 						
 					})
@@ -183,9 +177,9 @@
 				})
 				const url = this.url
 				uni.request({
-					url: this.url + '/controller/contentcontroller/gettalkthemetypeall',
+					url: this.url + 'controller/shopcontroller/getgoodstype',
 					method: 'post',
-					header : {'content-type':'application/x-www-form-urlencoded',  token: this.token, 'port': 'app'},
+					header : {'content-type':'application/x-www-form-urlencoded',  token: '', 'port': 'app'},
 					success: (res => {
 						if(res.data.code == 200) {
 							this.categoryList = res.data.data;
@@ -323,47 +317,10 @@
 		/* border-bottom: 1px solid #E2E2E2; */
 	}
 	.contnet {
-		display: flex;
-		justify-content: space-between;
-	}
-	.border {
-		display: block;
-		border-bottom: 1px solid #E2E2E2;
-		margin-top: 28rpx;
-	}
-	.nav-right-item .left {
-		height: 100%;
-		display: flex;
-		justify-content: flex-start;
-	}
-	.nav-right-item image {
-		width: 73rpx;
-		height: 75rpx;
-		margin-right: 10px;
+		
 	}
 	
-	.title {
-		color: #4e4e4e;
-		font-size: 26rpx;
-		font-weight: bold;
-		margin-bottom: 18rpx;
-	}
-	.num {
-		color: #999999;
-		font-size: 22rpx;
-		font-weight: bold;
-	}
-	.right {
-		width: 95rpx;
-		height: 45rpx;
-		line-height: 45rpx;
-		border: 1px solid #FABE3F;
-		border-radius: 23rpx;
-		text-align: center;
-		color: #FABE3F;
-		font-size: 26rpx;
-		margin: auto 0;
-	}
+	
 	.active {
 		color: #FABE3F;
 		background: #FFFFFF;

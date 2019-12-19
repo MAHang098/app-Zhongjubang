@@ -7,6 +7,11 @@
 					"titleNView": false //禁用原生导航栏  
 				}
 			}
+		},{
+			"path": "pages/confirm-order/confirm-order",
+			"style" : {
+				 "navigationBarTitleText": "确认订单"
+			}
 		},
 		{
 			"path": "pages/wanghong/wanghong",

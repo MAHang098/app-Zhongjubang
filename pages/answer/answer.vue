@@ -9,11 +9,11 @@
 				<image :src="head" mode="" />
 			</view>
 			<view class="top-nickname">{{nickName}}</view>
-			<view class="top-date">11-18 09:12</view>
+			<view class="top-date">{{creatTime}}</view>
 			<view class="top-content">{{shortVideoDiscuss}}</view>
 			<view class="top-check" @tap="checkContent">查看原内容></view>
+			
 			<image class="good" src="../../static/img/releaseVideo2/good.png" mode="" />
-
 		</view>
 
 		<view class="all-content">
@@ -24,11 +24,11 @@
 				<view class="content-details-left">
 					<view class="content-details-nickname">{{row.ziName}}</view>
 					<view class="content-details-date">{{row.ziCreateTime}}</view>
-					<view class="content-details-content">{{row.ziContext}}</view>
+					<view  class="content-details-content">{{row.ziContext}}</view>
 					<!-- <image class="content-details-good" src="../../static/img/releaseVideo2/good.png" mode="" /> -->
 				</view>
-				<view class="content-details-good">
-					<image  style="width: 31rpx;height: 31rpx;" :class="(activeIndex == index && isCommentsFabulous) ||  row.state == '1'? 'select' : '' " :src="(activeIndex == index && isCommentsFabulous) ||  row.state == '1' ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
+				<view class="content-details-good" @click="commentsFabulous(index, row.shortVideoDiscussId)">
+					<image style="width: 31rpx;height: 31rpx;" :class="(activeIndex == index && isCommentsFabulous) ||  row.state == '1'? 'select' : '' " :src="(activeIndex == index && isCommentsFabulous) ||  row.state == '1' ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
 					<!-- <image src="../../static/img/releaseVideo2/good.png" mode="" /> -->
 					<view class="like">{{row.ziLikeNum}}</view>
 				</view> 
@@ -59,63 +59,66 @@
 				id: 0,
 				head: '',
 				nickName: '',
+				creatTime: '',
 				shortVideoDiscuss: '',
 				activeIndex: 0,
 				isCommentsFabulous: false,
+				Tokens:'',
 	        }
 		},
-		// onLoad:function(options){
-		// 	console.log(options.Id);
+		// onLoad(options){
+		// 	console.log(options.Id)
+		// 	this.id = options.Id
 		// },
-		onLoad(options){
-			console.log(options.Id)
-			this.id = options.Id
-		},
 		onShow(){
 			this.init()
 		},
-		init(){
-			let token
-			let self = this
-			uni.getStorage({
-				key:"token",
-				success: function (res) {
-					token = res.data;
-				}
-			})
-			const url = this.url
-			console.log(this.id)
-			uni.request({
-				url: url + "/controller/videocontroller/getallzizist",
-				data: {
-					shortVideoDiscussId: self.id,
-				},
-				method: 'POST',
-				header : {
-					'content-type':'application/x-www-form-urlencoded', 
-					'port': 'app',
-					'token': token
-				},
-				success: function (res){
-					console.log(res.data.code)
-					if(res.data.code==200){
-						console.log(res)
-						console.log(res.data.data.dataList[0].ziList.length)
-						console.log(res.data.data.dataList[0].ziList)
-						console.log(res.data.data.dataList[0].head)
-			
-						self.head = res.data.data.dataList[0].head
-						self.nickName = res.data.data.dataList[0].nickName
-						self.shortVideoDiscuss = res.data.data.dataList[0].shortVideoDiscuss
-						self.dataList = res.data.data.dataList[0].ziList
-						self.length = res.data.data.dataList[0].ziList.length
-					}else{
-						console.log("请求异常")
-					}
-				}
-			})
-		},
+		
 	    methods: {
+			init(){
+				let token
+				let self = this
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+						token = res.data
+						self.Tokens = res.data
+					}
+				})
+				const url = this.url
+				console.log(this.id)
+				uni.request({
+					url: url + "/controller/videocontroller/getallzizist",
+					data: {
+						shortVideoDiscussId: 174,
+					},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': token
+					},
+					success: function (res){
+						console.log(res.data.code)
+						if(res.data.code==200){
+							console.log(res)
+							console.log(res.data.data.dataList[0].ziList.length)
+							console.log(res.data.data.dataList[0].ziList)
+							console.log(res.data.data.dataList[0].head)
+				
+							self.head = res.data.data.dataList[0].head
+							self.nickName = res.data.data.dataList[0].nickName
+							self.creatTime = res.data.data.dataList[0].creatTime
+							self.shortVideoDiscuss = res.data.data.dataList[0].shortVideoDiscuss
+							self.dataList = res.data.data.dataList[0].ziList
+							self.length = res.data.data.dataList[0].ziList.length
+							
+						}else{
+							console.log("请求异常")
+						}
+					}
+				})
+			},
 			back(){
 				uni.navigateBack()
 			},
@@ -124,19 +127,14 @@
 			},
 			// 评论点赞
 			commentsFabulous(index, id) {
+				console.log(index)
+				console.log(id)
 				let self = this
-				let token = '';
-				uni.getStorage({
-					key:"token",
-					success: function (res) {
-					 token = res.data;
-				  }
-				});
 				uni.request({
-					url: "https://www.zhongjubang.com/test/controller/usercontroller/adddiscusslike",
+					url: this.url + "controller/usercontroller/adddiscusslike",
 					method: 'post',
 					data: {discussId: id, type: '2'},
-					header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
+					header : {'content-type':'application/x-www-form-urlencoded', 'token': self.Tokens, 'port': 'app'},
 					success:(res) => {
 						if(res.data.code == 200) {
 							self.activeIndex = id;

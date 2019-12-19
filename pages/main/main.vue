@@ -118,22 +118,12 @@
 				<image class="video-nav-more-image" style="width:11upx;height:20upx;" src="../../static/img/main/more.png" mode="" />
 			</view>
 			<image class="" style="width:750upx;height:230upx;" src="../../static/img/main/juquan-bg.png" mode="" />
-			<view class="juquan-content" style="margin-top:10px;" v-for="(item, index) in topList" :key="index">
+			<view class="juquan-content" v-for="(item, index) in topList" :key="index">
 				<view class="juquan-content-model">
-					<image class="" style="width:359upx;height:355upx;" :src="item.resource" mode="" />
-					<view class="juquan-content-model-des">{{item.resourcesRemarks}}</view>
-					<view class="juquan-content-info">
-						<image class="juquan-content-info-avator" style="width:52upx;height:55upx;" src="../../static/img/main/avator.png" mode="" />
-						<view class="juquan-content-info-nickname">美味西蓝花...</view>
-					</view>
-				</view>
-				<view class="juquan-content-model">
-					<image class="" style="width:359upx;height:355upx;" :src="item.resource" mode="" />
-					<view class="juquan-content-model-des">{{item.resourcesRemarks}}</view>
-					<view class="juquan-content-info">
-						<image class="juquan-content-info-avator" style="width:52upx;height:55upx;" src="../../static/img/main/avator.png" mode="" />
-						<view class="juquan-content-info-nickname">美味西蓝花...</view>
-					</view>
+					<image class="juquan-content-model-image" style="width:347upx;height:355upx;" :src="item.img_list[0].fileUrl" mode="" />
+					<view class="juquan-content-model-des">{{item.content | ellipsis}}</view>
+					<image class="juquan-content-info-avator" style="width:52upx;height:55upx;border-radius: 50%;" :src="item.head" mode="" />
+					<view class="juquan-content-info-nickname">{{item.nickName}}</view>
 				</view>
 				
 			</view>
@@ -200,6 +190,15 @@
 				bannerList: [],
 			}
 		},
+		filters: {
+			ellipsis (value) {
+			  if (!value) return ''
+			  if (value.length > 22) {
+				return value.slice(0,22) + '...'
+			  }
+			  return value
+			}
+		},
 		onLoad() {},
 		onShow() {
 			
@@ -214,7 +213,6 @@
 				method:"POST",
 				header : {'content-type':'application/x-www-form-urlencoded','port':'app'},
 				success: function (res){
-					console.log(res.data.code);
 					if(res.data.code=="200"){
 						self.bannerList = res.data.data
 					}
@@ -250,7 +248,6 @@
 				method:"POST",
 				header : {'content-type':'application/x-www-form-urlencoded','port':'app'},
 				success: function (res){
-					console.log(res.data.code);
 					if(res.data.code=="200"){
 						self.zhongList = res.data.data.dataList
 					}
@@ -266,7 +263,6 @@
 				method:"POST",
 				header : {'content-type':'application/x-www-form-urlencoded','port':'app'},
 				success: function (res){
-					console.log(res.data.code);
 					if(res.data.code=="200"){
 						self.gootList = res.data.data.dataList
 					}
@@ -274,17 +270,21 @@
 			})
 			// 居圈专辑
 			uni.request({
-				url: url + 'public/public/getresourcesbyresourcestype',
+				url: url + 'controller/contentcontroller/getIndexRecommendGcircleContent',
 				data: {
-					resourcesTypeName:'app_top_list'
+					pageIndex: 1,
+					pageSize: 1000
 				},
 				method:"POST",
-				header : {'content-type':'application/x-www-form-urlencoded','port':'app'},
+				header : {'content-type':'application/x-www-form-urlencoded'},
 				success: function (res){
-					console.log(res.data.code);
 					if(res.data.code=="200"){
-						console.log(res);
-						self.topList = res.data.data
+						console.log(res)
+						for(var i = 0; i<res.data.data.dataList.length;i++){
+							res.data.data.dataList[i].img_list = JSON.parse(res.data.data.dataList[i].img_list);
+							// console.log(res.data.data.dataList[i].img_list[0].fileUrl)
+						}
+						self.topList = res.data.data.dataList
 					}
 				}
 			})
@@ -618,35 +618,43 @@
 		margin-bottom: 26px;
 	}
 	.juquan-content{
-		display: flex;
-		justify-content: space-around;
-		box-sizing: border-box;
-		padding: 0 15upx;
+		float: left;
+		margin-top:10px;
+		margin-left: 11px;
+	}
+	.juquan-content:nth-last-child(1){
+		margin-bottom: 60px;
 	}
 	.juquan-content-model{
+		position: relative;
 		width: 347upx;
 		height: 508upx;
 	}
+	
+	.juquan-content-model-image{
+		position: absolute;
+	}
 	.juquan-content-model-des{
-		margin: 0 auto;
+		position: absolute;
+		left: 20upx;
+		top: 363upx;
 		width: 298upx;
+		height: 58upx;
 		font-size:24upx;
 		font-family:PingFang SC;
 		font-weight:bold;
 		color:rgba(51,51,51,1);
 		line-height:32upx;
 	}
-	.juquan-content-info{
-		float: left;
-		margin-top: 10px;
-		margin-left: 13px;
-	}
 	.juquan-content-info-avator{
-		float: left;
+		position: absolute;
+		left: 20upx;
+		top: 434upx;
 	}
 	.juquan-content-info-nickname{
-		float: left;
-		margin-left: 8px;
+		position: absolute;
+		left: 86upx;
+		top: 236px;
 		font-size:22upx;
 		font-family:PingFang SC;
 		font-weight:bold;
