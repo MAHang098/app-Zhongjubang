@@ -117,18 +117,23 @@
 				</view>
 			</view>
 			<!-- 短视频内容end -->
-			<!-- G圈列表 start -->
-			<view v-if="!show1" class="relese-image"  >
-				<view v-for="(items, index) in releaseImgList" :key="index">
-					<view class="relese-image_detail" >
-						<!-- 用户信息 start -->
-						<view class="user">
-							<view class="user-message">
-								<image src="../../static/drafts.png" mode=""></image>
-								<view>
-									<view class="name">晴天小猪</view>
-									<view class="time">219-12-30 09:30</view>
-								</view>
+			
+			
+			<!-- G圈列表 end -->
+			
+			<!-- <view class="more">-上拉查看更多-</view> -->
+		</view>
+		<!-- G圈列表 start -->
+		<view v-if="!show1" class="relese-image"  >
+			<!-- <view > -->
+				<view class="relese-image_detail" v-for="(items, index) in releaseImgList" :key="index">
+					<!-- 用户信息 start -->
+					<view class="user">
+						<view class="user-message">
+							<image :src="items.head" mode=""></image>
+							<view>
+								<view class="name">{{items.nickName}}</view>
+								<view class="time">{{items.createTime}}</view>
 							</view>
 							<view class="operate-user" @click.stop="operate(index)">
 								<text></text>
@@ -189,22 +194,17 @@
 								</view>
 							</view>
 						</view>
-						<!-- 操作按钮 end -->
 					</view>
+					<!-- 操作按钮 end -->
 				</view>
-				
-			</view>
-			<!-- 点击右边三点显示的遮罩层 start -->
-			<view id="mask" v-show="showEdit"></view>
-			<!-- 点击右边三点显示的遮罩层 end -->
+			<!-- </view> -->
 			
-			<!-- G圈列表 end -->
-			
-			<!-- <view class="more">-上拉查看更多-</view> -->
 		</view>
+		<!-- 点击右边三点显示的遮罩层 start -->
+		<view id="mask" v-show="showEdit"></view>
+		<!-- 点击右边三点显示的遮罩层 end -->
 		
 		<!-- 评论弹窗 start -->
-		
 		<uni-popup ref="comments" :type="popupType" :custom="true" class="comments-list" @change="popupChange">
 			<view class="uni-comments">
 				<view class="uni-comments-title">
@@ -214,12 +214,12 @@
 					</view>
 				</view>
 				<view class="uni-comments-content">
-					<view class="comments-detail" v-for="(row, index) in dataList" :key="index">
+					<view class="comments-detail" v-for="(row, index) in commentItem" :key="index">
 						<view class="comments-user">
-							<image src="../../static/drafts.png" mode=""></image>
+							<image :src="row.head" mode=""></image>
 							<view>
 								<text class="comments-name">{{row.nick_name}}</text>
-								<text class="date">{{row.cratee_time}}</text>
+								<text class="date">{{row.createTime}}</text>
 							</view>
 							<view class="fabulous"  @click.stop="commentsFabulous(index, row.id, row.state)">
 								{{row.likenum}}
@@ -230,8 +230,7 @@
 							<text  @click="testreply(row.id, row.nick_name)">{{row.gcircle_content_discuss}}</text>
 							<view class="reply-comments" v-show="row.zilist.length > 0">
 								<view v-for="(rows, indexs) in row.zilist" :key="indexs">
-									<!-- <text @click.stop="deleteComment(rows.id)">{{rows.nick_name}}：{{rows.gcircle_content_discuss}}</text> -->
-									<text @click.stop="replyComments(rows.pid, rows.id, rows.nick_name)">{{rows.nick_name}}：{{rows.gcircle_content_discuss}}</text>
+									<text @click.stop="replyComments(rows.pid, rows.id, rows.nick_name)">{{rows.ziNickName+'回复'+rows.outUserName}}：{{rows.gcircle_content_discuss}}</text>
 								</view>
 								<text v-show="row.sonCount>2" class="all-replay" @tap="reply(row.id)">共{{row.sonCount}}条回复 ></text>
 							</view>
@@ -674,7 +673,7 @@
 			},
 			// 评论详情
 			comments(id) {
-				let _this = this;
+				// let _this = this;
 				let token = '';
 				uni.getStorage({
 					key:"token",
@@ -683,18 +682,18 @@
 					}
 				})
 				let parmas = {
-					id: id,
+					gcircleContentId: id,
 					pageIndex: 1,
 					pageSize: 1000
 				}
 				uni.request({
-					url: _this.url + "controller/usercontroller/getgcdiscusslist",
+					url: this.url + "controller/usercontroller/getgcdiscusslist",
 					data: parmas,
 					method: 'POST',
 					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app','token': token},
-					success: function (res){
+					success: ((res) => {
 						if(res.data.code==200){
-							_this.dataList = res.data.data.dataList;
+							this.commentItem = res.data.data.dataList[0].listFu;
 						}else{
 							uni.showToast({
 								icon: 'none',
@@ -702,7 +701,7 @@
 							});
 							uni.hideToast();
 						}
-					}
+					})
 				})
 			},
 			// 回复谁
@@ -838,10 +837,10 @@
 			// 弹出层弹出的方式  i:当前标签的下标, name: 当前标签的name
 			togglePopup(type, open, id, commendId, name, gCollectionDiscussNum) {
 				this.getsvdiscussId = commendId;
-				this.outUserId = id
-				this.gcircleContentId = commendId
-				this.gCollectionDiscussNum = gCollectionDiscussNum
-				this.nickName = name
+				this.outUserId = id;
+				this.gcircleContentId = commendId;
+				this.gCollectionDiscussNum = gCollectionDiscussNum;
+				this.nickName = name;
 				switch (type) {
 					case 'top':
 						this.content = '顶部弹出 popup'
@@ -1579,4 +1578,21 @@
 		color:rgba(255,255,255,1);
 	}
 	/* 短视频样式end */
+	
+	/* G圈样式 start */
+	.relese-image {
+		background: #F6F6F6;
+		padding: 0;
+	}
+	.relese-image_detail:first-child {
+		box-shadow: 0px 0px 0px 0px rgba(93,93,93,0.08);
+	}
+	.relese-image_detail {
+		margin: 0;
+		background: #FFFFFF;
+		box-sizing: border-box;
+		padding: 20rpx 30rpx;
+		margin-bottom: 10px;
+		box-shadow:0px 0px 9rpx 0px rgba(93,93,93,0.08);
+	}
 </style>

@@ -2,15 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="84510198-0e66-4579-b3e0-3c273ca7765b" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages.json" beforeDir="false" afterPath="$PROJECT_DIR$/pages.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/G-circle/search-content/search-content.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/G-circle/search-content/search-content.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/G-circle/search-list/search-list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/G-circle/search-list/search-list.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/drafts/drafts.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/drafts/drafts.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/releaseImage/add-tag/add-tag.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/releaseImage/add-tag/add-tag.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/information/add-fans/add-fans.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/information/add-fans/add-fans.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/information/collection/collection.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/information/collection/collection.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/information/comments/comments.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/information/comments/comments.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/information/give-like/give-like.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/information/give-like/give-like.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/information/information-list/information-list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/information/information-list/information-list.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/juquan/juquan.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/juquan/juquan.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/release/release.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/release/release.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/releaseImage-details/releaseImage-details.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/releaseImage-details/releaseImage-details.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/releaseImage/release-image/release-image.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/releaseImage/release-image/release-image.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/releaseImage/search-title/search-title.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/releaseImage/search-title/search-title.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/topicDetails/topicDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/topicDetails/topicDetails.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/updatePswd/updatePswd.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/updatePswd/updatePswd.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/shopping-mall/replacement-apply/replacement-apply.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/shopping-mall/replacement-apply/replacement-apply.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/shopping-mall/replacement-applyDetail/replacement-applyDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/shopping-mall/replacement-applyDetail/replacement-applyDetail.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/user/user.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/user/user.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/css/comments.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/comments.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/store/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/store/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/information.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/information.css" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -49,16 +61,40 @@
         </counts>
       </usages-collector>
     </session>
+    <session id="-135722125">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.open.time.3" value="1" />
+          <entry key="project.open.time.7" value="1" />
+          <entry key="project.opened" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="vue" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="Vue.js" value="1" />
+        </counts>
+      </usages-collector>
+    </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pages/topicDetails/topicDetails.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="329">
-              <caret line="362" column="19" lean-forward="true" selection-start-line="362" selection-start-column="19" selection-end-line="362" selection-end-column="19" />
+            <state relative-caret-position="6859">
+              <caret line="361" column="25" selection-start-line="361" selection-start-column="25" selection-end-line="361" selection-end-column="25" />
             </state>
           </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/pages/releaseImage-details/releaseImage-details.vue">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
@@ -93,13 +129,59 @@
   </component>
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths>
+      <path value="$PROJECT_DIR$/node_modules/animation-util/package.json" />
       <path value="$PROJECT_DIR$/node_modules/axios/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/bindingx-parser/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/bindingx-web-polyfill/node_modules/simple-lodash/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/bindingx-web-polyfill/package.json" />
       <path value="$PROJECT_DIR$/node_modules/debug/package.json" />
       <path value="$PROJECT_DIR$/node_modules/follow-redirects/package.json" />
       <path value="$PROJECT_DIR$/node_modules/is-buffer/package.json" />
       <path value="$PROJECT_DIR$/node_modules/js-cookie/package.json" />
       <path value="$PROJECT_DIR$/node_modules/js-sha256/package.json" />
       <path value="$PROJECT_DIR$/node_modules/ms/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/object-assign/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/querystringify/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/requires-port/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/simple-lodash/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/universal-env/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/url-parse/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-bindingx/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-button/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-cell/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-checkbox/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-city/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-countdown/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-dialog/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-ep-slider/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-grid-select/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-icon/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-indexlist/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-lightbox/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-loading/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-lottery-rain/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-mask/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-minibar/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-noticebar/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-overlay/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-page-calendar/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-popover/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-popup/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-progress/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-radio/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-refresher/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-result/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-rich-text/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-searchbar/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-simple-flow/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-slide-nav/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-slider-bar/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-stepper/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-swipe-action/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-tab-bar/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-tab-page/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-tag/package.json" />
     </packageJsonPaths>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
@@ -113,6 +195,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -129,13 +212,18 @@
               <item name="app-Zhongjubang" type="b2602c69:ProjectViewProjectNode" />
               <item name="app-Zhongjubang" type="462c0819:PsiDirectoryNode" />
               <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="topicDetails" type="462c0819:PsiDirectoryNode" />
+              <item name="releaseImage-details" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="app-Zhongjubang" type="b2602c69:ProjectViewProjectNode" />
+              <item name="app-Zhongjubang" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
+              <item name="user" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -166,16 +254,18 @@
       <updated>1575509570442</updated>
       <workItem from="1575509572885" duration="558000" />
       <workItem from="1575510276364" duration="10050000" />
+      <workItem from="1576562704054" duration="1046000" />
+      <workItem from="1576739482029" duration="250000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10608000" />
+    <option name="totallyTimeSpent" value="11904000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18017058" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18336888" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -250,9 +340,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="380">
           <caret line="20" column="15" selection-start-line="20" selection-start-column="15" selection-end-line="20" selection-end-column="15" />
-          <folding>
-            <element signature="n#style#0;n#view#0;n#view#1;n#view#0;n#uni-popup#0;n#view#0;n#template#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -265,10 +352,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pages/topicDetails/topicDetails.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="329">
-          <caret line="362" column="19" lean-forward="true" selection-start-line="362" selection-start-column="19" selection-end-line="362" selection-end-column="19" />
+        <state relative-caret-position="6859">
+          <caret line="361" column="25" selection-start-line="361" selection-start-column="25" selection-end-line="361" selection-end-column="25" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/releaseImage-details/releaseImage-details.vue">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
   </component>
 </project>

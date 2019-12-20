@@ -11,7 +11,7 @@
 		<view class="replacement-content">
 			<view class="goods-state ">
 				<view>货物状态</view>
-				<view class="state">
+				<view class="state" @click="togglePopup('bottom', 'popup')">
 					请选择
 					<image src="../../../static/topic/arrow.png" mode=""></image>
 				</view>
@@ -28,37 +28,118 @@
 		
 		<!-- 上传图片 start -->
 		<view class="upload-image">
-			<view>上传凭证</view>
-			<image src="../../../static/img/shopping-mall/order/upload.png" mode=""></image>
+			<view class="upload-text">上传凭证</view>
+			<view class="upload-list">
+				<view class="img"  v-for="(item, index) in imgList" :key="index" v-if="imgList.length > 0">
+					<image :src="item.fileUrl" mode="scaleToFill" @click.stop="previewImage(index)"></image>
+					<image src="../../../static/topic/deletes.png" mode="" class="delete" @click.stop="deleteImage(item.fileName, index)"></image>
+				</view>
+				<image src="../../../static/img/shopping-mall/order/upload.png" mode=""  @click.stop="chooseImage" v-show="imgList.length < 3"></image>
+			</view>
+			<!-- <image :src="item.fileUrl" mode="" v-for="(item, index) in imgList" :key="index" v-if="imgList.length > 0"></image>
+			<image src="../../../static/img/shopping-mall/order/upload.png" mode="" @click.stop="chooseImage"></image> -->
 			<view id="commit">提交</view>
 		</view>
 		<!-- 上传图片 end -->
 		
-		<!-- 提交 start -->
-		
-		<!-- 提交 end -->
+		<!-- 货物状态 start -->
+		<uni-popup ref="popup" :type="popupType" :show="show" id="popup">
+			<view class="product-state">未收到货</view>
+			<view class="product-state">已收到货</view>
+			<view class="product-state">取消</view>
+		</uni-popup>
+		<!-- 货物状态 end -->
 	</view>
 </template>
 
 <script>
+	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 	export default {
-		data() {
+		components:{ uniPopup},
+		data () {
 			return {
-				
+				popupType: '',
+				show: false,
+				imgList: []
 			}
 		},
 		methods: {
-			
+			// 删除图片
+			deleteImage(name, index) {
+				this.imgList.forEach((item, i, array) => {
+					if(item.fileName == name && index == i) {
+						array.splice(index,1)
+					}
+				})
+				this.isUpload = true;
+			},
+			// 选择图片
+			chooseImage() {
+				let that = this;
+				uni.chooseImage({
+				    count: 3, //默认9
+				    // sizeType:'compressed', //可以指定是原图还是压缩图，默认二者都有
+				    sourceType: ['album'], //从相册选择
+				    success: function (res) {
+						uni.showLoading({
+							title: '请稍等',
+							mask: true
+						})
+						const tempFilePaths = res.tempFilePaths;
+						for(let i in tempFilePaths) {
+							// this.imgList.push(tempFilePaths[i]);
+							uni.uploadFile({
+								url: that.url + '/upload', //仅为示例，非真实的接口地址
+								filePath: tempFilePaths[i],
+								name: 'file',
+								formData: {
+									'user': 'test'
+								},
+								success: (uploadFileRes) => {
+									uni.hideLoading();
+									
+									let data = JSON.parse(uploadFileRes.data);
+									let obj = {
+										fileName: data.data.fileName,
+										fileUrl:data.data.fileUrl,
+										testArr: []
+									}
+									that.imgList.push(obj)
+								}
+							});
+						}
+						
+						
+				    }
+				});
+			},
+			// 弹出层弹出的方式
+			togglePopup(type, open) {
+				this.popupType = type
+				if (open === 'tip') {
+					this.show = true
+				} else {
+					this.$refs[open].open()
+				}
+			},
+			// 弹框关闭
+			cancel(type) {
+				if (type === 'tip') {
+					this.show = false
+					return
+				}
+				// this.$refs[type].close()
+			},
 		}
 	}
 </script>
 
-<style>
+<style scoped>
 	page, .replacement {
 		background: #F5F5F5;
 		height: 100%;
 		width: 100%;
-		overflow: hidden;
+		overflow-y: auto;
 	}
 	.replacement-product {
 		width: 100%;
@@ -122,6 +203,8 @@
 		width: 19rpx;
 		height: 30rpx;
 		display: block;
+		margin-left: 5px;
+		margin-top: -2px;
 	}
 	.replacement-content input {
 		height: 100%;
@@ -143,13 +226,14 @@
 	.upload-image {
 		background: #FFFFFF;
 		width: 100%;
-		height: 100%;
 		box-sizing: border-box;
 		padding: 0 32rpx;
 	}
-	.upload-image view {
+	.upload-image .upload-text {
 		height: 100rpx;
 		line-height: 100rpx;
+	}
+	.upload-image view {
 		font-size:28rpx;
 		font-family:PingFang SC;
 		font-weight:500;
@@ -163,6 +247,7 @@
 	#commit {
 		width: 100%;
 		height: 100rpx;
+		line-height: 100rpx;
 		background: #F9B72D;
 		font-size: 32rpx;
 		color: #FFFFFF;
@@ -170,5 +255,58 @@
 		border-radius: 50rpx;
 		margin-top: 35%;
 	}
-	
+	/* 图片上传 start */
+	.upload-list {
+		height: auto;
+		display: flex;
+		justify-content: flex-start;
+		flex-wrap: wrap;
+	}
+	.upload-list image {
+		width: 221rpx;
+		height: 208rpx;
+		display: block;
+	}
+	.upload-list .img {
+		position: relative;
+		width: 30%;
+		margin-right: 26rpx;
+		margin-bottom: 15rpx;
+	}
+	.upload-list .img:nth-of-type(3n) {
+		margin: 0;
+	} 
+	.delete {
+		position: absolute;
+		width: 26rpx !important;
+		height: 26rpx !important;
+		display: block;
+		top: 5%;
+		right: 0;
+	}
+	/* 弹窗 */
+	/deep/ .uni-popup__wrapper-box {
+		padding: 0 !important;
+		border-top-left-radius: 30rpx;
+		border-top-right-radius: 30rpx;
+		background: #EDEDED !important;
+	}
+	.product-state:first-child {
+		
+	}
+	.product-state {
+		height: 109rpx;
+		line-height: 109rpx;
+		width: 100%;
+		text-align: center;
+		font-size:30rpx;
+		font-family:PingFang SC;
+		color:rgba(102,102,102,1);
+		border-bottom: 1px solid #E2E2E2;
+		background: #FFFFFF;
+	}
+	.product-state:last-child {
+		border: none;
+		margin-top: 3px;
+	}
 </style>

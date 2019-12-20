@@ -1,7 +1,7 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页,
 		{
-			"path": "pages/loginPhone/loginPhone",
+			"path": "pages/user/user",
 			"style": {
 				"app-plus": {
 					"titleNView": false //禁用原生导航栏  
@@ -47,7 +47,7 @@
 			}
 		},
 		{
-			"path": "pages/user/user",
+			"path": "pages/loginPhone/loginPhone",
 			"style": {
 				"app-plus": {
 					"titleNView": false //禁用原生导航栏  
@@ -415,6 +415,8 @@
        
       
        
+       
+        
     ],
 	"subPackages": [
 		// 上传图片需要用到的页面
@@ -596,6 +598,20 @@
 					"path" : "replacement-applyDetail/replacement-applyDetail",
 					"style" : {
 						"navigationBarTitleText": "退款换货详情"
+					}
+				} ,
+				{
+					"path" : "detail/detail",   // 商品详情
+					"style" : {
+						"app-plus": {
+						    "titleNView": false //禁用原生导航栏  
+						}
+					}
+				},
+				{
+					"path" : "detail-evaluate/detail-evaluate",
+					"style" : {
+						"navigationBarTitleText": "全部评价"
 					}
 				}
 				

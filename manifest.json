@@ -46,7 +46,12 @@
             "sdkConfigs" : {
                 "oauth" : {}
             }
-        }
+        },
+		
+		"softinput" : {
+			"auxiliary" : false, //是否开启辅助输入功能
+			"mode" : "adjustPan" //软键盘弹出模式，
+		}
     },
     /* 快应用特有相关 */
     "quickapp" : {},

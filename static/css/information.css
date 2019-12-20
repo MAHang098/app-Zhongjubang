@@ -60,7 +60,7 @@
 .details view {
 	margin-top: 10rpx;
 }
-.right image {
+.right image, .right video {
 	width: 170rpx;
 	height: 130rpx;
 	display: block;

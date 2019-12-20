@@ -55,7 +55,7 @@
 					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
 					success: ((res) => {
 						if(res.data.code == 200) {
-							let data = res.data.data;
+							let data = res.data.data.dataList;
 							this.allData = data;
 						}
 						if(res.data.code == 407) {
@@ -130,6 +130,7 @@
 	.time {
 		font-size: 24rpx;
 		color: #999999;
+		clear: both;
 	}
 	.follow {
 		font-size: 26rpx;

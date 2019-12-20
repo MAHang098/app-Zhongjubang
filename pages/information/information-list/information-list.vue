@@ -6,12 +6,12 @@
 				<image src="../../../static/img/information/people.png" mode=""></image>
 				<view class="name">新粉丝</view>
 			</view>
-			<view @click.stop="goDiscussCount(item.fanCount)">
+			<view @click.stop="goDiscussCount(item.discussCount)">
 				<text class="num" v-show="item.discussCount > 0">{{item.discussCount}}</text>
 				<image src="../../../static/img/information/message.png" mode=""></image>
 				<view class="name">评论</view>
 			</view>
-			<view @click.stop="goCollect(item.fanCount)">
+			<view @click.stop="goCollect(item.collectionCount)">
 				<text class="num" v-show="item.collectionCount > 0">{{item.collectionCount}}</text>
 				<image src="../../../static/img/information/collection.png" mode=""></image>
 				<view class="name">收藏</view>
@@ -102,6 +102,11 @@
 							this.good = data.goods[0];
 							this.system = data.system[0];
 						}
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 					})
 				})
 			},
@@ -153,7 +158,14 @@
 						'token': this.token
 					},
 					success: ((res) => {
-						this.init();
+						if(res.data.code == 200) {
+							this.init();
+						}
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 					})
 				})
 			}
