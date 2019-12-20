@@ -24,8 +24,8 @@
 			<view class="video-nav">
 				<text class="video-nav-hot">网红短视频</text>
 				<text class="video-nav-eye">一秒吸引你的眼球</text>
-				<text class="video-nav-more">更多</text>
-				<image class="video-nav-more-image" style="width:11upx;height:20upx;" src="../../static/img/main/more.png" mode="" />
+				<text @tap="goJuquanVideo" class="video-nav-more">更多</text>
+				<image @tap="goJuquanVideo" class="video-nav-more-image" style="width:11upx;height:20upx;" src="../../static/img/main/more.png" mode="" />
 			</view>
 			
 			<view>
@@ -36,11 +36,11 @@
 					:circular="true"
 					interval="3000"
 					duration="500"
-					@change="cardSwiper"
+					@change="cardSVideo"
 					indicator-color="#8799a3"
 					indicator-active-color="#0081ff"
 				>
-					<swiper-item v-for="(item, index) in videoList" :key="index" :class="cardCur == index ? 'cur' : ''">
+					<swiper-item @tap="goJuquanVideo" v-for="(item, index) in videoList" :key="index" :class="cardvvideo == index ? 'cur' : ''">
 						<view class="swiper-item">
 							<image :src="item.videoUrl" mode="aspectFill"></image>
 							<image class="video-image" style="width:94upx;height:94upx;z-index:400;" src="../../static/img/main/start.png" mode="aspectFill"></image>
@@ -61,11 +61,12 @@
 
 			<view >
 				<view class="zhong-content">
-					<view class="zhong-content-image" v-for="(item, index) in zhongList" :key="index">
-						<view class="zhong-content-image-content">
-							<image class="zhong-content-image-content-image" style="width:346upx;height:218upx;" src="item.top_img_list[0]" mode="" />
-							<text class="zhong-content-text">#{{item.talk_theme}}</text>
-						</view>
+					<view 
+						class="zhong-content-image"
+						v-for="(item, index) in zhongList" :key="index"
+						:style="{backgroundImage: 'url(' + item.talk_theme_img + ')', backgroundSize:'contain'}"
+					>
+						<text class="zhong-content-text">#{{item.talk_theme}}</text>
 					</view> 
 				</view>
 			</view>
@@ -114,13 +115,13 @@
 			<view class="juquan-nav">
 				<text class="video-nav-hot">居圈</text>
 				<text class="video-nav-eye">居家生活趣味多</text>
-				<text class="video-nav-more">更多</text>
-				<image class="video-nav-more-image" style="width:11upx;height:20upx;" src="../../static/img/main/more.png" mode="" />
+				<text @tap="goAlljuquan" class="video-nav-more">更多</text>
+				<image @tap="goAlljuquan" class="video-nav-more-image" style="width:11upx;height:20upx;" src="../../static/img/main/more.png" mode="" />
 			</view>
 			<image class="" style="width:750upx;height:230upx;" src="../../static/img/main/juquan-bg.png" mode="" />
 			<view class="juquan-content" v-for="(item, index) in topList" :key="index">
 				<view class="juquan-content-model">
-					<image class="juquan-content-model-image" style="width:347upx;height:355upx;" :src="item.img_list[0].fileUrl" mode="" />
+					<image @tap="goJuquan(item.create_by)" class="juquan-content-model-image" style="width:347upx;height:355upx;" :src="item.img_list[0].fileUrl" mode="" />
 					<view class="juquan-content-model-des">{{item.content | ellipsis}}</view>
 					<image class="juquan-content-info-avator" style="width:52upx;height:55upx;border-radius: 50%;" :src="item.head" mode="" />
 					<view class="juquan-content-info-nickname">{{item.nickName}}</view>
@@ -152,6 +153,7 @@
 				current: 0,
 				mode: 'round',
 				cardCur: 0,
+				cardvvideo: 0,
 				swiperList: [{
 				id: 0,
 				type: 'image',
@@ -290,6 +292,26 @@
 			})
 		},
 		methods: {
+			goAlljuquan(){
+				uni.switchTab({
+					url: '/pages/juquan/juquan'
+				})
+			},
+			goJuquan(id){
+				uni.navigateTo({
+					url: '/pages/releaseImage-details/releaseImage-details?id=' + id
+				})
+			},
+			goTopicDetails(id){
+				uni.navigateTo({
+					url: '/pages/topicDetails/topicDetails?id=' + id
+				})
+			},
+			goJuquanVideo(){
+				uni.navigateTo({
+					url: '/pages/juquanVideo/juquanVideo?type=' + 1 
+				})
+			},
 			goSearch(){
 				uni.navigateTo({
 					url: "/pages/G-circle/search-list/search-list"
@@ -303,6 +325,9 @@
 				this.dotStyle = e.detail.value;
 			},
 			// cardSwiper
+			cardSVideo(e) {
+				this.cardvvideo = e.detail.current;
+			},// cardSwiper
 			cardSwiper(e) {
 				this.cardCur = e.detail.current;
 			},
@@ -426,7 +451,11 @@
 		background: #eee;
 		color: #fff;
 	}
-
+	.video-image{
+		margin-top: -30px;
+		top: -66px;
+		left: 79px;
+	} 
 	.swiper-item image {
 		width: 100%;
 		height: 100%;
@@ -516,6 +545,7 @@
 	.zhong-content{
 		float: left;
 		margin-top: 10px;
+		margin-bottom: 30upx;
 	}
 	.zhong-content-image{
 		float: left;
@@ -523,28 +553,17 @@
 		margin-bottom: 6px;
 		width:346upx;
 		height:218upx;
-		background: url("http://www.zhongjubang.com/api/upload/bfb59673-9bc0-4064-9123-df0b59bb0918-9729.jpeg") no-repeat 100%;
-		background-size:346upx 218upx;
+		text-align: center;
+		font-size:30upx;
+		font-family:PingFang SC;
+		color:rgba(255,255,255,1);
+		line-height: 218upx;
 	}
 	.zhong-content-image:nth-child(even){
 		margin-left: 10upx;
 	}
-	.zhong-content-image-content{
-		position: relative;
-		text-align: center;
-		margin-left: 0;
-
-	}
-	.zhong-content-image-content-image{
-		position: absolute;
-	}
-	.zhong-content-text{
-
-		line-height: 218upx;
-		font-size:30upx;
-		font-family:PingFang SC;
-		color:rgba(255,255,255,1);
-	}
+	
+	
 	
 	/* 精选好物 */
 	.quality{
