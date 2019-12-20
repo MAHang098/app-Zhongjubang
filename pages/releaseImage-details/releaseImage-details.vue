@@ -2,7 +2,7 @@
 	<view>
 		<view class="top">
 			<view class="release-video">
-				<image class="back" src="../../static/img/back.png" mode="" />
+				<image @tap="back" class="back" src="../../static/img/back.png" mode="" />
 				<text class="title">{{indexImg}}/{{imageLength}}</text>
 			</view>
 			<swiper class="swiper"  :autoplay="false" :interval="2000" :duration="500" :circular="true" :current="current" @change.stop="changeImage">
@@ -157,7 +157,7 @@
 				contentLength: 0,
 				titleItem: {},
 				commentsContent: '',
-				token: '135d521547334e16afad9cf7bb465b6a'
+				token: ''
 	        }
 	    },
 		onLoad(option) {
@@ -174,15 +174,18 @@
 			}
 		},
 		onShow() {
-			// uni.getStorage({
-			// 	key:"token",
-			// 	success:((res) => {
-			// 	this.token = res.data;
-			//   })
-			// });
+			uni.getStorage({
+				key:"token",
+				success:((res) => {
+				this.token = res.data;
+			  })
+			});
 			this.init();
 		},
 	    methods: {
+			back(){
+				uni.navigateBack()
+			},
 			init() {
 				let parmas = {
 					pageSize: 100,

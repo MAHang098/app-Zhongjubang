@@ -108,10 +108,10 @@
 						<image class="video-content-start" style="width:52rpx;height:52rpx;" src="../../static/img/user/start.png" mode=""></image>
 						<image class="video-content-avator" style="width:60rpx;height:60rpx;border-radius:50%;" :src="item.head" mode=""></image>
 						<view class="video-content-nickname">{{item.nickName}}</view>
-						<image v-if="activeIndex == item.shortVideoId && showDelete" @tap="videoDelete(item.shortVideoId)" class="video-content-delete" style="width:156rpx;height:156rpx;" src="../../static/img/user/delete.png" mode=""></image>
+						<image v-if="activeVideo == item.shortVideoId && showDelete" @tap="videoDelete(item.shortVideoId)" class="video-content-delete" style="width:156rpx;height:156rpx;" src="../../static/img/user/delete.png" mode=""></image>
 						<!-- <video style="width:359rpx;height:512rpx;" :src="item.videoUrl"></video> -->
-						<image class="video-content-image" style="width:350rpx;height:512rpx;border-radius:3px;" :src="item.videoUrl" @tap="sendVideo(item.shortVideoId)"></image>
-						<view v-if="activeIndex == item.shortVideoId && showDelete" class="video-content-block" style="width:350rpx;height:512rpx;border-radius:3px;"></view>
+						<image class="video-content-image" style="width:340upx;height:512upx;border-radius:3px;" :src="item.videoUrl" @tap="sendVideo(item.shortVideoId)"></image>
+						<view v-if="activeVideo == item.shortVideoId && showDelete" class="video-content-block" style="width:350rpx;height:512rpx;border-radius:3px;"></view>
 					</view>
 					
 				</view>
@@ -137,8 +137,8 @@
 								<view class="operate-detail" v-show="cIndex == index && showEdit">
 									<view class="operate-arrow"></view>
 									<view class="operate-btn">
-										<view @click.stop="editRelease(items.gcircleContentDTO, items.gcircleContentDTO.id)"><image src="../../static/edit.png" mode=""></image>编辑</view>
-										<view @click.stop="deleteRelease(items.gcircleContentDTO.id)"><image src="../../static/delete.png" mode=""></image>删除</view>
+										<view @click.stop="editRelease(items, items.gcircleContentId)"><image src="../../static/edit.png" mode=""></image>编辑</view>
+										<view @click.stop="deleteRelease(items.gcircleContentId)"><image src="../../static/delete.png" mode=""></image>删除</view>
 									</view>
 								</view>
 							</view>
@@ -146,10 +146,10 @@
 						<!-- 用户信息 start -->
 						
 						<!-- 草稿内容 start -->
-						<view class="content"  v-if="items.gcircleContentDTO.content != '' ">
-							<view v-if="!isShowAllContent" class="text">{{items.gcircleContentDTO.content }}</view>
-							<view v-else class="text">{{items.gcircleContentDTO.content | ellipsis}}</view>
-							<view class="anCotent" v-if="items.gcircleContentDTO.content.length > 45 " @click="open()">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
+						<view class="content"  v-if="items.content != '' ">
+							<view v-if="!isShowAllContent" class="text">{{items.content }}</view>
+							<view v-else class="text">{{items.content | ellipsis}}</view>
+							<view class="anCotent" v-if="items.content.length > 45 " @click="open()">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
 						</view>
 						<!-- 草稿内容 end -->
 						
@@ -158,15 +158,15 @@
 						<!-- 	<view v-for="(tese, indexT) in JSON.stringify(JSON.parse(items.gcircleContentDTO.imgList))" :key="indexT">
 								{{1111}}
 							</view> -->
-							<image :mode="items.gcircleContentDTO.imgList.length > 1 ? 'aspectFit' : '' " :class="items.gcircleContentDTO.imgList.length > 1 ? 'imageListIn' : 'imageListSingle' " :src="row.fileUrl" v-for="(row, indexI) in items.gcircleContentDTO.imgList" :key="indexI" @click.stop="previewImage(indexI, items.gcircleContentDTO.imgList)"></image>
+							<image :mode="items.imgList.length > 1 ? 'aspectFit' : '' " :class="items.imgList.length > 1 ? 'imageListIn' : 'imageListSingle' " :src="row.fileUrl" v-for="(row, indexI) in items.imgList" :key="indexI" @click.stop="previewImage(indexI, items.imgList)"></image>
 						</view>
 						<!-- 图片/视频 end -->
 						
 						<!-- 话题 start -->
-						<view class="release-image_topic"  v-show="show" v-if="items.gcircleContentDTO.title.topic != '' " >
-							<view class="left" @click.stop="goTopic(items.gcircleContentDTO.title)">
+						<view class="release-image_topic"  v-show="show" v-if="items.title.topic != '' " >
+							<view class="left" @click.stop="goTopic(items.title)">
 								<image src="../../static/topic/topic.png" mode=""></image>
-								<view>{{items.gcircleContentDTO.title.topic}}</view>
+								<view>{{items.title.topic}}</view>
 							</view>
 							<view class="right"></view>
 						</view>
@@ -175,16 +175,16 @@
 						<view class="operate-bottom">
 							<view class="operate-bottom_share"><image src="../../static/img/user/share.png" mode=""></image></view>
 							<view class="operate-bottom_number">
-								<view class="number-message"  @click.stop="togglePopup('bottom', 'comments',items.gcircleContentDTO.userId, items.gcircleContentDTO.id, nickName,items.gCollectionDiscussNum)">
+								<view class="number-message"  @click.stop="togglePopup('bottom', 'comments',items.userId, items.gcircleContentId, nickName,items.gCollectionDiscussNum)">
 									<image src="../../static/img/topicDetails/message.png" mode=""></image>
 									<text>{{items.gCollectionDiscussNum}}</text>
 								</view>
 								<view class="collect">
-									<image @click.stop="collect(index, items.gcircleContentDTO.id, items.collectionState)" :src="(activeIndex == index && isShowCollect) || items.collectionState === 1 ? '../../static/topic/collect-select.png' : '../../static/img/user/star.png' " mode=""></image>
+									<image @click.stop="collect(index, items.gcircleContentId, items.collectionState)" :src="(activeIndex == index && isShowCollect) || items.collectionState === 1 ? '../../static/topic/collect-select.png' : '../../static/img/user/star.png' " mode=""></image>
 									<text>{{items.collectionNum}}</text>
 								</view>
 								<view class="fabulous" >
-									<image @click.stop="fabulous(index, items.gcircleContentDTO.id, items.gcircleContentLikeState)" :src="(fabulousIndex == index && isShowFabulous) || items.gcircleContentLikeState === 1 ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
+									<image @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState)" :src="(fabulousIndex == index && isShowFabulous) || items.gcircleContentLikeState === 1 ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
 									<text>{{items.gcircleContentLikeNum}}</text>
 								</view>
 							</view>
@@ -302,13 +302,14 @@
 				gCollectionDiscussNum: '',
 				dataList: [],
 				videoList: [],
+				gcircleContentDTO: [],
 				recommendId: '',
 				recommendName: '',
 				getsvdiscussId: '',
 				isShowTopic: true,
 				replySay: '说点什么把',
 				replyType: '',
-				activeIndex: 0,
+				activeVideo: 0,
 				
 	        }
 		},
@@ -389,40 +390,12 @@
 					}
 				}
 			});
-			//获取视频内容
-			// uni.request({
-			// 	url: url + "/controller/usercontroller/getshortvideobyuserid",
-			// 	data: {
-			// 		pageSize: 100
-			// 	},
-			// 	method: 'POST',
-			// 	header : {
-			// 		'content-type':'application/x-www-form-urlencoded', 
-			// 		'port': 'app',
-			// 		'token': token
-			// 	},
-			// 	success: function (res){
-			// 		// console.log(res.data.code)
-			// 		if(res.data.code==200){
-			// 			// console.log(res)
-			// 			for(var i = 0;i < res.data.data.dataList[0].length;i++){
-							
-			// 				res.data.data.dataList[0][i].videoUrl = res.data.data.dataList[0][i].videoUrl.replace('MP4','jpg')
-			// 				res.data.data.dataList[0][i].videoUrl = res.data.data.dataList[0][i].videoUrl.replace('mp4','jpg')
-			// 				// console.log(res.data.data.dataList[0][i].videoUrl)
-			// 			}
-			// 			self.videoList = res.data.data.dataList[0]
-			// 		}else{
-			// 			console.log("请求异常")
-			// 		}
-			// 	}
-			// });
 			this.initVideo()
 			this.init();
 		},
         methods: {
-			deleteVideo(activeIndex){
-				this.activeIndex = activeIndex
+			deleteVideo(activeVideo){
+				this.activeVideo = activeVideo
 				console.log("1111")
 				this.showDelete = !this.showDelete
 			},
@@ -514,9 +487,8 @@
 							let data = res.data.data.dataList;
 							// 
 							for(let i=0; i<data.length; i++) {
-								let test = data[i].gcircleContentDTO;
-								data[i].gcircleContentDTO.imgList = JSON.parse(data[i].gcircleContentDTO.imgList);
-								data[i].gcircleContentDTO.title = JSON.parse(data[i].gcircleContentDTO.title);
+								data[i].imgList = JSON.parse(data[i].imgList);
+								data[i].title = JSON.parse(data[i].title);
 							}
 							// data.forEach((item, i) => {
 							// 	item.gcircleContentDTO.imgList = JSON.stringify(item.gcircleContentDTO.imgList);
@@ -1557,7 +1529,7 @@
 	/* 短视频样式start */
 	
 	.video-wrap{
-		margin-top: 30px;
+		margin-top: 60px;
 		background: #fff;
 	}
 	.video-detail{
@@ -1567,25 +1539,25 @@
 	}
 	.video-content{
 		position: relative;
-		margin-left: 3px;
+		margin-left: 12upx;
 	}
 	.video-content-start{
 		position: absolute;
 		z-index: 100;
-		left: 154px;
-		top: 10px;
+		left: 274upx;
+		top: 20upx;
 	}
 	.video-content-avator{
 		position: absolute;
 		z-index: 100;
-		top: 239px;
-		left: 12px;
+		top: 426upx;
+		left: 24upx;
 	}
 	.video-content-delete{
 		position: absolute;
 		z-index: 300;
-		top: 102px;
-		left: 51px;
+		top: 194upx;
+		left: 102upx;
 	}
 	.video-content-image{
 	}
@@ -1599,8 +1571,8 @@
 	.video-content-nickname{
 		position: absolute;
 		z-index: 100;
-		top: 246px;
-		left: 52px;
+		top: 440upx;
+		left: 104upx;
 		font-size:24rpx;
 		font-family:PingFang SC;
 		font-weight:bold;

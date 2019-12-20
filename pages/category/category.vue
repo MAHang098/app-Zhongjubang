@@ -2,7 +2,7 @@
 	<view class="contant">
 		<!-- 搜索栏 start -->
 		<view class="header">
-			<view class="search-input">
+			<view @tap="goSearch" class="search-input">
 				<image src="../../static/search/nav-search.png" mode=""></image>
 				<input class="uni-input" placeholder="搜索您所需要的商品" @focus="onFocus" @blur="onBlur" @input="searchTopic" value=""/>
 			</view>
@@ -26,11 +26,15 @@
 					<text class="left-name" :class="index==categoryActive?'in':''">{{item.goodsRemarks}}</text>
 				</view>
 			</scroll-view>
+			<image class="banner" style="width: 262px;height: 121px;" :src="imageStyle" mode="" />
 			<scroll-view class="nav-right" scroll-y :scroll-top="scrollTop" @scroll="scroll" :style="'height:'+height+'px'" scroll-with-animation>
 				<view  :id="index===0?'first':''" class="nav-right-item" v-for="(item,index) in subCategoryList" :key="index" @click.stop="topicDetail(item.id)">
-					<view class="contnet">
-						<image style="width: 130upx;height: 30upx;" :src="item.goodsStyleImg" mode="" />
-						<text>{{item.goodsStyleRemarks}}</text>
+					<view class="content">
+						<view class="content-packet">
+							<image class="content-image" style="width: 130upx;height: 130upx;border-radius: 50%;" :src="item.goodsStyleImg" mode="" />
+							<text class="content-style">{{item.goodsStyleRemarks}}</text>
+						</view>
+						
 					</view>
 					
 				</view>
@@ -52,7 +56,8 @@
 				scrollTop: 0,
 				scrollHeight: 0,
 				name: "七月_",
-				token: ''
+				token: '',
+				imageStyle: ''
 			}
 		},
 		onShow() {
@@ -66,20 +71,40 @@
 			this.init('');
 		},
 		methods: {
+			goSearch(){
+				uni.navigateTo({
+					url: "/pages/G-circle/search-list/search-list"
+				})
+			},
 			init(search) {
-				uni.request({
-					url: this.url + 'controller/shopcontroller/getgoodsstyle',
-					method: 'post',
-					header : {'content-type':'application/x-www-form-urlencoded', token: '', 'port': 'app'},
-					data:  {goodsTypeId: search},
-					success: ((res) => {
-						if(res.data.code == 200) {
-							console.log(res)
-							this.subCategoryList = res.data;
-						}
+				// uni.request({
+				// 	url: this.url + 'controller/shopcontroller/getgoodsstyle',
+				// 	method: 'post',
+				// 	header : {'content-type':'application/x-www-form-urlencoded', token: '', 'port': 'app'},
+				// 	data:  {goodsTypeId: 1},
+				// 	success: ((res) => {
+				// 		if(res.data.code == 200) {
+				// 			this.subCategoryList = res.data.data;
+				// 		}
 						
-					})
-				});
+				// 	})
+				// });
+				this.categoryClickMain(1)
+				let self = this
+				// 搜索轮播图
+				uni.request({
+					url: this.url + 'public/public/getresourcesbyresourcestype',
+					data: {
+						resourcesTypeName:'app_goods_type_img'
+					},
+					method:"POST",
+					header : {'content-type':'application/x-www-form-urlencoded','port':'app'},
+					success: function (res){
+						if(res.data.code=="200"){
+							self.imageStyle = res.data.data[0].resource
+						}
+					}
+				})
 			},
 			// 点击所有话题
 			allTopic(index) {
@@ -141,6 +166,7 @@
 			categoryClickMain(id, index) {
 				let token
 				let self = this;
+				console.log(id)
 				uni.getStorage({
 					key:"token",
 					success: function (res) {
@@ -155,8 +181,7 @@
 					data:  {goodsTypeId: id},
 					success: ((res) => {
 						if(res.data.code == 200) {
-							
-							this.subCategoryList = res.data;
+							this.subCategoryList = res.data.data
 						}
 						
 					})
@@ -166,7 +191,7 @@
 				this.scrollTop = -this.scrollHeight * index;
 			},
 			getCategory() {
-				// 获取话题类型(左侧)
+				// 获取(左侧)
 				let token
 				let self = this;
 				uni.getStorage({
@@ -265,7 +290,7 @@
 	/* 搜索 end */
 	
 	.page-body {
-		display: flex;
+		/* display: flex; */
 		position: relative;
 		top: 140rpx;
 	}
@@ -300,24 +325,47 @@
 		height: 37rpx;
 		text-align: center;
 	}
+	.banner{
+		position: relative;
+		left: 138px;
+		top: 31px;
+	}
 	
 	.nav-right {
-		width: 70%;
+		margin-top: 50px;
+		margin-left: 138px;
+		/* width: 70%;
 		margin-left: 30%;
 		background: #FFFFFF;
 		box-sizing: border-box;
-		padding-bottom: 150rpx;
+		padding-bottom: 150rpx; */
 	}
 	
 	.nav-right-item {
-		width: 100%;
+		/* width: 100%;
 		height: 150rpx;
 		box-sizing: border-box;
-		padding: 34rpx 30rpx;
+		padding: 34rpx 30rpx; */
 		/* border-bottom: 1px solid #E2E2E2; */
 	}
-	.contnet {
-		
+	.content {
+		float: left;
+	}
+	.content-packet{
+		float: left;
+		margin-right: 50upx;
+		text-align: center;
+		width: 130upx;
+		height: 170upx;
+	}
+	.content-image{
+		/* float: left; */
+	}
+	.content-text{
+		font-size:24upx;
+		font-family:PingFang SC;
+		font-weight:bold;
+		color:rgba(51,51,51,1);
 	}
 	
 	

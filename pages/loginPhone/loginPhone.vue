@@ -4,6 +4,7 @@
 		<view class="bg">
 			<image src="../../static/img/loginPhone/bg.png" mode=""></image>
 		</view>
+		<image class="close" @tap="close" style="width: 42upx;height: 36upx;" src="../../static/img/loginPhone/close.png" mode=""></image>
 		<text class="left">手机登录</text>
 		<text class="right" @click="tologinPwd">密码登录</text>
 		<view class="phone">
@@ -63,6 +64,12 @@
             }
         },
         methods: {
+			// 返回主菜单
+			close(){
+				uni.navigateTo({
+					url: '/pages/main/main'
+				})
+			},
 			sendCod(){
 				if (this.account.length != 11) {
 				    uni.showToast({
@@ -282,6 +289,11 @@
 	.bg image{
 		width: 750rpx;
 		height: 1334rpx;
+	}
+	.close{
+		position: absolute;
+		left: 23rpx;
+		top: 62rpx;
 	}
 	.left{
 		position: absolute;
