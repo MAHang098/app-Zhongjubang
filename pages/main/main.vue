@@ -65,6 +65,7 @@
 						class="zhong-content-image"
 						v-for="(item, index) in zhongList" :key="index"
 						:style="{backgroundImage: 'url(' + item.talk_theme_img + ')', backgroundSize:'contain'}"
+						@tap="goTopicDetails(item.id)"
 					>
 						<text class="zhong-content-text">#{{item.talk_theme}}</text>
 					</view> 
@@ -207,6 +208,10 @@
 			const url = this.url
 			let self = this
 			// app主页轮播图
+			uni.showLoading({
+				title: '加载中...',
+				mask: true
+			})
 			uni.request({
 				url: url + 'public/public/getresourcesbyresourcestype',
 				data: {
@@ -215,6 +220,7 @@
 				method:"POST",
 				header : {'content-type':'application/x-www-form-urlencoded','port':'app'},
 				success: function (res){
+					uni.hideLoading()
 					if(res.data.code=="200"){
 						self.bannerList = res.data.data
 					}
@@ -230,6 +236,7 @@
 				method:"POST",
 				header : {'content-type':'application/x-www-form-urlencoded','port':'app'},
 				success: function (res){
+					uni.hideLoading()
 					if(res.data.code=="200"){
 						for(var i = 0;i < res.data.data.dataList.length;i++){
 							

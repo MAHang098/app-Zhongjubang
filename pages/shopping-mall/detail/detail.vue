@@ -167,12 +167,12 @@
 				<view>客服</view>
 			</view>
 			<view class="kefu">
-				<image src="../../../static/img/shopping-mall/detail/kefu.png" mode=""></image>
-				<view>客服</view>
-			</view>
-			<view class="in-shop">
 				<image src="../../../static/img/shopping-mall/detail/shop.png" mode=""></image>
 				<view>进店</view>
+			</view>
+			<view class="in-shop">
+				<image src="../../../static/img/shopping-mall/detail/collet.png" mode=""></image>
+				<view>收藏</view>
 			</view>
 			<view class="join">
 				<text @click.stop="addCart">加入购物车</text>

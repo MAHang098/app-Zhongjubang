@@ -45,7 +45,7 @@
 			<!-- 居圈分类 居圈/关注/短视频 end --> 
 			
 			<!-- G圈所有内容 start -->
-			<view class="relese-image"  v-for="(items, index) in releaseImgList" :key="index" @click.stop="contentDetail(items.gcircleContentId)">
+			<view class="relese-image"  v-for="(items, index) in releaseImgList" :key="index">
 				<view class="relese-image_detail" >
 					<!-- 用户信息 start -->
 					<view class="user">
@@ -76,8 +76,8 @@
 					
 					<!-- 文字展开/收起 start -->
 					<view class="content"  v-if="items.content != '' ">
-						<view v-if="!isShowAllContent" class="text">{{items.content }}</view>
-						<view v-else class="text">{{items.content | ellipsis}}</view>
+						<view v-if="!isShowAllContent"  @click.stop="contentDetail(items.gcircleContentId)" class="text">{{items.content }}</view>
+						<view v-else class="text"  @click.stop="contentDetail(items.gcircleContentId)">{{items.content | ellipsis}}</view>
 						<view class="anCotent" v-if="items.content.length > 60 " @click="open(index)">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
 					</view>
 					<!-- 文字展开/收起 end -->
@@ -399,7 +399,12 @@
 			// 切换居圈/关注/短视频
 			changeProduct(index) {
 				this.current = index;
-				if(index == 1) {
+				console.log(index)
+				if(index == 2) {
+					uni.navigateTo({
+						url: '/pages/juquanVideo/juquanVideo'
+					})
+				}if(index == 1) {
 					this.focusUser();
 					this.focusUserContent();
 				}

@@ -38,7 +38,10 @@
 						const src = res.tempFilePath;
 						console.log(src)
 						
-						
+						uni.showLoading({
+							title: '加载中...',
+							mask: true
+						})
 						uni.uploadFile({
 							url: url + "upload", //仅为示例，非真实的接口地址
 							filePath: src,
@@ -51,6 +54,7 @@
 								uploadFileRes.data = JSON.parse(uploadFileRes.data)
 								console.log(uploadFileRes.data)
 								if(uploadFileRes.data.code==200){
+									uni.hideLoading()
 									uni.navigateTo({
 										url: "/pages/releaseVideo/releaseVideo?fileUrl=" + uploadFileRes.data.data.fileUrl + "&&fileName=" + uploadFileRes.data.data.fileName
 									})

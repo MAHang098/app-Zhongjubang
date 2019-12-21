@@ -4,21 +4,33 @@
             <text class="navigate-image">
 				<image style="width: 15upx;height: 31upx;" src="../../static/img/juquanVideo/back.png" />
 			</text>
-            <text class="car">购物车(0)</text>
+            <text class="car">购物车({{length}})</text>
             <text class="edit">编辑</text>
         </view>
 		<!-- <image class="content-shop-image" style="width:429upx;height:266upx;" src="../../static/img/shop-car.png" mode=""></image> -->
-		<view class="car-content">
-			<view class="car-all-picker"></view>
-			<view class="car-all-icon"></view>
-			<text class="car-title">索菲亚衣柜></text>
-			<view class="car-all-command"></view>
-			<view class="car-all-image"></view>
-			<view class="car-all-des">索菲亚衣柜索菲亚衣柜索菲亚衣柜索菲亚衣衣柜索菲亚衣柜</view>
-			<text class="car-all-name">全部套装</text>
-			<text class="car-all-price">￥5800.00</text>
-			<text class="car-all-count">x1</text>
-			<text></text>
+		<view class="car-content" v-for="(item, index) in goodsList" :key="index" >
+			<!-- <view :class="sex==1?'active':''" data-index="1" @click="checkSex"> -->
+			    <!-- <view class="car-all-picker"></view> -->
+			<!-- </view> -->
+			<view class="">
+				<view class="car-all-picker"></view>
+				<image  class="car-all-icon" style="width: 29upx;height: 28upx;" :src="item.shopLogo" />
+				<text class="car-title">{{item.shopName}} ></text>
+			</view>
+			
+			<view v-if="item.goodsTypeId==1" class="car-all-box">
+				
+				<view class="car-all-command"></view>
+				<view class="car-all-image">
+					<image style="width: 150upx;height: 150upx;" :src="item.topImgList[0]" />
+				</view>
+				<view class="car-all-des">{{item.goodsName}}</view>
+				<text class="car-all-name">全部套装</text>
+				<text class="car-all-price">￥{{item.goodsPrice}}</text>
+				<text class="car-all-count">x{{item.quantity}}</text>
+			</view>
+			
+			
 		</view>
 		<view class="footer">
 			<view class="picker"></view>
@@ -33,7 +45,10 @@
 	export default {
 		data() {
 			return {
+				sex: 1,
                 Tokens: '',
+				goodsList: [],
+				length: ''
 			}
 		},
 		onShow(){
@@ -74,6 +89,8 @@
 									duration: 3000
 								});
 							}
+							self.goodsList = res.data.data.dataList
+							self.length = res.data.data.dataList.length
 						}else{
 							console.log("请求异常")
 						}
@@ -200,12 +217,16 @@
 		border:1px solid rgba(153, 153, 153, 1);
 		border-radius:50%;
 	}
+	.active .car-all-picker{
+		border: 1px solid transparent;
+		background: url("../../static/img/shop-command/pick.png") no-repeat center/cover;
+	}
 	.car-all-icon{
 		position: absolute;
 		left: 65upx;
 		top: 30upx;
-		width:27upx;
-		height:24upx;
+		width:29upx;
+		height:28upx;
 		background: #ff0;
 	}
 	.car-title{

@@ -13,9 +13,7 @@
 		<!-- 列表 start -->
 		<view class="page-body">
 			<scroll-view class="nav-left" scroll-y :style="'height:'+height+'px'">
-				<!-- <view class="nav-left-item" :class="'-1'==categoryActive?'active':''" @click.stop="allTopic('-1')">
-					<text class="left-name" :class="'-1'==categoryActive?'in':''">全部话题</text>
-				</view> -->
+				
 				<view 
 					class="nav-left-item" 
 					@click="categoryClickMain(item.id, index)"  :key="index" 
@@ -28,11 +26,11 @@
 			</scroll-view>
 			<image class="banner" style="width: 262px;height: 121px;" :src="imageStyle" mode="" />
 			<scroll-view class="nav-right" scroll-y :scroll-top="scrollTop" @scroll="scroll" :style="'height:'+height+'px'" scroll-with-animation>
-				<view  :id="index===0?'first':''" class="nav-right-item" v-for="(item,index) in subCategoryList" :key="index" @click.stop="topicDetail(item.id)">
+				<view  :id="index===0?'first':''" class="nav-right-item" v-for="(item,index) in subCategoryList" :key="index" @click.stop="goMorecategory(type,item.goodsStyleId)">
 					<view class="content">
 						<view class="content-packet">
 							<image class="content-image" style="width: 130upx;height: 130upx;border-radius: 50%;" :src="item.goodsStyleImg" mode="" />
-							<text class="content-style">{{item.goodsStyleRemarks}}</text>
+							<text class="content-text">{{item.goodsStyleRemarks}}</text>
 						</view>
 						
 					</view>
@@ -57,7 +55,8 @@
 				scrollHeight: 0,
 				name: "七月_",
 				token: '',
-				imageStyle: ''
+				imageStyle: '',
+				type: ''
 			}
 		},
 		onShow() {
@@ -69,26 +68,20 @@
 			  }
 			});
 			this.init('');
+			this.categoryClickMain(1,0)
 		},
 		methods: {
+			goMorecategory(type,style){
+				uni.navigateTo({
+					url: '/pages/category-more/category-more?type='+type+'&style='+style
+				})
+			},
 			goSearch(){
 				uni.navigateTo({
 					url: "/pages/G-circle/search-list/search-list"
 				})
 			},
 			init(search) {
-				// uni.request({
-				// 	url: this.url + 'controller/shopcontroller/getgoodsstyle',
-				// 	method: 'post',
-				// 	header : {'content-type':'application/x-www-form-urlencoded', token: '', 'port': 'app'},
-				// 	data:  {goodsTypeId: 1},
-				// 	success: ((res) => {
-				// 		if(res.data.code == 200) {
-				// 			this.subCategoryList = res.data.data;
-				// 		}
-						
-				// 	})
-				// });
 				this.categoryClickMain(1)
 				let self = this
 				// 搜索轮播图
@@ -131,7 +124,7 @@
 				// #endif
 				
 			},
-			// 选择话题
+			// 
 			chooseTopic(name, id) {
 				
 				// let pages = getCurrentPages(), prevPage=null;
@@ -163,7 +156,11 @@
 			scroll(e) {
 				this.scrollHeight = e.detail.scrollHeight;
 			},
+			//获取右侧
 			categoryClickMain(id, index) {
+				console.log(id)
+				console.log(index)
+				this.type = id
 				let token
 				let self = this;
 				console.log(id)
@@ -214,7 +211,6 @@
 						
 					})
 				});
-			
 			},
 			// 话题详情
 			topicDetail(id) {
@@ -222,12 +218,9 @@
 					url: '/pages/topicDetails/topicDetails?type=topic&id=' + id
 				})
 			}
-			
 		},
-			
 		onLoad: function () {
 			this.getCategory();
-			
 			this.height = uni.getSystemInfoSync().windowHeight;
 		}
 	}

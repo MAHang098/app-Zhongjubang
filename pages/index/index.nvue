@@ -7,7 +7,7 @@
 		<div class="release-content">
 			<!-- 获取视频 -->
 			<div class="pic">
-				<video style="width:750rpx;height:1106rpx;" :src="videoUrl" />
+				<video autoplay="autoplay" style="width:750rpx;height:1106rpx;" :src="videoUrl" />
 			</div>
 			<!--  -->
 			<div class="user-info">

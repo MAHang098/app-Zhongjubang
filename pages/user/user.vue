@@ -68,11 +68,14 @@
 			<view class="my-order">
 				<image src="../../static/img/user/my-order.png" mode=""></image>
 			</view>
-			<view class="user-nickName">
-				{{nickName}}
+			<view class="nickName-gender">
+				<view class="user-nickName">
+					{{nickName}}
+				</view>
+				<view v-show="!show" class="user-nickName-image"><image src="../../static/img/user/user-gender.png" mode=""></image></view>
+				<view v-show="show" class="user-nickName-image"><image src="../../static/img/editInfo/gender-man.png" mode=""></image></view>
 			</view>
-			<view v-show="!show" class="user-nickName-image"><image src="../../static/img/user/user-gender.png" mode=""></image></view>
-			<view v-show="show" class="user-nickName-image"><image src="../../static/img/editInfo/gender-man.png" mode=""></image></view>
+			
 			<view class="user-intro">
 				{{remarks}}
 			</view>
@@ -119,90 +122,91 @@
 			<!-- 短视频内容end -->
 			
 			
-			<!-- G圈列表 end -->
 			
 			<!-- <view class="more">-上拉查看更多-</view> -->
 		</view>
 		<!-- G圈列表 start -->
 		<view v-if="!show1" class="relese-image"  >
-			<!-- <view > -->
-				<view class="relese-image_detail" v-for="(items, index) in releaseImgList" :key="index">
+			<view v-for="(items, index) in releaseImgList" :key="index">
+				<view class="relese-image_detail" >
 					<!-- 用户信息 start -->
 					<view class="user">
 						<view class="user-message">
-							<image :src="items.head" mode=""></image>
+							<image src="../../static/drafts.png" mode=""></image>
 							<view>
 								<view class="name">{{items.nickName}}</view>
 								<view class="time">{{items.createTime}}</view>
 							</view>
-							<view class="operate-user" @click.stop="operate(index)">
-								<text></text>
-								<text></text>
-								<text></text>
-								<view class="operate-detail" v-show="cIndex == index && showEdit">
-									<view class="operate-arrow"></view>
-									<view class="operate-btn">
-										<view @click.stop="editRelease(items, items.gcircleContentId)"><image src="../../static/edit.png" mode=""></image>编辑</view>
-										<view @click.stop="deleteRelease(items.gcircleContentId)"><image src="../../static/delete.png" mode=""></image>删除</view>
-									</view>
+						</view>
+						<view class="operate-user" @click.stop="operate(index)">
+							<text></text>
+							<text></text>
+							<text></text>
+							<view class="operate-detail" v-show="cIndex == index && showEdit">
+								<view class="operate-arrow"></view>
+								<view class="operate-btn">
+									<view @click.stop="editRelease(items, items.gcircleContentId)"><image src="../../static/edit.png" mode=""></image>编辑</view>
+									<view @click.stop="deleteRelease(items.gcircleContentId)"><image src="../../static/delete.png" mode=""></image>删除</view>
 								</view>
 							</view>
 						</view>
-						<!-- 用户信息 start -->
-						
-						<!-- 草稿内容 start -->
-						<view class="content"  v-if="items.content != '' ">
-							<view v-if="!isShowAllContent" class="text">{{items.content }}</view>
-							<view v-else class="text">{{items.content | ellipsis}}</view>
-							<view class="anCotent" v-if="items.content.length > 45 " @click="open()">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
+					</view>
+					<!-- 用户信息 start -->
+					
+					<!-- 草稿内容 start -->
+					<view class="content"  v-if="items.content != '' ">
+						<view v-if="!isShowAllContent" class="text">{{items.content }}</view>
+						<view v-else class="text">{{items.content | ellipsis}}</view>
+						<view class="anCotent" v-if="items.content.length > 45 " @click="open()">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
+					</view>
+					<!-- 草稿内容 end -->
+					
+					<!-- 图片/视频 start -->
+					<view class="imageList">
+					<!-- 	<view v-for="(tese, indexT) in JSON.stringify(JSON.parse(items.gcircleContentDTO.imgList))" :key="indexT">
+							{{1111}}
+						</view> -->
+						<image :mode="items.imgList.length > 1 ? 'aspectFit' : '' " :class="items.imgList.length > 1 ? 'imageListIn' : 'imageListSingle' " :src="row.fileUrl" v-for="(row, indexI) in items.imgList" :key="indexI" @click.stop="previewImage(indexI, items.imgList)"></image>
+					</view>
+					<!-- 图片/视频 end -->
+					
+					<!-- 话题 start -->
+					<view class="release-image_topic"  v-show="show" v-if="items.title.topic != '' " >
+						<view class="left" @click.stop="goTopic(items.title)">
+							<image src="../../static/topic/topic.png" mode=""></image>
+							<view>{{items.title.topic}}</view>
 						</view>
-						<!-- 草稿内容 end -->
-						
-						<!-- 图片/视频 start -->
-						<view class="imageList">
-						<!-- 	<view v-for="(tese, indexT) in JSON.stringify(JSON.parse(items.gcircleContentDTO.imgList))" :key="indexT">
-								{{1111}}
-							</view> -->
-							<image :mode="items.imgList.length > 1 ? 'aspectFit' : '' " :class="items.imgList.length > 1 ? 'imageListIn' : 'imageListSingle' " :src="row.fileUrl" v-for="(row, indexI) in items.imgList" :key="indexI" @click.stop="previewImage(indexI, items.imgList)"></image>
-						</view>
-						<!-- 图片/视频 end -->
-						
-						<!-- 话题 start -->
-						<view class="release-image_topic"  v-show="show" v-if="items.title.topic != '' " >
-							<view class="left" @click.stop="goTopic(items.title)">
-								<image src="../../static/topic/topic.png" mode=""></image>
-								<view>{{items.title.topic}}</view>
+						<view class="right"></view>
+					</view>
+					<!-- 话题 end -->
+					<!-- 操作按钮 start -->
+					<view class="operate-bottom">
+						<view class="operate-bottom_share"><image src="../../static/img/user/share.png" mode=""></image></view>
+						<view class="operate-bottom_number">
+							<view class="number-message"  @click.stop="togglePopup('bottom', 'comments',items.userId, items.gcircleContentId, nickName,items.gCollectionDiscussNum)">
+								<image src="../../static/img/topicDetails/message.png" mode=""></image>
+								<text>{{items.gCollectionDiscussNum}}</text>
 							</view>
-							<view class="right"></view>
-						</view>
-						<!-- 话题 end -->
-						<!-- 操作按钮 start -->
-						<view class="operate-bottom">
-							<view class="operate-bottom_share"><image src="../../static/img/user/share.png" mode=""></image></view>
-							<view class="operate-bottom_number">
-								<view class="number-message"  @click.stop="togglePopup('bottom', 'comments',items.userId, items.gcircleContentId, nickName,items.gCollectionDiscussNum)">
-									<image src="../../static/img/topicDetails/message.png" mode=""></image>
-									<text>{{items.gCollectionDiscussNum}}</text>
-								</view>
-								<view class="collect">
-									<image @click.stop="collect(index, items.gcircleContentId, items.collectionState)" :src="(activeIndex == index && isShowCollect) || items.collectionState === 1 ? '../../static/topic/collect-select.png' : '../../static/img/user/star.png' " mode=""></image>
-									<text>{{items.collectionNum}}</text>
-								</view>
-								<view class="fabulous" >
-									<image @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState)" :src="(fabulousIndex == index && isShowFabulous) || items.gcircleContentLikeState === 1 ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
-									<text>{{items.gcircleContentLikeNum}}</text>
-								</view>
+							<view class="collect">
+								<image @click.stop="collect(index, items.gcircleContentId, items.collectionState)" :src="(activeIndex == index && isShowCollect) || items.collectionState === 1 ? '../../static/topic/collect-select.png' : '../../static/img/user/star.png' " mode=""></image>
+								<text>{{items.collectionNum}}</text>
+							</view>
+							<view class="fabulous" >
+								<image @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState)" :src="(fabulousIndex == index && isShowFabulous) || items.gcircleContentLikeState === 1 ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
+								<text>{{items.gcircleContentLikeNum}}</text>
 							</view>
 						</view>
 					</view>
 					<!-- 操作按钮 end -->
 				</view>
-			<!-- </view> -->
+			</view>
 			
 		</view>
 		<!-- 点击右边三点显示的遮罩层 start -->
 		<view id="mask" v-show="showEdit"></view>
 		<!-- 点击右边三点显示的遮罩层 end -->
+		
+		<!-- G圈列表 end -->
 		
 		<!-- 评论弹窗 start -->
 		<uni-popup ref="comments" :type="popupType" :custom="true" class="comments-list" @change="popupChange">
@@ -265,7 +269,7 @@
 	        return {
 				showRigth: false,
 				showLeft: false,
-				tabType: ['图片', '视频'],
+				tabType: ['我的动态', '短视频'],
 				show: '',
 				show1: '',
 				showDelete: '',
@@ -309,6 +313,7 @@
 				replySay: '说点什么把',
 				replyType: '',
 				activeVideo: 0,
+				commentItem: []
 				
 	        }
 		},
@@ -964,7 +969,7 @@
 		height: 70rpx;
 	}
 	.drafts-type view {
-		width: 15%;
+		width: 30%;
 		height: 34rpx;
 		line-height: 34rpx;
 		text-align: center;
@@ -1089,17 +1094,22 @@
 		width: 191rpx;
 		height: 58rpx;
 	}
-	.user-nickName{
+	.nickName-gender{
 		position: absolute;
 		left: 29rpx;
 		top: 95rpx;
+	}
+	.user-nickName{
+		float: left;
 		font-size:38rpx;
 		font-family:PingFang SC;
 		font-weight:bold;
 		color:rgba(51,51,51,1);
 	}
+	
 	.user-nickName-image{
-		position: absolute;
+		float: left;
+		margin-left: 8upx;
 		left: 180rpx;
 		top: 98rpx;
 		width: 33rpx;
@@ -1528,7 +1538,7 @@
 	/* 短视频样式start */
 	
 	.video-wrap{
-		margin-top: 60px;
+		margin-top: 50upx;
 		background: #fff;
 	}
 	.video-detail{

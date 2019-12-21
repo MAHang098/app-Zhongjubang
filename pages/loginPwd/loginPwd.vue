@@ -27,7 +27,7 @@
     	</view>
     	<text class="forget-pwd" @tap="toupdatePswd">忘记密码</text>
     	<view class="phone-login" @tap="bindLogin">
-    		<image src="../../static/img/loginPhone/phone-login.png" mode=""></image>
+    		<image src="../../static/img/loginPhone/login-pwd.png" mode=""></image>
     	</view>
     	<view class="wechat-login"  @tap="wechatbindLogin">
     		<image src="../../static/img/loginPhone/wechat-login.png" mode=""></image>
