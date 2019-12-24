@@ -132,7 +132,7 @@
 					<!-- 用户信息 start -->
 					<view class="user">
 						<view class="user-message">
-							<image src="../../static/drafts.png" mode=""></image>
+							<image :src="items.head" mode=""></image>
 							<view>
 								<view class="name">{{items.nickName}}</view>
 								<view class="time">{{items.createTime}}</view>

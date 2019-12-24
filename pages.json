@@ -662,12 +662,12 @@
             "iconPath": "static/img/juquan.png",
             "selectedIconPath": "static/img/juquanHL.png"
         },
-        // {
-        //     "pagePath": "pages/release/release",
-        //     "text": "",
-        //     "iconPath": "static/img/release.png",
-        //     "selectedIconPath": "static/img/homeHL.png"
-        // },
+        {
+            "pagePath": "pages/release/release",
+            "text": "",
+            "iconPath": "static/img/release.png",
+            "selectedIconPath": "static/img/homeHL.png"
+        },
         {
             "pagePath": "pages/stop/stop",
             "text": "商城",
@@ -679,14 +679,14 @@
             "iconPath": "static/img/user.png",
             "selectedIconPath": "static/img/userHL.png"
         }]
-		,
-		"midButton": {
-		    "width": "75rpx",
-		    "height": "98px",
-		    "text": "发布",
-		    "iconPath": "static/img/release.png",
-		    "iconWidth": "47rpx"
-		}
+		
+		// "midButton": {
+		//     "width": "75rpx",
+		//     "height": "98px",
+		//     "text": "发布",
+		//     "iconPath": "static/img/release.png",
+		//     "iconWidth": "47rpx"
+		// }
     },
     "globalStyle": {
         "navigationBarTextStyle": "black",

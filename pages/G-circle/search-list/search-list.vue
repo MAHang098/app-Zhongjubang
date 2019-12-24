@@ -42,9 +42,9 @@
 		
 		<!-- 商品列表 start -->
 		<view class="product-list" v-show="current == 1">
-			<view class="product-list_detail" v-for="(item, index) in productList" :key="index">
+			<view class="product-list_detail" v-for="(item, index) in productList" :key="index" @tap.stop="goDetail(item.goodsId)">
 				<image :src="item.topImgList[0]" mode=""></image>
-				<view class="product-list_detail_title">{{item.goodsContent | ellipsis }}</view>
+				<view class="product-list_detail_title">{{item.goodsName | ellipsis }}</view>
 				<view class="product-list_detail_price">{{'￥' + item.goodsPrice}}</view>
 				<view class="product-list_detail_shop">
 					<view class="product-list_detail_shopleft">{{item.shopName}}</view>
@@ -238,6 +238,11 @@
 			goGcicle(id) {
 				uni.navigateTo({
 					url: '/pages/releaseImage-details/releaseImage-details?id=' + id
+				})
+			},
+			goDetail(id) {
+				uni.navigateTo({
+					url: '/pages/shopping-mall/detail/detail?id=' + id
 				})
 			}
 		}

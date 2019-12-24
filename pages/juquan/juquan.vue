@@ -84,7 +84,7 @@
 					
 					<!-- 图片/视频 start -->
 					<view class="imageList">
-						<image :mode="items.imgList.length > 1 ? 'aspectFit' : '' " :class="items.imgList.length > 1 ? 'imageListIn' : 'imageListSingle' " :src="row.fileUrl" v-for="(row, indexI) in items.imgList" :key="indexI" @click.stop="previewImage(indexI, items.imgList)"></image>
+						<image :mode="items.imgList.length > 1 ? '' : '' " :class="items.imgList.length > 1 ? 'imageListIn' : 'imageListSingle' " :src="row.fileUrl" v-for="(row, indexI) in items.imgList" :key="indexI" @click.stop="previewImage(indexI, items.imgList)"></image>
 						<!-- <image src="../../static/draftsT.png" mode="" ></image> -->
 					</view>
 					<!-- 图片/视频 end -->
@@ -208,7 +208,7 @@
 			init() {
 				let parmas = {
 					pageIndex: 1,
-					pageSize: 1000
+					pageSize: 10
 				}
 				uni.showLoading({
 					title: '加载中...',
