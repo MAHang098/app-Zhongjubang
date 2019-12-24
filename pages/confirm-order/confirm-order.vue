@@ -29,7 +29,27 @@
 				<view class="order-title-image"></view>
 				<text class="order-title-text">索菲亚衣柜</text>
 			</view>
+			<view class="car-content">
+				<view class="car-all-image"></view>
+				<view class="car-all-des">索菲亚衣柜索菲亚衣柜索菲亚衣柜索菲亚衣衣柜索菲亚衣柜</view>
+				<text class="car-all-name">全部套装</text>
+				<text class="car-all-price">￥5800.00</text>
+				<text class="car-all-count">x1</text>
+				<text></text>
+			</view>
+			<text class="car-send">配送费</text>
+			<text class="free-send">免费配送</text>
+			<view class="horizen"></view>
+			<text class="car-coupon">优惠券</text>
+			<text class="car-nouse">暂无可用</text>
+			<image class="car-image" style="width: 12upx;height: 23upx;" src="../../static/img/information/right-arrow.png" mode=""></image>
 		</view>
+		<view class="mask">
+			<textarea placeholder="备注："  v-model="desc"  maxlength="200" class="release-text"  @input = "descInput"/>
+			<view v-show="showMask" class="mask-text">给卖家留言</view>
+			<view v-show="!showMask" class="mask-num">{{remnant}}/200</view>
+		</view>
+		
 		<!-- 商品详情 end -->
 		
 		<!-- 底部 start -->
@@ -38,7 +58,7 @@
 			<text class="price">￥5800.00</text>
 			<view class="balance">提交订单</view>
 		</view>
-		
+		<!-- 底部 end -->
 	</view>
 </template>
 
@@ -46,8 +66,20 @@
 	export default {
 		data() {
 			return {
+				remnant: 0,
+				desc: '',
 				show: false,
 				showAdress: true,
+				showMask: true,
+				popupType: '',
+				content: '有温度的保温杯有',
+				name: '',
+				phone: '',
+				adress: '',
+				available: 0, //可用热度分
+				singleScore: 200,
+				totleScore: 0,
+				num: 1
 			}
 		},
 		filters: {
@@ -78,9 +110,13 @@
 				return;
 			} 
 			that.init();
-			that.total();
 		},
 		methods: {
+			// 留言
+			descInput(e) {
+				this.remnant = e.detail.value.length
+				this.showMask = !this.showMask
+			},
 			// 获取默认地址
 			init() {
 				uni.showLoading({
@@ -188,6 +224,8 @@
 		position: relative;
 		width: 750upx;
 		height: 521upx;
+		background: #fff;
+		box-shadow:7upx 0px 5upx 0px rgba(202,202,202,0.31);
 	}
 	.order-title{
 		position: relative;
@@ -210,52 +248,156 @@
 		font-family:PingFang SC;
 		color:rgba(51,51,51,1);
 	}
-	
-	
-	/* 底部 start */
-	.foot {
-		position: fixed;
-		bottom: 0;
-		width: 100%;
-		height: auto;
+	.car-content{
+		position: relative;
+		width:750upx;
+		height:190upx;
+		background:rgba(247,247,247,1);
 	}
-	.available {
-		height: 66rpx;
-		line-height: 66rpx;
-		box-sizing: border-box;
-		padding: 0 30rpx;
-		background: rgba(249,183,44, .2);
-		color: #F9B72C;
-		font-size: 26rpx;
+	.car-all-command{
+		position: absolute;
+		left: 21upx;
+		top: 157upx;
+		width:28upx;
+		height:28upx;
+		background:rgba(255,101,1,0);
+		border:1px solid rgba(153, 153, 153, 1);
+		border-radius:50%;
 	}
-	.total {
-		width: 100%;
-		height: 106rpx;
-		line-height: 106rpx;
-		display: flex;
+	.car-all-image{
+		position: absolute;
+		left: 30upx;
+		top: 21upx;
+		width:150upx;
+		height:150upx;
+		background:#f0f;
 	}
-	.total view {
-		width: 50%;
-		text-align: center;
-	}
-	.total  text {
-		font-size:32rpx;
+	.car-all-des{
+		position: absolute;
+		left: 200upx;
+		top: 25upx;
+		width:460upx;
+		height:60upx;
+		font-size:24upx;
 		font-family:PingFang SC;
+		font-weight:400;
+		color:rgba(51,51,51,1);
+		line-height:32upx;
 	}
-	.total  text:first-child {
-		color: #333333;
+	.car-all-name{
+		position: absolute;
+		left: 200upx;
+		top: 103upx;
+		font-size:24upx;
+		font-family:PingFang SC;
+		color:rgba(153,153,153,1);
 	}
-	.total  text:last-child {
-		color: #F43348;
+	.car-all-price{
+		position: absolute;
+		left: 200upx;
+		top: 149upx;
+		font-size:28upx;
+		font-family:PingFang SC;
+		font-weight:bold;
+		color:rgba(244,51,72,1);
 	}
-	.total view:last-child {
-		background: #F9B72C;
-		color: #FFFFFF;
-		font-size: 36rpx;
+	.car-all-count{
+		position: absolute;
+		left: 674upx;
+		top: 151upx;
+		font-size:26upx;
+		font-family:PingFang SC;
+		color:rgba(51,51,51,1);
 	}
-	.uni-tip-content {
-		width: 450rpx;
-		font-size:32rpx;
+	.car-send{
+		position: absolute;
+		left: 30upx;
+		top: 354upx;
+		font-size:26upx;
+		font-family:PingFang SC;
+		font-weight:bold;
+		color:rgba(51,51,51,1);
+	}
+	.free-send{
+		position: absolute;
+		left: 613upx;
+		top: 354upx;
+		font-size:26upx;
+		font-family:PingFang SC;
+		font-weight:bold;
+		color:rgba(153,153,153,1);
+	}
+	.horizen{
+		position: absolute;
+		left: 30upx;
+		top: 418upx;
+		width:690upx;
+		height:1px;
+		background:rgba(226,226,226,1);
+	}
+	.car-coupon{
+		position: absolute;
+		left: 30upx;
+		top: 455upx;
+		font-size:26upx;
+		font-family:PingFang SC;
+		font-weight:bold;
+		color:rgba(51,51,51,1);
+	}
+	.car-nouse{
+		position: absolute;
+		left: 594upx;
+		top: 454upx;
+		font-size:26upx;
+		font-family:PingFang SC;
+		font-weight:bold;
+		color:rgba(153,153,153,1);
+	}
+	.car-image{
+		position: absolute;
+		left: 709upx;
+		top: 462upx;
+	}
+	.mask{
+		position: relative;
+		margin-top: 10upx;
+		width:750upx;
+		height:448upx;
+		background:rgba(255,255,255,1);
+		box-shadow:7upx 0px 5upx 0px rgba(202,202,202,0.31);
+	}
+	.release-text{
+		position: absolute;
+		top: 0;
+		left: 0;
+		width:750upx;
+		height:448upx;
+		background:rgba(255,255,255,1);
+		box-shadow:7upx 0px 5upx 0px rgba(202,202,202,0.31);
+		font-size:26upx;
+		font-family:PingFang SC;
+		font-weight:bold;
+		color:rgba(51,51,51,1);
+		padding: 29upx;
+		box-sizing: border-box;
+	}
+	.mask-text{
+		position: absolute;
+		top: 27upx;
+		left: 588upx;
+		font-size:26upx;
+		font-family:PingFang SC;
+		font-weight:bold;
+		color:rgba(153,153,153,1);
+	}
+	.mask-num{
+		position: absolute;
+		top: 400upx;
+		left: 638upx;
+		font-size:26upx;
+		font-family:PingFang SC;
+		font-weight:bold;
+		color:rgba(153,153,153,1);
 	}
 	/* 底部内容 */
 	.footer{
@@ -265,7 +407,6 @@
 		border-top: 1px solid rgba(226,226,226,1);
 		background:rgba(249,249,249,1);
 		bottom: 0;
-		
 	}
 	.total{
 		position: absolute;

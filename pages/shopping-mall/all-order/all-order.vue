@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view id="allOrder">
 		<!-- 搜索栏 start -->
 		<view class="header">
 			<image src="../../../static/img/G-circle/search-back.png" mode="" class="back"></image>
@@ -118,10 +118,39 @@
 			return {
 				currentType: 0,
 				popupShow: false,
-				popupType: ''
+				popupType: '',
+				token: ''
 			}
 		},
+		onShow(){
+			uni.getStorage({
+				key:"token",
+				success:((res) => {
+					this.token = res.data;
+				})
+			});
+			this.init('')
+		},
 		methods: {
+			init(state) {
+				uni.request({
+					url: this.url + "controller/shopcontroller/getappuserorderlist",
+					data: {pageIndex: 1, pageSize: 1000, state: state},
+					method: 'POST',
+					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
+					success: ((res) => {
+						// console.log(res.data.code)
+						if(res.data.code==200){
+							console.log(res.data)
+						}
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+					})
+				})
+			},
 			changeOrder(n) {
 				this.currentType = n;
 			},
@@ -164,7 +193,7 @@
 </script>
 
 <style>
-	page {
+	page, #allOrder {
 		background: #F6F6F6;
 	}
 	.header {

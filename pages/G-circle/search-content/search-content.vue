@@ -102,7 +102,7 @@
 			},
 			gainInput(e) {
 				this.clearTimer();
-				this.timer = setTimeout(() => {
+				// this.timer = setTimeout(() => {
 				  // console.log(this.lastTime)
 				  // if (this.lastTime - event.timeStamp === 0) {
 					uni.request({
@@ -113,8 +113,7 @@
 						success:((res) => {
 							if(res.data.code == 200) {
 								this.changeColor(res.data.data)
-				  			// this.productList = res.data.data;
-								this.isShowList = !this.isShowList;
+								this.isShowList = false;
 							} 
 							if(res.data.code == 421) {
 								uni.navigateTo({
@@ -124,7 +123,7 @@
 						})
 				  });
 				  // }
-				}, 500)
+				// }, 500)
 			},
 			// 关键字高亮
 			changeColor (resultsList) {
@@ -142,7 +141,6 @@
 			          )
 			        }
 			      });
-				 
 			      this.productList = []
 			      this.productList = resultsList
 			},

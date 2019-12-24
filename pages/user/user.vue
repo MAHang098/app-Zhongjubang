@@ -68,11 +68,14 @@
 			<view class="my-order">
 				<image src="../../static/img/user/my-order.png" mode=""></image>
 			</view>
-			<view class="user-nickName">
-				{{nickName}}
+			<view class="nickName-gender">
+				<view class="user-nickName">
+					{{nickName}}
+				</view>
+				<view v-show="!show" class="user-nickName-image"><image src="../../static/img/user/user-gender.png" mode=""></image></view>
+				<view v-show="show" class="user-nickName-image"><image src="../../static/img/editInfo/gender-man.png" mode=""></image></view>
 			</view>
-			<view v-show="!show" class="user-nickName-image"><image src="../../static/img/user/user-gender.png" mode=""></image></view>
-			<view v-show="show" class="user-nickName-image"><image src="../../static/img/editInfo/gender-man.png" mode=""></image></view>
+			
 			<view class="user-intro">
 				{{remarks}}
 			</view>
@@ -108,10 +111,10 @@
 						<image class="video-content-start" style="width:52rpx;height:52rpx;" src="../../static/img/user/start.png" mode=""></image>
 						<image class="video-content-avator" style="width:60rpx;height:60rpx;border-radius:50%;" :src="item.head" mode=""></image>
 						<view class="video-content-nickname">{{item.nickName}}</view>
-						<image v-if="activeIndex == item.shortVideoId && showDelete" @tap="videoDelete(item.shortVideoId)" class="video-content-delete" style="width:156rpx;height:156rpx;" src="../../static/img/user/delete.png" mode=""></image>
+						<image v-if="activeVideo == item.shortVideoId && showDelete" @tap="videoDelete(item.shortVideoId)" class="video-content-delete" style="width:156rpx;height:156rpx;" src="../../static/img/user/delete.png" mode=""></image>
 						<!-- <video style="width:359rpx;height:512rpx;" :src="item.videoUrl"></video> -->
-						<image class="video-content-image" style="width:350rpx;height:512rpx;border-radius:3px;" :src="item.videoUrl" @tap="sendVideo(item.shortVideoId)"></image>
-						<view v-if="activeIndex == item.shortVideoId && showDelete" class="video-content-block" style="width:350rpx;height:512rpx;border-radius:3px;"></view>
+						<image class="video-content-image" style="width:340upx;height:512upx;border-radius:3px;" :src="item.videoUrl" @tap="sendVideo(item.shortVideoId)"></image>
+						<view v-if="activeVideo == item.shortVideoId && showDelete" class="video-content-block" style="width:350rpx;height:512rpx;border-radius:3px;"></view>
 					</view>
 					
 				</view>
@@ -119,14 +122,13 @@
 			<!-- 短视频内容end -->
 			
 			
-			<!-- G圈列表 end -->
 			
 			<!-- <view class="more">-上拉查看更多-</view> -->
 		</view>
 		<!-- G圈列表 start -->
 		<view v-if="!show1" class="relese-image"  >
-			<!-- <view > -->
-				<view class="relese-image_detail" v-for="(items, index) in releaseImgList" :key="index">
+			<view v-for="(items, index) in releaseImgList" :key="index">
+				<view class="relese-image_detail" >
 					<!-- 用户信息 start -->
 					<view class="user">
 						<view class="user-message">
@@ -197,12 +199,14 @@
 					</view>
 					<!-- 操作按钮 end -->
 				</view>
-			<!-- </view> -->
+			</view>
 			
 		</view>
 		<!-- 点击右边三点显示的遮罩层 start -->
 		<view id="mask" v-show="showEdit"></view>
 		<!-- 点击右边三点显示的遮罩层 end -->
+		
+		<!-- G圈列表 end -->
 		
 		<!-- 评论弹窗 start -->
 		<uni-popup ref="comments" :type="popupType" :custom="true" class="comments-list" @change="popupChange">
@@ -265,7 +269,7 @@
 	        return {
 				showRigth: false,
 				showLeft: false,
-				tabType: ['图片', '视频'],
+				tabType: ['我的动态', '短视频'],
 				show: '',
 				show1: '',
 				showDelete: '',
@@ -301,13 +305,16 @@
 				gCollectionDiscussNum: '',
 				dataList: [],
 				videoList: [],
+				gcircleContentDTO: [],
 				recommendId: '',
 				recommendName: '',
 				getsvdiscussId: '',
 				isShowTopic: true,
 				replySay: '说点什么把',
 				replyType: '',
-				commentItem: [],
+				activeVideo: 0,
+				commentItem: []
+				
 	        }
 		},
 		filters: {
@@ -387,40 +394,12 @@
 					}
 				}
 			});
-			//获取视频内容
-			// uni.request({
-			// 	url: url + "/controller/usercontroller/getshortvideobyuserid",
-			// 	data: {
-			// 		pageSize: 100
-			// 	},
-			// 	method: 'POST',
-			// 	header : {
-			// 		'content-type':'application/x-www-form-urlencoded', 
-			// 		'port': 'app',
-			// 		'token': token
-			// 	},
-			// 	success: function (res){
-			// 		// console.log(res.data.code)
-			// 		if(res.data.code==200){
-			// 			// console.log(res)
-			// 			for(var i = 0;i < res.data.data.dataList[0].length;i++){
-							
-			// 				res.data.data.dataList[0][i].videoUrl = res.data.data.dataList[0][i].videoUrl.replace('MP4','jpg')
-			// 				res.data.data.dataList[0][i].videoUrl = res.data.data.dataList[0][i].videoUrl.replace('mp4','jpg')
-			// 				// console.log(res.data.data.dataList[0][i].videoUrl)
-			// 			}
-			// 			self.videoList = res.data.data.dataList[0]
-			// 		}else{
-			// 			console.log("请求异常")
-			// 		}
-			// 	}
-			// });
 			this.initVideo()
 			this.init();
 		},
         methods: {
-			deleteVideo(activeIndex){
-				this.activeIndex = activeIndex
+			deleteVideo(activeVideo){
+				this.activeVideo = activeVideo
 				console.log("1111")
 				this.showDelete = !this.showDelete
 			},
@@ -512,7 +491,6 @@
 							let data = res.data.data.dataList;
 							// 
 							for(let i=0; i<data.length; i++) {
-							// 	let test = data[i].gcircleContentDTO;
 								data[i].imgList = JSON.parse(data[i].imgList);
 								data[i].title = JSON.parse(data[i].title);
 							}
@@ -991,7 +969,7 @@
 		height: 70rpx;
 	}
 	.drafts-type view {
-		width: 15%;
+		width: 30%;
 		height: 34rpx;
 		line-height: 34rpx;
 		text-align: center;
@@ -1116,17 +1094,22 @@
 		width: 191rpx;
 		height: 58rpx;
 	}
-	.user-nickName{
+	.nickName-gender{
 		position: absolute;
 		left: 29rpx;
 		top: 95rpx;
+	}
+	.user-nickName{
+		float: left;
 		font-size:38rpx;
 		font-family:PingFang SC;
 		font-weight:bold;
 		color:rgba(51,51,51,1);
 	}
+	
 	.user-nickName-image{
-		position: absolute;
+		float: left;
+		margin-left: 8upx;
 		left: 180rpx;
 		top: 98rpx;
 		width: 33rpx;
@@ -1555,7 +1538,7 @@
 	/* 短视频样式start */
 	
 	.video-wrap{
-		margin-top: 30px;
+		margin-top: 50upx;
 		background: #fff;
 	}
 	.video-detail{
@@ -1565,25 +1548,25 @@
 	}
 	.video-content{
 		position: relative;
-		margin-left: 3px;
+		margin-left: 12upx;
 	}
 	.video-content-start{
 		position: absolute;
 		z-index: 100;
-		left: 154px;
-		top: 10px;
+		left: 274upx;
+		top: 20upx;
 	}
 	.video-content-avator{
 		position: absolute;
 		z-index: 100;
-		top: 239px;
-		left: 12px;
+		top: 426upx;
+		left: 24upx;
 	}
 	.video-content-delete{
 		position: absolute;
 		z-index: 300;
-		top: 102px;
-		left: 51px;
+		top: 194upx;
+		left: 102upx;
 	}
 	.video-content-image{
 	}
@@ -1597,8 +1580,8 @@
 	.video-content-nickname{
 		position: absolute;
 		z-index: 100;
-		top: 246px;
-		left: 52px;
+		top: 440upx;
+		left: 104upx;
 		font-size:24rpx;
 		font-family:PingFang SC;
 		font-weight:bold;

@@ -72,6 +72,12 @@
 				inputValue: '',
 			}
 		},
+		onLoad(options){
+			let selef = this
+			if(options.type==1){
+				this.changeProduct(1)
+			}
+		},
 		onShow() {
 			this.initVideo()
 		},
@@ -118,6 +124,7 @@
 			// 全部视频/网红视频
 			changeProduct(index) {
 				this.current = index;
+				console.log(index)
 				this.isShow = !this.isShow;
 				
             },
@@ -125,7 +132,7 @@
                 uni.navigateBack()
             },
             // 获取短视频内容
-			initVideo() {
+			initVideo(type) {
 				let self = this
 				
 				const url = this.url

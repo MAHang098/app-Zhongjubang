@@ -51,6 +51,7 @@
                 show: false,
                 indicatorDots: true,
                 popupType: '',
+				token: [],
 			}
         },
         methods: {
@@ -136,6 +137,10 @@
                         console.log(res.data.code)
                         if(res.data.code==200){
                             console.log(res)
+							uni.setStorage({
+								key:"token",
+								data: '0',
+							})
                             uni.navigateTo({
                                 url: '/pages/loginPhone/loginPhone'
                             })

@@ -7,7 +7,7 @@
 		<div class="release-content">
 			<!-- 获取视频 -->
 			<div class="pic">
-				<video style="width:750rpx;height:1106rpx;" :src="videoUrl" />
+				<video autoplay="autoplay" style="width:750rpx;height:1106rpx;" :src="videoUrl" />
 			</div>
 			<!--  -->
 			<div class="user-info">
@@ -210,7 +210,8 @@
 				commentsList: [],
 				isCommentsFabulous: false,
 				userID222: '',
-				title: 'action-sheet'
+				title: 'action-sheet',
+				url: "https://www.zhongjubang.com/test/"
 			}
 		},
 		filters: {
@@ -241,7 +242,7 @@
 			let self = this
 			//获取短视频内容
 			uni.request({
-				url: "https://www.zhongjubang.com/test/controller/usercontroller/getshortvideobyid",
+				url: self.url + "controller/usercontroller/getshortvideobyid",
 				data: {shortVideoId:id},
 				method: 'POST',
 				header : {
@@ -315,7 +316,7 @@
 						console.log(id)
 						//获取短视频内容
 						uni.request({
-							url: "https://www.zhongjubang.com/test/controller/usercontroller/delshortvideodiscuss",
+							url: self.url + "controller/usercontroller/delshortvideodiscuss",
 							data: {shortVideoDiscussId:id},
 							method: 'POST',
 							header : {
@@ -354,7 +355,7 @@
 					if(this.userID222!=undefined){
 						console.log('cechi::::'+self.userID222)
 						uni.request({
-							url: "https://www.zhongjubang.com/test/controller/usercontroller/addanswershortvideodiscuss",
+							url: self.url + "controller/usercontroller/addanswershortvideodiscuss",
 							data: {
 								outUserId: self.userID222,
 								id: self.recommendId,
@@ -384,7 +385,7 @@
 						})
 					}else{
 						uni.request({
-							url: "https://www.zhongjubang.com/test/controller/usercontroller/addanswershortvideodiscuss",
+							url: self.url + "controller/usercontroller/addanswershortvideodiscuss",
 							data: {
 								outUserId: self.outUserId,
 								id: self.recommendId,
@@ -417,7 +418,7 @@
 					
 				}else{
 					uni.request({
-						url: "https://www.zhongjubang.com/test/controller/usercontroller/addshortvideodiscuss",
+						url: self.url + "controller/usercontroller/addshortvideodiscuss",
 						data: {
 							outUserId: self.outUserId,
 							shortVideoId: self.id,
@@ -515,7 +516,7 @@
 				console.log(self.id)
 				//添加、删除点赞
 				uni.request({
-					url: "https://www.zhongjubang.com/test/controller/usercontroller/addshortvideolike",
+					url: self.url + "controller/usercontroller/addshortvideolike",
 					data: {
 						shortVideoId: self.id,
 					},
@@ -556,7 +557,7 @@
 				
 				console.log(self.id)
 				uni.request({
-					url: "https://www.zhongjubang.com/test/controller/usercontroller/addusercollection",
+					url: self.url + "controller/usercontroller/addusercollection",
 					data: {
 						type: 2,
 						collectionContentId: self.id,
@@ -596,8 +597,9 @@
 					}
 				})
 				console.log(id)
+				let self = this
 				uni.request({
-					url: "https://www.zhongjubang.com/test/controller/videocontroller/getsvdiscusslist",
+					url: self.url + "controller/videocontroller/getsvdiscusslist",
 					data: {
 						id: id,
 						pageIndex: 1,
@@ -641,8 +643,9 @@
 					pageIndex: 1,
 					pageSize: 10000
 				}
+				let self = this
 				uni.request({
-					url: "https://www.zhongjubang.com/test/controller/videocontroller/getsvdiscusslist",
+					url: self.url + "controller/videocontroller/getsvdiscusslist",
 					method: 'post',
 					data: parmas,
 					header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
@@ -672,7 +675,7 @@
 				  }
 				});
 				uni.request({
-					url: "https://www.zhongjubang.com/test/controller/usercontroller/adddiscusslike",
+					url: self.url + "controller/usercontroller/adddiscusslike",
 					method: 'post',
 					data: {discussId: id, type: '2'},
 					header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},

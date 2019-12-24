@@ -3,6 +3,7 @@
     	<view class="bg">
     		<image src="../../static/img/loginPhone/bg-2.png" mode=""></image>
     	</view>
+		<image class="close" @tap="close" style="width: 42upx;height: 36upx;" src="../../static/img/loginPhone/close.png" mode=""></image>
     	<text class="left" @tap="tologinPhone">手机登录</text>
     	<text class="right">密码登录</text>
     	<view class="phone">
@@ -26,7 +27,7 @@
     	</view>
     	<text class="forget-pwd" @tap="toupdatePswd">忘记密码</text>
     	<view class="phone-login" @tap="bindLogin">
-    		<image src="../../static/img/loginPhone/phone-login.png" mode=""></image>
+    		<image src="../../static/img/loginPhone/login-pwd.png" mode=""></image>
     	</view>
     	<view class="wechat-login"  @tap="wechatbindLogin">
     		<image src="../../static/img/loginPhone/wechat-login.png" mode=""></image>
@@ -56,7 +57,12 @@
         },
         // computed: mapState(['forcedLogin']),
         methods: {
-			
+			// 返回主菜单
+			close(){
+				uni.navigateTo({
+					url: '/pages/main/main'
+				})
+			},
             bindLogin() {
                 /**
                  * 客户端对账号信息进行一些必要的校验。
@@ -244,6 +250,11 @@
     	width: 750rpx;
     	height: 1334rpx;
     }
+	.close{
+		position: absolute;
+		left: 23rpx;
+		top: 62rpx;
+	}
     .left{
     	position: absolute;
     	left: 73rpx;

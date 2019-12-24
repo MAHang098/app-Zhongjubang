@@ -1,16 +1,53 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页,
 		{
+			"path": "pages/loginPhone/loginPhone",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		{
 			"path": "pages/user/user",
 			"style": {
 				"app-plus": {
 					"titleNView": false //禁用原生导航栏  
 				}
 			}
-		},{
+		},
+		{
 			"path": "pages/confirm-order/confirm-order",
 			"style" : {
 				 "navigationBarTitleText": "确认订单"
+			}
+		},
+		{
+			"path": "pages/paySuccess/paySuccess",
+			"style" : {
+				 "navigationBarTitleText": "支付成功"
+			}
+		},
+		{
+			"path": "pages/juquanSpecials/juquanSpecials",
+			"style" : {
+				 "navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/category-more/category-more",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		{
+			"path": "pages/spot-praise/spot-praise",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
 			}
 		},
 		{
@@ -37,14 +74,7 @@
 				}
 			}
 		},
-		{
-			"path": "pages/loginPhone/loginPhone",
-			"style": {
-				"app-plus": {
-					"titleNView": false //禁用原生导航栏  
-				}
-			}
-		},
+		
 		{
 			"path": "pages/answer/answer",
 			"style": {
@@ -408,6 +438,14 @@
        
        
         
+        ,{
+            "path" : "pages/shop-command/shop-command",
+            "style": {
+                "app-plus": {
+                    "titleNView": false //禁用原生导航栏  
+                }
+            }
+        }
     ],
 	"subPackages": [
 		// 上传图片需要用到的页面
@@ -624,12 +662,12 @@
             "iconPath": "static/img/juquan.png",
             "selectedIconPath": "static/img/juquanHL.png"
         },
-        // {
-        //     "pagePath": "pages/release/release",
-        //     "text": "",
-        //     "iconPath": "static/img/release.png",
-        //     "selectedIconPath": "static/img/homeHL.png"
-        // },
+        {
+            "pagePath": "pages/release/release",
+            "text": "",
+            "iconPath": "static/img/release.png",
+            "selectedIconPath": "static/img/homeHL.png"
+        },
         {
             "pagePath": "pages/stop/stop",
             "text": "商城",
@@ -641,13 +679,13 @@
             "iconPath": "static/img/user.png",
             "selectedIconPath": "static/img/userHL.png"
         }]
+		
 		// "midButton": {
 		//     "width": "75rpx",
 		//     "height": "98px",
 		//     "text": "发布",
 		//     "iconPath": "static/img/release.png",
 		//     "iconWidth": "47rpx"
-		// 	// "iconHeight": "47rpx"
 		// }
     },
     "globalStyle": {

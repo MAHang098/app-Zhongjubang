@@ -142,12 +142,13 @@
 		// 监听页面滚动
 		onPageScroll(e) {
 			 let _this=this;
-			if(e.scrollTop > 50) {
+			if(e.scrollTop > 150) {
 				_this.scrollFlag = true
 			} else {
 				_this.scrollFlag = false
 			}
 		},
+		
 		onLoad(option) {
 			this.detailId = option.id;
 			// this.detailId = '54'
@@ -171,6 +172,9 @@
 			this.init();
 		},
 	    methods: {
+			back(){
+				uni.navigateBack()
+			},
 			init() {
 				let parmas = {
 					pageSize: 100,
