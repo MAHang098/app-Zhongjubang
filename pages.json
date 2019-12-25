@@ -473,6 +473,12 @@
                 }
             }
         }
+        ,{
+            "path" : "pages/designeConfirm/designeConfirm",
+            "style": {
+                "navigationBarTitleText": "居圈达人认证"
+            }
+        }
     ],
 	"subPackages": [
 		// 上传图片需要用到的页面

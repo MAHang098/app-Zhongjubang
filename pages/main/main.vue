@@ -511,7 +511,7 @@
 		width: 368upx !important;
 		left: 180upx;
 		box-sizing: border-box;
-		padding: 40rpx 0rpx 70rpx;
+		padding: 25rpx 0rpx 70rpx;
 		overflow: initial;
 	}
 
@@ -535,7 +535,7 @@
 	}
 	/* 众话题 */
 	.zhong{
-		margin-top: -160upx;
+		margin-top: -130upx;
 		margin-bottom: 16px;
 	}
 	.zhong-nav{
