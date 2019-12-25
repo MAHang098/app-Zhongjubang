@@ -99,6 +99,11 @@
 					method: 'post',
 					header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 					success: (res => {
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 						if(res.data.code == 200) {
 							if(res.data.data.length == 0) {
 								this.isShow = true;
@@ -150,6 +155,11 @@
 					data: {userAdressId: id, isDefault: 1},
 					header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 					success: ((res) =>  {
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 						if(res.data.code == 200) {
 							this.init()
 							// uni.hideToast();
@@ -208,6 +218,11 @@
 						data: {'userAdressId': this.deleteId},
 						header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 						success: (res => {
+							if(res.data.code==421){
+								uni.navigateTo({
+									url: '/pages/loginPhone/loginPhone'
+								})
+							}
 							console.log(res)
 							if(res.data.code == 200) {
 								this.show = false;

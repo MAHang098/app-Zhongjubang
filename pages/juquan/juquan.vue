@@ -49,7 +49,7 @@
 				<view class="relese-image_detail" >
 					<!-- 用户信息 start -->
 					<view class="user">
-						<view class="user-message">
+						<view class="user-message" @tap="goOtheruser(items.userId)">
 							<image :src="items.head" mode=""></image>
 							<view>
 								<view class="name">{{items.nickName}}</view>
@@ -183,8 +183,17 @@
 			this.recommend();
 		},
 		methods: {
+			goOtheruser(userid){
+				uni.navigateTo({
+					url: '/pages/otherUser/otherUser?userid=' + userid
+				})
+			},
 			// 获取G圈推荐
 			recommend() {
+				uni.showLoading({
+					title: '加载中...',
+					mask: true
+				})
 				uni.request({
 					url: this.url + "/public/public/getGcircleListbyresourcestype",
 					data: {resourcesTypeName: 'app_top_list'},
@@ -505,6 +514,9 @@
 				}
 				if(index == 1) {
 					// 跳转到网红视频页面
+					uni.navigateTo({
+						url: '/pages/juquanVideo/juquanVideo?type=' + 1 
+					})
 					return;
 				}
 				if(index == 2) {

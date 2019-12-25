@@ -19,7 +19,7 @@
 
 <style>
 	
-	 /* html, body {
+	/* html, body {
 		 height: 100%;
 		 width: 100%;
 		 font-family:PingFang SC;

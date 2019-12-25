@@ -11,7 +11,6 @@
 				<swiper class="swiper-box" @change="change">
 					<swiper-item v-for="(item, index) in info" :key="index">
 						<view :class="item.colorClass" class="swiper-item">
-							<!-- <image :src="item.url" mode="aspectFill" /> -->
 							<view class="banner-content-des">
 								<image class="banner-content-des-image" style="width:85upx;height:86upx;" src="../../static/img/stop/banner-image.png" mode="aspectFill" />
 								<view class="banner-content-des-title">全屋定制</view>
@@ -93,16 +92,16 @@
 			</view>
 		</view>
 		<!-- G圈列表 start -->
-		<view class="">
+		<view v-if="current==0" class="relese-image"  >
 			<view v-for="(items, index) in releaseImgList" :key="index">
 				<view class="relese-image_detail" >
 					<!-- 用户信息 start -->
 					<view class="user">
 						<view class="user-message">
-							<image src="../../static/drafts.png" mode=""></image>
+							<image :src="items.head" mode=""></image>
 							<view>
-								<view class="name">晴天小猪</view>
-								<view class="time">219-12-30 09:30</view>
+								<view class="name">{{items.nickName}}</view>
+								<view class="time">{{items.createTime}}</view>
 							</view>
 						</view>
 						<view class="operate-user" @click.stop="operate(index)">
@@ -112,8 +111,8 @@
 							<view class="operate-detail" v-show="cIndex == index && showEdit">
 								<view class="operate-arrow"></view>
 								<view class="operate-btn">
-									<view @click.stop="editRelease(items.gcircleContentDTO, items.gcircleContentDTO.id)"><image src="../../static/edit.png" mode=""></image>编辑</view>
-									<view @click.stop="deleteRelease(items.gcircleContentDTO.id)"><image src="../../static/delete.png" mode=""></image>删除</view>
+									<view @click.stop="editRelease(items, items.gcircleContentId)"><image src="../../static/edit.png" mode=""></image>编辑</view>
+									<view @click.stop="deleteRelease(items.gcircleContentId)"><image src="../../static/delete.png" mode=""></image>删除</view>
 								</view>
 							</view>
 						</view>
@@ -121,10 +120,10 @@
 					<!-- 用户信息 start -->
 					
 					<!-- 草稿内容 start -->
-					<view class="content"  v-if="items.gcircleContentDTO.content != '' ">
-						<view v-if="!isShowAllContent" class="text">{{items.gcircleContentDTO.content }}</view>
-						<view v-else class="text">{{items.gcircleContentDTO.content | ellipsis}}</view>
-						<view class="anCotent" v-if="items.gcircleContentDTO.content.length > 45 " @click="open()">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
+					<view class="content"  v-if="items.content != '' ">
+						<view v-if="!isShowAllContent" class="text">{{items.content }}</view>
+						<view v-else class="text">{{items.content | ellipsis}}</view>
+						<view class="anCotent" v-if="items.content.length > 45 " @click="open()">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
 					</view>
 					<!-- 草稿内容 end -->
 					
@@ -133,15 +132,15 @@
 					<!-- 	<view v-for="(tese, indexT) in JSON.stringify(JSON.parse(items.gcircleContentDTO.imgList))" :key="indexT">
 							{{1111}}
 						</view> -->
-						<image :mode="items.gcircleContentDTO.imgList.length > 1 ? 'aspectFit' : '' " :class="items.gcircleContentDTO.imgList.length > 1 ? 'imageListIn' : 'imageListSingle' " :src="row.fileUrl" v-for="(row, indexI) in items.gcircleContentDTO.imgList" :key="indexI" @click.stop="previewImage(indexI, items.gcircleContentDTO.imgList)"></image>
+						<image :mode="items.imgList.length > 1 ? 'aspectFit' : '' " :class="items.imgList.length > 1 ? 'imageListIn' : 'imageListSingle' " :src="row.fileUrl" v-for="(row, indexI) in items.imgList" :key="indexI" @click.stop="previewImage(indexI, items.imgList)"></image>
 					</view>
 					<!-- 图片/视频 end -->
 					
 					<!-- 话题 start -->
-					<view class="release-image_topic"  v-show="show" v-if="items.gcircleContentDTO.title.topic != '' " >
-						<view class="left" @click.stop="goTopic(items.gcircleContentDTO.title)">
+					<view class="release-image_topic"  v-show="show" v-if="items.title.topic != '' " >
+						<view class="left" @click.stop="goTopic(items.title)">
 							<image src="../../static/topic/topic.png" mode=""></image>
-							<view>{{items.gcircleContentDTO.title.topic}}</view>
+							<view>{{items.title.topic}}</view>
 						</view>
 						<view class="right"></view>
 					</view>
@@ -150,16 +149,16 @@
 					<view class="operate-bottom">
 						<view class="operate-bottom_share"><image src="../../static/img/user/share.png" mode=""></image></view>
 						<view class="operate-bottom_number">
-							<view class="number-message"  @click.stop="togglePopup('bottom', 'comments',items.gcircleContentDTO.userId, items.gcircleContentDTO.id, nickName,items.gCollectionDiscussNum)">
+							<view class="number-message"  @click.stop="togglePopup('bottom', 'comments',items.userId, items.gcircleContentId, nickName,items.gCollectionDiscussNum)">
 								<image src="../../static/img/topicDetails/message.png" mode=""></image>
 								<text>{{items.gCollectionDiscussNum}}</text>
 							</view>
 							<view class="collect">
-								<image @click.stop="collect(index, items.gcircleContentDTO.id, items.collectionState)" :src="(activeIndex == index && isShowCollect) || items.collectionState === 1 ? '../../static/topic/collect-select.png' : '../../static/img/user/star.png' " mode=""></image>
+								<image @click.stop="collect(index, items.gcircleContentId, items.collectionState)" :src="(activeIndex == index && isShowCollect) || items.collectionState === 1 ? '../../static/topic/collect-select.png' : '../../static/img/user/star.png' " mode=""></image>
 								<text>{{items.collectionNum}}</text>
 							</view>
 							<view class="fabulous" >
-								<image @click.stop="fabulous(index, items.gcircleContentDTO.id, items.gcircleContentLikeState)" :src="(fabulousIndex == index && isShowFabulous) || items.gcircleContentLikeState === 1 ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
+								<image @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState)" :src="(fabulousIndex == index && isShowFabulous) || items.gcircleContentLikeState === 1 ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
 								<text>{{items.gcircleContentLikeNum}}</text>
 							</view>
 						</view>
@@ -236,6 +235,7 @@
 				mode: 'round',
 				cardCur: 0,
 				showEdit: false,
+				Tokens: ''
 			}
 		},
 		onShow(){
@@ -285,8 +285,8 @@
 			},
 			// 获取G圈列表内容
 			init() {
-				let token
 				let self = this
+				let token
 				uni.getStorage({
 					key:"token",
 					success: function (res) {
@@ -306,21 +306,16 @@
 					url: this.url + "/controller/usercontroller/getgcirclecontentlist",
 					data: parmas,
 					method: 'POST',
-					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.Tokens},
+					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': token},
 					success: ((res) => {
 						uni.hideLoading()
 						if(res.data.code == 200) {
 							let data = res.data.data.dataList;
 							// 
 							for(let i=0; i<data.length; i++) {
-								let test = data[i].gcircleContentDTO;
-								data[i].gcircleContentDTO.imgList = JSON.parse(data[i].gcircleContentDTO.imgList);
-								data[i].gcircleContentDTO.title = JSON.parse(data[i].gcircleContentDTO.title);
+								data[i].imgList = JSON.parse(data[i].imgList);
+								data[i].title = JSON.parse(data[i].title);
 							}
-							// data.forEach((item, i) => {
-							// 	item.gcircleContentDTO.imgList = JSON.stringify(item.gcircleContentDTO.imgList);
-							// 	item.gcircleContentDTO.title = JSON.parse(item.gcircleContentDTO.title);
-							// })
 							this.releaseImgList = data;
 						}
 					})
@@ -348,12 +343,13 @@
 </script>
 
 <style>
+	@import '../../static/css/releaseImgList.css'; /*引入G圈列表样式*/
 	page{
 		background:rgba(249,249,249,1);
 	}
 	.search{
 		position: relative;
-		margin-top: 41upx;
+		margin-top: 80upx;
 		width: 750upx;
 		height: 88upx;
 		box-shadow:0px 2upx 2upx 0px rgba(93,93,93,0.07);
@@ -468,7 +464,9 @@
 		color:rgba(51,51,51,1);
 		line-height: 76upx;
 	}
+	/* 精品抢购 */
 	.good{
+		position: relative;
 		margin-top: 23upx;
 		width:750upx;
 		height:532upx;
@@ -507,8 +505,8 @@
 	}
 	.good-more-image{
 		position: absolute;
-		left: 392px;
-		top: 25px;
+		left: 710upx;
+		top: 54upx;
 	}
 	/* 精品抢购 */
 	

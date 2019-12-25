@@ -143,6 +143,11 @@
 				data: parmas,
 				header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
 				success: ((res) => {
+					if(res.data.code==421){
+						uni.navigateTo({
+							url: '/pages/loginPhone/loginPhone'
+						})
+					}
 					if(res.data.code == 200) {
 						uni.showToast({
 							title: '添加成功',
@@ -188,6 +193,11 @@
 					data: {'id': option.id},
 					header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
 					success: (res => {
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 						if(res.data.code == 200) {
 							let data = res.data.data;
 							console.log(data);

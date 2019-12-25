@@ -2,7 +2,9 @@
     <view>
 		<view class="header" v-bind:class="{ 'in': scrollFlag }">
 			<view class="header-left">
-				<image :src="scrollFlag ? '../../static/topic/topic-back.png' : '../../static/img/topicDetails/back.png' " mode="" @click.stop="cancel"></image>
+				<view class="header-left-image" @click.stop="cancel">
+					<image :src="scrollFlag ? '../../static/topic/topic-back.png' : '../../static/img/topicDetails/back.png' " mode="" ></image>
+				</view> 
 				<text class="header-topic">{{scrollFlag ? topic : ''}}</text>
 			</view>
 			<view class="header-right">
@@ -616,6 +618,10 @@
 		height: 31rpx;
 		display: block;
 		margin-right: 18rpx;
+	}
+	.header-left-image{
+		width: 80rpx;
+		height: 80rpx;
 	}
 	.header-right image:first-child {
 		width: 106rpx;

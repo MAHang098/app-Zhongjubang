@@ -1,0 +1,294 @@
+
+.banner{
+	position: relative;
+	width:750rpx;
+	height:612rpx;
+}
+.banner-image{
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.back{
+	position: absolute;
+	top: 68rpx;
+	left: 31rpx;
+	z-index: 10;
+}
+.search{
+	position: absolute;
+	top: 56rpx;
+	left: 89rpx;
+	width:547rpx;
+	height:70rpx;
+	background:rgba(246,246,246,1);
+	border-radius:35rpx;
+	font-size:28rpx;
+	font-family:PingFang SC;
+	color:rgba(153,153,153,1);
+	line-height: 70rpx;
+	padding-left: 80rpx;
+	box-sizing: border-box;
+}
+.search-image{
+	position: absolute;
+	z-index: 10;
+	top: 76rpx;
+	left: 116rpx;
+}
+.share-image{
+	position: absolute;
+	z-index: 10;
+	top: 72rpx;
+	left: 681rpx;
+}
+.logo-image{
+	position: absolute;
+	z-index: 10;
+	top: 276rpx;
+	left: 26rpx;
+}
+.title{
+	position: absolute;
+	top: 323rpx;
+	left: 195rpx;
+	font-size:30rpx;
+	font-family:PingFang SC;
+	font-weight:400;
+	color:rgba(51,51,51,1);
+}
+.fans{
+	position: absolute;
+	top: 369rpx;
+	left: 195rpx;
+	font-size:26rpx;
+	font-family:PingFang SC;
+	font-weight:400;
+	color:rgba(102,102,102,1);
+}
+.collect{
+	position: absolute;
+	top: 332rpx;
+	left: 592rpx;
+	width:127rpx;
+	height:54rpx;
+	line-height: 54rpx;
+	text-align: center;
+	background:rgba(249,183,44,1);
+	border-radius:27rpx;
+	font-size:28rpx;
+	font-family:PingFang SC;
+	font-weight:400;
+	color:rgba(255,255,255,1);
+}
+.des{
+	position: absolute;
+	top: 469rpx;
+	left: 27rpx;
+	width:680rpx;
+	height:60rpx;
+	font-size:24rpx;
+	font-family:PingFang SC;
+	font-weight:400;
+	color:rgba(51,51,51,1);
+	line-height:36rpx;
+}
+.horizen{
+	position: absolute;
+	top: 569rpx;
+	left: 30rpx;
+	width:233rpx;
+	height:1px;
+	background:rgba(153,153,153,1);
+}
+.horizen2{
+	position: absolute;
+	top: 569rpx;
+	width:233rpx;
+	height:1px;
+	background:rgba(153,153,153,1);
+	left: 487rpx;
+}
+.more-info{
+	position: absolute;
+	top: 554rpx;
+	left: 289rpx;
+	font-size:24rpx;
+	font-family:PingFang SC;
+	font-weight:400;
+	color:rgba(153,153,153,1);
+}
+.arrow{
+	position: absolute;
+	top: 562rpx;
+	left: 438rpx;
+}
+.border{
+	width: 750rpx;
+	height: 10rpx;
+	background: rgba(245,245,245,1);
+}
+/* 分类start */
+.G-list_content {
+	margin-top: 20rpx;
+    box-sizing: border-box;
+    padding-left: 90px;
+	height: 70rpx;
+	background: #FFFFFF;
+}
+.G-list_content view {
+	width: 36%;
+	height: 34rpx;
+	line-height: 34rpx;
+	text-align: center;
+	color: #666666;
+	font-size: 28rpx;
+	display: inline-block;
+	/* border-right: 1rpx solid #E2E2E2; */
+}
+.G-list_content view:last-child {
+	border: none;
+}
+.active {
+	color: #F9B72C !important;
+	border-width: 50rpx;
+	border-color: red;
+}
+.active-status {
+	margin: 9px auto;
+	display: block;
+	width:52rpx;
+	height:6rpx;
+	background:rgba(249,183,44,1);
+    border-radius:4px;
+}
+/* 分类end */
+.wrap{
+	position: relative;
+	width: 750rpx;
+	height: 40rpx;
+}
+.home{
+	position: absolute;
+	left: 248rpx;
+	top: 22rpx;
+}
+.bag{
+	position: absolute;
+	left: 459rpx;
+	top: 22rpx;
+}
+.border-fix{
+	margin-top: -4rpx;
+	width:750rpx;
+	height:1px;
+	background:rgba(226,226,226,1);
+}
+/* 导航栏分类 */
+.G-list_content2 {
+    box-sizing: border-box;
+	height: 80rpx;
+	background: #FFFFFF;
+	padding-left: 90rpx;
+	border-bottom: 1px solid rgba(226,226,226,1);
+}
+.G-list_content2 view {
+	width: 25%;
+	height: 34rpx;
+	font-size:28rpx;
+	font-family:PingFang SC;
+	font-weight:400;
+	color:rgba(51,51,51,1);
+	line-height: 80rpx;
+	display: inline-block;
+	/* border-right: 1rpx solid #E2E2E2; */
+}
+.G-list_content2 view:last-child {
+	border: none;
+}
+.active2 {
+	color: #F9B72C !important;
+	font-weight: bold;
+}
+.category-content{
+	width: 750rpx;
+}
+.category-content-box{
+	float: left;
+	margin-left: 20rpx;
+	margin-top: 18rpx;
+	position: relative;
+	width:345rpx;
+	height:470rpx;
+	background:rgba(255,255,255,1);
+	border:1px solid rgba(231,231,231,1);
+	box-shadow:0px 0px 7rpx 0px rgba(136,136,136,0.2);
+	border-radius:6rpx;
+}
+.category-content-box:nth-child(even){
+	margin-left: 16rpx;
+}
+.category-content-image{
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.category-content-des{
+	position: absolute;
+	top: 351rpx;
+	left: 16rpx;
+	width:314rpx;
+	height:57rpx;
+	font-size:24rpx;
+	font-family:PingFang SC;
+	font-weight:400;
+	color:rgba(51,51,51,1);
+}
+.category-content-price{
+	position: absolute;
+	top: 424rpx;
+	left: 16rpx;
+	font-size:30rpx;
+	font-family:PingFang SC;
+	color:rgba(244,51,72,1);
+}
+.category-content-car{
+	position: absolute;
+	top: 417rpx;
+	left: 292rpx;
+}
+.init{
+	position: fixed;
+	left: 316rpx;
+	top: 158rpx;
+}
+.up{
+	position: fixed;
+	left: 316rpx;
+	top: 158rpx;
+	z-index: 10;
+}
+.down{
+	position: fixed;
+	left: 316rpx;
+	top: 170rpx;
+	z-index: 10;
+}
+.init{
+	position: fixed;
+	left: 316rpx;
+	top: 777rpx;
+}
+.up{
+	position: fixed;
+	left: 316rpx;
+	top: 777rpx;
+	z-index: 10;
+}
+.down{
+	position: fixed;
+	left: 316rpx;
+	top: 789rpx;
+	z-index: 10;
+}
+

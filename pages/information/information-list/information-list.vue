@@ -96,6 +96,11 @@
 					},
 					success: ((res) => {
 						// console.log(res.data.code)
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 						if(res.data.code==200){
 							let data = res.data.data;
 							this.item = data;
@@ -158,6 +163,11 @@
 						'token': this.token
 					},
 					success: ((res) => {
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 						if(res.data.code == 200) {
 							this.init();
 						}

@@ -187,6 +187,11 @@
 				    data: parmas,
 				    header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 				    success:((res) => {
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 				        if(res.data.code == 200) {
 							let data = res.data.data.dataList[0];
 							data.imgList = JSON.parse(data.imgList);
@@ -211,6 +216,11 @@
 			        data: {outUserId: id},
 			        header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 			        success:(res) => {
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 			            if(res.data.code == 200) {
 			                this.init();
 			            } 
@@ -230,6 +240,11 @@
 			        data: {collectionContentId: id, type: '1'},
 			        header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 			        success:(res) => {
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 			            if(res.data.code == 200) {
 							this.init();
 			            } 
@@ -249,6 +264,11 @@
 			        data: {gcircleContentId: id},
 			        header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 			        success:((res) => {
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 			            if(res.data.code == 200) {
 			                this.init();
 			            } 
@@ -268,6 +288,11 @@
 					data: {discussId: id, type: '1'},
 					header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 					success:(res) => {
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 						if(res.data.code == 200) {
 							this.init()
 							

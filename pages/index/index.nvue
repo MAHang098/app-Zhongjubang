@@ -735,12 +735,12 @@
 	.release-content{
 		position: relative;
 		width:750rpx;
-	    height:1106rpx;
+	    height:100%;
 	}
 	.pic{
 		position: absolute;
 		width:750rpx;
-	    height:1106rpx;
+	    height:100%;
 	}
 	/* 视频内容 */
 	.user-info{

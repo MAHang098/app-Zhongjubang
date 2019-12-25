@@ -151,7 +151,11 @@
 						header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
 						success:(res) => {
 							if(res.data.code == 200) {
-								
+								if(res.data.code==421){
+									uni.navigateTo({
+										url: '/pages/loginPhone/loginPhone'
+									})
+								}
 								this.$store.commit('clearData', []);    // 清空存在vuex中图片上的所有数据
 								this.$store.commit('clearDrafts', []);  // 清空草稿箱到发布页的数据
 								this.$store.commit('defaultPage', '');  // 清空页面类型

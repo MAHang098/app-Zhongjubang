@@ -99,6 +99,11 @@
 					data: {'type': 2},
 					header : {'content-type':'application/x-www-form-urlencoded', 'token': that.token, 'port': 'app'},
 					success: ((res) => {
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 						if(res.data.code == 200) {
 							this.draftsList = res.data.data;
 						}
@@ -193,6 +198,11 @@
 						'token': token
 					},
 					success: function (res){
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 						console.log(res)
 						console.log(res.data.code)
 						if(res.data.code==200){
@@ -251,6 +261,11 @@
 							'token': token
 						},
 						success: function (res){
+							if(res.data.code==421){
+								uni.navigateTo({
+									url: '/pages/loginPhone/loginPhone'
+								})
+							}
 							console.log(res)
 							console.log(res.data.code)
 							if(res.data.code==200){
@@ -273,6 +288,11 @@
 							'token': token
 						},
 						success: function (res){
+							if(res.data.code==421){
+								uni.navigateTo({
+									url: '/pages/loginPhone/loginPhone'
+								})
+							}
 							console.log(res.data.code)
 							if(res.data.code==200){
 								uni.navigateTo({

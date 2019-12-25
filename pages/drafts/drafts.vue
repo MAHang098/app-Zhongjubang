@@ -144,6 +144,11 @@
 					data: params,
 					header : {'content-type':'application/x-www-form-urlencoded', 'token': that.token, 'port': 'app'},
 					success: (res => {
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 						if(res.data.code == 200) {
 							uni.showToast({
 								title: '删除成功',

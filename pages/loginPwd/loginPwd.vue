@@ -59,7 +59,7 @@
         methods: {
 			// 返回主菜单
 			close(){
-				uni.navigateTo({
+				uni.switchTab({
 					url: '/pages/main/main'
 				})
 			},
