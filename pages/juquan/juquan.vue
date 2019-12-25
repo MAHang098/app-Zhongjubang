@@ -24,7 +24,8 @@
 			<view class="G-list_detial_one" v-if="isShow">
 				<view class="category-detial" v-for="(item, index) in recommendList" :key="index" @click.stop="homologousPage(index, item.resource.resource)">
 					<image :src="item.resource.img" mode="" class="album-img"></image> 
-					<view class="title">#{{item.resource.name}}#</view>
+					<view class="title">{{item.resource.name}}</view>
+					<view class="mask"></view>
 					<view>{{item.resource.remarks}}</view>
 				</view>
 			</view>
@@ -413,7 +414,8 @@
 					uni.navigateTo({
 						url: '/pages/juquanVideo/juquanVideo'
 					})
-				}if(index == 1) {
+				}
+				if(index == 1) {
 					this.focusUser();
 					this.focusUserContent();
 				}
@@ -509,7 +511,10 @@
 			// 专辑模块跳转
 			homologousPage(index, id) {
 				if(index == 0) {
-					// 跳转到专辑页面
+					// 跳转到话题页面
+					uni.navigateTo({
+						url:'/pages/topicDetails/topicDetails?id=' + id
+					})
 					return;
 				}
 				if(index == 1) {
@@ -554,7 +559,7 @@
 		padding: 10rpx 30rpx;
 		background: #FFFFFF;
 		position: fixed;
-		z-index: 1;
+		z-index: 3;
 		top: 0;
 		left: 0;
 		right: 0;
@@ -652,7 +657,9 @@
 		width: 34%;
 		height: 100%;
 		position: relative;
-		background-image: url('../../static/img/G-circle/shadow.png') no-repeat;
+		background-image: url(../../static/img/G-circle/shadow.png);
+		background-repeat: no-repeat;
+		background-size: 100%;
 	}
 	.bg-shadow {
 		width: 100%;
@@ -666,7 +673,17 @@
 		height: 190rpx;
 		display: block;
 		position: absolute;
-		top: 0;
+		top: -6px;
+		border-radius: 3px;
+	}
+	.category-detial .mask {
+		width: 96%;
+		height: 190rpx;
+		background: rgba(0,0,0,.3);
+		z-index: 1;
+		position: absolute;
+		top: -6px;
+		border-radius: 3px;
 	}
 	.category-detial .title {
 		width: 100%;
@@ -676,6 +693,7 @@
 		position: absolute;
 		top: 54rpx;
 		text-align: center;
+		z-index: 2;
 		
 	}
 	.category-detial view:last-child {
@@ -686,6 +704,7 @@
 		position: absolute;
 		top: 100rpx;
 		text-align: center;
+		z-index: 2;
 	}
 	/* G圈类别 end*/
 	/* G圈列表 start */

@@ -51,7 +51,7 @@
 			</view>
 		</uni-drawer>
 		<!-- 侧边栏end -->
-		<view class="right-wechat">
+		<view class="right-wechat" @click.stop="goInformation">
 			<image src="../../static/img/user/right-wechat.png" mode=""></image>
 		</view>
 		<view class="user-avater">
@@ -1153,7 +1153,7 @@
 			},
 			goIdentify(){
 				uni.navigateTo({
-					url: '/pages/ID-card/ID-card'
+					url: '/pages/identity/all-authentication/all-authentication'
 				})
 			},
 			goSetting(){
@@ -1180,6 +1180,12 @@
 				}
 			},
 			// 侧边栏end
+			// 跳转到消息页面
+			goInformation() {
+				uni.navigateTo({
+					url: '/pages/information/information-list/information-list'
+				})
+			}
 		},
 		// 侧边栏
 		onNavigationBarButtonTap(e) {
