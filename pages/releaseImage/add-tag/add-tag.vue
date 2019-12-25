@@ -26,7 +26,7 @@
 					  @click.stop="togglePopup('center', 'tip', tagIndex, tag.tagName, index)">
 						<image src="../../../static/upload/indicator.png" mode="" @click.stop="changeMove(tagIndex)" ></image>
 						<view class="tag-detail " :class="setIndex == tagIndex && rotate ? 'moveleft' : ' moveright' ">
-							<image src="../../../static/tag/cart.png" mode="" v-show="tag.type == 'product'"></image>
+							<image src="../../../static/tag/cart.png" mode="" v-if="tag.type == 'product'"></image>
 							{{tag.tagName | ellipsis}}
 						</view>
 					</movable-view>
