@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "退款换货申请",
-  "usingComponents": {
-    "uni-popup": "/components/uni-popup/uni-popup"
-  }
-}
