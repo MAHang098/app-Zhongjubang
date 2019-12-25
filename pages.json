@@ -446,6 +446,13 @@
                 }
             }
         }
+       
+      
+       
+       
+       
+       
+       
     ],
 	"subPackages": [
 		// 上传图片需要用到的页面
@@ -644,6 +651,66 @@
 					}
 				}
 				
+			]
+		},
+		// 身份认证
+		{
+			"root": "pages/identity",
+			"pages": [
+				{
+				    "path" : "all-authentication/all-authentication",
+				    "style" : {
+						"navigationBarTitleText": "身份认证"
+					}
+				},
+				{
+					"path" : "rednet/rednet",   // 网红达人规则
+					"style" : {
+						"navigationBarTitleText": "网红达人认证"
+					}
+				},
+				{
+					"path" : "circle-people/circle-people",   // 居圈达人认证规则
+					"style" : {
+						"navigationBarTitleText": "居圈达人认证"
+					}
+				}  ,
+				{
+					"path" : "designer/designer",		 // 设计师认证规则
+					"style" : {
+						"navigationBarTitleText": "设计师认证"
+					}
+				} ,
+				{
+					"path" : "owner/owner",				 // 金牌业主认证规则
+					"style" : {
+						"navigationBarTitleText": "金牌业主认证"
+					}
+				},
+				{
+				    "path" : "write/write",				// 居圈达人认证信息填写
+				    "style" : {
+						"navigationBarTitleText": "居圈达人认证"
+					}
+				},
+				{
+				    "path" : "rednet-people/rednet-people",	// 网红达人认证信息填写
+				    "style" : {
+						"navigationBarTitleText": "网红达人认证"
+					}
+				} ,
+				{
+					"path" : "owner-people/owner-people",	// 金牌业主认证信息填写
+					"style" : {
+						"navigationBarTitleText": "金牌业主认证"
+					}
+				},
+				{
+					"path" : "designer-people/designer-people", // 设计达人认证填写
+					"style" : {
+						"navigationBarTitleText": "设计达人"
+					}
+				}
 			]
 		}
 	],
