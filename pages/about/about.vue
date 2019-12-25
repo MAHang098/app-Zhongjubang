@@ -18,6 +18,7 @@
         background: #F5F5F5;
     }
     .wrap-image{
+		position: relative;
         left: 280rpx;
         top: 150rpx;
     }

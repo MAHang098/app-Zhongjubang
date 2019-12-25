@@ -66,7 +66,7 @@
         methods: {
 			// 返回主菜单
 			close(){
-				uni.navigateTo({
+				uni.switchTab({
 					url: '/pages/main/main'
 				})
 			},
@@ -155,7 +155,7 @@
 										data: res.data.token,
 									})
 									uni.switchTab({
-										url: "/pages/user/user"
+										url: "/pages/main/main"
 									})
 									// uni.navigateTo({
 									// 	url: "/pages/releaseVideo2/releaseVideo2"

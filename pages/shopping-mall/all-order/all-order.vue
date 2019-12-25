@@ -2,7 +2,7 @@
 	<view id="allOrder">
 		<!-- 搜索栏 start -->
 		<view class="header">
-			<image src="../../../static/img/G-circle/search-back.png" mode="" class="back"></image>
+			<image @tap="back" src="../../../static/img/G-circle/search-back.png" mode="" class="back"></image>
 			<view class="my-order">我的订单</view>
 			<view>
 				<image src="../../../static/search/nav-search.png" mode="" class="search"></image>
@@ -132,6 +132,9 @@
 			this.init('')
 		},
 		methods: {
+			back(){
+				uni.navigateBack()
+			},
 			init(state) {
 				uni.request({
 					url: this.url + "controller/shopcontroller/getappuserorderlist",

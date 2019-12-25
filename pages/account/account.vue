@@ -84,6 +84,11 @@
 				},
 				success: function (res){
 					console.log(res.data.code)
+					if(res.data.code==421){
+						uni.navigateTo({
+							url: '/pages/loginPhone/loginPhone'
+						})
+					}
 					if(res.data.code==200){
 						console.log(res.data.data)
 						console.log(res.data.data.wxToken)
@@ -272,6 +277,11 @@
                             'token': token
                         },
                         success: function (res){
+							if(res.data.code==421){
+								uni.navigateTo({
+									url: '/pages/loginPhone/loginPhone'
+								})
+							}
                             console.log(res.data.code)
                             if(res.data.code==200){
                                 console.log(res)

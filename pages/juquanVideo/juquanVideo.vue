@@ -220,7 +220,7 @@
 		background: #fff;
 		position: relative;
 		
-		top: 41upx;
+		top: 80upx;
 	}
     .input{
         position: absolute;
@@ -325,14 +325,14 @@
 	.video-content-start{
 		position: absolute;
 		z-index: 100;
-		left: 154px;
-		top: 10px;
+		left: 276upx;
+		top: 20upx;
 	}
 	.video-content-avator{
 		position: absolute;
 		z-index: 100;
-		top: 239px;
-		left: 12px;
+		top: 440upx;
+		left: 24upx;
 	}
 	.video-content-delete{
 		position: absolute;
@@ -352,8 +352,8 @@
 	.video-content-nickname{
 		position: absolute;
 		z-index: 100;
-		top: 246px;
-		left: 52px;
+		top: 450upx;
+		left: 100upx;
 		font-size:24rpx;
 		font-family:PingFang SC;
 		font-weight:bold;

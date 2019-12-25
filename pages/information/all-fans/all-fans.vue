@@ -95,6 +95,11 @@
 					data: {pageIndex: 1,pageSize: 100},
 					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
 					success: ((res) => {
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 						if(res.data.code == 200) {
 							let data = res.data.data;
 							this.followData = data;
@@ -116,6 +121,11 @@
 					data: {pageIndex: 1,pageSize: 100},
 					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
 					success: ((res) => {
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 						if(res.data.code == 200) {
 							let data = res.data.data;
 							this.fansData = data;
@@ -139,6 +149,11 @@
 					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
 					success: ((res) => {
 						if(res.data.code == 200) {
+							if(res.data.code==421){
+								uni.navigateTo({
+									url: '/pages/loginPhone/loginPhone'
+								})
+							}
 							let data = res.data.data;
 							if(type == '1') {
 								this.fans();

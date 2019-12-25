@@ -130,6 +130,11 @@
 					header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 					success: ((res) => {
 						uni.hideLoading();
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 						if(res.data.code == 200) {
 							let data = res.data.data;
 							for(let i =0; i<data.length; i++) {

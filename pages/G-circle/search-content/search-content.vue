@@ -111,6 +111,11 @@
 						data: {search: e.detail.value},
 						header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 						success:((res) => {
+							if(res.data.code==421){
+								uni.navigateTo({
+									url: '/pages/loginPhone/loginPhone'
+								})
+							}
 							if(res.data.code == 200) {
 								this.changeColor(res.data.data)
 								this.isShowList = false;

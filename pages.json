@@ -1,6 +1,22 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页,
 		{
+			"path": "pages/main/main",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		{
+			"path": "pages/designation/designation",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		{
 			"path": "pages/loginPhone/loginPhone",
 			"style": {
 				"app-plus": {
@@ -8,6 +24,8 @@
 				}
 			}
 		},
+		
+		
 		{
 			"path": "pages/user/user",
 			"style": {
@@ -26,12 +44,6 @@
 			"path": "pages/paySuccess/paySuccess",
 			"style" : {
 				 "navigationBarTitleText": "支付成功"
-			}
-		},
-		{
-			"path": "pages/juquanSpecials/juquanSpecials",
-			"style" : {
-				 "navigationBarTitleText": ""
 			}
 		},
 		{
@@ -91,6 +103,14 @@
 				}
 			}
 		},
+		{
+			"path": "pages/index2/index2",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
 		
 		{
 			"path": "pages/juquanVideo/juquanVideo",
@@ -102,6 +122,21 @@
 		},
 		{
 			"path": "pages/juquan/juquan",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},{
+			"path": "pages/jingpin/jingpin",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		{
+			"path": "pages/haodian/haodian",
 			"style": {
 				"app-plus": {
 					"titleNView": false //禁用原生导航栏  
@@ -343,8 +378,7 @@
             "path": "pages/agreement/agreement",
             "style": {
                 "app-plus": {
-                    "titleNView": true, //禁用原生导航栏  
-					"navigationBarTitleText": "众居邦用户协议"
+                    "titleNView": false //禁用原生导航栏  
                 }
             }
         },
@@ -394,14 +428,7 @@
                 }
             }
         },
-        {
-            "path": "pages/main/main",
-			"style": {
-                "app-plus": {
-                    "titleNView": false //禁用原生导航栏  
-                }
-            }
-        },
+        
 		
         {
             "path": "pages/setPswd/setPswd",
@@ -444,15 +471,9 @@
                 "app-plus": {
                     "titleNView": false //禁用原生导航栏  
                 }
+
             }
         }
-       
-      
-       
-       
-       
-       
-       
     ],
 	"subPackages": [
 		// 上传图片需要用到的页面
@@ -746,14 +767,22 @@
             "iconPath": "static/img/user.png",
             "selectedIconPath": "static/img/userHL.png"
         }]
-		
+		// ,
 		// "midButton": {
-		//     "width": "75rpx",
+		//     "width": "75upx",
 		//     "height": "98px",
 		//     "text": "发布",
 		//     "iconPath": "static/img/release.png",
 		//     "iconWidth": "47rpx"
 		// }
+		,
+		"midButton": {
+		    "width": "75upx",
+		    "height": "66upx",
+		    "text": "",
+		    "iconPath": "static/img/release.png",
+		    "iconWidth": "47upx"
+		}
     },
     "globalStyle": {
         "navigationBarTextStyle": "black",

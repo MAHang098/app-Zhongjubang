@@ -226,6 +226,11 @@
 					'token': '024d0ef41526417b94e3d443f230f374'
 				},
 				success: function (res){
+					if(res.data.code==421){
+						uni.navigateTo({
+							url: '/pages/loginPhone/loginPhone'
+						})
+					}
 					console.log(res)
 					console.log(res.data.data.dataList[0].id)
 					id = res.data.data.dataList[0].id
@@ -244,6 +249,11 @@
 							'token': '024d0ef41526417b94e3d443f230f374'
 						},
 						success: function (res){
+							if(res.data.code==421){
+								uni.navigateTo({
+									url: '/pages/loginPhone/loginPhone'
+								})
+							}
 							console.log(res)
 							console.log(res.data.data.nickName)
 							self.nickName = res.data.data.nickName
@@ -280,6 +290,11 @@
 							'token': token
 						},
 						success: function (res){
+							if(res.data.code==421){
+								uni.navigateTo({
+									url: '/pages/loginPhone/loginPhone'
+								})
+							}
 							console.log(res)
 							console.log(res.data.code)
 							if(res.data.code==200){
@@ -352,6 +367,11 @@
 						'token': token
 					},
 					success: function (res){
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 						console.log(res.data.code)
 						if(res.data.code==200){
 							console.log(res)
@@ -393,6 +413,11 @@
 						'token': token
 					},
 					success: function (res){
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 						console.log(res.data.code)
 						if(res.data.code==200){
 							console.log(res)
@@ -434,6 +459,11 @@
 						'token': token
 					},
 					success: function (res){
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 						console.log(res.data.code)
 						if(res.data.code==200){
 							console.log(res)
@@ -500,6 +530,11 @@
 							'token': token
 						},
 						success: function (res){
+							if(res.data.code==421){
+								uni.navigateTo({
+									url: '/pages/loginPhone/loginPhone'
+								})
+							}
 							console.log(res)
 							if(res.data.code==200){
 								
@@ -524,6 +559,11 @@
 							'token': token
 						},
 						success: function (res){
+							if(res.data.code==421){
+								uni.navigateTo({
+									url: '/pages/loginPhone/loginPhone'
+								})
+							}
 							console.log(res.data.code)
 							if(res.data.code==200){
 								

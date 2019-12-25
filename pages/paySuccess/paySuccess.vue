@@ -48,6 +48,11 @@
 					method:"POST",
 					header : {'content-type':'application/x-www-form-urlencoded','port':'app','token':''},
 					success: function (res){
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 						if(res.data.code=="200"){
 							console.log(res)
 							console.log(res.data.data.dataList)
