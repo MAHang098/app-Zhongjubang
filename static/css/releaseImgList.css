@@ -245,6 +245,7 @@
 	display: block;
 	margin-right: 34rpx;
 	margin-bottom: 10rpx;
+	object-fit:cover;
 }
 .imageListIn:nth-of-type(3n) {
 	margin: 0 !important;

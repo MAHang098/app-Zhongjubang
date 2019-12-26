@@ -6,6 +6,7 @@
 				<text>等待商家处理</text>
 			</view>
 			<view class="time">2018-12-25 07:14:30</view>
+			<image src="../../../static/img/shopping-mall/order/result.png" mode="" class="result"></image>
 		</view>
 		
 		<view class="manage">
@@ -71,13 +72,21 @@
 </script>
 
 <style>
+	.result {
+		width: 171rpx;
+		height: 121rpx;
+		display: block;
+		right: 6.5%;
+		position: absolute;
+		bottom: 0;
+	}
 	.progress {
 		width: 100%;
 		height: 213rpx;
-		height: auto;
 		background: #FAF0DA;
 		box-sizing: border-box;
 		padding: 78rpx 30rpx;
+		position: relative;
 	}
 	.store-progress text:first-child {
 		display: inline-block;

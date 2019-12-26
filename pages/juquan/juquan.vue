@@ -50,7 +50,7 @@
 				<view class="relese-image_detail" >
 					<!-- 用户信息 start -->
 					<view class="user">
-						<view class="user-message" @tap="goOtheruser(items.userId)">
+						<view class="user-message">
 							<image :src="items.head" mode=""></image>
 							<view>
 								<view class="name">{{items.nickName}}</view>
@@ -125,7 +125,8 @@
 			<!-- 点击右边三点显示的遮罩层 start -->
 			<view id="mask" v-show="showEdit"></view>
 			<!-- 点击右边三点显示的遮罩层 end -->
-			<view class="look-more">-上拉查看更多-</view>
+			<view class="look-more">-{{status== 'end' ? '没有更多' : '上拉加载更多'}}-</view>
+			<!-- <uni-load-more :status="status" :content-text="contentText" /> -->
 			<!-- G圈所有内容 end -->
 		</view>
 		<!-- G圈内容 end -->
@@ -138,6 +139,14 @@
 	export default {
 		data() {
 			return {
+				reload: false,
+				status: 'more',
+				contentText: {
+					contentdown: '上拉加载更多',
+					// contentrefresh: '加载中',
+					contentnomore: '没有更多'
+				},
+				page: 1,
 				tabType: ['居圈', '关注', '短视频'],
 				current: 0,
 				cIndex: -1,
@@ -159,7 +168,7 @@
 				isShowCollect: false,   //是否显示已收藏
 				isShowFocus: false,   //是否显示已关注图标
 				recommendList: [],   	  // G圈推荐
-				userListContent: []		// 关注用户的G圈列表
+				userListContent: [],		// 关注用户的G圈列表
 			}
 		},
 		filters: {
@@ -180,21 +189,23 @@
 			});
 			this.current = 0;
 			this.isShow = true;
+			this.page = 1;
+			this.releaseImgList = [];
 			this.init();
 			this.recommend();
 		},
+		// 上拉加载
+		onReachBottom: function() {
+			this.status = 'more';
+			if( this.page == 1) {
+				this.status = 'end';
+				return;
+			}
+			this.init();
+		},	
 		methods: {
-			goOtheruser(userid){
-				uni.navigateTo({
-					url: '/pages/otherUser/otherUser?userid=' + userid
-				})
-			},
 			// 获取G圈推荐
 			recommend() {
-				uni.showLoading({
-					title: '加载中...',
-					mask: true
-				})
 				uni.request({
 					url: this.url + "/public/public/getGcircleListbyresourcestype",
 					data: {resourcesTypeName: 'app_top_list'},
@@ -217,13 +228,14 @@
 			// 获取居圈内容
 			init() {
 				let parmas = {
-					pageIndex: 1,
+					pageIndex: this.page,
 					pageSize: 10
 				}
 				uni.showLoading({
 					title: '加载中...',
 					mask: true
 				})
+				
 				uni.request({
 					url: this.url + "/controller/contentcontroller/getallgcirclecontentlist",
 					data: parmas,
@@ -231,15 +243,22 @@
 					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
 					success: ((res) => {
 						uni.hideLoading()
+						let totalPage = res.data.data.pageSize * res.data.data.totalPage;
+						if(this.releaseImgList.length == totalPage) {
+							this.status = 'end';
+							return;
+						}
 						if(res.data.code == 200) {
 							let data = res.data.data.dataList;
-							// 
 							for(let i=0; i<data.length; i++) {
-								// let test = data[i].gcircleContentDTO;
 								data[i].imgList = JSON.parse(data[i].imgList);
 								data[i].title = JSON.parse(data[i].title);
 							}
-							this.releaseImgList = data;
+							this.releaseImgList = this.reload ? data : this.releaseImgList.concat(data);
+							if(res.data.data.totalPage < 2) {
+								return;
+							}
+							this.page++;
 						}
 						if(res.data.code == 421) {
 							uni.navigateTo({
@@ -519,9 +538,6 @@
 				}
 				if(index == 1) {
 					// 跳转到网红视频页面
-					uni.navigateTo({
-						url: '/pages/juquanVideo/juquanVideo?type=' + 1 
-					})
 					return;
 				}
 				if(index == 2) {
@@ -677,7 +693,7 @@
 		border-radius: 3px;
 	}
 	.category-detial .mask {
-		width: 96%;
+		width: 97%;
 		height: 190rpx;
 		background: rgba(0,0,0,.3);
 		z-index: 1;

@@ -85,6 +85,7 @@
 						</view>
 					</view>
 					<!-- 操作按钮 end -->
+					<view class="look-more">-{{statusMore== 'end' ? '没有更多' : '上拉加载更多'}}-</view>
 				</view>
 				
 			</view>
@@ -177,7 +178,16 @@
 				recommendId: '',
 				recommendName: '',
 				getsvdiscussId: '',
-				isShowTopic: true
+				isShowTopic: true,
+				reload: false,
+				statusMore: 'more',
+				contentText: {
+					contentdown: '上拉加载更多',
+					// contentrefresh: '加载中',
+					contentnomore: '没有更多'
+				},
+				page: 1,
+				
 			}
 		},
 		filters: {
@@ -197,6 +207,7 @@
 				this.isShowTopic = false;
 			}
 			this.topicId = option.id;
+			this.page = 1;
 			this.init(option.id)
 		},
 		// 监听页面滚动
@@ -208,7 +219,11 @@
 				_this.scrollFlag = false
 			}
 		},
-		
+		// 上拉加载
+		onReachBottom: function() {
+			this.statusMore = 'more';
+			this.init(this.topicId);
+		},	
         methods: {
 			testreply(id, name){
 				console.log(id, name)
@@ -328,23 +343,30 @@
 				});
 				let parmas = {
 					talkThemeId: id,
-					pageIndex: 1,
-					pageSize: 1000
+					pageIndex: this.page,
+					pageSize: 10
 				}
 				uni.request({
 					url: this.url + 'controller/contentcontroller/getgcriclecontentlistbytalkthemeid',
 					method: 'post',
 					data: parmas,
 					header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
-					success:(res) => {
+					success:((res) => {
 						uni.hideLoading();
+						let totalPage = res.data.data.pageSize * res.data.data.totalPage;
+						if(this.topicList.length == totalPage) {
+							this.statusMore = 'end';
+							return;
+						}
 						if(res.data.code == 200) {
-							// console.log()
+							console.log()
 							let data = res.data.data.dataList[0]
 							this.topic = data.talkTheme;
 							this.talkThemeNum = data.talkThemeNum;
 							this.participateCount = data.participateCount
-							this.topicList = data.allGContentList;
+							// this.topicList = data.allGContentList;
+							this.topicList = this.reload ? data : this.topicList.concat(data.allGContentList);
+							this.page++;
 							this.talkThemeState = data.talkThemeState;
                             if(data.talkThemeRemarks == null) {
                                 this.talkThemeRemarks = ' ';
@@ -358,7 +380,7 @@
 							});
 							uni.hideToast();
 						}
-					}
+					})
 				});
 			},
             open(index) {
@@ -914,5 +936,15 @@
 		margin-bottom: -5px;
 		margin-right: 7px;
 	}
-
+	/* 查看更多 start */
+	.look-more {
+		width: 100%;
+		height: 200rpx;
+		line-height: 140rpx;
+		text-align: center;
+		font-size:24rpx;
+		font-family:PingFang SC;
+		color:rgba(204,204,204,1);
+		margin-bottom: 100rpx;
+	}
 </style>
