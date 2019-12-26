@@ -3,11 +3,11 @@
 		<!-- 轮播图 -->
 		<view class="banner">
 			<text class="address">广州</text>
-			<image class="arrow" style="width:23upx;height:19upx;" src="../../static/img/main/arrow.png" mode="" />
-			<image class="info" style="width:44upx;height:44upx;" src="../../static/img/main/info.png" mode="" />
-			<image class="search-image" style="width:29upx;height:29upx;" src="../../static/img/main/search.png" mode="" />
+			<image class="arrow" style="width:23upx;height:19upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/arrow.png" mode="" />
+			<image class="info" style="width:44upx;height:44upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/info.png" mode="" />
+			<image class="search-image" style="width:29upx;height:29upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/search.png" mode="" />
 			<input @tap="goSearch" class="search" type="text" placeholder="搜你想搜的一切">
-			<image class="search-white" style="width:750upx;height:105upx;" src="../../static/img/main/white.png" mode="" />
+			<image class="search-white" style="width:750upx;height:105upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/white.png" mode="" />
 			<uni-swiper-dot :info=bannerList :current="current" :mode="mode" :dots-styles="dotStyle" field="content">
 				<swiper class="swiper-box" @change="change">
 					<swiper-item v-for="(item, index) in bannerList" :key="index">
@@ -24,7 +24,7 @@
 				<text class="video-nav-hot">网红短视频</text>
 				<text class="video-nav-eye">一秒吸引你的眼球</text>
 				<text @tap="goJuquanVideo" class="video-nav-more">更多</text>
-				<image @tap="goJuquanVideo" class="video-nav-more-image" style="width:11upx;height:20upx;" src="../../static/img/main/more.png" mode="" />
+				<image @tap="goJuquanVideo" class="video-nav-more-image" style="width:11upx;height:20upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/more.png" mode="" />
 			</view>
 			
 			<view>
@@ -38,7 +38,7 @@
 					<swiper-item @tap="goJuquanVideo" v-for="(item, index) in videoList" :key="index" :class="cardvvideo == index ? 'cur' : ''">
 						<view class="swiper-item">
 							<image :src="item.videoUrl" mode="aspectFill"></image>
-							<image v-if="cardvvideo == index" class="video-image" style="width:94upx;height:94upx;z-index:400;" src="../../static/img/main/start.png" mode="aspectFill"></image>
+							<image v-if="cardvvideo == index" class="video-image" style="width:94upx;height:94upx;z-index:400;" src="http://www.zhongjubang.com/api/upload/static/img/main/start.png" mode="aspectFill"></image>
 						</view>
 					</swiper-item>
 				</swiper>
@@ -50,7 +50,7 @@
 				<text class="video-nav-hot">众话题</text>
 				<text class="video-nav-eye">热门话题等你来参与</text>
 				<text class="video-nav-more">更多</text>
-				<image class="video-nav-more-image" style="width:11upx;height:20upx;" src="../../static/img/main/more.png" mode="" />
+				<image class="video-nav-more-image" style="width:11upx;height:20upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/more.png" mode="" />
 			</view>
 
 			<view >
@@ -73,7 +73,7 @@
 				<text class="video-nav-hot">精选好物</text>
 				<text class="video-nav-eye">什么值得买</text>
 				<text class="video-nav-more">更多</text>
-				<image class="video-nav-more-image" style="width:11upx;height:20upx;" src="../../static/img/main/more.png" mode="" />
+				<image class="video-nav-more-image" style="width:11upx;height:20upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/more.png" mode="" />
 			</view>
 			<view>
 				<swiper
@@ -109,9 +109,9 @@
 				<text class="video-nav-hot">居圈</text>
 				<text class="video-nav-eye">居家生活趣味多</text>
 				<text @tap="goAlljuquan" class="video-nav-more">更多</text>
-				<image @tap="goAlljuquan" class="video-nav-more-image" style="width:11upx;height:20upx;" src="../../static/img/main/more.png" mode="" />
+				<image @tap="goAlljuquan" class="video-nav-more-image" style="width:11upx;height:20upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/more.png" mode="" />
 			</view>
-			<image class="" style="width:750upx;height:230upx;" src="../../static/img/main/juquan-bg.png" mode="" />
+			<image class="" style="width:750upx;height:230upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/juquan-bg.png" mode="" />
 			<view class="juquan-content" v-for="(item, index) in topList" :key="index">
 				<view class="juquan-content-model">
 					<image @tap="goJuquan(item.create_by)" class="juquan-content-model-image" style="width:347upx;height:355upx;" :src="item.img_list[0].fileUrl" mode="" />
@@ -150,31 +150,31 @@
 				swiperList: [{
 				id: 0,
 				type: 'image',
-				url: '../../static/img/main/video.png'
+				url: 'http://www.zhongjubang.com/api/upload/static/img/main/video.png'
 				}, {
 				id: 1,
 					type: 'image',
-					url: '../../static/img/main/video.png',
+					url: 'http://www.zhongjubang.com/api/upload/static/img/main/video.png',
 				}, {
 				id: 2,
 				type: 'image',
-				url: '../../static/img/main/video.png'
+				url: 'http://www.zhongjubang.com/api/upload/static/img/main/video.png'
 				}, {
 				id: 3,
 				type: 'image',
-				url: '../../static/img/main/video.png'
+				url: 'http://www.zhongjubang.com/api/upload/static/img/main/video.png'
 				}, {
 				id: 4,
 				type: 'image',
-				url: '../../static/img/main/video.png'
+				url: 'http://www.zhongjubang.com/api/upload/static/img/main/video.png'
 				}, {
 				id: 5,
 				type: 'image',
-				url: '../../static/img/main/video.png'
+				url: 'http://www.zhongjubang.com/api/upload/static/img/main/video.png'
 				}, {
 				id: 6,
 				type: 'image',
-				url: '../../static/img/main/video.png'
+				url: 'http://www.zhongjubang.com/api/upload/static/img/main/video.png'
 				}],
 				backs: '',
 				videoList: [],

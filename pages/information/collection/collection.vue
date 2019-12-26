@@ -7,7 +7,7 @@
 						<image :src="item.msg.head" mode=""></image>
 					</view>
 					<view class="details">
-						<view class="name">{{item.msg.nickName}} <image src="../../../static/fans-logo.png" mode=""></image></view>
+						<view class="name">{{item.msg.nickName}} <image src=".http://www.zhongjubang.com/api/upload/static/fans-logo.png" mode=""></image></view>
 						<view class="time">{{item.createTime}}</view>
 						<view class="follow">{{item.msg.text}}</view>
 					</view>

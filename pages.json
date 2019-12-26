@@ -35,6 +35,14 @@
 			}
 		},
 		{
+			"path": "pages/otherUser/otherUser",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		{
 			"path": "pages/confirm-order/confirm-order",
 			"style" : {
 				 "navigationBarTitleText": "确认订单"
@@ -723,7 +731,7 @@
 				{
 				    "path" : "rednet-people/rednet-people",	// 网红达人认证信息填写
 				    "style" : {
-						"navigationBarTitleText": "网红达人认证"
+						"navigationBarTitleText": "居家网红认证"
 					}
 				} ,
 				{
@@ -758,7 +766,7 @@
         },
         {
             "pagePath": "pages/release/release",
-            "text": "",
+            "text": "发布",
             "iconPath": "static/img/release.png",
             "selectedIconPath": "static/img/homeHL.png"
         },
@@ -781,14 +789,14 @@
 		//     "iconPath": "static/img/release.png",
 		//     "iconWidth": "47rpx"
 		// }
-		,
-		"midButton": {
-		    "width": "75upx",
-		    "height": "66upx",
-		    "text": "",
-		    "iconPath": "static/img/release.png",
-		    "iconWidth": "47upx"
-		}
+		// ,
+		// "midButton": {
+		//     "width": "75upx",
+		//     "height": "66upx",
+		//     "text": "",
+		//     "iconPath": "static/img/release.png",
+		//     "iconWidth": "47upx"
+		// }
     },
     "globalStyle": {
         "navigationBarTextStyle": "black",

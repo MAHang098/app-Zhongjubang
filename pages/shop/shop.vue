@@ -4,14 +4,14 @@
 		<!-- 头部 start -->
         <view class="navigate">
             <view class="navigate-image">
-				<image style="width: 15upx;height: 31upx;" src="../../static/img/juquanVideo/back.png" />
+				<image style="width: 15upx;height: 31upx;" src="http://www.zhongjubang.com/api/upload/static/img/juquanVideo/back.png" />
 			</view>
             <text class="car">购物车({{cartTotal}})</text>
             <text class="edit" @click.stop="editP">{{isShowEdit ? '完成' : '编辑'}}</text>
         </view>
 		
 		<!-- 购物车为空 start -->
-		<image src="../../static/img/shop/carts.png" mode="" v-if="this.goodsList.length == 0" class="empty-cart"></image>
+		<image src="http://www.zhongjubang.com/api/upload/static/img/shop/carts.png" mode="" v-if="this.goodsList.length == 0" class="empty-cart"></image>
 		
 		<!-- 店铺/商品详情 start -->
 		<scroll-view scroll-y="true" class="scroll-Y" v-else>
@@ -20,9 +20,9 @@
 					<label>
 						<radio value="r1" :checked="item.checked" color="#FFCC33" style="transform:scale(0.7)" @click.stop="singleChecked(item)"/>
 					</label>
-					<image src="../../static/img/shopping-mall/detail/shop.png" mode="" class="shop-image"></image>
+					<image src="http://www.zhongjubang.com/api/upload/static/img/shopping-mall/detail/shop.png" mode="" class="shop-image"></image>
 					<text>{{item.shopName}}</text>
-					<image src="../../static/topic/arrow.png" mode="" class="arrow"></image>
+					<image src="http://www.zhongjubang.com/api/upload/static/topic/arrow.png" mode="" class="arrow"></image>
 				</view>
 				<view class="product-detail" v-for="(row, i) in item.list" :key="i" @click.stop="cartDetail(row.goodsId)">
 					<label>

@@ -1,12 +1,12 @@
 <template>
 	<view>
 		<view class="banner">
-			<image class="banner-image" style="width:750rpx;height:300rpx;" src="../../static/img/shop-command/banner.png" mode=""></image>
-			<image class="back" style="width:37rpx;height:46rpx;" src="../../static/img/shop-command/back.png" mode=""></image>
-			<image class="search-image" style="width:31rpx;height:31rpx;" src="../../static/img/shop-command/search.png" mode=""></image>
+			<image class="banner-image" style="width:750rpx;height:300rpx;" src="http://www.zhongjubang.com/api/upload/static/img/shop-command/banner.png" mode=""></image>
+			<image class="back" style="width:37rpx;height:46rpx;" src="http://www.zhongjubang.com/api/upload/static/img/shop-command/back.png" mode=""></image>
+			<image class="search-image" style="width:31rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/img/shop-command/search.png" mode=""></image>
 			<input placeholder="搜索品牌内商品" class="search" type="text" value="" />
-			<image class="share-image" style="width:39upx;height:48upx;" src="../../static/img/shop-command/share.png" mode=""></image>
-			<image class="logo-image" style="width:148upx;height:138upx;" src="../../static/img/shop-command/logo.png" mode=""></image>
+			<image class="share-image" style="width:39upx;height:48upx;" src="http://www.zhongjubang.com/api/upload/static/img/shop-command/share.png" mode=""></image>
+			<image class="logo-image" style="width:148upx;height:138upx;" src="http://www.zhongjubang.com/api/upload/static/img/shop-command/logo.png" mode=""></image>
 			<view class="title">索菲亚全屋定制</view>
 			<view class="fans">1900粉丝</view>
 			<view class="collect">+收藏</view>
@@ -15,14 +15,14 @@
 			</view>
 			<view class="horizen"></view>
 			<view class="more-info">更多品牌信息</view>
-			<image class="arrow" style="width:25upx;height:23upx;" src="../../static/img/shop-command/arrow.png" mode=""></image>
+			<image class="arrow" style="width:25upx;height:23upx;" src="http://www.zhongjubang.com/api/upload/static/img/shop-command/arrow.png" mode=""></image>
 			<view class="horizen2"></view>
 		</view>
 		<view class="border"></view>
 		<view class="">
 			<view class="wrap">
-				<image class="home" style="width:40upx;height:40upx;" src="../../static/img/shop-command/home.png" mode=""></image>
-				<image class="bag" style="width:40upx;height:40upx;" src="../../static/img/shop-command/bag.png" mode=""></image>
+				<image class="home" style="width:40upx;height:40upx;" src="http://www.zhongjubang.com/api/upload/static/img/shop-command/home.png" mode=""></image>
+				<image class="bag" style="width:40upx;height:40upx;" src="http://www.zhongjubang.com/api/upload/static/img/shop-command/bag.png" mode=""></image>
 			</view>
 			
 			<view class="G-list_content">
@@ -34,9 +34,9 @@
 			<view class="border-fix"></view>
 		</view>
 		<view class="" v-show="!isShow">
-			<image class="init" style="width:24upx;height:24upx;" src="../../static/img/category/init.png" />
-			<image class="up" v-if="showPrice==3" style="width:22upx;height:14upx;" src="../../static/img/category/up.png" />
-			<image class="down" v-if="showPrice==2" style="width:22upx;height:14upx;" src="../../static/img/category/down.png" />
+			<image class="init" style="width:24upx;height:24upx;" src="http://www.zhongjubang.com/api/upload/static/img/category/init.png" />
+			<image class="up" v-if="showPrice==3" style="width:22upx;height:14upx;" src="http://www.zhongjubang.com/api/upload/static/img/category/up.png" />
+			<image class="down" v-if="showPrice==2" style="width:22upx;height:14upx;" src="http://www.zhongjubang.com/api/upload/static/img/category/down.png" />
 			<view class="G-list_content2">
 				<view v-for="(item, index) in tabType2" :class="index == current ? 'active2' : '' " @click="changeProduct2(index)" :key="index">
 					{{item}}
@@ -48,7 +48,7 @@
 					<image class="category-content-image" style="width:345upx;height:345upx;" :src="item.topImgList[1]" />
 					<view class="category-content-des">{{item.goodsName}}</view>
 					<text class="category-content-price">￥{{item.goodsPrice}}</text>
-					<image class="category-content-car" style="width:38upx;height:35upx;" src="../../static/img/category/car.png" />
+					<image class="category-content-car" style="width:38upx;height:35upx;" src="http://www.zhongjubang.com/api/upload/static/img/category/car.png" />
 				</view>
 			</view>
 		</view>

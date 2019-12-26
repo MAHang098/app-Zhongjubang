@@ -25,11 +25,11 @@
 					</view>
 					<view class="edit-message">
 						<view class="delete" @click.stop="togglePopup('center', 'tip', item.id)">
-							<img src="../../static/delete.png" alt="">
+							<img src="http://www.zhongjubang.com/api/upload/static/delete.png" alt="">
 							<text>删除</text>
 						</view>
 						<view class="edit" @click.stop="editAdress(item.id)">
-							<img src="../../static/edit.png" alt="">
+							<img src="http://www.zhongjubang.com/api/upload/static/edit.png" alt="">
 							<text>编辑</text>
 						</view>
 					</view>

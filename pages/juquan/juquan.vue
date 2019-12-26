@@ -3,11 +3,11 @@
 		<!-- 搜索栏 start -->
 		<view class="header">
 			<view class="search-input">
-				<image src="../../static/search/nav-search.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/search/nav-search.png" mode=""></image>
 				<input type="text" value=""  placeholder="搜索您需要的商品" @input="gainInput" @focus="onFocus" @blur="onBlur" @click.stop="goSearch"/>
 			</view>
 			<view class="cancel">
-				<image src="../../static/img/G-circle/more.png" mode="" class="more-list"></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/img/G-circle/more.png" mode="" class="more-list"></image>
 			</view>
 		</view>
 		<!-- 搜索栏 end -->
@@ -32,15 +32,15 @@
 			<view class="G-list_detial_two" v-else>
 				<scroll-view class="G-list_detial_user scroll-view_H" scroll-x="true" :show-scrollbar="isScrollbar">
 					<view class="G-list_detial_userDteial scroll-view-item_H" v-for="(item, index) in userList" :key="index">
-						<image src="../../static/img/G-circle/test1.png" mode=""></image>
+						<image src="http://www.zhongjubang.com/api/upload/static/img/G-circle/test1.png" mode=""></image>
 						<view>{{item.nick_name}}</view>
-						<image @click.stop="focus(item.id,  current)" :src="item.followState == '0' ? '../../static/follow.png' : item.followState == '2' ? '../../static/mutual-follow.png' : '../../static/follow-checked.png'" mode=""></image>
+						<image @click.stop="focus(item.id,  current)" :src="item.followState == '0' ? 'http://www.zhongjubang.com/api/upload/static/follow.png' : item.followState == '2' ? 'http://www.zhongjubang.com/api/upload/static/mutual-follow.png' : 'http://www.zhongjubang.com/api/upload/static/follow-checked.png'" mode=""></image>
 					</view>
 					
 				</scroll-view>
 				<view class="refresh" @click.stop="refreshUser">
 					<text>换一批</text>
-					<image src="../../static/img/G-circle/refresh.png" mode=""></image>
+					<image src="http://www.zhongjubang.com/api/upload/static/img/G-circle/refresh.png" mode=""></image>
 				</view>
 			</view>
 			<!-- 居圈分类 居圈/关注/短视频 end --> 
@@ -64,13 +64,13 @@
 							<view class="operate-detail" v-show="cIndex == index && showEdit">
 								<view class="operate-arrow"></view>
 								<view class="operate-btn">
-									<view @click.stop="editRelease(items, items.gcircleContentId)"><image src="../../static/edit.png" mode=""></image>编辑</view>
-									<view @click.stop="deleteRelease(items.gcircleContentId)"><image src="../../static/delete.png" mode=""></image>删除</view>
+									<view @click.stop="editRelease(items, items.gcircleContentId)"><image src="http://www.zhongjubang.com/api/upload/static/edit.png" mode=""></image>编辑</view>
+									<view @click.stop="deleteRelease(items.gcircleContentId)"><image src="http://www.zhongjubang.com/api/upload/static/delete.png" mode=""></image>删除</view>
 								</view>
 							</view>
 						</view>
 						<view v-else class="user-right" @click.stop="focus(items.userId, current)">
-							<image :src="items.attentionState == 0 ? '../../static/follow.png' : items.attentionState == 2 ? '../../static/mutual-follow.png' : '../../static/follow-checked.png'" mode=""></image>
+							<image :src="items.attentionState == 0 ? 'http://www.zhongjubang.com/api/upload/static/follow.png' : items.attentionState == 2 ? 'http://www.zhongjubang.com/api/upload/static/mutual-follow.png' : 'http://www.zhongjubang.com/api/upload/static/follow-checked.png'" mode=""></image>
 						</view>
 					</view>
 					<!-- 用户信息 start -->
@@ -79,21 +79,21 @@
 					<view class="content"  v-if="items.content != '' ">
 						<view v-if="!isShowAllContent"  @click.stop="contentDetail(items.gcircleContentId)" class="text">{{items.content }}</view>
 						<view v-else class="text"  @click.stop="contentDetail(items.gcircleContentId)">{{items.content | ellipsis}}</view>
-						<view class="anCotent" v-if="items.content.length > 60 " @click="open(index)">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
+						<view class="anCotent" v-if="items.content.length > 60 " @click="open(index)">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'in'" src="http://www.zhongjubang.com/api/upload/static/drafts/arrow-bottom.png" mode=""></image></view>
 					</view>
 					<!-- 文字展开/收起 end -->
 					
 					<!-- 图片/视频 start -->
 					<view class="imageList">
 						<image :mode="items.imgList.length > 1 ? '' : '' " :class="items.imgList.length > 1 ? 'imageListIn' : 'imageListSingle' " :src="row.fileUrl" v-for="(row, indexI) in items.imgList" :key="indexI" @click.stop="previewImage(indexI, items.imgList)"></image>
-						<!-- <image src="../../static/draftsT.png" mode="" ></image> -->
+						<!-- <image src="http://www.zhongjubang.com/api/upload/static/draftsT.png" mode="" ></image> -->
 					</view>
 					<!-- 图片/视频 end -->
 					
 					<!-- 话题 start -->
 					<view class="release-image_topic"  v-show="show" v-if="items.title.topic != '' ">
 						<view class="left" @click.stop="goTopic(items.title.topicId)">
-							<image src="../../static/topic/topic.png" mode=""></image>
+							<image src="http://www.zhongjubang.com/api/upload/static/topic/topic.png" mode=""></image>
 							<view>{{items.title.topic}}</view>
 						</view>
 						<view class="right"></view>
@@ -101,18 +101,18 @@
 					<!-- 话题 end -->
 					<!-- 操作按钮 start -->
 					<view class="operate-bottom">
-						<view class="operate-bottom_share"><image src="../../static/img/user/share.png" mode=""></image></view>
+						<view class="operate-bottom_share"><image src="http://www.zhongjubang.com/api/upload/static/img/user/share.png" mode=""></image></view>
 						<view class="operate-bottom_number">
 							<view class="number-message">
-								<image src="../../static/img/user/message.png" mode=""></image>
+								<image src="http://www.zhongjubang.com/api/upload/static/img/user/message.png" mode=""></image>
 								<text>{{items.gCollectionDiscussNum}}</text>
 							</view>
 							<view class="collect">
-								<image @click.stop="collect(index, items.gcircleContentId, items.collectionState, current)" :src="(activeIndex == index && isShowCollect) || items.collectionState === 1 ? '../../static/topic/collect-select.png' : '../../static/img/user/star.png' " mode=""></image>
+								<image @click.stop="collect(index, items.gcircleContentId, items.collectionState, current)" :src="(activeIndex == index && isShowCollect) || items.collectionState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/collect-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/star.png' " mode=""></image>
 								<text>{{items.collectionNum}}</text>
 							</view>
 							<view class="fabulous" >
-								<image @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState, current)" :src="(fabulousIndex == index && isShowFabulous) || items.gcircleContentLikeState === 1 ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
+								<image @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState, current)" :src="(fabulousIndex == index && isShowFabulous) || items.gcircleContentLikeState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
 								<text>{{items.gcircleContentLikeNum}}</text>
 							</view>
 						</view>
@@ -206,11 +206,6 @@
 							let data = res.data.data;
 							this.recommendList = data;
 						}
-						if(res.data.code == 421) {
-							uni.navigateTo({
-								url: '/pages/loginPhone/loginPhone'
-							})
-						}
 					})
 				})
 			},
@@ -241,11 +236,6 @@
 							}
 							this.releaseImgList = data;
 						}
-						if(res.data.code == 421) {
-							uni.navigateTo({
-								url: '/pages/loginPhone/loginPhone'
-							})
-						}
 					})
 				})
 			},
@@ -255,6 +245,7 @@
 					title: '加载中',
 					mask: true
 				})
+				
 				uni.request({
 				    url: this.url + 'controller/usercontroller/getRecommendUserList',
 				    method: 'post',
@@ -264,11 +255,7 @@
 				        if(res.data.code == 200) {
 				            this.userList = res.data.data;
 				        } 
-						if(res.data.code == 421) {
-							uni.navigateTo({
-								url: '/pages/loginPhone/loginPhone'
-							})
-						}
+						
 				    }
 				});
 			},
@@ -297,11 +284,7 @@
 							}
 				            this.releaseImgList = data;
 				        }
-						if(res.data.code == 421) {
-							uni.navigateTo({
-								url: '/pages/loginPhone/loginPhone'
-							})
-						}
+						
 				    }
 				});
 			},
@@ -657,7 +640,7 @@
 		width: 34%;
 		height: 100%;
 		position: relative;
-		background-image: url(../../static/img/G-circle/shadow.png);
+		background-image: url(http://www.zhongjubang.com/api/upload/static/img/G-circle/shadow.png);
 		background-repeat: no-repeat;
 		background-size: 100%;
 	}

@@ -3,7 +3,7 @@
 		<!-- 搜索栏 start -->
 		<view class="header">
 			<view class="search-input">
-				<image src="../../../static/search/nav-search.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/search/nav-search.png" mode=""></image>
 				<input type="text" value=""  placeholder="搜索您需要的商品" @input="gainInput" @focus="onFocus" @blur="onBlur"/>
 			</view>
 			<view class="cancel" @click="cancel">取消</view>
@@ -15,7 +15,7 @@
 			<!-- add tag start -->
 			<view class="tag-list" v-show="isShowAdd" >
 				<view class="add-tag" @click="goBack('tag')">
-					<image src="../../../static/img/release.png" mode=""></image>
+					<image src="http://www.zhongjubang.com/api/upload/static/img/release.png" mode=""></image>
 					<text>点击添加{{searchInput}}</text>
 				</view>
 			</view>
@@ -30,7 +30,7 @@
 				</view>
 				<view class="product-list">
 					<view class="list" v-for="(item, index) in productItem" :key="index" @click.stop="goBack('product', item.title)">
-						<view><image src="../../../static/search/product.png" mode=""></image></view>
+						<view><image src="http://www.zhongjubang.com/api/upload/static/search/product.png" mode=""></image></view>
 						<view class="detail">
 							<view>{{item.title}}</view>
 							<view class="price">{{item.price}}</view>

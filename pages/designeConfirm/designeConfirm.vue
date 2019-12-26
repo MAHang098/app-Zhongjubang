@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="banner">
-			<image style="width: 750upx;height: 376upx;" src="../../static/img/designeConfirm/banner.png" />
+			<image style="width: 750upx;height: 376upx;" src="http://www.zhongjubang.com/api/upload/static/img/designeConfirm/banner.png" />
 		</view>
 		<view class="wrap">
 			<view class="des">
@@ -28,7 +28,7 @@
 			</view>
 			
 			<view class="matriel">
-				<image class="diote" style="width: 44upx;height: 44upx;" src="../../static/img/designeConfirm/diote.png" />
+				<image class="diote" style="width: 44upx;height: 44upx;" src="http://www.zhongjubang.com/api/upload/static/img/designeConfirm/diote.png" />
 				<text class="certify">认证材料</text>
 				<text class="identify">身份证</text>
 				<label class="radio">
@@ -38,8 +38,8 @@
 				<label class="radio2">
 					<radio value="r1" color="#FFCC33" style="transform:scale(0.7)" @click.stop=""/>
 				</label>
-				<image class="office" style="width: 351upx;height: 289upx;" src="../../static/img/designeConfirm/office.png" />
-				<image class="back" style="width: 351upx;height: 289upx;" src="../../static/img/designeConfirm/back.png" />
+				<image class="office" style="width: 351upx;height: 289upx;" src="http://www.zhongjubang.com/api/upload/static/img/designeConfirm/office.png" />
+				<image class="back" style="width: 351upx;height: 289upx;" src="http://www.zhongjubang.com/api/upload/static/img/designeConfirm/back.png" />
 				<view class="submit">
 					提交
 				</view>

@@ -3,22 +3,22 @@
 		<view class="header" v-bind:class="{ 'in': scrollFlag }">
 			<view class="header-left">
 				<view class="header-left-image" @click.stop="cancel">
-					<image :src="scrollFlag ? '../../static/topic/topic-back.png' : '../../static/img/topicDetails/back.png' " mode="" ></image>
+					<image :src="scrollFlag ? 'http://www.zhongjubang.com/api/upload/static/topic/topic-back.png' : 'http://www.zhongjubang.com/api/upload/static/img/topicDetails/back.png' " mode="" ></image>
 				</view> 
 				<text class="header-topic">{{scrollFlag ? topic : ''}}</text>
 			</view>
 			<view class="header-right">
-				<image v-if="!scrollFlag" :src="talkThemeState == 0 ? '../../static/img/topicDetails/interest.png' : '../../static/img/topicDetails/focus.png'" mode="" @click.stop="focusTopic"></image>
-				<image v-else :src="talkThemeState == 0 ? '../../static/img/topicDetails/interest.png' : '../../static/topic/focus.png'" mode="" @click.stop="focusTopic"></image>
-				<image :src="scrollFlag ? '../../static/topic/topic-share.png' : '../../static/img/topicDetails/share.png'" mode=""></image>
+				<image v-if="!scrollFlag" :src="talkThemeState == 0 ? 'http://www.zhongjubang.com/api/upload/static/img/topicDetails/interest.png' : 'http://www.zhongjubang.com/api/upload/static/img/topicDetails/focus.png'" mode="" @click.stop="focusTopic"></image>
+				<image v-else :src="talkThemeState == 0 ? 'http://www.zhongjubang.com/api/upload/static/img/topicDetails/interest.png' : 'http://www.zhongjubang.com/api/upload/static/topic/focus.png'" mode="" @click.stop="focusTopic"></image>
+				<image :src="scrollFlag ? 'http://www.zhongjubang.com/api/upload/static/topic/topic-share.png' : 'http://www.zhongjubang.com/api/upload/static/img/topicDetails/share.png'" mode=""></image>
 			</view>
 		</view>
 		<view class="topic-detail">
 			<view class="title">
-				<image src="../../static/img/topicDetails/bg.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/bg.png" mode=""></image>
 				<view class="content">
 					<view class="main-title">
-						<image src="../../static/img/topicDetails/money.png" mode=""></image>
+						<image src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/money.png" mode=""></image>
 						<text>{{topic}}</text>
 					</view>
 					<view class="Subheading">
@@ -41,12 +41,12 @@
 								<image :src="item.head" mode=""></image>
 							</view>
 							<view class="user-details">
-								<view class="name">{{item.nickName}} <image src="../../static/fans-logo.png" mode=""></image></view>
+								<view class="name">{{item.nickName}} <image src="http://www.zhongjubang.com/api/upload/static/fans-logo.png" mode=""></image></view>
 								<view class="time">{{item.createTime}}</view>
 							</view>
 						</view>
 						<view class="right" @click.stop="focus(index, item.userId, item.attentionState)">
-							<image :src="( activeIndex == index && isShowFocus) || item.attentionState != 0 ? '../../static/topic/focus.png' : '../../static/img/topicDetails/interest.png'" mode=""></image>
+							<image :src="( activeIndex == index && isShowFocus) || item.attentionState != 0 ? 'http://www.zhongjubang.com/api/upload/static/topic/focus.png' : 'http://www.zhongjubang.com/api/upload/static/img/topicDetails/interest.png'" mode=""></image>
 						</view>
 					</view>
 					
@@ -54,31 +54,31 @@
 					<view class="describe">
 						<view v-if="(activeIndex == index && !isShowAllContent)" class="text">{{item.content }}</view>
 						<view v-else class="text">{{item.content | ellipsis}}</view>
-						<view class="anCotent" v-if="item.content.length > 60 " @click.stop="open(index)">{{activeIndex == index && brandFold  ? '收起' : '展开'}}<image :class="brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
+						<view class="anCotent" v-if="item.content.length > 60 " @click.stop="open(index)">{{activeIndex == index && brandFold  ? '收起' : '展开'}}<image :class="brandFold ? '' : 'in'" src="http://www.zhongjubang.com/api/upload/static/drafts/arrow-bottom.png" mode=""></image></view>
 					</view>
 					<!-- 文字内容 end -->
 					
 					<!-- 图片/视频 start -->
 					<view class="imageList">
-						<image src="../../static/draftsT.png" mode="" v-show="show"></image>
+						<image src="http://www.zhongjubang.com/api/upload/static/draftsT.png" mode="" v-show="show"></image>
 					</view>
 					<!-- <video id="myVideo" :src="item.videoUrl" v-show="!show" enable-danmu danmu-btn controls></video> -->
 					<!-- 图片/视频 end -->
 					
 					<!-- 操作按钮 start -->
 					<view class="operate">
-						<view class="share"><image src="../../static/img/user/share.png" mode=""></image></view>
+						<view class="share"><image src="http://www.zhongjubang.com/api/upload/static/img/user/share.png" mode=""></image></view>
 						<view class="number">
 							<view class="message" @click.stop="togglePopup('bottom', 'comments',item.userId, item.gcircleContentId, item.nickName,item.gCollectionDiscussNum)">
-								<image src="../../static/img/user/message.png" mode=""></image>
+								<image src="http://www.zhongjubang.com/api/upload/static/img/user/message.png" mode=""></image>
 								<text>{{item.gCollectionDiscussNum}}</text>
 							</view>
 							<view class="collect" @click.stop="collect(index, item.gcircleContentId, item.collectionState)">
-								<image :src="(activeIndex == index && isShowCollect) || item.collectionState != 0 ? '../../static/topic/collect-select.png' : '../../static/img/user/star.png' " mode=""></image>
+								<image :src="(activeIndex == index && isShowCollect) || item.collectionState != 0 ? 'http://www.zhongjubang.com/api/upload/static/topic/collect-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/star.png' " mode=""></image>
 								<text>{{item.collectionNum}}</text>
 							</view>
 							<view class="fabulous"  @click.stop="fabulous(index, item.gcircleContentId,  item.gContentLikeState)">
-								<image :src="(fabulousIndex == index && isShowFabulous) || item.gContentLikeState === 1 ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
+								<image :src="(fabulousIndex == index && isShowFabulous) || item.gContentLikeState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
 								<text>{{item.gCollectionLikeNum}}</text>
 								<!-- <text>{{fabulousIndex }}</text> -->
 							</view>
@@ -91,7 +91,7 @@
 			
 			<view id="footer" @click.stop="goRelease" v-show="isShowTopic">
 				<view>
-					<image src="../../static/topic/camera.png" mode=""></image>
+					<image src="http://www.zhongjubang.com/api/upload/static/topic/camera.png" mode=""></image>
 					参与话题
 				</view>
 			</view>
@@ -102,20 +102,20 @@
 				<view class="uni-comments-title">
 					<view>全部评论({{gCollectionDiscussNum}})</view>
 					<view @click.stop="cancelPopup('comments')">
-						<image src="../../static/img/releaseVideo2/close.png" mode=""></image>
+						<image src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/close.png" mode=""></image>
 					</view>
 				</view>
 				<view class="uni-comments-content">
 					<view class="comments-detail" v-for="(row, index) in dataList" :key="index">
 						<view class="comments-user">
-							<image src="../../static/drafts.png" mode=""></image>
+							<image src="http://www.zhongjubang.com/api/upload/static/drafts.png" mode=""></image>
 							<view>
 								<text class="comments-name">{{row.nick_name}}</text>
 								<text class="date">{{row.cratee_time}}</text>
 							</view>
 							<view class="fabulous"  @click.stop="commentsFabulous(index, row.id, row.state)">
 								{{row.likenum}}
-								<image :src="(activeIndex == index && isCommentsFabulous) ||  row.state != 0 ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
+								<image :src="(activeIndex == index && isCommentsFabulous) ||  row.state != 0 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
 							</view>
 						</view>
 						<view class="comments-content">
@@ -583,7 +583,7 @@
 </script>
 
 <style>
-	/*@import '../../static/css/comments.css'; *//*引入评论弹窗的样式 */
+	/*@import 'http://www.zhongjubang.com/api/upload/static/css/comments.css'; *//*引入评论弹窗的样式 */
 	page {
 		background: #F9F9F9;
 		width: 100%;

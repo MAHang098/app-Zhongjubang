@@ -1,13 +1,13 @@
 <template>
     <view>
         <view class="addBank" @tap="goBindbank">
-            <image class="addBank-image" style="width:46rpx;height:31rpx;" src="../../static/img/wallet/bank-bind.png" />
+            <image class="addBank-image" style="width:46rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/img/wallet/bank-bind.png" />
             <text class="addBank-text">添加银行卡</text>
-            <image class="addBank-image2" style="width:15rpx;height:28rpx;" src="../../static/img/wallet/go.png" />
+            <image class="addBank-image2" style="width:15rpx;height:28rpx;" src="http://www.zhongjubang.com/api/upload/static/img/wallet/go.png" />
         </view>
         <view class="bank" v-for="(row, index) in dataList" :key="index">
-            <image class="bank-image" style="width:690rpx;height:208rpx;" src="../../static/img/wallet/bg1.png" />
-            <image class="business" style="width:88rpx;height:88rpx;" src="../../static/img/wallet/gongshang.png" />
+            <image class="bank-image" style="width:690rpx;height:208rpx;" src="http://www.zhongjubang.com/api/upload/static/img/wallet/bg1.png" />
+            <image class="business" style="width:88rpx;height:88rpx;" src="http://www.zhongjubang.com/api/upload/static/img/wallet/gongshang.png" />
             <text class="bank-name">{{row.bank}}</text>
             <text class="bank-num">{{row.bankCardNum}}</text>
         </view>

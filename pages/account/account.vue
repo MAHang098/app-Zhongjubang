@@ -1,22 +1,22 @@
 <template>
 	<view>
 		<view class="account">
-            <image class="phone" src="../../static/img/account/phone.png" />
+            <image class="phone" src="http://www.zhongjubang.com/api/upload/static/img/account/phone.png" />
             <text class="phone-text">手机号</text>
             <text class="phone-number">{{phone}}</text>
-            <image v-if="state==0" class="binded" @click="togglePopup('center', 'tip')" src="../../static/img/account/binded.png" />
-            <image v-else class="binded" @tap="goBindphone" src="../../static/img/account/no-bind.png" />
+            <image v-if="state==0" class="binded" @click="togglePopup('center', 'tip')" src="http://www.zhongjubang.com/api/upload/static/img/account/binded.png" />
+            <image v-else class="binded" @tap="goBindphone" src="http://www.zhongjubang.com/api/upload/static/img/account/no-bind.png" />
         </view>
 		<view class="account1">
-            <image class="phone" src="../../static/img/account/wechat.png" />
+            <image class="phone" src="http://www.zhongjubang.com/api/upload/static/img/account/wechat.png" />
             <text class="public-text">微信</text>
-            <image v-if="wxToken!=''" @click="togglePopup1('center', 'tip')" class="binded" src="../../static/img/account/binded.png" />
-            <image v-else class="binded" @tap="wechatbindLogin" src="../../static/img/account/no-bind.png" />
+            <image v-if="wxToken!=''" @click="togglePopup1('center', 'tip')" class="binded" src="http://www.zhongjubang.com/api/upload/static/img/account/binded.png" />
+            <image v-else class="binded" @tap="wechatbindLogin" src="http://www.zhongjubang.com/api/upload/static/img/account/no-bind.png" />
         </view>
 		<view class="account1">
-            <image class="phone" src="../../static/img/account/update.png" />
+            <image class="phone" src="http://www.zhongjubang.com/api/upload/static/img/account/update.png" />
             <text class="public-text">修改密码</text>
-            <image class="arrow" src="../../static/img/account/arrow.png" />
+            <image class="arrow" src="http://www.zhongjubang.com/api/upload/static/img/account/arrow.png" />
         </view>
 
         <!-- 保存标签 start -->

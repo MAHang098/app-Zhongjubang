@@ -2,13 +2,13 @@
 	<view class="order-exchange">
 		<view class="no-adress" @click="addAdress" v-show="showAdress">
 			<view>请添加收获地址</view>
-			<image src="../../../static/img/information/right-arrow.png" mode=""></image>
+			<image src="http://www.zhongjubang.com/api/upload/static/img/information/right-arrow.png" mode=""></image>
 		</view>
 		
 		<!-- 默认地址 start -->
 		<view class="have-class" @click="addAdress" v-show="!showAdress">
 			<!-- <view class="adress-image"> -->
-				<image src="../../../static/img/user/hot-point/adress-image.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/img/user/hot-point/adress-image.png" mode=""></image>
 			<!-- </view> -->
 			<view class="adress-detail">
 				<text>{{name}}</text>
@@ -18,7 +18,7 @@
 				</view>
 			</view>
 			<!-- <view class="arrow-right"> -->
-				<image src="../../../static/img/information/right-arrow.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/img/information/right-arrow.png" mode=""></image>
 			<!-- </view> -->
 		</view>
 		<!-- 默认地址 end -->
@@ -26,7 +26,7 @@
 		<!-- 商品详情 start -->
 		<view class="exchange-list">
 			<view class="product-image">
-				<image src="../../../static/img/user/hot-point/exchange.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/img/user/hot-point/exchange.png" mode=""></image>
 			</view>
 			<view class="content">
 				<text class="title" :class="content.length > 16 ? '' : 'in'">{{content | ellipsis}}</text>

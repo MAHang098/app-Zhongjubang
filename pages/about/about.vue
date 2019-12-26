@@ -1,7 +1,7 @@
 <template>
     <view>
         <view class="horizen"></view>
-        <image class="wrap-image" style="width:190rpx;height:247rpx;" src="../../static/img/wallet/about.png" />
+        <image class="wrap-image" style="width:190rpx;height:247rpx;" src="http://www.zhongjubang.com/api/upload/static/img/wallet/about.png" />
         <text class="vision">版本号V2.0</text>
         <text class="tele">电话</text>
         <text class="tele-num">400-8387819</text>

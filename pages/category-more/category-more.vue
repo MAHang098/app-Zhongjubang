@@ -1,14 +1,14 @@
 <template>
 	<view class="contant">
 		<view class="top">
-			<image @tap="back" class="back" style="width:26upx;height:35upx;" src="../../static/img/category/back.png" />
+			<image @tap="back" class="back" style="width:26upx;height:35upx;" src="http://www.zhongjubang.com/api/upload/static/img/category/back.png" />
 			<text class="title">{{goodsStyle}}</text>
-			<image class="search" style="width:42upx;height:42upx;" src="../../static/img/category/search.png" />
+			<image class="search" style="width:42upx;height:42upx;" src="http://www.zhongjubang.com/api/upload/static/img/category/search.png" />
 		</view>
 		<!-- 价格切换 -->
-		<image class="init" style="width:24upx;height:24upx;" src="../../static/img/category/init.png" />
-		<image class="up" v-if="showPrice==3" style="width:22upx;height:14upx;" src="../../static/img/category/up.png" />
-		<image class="down" v-if="showPrice==2" style="width:22upx;height:14upx;" src="../../static/img/category/down.png" />
+		<image class="init" style="width:24upx;height:24upx;" src="http://www.zhongjubang.com/api/upload/static/img/category/init.png" />
+		<image class="up" v-if="showPrice==3" style="width:22upx;height:14upx;" src="http://www.zhongjubang.com/api/upload/static/img/category/up.png" />
+		<image class="down" v-if="showPrice==2" style="width:22upx;height:14upx;" src="http://www.zhongjubang.com/api/upload/static/img/category/down.png" />
 		<view class="G-list_content">
 			<view v-for="(item, index) in tabType" :class="index == current ? 'active' : '' " @click="changeProduct(index)" :key="index">
 				{{item}}
@@ -20,7 +20,7 @@
 				<image class="category-content-image" style="width:345upx;height:345upx;" :src="item.topImgList[1]" />
 				<view class="category-content-des">{{item.goodsName}}</view>
 				<text class="category-content-price">￥{{item.goodsPrice}}</text>
-				<image class="category-content-car" style="width:38upx;height:35upx;" src="../../static/img/category/car.png" />
+				<image class="category-content-car" style="width:38upx;height:35upx;" src="http://www.zhongjubang.com/api/upload/static/img/category/car.png" />
 			</view>
 		</view>
 	</view>

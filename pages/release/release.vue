@@ -1,16 +1,16 @@
 <template>
     <view class="wrap">
 		<view class="pic" @click="chooseImage">
-			<image src="../../static/img/release/pic.png" mode="" />
+			<image src="http://www.zhongjubang.com/api/upload/static/img/release/pic.png" mode="" />
 		</view>
 		<text class="pic-text">图片</text>
 		<view class="video" @tap="chooseVideo">
 			<!-- <view class="video" @tap="chooseVideo"> -->
-			<image src="../../static/img/release/video.png" mode="" />
+			<image src="http://www.zhongjubang.com/api/upload/static/img/release/video.png" mode="" />
 		</view>
 		<text class="video-text">视频</text>
 		<view class="close" @tap="back">
-			<image src="../../static/img/release/close.png" mode="" />
+			<image src="http://www.zhongjubang.com/api/upload/static/img/release/close.png" mode="" />
 		</view>
 	</view>
 </template>
@@ -25,7 +25,10 @@
         },
         methods: {
             back(){
-				uni.navigateBack()
+				// uni.navigateBack()
+				uni.switchTab({
+					url: '/pages/juquan/juquan'
+				})
 			},
 			chooseVideo(){
 				const url = this.url

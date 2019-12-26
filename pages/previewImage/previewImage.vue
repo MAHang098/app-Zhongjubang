@@ -1,7 +1,7 @@
 <template>
 	<view @click="cancel">
 		<view class="header">
-			<!-- <image src="../../../static/topic/white-back.png" mode="" @click="cancel"></image> -->
+			<!-- <image src="../http://www.zhongjubang.com/api/upload/static/topic/white-back.png" mode="" @click="cancel"></image> -->
 			<view>{{indexImg}}/{{allImg}}</view>
 			<!-- <view class="next" @click="nextRelease">确定</view> -->
 		</view>
@@ -16,9 +16,9 @@
 				
 				<view class="tag-list">
 					<view :style="{transform: 'translateX(' + tag.tagX+'px) translateY(' + tag.tagY+'px) translateZ(0px) scale(1)'}"  class="tagText" v-for="(tag, tagIndex) in tagItems" :key="tagIndex" >
-						<image src="../../static/upload/indicator.png" mode=""></image>
+						<image src="http://www.zhongjubang.com/api/upload/static/upload/indicator.png" mode=""></image>
 						<view class="tag-detail "  :class="rotate ? 'moveright' : 'moveleft' ">
-							<image src="../../static/tag/cart.png" mode="" v-if="tag.type == 'product' || tag.type != 'tag'"></image>
+							<image src="http://www.zhongjubang.com/api/upload/static/tag/cart.png" mode="" v-if="tag.type == 'product' || tag.type != 'tag'"></image>
 							{{tag.tagName | ellipsis}}
 						</view>
 					</view>

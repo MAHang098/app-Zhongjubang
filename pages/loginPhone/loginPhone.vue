@@ -2,13 +2,13 @@
 <template>
 	<view class="">
 		<view class="bg">
-			<image src="../../static/img/loginPhone/bg.png" mode=""></image>
+			<image src="http://www.zhongjubang.com/api/upload/static/img/loginPhone/bg.png" mode=""></image>
 		</view>
-		<image class="close" @tap="close" style="width: 42upx;height: 36upx;" src="../../static/img/loginPhone/close.png" mode=""></image>
+		<image class="close" @tap="close" style="width: 42upx;height: 36upx;" src="http://www.zhongjubang.com/api/upload/static/img/loginPhone/close.png" mode=""></image>
 		<text class="left">手机登录</text>
 		<text class="right" @click="tologinPwd">密码登录</text>
 		<view class="phone">
-			<image src="../../static/img/loginPhone/phone.png" mode=""></image>
+			<image src="http://www.zhongjubang.com/api/upload/static/img/loginPhone/phone.png" mode=""></image>
 		</view>
 		<text class="title-phone">
 			请输入手机号
@@ -17,7 +17,7 @@
 		     <input v-model="account" type="text" />
 		</view>
 		<view class="code">
-			<image src="../../static/img/loginPhone/code.png" mode=""></image>
+			<image src="http://www.zhongjubang.com/api/upload/static/img/loginPhone/code.png" mode=""></image>
 		</view>
 		<text class="title-code">
 			请输入验证码
@@ -33,10 +33,10 @@
 		</view>
 		<!-- <button size="mini" class="send-code" v-bind:class="isActive == true ? 'in' : ''" @tap="sendCod">{{isActive == true ? second + 's' : '发送验证码'}}</button> -->
 		<view class="phone-login" @tap="bindLogin">
-			<image src="../../static/img/loginPhone/phone-login.png" mode=""></image>
+			<image src="http://www.zhongjubang.com/api/upload/static/img/loginPhone/phone-login.png" mode=""></image>
 		</view>
 		<view class="wechat-login"  @tap="wechatbindLogin">
-			<image src="../../static/img/loginPhone/wechat-login.png" mode=""></image>
+			<image src="http://www.zhongjubang.com/api/upload/static/img/loginPhone/wechat-login.png" mode=""></image>
 		</view>
 		<text class="bottom-left">点击登录按钮代表您同意</text>
 		<text class="bottom-right" @tap="toAgreement">《众居邦用户协议》</text>

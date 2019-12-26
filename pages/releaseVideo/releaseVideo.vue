@@ -1,9 +1,9 @@
 <template>
 	<view>
         <view class="release-video">
-            <image class="back" src="../../static/img/back.png" @click="cancel" mode="" />
+            <image class="back" src="http://www.zhongjubang.com/api/upload/static/img/back.png" @click="cancel" mode="" />
 			<text class="title">发布视频</text>
-			<image class="fly" src="../../static/img/releaseVideo/release.png" mode="" @tap="release" />
+			<image class="fly" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo/release.png" mode="" @tap="release" />
         </view>
 		<view class="release">
 			<view class="desc">
@@ -13,17 +13,17 @@
 		</view>
 		
 		<view class="video" @tap="chooseVideo">
-			<image class="add" src="../../static/img/releaseVideo/add.png" mode="" />
+			<image class="add" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo/add.png" mode="" />
 		</view>
 		<!--  v-if="src" -->
 		<view class="video1" v-if="videoUrl">
 			<video :src="videoUrl" mode=""></video>
-			<image class="close" @tap="delectVideo" src="../../static/img/releaseVideo/close.png" mode="" />
+			<image class="close" @tap="delectVideo" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo/close.png" mode="" />
 		</view>
 
 		<!-- 底部 start -->
 		<view class="bottom" @click="togglePopup('center', 'tip')">
-			<image src="../../static/img/releaseVideo/save.png" mode=""></image>
+			<image src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo/save.png" mode=""></image>
 			<view>存草稿</view>
 		</view>
 
@@ -59,7 +59,7 @@
 				popupType: '',
 				type: '',
 				appUserDraftsId: '',
-				// src: '../../static/img/releaseVideo/add.png'
+				// src: 'http://www.zhongjubang.com/api/upload/static/img/releaseVideo/add.png'
 	        }
 		},
 		onLoad(options){

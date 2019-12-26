@@ -4,55 +4,55 @@
         	<image :src="cover" mode=""></image>
         </view>
 		<view class="left-menu" @click="showDrawer('left')">
-			<image src="../../static/img/user/left-menu.png" mode=""></image>
+			<image src="http://www.zhongjubang.com/api/upload/static/img/user/left-menu.png" mode=""></image>
 		</view>
 		<!-- 侧边栏start -->
 		<uni-drawer :visible="showLeft" mode="left" @close="closeDrawer('left')">
 			<view class="drawer-content">
 				<view class="drawer-more">更多</view>
 				<view class="more-list" @tap="goPockets">
-					<image class="more-list-image" style="width:33rpx;height:36rpx;margin-right:30rpx;" src="../../static/img/user/pockets.png" mode=""></image>
+					<image class="more-list-image" style="width:33rpx;height:36rpx;margin-right:30rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/pockets.png" mode=""></image>
 					<text class="my-pockets">我的钱包</text>
 				</view>
 				<view class="more-list" @tap="goHot">
-					<image style="width:31rpx;height:41rpx;margin-right:30rpx;" src="../../static/img/user/hot-num.png" mode=""></image>
+					<image style="width:31rpx;height:41rpx;margin-right:30rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/hot-num.png" mode=""></image>
 					<text class="my-pockets">我的热度分</text>
 				</view>
 				<view class="more-list" @tap="goList">
-					<image style="width:30rpx;height:38rpx;margin-right:30rpx;" src="../../static/img/user/command.png" mode=""></image>
+					<image style="width:30rpx;height:38rpx;margin-right:30rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/command.png" mode=""></image>
 					<text class="my-pockets">我的订单</text>
 				</view>
 				<view class="horizen"></view>
 				<view class="more-list" style="margin-top:30rpx" @tap="goDrafts">
-					<image style="width:35rpx;height:39rpx;margin-right:30rpx;" src="../../static/img/user/drafts.png" mode=""></image>
+					<image style="width:35rpx;height:39rpx;margin-right:30rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/drafts.png" mode=""></image>
 					<text class="my-pockets">草稿箱</text>
 				</view>
 				<view class="more-list" @tap="goRecommend">
-					<image style="width:37rpx;height:36rpx;margin-right:30rpx;" src="../../static/img/user/my-recommend.png" mode=""></image>
+					<image style="width:37rpx;height:36rpx;margin-right:30rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/my-recommend.png" mode=""></image>
 					<text class="my-pockets">我的评论</text>
 				</view>
 				<view class="more-list" @tap="goAccount">
-					<image style="width:38rpx;height:37rpx;margin-right:30rpx;" src="../../static/img/user/account.png" mode=""></image>
+					<image style="width:38rpx;height:37rpx;margin-right:30rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/account.png" mode=""></image>
 					<text class="my-pockets">账号与绑定</text>
 				</view>
 				<view class="horizen"></view>
 				<view class="more-list" style="margin-top:30rpx" @tap="goRanked">
-					<image style="width:40rpx;height:38rpx;margin-right:30rpx;" src="../../static/img/user/ranked.png" mode=""></image>
+					<image style="width:40rpx;height:38rpx;margin-right:30rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/ranked.png" mode=""></image>
 					<text class="my-pockets">我的称号</text>
 				</view>
 				<view class="more-list" @tap="goIdentify">
-					<image style="width:41rpx;height:31rpx;margin-right:30rpx;" src="../../static/img/user/identify.png" mode=""></image>
+					<image style="width:41rpx;height:31rpx;margin-right:30rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/identify.png" mode=""></image>
 					<text class="my-pockets">身份认证</text>
 				</view>
 				<view class="more-list" @tap="goSetting">
-					<image style="width:38rpx;height:39rpx;margin-right:30rpx;" src="../../static/img/user/setting.png" mode=""></image>
+					<image style="width:38rpx;height:39rpx;margin-right:30rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/setting.png" mode=""></image>
 					<text class="my-pockets">设置</text>
 				</view>
 			</view>
 		</uni-drawer>
 		<!-- 侧边栏end -->
 		<view class="right-wechat" @click.stop="goInformation">
-			<image src="../../static/img/user/right-wechat.png" mode=""></image>
+			<image src="http://www.zhongjubang.com/api/upload/static/img/user/right-wechat.png" mode=""></image>
 		</view>
 		<view class="user-avater">
 			<image :src="head" mode=""></image>
@@ -60,20 +60,20 @@
 		<!-- 客户信息 -->
 		<view class="user-info">
 			<view class="user-state">
-				<image src="../../static/img/user/user-state.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/img/user/user-state.png" mode=""></image>
 			</view>
 			<view @tap="editInfo" class="edit-info">
-				<image src="../../static/img/user/edit-info.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/img/user/edit-info.png" mode=""></image>
 			</view>
 			<view class="my-order" @tap="goList">
-				<image src="../../static/img/user/my-order.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/img/user/my-order.png" mode=""></image>
 			</view>
 			<view class="nickName-gender">
 				<view class="user-nickName">
 					{{nickName}}
 				</view>
-				<view v-show="!show" class="user-nickName-image"><image src="../../static/img/user/user-gender.png" mode=""></image></view>
-				<view v-show="show" class="user-nickName-image"><image src="../../static/img/editInfo/gender-man.png" mode=""></image></view>
+				<view v-show="!show" class="user-nickName-image"><image src="http://www.zhongjubang.com/api/upload/static/img/user/user-gender.png" mode=""></image></view>
+				<view v-show="show" class="user-nickName-image"><image src="http://www.zhongjubang.com/api/upload/static/img/editInfo/gender-man.png" mode=""></image></view>
 			</view>
 			
 			<view class="user-intro">
@@ -81,7 +81,7 @@
 			</view>
 			<view class="user-recommend">
 				<text>粉丝{{fannum}}</text><text>关注{{attentionnum}}</text><text>获赞{{likenum}}</text>
-				<image src="../../static/img/user/hot.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/img/user/hot.png" mode=""></image>
 				<text id="number">{{feverBranch}}</text>
 			</view>
 		</view>
@@ -96,10 +96,10 @@
 			</view>
 			<!-- 短视频内容start -->
 			<view class="video-content"  v-if="current==1" v-for="(item, index) in videoList" :key="index" @longtap="deleteVideo(item.shortVideoId)">
-				<image class="video-content-start" style="width:52rpx;height:52rpx;" src="../../static/img/user/start.png" mode=""></image>
+				<image class="video-content-start" style="width:52rpx;height:52rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/start.png" mode=""></image>
 				<image class="video-content-avator" style="width:60rpx;height:60rpx;border-radius:50%;" :src="item.head" mode=""></image>
 				<view class="video-content-nickname">{{item.nickName}}</view>
-				<image v-if="activeVideo == item.shortVideoId && showDelete" @tap="videoDelete(item.shortVideoId)" class="video-content-delete" style="width:156rpx;height:156rpx;" src="../../static/img/user/delete.png" mode=""></image>
+				<image v-if="activeVideo == item.shortVideoId && showDelete" @tap="videoDelete(item.shortVideoId)" class="video-content-delete" style="width:156rpx;height:156rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/delete.png" mode=""></image>
 				<!-- <video style="width:359rpx;height:512rpx;" :src="item.videoUrl"></video> -->
 				<image class="video-content-image" style="width:340upx;height:512upx;border-radius:3px;" :src="item.videoUrl" @tap="sendVideo(item.shortVideoId)"></image>
 				<view v-if="activeVideo == item.shortVideoId && showDelete" class="video-content-block" style="width:350rpx;height:512rpx;border-radius:3px;"></view>
@@ -130,8 +130,8 @@
 							<view class="operate-detail" v-show="cIndex == index && showEdit">
 								<view class="operate-arrow"></view>
 								<view class="operate-btn">
-									<view @click.stop="editRelease(items, items.gcircleContentId)"><image src="../../static/edit.png" mode=""></image>编辑</view>
-									<view @click.stop="deleteRelease(items.gcircleContentId)"><image src="../../static/delete.png" mode=""></image>删除</view>
+									<view @click.stop="editRelease(items, items.gcircleContentId)"><image src="http://www.zhongjubang.com/api/upload/static/edit.png" mode=""></image>编辑</view>
+									<view @click.stop="deleteRelease(items.gcircleContentId)"><image src="http://www.zhongjubang.com/api/upload/static/delete.png" mode=""></image>删除</view>
 								</view>
 							</view>
 						</view>
@@ -142,7 +142,7 @@
 					<view class="content"  v-if="items.content != '' ">
 						<view v-if="!isShowAllContent" class="text">{{items.content }}</view>
 						<view v-else class="text">{{items.content | ellipsis}}</view>
-						<view class="anCotent" v-if="items.content.length > 45 " @click="open()">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
+						<view class="anCotent" v-if="items.content.length > 45 " @click="open()">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'in'" src="http://www.zhongjubang.com/api/upload/static/drafts/arrow-bottom.png" mode=""></image></view>
 					</view>
 					<!-- 草稿内容 end -->
 					
@@ -158,7 +158,7 @@
 					<!-- 话题 start -->
 					<view class="release-image_topic"  v-show="show" v-if="items.title.topic != '' " >
 						<view class="left" @click.stop="goTopic(items.title)">
-							<image src="../../static/topic/topic.png" mode=""></image>
+							<image src="http://www.zhongjubang.com/api/upload/static/topic/topic.png" mode=""></image>
 							<view>{{items.title.topic}}</view>
 						</view>
 						<view class="right"></view>
@@ -166,18 +166,18 @@
 					<!-- 话题 end -->
 					<!-- 操作按钮 start -->
 					<view class="operate-bottom">
-						<view class="operate-bottom_share"><image src="../../static/img/user/share.png" mode=""></image></view>
+						<view class="operate-bottom_share"><image src="http://www.zhongjubang.com/api/upload/static/img/user/share.png" mode=""></image></view>
 						<view class="operate-bottom_number">
 							<view class="number-message"  @click.stop="togglePopup('bottom', 'comments',items.userId, items.gcircleContentId, nickName,items.gCollectionDiscussNum)">
-								<image src="../../static/img/topicDetails/message.png" mode=""></image>
+								<image src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/message.png" mode=""></image>
 								<text>{{items.gCollectionDiscussNum}}</text>
 							</view>
 							<view class="collect">
-								<image @click.stop="collect(index, items.gcircleContentId, items.collectionState)" :src="(activeIndex == index && isShowCollect) || items.collectionState === 1 ? '../../static/topic/collect-select.png' : '../../static/img/user/star.png' " mode=""></image>
+								<image @click.stop="collect(index, items.gcircleContentId, items.collectionState)" :src="(activeIndex == index && isShowCollect) || items.collectionState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/collect-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/star.png' " mode=""></image>
 								<text>{{items.collectionNum}}</text>
 							</view>
 							<view class="fabulous" >
-								<image @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState)" :src="(fabulousIndex == index && isShowFabulous) || items.gcircleContentLikeState === 1 ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
+								<image @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState)" :src="(fabulousIndex == index && isShowFabulous) || items.gcircleContentLikeState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
 								<text>{{items.gcircleContentLikeNum}}</text>
 							</view>
 						</view>
@@ -207,10 +207,10 @@
 				</view>
 				<!-- 收藏短视频内容start -->
 				<view class="video-content" v-if="current2==1" v-for="(item, index) in collectVideo" :key="index" @longtap="deleteVideo(item.shortVideoId)">
-					<image class="video-content-start" style="width:52rpx;height:52rpx;" src="../../static/img/user/start.png" mode=""></image>
+					<image class="video-content-start" style="width:52rpx;height:52rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/start.png" mode=""></image>
 					<image class="video-content-avator" style="width:60rpx;height:60rpx;border-radius:50%;" :src="item.head" mode=""></image>
 					<view class="video-content-nickname">{{item.nickName}}</view>
-					<image v-if="activeVideo == item.shortVideoId && showDelete" @tap="videoDelete(item.shortVideoId)" class="video-content-delete" style="width:156rpx;height:156rpx;" src="../../static/img/user/delete.png" mode=""></image>
+					<image v-if="activeVideo == item.shortVideoId && showDelete" @tap="videoDelete(item.shortVideoId)" class="video-content-delete" style="width:156rpx;height:156rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/delete.png" mode=""></image>
 					<!-- <video style="width:359rpx;height:512rpx;" :src="item.videoUrl"></video> -->
 					<image class="video-content-image" style="width:340upx;height:512upx;border-radius:3px;" :src="item.videoUrl" @tap="sendVideo(item.shortVideoId)"></image>
 					<view v-if="activeVideo == item.shortVideoId && showDelete" class="video-content-block" style="width:350rpx;height:512rpx;border-radius:3px;"></view>
@@ -223,7 +223,7 @@
 							<image class="wang-content-image" style="width:200upx;height:190upx;" :src="item.topImgList[0]" @tap="goDetails(item.goodsId)" mode=""></image>
 						    <text class="wang-content-des">{{item.goodsName}}</text>
 						    <text class="price">￥{{item.goodsPrice}}</text>
-						    <image class="wang-collect-delete" style="width:66upx;height:66upx;" src="../../static/img/user/collect-delete.png" @tap="deleteCommand(item.goodsId)" mode=""></image>
+						    <image class="wang-collect-delete" style="width:66upx;height:66upx;" src="http://www.zhongjubang.com/api/upload/static/img/user/collect-delete.png" @tap="deleteCommand(item.goodsId)" mode=""></image>
 						</view>
 					</view>
 				</view>
@@ -236,7 +236,7 @@
 						    <text class="wang-content-des">{{item.shop_name}}</text>
 						    <text class="wang-content-goods">{{item.goodsNum}}个商品</text>
 						    <text class="wang-content-tit">{{item.colNum}}人收藏</text>
-						    <image class="wang-collect-delete" style="width:66upx;height:66upx;" src="../../static/img/user/collect-delete.png" @tap="deleteCommand(item.shopId)" mode=""></image>
+						    <image class="wang-collect-delete" style="width:66upx;height:66upx;" src="http://www.zhongjubang.com/api/upload/static/img/user/collect-delete.png" @tap="deleteCommand(item.shopId)" mode=""></image>
 						</view>
 					</view>
 				</view>
@@ -265,7 +265,7 @@
 				<view class="uni-comments-title">
 					<view>全部评论({{gCollectionDiscussNum}})</view>
 					<view @click.stop="cancelPopup('comments')">
-						<image src="../../static/img/releaseVideo2/close.png" mode=""></image>
+						<image src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/close.png" mode=""></image>
 					</view>
 				</view>
 				<view class="uni-comments-content">
@@ -278,7 +278,7 @@
 							</view>
 							<view class="fabulous"  @click.stop="commentsFabulous(index, row.id, row.state)">
 								{{row.likenum}}
-								<image :src="(activeIndex == index && isCommentsFabulous) ||  row.state != 0 ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
+								<image :src="(activeIndex == index && isCommentsFabulous) ||  row.state != 0 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
 							</view>
 						</view>
 						<view class="comments-content">
@@ -393,11 +393,7 @@
 			},
 		},
 		onLoad(options){
-            if(options.userid!=''){
-				
-			}else{
-
-			}
+            
 		},
         onShow(){
 			let token
@@ -405,8 +401,8 @@
 			uni.getStorage({
 				key:"token",
 				success: function (res) {
-				token = res.data;
-				self.Tokens = res.data;
+					token = res.data;
+					self.Tokens = res.data;
 				}
 			})
 			const url = this.url
@@ -420,6 +416,11 @@
 					'token': token
 				},
 				success: function (res){
+					if(res.data.code == 421) {
+						uni.navigateTo({
+							url: '/pages/loginPhone/loginPhone'
+						})
+					}
 					// console.log(res.data.code)
 					if(res.data.code==200){
 						// console.log(res.data.data.attentionnum)

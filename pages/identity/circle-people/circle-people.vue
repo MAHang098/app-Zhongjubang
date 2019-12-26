@@ -1,7 +1,7 @@
 <template>
 	<view class="rednet">
-		<image src="../../../static/img/identity/circle.png" mode="widthFix" class="rednet-img"></image>
-		<image src="../../../static/img/identity/authentication.png" mode="widthFix" class="authentication" @click.stop="circlePeople"></image>
+		<image src="http://www.zhongjubang.com/api/upload/static/img/identity/circle.png" mode="widthFix" class="rednet-img"></image>
+		<image src="http://www.zhongjubang.com/api/upload/static/img/identity/authentication.png" mode="widthFix" class="authentication" @click.stop="circlePeople"></image>
 	</view>
 </template>
 

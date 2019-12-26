@@ -4,7 +4,7 @@
 		<!-- 搜索栏 start -->
 		<!-- <view class="header">
 			<view class="search-input">
-				<image src="../../../static/search/nav-search.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/search/nav-search.png" mode=""></image>
 				<input type="text" value=""  placeholder="搜索您需要的商品"/>
 			</view>
 			<view class="cancel">取消</view>
@@ -26,12 +26,12 @@
 							<image :src="item.head" mode=""></image>
 						</view>
 						<view class="details">
-							<view class="name">{{item.nickName}} <image src="../../../static/fans-logo.png" mode=""></image></view>
+							<view class="name">{{item.nickName}} <image src="http://www.zhongjubang.com/api/upload/static/fans-logo.png" mode=""></image></view>
 							<text class="follow">粉丝{{item.fanCount}}</text>
 						</view>
 					</view>
 					<view class="right">
-						<image :src="item.state == 0 ? '../../../static/follow-checked.png' :'../../../static/mutual-follow.png'" mode=""  @click.stop="followFnas(item.outUserId, '0')"></image>
+						<image :src="item.state == 0 ? 'http://www.zhongjubang.com/api/upload/static/follow-checked.png' :'http://www.zhongjubang.com/api/upload/static/mutual-follow.png'" mode=""  @click.stop="followFnas(item.outUserId, '0')"></image>
 					</view>
 				</view>
 			</view>
@@ -44,12 +44,12 @@
 							<image :src="item.head" mode=""></image>
 						</view>
 						<view class="details">
-							<view class="name">{{item.nickName}} <image src="../../../static/fans-logo.png" mode=""></image></view>
+							<view class="name">{{item.nickName}} <image src="http://www.zhongjubang.com/api/upload/static/fans-logo.png" mode=""></image></view>
 							<text class="follow">粉丝{{item.fanCount}}</text>
 						</view>
 					</view>
 					<view class="right">
-						<image :src="item.state == 0 ? '../../../static/follow.png' : '../../../static/mutual-follow.png' " mode="" @click.stop="followFnas(item.inUserId, '1')"></image>
+						<image :src="item.state == 0 ? 'http://www.zhongjubang.com/api/upload/static/follow.png' : 'http://www.zhongjubang.com/api/upload/static/mutual-follow.png' " mode="" @click.stop="followFnas(item.inUserId, '1')"></image>
 					</view>
 				</view>
 			</view>

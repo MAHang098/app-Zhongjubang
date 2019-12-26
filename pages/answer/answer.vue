@@ -2,7 +2,7 @@
 	<view>
 		<view class="top">
 			<view class="release-video">
-				<image class="back" src="../../static/img/back.png" @tap="back" mode="" />
+				<image class="back" src="http://www.zhongjubang.com/api/upload/static/img/back.png" @tap="back" mode="" />
 				<text class="title">{{length}}条回复</text>
 			</view>
 			<view class="top-image">
@@ -13,7 +13,7 @@
 			<view class="top-content">{{shortVideoDiscuss}}</view>
 			<view class="top-check" @tap="checkContent">查看原内容></view>
 			
-			<image class="good" src="../../static/img/releaseVideo2/good.png" mode="" />
+			<image class="good" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/good.png" mode="" />
 		</view>
 
 		<view class="all-content">
@@ -25,11 +25,11 @@
 					<view class="content-details-nickname">{{row.ziName}}</view>
 					<view class="content-details-date">{{row.ziCreateTime}}</view>
 					<view  class="content-details-content">{{row.ziContext}}</view>
-					<!-- <image class="content-details-good" src="../../static/img/releaseVideo2/good.png" mode="" /> -->
+					<!-- <image class="content-details-good" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/good.png" mode="" /> -->
 				</view>
 				<view class="content-details-good" @click="commentsFabulous(index, row.shortVideoDiscussId)">
-					<image style="width: 31rpx;height: 31rpx;" :class="(activeIndex == index && isCommentsFabulous) ||  row.state == '1'? 'select' : '' " :src="(activeIndex == index && isCommentsFabulous) ||  row.state == '1' ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
-					<!-- <image src="../../static/img/releaseVideo2/good.png" mode="" /> -->
+					<image style="width: 31rpx;height: 31rpx;" :class="(activeIndex == index && isCommentsFabulous) ||  row.state == '1'? 'select' : '' " :src="(activeIndex == index && isCommentsFabulous) ||  row.state == '1' ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
+					<!-- <image src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/good.png" mode="" /> -->
 					<view class="like">{{row.ziLikeNum}}</view>
 				</view> 
 				<view class="level"></view>

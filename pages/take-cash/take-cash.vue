@@ -1,11 +1,11 @@
 <template>
     <view>
         <view class="account">
-            <image class="bg" src="../../static/img/wallet/bg.png" />
+            <image class="bg" src="http://www.zhongjubang.com/api/upload/static/img/wallet/bg.png" />
             <text class="text">可提现余额 </text>
             <text class="money">￥{{money}} </text>
             <view class="cash">0.00元结算中</view>
-            <!-- <image class="cash" @click="togglePopup('center', 'tip')" src="../../static/img/wallet/cash.png" /> -->
+            <!-- <image class="cash" @click="togglePopup('center', 'tip')" src="http://www.zhongjubang.com/api/upload/static/img/wallet/cash.png" /> -->
         </view>
         <view class="bottom">
             <view class="bottom-content">
@@ -15,13 +15,13 @@
             <view class="bottom-content">
                 <text class="account-details">提现至</text>
                 <view :class="sex==1?'active':''" data-index="1" @click="checkSex">
-                    <!-- <image class="gender-man" src="../../static/img/editInfo/gender-man.png" mode=""></image> -->
+                    <!-- <image class="gender-man" src="http://www.zhongjubang.com/api/upload/static/img/editInfo/gender-man.png" mode=""></image> -->
                     <view class="gender-man"></view>
                     
                 </view>
                 <text class="gender-textMan">支付宝</text>
                 <view :class="sex==2?'active':''" data-index="2" @click="checkSex">
-                    <!-- <image class="gender-women" src="../../static/img/editInfo/gender-women.png" mode=""></image> -->
+                    <!-- <image class="gender-women" src="http://www.zhongjubang.com/api/upload/static/img/editInfo/gender-women.png" mode=""></image> -->
                     <view class="gender-women"></view>
                     
                 </view>
@@ -295,10 +295,10 @@ export default {
 		border-radius: 50%;
 		overflow: hidden;
         border: 1px solid #949494;
-		/* background: url("../../static/img/editInfo/gender-man.png") no-repeat center/cover; */
+		/* background: url("http://www.zhongjubang.com/api/upload/static/img/editInfo/gender-man.png") no-repeat center/cover; */
     }
     .active .gender-man{
-        background: url("../../static/img/ID-card/cash.png") no-repeat center/cover;
+        background: url("http://www.zhongjubang.com/api/upload/static/img/ID-card/cash.png") no-repeat center/cover;
     }
      .gender-textMan{
         position: absolute;
@@ -318,10 +318,10 @@ export default {
 		border-radius: 50%;
 		overflow: hidden;
         border: 1px solid #949494;
-		/* background: url("../../static/img/editInfo/gender-women.png") no-repeat center/cover; */
+		/* background: url("http://www.zhongjubang.com/api/upload/static/img/editInfo/gender-women.png") no-repeat center/cover; */
     }
     .active .gender-women{
-        background: url("../../static/img/ID-card/cash.png") no-repeat center/cover;
+        background: url("http://www.zhongjubang.com/api/upload/static/img/ID-card/cash.png") no-repeat center/cover;
     }
     .gender-textWomen{
         position: absolute;

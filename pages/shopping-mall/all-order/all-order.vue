@@ -2,11 +2,11 @@
 	<view id="allOrder">
 		<!-- 搜索栏 start -->
 		<view class="header">
-			<image @tap="back" src="../../../static/img/G-circle/search-back.png" mode="" class="back"></image>
+			<image @tap="back" src="http://www.zhongjubang.com/api/upload/static/img/G-circle/search-back.png" mode="" class="back"></image>
 			<view class="my-order">我的订单</view>
 			<view>
-				<image src="../../../static/search/nav-search.png" mode="" class="search"></image>
-				<image src="../../../static/img/shopping-mall/order/cart.png" mode="" class="cart"></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/search/nav-search.png" mode="" class="search"></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/cart.png" mode="" class="cart"></image>
 			</view>
 		</view>
 		<!-- 搜索栏 end -->
@@ -14,27 +14,27 @@
 		<!-- 订单类型 start -->
 		<view class="order-type">
 			<view class="all-order" @click.stop="changeOrder(0)">
-				<image :src=" currentType == 0 ? '../../../static/img/shopping-mall/order/order-select.png' : '../../../static/img/shopping-mall/order/order.png'" mode=""></image>
+				<image :src=" currentType == 0 ? 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/order-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/order.png'" mode=""></image>
 				<!-- <view class="all-num">1</view> -->
 				<text>全部订单</text>
 			</view>
 			<view class="all-order" @click.stop="changeOrder(1)">
-				<image :src="currentType == 1 ? '../../../static/img/shopping-mall/order/payment-select.png' : '../../../static/img/shopping-mall/order/payment.png' " mode=""></image>
+				<image :src="currentType == 1 ? 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/payment-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/payment.png' " mode=""></image>
 				<view class="all-num all-numIn">19</view>
 				<text>待付款</text>
 			</view>
 			<view class="all-order" @click.stop="changeOrder(2)">
-				<image :src="currentType == 2 ? '../../../static/img/shopping-mall/order/harvest-select.png' : '../../../static/img/shopping-mall/order/harvest.png'" mode=""></image>
+				<image :src="currentType == 2 ? 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/harvest-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/harvest.png'" mode=""></image>
 				<view class="all-num">1</view>
 				<text>待收货</text>
 			</view>
 			<view class="all-order" @click.stop="changeOrder(3)">
-				<image :src="currentType == 3 ? '../../../static/img/shopping-mall/order/evaluate-select.png' : '../../../static/img/shopping-mall/order/evaluate.png' " mode=""></image>
+				<image :src="currentType == 3 ? 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/evaluate-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/evaluate.png' " mode=""></image>
 				<view class="all-num">1</view>
 				<text>待评价</text>
 			</view>
 			<view class="all-order" @click.stop="changeOrder(4)">
-				<image :src="currentType == 4 ? '../../../static/img/shopping-mall/order/after-sale_select.png' : '../../../static/img/shopping-mall/order/after-sale.png'" mode=""></image>
+				<image :src="currentType == 4 ? 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/after-sale_select.png' : 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/after-sale.png'" mode=""></image>
 				<!-- <view class="all-num">1</view> -->
 				<text>售后</text>
 			</view>
@@ -45,9 +45,9 @@
 		<view class="order-detail">
 			<view class="shop">
 				<view class="shop-detail">
-					<image src="../../../static/img/shopping-mall/oder/shop.png" mode="" class="shop-image"></image>
+					<image src="http://www.zhongjubang.com/api/upload/static/img/shopping-mall/oder/shop.png" mode="" class="shop-image"></image>
 					<text>索菲亚衣柜</text>
-					<image src="../../../static/topic/arrow.png" mode="" class="arrow-right"></image>
+					<image src="http://www.zhongjubang.com/api/upload/static/topic/arrow.png" mode="" class="arrow-right"></image>
 				</view>
 				<view class="order-massage">等待买家付款</view>
 			</view>
@@ -55,7 +55,7 @@
 			<view class="product-list">
 				<view class="product-detail">
 					<view class="product-image">
-						<image src="../../../static/img/G-circle/p1.png" mode=""></image>
+						<image src="http://www.zhongjubang.com/api/upload/static/img/G-circle/p1.png" mode=""></image>
 					</view>
 					<view class="product-massage">
 						<view class="title">索菲亚衣柜索菲亚衣柜索菲亚衣柜索菲亚衣柜索 衣柜索菲亚衣柜</view>
@@ -65,7 +65,7 @@
 				</view>
 				<view class="product-detail">
 					<view class="product-image">
-						<image src="../../../static/img/G-circle/p1.png" mode=""></image>
+						<image src="http://www.zhongjubang.com/api/upload/static/img/G-circle/p1.png" mode=""></image>
 					</view>
 					<view class="product-massage">
 						<view class="title">索菲亚衣柜索菲亚衣柜索菲亚衣柜索菲亚衣柜索 衣柜索菲亚衣柜</view>
@@ -76,7 +76,7 @@
 				
 				<view class="product-detail">
 					<view class="product-image">
-						<image src="../../../static/img/G-circle/p1.png" mode=""></image>
+						<image src="http://www.zhongjubang.com/api/upload/static/img/G-circle/p1.png" mode=""></image>
 					</view>
 					<view class="product-massage">
 						<view class="title">索菲亚衣柜索菲亚衣柜索菲亚衣柜索菲亚衣柜索 衣柜索菲亚衣柜</view>

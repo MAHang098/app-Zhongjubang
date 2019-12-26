@@ -7,13 +7,13 @@
 						<image :src="item.head" mode=""></image>
 					</view>
 					<view class="details">
-						<view class="name">{{item.nickName}} <image src="../../../static/fans-logo.png" mode=""></image></view>
+						<view class="name">{{item.nickName}} <image src="http://www.zhongjubang.com/api/upload/static/fans-logo.png" mode=""></image></view>
 						<view class="time">{{item.createTime}}</view>
 						<view class="follow">关注了你</view>
 					</view>
 				</view>
 				<view class="right">
-					<image :src="item.state == 0 ? '../../../static/follow.png' : '../../../static/mutual-follow.png' " mode="" @click.stop="followFnas(item.inUserId)"></image>
+					<image :src="item.state == 0 ? 'http://www.zhongjubang.com/api/upload/static/follow.png' : 'http://www.zhongjubang.com/api/upload/static/mutual-follow.png' " mode="" @click.stop="followFnas(item.inUserId)"></image>
 				</view>
 			</view>
 		</view>

@@ -1,9 +1,9 @@
 <template>
     <view>
         <view class="banner">
-			<image @tap="back" class="back" style="width:25upx;height:37upx;" src="../../static/img/wanghong/back.png" mode=""></image>
+			<image @tap="back" class="back" style="width:25upx;height:37upx;" src="http://www.zhongjubang.com/api/upload/static/img/wanghong/back.png" mode=""></image>
             <text class="title">精品推荐</text>
-			<image class="banner-image" style="width:750upx;height:292upx;" src="../../static/img/wanghong/banner.png" mode=""></image>
+			<image class="banner-image" style="width:750upx;height:292upx;" src="http://www.zhongjubang.com/api/upload/static/img/wanghong/banner.png" mode=""></image>
         </view>
 		<view class="wang-content-wrap">
 			<view class="wang-content" v-for="(item, index) in goodsList" :key="index" @tap="goDetails(item.id)">

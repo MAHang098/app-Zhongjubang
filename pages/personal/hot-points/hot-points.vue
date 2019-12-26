@@ -2,15 +2,15 @@
 	<view>
 		<!-- 热度分 start -->
 		<view class="all-point">
-			<image src="../../../static/img/user/hot-point/hot-bg.png" mode=""></image>
+			<image src="http://www.zhongjubang.com/api/upload/static/img/user/hot-point/hot-bg.png" mode=""></image>
 			<view class="point"><text>{{allPoints}}</text><text>我的热度分</text></view>
 			<view class="hot">
 				<view>
-					<image src="../../../static/img/user/hot-point/detail.png" mode=""></image>
+					<image src="http://www.zhongjubang.com/api/upload/static/img/user/hot-point/detail.png" mode=""></image>
 					<view>热度分明细</view>
 				</view>
 				<view>
-					<image src="../../../static/img/user/hot-point/rules.png" mode=""></image>
+					<image src="http://www.zhongjubang.com/api/upload/static/img/user/hot-point/rules.png" mode=""></image>
 					<view>热度分规则</view>
 				</view>
 			</view>
@@ -20,11 +20,11 @@
 		<!-- 热度分商城/活动 start -->
 		<view class="activity">
 			<view class="mall">
-				<image src="../../../static/img/user/hot-point/mall.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/img/user/hot-point/mall.png" mode=""></image>
 				<text>立即兑换</text>
 			</view>
 			<view class="mall">
-				<image src="../../../static/img/user/hot-point/activity.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/img/user/hot-point/activity.png" mode=""></image>
 				<text>立即兑换</text>
 			</view>
 		</view>

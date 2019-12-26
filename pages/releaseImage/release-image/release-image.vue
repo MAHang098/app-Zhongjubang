@@ -1,7 +1,7 @@
 <template>
 	<view class="release">
 		<view class="header">
-			<image src="../../../static/topic/topic-back.png" mode="" @click="cancel"></image>
+			<image src="http://www.zhongjubang.com/api/upload/static/topic/topic-back.png" mode="" @click="cancel"></image>
 			<view class="release-image">发布图片</view>
 			<view class="next" :class="isshowScusse ? 'successRelease' : ''" @click.stop="release">发布</view>
 		</view>
@@ -11,12 +11,12 @@
 		</view>
 		<view class="topic" @click="addTopic">
 			<view class="left">
-				<image src="../../../static/topic/topic.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/topic/topic.png" mode=""></image>
 				<view>{{participationTopic}}</view>
 			</view>
 			<view class="right" v-show="ishow">
 				<view>选择合适的话题会获得更多关注哦~</view>
-				<image src="../../../static/topic/arrow.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/topic/arrow.png" mode=""></image>
 			</view>
 		</view>
 		
@@ -24,14 +24,14 @@
 		<view class="upload-list">
 			<view class="img" v-for="(item, index) in allImage" :key="index">
 				<image :src="item.fileUrl" mode="scaleToFill" @click.stop="previewImage(index)"></image>
-				<image src="../../../static/topic/deletes.png" mode="" class="delete" @click.stop="deleteImage(item.fileName, index)"></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/topic/deletes.png" mode="" class="delete" @click.stop="deleteImage(item.fileName, index)"></image>
 			</view>
-			<image src="../../../static/topic/add-upload.png" mode=""  @click.stop="chooseImage" v-show="isUpload"></image>
+			<image src="http://www.zhongjubang.com/api/upload/static/topic/add-upload.png" mode=""  @click.stop="chooseImage" v-show="isUpload"></image>
 		</view>
 		
 		<!-- 底部 start -->
 		<view class="bottom">
-			<image src="../../../static/topic/img.png" mode="" @click.stop="chooseImage"></image>
+			<image src="http://www.zhongjubang.com/api/upload/static/topic/img.png" mode="" @click.stop="chooseImage"></image>
 			<view @click="togglePopup('center', 'tip')">存草稿</view>
 		</view>
 		

@@ -1,13 +1,13 @@
 <template>
     <view>
         <view class="wrap">
-        	<image class="paySuccess" style="width: 214upx;height: 202upx;" src="../../static/img/paySuccess/paySuccess.png" mode=""></image>
+        	<image class="paySuccess" style="width: 214upx;height: 202upx;" src="http://www.zhongjubang.com/api/upload/static/img/paySuccess/paySuccess.png" mode=""></image>
 			<text class="pay-notice">订单支付成功</text>
         </view>
 		<view class="like">
 			<view class="horizen"></view>
 			<view class="horizen"></view>
-			<image class="like-image" style="width: 32upx;height: 32upx;" src="../../static/img/paySuccess/like.png" mode=""></image>
+			<image class="like-image" style="width: 32upx;height: 32upx;" src="http://www.zhongjubang.com/api/upload/static/img/paySuccess/like.png" mode=""></image>
 			<view class="like-text">猜你喜欢</view>
 		</view>
 		<view class="category-content" v-for="(item, index) in goodsList" :key="index" @tap="goDetails(item.shop_id)">
@@ -15,7 +15,7 @@
 				<image class="category-content-image" style="width:345upx;height:345upx;" :src="item.top_img_list[0]" />
 				<view class="category-content-des">{{item.goods_name}}</view>
 				<text class="category-content-price">￥{{item.goods_price}}</text>
-				<image class="category-content-car" style="width:38upx;height:35upx;" src="../../static/img/category/car.png" />
+				<image class="category-content-car" style="width:38upx;height:35upx;" src="http://www.zhongjubang.com/api/upload/static/img/category/car.png" />
 			</view>
 			
 		</view>

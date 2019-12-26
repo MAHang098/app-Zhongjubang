@@ -1,32 +1,42 @@
 <template>
 	<view class="write-circle">
-		<image src="../../../static/img/identity/rednet-bg.png" mode="" class="write-circle_bg"></image>
+		<image src="http://www.zhongjubang.com/api/upload/static/img/identity/rednet-bg.png" mode="" class="write-circle_bg"></image>
 		<view class="circle-massage">
 			<view class="circle-massage_explain">以下信息仅用户众居邦房主审核认证，请确保信息真是有效，请 正确填写，众居邦将竭力保护您的隐私，请您放心！</view>
 			
 			<!-- 资料填写 start -->
 			<view class="circle-massage_input">
-				<label for="">推荐人</label>
-				<input type="text" value="" placeholder="选填,推荐人姓名或ID"/>
+				<label for="">姓名</label>
+				<input type="text" value="" placeholder="必填" @input = "nameInput"/>
 			</view>
 			<view class="circle-massage_input">
-				<label for="">户主姓名</label>
-				<input type="text" value="" placeholder="必填"/>
+				<label for="">手机号</label>
+				<input type="text" value="" placeholder="必填" @input = "phoneInput"/>
 			</view>
 			<view class="circle-massage_input">
 				<label for="">邮箱</label>
-				<input type="text" value="" placeholder="必填"/>
+				<input type="text" value="" placeholder="选填" @input = "emailInput"/>
 			</view>
-			<view class="circle-massage_input">
-				<label for="">居圈用户名</label>
-				<input type="text" value="" placeholder="必填"/>
-			</view>
-			<!-- 资料填写 start -->
-			
-			<!-- 材料认证 start -->
+			<!-- 资料填写 end -->
+			<!-- 屋内照片 start -->
 			<view class="material">
-				<image src="../../../static/img/identity/v.png" mode=""></image>认证材料
+				<image src="http://www.zhongjubang.com/api/upload/static/img/identity/v.png" mode=""></image>认证材料
 			</view>
+			<view class="url-address">
+				优秀作品链接地址：
+				<input type="text" value="" placeholder="必填" @input = "urlInput"/>
+			</view>
+			<view class="authentication"  @tap="chooseVideo">
+				<image v-if="!showVideo" src="http://www.zhongjubang.com/api/upload/static/img/identity/add.png" mode="" class="add-img"></image>
+				<view class="" v-if="showVideo">
+					<view class="" v-for="(item, index) in vidList" :key="index">
+						<video class="video-image" :src="item.videoUrl" mode=""></video>
+					</view>
+					<image src="http://www.zhongjubang.com/api/upload/static/img/identity/add.png" mode="" class="video-image"></image>
+				</view>
+			</view>
+			<!-- 材料认证 start -->
+			
 			
 			<!-- 材料类型 start -->
 			<view class="material-type">
@@ -36,12 +46,15 @@
 			
 			<!-- 身份证照片 start -->
 			<view class="idCard">
-				<image src="../../../static/img/identity/facade.png" mode=""></image>
-				<image src="../../../static/img/identity/reverse.png" mode=""></image>
+				<image @tap="chooseImageOffice" v-if="!identifyOffice" src="http://www.zhongjubang.com/api/upload/static/img/identity/facade.png" mode=""></image>
+				<image @tap="chooseImageOffice" v-if="identifyOffice" :src="identifyOffice" mode=""></image>
+				<image @tap="chooseImageBack" v-if="!identifyBack" src="http://www.zhongjubang.com/api/upload/static/img/identity/reverse.png" mode=""></image>
+				<image @tap="chooseImageBack" v-if="identifyBack" :src="identifyBack" mode=""></image>
+				
 			</view>
 			
 			<!-- 提交 start -->
-			<view class="btn">提交</view>
+			<view @tap="submit" class="btn">提交</view>
 			
 			<!-- 勾选协议 start -->
 			<view class="agreement">
@@ -58,17 +71,213 @@
 	export default {
 		data() {
 			return {
-				checked: false
+				checked: false,
+				identifyOffice: '',
+				identifyBack: '',
+				showVideo: false,
+				phone: '',
+				name: '',
+				email: '',
+				quan: '',
+				worksUrl: '',
+				vidList: []
 			}
 		},
 		methods: {
+			
+			nameInput(e) {
+				this.name = e.detail.value
+			},
+			phoneInput(e) {
+				this.phone = e.detail.value
+			},
+			emailInput(e) {
+				this.email = e.detail.value
+			},
+			urlInput(e) {
+				this.worksUrl = e.detail.value
+			},
+			
 			change() {
 				this.checked = !this.checked;
+			},
+			chooseImageOffice() {
+				let that = this;
+				uni.chooseImage({
+					count: 9, //默认9
+					// sizeType:'compressed', //可以指定是原图还是压缩图，默认二者都有
+					sourceType: ['album'], //从相册选择
+					success: function (res) {
+						const tempFilePaths = res.tempFilePaths[0];
+						console.log(res.tempFilePaths[0])
+						uni.uploadFile({
+							url: that.url + '/upload', //仅为示例，非真实的接口地址
+							filePath: res.tempFilePaths[0],
+							name: 'file',
+							formData: {
+								'user': 'test'
+							},
+							success: (uploadFileRes) => {
+								let data = JSON.parse(uploadFileRes.data);
+								console.log(data.data.fileUrl)
+								that.identifyOffice = data.data.fileUrl
+							}
+						})
+					}
+				})
+			},
+			chooseImageBack() {
+				let that = this;
+				uni.chooseImage({
+					count: 9, //默认9
+					// sizeType:'compressed', //可以指定是原图还是压缩图，默认二者都有
+					sourceType: ['album'], //从相册选择
+					success: function (res) {
+						const tempFilePaths = res.tempFilePaths[0];
+						console.log(res.tempFilePaths[0])
+						uni.uploadFile({
+							url: that.url + '/upload', //仅为示例，非真实的接口地址
+							filePath: res.tempFilePaths[0],
+							name: 'file',
+							formData: {
+								'user': 'test'
+							},
+							success: (uploadFileRes) => {
+								let data = JSON.parse(uploadFileRes.data);
+								console.log(data.data.fileUrl)
+								that.identifyBack = data.data.fileUrl
+							}
+						})
+					}
+				})
+			},
+			// 选择视频
+			chooseVideo(){
+				const url = this.url
+				let self = this
+				uni.chooseVideo({
+					count: 1,
+					sourceType: ['camera', 'album'],
+					success: function (res) {
+						console.log(res)
+						const src = res.tempFilePath;
+						console.log(src)
+						self.src = src
+						uni.uploadFile({
+							url: url + "/upload", //仅为示例，非真实的接口地址
+							filePath: src,
+							name: 'file',
+							formData: {
+								'user': 'test'
+							},
+							success: (uploadFileRes) => {
+								console.log(uploadFileRes.data);
+								uploadFileRes.data = JSON.parse(uploadFileRes.data)
+								if(uploadFileRes.data.code==200){
+									uploadFileRes.data.data.fileName
+									uploadFileRes.data.data.fileUrl
+									let obj = {
+										videoUrl: uploadFileRes.data.data.fileUrl
+									}
+									self.vidList.push(obj)
+									self.showVideo = true
+									console.log(self.vidList)
+								}else{
+									console.log("请求异常")
+								}
+							}
+						})
+						
+					}
+				})
+
+				
+			},
+			submit(){
+				// if(this.name==''){
+				// 	uni.showToast({
+				// 		title: '户主姓名为必填',
+				// 		icon: 'success',
+				// 		duration: 2000,
+				// 	})
+				// }
+				// if(this.phone==''){
+				// 	uni.showToast({
+				// 		title: '居圈用户名为必填',
+				// 		icon: 'success',
+				// 		duration: 2000,
+				// 	})
+				// }
+				console.log('good')
+				let token;
+				let url = this.url
+				let self = this
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+						token = res.data;
+					}
+				})
+				
+				uni.request({
+					url: url + "controller/usercontroller/addappuserinternetcelebrity",
+					data: {
+						internetCelebrityName: self.name,
+						phone: self.phone,
+						email: self.email,
+						worksUrl: self.worksUrl,
+						videoUrl: JSON.stringify(self.vidList),
+						idCardJust: self.identifyOffice,
+						idCardBack: self.identifyBack
+					},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': token
+					},
+					success: function (res){
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+						console.log(res)
+						uni.showToast({
+							title: '提交成功',
+							icon: 'success',
+							duration: 2000,
+						})
+					}
+				})
 			}
 		}
+		
 	}
 </script>
 
 <style>
 	@import '../../../static/css/identity.css'; /*引入G圈列表样式*/
+	.authentication{
+		border-bottom: 1px solid #E2E2E2;
+	}
+	.url-address{
+		font-size:28upx;
+		font-family:PingFang SC;
+		color:rgba(51,51,51,1);
+		line-height:41px;
+		border-bottom: 1px solid #CCCCCC;
+		margin-left: 66upx;
+		margin-bottom: 84upx;
+	}
+	.url-address input{
+		padding-bottom: 16upx;
+	}
+	.authentication{
+		padding-bottom: 77upx;
+	}
+	.video-image{
+		width: 150upx;
+		height: 150upx;
+	}
 </style>

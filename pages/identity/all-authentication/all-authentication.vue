@@ -1,6 +1,6 @@
 <template>
 	<view class="rednet">
-		<image src="../../../static/img/identity/all-authentication.png" mode="widthFix" class="rednet-img"></image>
+		<image src="http://www.zhongjubang.com/api/upload/static/img/identity/all-authentication.png" mode="widthFix" class="rednet-img"></image>
 		<view class="owner" @click.stop="owner"></view>
 		<view class="designer"  @click.stop="designer"></view>
 		<view class="rednetA"  @click.stop="rednetA"></view>

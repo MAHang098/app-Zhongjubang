@@ -1,7 +1,7 @@
 <template>
 	<view >
 		<view class="header">
-			<image src="../../../static/topic/white-back.png" mode="" @click="cancel"></image>
+			<image src="http://www.zhongjubang.com/api/upload/static/topic/white-back.png" mode="" @click="cancel"></image>
 			<view>{{indexImg}}/{{allImg}}</view>
 			<view class="next" @click="nextRelease">确定</view>
 		</view>
@@ -12,9 +12,9 @@
 					<image :src="item.fileUrl" mode="widthFix" class="chose-img" ></image>
 					<text></text>
 				</view>
-				<image src="../../../static/topic/add-tag.png" mode="" class="add-tag" v-show="isShowAddTag"  @click="goSearch(index, item.fileName)"></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/topic/add-tag.png" mode="" class="add-tag" v-show="isShowAddTag"  @click="goSearch(index, item.fileName)"></image>
 				<view class="tag-logo" @click="goSearch(index, item.fileName)">
-					<image src="../../../static/topic/tag.png" mode="" ></image>
+					<image src="http://www.zhongjubang.com/api/upload/static/topic/tag.png" mode="" ></image>
 					<text>标签</text>
 				</view>
 				<!-- 拖动视图 start -->
@@ -24,9 +24,9 @@
 					@change="onChange($event, tagIndex, index, tag.fileName)"
 					 class="tagText" v-for="(tag, tagIndex) in tagItems" :key="tagIndex" 
 					  @click.stop="togglePopup('center', 'tip', tagIndex, tag.tagName, index)">
-						<image src="../../../static/upload/indicator.png" mode="" @click.stop="changeMove(tagIndex)" ></image>
+						<image src="http://www.zhongjubang.com/api/upload/static/upload/indicator.png" mode="" @click.stop="changeMove(tagIndex)" ></image>
 						<view class="tag-detail " :class="setIndex == tagIndex && rotate ? 'moveleft' : ' moveright' ">
-							<image src="../../../static/tag/cart.png" mode="" v-if="tag.type == 'product'"></image>
+							<image src="http://www.zhongjubang.com/api/upload/static/tag/cart.png" mode="" v-if="tag.type == 'product'"></image>
 							{{tag.tagName | ellipsis}}
 						</view>
 					</movable-view>

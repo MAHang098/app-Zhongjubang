@@ -1,35 +1,35 @@
 <template>
 	<view class="">
 		<view class="wrap-top">
-			<image class="banner" style="width: 750upx;height: 521upx;" src="../../static/img/designation/banner.png" />
+			<image class="banner" style="width: 750upx;height: 521upx;" src="http://www.zhongjubang.com/api/upload/static/img/designation/banner.png" />
 			<view class="back">
-				<image src="../../static/img/designation/back.png" />
+				<image src="http://www.zhongjubang.com/api/upload/static/img/designation/back.png" />
 			</view>
 			<view class="title">我的称号</view>
-			<image class="aboutDesigne" style="width: 189upx;height: 79upx;" src="../../static/img/designation/aboutDesigne.png" />
+			<image @click.stop="togglePopup('bottom','comments')" class="aboutDesigne" style="width: 189upx;height: 79upx;" src="http://www.zhongjubang.com/api/upload/static/img/designation/aboutDesigne.png" />
 			<image class="head" style="width: 132upx;height: 126upx;border-radius: 50%;" :src="head" />
 			<view class="nick-name">{{nickName}}</view>
 		</view>
 		<view class="wrap-content">
 			<view class="wrap-content-top">
 				<view class="wrap-content-top-left">已获得称号</view>
-				<view class="wrap-content-top-right">
+				<view class="wrap-content-top-right" @tap="goAllauthentication">
 					<view class="wrap-content-top-get">去获取</view>
-					<image class="more" style="width: 19upx;height: 30upx;" src="../../static/img/designation/more.png" />
+					<image class="more" style="width: 19upx;height: 30upx;" src="http://www.zhongjubang.com/api/upload/static/img/designation/more.png" />
 				</view>
 			</view>
 			<!-- 缺省页 -->
 			<view v-if="!show" class="default">
-				<image class="huangguan" style="width: 245upx;height: 298upx;" src="../../static/img/designation/huangguan.png" />
+				<image class="huangguan" style="width: 245upx;height: 298upx;" src="http://www.zhongjubang.com/api/upload/static/img/designation/huangguan.png" />
 				<view class="huangguan-text">
 					<text class="huangguan-nodesigne">您还未获得徽章，</text> 
-					<text class="huangguan-get">点击去获得!</text>
+					<text class="huangguan-get" @tap="goAllauthentication">点击去获得!</text>
 				</view>
 			</view>
 			<!-- 内容 -->
 			<view v-if="show" class="wrap-content-all">
-				<view class="wrap-content-mid">
-					<image class="" style="width: 148upx;height: 148upx;" src="../../static/img/designation/icon.png" />
+				<view class="wrap-content-mid" >
+					<image class="" style="width: 148upx;height: 148upx;" src="http://www.zhongjubang.com/api/upload/static/img/designation/icon.png" />
 					<view class="title-designe">金牌业主</view>
 					<view class="">
 						<label>
@@ -37,36 +37,60 @@
 						</label>
 					</view>
 				</view>
-				<view class="wrap-content-mid">
-					<image class="" style="width: 148upx;height: 148upx;" src="../../static/img/designation/icon.png" />
-					<view class="title-designe">金牌业主</view>
-					<view class="">
-						<label>
-							<radio value="r1" color="#FFCC33" style="transform:scale(0.7)" @click.stop=""/>
-						</label>
-					</view>
-				</view>
-				<view class="wrap-content-mid">
-					<image class="" style="width: 148upx;height: 148upx;" src="../../static/img/designation/icon.png" />
-					<view class="title-designe">金牌业主</view>
-					<view class="">
-						<label>
-							<radio value="r1" color="#FFCC33" style="transform:scale(0.7)" @click.stop=""/>
-						</label>
-					</view>
-				</view>
+				
+				
 			</view>
 		</view>
+		<!-- 评论弹窗 start -->
+		<uni-popup ref="comments" :type="popupType" :custom="true" class="">
+			<view class="uni-about">
+				<view class="uni-about2">
+					<scroll-view class="swiper" scroll-y="true">
+						<view class="uni-about-title">
+							称号获取规则
+						</view>
+						<view class="uni-about-how">
+							如何获取称号？
+						</view>
+						<view class="uni-about-des">系统会根据用户的活跃状态赠送相关称号或自行在申请身份
+							页面申请称号;                         
+						</view>
+						<view class="uni-about-how2">
+							称号有什么福利？
+						</view>
+						<view class="uni-about-des2">你可以选择喜欢的称号佩戴在昵称旁，彰显个性，部分称号
+		会获得高福利，您可以在相关称号福利页面查看;
+						</view>
+						<view class="uni-about-how3">
+							注意事项？
+						</view>
+						<view class="uni-about-des3">注意不要违背众居邦社区规则，如果数据造假抄袭等发布不良行为，可能获得的称号会被取消：
+						</view>
+					</scroll-view>
+					
+				</view>
+				<view class="close" @click.stop="cancelPopup('comments')">
+					<text class="close-text">关闭</text>
+				</view>
+			</view>
+		</uni-popup>
+		<!-- 评论 end -->
 	</view>
 </template>
 
 <script>
+	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 	export default {
+		components:{
+			uniPopup,
+		},
 		data() {
 			return {
 				show: false,
 				nickName: '',
 				head: '',
+				dataList: [],
+				popupType: '',
 			}
 		},
 		onShow(){
@@ -74,6 +98,38 @@
 			this.initInfo()
 		},
 		methods: {
+			// 取消弹出层
+			cancelPopup(type) {
+				this.$refs[type].close();
+			},
+			// 弹出层弹出的方式  i:当前标签的下标, name: 当前标签的name
+			togglePopup(type,open) {
+				
+				switch (type) {
+					case 'top':
+						this.content = '顶部弹出 popup'
+						break
+			
+					case 'bottom':
+						this.content = '底部弹出 popup'
+						break
+					case 'center':
+						this.content = '居中弹出 popup'
+						break
+				}
+				this.popupType = type
+				if (open === 'tip') {
+					this.popupShow = true
+				} else {
+					this.$refs[open].open()
+				}
+			},
+			// 取消弹出层
+			goAllauthentication(){
+				uni.navigateTo({
+					url: '/pages/identity/all-authentication/all-authentication'
+				})
+			},
 			initInfo(){
 				let token
 				let self = this
@@ -125,9 +181,9 @@
 						'token': token
 					},
 					success: function (res){
-						console.log(res)
+						console.log(res.data.data)
 						if(res.data.code==200){
-							
+							self.dataList = res.data.data
 						}else{
 							console.log("请求异常")
 						}
@@ -275,5 +331,106 @@
 		font-size:30upx;
 		font-family:PingFang SC;
 		color:#F9B72D;
+	}
+	/* 弹窗样式 */
+	.uni-about{
+		position: relative;
+		width:750upx;
+		height:717upx;
+		background:rgba(251,251,251,1);
+		border-radius:20upx 20upx 0px 0px;
+	}
+	.uni-about2{
+		position: relative;
+		width:750upx;
+		height:617upx;
+		background:rgba(251,251,251,1);
+		border-radius:20upx 20upx 0px 0px;
+	}
+	.swiper{
+		height:617upx;
+	}
+	.close{
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		height: 100upx;
+		border-top: 1px solid rgba(226,226,226,1);
+		width:750px;
+		background:#fff;
+		font-size:28upx;
+		font-family:PingFang SC;
+		color:rgba(249,183,45,1);
+		line-height:100upx;
+		text-align: center;
+	}
+	.close-text{
+		position: absolute;
+		left: 349upx;
+	}
+	.uni-about-title{
+		position: absolute;
+		left: 287upx;
+		top: 53upx;
+		font-size:30upx;
+		font-family:PingFang SC;
+		color:rgba(51,51,51,1);
+	}
+	.uni-about-how{
+		position: absolute;
+		left: 31upx;
+		top: 145upx;
+		font-size:28upx;
+		font-family:PingFang SC;
+		color:#333333;
+	}
+	.uni-about-how2{
+		position: absolute;
+		left: 31upx;
+		top: 339upx;
+		font-size:28upx;
+		font-family:PingFang SC;
+		color:#333333;
+	}
+	.uni-about-how3{
+		position: absolute;
+		left: 31upx;
+		top: 525upx;
+		font-size:28upx;
+		font-family:PingFang SC;
+		color:#333333;
+	}
+	.uni-about-des{
+		position: absolute;
+		left: 30upx;
+		top: 202upx;
+		width:675upx;
+		height:67upx;
+		font-size:26upx;
+		font-family:PingFang SC;
+		color:rgba(102,102,102,1);
+		line-height:41upx;
+	}
+	.uni-about-des2{
+		position: absolute;
+		left: 30upx;
+		top: 394upx;
+		width:675upx;
+		height:67upx;
+		font-size:26upx;
+		font-family:PingFang SC;
+		color:rgba(102,102,102,1);
+		line-height:41upx;
+	}
+	.uni-about-des3{
+		position: absolute;
+		left: 30upx;
+		top: 597upx;
+		width:675upx;
+		height:67upx;
+		font-size:26upx;
+		font-family:PingFang SC;
+		color:rgba(102,102,102,1);
+		line-height:41upx;
 	}
 </style>

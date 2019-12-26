@@ -7,7 +7,7 @@
 			</view>
 			<view class="right">
 				<view class="num">{{item.value}}</view>
-				<image src="../../../static/img/user/hot.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/img/user/hot.png" mode=""></image>
 			</view>
 		</view>
 	</view>

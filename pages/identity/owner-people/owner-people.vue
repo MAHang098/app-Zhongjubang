@@ -7,15 +7,15 @@
 			<!-- 资料填写 start -->
 			<view class="circle-massage_input">
 				<label for="">推荐人</label>
-				<input type="text" value="" placeholder="选填,推荐人姓名或ID"/>
+				<input type="text" value="" placeholder="选填,推荐人姓名或ID" @input = "recommedInput"/>
 			</view>
 			<view class="circle-massage_input">
 				<label for="">户主姓名</label>
-				<input type="text" value="" placeholder="必填"/>
+				<input type="text" value="" placeholder="必填" @input = "nameInput"/>
 			</view>
 			<view class="circle-massage_input">
 				<label for="">详细地址</label>
-				<input type="text" value="" placeholder="必填"/>
+				<input type="text" value="" placeholder="必填" @input = "addressInput"/>
 			</view>
 			<!-- 资料填写 start -->
 			
@@ -25,7 +25,8 @@
 					<image src="../../../static/img/identity/camera.png" mode=""></image>
 					<text>屋内照片</text>
 				</view>
-				<image src="../../../static/img/identity/add.png" mode="" class="add-img"></image>
+				<image  @tap="chooseImageHome" v-if="!homeImage" src="../../../static/img/identity/add.png" mode="" class="add-img"></image>
+				<image  @tap="chooseImageHome" v-if="homeImage" :src="homeImage" mode="" class="add-img"></image>
 			</view>
 			
 			<!-- 材料认证 start -->
@@ -41,8 +42,11 @@
 			
 			<!-- 身份证照片 start -->
 			<view class="idCard">
-				<image src="../../../static/img/identity/facade.png" mode=""></image>
-				<image src="../../../static/img/identity/reverse.png" mode=""></image>
+				<image @tap="chooseImageOffice" v-if="!identifyOffice" src="../../../static/img/identity/facade.png" mode=""></image>
+				<image @tap="chooseImageOffice" v-if="identifyOffice" :src="identifyOffice" mode=""></image>
+				<image @tap="chooseImageBack" v-if="!identifyBack" src="../../../static/img/identity/reverse.png" mode=""></image>
+				<image @tap="chooseImageBack" v-if="identifyBack" :src="identifyBack" mode=""></image>
+				
 			</view>
 			
 			<!-- 提交 start -->
@@ -63,12 +67,144 @@
 	export default {
 		data() {
 			return {
-				checked: false
+				checked: false,
+				identifyOffice: '',
+				identifyBack: '',
+				homeImage: '',
+				recommend: '',
+				name: '',
+				address: '',
 			}
 		},
 		methods: {
+			recommedInput(e) {
+				this.recommend = e.detail.value
+			},
+			nameInput(e) {
+				this.name = e.detail.value
+			},
+			addressInput(e) {
+				this.address = e.detail.value
+			},
 			change() {
 				this.checked = !this.checked;
+			},
+			chooseImageOffice() {
+				let that = this;
+				uni.chooseImage({
+				    count: 9, //默认9
+				    // sizeType:'compressed', //可以指定是原图还是压缩图，默认二者都有
+				    sourceType: ['album'], //从相册选择
+				    success: function (res) {
+			            const tempFilePaths = res.tempFilePaths[0];
+			            console.log(res.tempFilePaths[0])
+			            uni.uploadFile({
+			                url: that.url + '/upload', //仅为示例，非真实的接口地址
+			                filePath: res.tempFilePaths[0],
+			                name: 'file',
+			                formData: {
+			                    'user': 'test'
+			                },
+			                success: (uploadFileRes) => {
+			                    let data = JSON.parse(uploadFileRes.data);
+			                    console.log(data.data.fileUrl)
+			                    that.identifyOffice = data.data.fileUrl
+			                }
+			            })
+				    }
+				})
+			},
+			chooseImageBack() {
+				let that = this;
+				uni.chooseImage({
+				    count: 9, //默认9
+				    // sizeType:'compressed', //可以指定是原图还是压缩图，默认二者都有
+				    sourceType: ['album'], //从相册选择
+				    success: function (res) {
+			            const tempFilePaths = res.tempFilePaths[0];
+			            console.log(res.tempFilePaths[0])
+			            uni.uploadFile({
+			                url: that.url + '/upload', //仅为示例，非真实的接口地址
+			                filePath: res.tempFilePaths[0],
+			                name: 'file',
+			                formData: {
+			                    'user': 'test'
+			                },
+			                success: (uploadFileRes) => {
+			                    let data = JSON.parse(uploadFileRes.data);
+			                    console.log(data.data.fileUrl)
+			                    that.identifyBack = data.data.fileUrl
+			                }
+			            })
+				    }
+				})
+			},
+			chooseImageHome() {
+				let that = this;
+				uni.chooseImage({
+				    count: 9, //默认9
+				    // sizeType:'compressed', //可以指定是原图还是压缩图，默认二者都有
+				    sourceType: ['album'], //从相册选择
+				    success: function (res) {
+			            const tempFilePaths = res.tempFilePaths[0];
+			            console.log(res.tempFilePaths[0])
+			            uni.uploadFile({
+			                url: that.url + '/upload', //仅为示例，非真实的接口地址
+			                filePath: res.tempFilePaths[0],
+			                name: 'file',
+			                formData: {
+			                    'user': 'test'
+			                },
+			                success: (uploadFileRes) => {
+			                    let data = JSON.parse(uploadFileRes.data);
+			                    console.log(data.data.fileUrl)
+			                    that.homeImage = data.data.fileUrl
+			                }
+			            })
+				    }
+				})
+			},
+			submit(){
+				let token;
+				let url = this.url
+				let self = this
+				uni.getStorage({
+				    key:"token",
+				    success: function (res) {
+						token = res.data;
+					}
+				})
+				uni.request({
+					url: url + "controller/usercontroller/addappuserdesigndaren",
+					data: {
+						nickName: self.nickName,
+						head: self.head,
+						birthday: self.birthday,
+						sex: self.sex,
+						remarks: self.remarks,
+						cover: self.cover,
+						title: self.nickName
+					},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': token
+					},
+				    success: function (res){
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+				        console.log(res)
+				        uni.showToast({
+				            title: '保存成功',
+				            icon: 'success',
+				            duration: 2000,
+				        })
+				    }
+				})
 			}
 		}
 	}

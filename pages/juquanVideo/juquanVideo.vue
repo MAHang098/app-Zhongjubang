@@ -2,14 +2,14 @@
 	<view>
 		<!-- G圈内容 start -->
         <view class="G-cicle_content" v-if="!show">
-            <image style="width:38upx;height:56upx;" src="../../static/img/juquanVideo/back.png" mode="" class="back"  @tap="back"></image>
-		    <image style="width:30upx;height:28upx;" src="../../static/img/juquanVideo/search.png" mode="" class="input-search"></image>
+            <image style="width:38upx;height:56upx;" src="http://www.zhongjubang.com/api/upload/static/img/juquanVideo/back.png" mode="" class="back"  @tap="back"></image>
+		    <image style="width:30upx;height:28upx;" src="http://www.zhongjubang.com/api/upload/static/img/juquanVideo/search.png" mode="" class="input-search"></image>
             <text class="search-text" @tap="search">取消</text>
 			<input class="input" @confirm="recordName" placeholder="搜索视频内容" type="text" :value="inputValue">
 			<view class="search-wrap">
 			    <view class="video-detail" v-for="(item, index) in searchList" :key="index">
 			        <view class="video-content">
-			            <image class="video-content-start" style="width:52rpx;height:52rpx;" src="../../static/img/user/start.png" mode=""></image>
+			            <image class="video-content-start" style="width:52rpx;height:52rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/start.png" mode=""></image>
 			            <image class="video-content-avator" style="width:60rpx;height:60rpx;border-radius:50%;" :src="item.head" mode=""></image>
 			            <view class="video-content-nickname">{{item.nickName}}</view>
 			            <image class="video-content-image" style="width:350rpx;height:512rpx;border-radius:3px;" :src="item.videoUrl" @tap="sendVideo(item.shortVideoId)"></image>
@@ -19,8 +19,8 @@
         </view>
 		<view v-if="show" class="G-cicle_content">
 			<!-- 居圈分类 居圈/关注/短视频 start-->
-		    <image style="width:38upx;height:56upx;" src="../../static/img/juquanVideo/back.png" mode="" class="back"  @tap="back"></image>
-		    <image style="width:38upx;height:38upx;" src="../../static/img/juquanVideo/search.png" mode="" class="search"  @tap="search"></image>
+		    <image style="width:38upx;height:56upx;" src="http://www.zhongjubang.com/api/upload/static/img/juquanVideo/back.png" mode="" class="back"  @tap="back"></image>
+		    <image style="width:38upx;height:38upx;" src="http://www.zhongjubang.com/api/upload/static/img/juquanVideo/search.png" mode="" class="search"  @tap="search"></image>
 			<view class="G-list_content">
 				<view v-for="(item, index) in tabType" :class="index == current ? 'active' : '' " @click="changeProduct(index)" :key="index">
 					{{item}}
@@ -33,7 +33,7 @@
                 <view class="video-wrap" v-show="isShow">
                     <view class="video-detail" v-for="(item, index) in videoList" :key="index">
                         <view class="video-content">
-                            <image class="video-content-start" style="width:52rpx;height:52rpx;" src="../../static/img/user/start.png" mode=""></image>
+                            <image class="video-content-start" style="width:52rpx;height:52rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/start.png" mode=""></image>
                             <image class="video-content-avator" style="width:60rpx;height:60rpx;border-radius:50%;" :src="item.head" mode=""></image>
                             <view class="video-content-nickname">{{item.nickName}}</view>
                             <image @tap="sendVideo(item.shortVideoId)" class="video-content-image" style="width:350rpx;height:512rpx;border-radius:3px;" :src="item.videoUrl"></image>
@@ -42,10 +42,10 @@
                 </view>
 				<!-- 网红 -->
                 <view class="video-wrap" v-show="!isShow">
-                    <image class="video-wrap-image" style="width:750rpx;height:359rpx;" src="../../static/img/juquanVideo/miao.png" mode=""></image>
+                    <image class="video-wrap-image" style="width:750rpx;height:359rpx;" src="http://www.zhongjubang.com/api/upload/static/img/juquanVideo/miao.png" mode=""></image>
                     <view class="video-detail" v-for="(item, index) in InternetCelebrityList" :key="index">
                         <view class="video-content">
-                            <image class="video-content-start" style="width:52rpx;height:52rpx;" src="../../static/img/user/start.png" mode=""></image>
+                            <image class="video-content-start" style="width:52rpx;height:52rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/start.png" mode=""></image>
                             <image class="video-content-avator" style="width:60rpx;height:60rpx;border-radius:50%;" :src="item.head" mode=""></image>
                             <view class="video-content-nickname">{{item.nickName}}</view>
                             <image class="video-content-image" style="width:350rpx;height:512rpx;border-radius:3px;" :src="item.videoUrl" @tap="sendVideo(item.shortVideoId)"></image>

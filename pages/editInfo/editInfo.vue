@@ -1,7 +1,7 @@
 <template>
 	<view class="wrap">
         <view class="release-video">
-            <image class="back" src="../../static/img/back.png" @tap="back" mode="" />
+            <image class="back" src="http://www.zhongjubang.com/api/upload/static/img/back.png" @tap="back" mode="" />
 			<text class="title">编辑个人资料</text>
             <view class="save" @tap="save">保存</view>
         </view>
@@ -388,7 +388,7 @@
     }
     .active .gender-man{
         border: 1px solid transparent;
-        background: url("../../static/img/editInfo/gender-man.png") no-repeat center/cover;
+        background: url("http://www.zhongjubang.com/api/upload/static/img/editInfo/gender-man.png") no-repeat center/cover;
     }
     
     .gender-textMan{
@@ -409,11 +409,11 @@
 		border-radius: 50%;
 		overflow: hidden;
         border: 1px solid #949494;
-		/* background: url("../../static/img/editInfo/gender-women.png") no-repeat center/cover; */
+		/* background: url("http://www.zhongjubang.com/api/upload/static/img/editInfo/gender-women.png") no-repeat center/cover; */
     }
     .active .gender-women{
         border: 1px solid transparent;
-        background: url("../../static/img/editInfo/gender-women.png") no-repeat center/cover;
+        background: url("http://www.zhongjubang.com/api/upload/static/img/editInfo/gender-women.png") no-repeat center/cover;
     }
     .gender-textWomen{
         position: absolute;
