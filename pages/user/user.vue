@@ -185,7 +185,7 @@
 					<!-- 操作按钮 end -->
 				</view>
 			</view>
-			
+			<view class="look-more">-{{statusMore== 'end' ? '没有更多' : '上拉加载更多'}}-</view>
 		</view>
 		<!-- 点击右边三点显示的遮罩层 start -->
 		<view id="mask" v-show="showEdit"></view>
@@ -373,6 +373,14 @@
 				commentItem: [],
 				deleteType: 0,
 				cover: '',
+				reload: false,
+				statusMore: 'more',
+				contentText: {
+					contentdown: '上拉加载更多',
+					// contentrefresh: '加载中',
+					contentnomore: '没有更多'
+				},
+				page: 1
 				
 	        }
 		},
@@ -463,6 +471,17 @@
 				}
 			});
 			this.initVideo()
+			this.page = 1;
+			this.releaseImgList = [];
+			this.init();
+		},
+		// 上拉加载
+		onReachBottom: function() {
+			this.statusMore = 'more';
+			if( this.page == 1) {
+				this.status = 'end';
+				return;
+			}
 			this.init();
 		},
         methods: {
@@ -716,8 +735,8 @@
 			// 获取G圈列表内容
 			init() {
 				let parmas = {
-					pageIndex: 1,
-					pageSize: 1000
+					pageIndex: this.page,
+					pageSize: 10
 				}
 				uni.showLoading({
 					title: '加载中...',
@@ -730,6 +749,11 @@
 					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.Tokens},
 					success: ((res) => {
 						uni.hideLoading()
+						let totalPage = res.data.data.pageSize * res.data.data.totalPage;
+						if(this.releaseImgList.length == totalPage) {
+							this.statusMore = 'end';
+							return;
+						}
 						if(res.data.code == 200) {
 							let data = res.data.data.dataList;
 							// 
@@ -737,11 +761,11 @@
 								data[i].imgList = JSON.parse(data[i].imgList);
 								data[i].title = JSON.parse(data[i].title);
 							}
-							// data.forEach((item, i) => {
-							// 	item.gcircleContentDTO.imgList = JSON.stringify(item.gcircleContentDTO.imgList);
-							// 	item.gcircleContentDTO.title = JSON.parse(item.gcircleContentDTO.title);
-							// })
-							this.releaseImgList = data;
+							this.releaseImgList = this.reload ? data : this.releaseImgList.concat(data);
+							if(res.data.data.totalPage < 2) {
+								return;
+							}
+							this.page++;
 						}
 					})
 				})
@@ -1685,4 +1709,16 @@
 		line-height:64px;
 	}
 	/* 收藏图片内容end */
+	
+	/* 查看更多居圈内容 start*/
+	.look-more {
+		width: 100%;
+		height: 200rpx;
+		line-height: 140rpx;
+		text-align: center;
+		font-size:24rpx;
+		font-family:PingFang SC;
+		color:rgba(204,204,204,1);
+		/* margin-bottom: 100rpx; */
+	}
 </style>

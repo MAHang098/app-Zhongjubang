@@ -3,8 +3,8 @@
 		
 		<!-- 头部 start -->
         <view class="navigate">
-            <view class="navigate-image">
-				<image style="width: 15upx;height: 31upx;" src="http://www.zhongjubang.com/api/upload/static/img/juquanVideo/back.png" />
+            <view class="navigate-image" @click.stop="backPage">
+				<image style="width: 15upx;height: 31upx;" src=".http://www.zhongjubang.com/api/upload/static/img/juquanVideo/back.png" />
 			</view>
             <text class="car">购物车({{cartTotal}})</text>
             <text class="edit" @click.stop="editP">{{isShowEdit ? '完成' : '编辑'}}</text>
@@ -16,7 +16,7 @@
 		<!-- 店铺/商品详情 start -->
 		<scroll-view scroll-y="true" class="scroll-Y" v-else>
 			<view class="cart-detail" v-for="(item, index) in goodsList" :key="index">
-				<view class="shop-detail">
+				<view class="shop-detail" @click.stop="goshop(item.shopId)">
 					<label>
 						<radio value="r1" :checked="item.checked" color="#FFCC33" style="transform:scale(0.7)" @click.stop="singleChecked(item)"/>
 					</label>
@@ -294,6 +294,18 @@
 				}
 				// this.$refs[type].close()
 			},
+			// 跳转到店铺
+			goshop(id) {
+				uni.navigateTo({
+					url:'/pages/shop-command/shop-command?shopId='+id
+				})
+			},
+			// 返回上一级
+			backPage() {
+				uni.navigateBack({
+					delta:1
+				})
+			}
 		}
 	}
 </script>

@@ -262,16 +262,6 @@
 		    }
 		},
 		
-		
-		
-		{
-		    "path": "pages/test/test",
-		    "style": {
-		        "app-plus": {
-		            "titleNView": false //禁用原生导航栏  
-		        }
-		    }
-		},
 		{
 			"path" : "pages/editInfo/editInfo",
 			"style": {
@@ -474,7 +464,7 @@
        
         
         ,{
-            "path" : "pages/shop-command/shop-command",
+            "path" : "pages/shop-command/shop-command",    // 店铺
             "style": {
                 "app-plus": {
                     "titleNView": false //禁用原生导航栏  
@@ -680,9 +670,21 @@
 					}
 				},
 				{
-					"path" : "detail-evaluate/detail-evaluate",
+					"path" : "detail-evaluate/detail-evaluate",   // 商品详情的所有评价
 					"style" : {
 						"navigationBarTitleText": "全部评价"
+					}
+				},
+				{
+					"path" : "order-comments/order-comments",
+					"style" : {
+						"navigationBarTitleText": "发表评价"
+					}
+				}, 
+				{
+					"path" : "order-detail/order-detail",
+					"style" : {
+						"navigationBarTitleText": "订单详情"
 					}
 				}
 				
