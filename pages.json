@@ -83,14 +83,7 @@
 				}
 			}
 		},
-		{
-			"path": "pages/index/index",
-			"style": {
-				"app-plus": {
-					"titleNView": false //禁用原生导航栏  
-				}
-			}
-		},
+		
 		
 		{
 			"path": "pages/juquanVideo/juquanVideo",
@@ -445,6 +438,18 @@
                     "titleNView": false //禁用原生导航栏  
                 }
             }
+        }
+        ,{
+            "path" : "pages/order-search/order-search",
+            "style" : {
+				"app-plus": {
+				    "titleNView": false //禁用原生导航栏  
+				}
+			}
+        }
+        ,{
+            "path" : "order-searchList/order-searchList",
+            "style" : {}
         }
     ],
 	"subPackages": [

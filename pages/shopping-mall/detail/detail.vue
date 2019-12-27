@@ -4,12 +4,15 @@
 			<view class="header-left" @click.stop="backPreve">
 				<image :class="scrollFlag ? 'scroolImg1' : ''"  :src="scrollFlag ? '../../../static/img/shopping-mall/detail/back-select.png' : '../../../static/img/shopping-mall/detail/product-back.png' " mode=""></image>
 			</view>
-			<view class="type-detail" v-if="scrollFlag">
-				<view class="active">商品</view>
-				<view>评论</view>
-				<view>推荐</view>
-				<view>详情</view>
-			</view>
+			<scroll-view class="scroll-Y">
+				<view class="type-detail" v-if="scrollFlag">
+					<view class="active">商品</view>
+					<view class="image-details" >评论</view>
+					<view>推荐</view>
+					<view>详情</view>
+				</view>
+			</scroll-view>
+			
 			<view class="header-right">
 				<image :class="scrollFlag ? 'scroolImg' : '' " :src="scrollFlag ? '../../../static/img/shopping-mall/detail/share-select.png' : '../../../static/img/shopping-mall/detail/product-share.png'" mode=""></image>
 			</view>
@@ -188,7 +191,7 @@
 		components:{uniPopup},
 		data() {
 			return {
-				scrollFlag: false,
+				scrollFlag: true,
 				swiperItem: [],
 				token: '',
 				showExplain: false,
@@ -241,6 +244,7 @@
 			this.gainProductRecommend();
 		},
 		methods: {
+			
 			init() {
 				uni.request({
 				    url: this.url + 'controller/shopcontroller/getgoodsbyid',
@@ -511,14 +515,27 @@
 	.active {
 		border-bottom: 3px solid #F9B72D;
 	}
+	.scroll-Y {
+		margin-top: 16px;
+		height: 30px;
+	}
 	.type-detail {
-		width: 52%;
+		width: 60%;
 		font-size:28rpx;
 		font-family:PingFang SC;
 		color:rgba(51,51,51,1);
 		display: flex;
 		justify-content: space-between;
+		margin: 0 auto !important;
+		height: 27px !important;
 	}
+	.type-detail view {
+		margin: 0 !important;
+	}
+	/* .type-detail view {
+		width: 25%;
+		text-align: center;
+	} */
 	.header-topic {
 		font-size: 32rpx;
 	}
