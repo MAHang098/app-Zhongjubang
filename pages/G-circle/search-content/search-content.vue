@@ -2,9 +2,9 @@
 	<view>
 		<!-- 搜索栏 start -->
 		<view class="header">
-			<image src="../../../static/img/G-circle/search-back.png" mode="" class="back"  @click.stop="cancelBack"></image>
+			<image src="http://www.zhongjubang.com/api/upload/static/img/G-circle/search-back.png" mode="" class="back"  @click.stop="cancelBack"></image>
 			<view class="search-input">
-				<image src="../../../static/search/nav-search.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/search/nav-search.png" mode=""></image>
 				<input type="text" v-model="searchInput"  placeholder="搜索您需要的商品" @input="gainInput" @focus="onFocus" @blur="onBlur"/>
 			</view>
 			<view class="cancel" @click.stop="cancelBack">取消</view>
@@ -19,10 +19,10 @@
 		<view class="history-all content-list" v-show="isShowList">
 			<view class="history-operate content-list_operate">
 				<view class="history-operate_left content-list_operate_left">
-					<image src="../../../static/img/G-circle/history.png" mode=""></image>
+					<image src="http://www.zhongjubang.com/api/upload/static/img/G-circle/history.png" mode=""></image>
 					<text>历史搜索</text>
 				</view>
-				<image src="../../../static/img/G-circle/history-del.png" mode="" class="history-operate_right content-list_operate_right" @click.stop="togglePopup('center', 'tip')"></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/img/G-circle/history-del.png" mode="" class="history-operate_right content-list_operate_right" @click.stop="togglePopup('center', 'tip')"></image>
 			</view>
 			
 			<view class="search-list">
@@ -35,10 +35,10 @@
 		<view class="content-list hot-topic" v-show="isShowList">
 			<view class="topic-operate content-list_operate">
 				<view class="content-list_operate_left">
-					<image src="../../../static/img/G-circle/hot-topic.png" mode=""></image>
+					<image src="http://www.zhongjubang.com/api/upload/static/img/G-circle/hot-topic.png" mode=""></image>
 					<text>热门话题</text>
 				</view>
-				<!-- <image src="../../../static/img/G-circle/history-del.png" mode="" class="history-operate_right"></image> -->
+				<!-- <image src="http://www.zhongjubang.com/api/upload/static/img/G-circle/history-del.png" mode="" class="history-operate_right"></image> -->
 			</view>
 			
 			<view class="search-list">
@@ -102,7 +102,7 @@
 			},
 			gainInput(e) {
 				this.clearTimer();
-				this.timer = setTimeout(() => {
+				// this.timer = setTimeout(() => {
 				  // console.log(this.lastTime)
 				  // if (this.lastTime - event.timeStamp === 0) {
 					uni.request({
@@ -111,10 +111,14 @@
 						data: {search: e.detail.value},
 						header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 						success:((res) => {
+							if(res.data.code==421){
+								uni.navigateTo({
+									url: '/pages/loginPhone/loginPhone'
+								})
+							}
 							if(res.data.code == 200) {
 								this.changeColor(res.data.data)
-				  			// this.productList = res.data.data;
-								this.isShowList = !this.isShowList;
+								this.isShowList = false;
 							} 
 							if(res.data.code == 421) {
 								uni.navigateTo({
@@ -124,7 +128,7 @@
 						})
 				  });
 				  // }
-				}, 500)
+				// }, 500)
 			},
 			// 关键字高亮
 			changeColor (resultsList) {
@@ -142,7 +146,6 @@
 			          )
 			        }
 			      });
-				 
 			      this.productList = []
 			      this.productList = resultsList
 			},

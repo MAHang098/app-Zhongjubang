@@ -5,11 +5,11 @@
 				<view class="number">
 					<view>运单号：</view>
 					<view>125458587458</view>
-					<image src="../../../static/img/shopping-mall/order/copy.png" mode="" @click="copyNum('125458587458')"></image>
+					<image src="http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/copy.png" mode="" @click="copyNum('125458587458')"></image>
 					<view class="express">中通快递</view>
 				</view>
 				<view class="product-detai">
-					<image src="../../../static/img/G-circle/p1.png" mode=""></image>
+					<image src="http://www.zhongjubang.com/api/upload/static/img/G-circle/p1.png" mode=""></image>
 					<view>
 						<view class="title">索菲亚衣柜索菲亚衣柜索菲亚衣柜索菲亚衣柜索柜 衣柜索菲亚衣柜</view>
 						<view class="specs">规格：全部套装</view>
@@ -35,7 +35,7 @@
 			</view>
 			<view class="more-express" @click="lookMore" v-show="isShowMore">
 				<text>点击查看更多</text>
-				<image src="../../../static/img/shopping-mall/order/bottom-arrow.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/bottom-arrow.png" mode=""></image>
 			</view> 
 		</view>
 		

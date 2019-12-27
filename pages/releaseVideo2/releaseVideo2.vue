@@ -1,18 +1,18 @@
 <template>
 	<view>
         <view class="release-video">
-            <image class="back" src="../../static/img/topicDetails/back.png" @tap="back" mode="" />
-			<image class="fly" src="../../static/img/releaseVideo2/share.png" mode="" />
+            <image class="back" src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/back.png" @tap="back" mode="" />
+			<image class="fly" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/share.png" mode="" />
         </view>
 		<!-- 内容 -->
 		<view class="release-content">
 			
 			<view class="pic">
 				<video show-center-play-btn="false" :src="videoUrl" />
-				<!-- <image src="../../static/draftsT.png" mode=""></image> -->
+				<!-- <image src="http://www.zhongjubang.com/api/upload/static/draftsT.png" mode=""></image> -->
 			</view>
 			<!-- <view class="start">
-				<image @play="start" src="../../static/img/releaseVideo2/start.png" mode="" />
+				<image @play="start" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/start.png" mode="" />
 			</view> -->
 			
 			<view class="user-info">
@@ -21,12 +21,12 @@
 				</view>
 				<view class="my-active-nickName10" :style="{bottom:height+3+'px'}">{{nickName}}</view>
 				<view class="edit-del" :style="{bottom:height+'px'}" @tap="attention">
-					<image src="../../static/img/topicDetails/interest.png" mode=""></image>
+					<image src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/interest.png" mode=""></image>
 				</view>
 				<view class="content">
 					<view v-if="!isShowAllContent" class="text">{{content2}}</view>
 					<view v-else class="text">{{content2 | ellipsis}}</view>
-					<view class="anCotent" v-if="content2.length > 60 " @click="open()">{{brandFold  ? '收起' : '展开'}}<image :class="brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
+					<view class="anCotent" v-if="content2.length > 60 " @click="open()">{{brandFold  ? '收起' : '展开'}}<image :class="brandFold ? '' : 'in'" src="http://www.zhongjubang.com/api/upload/static/drafts/arrow-bottom.png" mode=""></image></view>
 				</view>
 				
 			</view>
@@ -35,30 +35,30 @@
 		<view class="footer">
 			<!-- 点赞 -->
 			<view class="good">
-				<image  src="../../static/img/releaseVideo2/good.png"  v-show="showUpImg2" @click="good" />
-				<image  src="../../static/topic/fabulous-select.png"  v-show="!showUpImg2" @click="good" />
+				<image  src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/good.png"  v-show="showUpImg2" @click="good" />
+				<image  src="http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png"  v-show="!showUpImg2" @click="good" />
 			</view>
 			<text class="text10">{{shortVideoLikeNum}}</text>
 			<!-- 收藏 -->
 			<view class="star">
-				<image src="../../static/img/releaseVideo2/star.png"  v-show="showUpImg" @click="collect" mode="" />
-				<image src="../../static/topic/collect-select.png"  v-show="!showUpImg" @click="collect" mode="" />
+				<image src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/star.png"  v-show="showUpImg" @click="collect" mode="" />
+				<image src="http://www.zhongjubang.com/api/upload/static/topic/collect-select.png"  v-show="!showUpImg" @click="collect" mode="" />
 			</view>
 			<text class="text11">{{shortVideoCollectionNum}}</text>
 			<!-- 评论 -->
 			<view @click="togglePopup('bottom', 'popup')" class="message">
-				<image src="../../static/img/releaseVideo2/message.png" mode="" />
+				<image src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/message.png" mode="" />
 			</view>
 			<text class="text12">{{shortVideoDiscussNum}}</text>
 				<button class="topic" type="button" @click="togglePopup('bottom', 'popup')">
-					<image class="topic-image" src="../../static/img/releaseVideo2/message.png" mode="" />
+					<image class="topic-image" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/message.png" mode="" />
 					<text class="text20">说点什么吧...</text>
 				</button>
 			<uni-popup  ref="popup" :type="type" @change="change" >
 				<view class="recommend">
 					<view class="recommend-content">
 						<view class="all-recommend">全部评论 ({{shortVideoDiscussNum}})</view>
-						<image class="close" src="../../static/img/releaseVideo2/close.png" mode="" />
+						<image class="close" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/close.png" mode="" />
 					</view>
 					<view v-for="(row, index) in dataList" :key="index" class="replay-detail">
 						<view class="recommend-content2">
@@ -70,9 +70,9 @@
 								<view class="my-active-data">{{row.cratee_time}}</view>
 							</view>
 							<text class="my-active-like">{{row.likenum}}</text>
-							<!-- <image @click="replyLike(row.id)" class="recommend-good" src="../../static/img/releaseVideo2/good.png" mode="" /> -->
-							<image  src="../../static/img/releaseVideo2/good.png" class="recommend-good" v-if="showUpImg3"  @click="replyLike(row.id)" />
-							<image  src="../../static/topic/fabulous-select.png" class="recommend-good" v-if="!showUpImg3"  @click="replyLike(row.id)" />
+							<!-- <image @click="replyLike(row.id)" class="recommend-good" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/good.png" mode="" /> -->
+							<image  src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/good.png" class="recommend-good" v-if="showUpImg3"  @click="replyLike(row.id)" />
+							<image  src="http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png" class="recommend-good" v-if="!showUpImg3"  @click="replyLike(row.id)" />
 						</view>
 						<!-- <view class="recommend-text" @touchstart.prevent="touchstart(index)"   @touchend.prevent="touchend"> -->
 						<view class="recommend-text" @click="testreply(row.id, row.nick_name)">
@@ -226,6 +226,11 @@
 					'token': '024d0ef41526417b94e3d443f230f374'
 				},
 				success: function (res){
+					if(res.data.code==421){
+						uni.navigateTo({
+							url: '/pages/loginPhone/loginPhone'
+						})
+					}
 					console.log(res)
 					console.log(res.data.data.dataList[0].id)
 					id = res.data.data.dataList[0].id
@@ -244,6 +249,11 @@
 							'token': '024d0ef41526417b94e3d443f230f374'
 						},
 						success: function (res){
+							if(res.data.code==421){
+								uni.navigateTo({
+									url: '/pages/loginPhone/loginPhone'
+								})
+							}
 							console.log(res)
 							console.log(res.data.data.nickName)
 							self.nickName = res.data.data.nickName
@@ -280,6 +290,11 @@
 							'token': token
 						},
 						success: function (res){
+							if(res.data.code==421){
+								uni.navigateTo({
+									url: '/pages/loginPhone/loginPhone'
+								})
+							}
 							console.log(res)
 							console.log(res.data.code)
 							if(res.data.code==200){
@@ -352,6 +367,11 @@
 						'token': token
 					},
 					success: function (res){
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 						console.log(res.data.code)
 						if(res.data.code==200){
 							console.log(res)
@@ -393,6 +413,11 @@
 						'token': token
 					},
 					success: function (res){
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 						console.log(res.data.code)
 						if(res.data.code==200){
 							console.log(res)
@@ -434,6 +459,11 @@
 						'token': token
 					},
 					success: function (res){
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 						console.log(res.data.code)
 						if(res.data.code==200){
 							console.log(res)
@@ -500,6 +530,11 @@
 							'token': token
 						},
 						success: function (res){
+							if(res.data.code==421){
+								uni.navigateTo({
+									url: '/pages/loginPhone/loginPhone'
+								})
+							}
 							console.log(res)
 							if(res.data.code==200){
 								
@@ -524,6 +559,11 @@
 							'token': token
 						},
 						success: function (res){
+							if(res.data.code==421){
+								uni.navigateTo({
+									url: '/pages/loginPhone/loginPhone'
+								})
+							}
 							console.log(res.data.code)
 							if(res.data.code==200){
 								

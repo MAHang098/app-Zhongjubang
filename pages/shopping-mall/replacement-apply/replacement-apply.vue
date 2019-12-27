@@ -1,7 +1,7 @@
 <template>
 	<view class="replacement">
 		<view class="replacement-product">
-			<image src="../../../static/img/G-circle/p1.png" mode=""></image>
+			<image src="http://www.zhongjubang.com/api/upload/static/img/G-circle/p1.png" mode=""></image>
 			<view class="product-detai">
 				<view class="title">索菲亚衣柜索菲亚衣柜索菲亚衣柜索菲亚衣柜索柜 衣柜索菲亚衣柜</view>
 				<view class="specs">规格：全部套装</view>
@@ -13,7 +13,7 @@
 				<view>货物状态</view>
 				<view class="state" @click="togglePopup('bottom', 'popup')">
 					请选择
-					<image src="../../../static/topic/arrow.png" mode=""></image>
+					<image src="http://www.zhongjubang.com/api/upload/static/topic/arrow.png" mode=""></image>
 				</view>
 			</view>
 			<view class="refund-amount">
@@ -32,12 +32,12 @@
 			<view class="upload-list">
 				<view class="img"  v-for="(item, index) in imgList" :key="index" v-if="imgList.length > 0">
 					<image :src="item.fileUrl" mode="scaleToFill" @click.stop="previewImage(index)"></image>
-					<image src="../../../static/topic/deletes.png" mode="" class="delete" @click.stop="deleteImage(item.fileName, index)"></image>
+					<image src="http://www.zhongjubang.com/api/upload/static/topic/deletes.png" mode="" class="delete" @click.stop="deleteImage(item.fileName, index)"></image>
 				</view>
-				<image src="../../../static/img/shopping-mall/order/upload.png" mode=""  @click.stop="chooseImage" v-show="imgList.length < 3"></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/upload.png" mode=""  @click.stop="chooseImage" v-show="imgList.length < 3"></image>
 			</view>
 			<!-- <image :src="item.fileUrl" mode="" v-for="(item, index) in imgList" :key="index" v-if="imgList.length > 0"></image>
-			<image src="../../../static/img/shopping-mall/order/upload.png" mode="" @click.stop="chooseImage"></image> -->
+			<image src="http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/upload.png" mode="" @click.stop="chooseImage"></image> -->
 			<view id="commit">提交</view>
 		</view>
 		<!-- 上传图片 end -->

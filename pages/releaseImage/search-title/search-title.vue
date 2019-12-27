@@ -3,7 +3,7 @@
 		<!-- 搜索栏 start -->
 		<view class="header">
 			<view class="search-input">
-				<image src="../../../static/search/nav-search.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/search/nav-search.png" mode=""></image>
 				<input class="uni-input" placeholder="搜索您需要的商品" @focus="onFocus" @blur="onBlur" @input="searchTopic" value=""/>
 			</view>
 			<view class="cancel" @click="cancel">取消</view>

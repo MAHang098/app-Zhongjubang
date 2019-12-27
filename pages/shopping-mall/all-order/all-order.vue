@@ -1,100 +1,87 @@
 <template>
-	<view>
+	<view id="allOrder">
 		<!-- 搜索栏 start -->
 		<view class="header">
-			<image src="../../../static/img/G-circle/search-back.png" mode="" class="back"></image>
-			<view class="my-order">我的订单</view>
-			<view>
-				<image src="../../../static/search/nav-search.png" mode="" class="search"></image>
-				<image src="../../../static/img/shopping-mall/order/cart.png" mode="" class="cart"></image>
+			<view class="header-top">
+				<image @click.stop="backPage" src="http://www.zhongjubang.com/api/upload/static/img/G-circle/search-back.png" mode="" class="back"></image>
+				<view class="my-order">我的订单</view>
+				<view>
+					<image src="http://www.zhongjubang.com/api/upload/static/search/nav-search.png" mode="" class="search"></image>
+					<image src="http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/cart.png" mode="" class="cart" @click.stop="goCart"></image>
+				</view>
 			</view>
+			<!-- 订单类型 start -->
+			<view class="order-type">
+				<view class="all-order" @click.stop="changeOrder(0)">
+					<image :src=" currentType == 0 ? 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/order-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/order.png'" mode=""></image>
+					<text>全部订单</text>
+				</view>
+				<view class="all-order" @click.stop="changeOrder(1)">
+					<image :src="currentType == 1 ? 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/payment-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/payment.png' " mode=""></image>
+					<view v-if="saleList.num1 != 0" class="all-num" :class="saleList.num1 > 10 ? 'all-numIn' : ''">{{saleList.num1}}</view>
+					<text>待付款</text>
+				</view>
+				<view class="all-order" @click.stop="changeOrder(2)">
+					<image :src="currentType == 2 ? 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/harvest-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/harvest.png'" mode=""></image>
+					<view v-if="saleList.num2 != 0" class="all-num" :class="saleList.num2 > 10 ? 'all-numIn' : ''">{{saleList.num2}}</view>
+					<text>待收货</text>
+				</view>
+				<view class="all-order" @click.stop="changeOrder(3)">
+					<image :src="currentType == 3 ? 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/evaluate-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/evaluate.png' " mode=""></image>
+					<view v-if="saleList.num3 != 0" class="all-num" :class="saleList.num3 > 10 ? 'all-numIn' : ''">{{saleList.num3}}</view>
+					<text>待评价</text>
+				</view>
+				<view class="all-order" @click.stop="changeOrder(4)">
+					<image :src="currentType == 4 ? 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/after-sale_select.png' : 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/after-sale.png'" mode=""></image>
+					<view  v-if="saleList.num4 != 0" class="all-num" :class="saleList.num4 > 10 ? 'all-numIn' : ''">{{saleList.num4}}</view>
+					<text>售后</text>
+				</view>
+			</view>
+			<!-- 订单类型 end -->
 		</view>
 		<!-- 搜索栏 end -->
 		
-		<!-- 订单类型 start -->
-		<view class="order-type">
-			<view class="all-order" @click.stop="changeOrder(0)">
-				<image :src=" currentType == 0 ? '../../../static/img/shopping-mall/order/order-select.png' : '../../../static/img/shopping-mall/order/order.png'" mode=""></image>
-				<!-- <view class="all-num">1</view> -->
-				<text>全部订单</text>
-			</view>
-			<view class="all-order" @click.stop="changeOrder(1)">
-				<image :src="currentType == 1 ? '../../../static/img/shopping-mall/order/payment-select.png' : '../../../static/img/shopping-mall/order/payment.png' " mode=""></image>
-				<view class="all-num all-numIn">19</view>
-				<text>待付款</text>
-			</view>
-			<view class="all-order" @click.stop="changeOrder(2)">
-				<image :src="currentType == 2 ? '../../../static/img/shopping-mall/order/harvest-select.png' : '../../../static/img/shopping-mall/order/harvest.png'" mode=""></image>
-				<view class="all-num">1</view>
-				<text>待收货</text>
-			</view>
-			<view class="all-order" @click.stop="changeOrder(3)">
-				<image :src="currentType == 3 ? '../../../static/img/shopping-mall/order/evaluate-select.png' : '../../../static/img/shopping-mall/order/evaluate.png' " mode=""></image>
-				<view class="all-num">1</view>
-				<text>待评价</text>
-			</view>
-			<view class="all-order" @click.stop="changeOrder(4)">
-				<image :src="currentType == 4 ? '../../../static/img/shopping-mall/order/after-sale_select.png' : '../../../static/img/shopping-mall/order/after-sale.png'" mode=""></image>
-				<!-- <view class="all-num">1</view> -->
-				<text>售后</text>
-			</view>
-		</view>
-		<!-- 订单类型 end -->
+		
 		
 		<!-- 订单详情 start -->
-		<view class="order-detail">
-			<view class="shop">
-				<view class="shop-detail">
-					<image src="../../../static/img/shopping-mall/oder/shop.png" mode="" class="shop-image"></image>
-					<text>索菲亚衣柜</text>
-					<image src="../../../static/topic/arrow.png" mode="" class="arrow-right"></image>
-				</view>
-				<view class="order-massage">等待买家付款</view>
-			</view>
-			
-			<view class="product-list">
-				<view class="product-detail">
-					<view class="product-image">
-						<image src="../../../static/img/G-circle/p1.png" mode=""></image>
+		<view id="all-order_detail">
+			<view class="order-detail" v-for="(item, index) in orderList" :key="index">
+				<view class="shop" @click.stop="goshop(item.shopId)">
+					<view class="shop-detail">
+						<image src="../../../static/img/shopping-mall/order/shop.png" mode="" class="shop-image"></image>
+						<text>{{item.shopName}}</text>
+						<image src="../../../static/topic/arrow.png" mode="" class="arrow-right"></image>
 					</view>
-					<view class="product-massage">
-						<view class="title">索菲亚衣柜索菲亚衣柜索菲亚衣柜索菲亚衣柜索 衣柜索菲亚衣柜</view>
-						<view class="specs">规格：全部套装</view>
-						<view><text class="price">￥5800.00</text> <text class="num">x1</text></view>
-					</view>
-				</view>
-				<view class="product-detail">
-					<view class="product-image">
-						<image src="../../../static/img/G-circle/p1.png" mode=""></image>
-					</view>
-					<view class="product-massage">
-						<view class="title">索菲亚衣柜索菲亚衣柜索菲亚衣柜索菲亚衣柜索 衣柜索菲亚衣柜</view>
-						<view class="specs">规格：全部套装</view>
-						<view><text class="price">￥5800.00</text> <text class="num">x1</text></view>
+					<view class="order-massage">
+						{{item.state == 1 ? '已付款': item.state == 2 ? '待收货' : item.state == 3 ? '已完成' : item.state == 4 ? '评价' : item.state == 5 ? '售后' : item.state == 6 ? '其他' : item.state == 7 ? '取消订单' : '待付款'}}
 					</view>
 				</view>
 				
-				<view class="product-detail">
-					<view class="product-image">
-						<image src="../../../static/img/G-circle/p1.png" mode=""></image>
+				<view class="product-list">
+					<view class="product-detail" v-for="(row, i) in item.list" :key="i" @click.stop="pDetail(row.orderNum)">
+						<view class="product-image">
+							<!-- <image :src="row.topImgList[0]" mode=""></image> -->
+							<image src="../../../static/img/G-circle/p1.png" mode=""></image>
+						</view>
+						<view class="product-massage">
+							<view class="title">{{row.shopName}}</view>
+							<view class="specs">规格：{{item.specifications}}</view>
+							<view><text class="price">￥{{row.goodsPrice}}</text> <text class="num">x1</text></view>
+						</view>
 					</view>
-					<view class="product-massage">
-						<view class="title">索菲亚衣柜索菲亚衣柜索菲亚衣柜索菲亚衣柜索 衣柜索菲亚衣柜</view>
-						<view class="specs">规格：全部套装</view>
-						<view><text class="price">￥5800.00</text> <text class="num">x1</text></view>
+					<view class="total">共{{item.sum}}件商品，合计： <text class="total-price">￥{{item.price}}</text></view>
+				</view>
+				<view class="bottom">
+					<!-- 0待付款 1已付款 2待收货 3已完成 4评价 5售后 6其他 7取消 -->
+					<view :class="item.state == 4 || item.state == 0 || item.state == 2 ? 'active' : ''">
+						{{item.state == 1 || item.state == 2? '查看物流' : item.state == 3 ? '已完成' : item.state == 4 ? '评价' : item.state == 5 ? '售后' : item.state == 6 ? '其他' : item.state == 7 ? '取消订单' : '待付款'}}
 					</view>
 				</view>
-				<view class="total">共1件商品，合计： <text class="total-price">￥5800.00</text></view>
+				
 			</view>
-			<view class="bottom">
-				<view>查看物流</view>
-				<view @click.stop="togglePopup('center', 'tip')">删除订单</view>
-				<view @click.stop="togglePopup('center', 'tip')">取消订单</view>
-				<view class="active">立即付款</view>
-			</view>
-			
+			<!-- 订单详情 end -->
 		</view>
-		<!-- 订单详情 end -->
+		
 		
 		<uni-popup :show="popupShow" :type="popupType" :custom="true" :mask-click="false" @change="change">
 			<view class="uni-tip">
@@ -118,12 +105,85 @@
 			return {
 				currentType: 0,
 				popupShow: false,
-				popupType: ''
+				popupType: '',
+				token: '',
+				orderList: [],
+				saleList: []
 			}
 		},
+		onShow(){
+			uni.getStorage({
+				key:"token",
+				success:((res) => {
+					this.token = res.data;
+				})
+			});
+			this.init('');
+			this.afterSale();
+		},
 		methods: {
+			
+			init(state) {
+				uni.request({
+					url: this.url + "controller/shopcontroller/getappuserorderlist",
+					data: {pageIndex: 1, pageSize: 1000, state: state},
+					method: 'POST',
+					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
+					success: ((res) => {
+						// console.log(res.data.code)
+						if(res.data.code==200){
+							let data = res.data.data.dataList;
+							this.orderList = data;
+						}
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+					})
+				})
+			},
+			afterSale() {
+				uni.request({
+					url: this.url + "controller/shopcontroller/getuserordernumbystate",
+					method: 'POST',
+					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
+					success: ((res) => {
+						if(res.data.code==200){
+							let data = res.data.data;
+							this.saleList = data;
+						}
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+					})
+				})
+			},
 			changeOrder(n) {
 				this.currentType = n;
+				// 全部订单
+				if(n == 0) {
+					this.init('');
+				}
+				// 待付款
+				if(n == 1) {
+					this.init('0')
+				}
+				// 待收货
+				if(n == 2) {
+					this.init('2')
+				}
+				// 待评价
+				if(n == 3) {
+					this.init('4')
+				}
+				// 售后
+				if(n == 4) {
+					this.init('5')
+				}
+				
 			},
 			// 弹出层弹出的方式
 			togglePopup(type, open) {
@@ -159,21 +219,41 @@
 			change(e) {
 				// console.log(e.show)
 			},
+			// 跳转购物车
+			goCart() {
+				uni.navigateTo({
+					url: '/pages/shop/shop'
+				})
+			},
+			// 返回上一级
+			backPage() {
+				uni.switchTab({
+					url: '/pages/user/user'
+				})
+			},
+			// 跳转到店铺
+			goshop(id) {
+				uni.navigateTo({
+					url:'/pages/shop-command/shop-command?shopId='+id
+				})
+			},
+			// 跳转到订单详情
+			pDetail(num) {
+				uni.navigateTo({
+					url:'/pages/shopping-mall/order-detail/order-detail?orderNum='+num
+				})
+			}
 		}
 	}
 </script>
 
 <style>
-	page {
+	page, #allOrder {
 		background: #F6F6F6;
 	}
 	.header {
 		width: 100%;
-		height: 140rpx;
-		display: flex;
-		justify-content: space-between;
-		box-sizing: border-box;
-		padding: 10rpx 30rpx;
+		
 		padding-top: 60rpx;
 		background: #FFFFFF;
 		position: fixed;
@@ -181,6 +261,15 @@
 		top: 0;
 		left: 0;
 		right: 0;
+		
+	}
+	.header-top {
+		box-sizing: border-box;
+		padding: 10rpx 30rpx;
+		height: 140rpx;
+		display: flex;
+		justify-content: space-between;
+		
 		border-bottom: 1px solid #E2E2E2;
 		font-size:36rpx;
 		align-items: center;
@@ -212,7 +301,6 @@
 	
 	/* 订单类型 */
 	.order-type {
-		margin-top: 140rpx;
 		width: 100%;
 		height: 188rpx;
 		box-sizing: border-box;
@@ -260,6 +348,9 @@
 		margin-top: 5px;
 	}
 	/* 订单详情 start */
+	#all-order_detail {
+		margin-top: 54%;
+	}
 	.order-detail {
 		width: 100%;
 		height: auto;
@@ -304,6 +395,7 @@
 	}
 	.product-massage {
 		margin-left: 10px;
+		width: 100%;
 	}
 	.product-list {
 		margin: 20rpx 0;
@@ -327,6 +419,15 @@
 		height: 100%;
 		display: block;
 		border-radius: 3px;
+	}
+	.title {
+		text-overflow: -o-ellipsis-lastline;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		line-clamp: 2;
+		-webkit-box-orient: vertical;
 	}
 	.title, .total, .total-price {
 		font-size:24rpx;

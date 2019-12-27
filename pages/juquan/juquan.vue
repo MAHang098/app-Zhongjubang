@@ -3,11 +3,11 @@
 		<!-- 搜索栏 start -->
 		<view class="header">
 			<view class="search-input">
-				<image src="../../static/search/nav-search.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/search/nav-search.png" mode=""></image>
 				<input type="text" value=""  placeholder="搜索您需要的商品" @input="gainInput" @focus="onFocus" @blur="onBlur" @click.stop="goSearch"/>
 			</view>
 			<view class="cancel">
-				<image src="../../static/img/G-circle/more.png" mode="" class="more-list"></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/img/G-circle/more.png" mode="" class="more-list"></image>
 			</view>
 		</view>
 		<!-- 搜索栏 end -->
@@ -24,22 +24,23 @@
 			<view class="G-list_detial_one" v-if="isShow">
 				<view class="category-detial" v-for="(item, index) in recommendList" :key="index" @click.stop="homologousPage(index, item.resource.resource)">
 					<image :src="item.resource.img" mode="" class="album-img"></image> 
-					<view class="title">#{{item.resource.name}}#</view>
+					<view class="title">{{item.resource.name}}</view>
+					<view class="mask"></view>
 					<view>{{item.resource.remarks}}</view>
 				</view>
 			</view>
 			<view class="G-list_detial_two" v-else>
 				<scroll-view class="G-list_detial_user scroll-view_H" scroll-x="true" :show-scrollbar="isScrollbar">
 					<view class="G-list_detial_userDteial scroll-view-item_H" v-for="(item, index) in userList" :key="index">
-						<image src="../../static/img/G-circle/test1.png" mode=""></image>
+						<image src="http://www.zhongjubang.com/api/upload/static/img/G-circle/test1.png" mode=""></image>
 						<view>{{item.nick_name}}</view>
-						<image @click.stop="focus(item.id,  current)" :src="item.followState == '0' ? '../../static/follow.png' : item.followState == '2' ? '../../static/mutual-follow.png' : '../../static/follow-checked.png'" mode=""></image>
+						<image @click.stop="focus(item.id,  current)" :src="item.followState == '0' ? 'http://www.zhongjubang.com/api/upload/static/follow.png' : item.followState == '2' ? 'http://www.zhongjubang.com/api/upload/static/mutual-follow.png' : 'http://www.zhongjubang.com/api/upload/static/follow-checked.png'" mode=""></image>
 					</view>
 					
 				</scroll-view>
 				<view class="refresh" @click.stop="refreshUser">
 					<text>换一批</text>
-					<image src="../../static/img/G-circle/refresh.png" mode=""></image>
+					<image src="http://www.zhongjubang.com/api/upload/static/img/G-circle/refresh.png" mode=""></image>
 				</view>
 			</view>
 			<!-- 居圈分类 居圈/关注/短视频 end --> 
@@ -63,13 +64,13 @@
 							<view class="operate-detail" v-show="cIndex == index && showEdit">
 								<view class="operate-arrow"></view>
 								<view class="operate-btn">
-									<view @click.stop="editRelease(items, items.gcircleContentId)"><image src="../../static/edit.png" mode=""></image>编辑</view>
-									<view @click.stop="deleteRelease(items.gcircleContentId)"><image src="../../static/delete.png" mode=""></image>删除</view>
+									<view @click.stop="editRelease(items, items.gcircleContentId)"><image src="http://www.zhongjubang.com/api/upload/static/edit.png" mode=""></image>编辑</view>
+									<view @click.stop="deleteRelease(items.gcircleContentId)"><image src="http://www.zhongjubang.com/api/upload/static/delete.png" mode=""></image>删除</view>
 								</view>
 							</view>
 						</view>
 						<view v-else class="user-right" @click.stop="focus(items.userId, current)">
-							<image :src="items.attentionState == 0 ? '../../static/follow.png' : items.attentionState == 2 ? '../../static/mutual-follow.png' : '../../static/follow-checked.png'" mode=""></image>
+							<image :src="items.attentionState == 0 ? 'http://www.zhongjubang.com/api/upload/static/follow.png' : items.attentionState == 2 ? 'http://www.zhongjubang.com/api/upload/static/mutual-follow.png' : 'http://www.zhongjubang.com/api/upload/static/follow-checked.png'" mode=""></image>
 						</view>
 					</view>
 					<!-- 用户信息 start -->
@@ -78,21 +79,21 @@
 					<view class="content"  v-if="items.content != '' ">
 						<view v-if="!isShowAllContent"  @click.stop="contentDetail(items.gcircleContentId)" class="text">{{items.content }}</view>
 						<view v-else class="text"  @click.stop="contentDetail(items.gcircleContentId)">{{items.content | ellipsis}}</view>
-						<view class="anCotent" v-if="items.content.length > 60 " @click="open(index)">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
+						<view class="anCotent" v-if="items.content.length > 60 " @click="open(index)">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'in'" src="http://www.zhongjubang.com/api/upload/static/drafts/arrow-bottom.png" mode=""></image></view>
 					</view>
 					<!-- 文字展开/收起 end -->
 					
 					<!-- 图片/视频 start -->
 					<view class="imageList">
-						<image :mode="items.imgList.length > 1 ? 'aspectFit' : '' " :class="items.imgList.length > 1 ? 'imageListIn' : 'imageListSingle' " :src="row.fileUrl" v-for="(row, indexI) in items.imgList" :key="indexI" @click.stop="previewImage(indexI, items.imgList)"></image>
-						<!-- <image src="../../static/draftsT.png" mode="" ></image> -->
+						<image :mode="items.imgList.length > 1 ? '' : '' " :class="items.imgList.length > 1 ? 'imageListIn' : 'imageListSingle' " :src="row.fileUrl" v-for="(row, indexI) in items.imgList" :key="indexI" @click.stop="previewImage(indexI, items.imgList)"></image>
+						<!-- <image src="http://www.zhongjubang.com/api/upload/static/draftsT.png" mode="" ></image> -->
 					</view>
 					<!-- 图片/视频 end -->
 					
 					<!-- 话题 start -->
 					<view class="release-image_topic"  v-show="show" v-if="items.title.topic != '' ">
 						<view class="left" @click.stop="goTopic(items.title.topicId)">
-							<image src="../../static/topic/topic.png" mode=""></image>
+							<image src="http://www.zhongjubang.com/api/upload/static/topic/topic.png" mode=""></image>
 							<view>{{items.title.topic}}</view>
 						</view>
 						<view class="right"></view>
@@ -100,18 +101,18 @@
 					<!-- 话题 end -->
 					<!-- 操作按钮 start -->
 					<view class="operate-bottom">
-						<view class="operate-bottom_share"><image src="../../static/img/user/share.png" mode=""></image></view>
+						<view class="operate-bottom_share"><image src="http://www.zhongjubang.com/api/upload/static/img/user/share.png" mode=""></image></view>
 						<view class="operate-bottom_number">
 							<view class="number-message">
-								<image src="../../static/img/user/message.png" mode=""></image>
+								<image src="http://www.zhongjubang.com/api/upload/static/img/user/message.png" mode=""></image>
 								<text>{{items.gCollectionDiscussNum}}</text>
 							</view>
 							<view class="collect">
-								<image @click.stop="collect(index, items.gcircleContentId, items.collectionState, current)" :src="(activeIndex == index && isShowCollect) || items.collectionState === 1 ? '../../static/topic/collect-select.png' : '../../static/img/user/star.png' " mode=""></image>
+								<image @click.stop="collect(index, items.gcircleContentId, items.collectionState, current)" :src="(activeIndex == index && isShowCollect) || items.collectionState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/collect-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/star.png' " mode=""></image>
 								<text>{{items.collectionNum}}</text>
 							</view>
 							<view class="fabulous" >
-								<image @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState, current)" :src="(fabulousIndex == index && isShowFabulous) || items.gcircleContentLikeState === 1 ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
+								<image @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState, current)" :src="(fabulousIndex == index && isShowFabulous) || items.gcircleContentLikeState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
 								<text>{{items.gcircleContentLikeNum}}</text>
 							</view>
 						</view>
@@ -124,7 +125,8 @@
 			<!-- 点击右边三点显示的遮罩层 start -->
 			<view id="mask" v-show="showEdit"></view>
 			<!-- 点击右边三点显示的遮罩层 end -->
-			<view class="look-more">-上拉查看更多-</view>
+			<view class="look-more">-{{status== 'end' ? '没有更多' : '上拉加载更多'}}-</view>
+			<!-- <uni-load-more :status="status" :content-text="contentText" /> -->
 			<!-- G圈所有内容 end -->
 		</view>
 		<!-- G圈内容 end -->
@@ -137,6 +139,14 @@
 	export default {
 		data() {
 			return {
+				reload: false,
+				status: 'more',
+				contentText: {
+					contentdown: '上拉加载更多',
+					// contentrefresh: '加载中',
+					contentnomore: '没有更多'
+				},
+				page: 1,
 				tabType: ['居圈', '关注', '短视频'],
 				current: 0,
 				cIndex: -1,
@@ -158,7 +168,7 @@
 				isShowCollect: false,   //是否显示已收藏
 				isShowFocus: false,   //是否显示已关注图标
 				recommendList: [],   	  // G圈推荐
-				userListContent: []		// 关注用户的G圈列表
+				userListContent: [],		// 关注用户的G圈列表
 			}
 		},
 		filters: {
@@ -179,9 +189,20 @@
 			});
 			this.current = 0;
 			this.isShow = true;
+			this.page = 1;
+			this.releaseImgList = [];
 			this.init();
 			this.recommend();
 		},
+		// 上拉加载
+		onReachBottom: function() {
+			this.status = 'more';
+			if( this.page == 1) {
+				this.status = 'end';
+				return;
+			}
+			this.init();
+		},	
 		methods: {
 			// 获取G圈推荐
 			recommend() {
@@ -196,24 +217,20 @@
 							let data = res.data.data;
 							this.recommendList = data;
 						}
-						if(res.data.code == 421) {
-							uni.navigateTo({
-								url: '/pages/loginPhone/loginPhone'
-							})
-						}
 					})
 				})
 			},
 			// 获取居圈内容
 			init() {
 				let parmas = {
-					pageIndex: 1,
-					pageSize: 1000
+					pageIndex: this.page,
+					pageSize: 10
 				}
 				uni.showLoading({
 					title: '加载中...',
 					mask: true
 				})
+				
 				uni.request({
 					url: this.url + "/controller/contentcontroller/getallgcirclecontentlist",
 					data: parmas,
@@ -221,20 +238,22 @@
 					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
 					success: ((res) => {
 						uni.hideLoading()
+						let totalPage = res.data.data.pageSize * res.data.data.totalPage;
+						if(this.releaseImgList.length == totalPage) {
+							this.status = 'end';
+							return;
+						}
 						if(res.data.code == 200) {
 							let data = res.data.data.dataList;
-							// 
 							for(let i=0; i<data.length; i++) {
-								// let test = data[i].gcircleContentDTO;
 								data[i].imgList = JSON.parse(data[i].imgList);
 								data[i].title = JSON.parse(data[i].title);
 							}
-							this.releaseImgList = data;
-						}
-						if(res.data.code == 421) {
-							uni.navigateTo({
-								url: '/pages/loginPhone/loginPhone'
-							})
+							this.releaseImgList = this.reload ? data : this.releaseImgList.concat(data);
+							if(res.data.data.totalPage < 2) {
+								return;
+							}
+							this.page++;
 						}
 					})
 				})
@@ -245,6 +264,7 @@
 					title: '加载中',
 					mask: true
 				})
+				
 				uni.request({
 				    url: this.url + 'controller/usercontroller/getRecommendUserList',
 				    method: 'post',
@@ -254,11 +274,7 @@
 				        if(res.data.code == 200) {
 				            this.userList = res.data.data;
 				        } 
-						if(res.data.code == 421) {
-							uni.navigateTo({
-								url: '/pages/loginPhone/loginPhone'
-							})
-						}
+						
 				    }
 				});
 			},
@@ -287,11 +303,7 @@
 							}
 				            this.releaseImgList = data;
 				        }
-						if(res.data.code == 421) {
-							uni.navigateTo({
-								url: '/pages/loginPhone/loginPhone'
-							})
-						}
+						
 				    }
 				});
 			},
@@ -404,7 +416,8 @@
 					uni.navigateTo({
 						url: '/pages/juquanVideo/juquanVideo'
 					})
-				}if(index == 1) {
+				}
+				if(index == 1) {
 					this.focusUser();
 					this.focusUserContent();
 				}
@@ -500,7 +513,10 @@
 			// 专辑模块跳转
 			homologousPage(index, id) {
 				if(index == 0) {
-					// 跳转到专辑页面
+					// 跳转到话题页面
+					uni.navigateTo({
+						url:'/pages/topicDetails/topicDetails?id=' + id
+					})
 					return;
 				}
 				if(index == 1) {
@@ -542,7 +558,7 @@
 		padding: 10rpx 30rpx;
 		background: #FFFFFF;
 		position: fixed;
-		z-index: 1;
+		z-index: 3;
 		top: 0;
 		left: 0;
 		right: 0;
@@ -640,7 +656,9 @@
 		width: 34%;
 		height: 100%;
 		position: relative;
-		background-image: url('../../static/img/G-circle/shadow.png') no-repeat;
+		background-image: url(http://www.zhongjubang.com/api/upload/static/img/G-circle/shadow.png);
+		background-repeat: no-repeat;
+		background-size: 100%;
 	}
 	.bg-shadow {
 		width: 100%;
@@ -654,7 +672,17 @@
 		height: 190rpx;
 		display: block;
 		position: absolute;
-		top: 0;
+		top: -6px;
+		border-radius: 3px;
+	}
+	.category-detial .mask {
+		width: 97%;
+		height: 190rpx;
+		background: rgba(0,0,0,.3);
+		z-index: 1;
+		position: absolute;
+		top: -6px;
+		border-radius: 3px;
 	}
 	.category-detial .title {
 		width: 100%;
@@ -664,6 +692,7 @@
 		position: absolute;
 		top: 54rpx;
 		text-align: center;
+		z-index: 2;
 		
 	}
 	.category-detial view:last-child {
@@ -674,6 +703,7 @@
 		position: absolute;
 		top: 100rpx;
 		text-align: center;
+		z-index: 2;
 	}
 	/* G圈类别 end*/
 	/* G圈列表 start */

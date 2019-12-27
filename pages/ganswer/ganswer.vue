@@ -2,7 +2,7 @@
 	<view>
 		<view class="top">
 			<view class="release-video">
-				<image class="back" src="../../static/img/back.png" @tap="back" mode="" />
+				<image class="back" src="http://www.zhongjubang.com/api/upload/static/img/back.png" @tap="back" mode="" />
 				<text class="title">{{length}}条回复</text>
 			</view>
 			<view class="top-image">
@@ -12,7 +12,7 @@
 			<view class="top-date">11-18 09:12</view>
 			<view class="top-content">{{gcircleContentDiscuss}}</view>
 			<view class="top-check" @tap="checkContent">查看原内容></view>
-			<image class="good" src="../../static/img/releaseVideo2/good.png" mode="" />
+			<image class="good" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/good.png" mode="" />
 
 		</view>
 
@@ -25,10 +25,10 @@
 					<view class="content-details-nickname">{{row.ziName}}</view>
 					<view class="content-details-date">{{row.ziCreateTime}}</view>
 					<view class="content-details-content">{{row.ziContext}}</view>
-					<!-- <image class="content-details-good" src="../../static/img/releaseVideo2/good.png" mode="" /> -->
+					<!-- <image class="content-details-good" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/good.png" mode="" /> -->
 				</view>
 				<view class="content-details-good">
-					<image src="../../static/img/releaseVideo2/good.png" mode="" />
+					<image src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/good.png" mode="" />
 					<view class="like">{{row.ziLikeNum}}</view>
 				</view> 
 				<view class="level"></view>
@@ -92,6 +92,11 @@
 					'token': token
 				},
 				success: function (res){
+					if(res.data.code==421){
+						uni.navigateTo({
+							url: '/pages/loginPhone/loginPhone'
+						})
+					}
 					console.log(res.data.code)
 					if(res.data.code==200){
 						console.log(res)

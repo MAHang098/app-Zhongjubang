@@ -7,7 +7,7 @@
 						<image src="../../../static/avatar.png" mode=""></image>
 					</view>
 					<view class="details">
-						<view class="name">{{item.msg.nickName}} <image src="../../../static/fans-logo.png" mode=""></image></view>
+						<view class="name">{{item.msg.nickName}} <image src="http://www.zhongjubang.com/api/upload/static/fans-logo.png" mode=""></image></view>
 						<view class="time">{{item.createTime}}</view>
 						<view class="follow">
 							{{item.msg.discuss | ellipsis}}
@@ -85,6 +85,11 @@
 					data: {pageIndex: 1,pageSize: this.count, msgType: this.type},
 					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
 					success: ((res) => {
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 						if(res.data.code == 200) {
 							let data = res.data.data.dataList;
 							for(let i=0; i<data.length; i++) {
@@ -119,6 +124,11 @@
 					data: params,
 					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
 					success: ((res) => {
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 						if(res.data.code == 200) {
 							this.discussInput = '';
 							this.cancel('popup')
@@ -161,7 +171,11 @@
 					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
 					success: ((res) => {
 						if(res.data.code == 200) {
-							
+							if(res.data.code==421){
+								uni.navigateTo({
+									url: '/pages/loginPhone/loginPhone'
+								})
+							}
 							this.discussInput = '';
 							this.cancel('popup')
 							uni.showToast({

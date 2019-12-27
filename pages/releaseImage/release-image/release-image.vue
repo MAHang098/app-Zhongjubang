@@ -1,9 +1,9 @@
 <template>
 	<view class="release">
 		<view class="header">
-			<image src="../../../static/topic/topic-back.png" mode="" @click="cancel"></image>
+			<image src="http://www.zhongjubang.com/api/upload/static/topic/topic-back.png" mode="" @click="cancel"></image>
 			<view class="release-image">发布图片</view>
-			<view class="next" @click="release">发布</view>
+			<view class="next" :class="isshowScusse ? 'successRelease' : ''" @click.stop="release">发布</view>
 		</view>
 		<view class="desc">
 			<textarea placeholder="多多分享想法和经验..."  maxlength="200" class="release-text" v-model="desc"  @input="descInput" />
@@ -11,12 +11,12 @@
 		</view>
 		<view class="topic" @click="addTopic">
 			<view class="left">
-				<image src="../../../static/topic/topic.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/topic/topic.png" mode=""></image>
 				<view>{{participationTopic}}</view>
 			</view>
 			<view class="right" v-show="ishow">
 				<view>选择合适的话题会获得更多关注哦~</view>
-				<image src="../../../static/topic/arrow.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/topic/arrow.png" mode=""></image>
 			</view>
 		</view>
 		
@@ -24,14 +24,14 @@
 		<view class="upload-list">
 			<view class="img" v-for="(item, index) in allImage" :key="index">
 				<image :src="item.fileUrl" mode="scaleToFill" @click.stop="previewImage(index)"></image>
-				<image src="../../../static/topic/deletes.png" mode="" class="delete" @click.stop="deleteImage(item.fileName, index)"></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/topic/deletes.png" mode="" class="delete" @click.stop="deleteImage(item.fileName, index)"></image>
 			</view>
-			<image src="../../../static/topic/add-upload.png" mode=""  @click.stop="chooseImage" v-show="isUpload"></image>
+			<image src="http://www.zhongjubang.com/api/upload/static/topic/add-upload.png" mode=""  @click.stop="chooseImage" v-show="isUpload"></image>
 		</view>
 		
 		<!-- 底部 start -->
 		<view class="bottom">
-			<image src="../../../static/topic/img.png" mode="" @click.stop="chooseImage"></image>
+			<image src="http://www.zhongjubang.com/api/upload/static/topic/img.png" mode="" @click.stop="chooseImage"></image>
 			<view @click="togglePopup('center', 'tip')">存草稿</view>
 		</view>
 		
@@ -70,7 +70,8 @@
 				// 弹窗所用到的变量
 				show: false,
 				popupType: '',
-				gcircleContentId: ''
+				gcircleContentId: '',
+				isshowScusse: false
 			}
 		},
 		onShow(e) {
@@ -130,6 +131,13 @@
 					 token = res.data;
 				  }
 				})
+				uni.showLoading({
+					title: '请稍等'
+				})
+				if(this.isshowScusse) {
+					return;
+				}
+				this.isshowScusse = true;
 				if(this.participationTopic == '参与话题') {
 					this.participationTopic = '';
 				}
@@ -142,6 +150,7 @@
 					imgList: JSON.stringify(this.allImage),
 					title: JSON.stringify(topicObj)
 				}
+				
 				if(this.gcircleContentId) {
 					parmas.gcircleContentId = this.gcircleContentId;
 					uni.request({
@@ -152,11 +161,6 @@
 						success:(res) => {
 							if(res.data.code == 200) {
 								
-								this.$store.commit('clearData', []);    // 清空存在vuex中图片上的所有数据
-								this.$store.commit('clearDrafts', []);  // 清空草稿箱到发布页的数据
-								this.$store.commit('defaultPage', '');  // 清空页面类型
-								this.$store.commit('updateType', {topic: '', topicId: ''});
-								
 								uni.showToast({
 									title: '发布成功',
 									duration: 500,
@@ -165,8 +169,13 @@
 									uni.switchTab({
 										url: '/pages/user/user'
 									})
-								}, 1000);
-								// uni.hideToast();
+								}, 500);
+								uni.hideLoading();
+								this.isshowScusse = false;
+								this.$store.commit('clearData', []);    // 清空存在vuex中图片上的所有数据
+								this.$store.commit('clearDrafts', []);  // 清空草稿箱到发布页的数据
+								this.$store.commit('defaultPage', '');  // 清空页面类型
+								this.$store.commit('updateType', {topic: '', topicId: ''});
 							} 
 							if(res.data.code == 421) {
 								uni.navigateTo({
@@ -184,12 +193,6 @@
 					header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
 					success:(res) => {
 						if(res.data.code == 200) {
-							
-							this.$store.commit('clearData', []);    // 清空存在vuex中图片上的所有数据
-							this.$store.commit('clearDrafts', []);  // 清空草稿箱到发布页的数据
-							this.$store.commit('defaultPage', '');  // 清空页面类型
-							this.$store.commit('updateType', {topic: '', topicId: ''});
-							
 							uni.showToast({
 								title: '发布成功',
 								duration: 500,
@@ -198,8 +201,13 @@
 								uni.switchTab({
 									url: '/pages/user/user'
 								})
-							}, 1000);
-							// uni.hideToast();
+							}, 500);
+							uni.hideLoading();
+							this.$store.commit('clearData', []);    // 清空存在vuex中图片上的所有数据
+							this.$store.commit('clearDrafts', []);  // 清空草稿箱到发布页的数据
+							this.$store.commit('defaultPage', '');  // 清空页面类型
+							this.$store.commit('updateType', {topic: '', topicId: ''});
+							this.isshowScusse = false;
 						} 
 						if(res.data.code == 421) {
 							uni.navigateTo({
@@ -548,6 +556,11 @@
 		background: #F9B72C;
 		text-align: center;
 		font-size: 30rpx;
+	}
+	.successRelease {
+		background: #fff !important;
+		border: 1px solid #e2e2e2 !important;
+		color: #999 !important;
 	}
 	.desc {
 		position: relative;

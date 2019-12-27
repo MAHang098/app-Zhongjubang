@@ -2,13 +2,13 @@
 	<view class="order-exchange">
 		<view class="no-adress" @click="addAdress" v-show="showAdress">
 			<view>请添加收获地址</view>
-			<image src="../../static/img/information/right-arrow.png" mode=""></image>
+			<image src="http://www.zhongjubang.com/api/upload/static/img/information/right-arrow.png" mode=""></image>
 		</view>
 		
 		<!-- 默认地址 start -->
 		<view class="have-class" @click="addAdress" v-show="!showAdress">
 			<!-- <view class="adress-image"> -->
-				<image src="../../static/img/user/hot-point/adress-image.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/img/user/hot-point/adress-image.png" mode=""></image>
 			<!-- </view> -->
 			<view class="adress-detail">
 				<text>{{name}}</text>
@@ -18,7 +18,7 @@
 				</view>
 			</view>
 			<!-- <view class="arrow-right"> -->
-				<image src="../../static/img/information/right-arrow.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/img/information/right-arrow.png" mode=""></image>
 			<!-- </view> -->
 		</view>
 		<!-- 默认地址 end -->
@@ -42,7 +42,7 @@
 			<view class="horizen"></view>
 			<text class="car-coupon">优惠券</text>
 			<text class="car-nouse">暂无可用</text>
-			<image class="car-image" style="width: 12upx;height: 23upx;" src="../../static/img/information/right-arrow.png" mode=""></image>
+			<image class="car-image" style="width: 12upx;height: 23upx;" src="http://www.zhongjubang.com/api/upload/static/img/information/right-arrow.png" mode=""></image>
 		</view>
 		<view class="mask">
 			<textarea placeholder="备注："  v-model="desc"  maxlength="200" class="release-text"  @input = "descInput"/>
@@ -130,6 +130,11 @@
 					success: ((res) => {
 						uni.hideLoading();
 						if(res.data.code == 200) {
+							if(res.data.code==421){
+								uni.navigateTo({
+									url: '/pages/loginPhone/loginPhone'
+								})
+							}
 							let data = res.data.data;
 							for(let i =0; i<data.length; i++) {
 								if(data[i].isDefault == 1) {

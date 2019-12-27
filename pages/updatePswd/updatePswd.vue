@@ -6,11 +6,11 @@
 		</view>
 		<view class="input">
 			<view class="phone-number">
-				<image src="../../static/phone.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/phone.png" mode=""></image>
 				<input v-model="phone" type="text" placeholder="请输入手机号" />
 			</view>
 			<view class="yzm">
-				<image src="../../static/lock.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/lock.png" mode=""></image>
 				<input type="text" placeholder="请输入验证码"  v-model="validationCode"/>
 				<button size="mini" class="send" v-bind:class="isActive == true ? 'in' : ''" @tap="sendCod">{{isActive == true ? second + 's' : '获取验证码'}}</button>
 			</view>

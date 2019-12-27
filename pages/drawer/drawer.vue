@@ -15,41 +15,41 @@
 					<view class="drawer-content">
 						<view class="drawer-more">更多</view>
 						<view class="more-list" @tap="goPockets">
-							<image class="more-list-image" style="width:33rpx;height:36rpx;margin-right:30rpx;" src="../../static/img/user/pockets.png" mode=""></image>
+							<image class="more-list-image" style="width:33rpx;height:36rpx;margin-right:30rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/pockets.png" mode=""></image>
 							<text class="my-pockets">我的钱包</text>
 						</view>
 						<view class="more-list" @tap="goHot">
-							<image style="width:31rpx;height:41rpx;margin-right:30rpx;" src="../../static/img/user/hot-num.png" mode=""></image>
+							<image style="width:31rpx;height:41rpx;margin-right:30rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/hot-num.png" mode=""></image>
 							<text class="my-pockets">我的热度分</text>
 						</view>
 						<view class="more-list" @tap="goList">
-							<image style="width:30rpx;height:38rpx;margin-right:30rpx;" src="../../static/img/user/command.png" mode=""></image>
+							<image style="width:30rpx;height:38rpx;margin-right:30rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/command.png" mode=""></image>
 							<text class="my-pockets">我的订单</text>
 						</view>
 						<view class="horizen"></view>
 						<view class="more-list" style="margin-top:30rpx" @tap="goDrafts">
-							<image style="width:35rpx;height:39rpx;margin-right:30rpx;" src="../../static/img/user/drafts.png" mode=""></image>
+							<image style="width:35rpx;height:39rpx;margin-right:30rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/drafts.png" mode=""></image>
 							<text class="my-pockets">草稿箱</text>
 						</view>
 						<view class="more-list" @tap="goRecommend">
-							<image style="width:37rpx;height:36rpx;margin-right:30rpx;" src="../../static/img/user/my-recommend.png" mode=""></image>
+							<image style="width:37rpx;height:36rpx;margin-right:30rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/my-recommend.png" mode=""></image>
 							<text class="my-pockets">我的评论</text>
 						</view>
 						<view class="more-list" @tap="goAccount">
-							<image style="width:38rpx;height:37rpx;margin-right:30rpx;" src="../../static/img/user/account.png" mode=""></image>
+							<image style="width:38rpx;height:37rpx;margin-right:30rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/account.png" mode=""></image>
 							<text class="my-pockets">账号与绑定</text>
 						</view>
 						<view class="horizen"></view>
 						<view class="more-list" style="margin-top:30rpx" @tap="goRanked">
-							<image style="width:40rpx;height:38rpx;margin-right:30rpx;" src="../../static/img/user/ranked.png" mode=""></image>
+							<image style="width:40rpx;height:38rpx;margin-right:30rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/ranked.png" mode=""></image>
 							<text class="my-pockets">我的称号</text>
 						</view>
 						<view class="more-list" @tap="goIdentify">
-							<image style="width:41rpx;height:31rpx;margin-right:30rpx;" src="../../static/img/user/identify.png" mode=""></image>
+							<image style="width:41rpx;height:31rpx;margin-right:30rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/identify.png" mode=""></image>
 							<text class="my-pockets">身份认证</text>
 						</view>
 						<view class="more-list" @tap="goSetting">
-							<image style="width:38rpx;height:39rpx;margin-right:30rpx;" src="../../static/img/user/setting.png" mode=""></image>
+							<image style="width:38rpx;height:39rpx;margin-right:30rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/setting.png" mode=""></image>
 							<text class="my-pockets">设置</text>
 						</view>
 					</view>

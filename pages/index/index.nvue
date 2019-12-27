@@ -1,8 +1,8 @@
 <template>
 	<div>
 		<div class="release-video">
-		    <div class="back" @tap="back"><image style="width:15rpx;height:31rpx;" src="../../static/img/topicDetails/back.png" mode="" /></div> 
-			<image class="fly" style="width:39rpx;height:37rpx;" src="../../static/img/releaseVideo2/share.png" mode="" />
+		    <div class="back" @tap="back"><image style="width:15rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/back.png" mode="" /></div> 
+			<image class="fly" style="width:39rpx;height:37rpx;" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/share.png" mode="" />
 		</div>
 		<div class="release-content">
 			<!-- 获取视频 -->
@@ -16,36 +16,36 @@
 				</div>
 				<text class="my-active-nickName10">{{nickName}}</text>
 				<!-- <div class="edit-del" :style="{bottom:height+'px'}" @tap="attention">
-					<image style="width:106rpx;height:48rpx;" src="../../static/img/topicDetails/interest.png" mode=""></image>
+					<image style="width:106rpx;height:48rpx;" src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/interest.png" mode=""></image>
 				</div> -->
 				<div class="element">
 					<text v-if="!isShowAllContent" class="text">{{content2}}</text>
 					<text v-else class="text">{{content2 | ellipsis}}</text>
 					<!-- <text class="content-last" v-if="content2.length > 60 " @click="open()">{{brandFold  ? '收起' : '展开'}}</text>
-					<image @click="open()" style="width:26rpx;height:19rpx;margin-bottom: -1rpx;" :class="brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image> -->
+					<image @click="open()" style="width:26rpx;height:19rpx;margin-bottom: -1rpx;" :class="brandFold ? '' : 'in'" src="http://www.zhongjubang.com/api/upload/static/drafts/arrow-bottom.png" mode=""></image> -->
 				</div>
 			</div>
 		</div>
 		<div class="footer">
 			<!-- 点赞 -->
 			<div class="good">
-				<image style="width:31rpx;height:31rpx;" src="../../static/img/releaseVideo2/good.png"  v-if="showUpImg2" @click="good" />
-				<image style="width:31rpx;height:31rpx;" src="../../static/topic/fabulous-select.png"  v-if="!showUpImg2" @click="good" />
+				<image style="width:31rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/good.png"  v-if="showUpImg2" @click="good" />
+				<image style="width:31rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png"  v-if="!showUpImg2" @click="good" />
 			</div>
 			<text class="text10">{{shortVideoLikeNum}}</text>
 			<!-- 收藏 -->
 			<div class="star">
-				<image style="width:31rpx;height:31rpx;" src="../../static/img/releaseVideo2/star.png"  v-if="showUpImg" @click="collect" mode="" />
-				<image style="width:31rpx;height:31rpx;" src="../../static/topic/collect-select.png"  v-if="!showUpImg" @click="collect" mode="" />
+				<image style="width:31rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/star.png"  v-if="showUpImg" @click="collect" mode="" />
+				<image style="width:31rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/topic/collect-select.png"  v-if="!showUpImg" @click="collect" mode="" />
 			</div>
 			<text class="text11">{{shortVideoCollectionNum}}</text>
 			<!-- 评论 -->
 			<div @click="openBottomPopup" class="message">
-				<image style="width:31rpx;height:31rpx;" src="../../static/img/releaseVideo2/message.png" mode="" />
+				<image style="width:31rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/message.png" mode="" />
 			</div>
 			<text class="text12">{{shortVideoDiscussNum}}</text>
 			<div class="topic" @click="openBottomPopup">
-				<image class="topic-image" style="width:24rpx;height:24rpx;" src="../../static/img/releaseVideo2/message.png" mode="" />
+				<image class="topic-image" style="width:24rpx;height:24rpx;" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/message.png" mode="" />
 				<text class="text20">说点什么吧...</text>
 			</div>
 			<!-- 评论弹窗 -->
@@ -62,7 +62,7 @@
 			      <div class="recommend" style="border: 1px solid red;">
 					<div class="recommend-content">
 						<text class="all-recommend">全部评论 ({{shortVideoDiscussNum}})</text>
-						<view class="close" @tap="popupOverlayBottomClick" ><image style="width: 25rpx;height: 25rpx;" src="../../static/img/releaseVideo2/close.png" mode="" /></view> 
+						<view class="close" @tap="popupOverlayBottomClick" ><image style="width: 25rpx;height: 25rpx;" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/close.png" mode="" /></view> 
 					</div>
 					<div class="vertify"></div>
 					
@@ -83,7 +83,7 @@
 									
 									<div @click="commentsFabulous(index, row.id)">
 										<text class="my-active-like">{{row.likenum}}</text>
-										<image  style="width: 31rpx;height: 31rpx;" class="my-active-good" :class="(activeIndex == index && isCommentsFabulous) ||  row.state == '1'? 'select' : '' " :src="(activeIndex == index && isCommentsFabulous) ||  row.state == '1' ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
+										<image  style="width: 31rpx;height: 31rpx;" class="my-active-good" :class="(activeIndex == index && isCommentsFabulous) ||  row.state == '1'? 'select' : '' " :src="(activeIndex == index && isCommentsFabulous) ||  row.state == '1' ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
 									</div>
 								</div>	
 							</div>
@@ -735,12 +735,12 @@
 	.release-content{
 		position: relative;
 		width:750rpx;
-	    height:1106rpx;
+	    height:100%;
 	}
 	.pic{
 		position: absolute;
 		width:750rpx;
-	    height:1106rpx;
+	    height:100%;
 	}
 	/* 视频内容 */
 	.user-info{

@@ -1,31 +1,30 @@
 <template>
     <view>
         <view class="search">
-			<image class="search-image" style="width:26upx;height:26upx;" src="../../static/img/stop/search.png" mode="" />
+			<image class="search-image" style="width:26upx;height:26upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/search.png" mode="" />
 			<input @tap="goSearch" class="search-insert" type="text" placeholder="请输入您所需要的商品">
-			<image class="car" style="width:41upx;height:39upx;" src="../../static/img/stop/car.png" mode="" />
+			<image class="car" style="width:41upx;height:39upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/car.png" mode="" />
 		</view>
 		<view class="banner">
-			<image class="banner-image" style="width:663upx;height:345upx;" src="../../static/img/stop/banner.png" mode="" />
+			<image class="banner-image" style="width:663upx;height:345upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/banner.png" mode="" />
 			<uni-swiper-dot :info="info" :current="current" :mode="mode" :dots-styles="dotStyle" field="content">
 				<swiper class="swiper-box" @change="change">
 					<swiper-item v-for="(item, index) in info" :key="index">
 						<view :class="item.colorClass" class="swiper-item">
-							<!-- <image :src="item.url" mode="aspectFill" /> -->
 							<view class="banner-content-des">
-								<image class="banner-content-des-image" style="width:85upx;height:86upx;" src="../../static/img/stop/banner-image.png" mode="aspectFill" />
+								<image class="banner-content-des-image" style="width:85upx;height:86upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/banner-image.png" mode="aspectFill" />
 								<view class="banner-content-des-title">全屋定制</view>
 							</view>
 							<view class="banner-content-des">
-								<image class="banner-content-des-image" style="width:85upx;height:86upx;" src="../../static/img/stop/banner-image.png" mode="aspectFill" />
+								<image class="banner-content-des-image" style="width:85upx;height:86upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/banner-image.png" mode="aspectFill" />
 								<view class="banner-content-des-title">全屋定制</view>
 							</view>
 							<view class="banner-content-des">
-								<image class="banner-content-des-image" style="width:85upx;height:86upx;" src="../../static/img/stop/banner-image.png" mode="aspectFill" />
+								<image class="banner-content-des-image" style="width:85upx;height:86upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/banner-image.png" mode="aspectFill" />
 								<view class="banner-content-des-title">全屋定制</view>
 							</view>
 							<view class="banner-content-des">
-								<image class="banner-content-des-image" style="width:85upx;height:86upx;" src="../../static/img/stop/banner-image.png" mode="aspectFill" />
+								<image class="banner-content-des-image" style="width:85upx;height:86upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/banner-image.png" mode="aspectFill" />
 								<view class="banner-content-des-title">全屋定制</view>
 							</view>
 						</view>
@@ -38,9 +37,9 @@
 			<view class="buy-left">
 				<text class="buy-left-title">网红品，大家都在买></text>
 				<view class="balance-content">
-					<image class="balance-content-image" style="width:74upx;height:76upx;" src="../../static/img/stop/banner-image.png" mode="aspectFill" />
-					<image class="balance-content-image" style="width:74upx;height:76upx;" src="../../static/img/stop/banner-image.png" mode="aspectFill" />
-					<image class="balance-content-image" style="width:74upx;height:76upx;" src="../../static/img/stop/banner-image.png" mode="aspectFill" />
+					<image class="balance-content-image" style="width:74upx;height:76upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/banner-image.png" mode="aspectFill" />
+					<image class="balance-content-image" style="width:74upx;height:76upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/banner-image.png" mode="aspectFill" />
+					<image class="balance-content-image" style="width:74upx;height:76upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/banner-image.png" mode="aspectFill" />
 					<text class="balance">...</text>
 				</view>
 				<text class="buy-left-buy">广佛2w人都在买</text>
@@ -48,9 +47,9 @@
 			<view class="buy-left">
 				<text class="buy-left-title">网红品，大家都在买></text>
 				<view class="balance-content">
-					<image class="balance-content-image" style="width:74upx;height:76upx;" src="../../static/img/stop/banner-image.png" mode="aspectFill" />
-					<image class="balance-content-image" style="width:74upx;height:76upx;" src="../../static/img/stop/banner-image.png" mode="aspectFill" />
-					<image class="balance-content-image" style="width:74upx;height:76upx;" src="../../static/img/stop/banner-image.png" mode="aspectFill" />
+					<image class="balance-content-image" style="width:74upx;height:76upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/banner-image.png" mode="aspectFill" />
+					<image class="balance-content-image" style="width:74upx;height:76upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/banner-image.png" mode="aspectFill" />
+					<image class="balance-content-image" style="width:74upx;height:76upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/banner-image.png" mode="aspectFill" />
 					<text class="balance">...</text>
 				</view>
 				<text class="buy-left-buy">广佛2w人都在买</text>
@@ -59,11 +58,11 @@
 		<!-- 精品抢购 -->
 		<view class="good">
 			<view class="good-top">
-				<image class="good-left" style="width:66upx;height:62upx;" src="../../static/img/stop/good-left.png" />
+				<image class="good-left" style="width:66upx;height:62upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/good-left.png" />
 				<text class="good-title">精品抢购</text>
-				<image class="good-right" style="width:66upx;height:62upx;" src="../../static/img/stop/good-right.png" />
+				<image class="good-right" style="width:66upx;height:62upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/good-right.png" />
 				<text class="good-more">更多</text>
-				<image class="good-more-image" style="width:13upx;height:20upx;" src="../../static/img/stop/more.png" />
+				<image class="good-more-image" style="width:13upx;height:20upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/more.png" />
 			</view>
 			<view>
 				<swiper
@@ -78,13 +77,13 @@
 					<swiper-item v-for="(item, index) in swiperList" :key="index" :class="cardCur == index ? 'cur' : ''">
 						<view class="swiper-item-immeuble">
 
-							<image class="swiper-item-immeuble-take" style="width:80upx;height:38upx;" src="../../static/img/stop/take.png" mode="" />
-							<image class="" style="width:283upx;height:240upx;" src="../../static/img/stop/immeuble.png" mode="" />
+							<image class="swiper-item-immeuble-take" style="width:80upx;height:38upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/take.png" mode="" />
+							<image class="" style="width:283upx;height:240upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/immeuble.png" mode="" />
 							<view class="immeuble">
 								<view class="immeuble-desc">百纯家具沙发客厅整沙发装组合...</view>
 								<view class="immeuble-price">
 									<text  class="immeuble-price-text">￥8460.00</text>
-									<image class="immeuble-price-image" style="width:29upx;height:25upx;" src="../../static/img/stop/car.png" mode="" />
+									<image class="immeuble-price-image" style="width:29upx;height:25upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/car.png" mode="" />
 								</view>
 							</view>
 						</view>
@@ -93,16 +92,16 @@
 			</view>
 		</view>
 		<!-- G圈列表 start -->
-		<view class="">
+		<view v-if="current==0" class="relese-image"  >
 			<view v-for="(items, index) in releaseImgList" :key="index">
 				<view class="relese-image_detail" >
 					<!-- 用户信息 start -->
 					<view class="user">
 						<view class="user-message">
-							<image src="../../static/drafts.png" mode=""></image>
+							<image :src="items.head" mode=""></image>
 							<view>
-								<view class="name">晴天小猪</view>
-								<view class="time">219-12-30 09:30</view>
+								<view class="name">{{items.nickName}}</view>
+								<view class="time">{{items.createTime}}</view>
 							</view>
 						</view>
 						<view class="operate-user" @click.stop="operate(index)">
@@ -112,8 +111,8 @@
 							<view class="operate-detail" v-show="cIndex == index && showEdit">
 								<view class="operate-arrow"></view>
 								<view class="operate-btn">
-									<view @click.stop="editRelease(items.gcircleContentDTO, items.gcircleContentDTO.id)"><image src="../../static/edit.png" mode=""></image>编辑</view>
-									<view @click.stop="deleteRelease(items.gcircleContentDTO.id)"><image src="../../static/delete.png" mode=""></image>删除</view>
+									<view @click.stop="editRelease(items, items.gcircleContentId)"><image src="http://www.zhongjubang.com/api/upload/static/edit.png" mode=""></image>编辑</view>
+									<view @click.stop="deleteRelease(items.gcircleContentId)"><image src="http://www.zhongjubang.com/api/upload/static/delete.png" mode=""></image>删除</view>
 								</view>
 							</view>
 						</view>
@@ -121,10 +120,10 @@
 					<!-- 用户信息 start -->
 					
 					<!-- 草稿内容 start -->
-					<view class="content"  v-if="items.gcircleContentDTO.content != '' ">
-						<view v-if="!isShowAllContent" class="text">{{items.gcircleContentDTO.content }}</view>
-						<view v-else class="text">{{items.gcircleContentDTO.content | ellipsis}}</view>
-						<view class="anCotent" v-if="items.gcircleContentDTO.content.length > 45 " @click="open()">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
+					<view class="content"  v-if="items.content != '' ">
+						<view v-if="!isShowAllContent" class="text">{{items.content }}</view>
+						<view v-else class="text">{{items.content | ellipsis}}</view>
+						<view class="anCotent" v-if="items.content.length > 45 " @click="open()">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'in'" src="http://www.zhongjubang.com/api/upload/static/drafts/arrow-bottom.png" mode=""></image></view>
 					</view>
 					<!-- 草稿内容 end -->
 					
@@ -133,33 +132,33 @@
 					<!-- 	<view v-for="(tese, indexT) in JSON.stringify(JSON.parse(items.gcircleContentDTO.imgList))" :key="indexT">
 							{{1111}}
 						</view> -->
-						<image :mode="items.gcircleContentDTO.imgList.length > 1 ? 'aspectFit' : '' " :class="items.gcircleContentDTO.imgList.length > 1 ? 'imageListIn' : 'imageListSingle' " :src="row.fileUrl" v-for="(row, indexI) in items.gcircleContentDTO.imgList" :key="indexI" @click.stop="previewImage(indexI, items.gcircleContentDTO.imgList)"></image>
+						<image :mode="items.imgList.length > 1 ? 'aspectFit' : '' " :class="items.imgList.length > 1 ? 'imageListIn' : 'imageListSingle' " :src="row.fileUrl" v-for="(row, indexI) in items.imgList" :key="indexI" @click.stop="previewImage(indexI, items.imgList)"></image>
 					</view>
 					<!-- 图片/视频 end -->
 					
 					<!-- 话题 start -->
-					<view class="release-image_topic"  v-show="show" v-if="items.gcircleContentDTO.title.topic != '' " >
-						<view class="left" @click.stop="goTopic(items.gcircleContentDTO.title)">
-							<image src="../../static/topic/topic.png" mode=""></image>
-							<view>{{items.gcircleContentDTO.title.topic}}</view>
+					<view class="release-image_topic"  v-show="show" v-if="items.title.topic != '' " >
+						<view class="left" @click.stop="goTopic(items.title)">
+							<image src="http://www.zhongjubang.com/api/upload/static/topic/topic.png" mode=""></image>
+							<view>{{items.title.topic}}</view>
 						</view>
 						<view class="right"></view>
 					</view>
 					<!-- 话题 end -->
 					<!-- 操作按钮 start -->
 					<view class="operate-bottom">
-						<view class="operate-bottom_share"><image src="../../static/img/user/share.png" mode=""></image></view>
+						<view class="operate-bottom_share"><image src="http://www.zhongjubang.com/api/upload/static/img/user/share.png" mode=""></image></view>
 						<view class="operate-bottom_number">
-							<view class="number-message"  @click.stop="togglePopup('bottom', 'comments',items.gcircleContentDTO.userId, items.gcircleContentDTO.id, nickName,items.gCollectionDiscussNum)">
-								<image src="../../static/img/topicDetails/message.png" mode=""></image>
+							<view class="number-message"  @click.stop="togglePopup('bottom', 'comments',items.userId, items.gcircleContentId, nickName,items.gCollectionDiscussNum)">
+								<image src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/message.png" mode=""></image>
 								<text>{{items.gCollectionDiscussNum}}</text>
 							</view>
 							<view class="collect">
-								<image @click.stop="collect(index, items.gcircleContentDTO.id, items.collectionState)" :src="(activeIndex == index && isShowCollect) || items.collectionState === 1 ? '../../static/topic/collect-select.png' : '../../static/img/user/star.png' " mode=""></image>
+								<image @click.stop="collect(index, items.gcircleContentId, items.collectionState)" :src="(activeIndex == index && isShowCollect) || items.collectionState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/collect-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/star.png' " mode=""></image>
 								<text>{{items.collectionNum}}</text>
 							</view>
 							<view class="fabulous" >
-								<image @click.stop="fabulous(index, items.gcircleContentDTO.id, items.gcircleContentLikeState)" :src="(fabulousIndex == index && isShowFabulous) || items.gcircleContentLikeState === 1 ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
+								<image @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState)" :src="(fabulousIndex == index && isShowFabulous) || items.gcircleContentLikeState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
 								<text>{{items.gcircleContentLikeNum}}</text>
 							</view>
 						</view>
@@ -188,11 +187,11 @@
 			return {
 				releaseImgList: [],
 				info: [{
-						url: '../../static/img/main/bg.png',
+						url: 'http://www.zhongjubang.com/api/upload/static/img/main/bg.png',
 						content: '内容 A'
 					},
 					{
-						url: '../../static/img/main/bg.png',
+						url: 'http://www.zhongjubang.com/api/upload/static/img/main/bg.png',
 						content: '内容 B'
 					}
 				],
@@ -206,36 +205,46 @@
 				swiperList: [{
 				id: 0,
 				type: 'image',
-				url: '../../static/img/main/video.png'
+				url: 'http://www.zhongjubang.com/api/upload/static/img/main/video.png'
 				}, {
 				id: 1,
 					type: 'image',
-					url: '../../static/img/main/video.png',
+					url: 'http://www.zhongjubang.com/api/upload/static/img/main/video.png',
 				}, {
 				id: 2,
 				type: 'image',
-				url: '../../static/img/main/video.png'
+				url: 'http://www.zhongjubang.com/api/upload/static/img/main/video.png'
 				}, {
 				id: 3,
 				type: 'image',
-				url: '../../static/img/main/video.png'
+				url: 'http://www.zhongjubang.com/api/upload/static/img/main/video.png'
 				}, {
 				id: 4,
 				type: 'image',
-				url: '../../static/img/main/video.png'
+				url: 'http://www.zhongjubang.com/api/upload/static/img/main/video.png'
 				}, {
 				id: 5,
 				type: 'image',
-				url: '../../static/img/main/video.png'
+				url: 'http://www.zhongjubang.com/api/upload/static/img/main/video.png'
 				}, {
 				id: 6,
 				type: 'image',
-				url: '../../static/img/main/video.png'
+				url: 'http://www.zhongjubang.com/api/upload/static/img/main/video.png'
 				}],
 				current: 0,
 				mode: 'round',
 				cardCur: 0,
 				showEdit: false,
+				Tokens: ''
+			}
+		},
+		filters: {
+			ellipsis (value) {
+			  if (!value) return ''
+			  if (value.length > 45) {
+				return value.slice(0,45) + '...'
+			  }
+			  return value
 			}
 		},
 		onShow(){
@@ -285,8 +294,8 @@
 			},
 			// 获取G圈列表内容
 			init() {
-				let token
 				let self = this
+				let token
 				uni.getStorage({
 					key:"token",
 					success: function (res) {
@@ -306,21 +315,16 @@
 					url: this.url + "/controller/usercontroller/getgcirclecontentlist",
 					data: parmas,
 					method: 'POST',
-					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.Tokens},
+					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': token},
 					success: ((res) => {
 						uni.hideLoading()
 						if(res.data.code == 200) {
 							let data = res.data.data.dataList;
 							// 
 							for(let i=0; i<data.length; i++) {
-								let test = data[i].gcircleContentDTO;
-								data[i].gcircleContentDTO.imgList = JSON.parse(data[i].gcircleContentDTO.imgList);
-								data[i].gcircleContentDTO.title = JSON.parse(data[i].gcircleContentDTO.title);
+								data[i].imgList = JSON.parse(data[i].imgList);
+								data[i].title = JSON.parse(data[i].title);
 							}
-							// data.forEach((item, i) => {
-							// 	item.gcircleContentDTO.imgList = JSON.stringify(item.gcircleContentDTO.imgList);
-							// 	item.gcircleContentDTO.title = JSON.parse(item.gcircleContentDTO.title);
-							// })
 							this.releaseImgList = data;
 						}
 					})
@@ -348,12 +352,13 @@
 </script>
 
 <style>
+	@import '../../static/css/releaseImgList.css'; /*引入G圈列表样式*/
 	page{
 		background:rgba(249,249,249,1);
 	}
 	.search{
 		position: relative;
-		margin-top: 41upx;
+		margin-top: 60upx;
 		width: 750upx;
 		height: 88upx;
 		box-shadow:0px 2upx 2upx 0px rgba(93,93,93,0.07);
@@ -392,8 +397,8 @@
 		box-shadow:0px 0px 9upx 0px rgba(93,93,93,0.06);
 	}
 	.banner-image{
-		top: 23upx;
-		left: 33upx;
+		margin-top: 23upx;
+		margin-left: 50upx;
 	}
 	/* 商品类别 */
 	.swiper-box {
@@ -427,7 +432,7 @@
 		justify-content: space-around;
 		padding: 0 14upx;
 		box-sizing: border-box;
-		margin-top: 21upx;
+		margin-top: 54upx;
 	}
 	.buy-left{
 		display: flex;
@@ -468,7 +473,9 @@
 		color:rgba(51,51,51,1);
 		line-height: 76upx;
 	}
+	/* 精品抢购 */
 	.good{
+		position: relative;
 		margin-top: 23upx;
 		width:750upx;
 		height:532upx;
@@ -507,8 +514,8 @@
 	}
 	.good-more-image{
 		position: absolute;
-		left: 392px;
-		top: 25px;
+		left: 710upx;
+		top: 54upx;
 	}
 	/* 精品抢购 */
 	

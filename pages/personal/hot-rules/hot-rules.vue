@@ -1,6 +1,6 @@
 <template>
 	<view class="hot-rules">
-		<image src="../../../static/img/user/hot-point/hot-rules.png" mode="widthFix"></image>
+		<image src="http://www.zhongjubang.com/api/upload/static/img/user/hot-point/hot-rules.png" mode="widthFix"></image>
 	</view>
 </template>
 

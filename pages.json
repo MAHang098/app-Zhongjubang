@@ -1,7 +1,7 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页,
 		{
-			"path": "pages/loginPhone/loginPhone",
+			"path": "pages/main/main",
 			"style": {
 				"app-plus": {
 					"titleNView": false //禁用原生导航栏  
@@ -9,7 +9,33 @@
 			}
 		},
 		{
+			"path": "pages/designation/designation",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		{
+			"path": "pages/loginPhone/loginPhone",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		
+		
+		{
 			"path": "pages/user/user",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		{
+			"path": "pages/otherUser/otherUser",
 			"style": {
 				"app-plus": {
 					"titleNView": false //禁用原生导航栏  
@@ -26,12 +52,6 @@
 			"path": "pages/paySuccess/paySuccess",
 			"style" : {
 				 "navigationBarTitleText": "支付成功"
-			}
-		},
-		{
-			"path": "pages/juquanSpecials/juquanSpecials",
-			"style" : {
-				 "navigationBarTitleText": ""
 			}
 		},
 		{
@@ -83,7 +103,22 @@
 				}
 			}
 		},
-		
+		{
+			"path": "pages/index/index",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		{
+			"path": "pages/index2/index2",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
 		
 		{
 			"path": "pages/juquanVideo/juquanVideo",
@@ -95,6 +130,21 @@
 		},
 		{
 			"path": "pages/juquan/juquan",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},{
+			"path": "pages/jingpin/jingpin",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		{
+			"path": "pages/haodian/haodian",
 			"style": {
 				"app-plus": {
 					"titleNView": false //禁用原生导航栏  
@@ -212,16 +262,6 @@
 		    }
 		},
 		
-		
-		
-		{
-		    "path": "pages/test/test",
-		    "style": {
-		        "app-plus": {
-		            "titleNView": false //禁用原生导航栏  
-		        }
-		    }
-		},
 		{
 			"path" : "pages/editInfo/editInfo",
 			"style": {
@@ -336,8 +376,7 @@
             "path": "pages/agreement/agreement",
             "style": {
                 "app-plus": {
-                    "titleNView": true, //禁用原生导航栏  
-					"navigationBarTitleText": "众居邦用户协议"
+                    "titleNView": false //禁用原生导航栏  
                 }
             }
         },
@@ -387,14 +426,7 @@
                 }
             }
         },
-        {
-            "path": "pages/main/main",
-			"style": {
-                "app-plus": {
-                    "titleNView": false //禁用原生导航栏  
-                }
-            }
-        },
+        
 		
         {
             "path": "pages/setPswd/setPswd",
@@ -432,11 +464,18 @@
        
         
         ,{
-            "path" : "pages/shop-command/shop-command",
+            "path" : "pages/shop-command/shop-command",    // 店铺
             "style": {
                 "app-plus": {
                     "titleNView": false //禁用原生导航栏  
                 }
+
+            }
+        }
+        ,{
+            "path" : "pages/designeConfirm/designeConfirm",
+            "style": {
+                "navigationBarTitleText": "居圈达人认证"
             }
         }
         ,{
@@ -643,12 +682,84 @@
 					}
 				},
 				{
-					"path" : "detail-evaluate/detail-evaluate",
+					"path" : "detail-evaluate/detail-evaluate",   // 商品详情的所有评价
 					"style" : {
 						"navigationBarTitleText": "全部评价"
 					}
+				},
+				{
+					"path" : "order-comments/order-comments",
+					"style" : {
+						"navigationBarTitleText": "发表评价"
+					}
+				}, 
+				{
+					"path" : "order-detail/order-detail",
+					"style" : {
+						"navigationBarTitleText": "订单详情"
+					}
 				}
 				
+			]
+		},
+		// 身份认证
+		{
+			"root": "pages/identity",
+			"pages": [
+				{
+				    "path" : "all-authentication/all-authentication",
+				    "style" : {
+						"navigationBarTitleText": "身份认证"
+					}
+				},
+				{
+					"path" : "rednet/rednet",   // 网红达人规则
+					"style" : {
+						"navigationBarTitleText": "网红达人认证"
+					}
+				},
+				{
+					"path" : "circle-people/circle-people",   // 居圈达人认证规则
+					"style" : {
+						"navigationBarTitleText": "居圈达人认证"
+					}
+				}  ,
+				{
+					"path" : "designer/designer",		 // 设计师认证规则
+					"style" : {
+						"navigationBarTitleText": "设计师认证"
+					}
+				} ,
+				{
+					"path" : "owner/owner",				 // 金牌业主认证规则
+					"style" : {
+						"navigationBarTitleText": "金牌业主认证"
+					}
+				},
+				{
+				    "path" : "write/write",				// 居圈达人认证信息填写
+				    "style" : {
+						"navigationBarTitleText": "居圈达人认证"
+					}
+				},
+				{
+				    "path" : "rednet-people/rednet-people",	// 网红达人认证信息填写
+				    "style" : {
+						"navigationBarTitleText": "居家网红认证"
+					}
+				} ,
+				{
+					"path" : "owner-people/owner-people",	// 金牌业主认证信息填写
+					"style" : {
+						"navigationBarTitleText": "金牌业主认证"
+					}
+				},
+				{
+					"path" : "designer-people/designer-people", // 设计达人认证填写
+					"style" : {
+						"navigationBarTitleText": "设计达人"
+					}
+				}
 			]
 		}
 	],
@@ -667,12 +778,12 @@
             "iconPath": "static/img/juquan.png",
             "selectedIconPath": "static/img/juquanHL.png"
         },
-        // {
-        //     "pagePath": "pages/release/release",
-        //     "text": "",
-        //     "iconPath": "static/img/release.png",
-        //     "selectedIconPath": "static/img/homeHL.png"
-        // },
+        {
+            "pagePath": "pages/release/release",
+            "text": "发布",
+            "iconPath": "static/img/release.png",
+            "selectedIconPath": "static/img/homeHL.png"
+        },
         {
             "pagePath": "pages/stop/stop",
             "text": "商城",
@@ -684,14 +795,22 @@
             "iconPath": "static/img/user.png",
             "selectedIconPath": "static/img/userHL.png"
         }]
-		,
-		"midButton": {
-		    "width": "75rpx",
-		    "height": "98px",
-		    "text": "发布",
-		    "iconPath": "static/img/release.png",
-		    "iconWidth": "47rpx"
-		}
+		// ,
+		// "midButton": {
+		//     "width": "75upx",
+		//     "height": "98px",
+		//     "text": "发布",
+		//     "iconPath": "static/img/release.png",
+		//     "iconWidth": "47rpx"
+		// }
+		// ,
+		// "midButton": {
+		//     "width": "75upx",
+		//     "height": "66upx",
+		//     "text": "",
+		//     "iconPath": "static/img/release.png",
+		//     "iconWidth": "47upx"
+		// }
     },
     "globalStyle": {
         "navigationBarTextStyle": "black",
