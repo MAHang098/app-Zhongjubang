@@ -60,9 +60,6 @@
 					success: function (res){
 						// console.log(res.data.code)
 						if(res.data.code==200){
-							console.log(res)
-							console.log(res.data.data.dataList[0].top_img_list[0])
-							console.log(res.data.data.dataList[0].goods_name)
 							self.goodsList = res.data.data.dataList
 							
 						}else{

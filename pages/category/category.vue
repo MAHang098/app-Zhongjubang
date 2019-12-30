@@ -21,7 +21,7 @@
 				    v-for="(item,index) in categoryList"
 				>
 					
-					<text class="left-name" :class="index==categoryActive?'in':''">{{item.goodsRemarks}}</text>
+					<text class="left-name" :class="index==categoryActive?'in':''">{{item.goodsType}}</text>
 				</view>
 			</scroll-view>
 			<image class="banner" style="width: 262px;height: 121px;" :src="imageStyle" mode="" />
@@ -30,7 +30,7 @@
 					<view class="content">
 						<view class="content-packet">
 							<image class="content-image" style="width: 130upx;height: 130upx;border-radius: 50%;" :src="item.goodsStyleImg" mode="" />
-							<text class="content-text">{{item.goodsStyleRemarks}}</text>
+							<text class="content-text">{{item.goodsStyle}}</text>
 						</view>
 						
 					</view>
@@ -56,8 +56,14 @@
 				name: "七月_",
 				token: '',
 				imageStyle: '',
-				type: ''
+				type: '',
+				id: ''
 			}
+		},
+		onLoad: function (options) {
+			this.id = options.id
+			this.getCategory();
+			this.height = uni.getSystemInfoSync().windowHeight;
 		},
 		onShow() {
 			let that = this;
@@ -68,7 +74,7 @@
 			  }
 			});
 			this.init('');
-			this.categoryClickMain(1,0)
+			this.categoryClickMain(this.id,this.id-1)
 		},
 		methods: {
 			goMorecategory(type,style){
@@ -78,7 +84,7 @@
 			},
 			goSearch(){
 				uni.navigateTo({
-					url: "/pages/G-circle/search-list/search-list"
+					url: "/pages/G-circle/search-content/search-content"
 				})
 			},
 			init(search) {
@@ -188,6 +194,13 @@
 				this.scrollTop = -this.scrollHeight * index;
 			},
 			getCategory() {
+				let that = this;
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+					that.token = res.data;
+				  }
+				});
 				// 获取(左侧)
 				let token
 				let self = this;
@@ -219,10 +232,7 @@
 				})
 			}
 		},
-		onLoad: function () {
-			this.getCategory();
-			this.height = uni.getSystemInfoSync().windowHeight;
-		}
+		
 	}
 </script>
 
@@ -347,6 +357,7 @@
 	.content-packet{
 		float: left;
 		margin-right: 50upx;
+		margin-bottom: 58upx;
 		text-align: center;
 		width: 130upx;
 		height: 170upx;

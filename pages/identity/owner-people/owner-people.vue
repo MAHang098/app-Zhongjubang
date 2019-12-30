@@ -25,8 +25,15 @@
 					<image src="../../../static/img/identity/camera.png" mode=""></image>
 					<text>屋内照片</text>
 				</view>
-				<image  @tap="chooseImageHome" v-if="!homeImage" src="../../../static/img/identity/add.png" mode="" class="add-img"></image>
-				<image  @tap="chooseImageHome" v-if="homeImage" :src="homeImage" mode="" class="add-img"></image>
+				<image @click.stop="chooseImage" v-if="!showVideo" src="http://www.zhongjubang.com/api/upload/static/img/identity/add.png" mode="" class="add-img"></image>
+				
+			</view>
+			<view class="upload-list" v-if="showVideo">
+				<view class="img" v-for="(item, index) in imgList" :key="index">
+					<image :src="item.fileUrl" mode="scaleToFill"></image>
+					<image src="http://www.zhongjubang.com/api/upload/static/topic/deletes.png" mode="" class="delete" @click.stop="deleteImage(item.fileName, index)"></image>
+				</view>
+				<image src="http://www.zhongjubang.com/api/upload/static/img/identity/add.png" mode=""  @click.stop="chooseImage" v-show="isUpload"></image>
 			</view>
 			
 			<!-- 材料认证 start -->
@@ -50,7 +57,7 @@
 			</view>
 			
 			<!-- 提交 start -->
-			<view class="btn">提交</view>
+			<view @tap="submit" class="btn">提交</view>
 			
 			<!-- 勾选协议 start -->
 			<view class="agreement">
@@ -74,6 +81,11 @@
 				recommend: '',
 				name: '',
 				address: '',
+				isUpload: true,
+				showVideo: false,
+				imgList: [],
+				certificationMaterials: [],
+				
 			}
 		},
 		methods: {
@@ -88,6 +100,56 @@
 			},
 			change() {
 				this.checked = !this.checked;
+			},
+			// 删除图片
+			deleteImage(name, index) {
+				this.imgList.forEach((item, i, array) => {
+					if(item.fileName == name && index == i) {
+						array.splice(index,1)
+					}
+				})
+				this.isUpload = true;
+				this.$store.commit('saveImage', this.imgList);
+			},
+			// 选择屋内照片
+			chooseImage() {
+				let pic = this.$store.state.uploadImage;
+				if(pic.length > 8) {
+					this.isUpload = false;
+					return;
+				}
+				let that = this;
+				uni.chooseImage({
+				    count: 9, //默认9
+				    // sizeType:'compressed', //可以指定是原图还是压缩图，默认二者都有
+				    sourceType: ['album'], //从相册选择
+				    success: function (res) {
+						const tempFilePaths = res.tempFilePaths;
+						
+						for(let i in tempFilePaths) {
+							// this.imgList.push(tempFilePaths[i]);
+							uni.uploadFile({
+								url: that.url + '/upload', //仅为示例，非真实的接口地址
+								filePath: tempFilePaths[i],
+								name: 'file',
+								formData: {},
+								success: (uploadFileRes) => {
+									
+									
+									let data = JSON.parse(uploadFileRes.data);
+									console.log(data)
+									let obj = {
+										fileUrl: data.data.fileUrl
+									}
+									that.imgList.push(obj)
+									that.showVideo = true
+								}
+							});
+						}
+						
+						
+				    }
+				});
 			},
 			chooseImageOffice() {
 				let that = this;
@@ -109,6 +171,10 @@
 			                    let data = JSON.parse(uploadFileRes.data);
 			                    console.log(data.data.fileUrl)
 			                    that.identifyOffice = data.data.fileUrl
+								let obj = {
+									identifyOffice: data.data.fileUrl
+								}
+								that.certificationMaterials.push(obj)
 			                }
 			            })
 				    }
@@ -134,40 +200,70 @@
 			                    let data = JSON.parse(uploadFileRes.data);
 			                    console.log(data.data.fileUrl)
 			                    that.identifyBack = data.data.fileUrl
+								let obj = {
+									identifyBack: data.data.fileUrl
+								}
+								that.certificationMaterials.push(obj)
 			                }
 			            })
 				    }
 				})
 			},
-			chooseImageHome() {
-				let that = this;
-				uni.chooseImage({
-				    count: 9, //默认9
-				    // sizeType:'compressed', //可以指定是原图还是压缩图，默认二者都有
-				    sourceType: ['album'], //从相册选择
-				    success: function (res) {
-			            const tempFilePaths = res.tempFilePaths[0];
-			            console.log(res.tempFilePaths[0])
-			            uni.uploadFile({
-			                url: that.url + '/upload', //仅为示例，非真实的接口地址
-			                filePath: res.tempFilePaths[0],
-			                name: 'file',
-			                formData: {
-			                    'user': 'test'
-			                },
-			                success: (uploadFileRes) => {
-			                    let data = JSON.parse(uploadFileRes.data);
-			                    console.log(data.data.fileUrl)
-			                    that.homeImage = data.data.fileUrl
-			                }
-			            })
-				    }
-				})
+			// 判断是否为空
+			vide(content,indexContent){
+				if(content==''){
+					uni.showToast({
+						title: indexContent+'不能为空',
+						icon: 'none',
+						duration: 2000,
+					})
+					return true
+				}
+				return false
 			},
 			submit(){
 				let token;
 				let url = this.url
 				let self = this
+				if(this.vide(self.name,'户主姓名')){
+					return
+				}
+				if(this.vide(self.address,'详细地址')){
+					return
+				}
+				if(this.vide(self.imgList,'屋内照片')){
+					return
+				}
+				if(this.vide(self.identifyOffice,'身份证正面')){
+					return
+				}
+				if(this.vide(self.identifyBack,'身份证反面')){
+					return
+				}
+				if(self.imgList.length<3){
+					uni.showToast({
+						title: '屋内照片至少上传3张',
+						icon: 'none',
+						duration: 2000,
+					})
+					return
+				}
+				if(self.imgList.length>9){
+					uni.showToast({
+						title: '屋内照片最多上传9张',
+						icon: 'none',
+						duration: 2000,
+					})
+					return
+				}
+				if(this.checked==false){
+					uni.showToast({
+						title: '请同意众居邦协议',
+						icon: 'none',
+						duration: 2000,
+					})
+					return
+				}
 				uni.getStorage({
 				    key:"token",
 				    success: function (res) {
@@ -175,15 +271,14 @@
 					}
 				})
 				uni.request({
-					url: url + "controller/usercontroller/addappuserdesigndaren",
+					url: url + "controller/usercontroller/adduserowner",
 					data: {
-						nickName: self.nickName,
-						head: self.head,
-						birthday: self.birthday,
-						sex: self.sex,
-						remarks: self.remarks,
-						cover: self.cover,
-						title: self.nickName
+						ownerName: self.name,
+						ownerAddress: self.address,
+						houseImg: JSON.stringify(self.imgList),
+						certificationMaterials: JSON.stringify(self.certificationMaterials),
+						appUserOrderId: self.recommend,
+						pname: self.recommend,
 					},
 					method: 'POST',
 					header : {
@@ -214,5 +309,54 @@
 	@import '../../../static/css/identity.css'; /*引入G圈列表样式*/
 	.circle-massage {
 		top: -10px;
+	}
+	/* 作品上传 */
+	.video-image{
+		width: 150upx;
+		height: 150upx;
+	}
+	/* .video-class{
+		width: 580upx;
+		height: 450upx;
+		margin-left: 40upx;
+		overflow: hidden;
+	} */
+	.video-class-image{
+		float: left;
+		margin-left: 20upx;
+	}
+	.authentication{
+		margin-top: ;
+	}
+	/* 图片上传 start */
+	.upload-list {
+		box-sizing: border-box;
+		padding: 0 30rpx;
+		height: 100%;
+		display: flex;
+		justify-content: flex-start;
+		flex-wrap: wrap;
+	}
+	.upload-list image {
+		width: 221rpx;
+		height: 208rpx;
+		display: block;
+	}
+	.upload-list .img {
+		position: relative;
+		width: 30%;
+		margin-right: 28rpx;
+		margin-bottom: 15rpx;
+	}
+	.upload-list .img:nth-of-type(3n) {
+		margin: 0;
+	} 
+	.delete {
+		position: absolute;
+		width: 26rpx !important;
+		height: 26rpx !important;
+		display: block;
+		top: 5%;
+		right: 0rpx;
 	}
 </style>

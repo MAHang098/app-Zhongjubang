@@ -15,9 +15,11 @@
 					<image style="width:80rpx;height:80rpx;border-radius: 50%;" :src="head" mode="" />
 				</div>
 				<text class="my-active-nickName10">{{nickName}}</text>
-				<!-- <div class="edit-del" :style="{bottom:height+'px'}" @tap="attention">
-					<image style="width:106rpx;height:48rpx;" src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/interest.png" mode=""></image>
-				</div> -->
+				<!-- <div class="edit-del" :style="{bottom:'0'}" @tap="ifAttention"> -->
+				<div class="edit-del" @tap="ifAttention">
+					<image v-if="attention==0" style="width:106rpx;height:48rpx;" src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/interest.png" mode=""></image>
+					<image v-if="attention==1" style="width:106rpx;height:48rpx;" src="../../static/follow-checked.png" mode=""></image>
+				</div>
 				<div class="element">
 					<text v-if="!isShowAllContent" class="text">{{content2}}</text>
 					<text v-else class="text">{{content2 | ellipsis}}</text>
@@ -211,6 +213,7 @@
 				isCommentsFabulous: false,
 				userID222: '',
 				title: 'action-sheet',
+				attention: 0,
 				url: "https://www.zhongjubang.com/test/"
 			}
 		},
@@ -228,57 +231,90 @@
 			this.id = options.id
 		},
 		onShow:function(){
-			let token
+			this.getContent()
 			let id = this.id
-			uni.getStorage({
-				key:"token",
-				success: function (res) {
-					token = res.data;
-				}
-			})
-			const url = this.url
-			
-		
-			let self = this
-			//获取短视频内容
-			uni.request({
-				url: self.url + "controller/usercontroller/getshortvideobyid",
-				data: {shortVideoId:id},
-				method: 'POST',
-				header : {
-					'content-type':'application/x-www-form-urlencoded', 
-					'port': 'app',
-					'token': token
-				},
-				success: function (res){
-					// console.log(res)
-					// console.log(res.data.data.nickName)
-					self.nickName = res.data.data.nickName
-					self.head = res.data.data.head
-					self.content2 = res.data.data.content
-					// console.log(self.content2.length)
-					self.videoUrl = res.data.data.videoUrl
-					self.shortVideoCollectionNum = res.data.data.shortVideoCollectionNum
-					self.shortVideoDiscussNum = res.data.data.shortVideoDiscussNum
-					self.shortVideoLikeNum = res.data.data.shortVideoLikeNum
-					self.outUserId = res.data.data.id
-					console.log(res.data.data.id)
-					// res.data.data.shortVideoCollection
-					// res.data.data.shortVideoLike
-					
-					if(res.data.data.shortVideoCollection==1){
-						self.showUpImg = false
-					}
-					if(res.data.data.shortVideoLike==1){
-						self.showUpImg2 = false
-					}
-				}
-			})
 			// 获取评论内容
-			self.getsvdiscussId = id;
-			self.init(id);
+			this.getsvdiscussId = id;
+			this.init(id);
 		},
 		methods: {
+			ifAttention(){
+				let token
+				let id = this.id
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+						token = res.data;
+					}
+				})
+				const url = this.url
+				let self = this
+				//获取短视频内容
+				uni.request({
+					url: self.url + "controller/usercontroller/addattentionrelationship",
+					data: {shortVideoId:id},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': token
+					},
+					success: function (res){
+						console.log(res)
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+					}
+				})
+			},
+			getContent(){
+				let token
+				let id = this.id
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+						token = res.data;
+					}
+				})
+				const url = this.url
+				let self = this
+				//获取短视频内容
+				uni.request({
+					url: self.url + "controller/usercontroller/getshortvideobyid",
+					data: {shortVideoId:id},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': token
+					},
+					success: function (res){
+						console.log(res)
+						self.nickName = res.data.data.nickName
+						self.head = res.data.data.head
+						self.content2 = res.data.data.content
+						self.videoUrl = res.data.data.videoUrl
+						self.shortVideoCollectionNum = res.data.data.shortVideoCollectionNum
+						self.shortVideoDiscussNum = res.data.data.shortVideoDiscussNum
+						self.shortVideoLikeNum = res.data.data.shortVideoLikeNum
+						self.attention = res.data.data.attention
+						self.outUserId = res.data.data.id
+						console.log(res.data.data.id)
+						
+						if(res.data.data.shortVideoCollection==1){
+							self.showUpImg = false
+						}
+						if(res.data.data.shortVideoLike==1){
+							self.showUpImg2 = false
+						}
+					}
+				})
+			},
+			ifAttention(){
+				
+			},
 			// 删除评论
 			 touchin(id,content) {
 				clearInterval(this.Loop); //再次清空定时器，防止重复注册定时器
@@ -451,9 +487,7 @@
 				
 			},
 			back(){
-				uni.switchTab({
-					url: '/pages/user/user'
-				})
+				uni.navigateBack()
 			},
 			// 子回复跳转
 			reply(id){
@@ -528,6 +562,12 @@
 					},
 					success: function (res){
 						console.log(res.data.code)
+						if(res.data.code==421){
+							uni.uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+							
+						}
 						if(res.data.code==200){
 							console.log(res)
 							
@@ -771,7 +811,7 @@
 		color:rgba(255,255,255,1);
 	}
 	.edit-del{
-		/* position: absolute; */
+		position: absolute;
 		/* display: none; */
 		left: 277rpx;
 		bottom: 168rpx;

@@ -108,10 +108,6 @@
 				})
 			},
             bindLogin() {
-                /**
-                 * 客户端对账号信息进行一些必要的校验。
-                 * 实际开发中，根据业务需要进行处理，这里仅做示例。
-                 */
 
                 if (this.account.length != 11) {
 
@@ -122,11 +118,6 @@
                     return;
                 }
                 
-                /**
-                 * 下面简单模拟下服务端的处理
-                 * 检测用户账号密码是否在已注册的用户列表中
-                 * 实际开发中，使用 uni.request 将账号信息发送至服务端，客户端在回调函数中获取结果信息。
-                 */
                 
 				const phone = this.account
 				const data = {
@@ -157,9 +148,7 @@
 									uni.switchTab({
 										url: "/pages/main/main"
 									})
-									// uni.navigateTo({
-									// 	url: "/pages/releaseVideo2/releaseVideo2"
-									// })
+									
 								}
 							})
 						}else{
@@ -169,9 +158,7 @@
 								title: '验证码错误'
 							});
 						}
-				        // uni.navigateTo({
-				        //     url: "/pages/setPswd/setPswd"
-				        // })
+				       
 						
 						
 				    }

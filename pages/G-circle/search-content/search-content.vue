@@ -7,7 +7,8 @@
 				<image src="http://www.zhongjubang.com/api/upload/static/search/nav-search.png" mode=""></image>
 				<input type="text" v-model="searchInput"  placeholder="搜索您需要的商品" @input="gainInput" @focus="onFocus" @blur="onBlur"/>
 			</view>
-			<view class="cancel" @click.stop="cancelBack">取消</view>
+			<view class="cancel" v-if="searchInput.length == ''" @click.stop="cancelBack">取消</view>
+			<view class="cancel" v-else @click.stop="searchContents(searchInput)">搜索</view>
 		</view>
 		<!-- 搜索栏 end -->
 		<!-- 列表 start -->
@@ -42,8 +43,7 @@
 			</view>
 			
 			<view class="search-list">
-				<view class="search-list_detial active">橱柜</view>
-				<view class="search-list_detial">橱柜</view>
+				<view class="search-list_detial active" v-for="item in hotList" :key="item.id" @click.stop="hotTopic(item.id)">{{item.resourcesValue}}</view>
 			</view>
 		</view>
 		<!-- 热门话题 end -->
@@ -73,7 +73,8 @@
 				productList: [],
 				token: '',
 				searchInput: '',
-				searchAll: []  
+				searchAll: [],
+				hotList: []
 			}
 		},
 		onShow() {
@@ -91,10 +92,28 @@
 					_this.historyList = res.data.reverse();
 				})
 			})
-
+			this.hotInit();
 		},
 		
 		methods: {
+			hotInit() {
+				uni.request({
+					url: this.url + 'controller/usercontroller/getSearchCompletion',
+					method: 'post',
+					data: {pageIndex: 1, pageSize: 20},
+					header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
+					success:((res) => {
+						if(res.data.code == 200) {
+							this.hotList = res.data.data;
+						} 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+					})
+				});
+			},
 			clearTimer () {
 				if (this.timer) {
 					clearTimeout(this.timer)
@@ -111,11 +130,6 @@
 						data: {search: e.detail.value},
 						header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 						success:((res) => {
-							if(res.data.code==421){
-								uni.navigateTo({
-									url: '/pages/loginPhone/loginPhone'
-								})
-							}
 							if(res.data.code == 200) {
 								this.changeColor(res.data.data)
 								this.isShowList = false;
@@ -126,7 +140,7 @@
 								})
 							}
 						})
-				  });
+					});
 				  // }
 				// }, 500)
 			},
@@ -150,6 +164,11 @@
 			      this.productList = resultsList
 			},
 			// 点击搜索列表的其中一个，跳转到商品详情
+			searchContents(name) {
+				uni.navigateTo({
+					url: '/pages/G-circle/search-list/search-list?name=' + name
+				});
+			},
 			searchContent(name) {
 				if(name!= null && name!= ""){  
 					var reg = /[\u4e00-\u9fa5]/g;   
@@ -180,8 +199,11 @@
 				// this.historyList.push(name);
 				
 			},
-			delHistory() {
-				
+			// 话题跳转
+			hotTopic(id) {
+				uni.navigateTo({
+					url: '/pages/topicDetails/topicDetails?id='+id
+				})
 			},
 			// 输入框获取焦点/失去焦点
 			onFocus() {
@@ -246,9 +268,7 @@
 			},
 			// 取消
 			cancelBack() {
-				uni.switchTab({
-					url: '/pages/juquan/juquan'
-				})
+				uni.uni.navigateBack()
 			},
 		}
 	}

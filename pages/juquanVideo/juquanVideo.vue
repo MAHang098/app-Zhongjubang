@@ -10,8 +10,11 @@
 			    <view class="video-detail" v-for="(item, index) in searchList" :key="index">
 			        <view class="video-content">
 			            <image class="video-content-start" style="width:52rpx;height:52rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/start.png" mode=""></image>
-			            <image class="video-content-avator" style="width:60rpx;height:60rpx;border-radius:50%;" :src="item.head" mode=""></image>
-			            <view class="video-content-nickname">{{item.nickName}}</view>
+						<view class="" @tap="goOtherUser(item.userId)">
+							<image class="video-content-avator" style="width:60rpx;height:60rpx;border-radius:50%;" :src="item.head" mode=""></image>
+							<view class="video-content-nickname">{{item.nickName}}</view>
+						</view>
+			            
 			            <image class="video-content-image" style="width:350rpx;height:512rpx;border-radius:3px;" :src="item.videoUrl" @tap="sendVideo(item.shortVideoId)"></image>
 			        </view>
 			    </view>
@@ -46,8 +49,11 @@
                     <view class="video-detail" v-for="(item, index) in InternetCelebrityList" :key="index">
                         <view class="video-content">
                             <image class="video-content-start" style="width:52rpx;height:52rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/start.png" mode=""></image>
-                            <image class="video-content-avator" style="width:60rpx;height:60rpx;border-radius:50%;" :src="item.head" mode=""></image>
-                            <view class="video-content-nickname">{{item.nickName}}</view>
+							<view class="" @tap="goOtherUser(item.userId)">
+								<image class="video-content-avator" style="width:60rpx;height:60rpx;border-radius:50%;" :src="item.head" mode=""></image>
+								<view class="video-content-nickname">{{item.nickName}}</view>
+							</view>
+                            
                             <image class="video-content-image" style="width:350rpx;height:512rpx;border-radius:3px;" :src="item.videoUrl" @tap="sendVideo(item.shortVideoId)"></image>
                         </view>
                     </view>
@@ -83,6 +89,11 @@
 		},
 		
 		methods: {
+			goOtherUser(id){
+				uni.uni.navigateTo({
+					url: '/pages/otherUser/otherUser?userid=' + id
+				})
+			},
 			recordName(e) {
 				this.inputValue = e.detail.value;
 				console.log(e.detail.value)
@@ -191,7 +202,7 @@
             },
             sendVideo(id){
 				uni.navigateTo({
-					url: '/pages/index/index?id=' + id
+					url: '/pages/index2/index2?id=' + id
 				})
 			},
 			

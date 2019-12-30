@@ -33,8 +33,8 @@
 				<!-- <view class="uni-tip-title">提示</view> -->
 				<view class="uni-tip-content">要保存到草稿箱吗？</view>
 				<view class="uni-tip-group-button">
-					<view class="uni-tip-button" @click="cancelPopup('tip')" style="color: #F9B72C;">不保存</view>
-					<view class="uni-tip-button insist-skip" @click="cancelPopup('skip')">保存</view>
+					<view class="uni-tip-button" @click="cancelPopup('tip')">不保存</view>
+					<view class="uni-tip-button insist-skip" @click="cancelPopup('skip')" style="color: #F9B72C;">保存</view>
 				</view>
 			</view>
 		</uni-popup>
@@ -330,8 +330,8 @@
 			// 取消弹出层
 			cancelPopup(type) {
 				if (type === 'tip') {
-					this.show = false
-					return
+					// this.show = false
+					uni.navigateBack()
 				}
 				if(type === 'skip') {
 					this.save();
