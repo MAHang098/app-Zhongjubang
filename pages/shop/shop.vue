@@ -4,7 +4,7 @@
 		<!-- 头部 start -->
         <view class="navigate">
             <view class="navigate-image" @click.stop="backPage">
-				<image style="width: 15upx;height: 31upx;" src=".http://www.zhongjubang.com/api/upload/static/img/juquanVideo/back.png" />
+				<image style="width: 15upx;height: 31upx;" src="http://www.zhongjubang.com/api/upload/static/img/juquanVideo/back.png" />
 			</view>
             <text class="car">购物车({{cartTotal}})</text>
             <text class="edit" @click.stop="editP">{{isShowEdit ? '完成' : '编辑'}}</text>

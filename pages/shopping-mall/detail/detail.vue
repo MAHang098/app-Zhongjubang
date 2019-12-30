@@ -239,7 +239,7 @@
 			uni.getStorage({
 				key:"token",
 				success:((res) => {
-					this.token = res.data;
+					// this.token = res.data;
 				})
 			});
 			this.init();

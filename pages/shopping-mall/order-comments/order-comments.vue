@@ -1,33 +1,20 @@
 <template>
 	<view class="comment-list">
-		<view class="comment-detail">
+		<view class="comment-detail" v-for="(item, index) in detailData" :key="item.goodsId">
 			<view class="product-detail">
-				<image src="../../../static/topic/upload.png" mode=""></image>
+				<image :src="item.topImgList[0]" mode=""></image>
 				<view class="contnet">
-					<text>索菲亚衣柜索菲亚衣柜索菲亚衣柜索菲亚衣柜索 衣柜索菲亚衣柜</text>
-					<view>规格：全部套装</view>
+					<text>{{item.goodsName}}</text>
+					<view>规格：{{item.specifications}}</view>
 				</view>
 			</view>
 			<view class="input-text">
-				<textarea placeholder-style="color:#999" placeholder="请留下你的评论吧？" maxlength="300" @input="descInput" @blur="blur"/>
-				<view class="num" v-if="showRemnant">{{remnant}}/300</view>
-			</view>
-		</view>
-		<view class="comment-detail">
-			<view class="product-detail">
-				<image src="../../../static/topic/upload.png" mode=""></image>
-				<view class="contnet">
-					<text>索菲亚衣柜索菲亚衣柜索菲亚衣柜索菲亚衣柜索 衣柜索菲亚衣柜</text>
-					<view>规格：全部套装</view>
-				</view>
-			</view>
-			<view class="input-text">
-				<textarea placeholder-style="color:#999" placeholder="请留下你的评论吧？" maxlength="300" @input="descInput" @focus="focus" @blur="blur"/>
-				<view class="num" v-if="showRemnant">{{remnant}}/300</view>
+				<textarea placeholder-style="color:#999" placeholder="请留下你的评论吧？" maxlength="300" @input="descInput($event, item, index)" @blur="blur" @focus="focus($event, index)"/>
+				<view class="num" v-if="showRemnant && currentRement == index">{{item.remnants ? item.remnants: 0}}/300</view>
 			</view>
 		</view>
 		
-		<view id="publish"><view>发布</view></view>
+		<view id="publish"><view @click="clickMe">发布</view></view>
 	</view>
 </template>
 
@@ -35,15 +22,56 @@
 	export default {
 		data() {
 			return {
-				remnant: 0,
-				showRemnant: false
+				remnant: [],
+				showRemnant: false,
+				token: '',
+				detailData: [],
+				currentRement: -1,
+				commentInput: '',
+				data: [],
 			}
 		},
+		onLoad(option) {
+			uni.getStorage({
+				key:"token",
+				success:((res) => {
+					this.token = res.data;
+				})
+			});
+			this.init(option.num)
+		},
 		methods: {
-			descInput(e) {
-				this.remnant =  e.detail.value.length;
+			clickMe() {
+				console.log(this.detailData)
 			},
-			focus() {
+			init(num) {
+				uni.request({
+					url: this.url + "controller/shopcontroller/getuserorderdetail",
+					data: {orderNum: num},
+					method: 'POST',
+					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
+					success: ((res) => {
+						if(res.data.code==200){
+							let data = res.data.data[0].orderList;
+							this.detailData = data;
+						}
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+					})
+				})
+			},
+			descInput(e, item, index) {
+				
+				if(typeof item.checked =='undefined'){
+					this.$set(item,"value", e.detail.value);
+					this.$set(item,"remnants", e.detail.value.length);
+				}
+			},
+			focus(e,index) {
+				this.currentRement = index;
 				this.showRemnant = true;
 			},
 			blur() {
@@ -57,12 +85,15 @@
 	page, .comment-list {
 		background: #F9F9F9;
 		width: 100%;
-		height: 100%;
+		height: auto;
 		margin-top: 3px;
+	}
+	.comment-list {
+		margin-bottom: 150rpx !important;
 	}
 	.comment-detail {
 		width: 100%;
-		height: auto;
+		height: 346px;
 		background: #FFFFFF;
 		margin-bottom: 10px;
 	}

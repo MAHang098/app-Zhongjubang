@@ -100,7 +100,9 @@
 				}
 			},
 			gainInput(e) {
-				console.log(e.detail.value)
+				uni.navigateTo({
+					url: '/pages/order-searchList/order-searchList?name=' + e.detail.value
+				});
 			},
 			
 			// 点击搜索列表的其中一个，跳转到商品详情

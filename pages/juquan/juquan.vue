@@ -7,7 +7,7 @@
 				<input type="text" value=""  placeholder="搜索您需要的商品" @input="gainInput" @focus="onFocus" @blur="onBlur" @click.stop="goSearch"/>
 			</view>
 			<view class="cancel">
-				<image src="http://www.zhongjubang.com/api/upload/static/img/G-circle/more.png" mode="" class="more-list"></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/img/G-circle/more.png" mode="" class="more-list" @click.stop="category"></image>
 			</view>
 		</view>
 		<!-- 搜索栏 end -->
@@ -50,7 +50,7 @@
 				<view class="relese-image_detail" >
 					<!-- 用户信息 start -->
 					<view class="user">
-						<view class="user-message">
+						<view class="user-message" @click.stop="goUser(items.userId)">
 							<image :src="items.head" mode=""></image>
 							<view>
 								<view class="name">{{items.nickName}}</view>
@@ -254,6 +254,11 @@
 								return;
 							}
 							this.page++;
+						}
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
 						}
 					})
 				})
@@ -535,6 +540,18 @@
 			goTopic(id) {
 				uni.navigateTo({
 					url:'/pages/topicDetails/topicDetails?id=' + id
+				})
+			},
+			// 跳转到更多分类
+			category() {
+				uni.navigateTo({
+					url: '/pages/category/category'
+				})
+			},
+			// 跳转到用户主页
+			goUser(id) {
+				uni.navigateTo({
+					url: '/pages/otherUser/otherUser?userid=' + id
 				})
 			}
 		}

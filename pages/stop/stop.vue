@@ -3,7 +3,7 @@
         <view class="search">
 			<image class="search-image" style="width:26upx;height:26upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/search.png" mode="" />
 			<input @tap="goSearch" class="search-insert" type="text" placeholder="请输入您所需要的商品">
-			<image class="car" style="width:41upx;height:39upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/car.png" mode="" />
+			<image @click.stop="goCart" class="car" style="width:41upx;height:39upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/car.png" mode="" />
 		</view>
 		<view class="banner">
 			<image class="banner-image" style="width:663upx;height:345upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/banner.png" mode="" />
@@ -346,7 +346,12 @@
 			cardSwiper(e) {
 				this.cardCur = e.detail.current;
 			},
-            
+            // 跳转到购物车
+			goCart() {
+				uni.navigateTo({
+					url:'/pages/shop/shop'
+				})
+			},
         }
     }
 </script>

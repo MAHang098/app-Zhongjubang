@@ -528,7 +528,9 @@
 	/* 轮播图 start */
 	.swiper-item, .swiper {
 		height: 692rpx;
-		margin-top: 62rpx;
+	}
+	.swiper  {
+		margin-top: 150rpx;
 	}
 	.swiper-item image {
 		width: 100%;

@@ -103,22 +103,7 @@
 				}
 			}
 		},
-		{
-			"path": "pages/index/index",
-			"style": {
-				"app-plus": {
-					"titleNView": false //禁用原生导航栏  
-				}
-			}
-		},
-		{
-			"path": "pages/index2/index2",
-			"style": {
-				"app-plus": {
-					"titleNView": false //禁用原生导航栏  
-				}
-			}
-		},
+		
 		
 		{
 			"path": "pages/juquanVideo/juquanVideo",
@@ -487,8 +472,18 @@
 			}
         }
         ,{
-            "path" : "order-searchList/order-searchList",
-            "style" : {}
+            "path" : "pages/order-searchList/order-searchList",
+            "style" : {
+            	"app-plus": {
+            	    "titleNView": false //禁用原生导航栏  
+            	}
+            }
+        }
+        ,{
+            "path" : "pages/my-evaluate/my-evaluate",
+            "style" : {
+				"navigationBarTitleText": "我发布的评论"
+			}
         }
     ],
 	"subPackages": [

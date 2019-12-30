@@ -270,7 +270,7 @@
 				</view>
 				<view class="uni-comments-content">
 					<view class="comments-detail" v-for="(row, index) in commentItem" :key="index">
-						<view class="comments-user">
+						<view class="comments-user" @click.stop="goUser(row.userId)">
 							<image :src="row.head" mode=""></image>
 							<view>
 								<text class="comments-name">{{row.nick_name}}</text>
@@ -1210,6 +1210,13 @@
 				uni.navigateTo({
 					url: '/pages/information/information-list/information-list'
 				})
+			},
+			// 跳转到用户主页
+			goUser(id) {
+				uni.navigateTo({
+					url: '/pages/otherUser/otherUser?userid=' + id
+				})
+				uni.showTabBar();
 			}
 		},
 		// 侧边栏

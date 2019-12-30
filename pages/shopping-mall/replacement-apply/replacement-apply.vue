@@ -12,7 +12,7 @@
 			<view class="goods-state ">
 				<view>货物状态</view>
 				<view class="state" @click="togglePopup('bottom', 'popup')">
-					请选择
+					{{goodsState}}
 					<image src="http://www.zhongjubang.com/api/upload/static/topic/arrow.png" mode=""></image>
 				</view>
 			</view>
@@ -44,9 +44,9 @@
 		
 		<!-- 货物状态 start -->
 		<uni-popup ref="popup" :type="popupType" :show="show" id="popup">
-			<view class="product-state">未收到货</view>
-			<view class="product-state">已收到货</view>
-			<view class="product-state">取消</view>
+			<view class="product-state" @click.stop="notArrived('未收到货', 'popup')">未收到货</view>
+			<view class="product-state"  @click.stop="notArrived('已收到货', 'popup')">已收到货</view>
+			<view class="product-state" @click.stop="cancel('popup')">取消</view>
 		</uni-popup>
 		<!-- 货物状态 end -->
 	</view>
@@ -58,12 +58,42 @@
 		components:{ uniPopup},
 		data () {
 			return {
+				token: '',
 				popupType: '',
 				show: false,
-				imgList: []
+				imgList: [],
+				detailData: [],
+				goodsState: '请选择'
 			}
 		},
+		onLoad(option) {
+			uni.getStorage({
+				key:"token",
+				success:((res) => {
+					this.token = res.data;
+				})
+			});
+			this.init(option.orderId)
+		},
 		methods: {
+			init(id) {
+				uni.request({
+					url: this.url + 'controller/shopcontroller/getcancelorderdetail',
+					method: 'post',
+					data: {appUserOrderId: id},
+					header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
+					success:((res) => {
+						if(res.data.code == 200) {
+							this.detailData = res.data.data;
+						} 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+					})
+				});
+			},
 			// 删除图片
 			deleteImage(name, index) {
 				this.imgList.forEach((item, i, array) => {
@@ -97,7 +127,6 @@
 								},
 								success: (uploadFileRes) => {
 									uni.hideLoading();
-									
 									let data = JSON.parse(uploadFileRes.data);
 									let obj = {
 										fileName: data.data.fileName,
@@ -125,11 +154,15 @@
 			// 弹框关闭
 			cancel(type) {
 				if (type === 'tip') {
-					this.show = false
+					this.show = false;
 					return
 				}
-				// this.$refs[type].close()
+				this.$refs[type].close()
 			},
+			notArrived(name, type) {
+				this.goodsState = name;
+				this.$refs[type].close()
+			}
 		}
 	}
 </script>

@@ -85,9 +85,9 @@
 						</view>
 					</view>
 					<!-- 操作按钮 end -->
-					<view class="look-more">-{{statusMore== 'end' ? '没有更多' : '上拉加载更多'}}-</view>
+					
 				</view>
-				
+				<view class="look-more">-{{statusMore== 'end' ? '没有更多' : '上拉加载更多'}}-</view>
 			</view>
 			
 			<view id="footer" @click.stop="goRelease" v-show="isShowTopic">
@@ -150,7 +150,7 @@
 				isFoucs: false,   // 是否关注当前话题
 				talkThemeState: 0,  // 话题状态  0：未关注   1：已关注
 				replySay: '说点什么吧...',
-				topic: '我家阳台收纳神器',
+				topic: '',
 				brandFold: false,
 				isShowAllContent: true,
 				show: true,
@@ -354,25 +354,25 @@
 					success:((res) => {
 						uni.hideLoading();
 						let totalPage = res.data.data.pageSize * res.data.data.totalPage;
+						let data = res.data.data.dataList[0]
+						this.topic = data.talkTheme;
+						this.talkThemeNum = data.talkThemeNum;
+						this.participateCount = data.participateCount
+						this.talkThemeState = data.talkThemeState;
+						if(data.talkThemeRemarks == null) {
+						    this.talkThemeRemarks = ' ';
+						    return;
+						}
+						this.talkThemeRemarks = data.talkThemeRemarks;
 						if(this.topicList.length == totalPage) {
 							this.statusMore = 'end';
 							return;
 						}
 						if(res.data.code == 200) {
-							console.log()
-							let data = res.data.data.dataList[0]
-							this.topic = data.talkTheme;
-							this.talkThemeNum = data.talkThemeNum;
-							this.participateCount = data.participateCount
 							// this.topicList = data.allGContentList;
 							this.topicList = this.reload ? data : this.topicList.concat(data.allGContentList);
 							this.page++;
-							this.talkThemeState = data.talkThemeState;
-                            if(data.talkThemeRemarks == null) {
-                                this.talkThemeRemarks = ' ';
-                                return;
-                            }
-                            this.talkThemeRemarks = data.talkThemeRemarks;
+							
 						} else {
 							uni.showToast({
 							    icon: 'none',
