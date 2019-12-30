@@ -752,7 +752,7 @@
 				{
 					"path" : "designer-people/designer-people", // 设计达人认证填写
 					"style" : {
-						"navigationBarTitleText": "设计达人"
+						"navigationBarTitleText": "设计狂人认证"
 					}
 				}
 			]

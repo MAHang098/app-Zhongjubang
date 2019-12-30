@@ -50,7 +50,7 @@
 				<view class="relese-image_detail" >
 					<!-- 用户信息 start -->
 					<view class="user">
-						<view class="user-message" @click.stop="goUser(items.userId)">
+						<view class="user-message" @tap="goOtheruser(items.userId)">
 							<image :src="items.head" mode=""></image>
 							<view>
 								<view class="name">{{items.nickName}}</view>
@@ -204,6 +204,11 @@
 			this.init();
 		},	
 		methods: {
+			goOtheruser(id){
+				uni.navigateTo({
+					url: '/pages/otherUser/otherUser?userid=' + id
+				})
+			},
 			// 获取G圈推荐
 			recommend() {
 				uni.request({
@@ -548,12 +553,6 @@
 					url: '/pages/category/category'
 				})
 			},
-			// 跳转到用户主页
-			goUser(id) {
-				uni.navigateTo({
-					url: '/pages/otherUser/otherUser?userid=' + id
-				})
-			}
 		}
 	}
 </script>

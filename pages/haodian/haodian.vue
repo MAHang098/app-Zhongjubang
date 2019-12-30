@@ -38,13 +38,6 @@
             },
 			init(){
 				let self = this
-				let token
-				uni.getStorage({
-					key:"token",
-					success: function (res) {
-					token = res.data;
-					}
-				})
 				uni.request({
 					url: this.url + "controller/shopcontroller/getGoodShopRecommend",
 					data: {
@@ -55,15 +48,11 @@
 					header : {
 						'content-type':'application/x-www-form-urlencoded', 
 						'port': 'app',
-						'token': token
+						'token': ''
 					},
 					success: function (res){
 						// console.log(res.data.code)
-						if(res.data.code==421){
-							uni.navigateTo({
-								url: '/pages/loginPhone/loginPhone'
-							})
-						}
+						
 						if(res.data.code==200){
 							console.log(res)
 							self.goodsList = res.data.data.dataList

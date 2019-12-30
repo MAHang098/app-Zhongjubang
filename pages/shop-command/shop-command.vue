@@ -6,12 +6,13 @@
 			<image class="search-image" style="width:31rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/img/shop-command/search.png" mode=""></image>
 			<input placeholder="搜索品牌内商品" class="search" type="text" value="" />
 			<image class="share-image" style="width:39upx;height:48upx;" src="http://www.zhongjubang.com/api/upload/static/img/shop-command/share.png" mode=""></image>
-			<image class="logo-image" style="width:148upx;height:138upx;" src="http://www.zhongjubang.com/api/upload/static/img/shop-command/logo.png" mode=""></image>
-			<view class="title">索菲亚全屋定制</view>
-			<view class="fans">1900粉丝</view>
-			<view class="collect">+收藏</view>
+			<image class="logo-image" style="width:148upx;height:138upx;" :src="shopLogo" mode=""></image>
+			<view class="title">{{shopName}}</view>
+			<view class="fans">{{fansnum}}粉丝</view>
+			<view @tap="addCollect" v-if="state==0" class="collect">+收藏</view>
+			<image @tap="addCollect" v-if="state==1" class="no-collect" style="width:127upx;height:55upx;" src="../../static/img/shop-command/no-collect.png" mode=""></image>
 			<view class="des">
-				索菲亚家居股份有限公司设立于2003年，总厂位于广州市增城宁西工业园，是一家专注于定制衣柜及其配套定制家具及其家具...
+				{{spare1 | ellipsis}}
 			</view>
 			<view class="horizen"></view>
 			<view class="more-info">更多品牌信息</view>
@@ -64,24 +65,121 @@
 				isShow: true,
 				style: 1,
 				tabType2: ['综合', '价格', '销量', '评分'],
-				current: 0,
 				num: 1,
 				goodsList: [],
 				priceUp: true,
 				type: '',
 				goodsStyle: '',
 				showPrice: 1,
+				id: '',
+				shopLogo: '',
+				shopName: '',
+				fansnum: '',
+				state: 0,
+				spare1: ''
 			}
 		},
-		onLoad() {
+		onLoad(options) {
+			if(options.id){
+				this.id = options.id
+			}
+			this.initInfoshop(options.id)
 			this.type = 1
 			this.style = 1
 			this.init(1)
+		},
+		filters: {
+			ellipsis (value) {
+			  if (!value) return ''
+			  if (value.length > 60) {
+				return value.slice(0,60) + '...'
+			  }
+			  return value
+			},
 		},
 		methods: {
 			goDetails(id){
 				uni.navigateTo({
 					url: '/pages/shopping-mall/detail/detail?id='+id
+				})
+			},
+			// 添加收藏
+			addCollect(){
+				let token;
+				let url = this.url
+				let self = this
+				uni.getStorage({
+				    key:"token",
+				    success: function (res) {
+						token = res.data;
+					}
+				})
+				uni.request({
+					url: url + "controller/usercontroller/addusercollection",
+					data: {
+						type: 4,
+						collectionContentId: self.id
+					},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': token
+					},
+				    success: function (res){
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+						if(res.data.code==200){
+							console.log(res)
+							self.initInfoshop(self.id)
+						}
+						
+				        
+				    }
+				})
+			},
+			// 根据id获取商品内容
+			initInfoshop(id){
+				let token;
+				let url = this.url
+				let self = this
+				uni.getStorage({
+				    key:"token",
+				    success: function (res) {
+						token = res.data;
+					}
+				})
+				uni.request({
+					url: url + "controller/shopcontroller/getshops",
+					data: {
+						shopId: id
+					},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': token
+					},
+				    success: function (res){
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+						if(res.data.code==200){
+							console.log(res)
+							self.shopLogo = res.data.data.shopLogo
+							self.fansnum = res.data.data.num
+							self.shopName = res.data.data.shopName
+							self.state = res.data.data.state
+							self.spare1 = res.data.data.spare1
+						}
+						
+				        
+				    }
 				})
 			},
 			init(num){
@@ -228,6 +326,11 @@
 		font-family:PingFang SC;
 		font-weight:400;
 		color:rgba(255,255,255,1);
+	}
+	.no-collect{
+		position: absolute;
+		top: 332upx;
+		left: 592upx;
 	}
 	.des{
 		position: absolute;

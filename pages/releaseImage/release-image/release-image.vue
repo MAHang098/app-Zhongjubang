@@ -41,8 +41,8 @@
 				<!-- <view class="uni-tip-title">提示</view> -->
 				<view class="uni-tip-content">要保存到草稿箱吗？</view>
 				<view class="uni-tip-group-button">
-					<view class="uni-tip-button" @click="cancelPopup('tip')" style="color: #F9B72C;">不保存</view>
-					<view class="uni-tip-button insist-skip" @click="cancelPopup('skip')">保存</view>
+					<view class="uni-tip-button" @click="cancelPopup('tip')">不保存</view>
+					<view class="uni-tip-button insist-skip" @click="cancelPopup('skip')" style="color: #F9B72C;">保存</view>
 				</view>
 			</view>
 		</uni-popup>
@@ -219,6 +219,12 @@
 			},
 			// 返回键
 			cancel() {
+				if(this.previewType==''){
+					// uni.switchTab({
+					// 	url: '/pages/juquan/juquan'
+					// })
+					uni.navigateBack()
+				}
 				this.togglePopup('center', 'tip');
 				return true;
 			},
@@ -523,6 +529,7 @@
 		height: 100%;
 	}
 	.header {
+		margin-top: 36upx;
 		width: 100%;
 		height: 100rpx;
 		line-height: 100rpx;

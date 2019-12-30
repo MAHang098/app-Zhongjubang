@@ -58,13 +58,14 @@
 		},
 		// 点击保存
 		onNavigationBarButtonTap(e){
-			let myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+			console.log(e);
+			let myreg = /^[1][3,4,5,7,6,8][0-9]{9}$/;
 			if (this.phoneNumber.length < 11 || this.phoneNumber.length > 11 ) {
 			    uni.showToast({
 			        icon: 'none',
 			        title: '请输入正确的电话号码!'
 			    });
-				uni.hideToast();
+				// uni.hideToast();
 			    return;
 			}
 			if(!myreg.test(this.phoneNumber)) {

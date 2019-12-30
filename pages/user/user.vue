@@ -766,6 +766,7 @@
 								return;
 							}
 							this.page++;
+							console.log(this.releaseImgList)
 						}
 					})
 				})

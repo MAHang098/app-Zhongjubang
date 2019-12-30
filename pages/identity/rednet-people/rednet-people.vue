@@ -26,13 +26,13 @@
 				优秀作品链接地址：
 				<input type="text" value="" placeholder="必填" @input = "urlInput"/>
 			</view>
-			<view class="authentication"  @tap="chooseVideo">
-				<image v-if="!showVideo" src="http://www.zhongjubang.com/api/upload/static/img/identity/add.png" mode="" class="add-img"></image>
-				<view class="" v-if="showVideo">
-					<view class="" v-for="(item, index) in vidList" :key="index">
+			<view class="authentication" >
+				<image @tap="chooseVideo" v-if="!showVideo" src="http://www.zhongjubang.com/api/upload/static/img/identity/add.png" mode="" class="add-img"></image>
+				<view class="video-class" v-if="showVideo">
+					<view class="video-class-image" v-for="(item, index) in vidList" :key="index">
 						<video class="video-image" :src="item.videoUrl" mode=""></video>
 					</view>
-					<image src="http://www.zhongjubang.com/api/upload/static/img/identity/add.png" mode="" class="video-image"></image>
+					<image @tap="chooseVideo" style="margin-left: 20upx;" src="http://www.zhongjubang.com/api/upload/static/img/identity/add.png" mode="" class="video-image"></image>
 				</view>
 			</view>
 			<!-- 材料认证 start -->
@@ -193,25 +193,56 @@
 
 				
 			},
+			vide(content,indexContent){
+				if(content==''){
+					uni.showToast({
+						title: indexContent+'不能为空',
+						icon: 'none',
+						duration: 2000,
+					})
+					return true
+				}
+				return false
+			},
 			submit(){
-				// if(this.name==''){
-				// 	uni.showToast({
-				// 		title: '户主姓名为必填',
-				// 		icon: 'success',
-				// 		duration: 2000,
-				// 	})
-				// }
-				// if(this.phone==''){
-				// 	uni.showToast({
-				// 		title: '居圈用户名为必填',
-				// 		icon: 'success',
-				// 		duration: 2000,
-				// 	})
-				// }
-				console.log('good')
+				let self = this
+				if(this.vide(self.name,'姓名')){
+					return
+				}
+				if(this.vide(self.phone,'手机号')){
+					return
+				}
+				if(this.vide(self.worksUrl,'优秀作品链接地址')){
+					return
+				}
+				if(this.vide(self.vidList,'上传视频')){
+					return
+				}
+				if(this.vide(self.identifyOffice,'身份证正面')){
+					return
+				}
+				if(this.vide(self.identifyBack,'身份正反面')){
+					return
+				}
+				if(this.vidList.length<3){
+					uni.showToast({
+						title: '视频至少为3',
+						icon: 'success',
+						duration: 2000,
+					})
+					return
+				}
+				if(this.checked==false){
+					uni.showToast({
+						title: '请同意众居邦协议',
+						icon: 'none',
+						duration: 2000,
+					})
+					return
+				}
+				
 				let token;
 				let url = this.url
-				let self = this
 				uni.getStorage({
 					key:"token",
 					success: function (res) {
@@ -279,5 +310,15 @@
 	.video-image{
 		width: 150upx;
 		height: 150upx;
+	}
+	.video-class{
+		width: 580upx;
+		height: 300upx;
+		margin-left: 40upx;
+		overflow: hidden;
+	}
+	.video-class-image{
+		float: left;
+		margin-left: 20upx;
 	}
 </style>

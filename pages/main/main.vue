@@ -312,7 +312,7 @@
 			},
 			goSearch(){
 				uni.navigateTo({
-					url: "/pages/G-circle/search-list/search-list"
+					url: "/pages/G-circle/search-content/search-content"
 				})
 			},
 			change(e) {

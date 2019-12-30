@@ -93,7 +93,7 @@
 				<view class="shop-collect">
 					<text  @click.stop="collectShop(shopItem.shopId)" v-if="shopItem.state == 0">+收藏</text>
 					<text class="isShop-collect" @click.stop="collectShop(shopItem.shopId)" v-else>已收藏</text>
-					<text>进店逛逛</text>
+					<text @tap="goShop(shopItem.shopId)">进店逛逛</text>
 				</view>
 			</view>
 			
@@ -166,7 +166,7 @@
 				<image src="http://www.zhongjubang.com/api/upload/static/img/shopping-mall/detail/kefu.png" mode=""></image>
 				<view>客服</view>
 			</view>
-			<view class="kefu">
+			<view class="kefu" @tap="goShop(shopItem.shopId)">
 				<image src="http://www.zhongjubang.com/api/upload/static/img/shopping-mall/detail/shop.png" mode=""></image>
 				<view>进店</view>
 			</view>
@@ -246,6 +246,11 @@
 			this.gainProductRecommend();
 		},
 		methods: {
+			goShop(id){
+				uni.navigateTo({
+					url: '/pages/shop-command/shop-command?id=' + id
+				})
+			},
 			changeType(index) {
 				this.current = index;
 				let explainH = 0
@@ -324,11 +329,7 @@
 				        if(res.data.code == 200) {
 							this.recommendItem = res.data.data.dataList;
 				        } 
-						if(res.data.code == 421) {
-							uni.navigateTo({
-								url: '/pages/loginPhone/loginPhone'
-							})
-						}
+						
 				    })
 				});
 			},
