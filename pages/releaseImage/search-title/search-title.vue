@@ -34,7 +34,7 @@
 								<view class="num">共{{item.participateCount}}人参与</view>
 							</view>
 						</view>
-						<view class="right" @click.stop="chooseTopic(item.talkTheme, item.id)">
+						<view class="right" @click.stop="chooseTopic(item.talkTheme, item.id)" v-show="showChoose">
 							选择
 						</view>
 					</view>
@@ -59,7 +59,8 @@
 				scrollTop: 0,
 				scrollHeight: 0,
 				name: "七月_",
-				token: ''
+				token: '',
+				showChoose: true
 			}
 		},
 		onShow() {
@@ -71,6 +72,14 @@
 			  }
 			});
 			this.init('');
+		},
+		onLoad(option) {
+			if(option.type == 'Gcircle') {
+				this.showChoose = false;
+			}
+			this.getCategory();
+			this.height = uni.getSystemInfoSync().windowHeight;
+			// this.detailId = 1;
 		},
 		methods: {
 			init(search) {
@@ -205,12 +214,6 @@
 			}
 			
 		},
-			
-		onLoad: function () {
-			this.getCategory();
-			
-			this.height = uni.getSystemInfoSync().windowHeight;
-		}
 	}
 </script>
 

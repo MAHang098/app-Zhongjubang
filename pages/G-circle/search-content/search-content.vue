@@ -733,7 +733,7 @@
 			},
 			// 取消
 			cancelBack() {
-				uni.uni.navigateBack()
+				uni.navigateBack()
 			},
 		}
 	}

@@ -42,7 +42,27 @@
 		},
 		methods: {
 			clickMe() {
-				console.log(this.detailData)
+				uni.request({
+					url: this.url + "controller/shopcontroller/addgoodsdiscuss",
+					data: {content: JSON.stringify(this.detailData)},
+					method: 'POST',
+					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
+					success: ((res) => {
+						if(res.data.code==200){
+							uni.showToast({
+								title: '评价成功'
+							})
+							uni.navigateTo({
+								url: '/pages/shopping-mall/all-order/all-order?type=3'
+							})
+						}
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+					})
+				})
 			},
 			init(num) {
 				uni.request({

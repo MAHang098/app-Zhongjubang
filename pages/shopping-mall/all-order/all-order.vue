@@ -110,15 +110,19 @@
 				saleList: []
 			}
 		},
-		onShow(){
+		onLoad(option) {
 			uni.getStorage({
 				key:"token",
 				success:((res) => {
 					this.token = res.data;
 				})
 			});
-			this.init('');
 			this.afterSale();
+			if(option.type) {
+				this.changeOrder(option.type)
+			} else {
+				this.changeOrder(0)
+			}
 		},
 		methods: {
 			
