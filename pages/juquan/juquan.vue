@@ -108,11 +108,11 @@
 								<text>{{items.gCollectionDiscussNum}}</text>
 							</view>
 							<view class="collect">
-								<image @click.stop="collect(index, items.gcircleContentId, items.collectionState, current)" :src="(activeIndex == index && isShowCollect) || items.collectionState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/collect-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/star.png' " mode=""></image>
+								<image @click.stop="collect(index, items.gcircleContentId, items.collectionState, current)" :src="items.collectionState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/collect-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/star.png' " mode=""></image>
 								<text>{{items.collectionNum}}</text>
 							</view>
 							<view class="fabulous" >
-								<image @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState, current)" :src="(fabulousIndex == index && isShowFabulous) || items.gcircleContentLikeState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
+								<image @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState, current)" :src="items.gcircleContentLikeState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
 								<text>{{items.gcircleContentLikeNum}}</text>
 							</view>
 						</view>
@@ -169,6 +169,7 @@
 				isShowFocus: false,   //是否显示已关注图标
 				recommendList: [],   	  // G圈推荐
 				userListContent: [],		// 关注用户的G圈列表
+				currentPage: 0
 			}
 		},
 		filters: {
@@ -229,7 +230,7 @@
 			init() {
 				let parmas = {
 					pageIndex: this.page,
-					pageSize: 10
+					pageSize: 20
 				}
 				uni.showLoading({
 					title: '加载中...',
@@ -254,11 +255,16 @@
 								data[i].imgList = JSON.parse(data[i].imgList);
 								data[i].title = JSON.parse(data[i].title);
 							}
-							this.releaseImgList = this.reload ? data : this.releaseImgList.concat(data);
+							this.releaseImgList = data;
+							// if(this.page == res.data.data.currentPage) {
+							// 	this.reload = true;
+							// }
+							// this.releaseImgList = this.reload ? data : this.releaseImgList.concat(data);
+							// console.log(this.page)
 							if(res.data.data.totalPage < 2) {
 								return;
 							}
-							this.page++;
+							// this.page++;
 						}
 						if(res.data.code == 421) {
 							uni.navigateTo({
@@ -353,6 +359,7 @@
 			        success:(res) => {
 			            if(res.data.code == 200) {
 							if(currents == 0) {
+								// this.page = 1;
 								this.init();
 							}
 			                if(currents == 1) {
@@ -550,7 +557,7 @@
 			// 跳转到更多分类
 			category() {
 				uni.navigateTo({
-					url: '/pages/category/category'
+					url: '/pages/releaseImage/search-title/search-title?type=Gcircle'
 				})
 			},
 		}

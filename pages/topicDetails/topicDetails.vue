@@ -344,7 +344,7 @@
 				let parmas = {
 					talkThemeId: id,
 					pageIndex: this.page,
-					pageSize: 10
+					pageSize: 20
 				}
 				uni.request({
 					url: this.url + 'controller/contentcontroller/getgcriclecontentlistbytalkthemeid',
@@ -369,9 +369,9 @@
 							return;
 						}
 						if(res.data.code == 200) {
-							// this.topicList = data.allGContentList;
-							this.topicList = this.reload ? data : this.topicList.concat(data.allGContentList);
-							this.page++;
+							this.topicList = data.allGContentList;
+							// this.topicList = this.reload ? data : this.topicList.concat(data.allGContentList);
+							// this.page++;
 							
 						} else {
 							uni.showToast({

@@ -111,7 +111,7 @@
 			<!-- <view class="more">-上拉查看更多-</view> -->
 		</view>
 		<!-- G圈列表 start -->
-		<view v-if="current==0" class="relese-image"  >
+		<view  class="relese-image"  >
 			<view v-for="(items, index) in releaseImgList" :key="index">
 				<view class="relese-image_detail" >
 					<!-- 用户信息 start -->
@@ -736,7 +736,7 @@
 			init() {
 				let parmas = {
 					pageIndex: this.page,
-					pageSize: 10
+					pageSize: 20
 				}
 				uni.showLoading({
 					title: '加载中...',
@@ -761,12 +761,12 @@
 								data[i].imgList = JSON.parse(data[i].imgList);
 								data[i].title = JSON.parse(data[i].title);
 							}
-							this.releaseImgList = this.reload ? data : this.releaseImgList.concat(data);
+							this.releaseImgList = data;
+							// this.releaseImgList = this.reload ? data : this.releaseImgList.concat(data);
 							if(res.data.data.totalPage < 2) {
 								return;
 							}
-							this.page++;
-							console.log(this.releaseImgList)
+							// this.page++;
 						}
 					})
 				})
