@@ -37,7 +37,7 @@
 				>
 					<swiper-item @tap="goJuquanVideo" v-for="(item, index) in videoList" :key="index" :class="cardvvideo == index ? 'cur' : ''">
 						<view class="swiper-item">
-							<image :src="item.videoUrl" mode="aspectFill"></image>
+							<image @tap="goIndex2(item.shortVideoId)" :src="item.videoUrl" mode="aspectFill"></image>
 							<image v-if="cardvvideo == index" class="video-image" style="width:94upx;height:94upx;z-index:400;" src="http://www.zhongjubang.com/api/upload/static/img/main/start.png" mode="aspectFill"></image>
 						</view>
 					</swiper-item>
@@ -61,6 +61,7 @@
 						:style="{backgroundImage: 'url(' + item.talk_theme_img + ')', backgroundSize:'contain'}"
 						@tap="goTopicDetails(item.id)"
 					>
+						<view class="zhong-content-tyt"></view>
 						<text class="zhong-content-text">#{{item.talk_theme}}</text>
 					</view> 
 				</view>
@@ -87,10 +88,10 @@
 					indicator-color="#8799a3"
 					indicator-active-color="#0081ff"
 				>
-					<swiper-item v-for="(item, index) in swiperList" :key="index" :class="cardCur == index ? 'cur' : ''">
+					<swiper-item v-for="(item, index) in gootList" :key="index" :class="cardCur == index ? 'cur' : ''">
 						<view class="swiper-item-immeuble">
 							
-							<view v-for="(item, index) in gootList" :key="index">
+							<view v-for="(item, index) in gootList[index]" @tap="goShop(item.shop_id)" :key="index">
 								<view class="immeuble">
 									<image class="" style="width:179upx;height:160upx;" :src="item.top_img_list[0]" mode="" />
 									<view class="immeuble-desc">{{item.goods_name}}</view>
@@ -116,8 +117,8 @@
 				<view class="juquan-content-model">
 					<image @tap="goJuquan(item.create_by)" class="juquan-content-model-image" style="width:347upx;height:355upx;" :src="item.img_list[0].fileUrl" mode="" />
 					<view class="juquan-content-model-des">{{item.content | ellipsis}}</view>
-					<image class="juquan-content-info-avator" style="width:52upx;height:55upx;border-radius: 50%;" :src="item.head" mode="" />
-					<view class="juquan-content-info-nickname">{{item.nickName}}</view>
+					<image @tap="goOtherUser(item.user_id)" class="juquan-content-info-avator" style="width:52upx;height:55upx;border-radius: 50%;" :src="item.head" mode="" />
+					<view @tap="goOtherUser(item.user_id)" class="juquan-content-info-nickname">{{item.nickName}}</view>
 				</view>
 				
 			</view>
@@ -264,7 +265,12 @@
 				header : {'content-type':'application/x-www-form-urlencoded','port':'app'},
 				success: function (res){
 					if(res.data.code=="200"){
-						self.gootList = res.data.data.dataList
+						var result = [];
+						var chunk = 3;
+						for(var i = 0, j = res.data.data.dataList.length;i < j;i += chunk){
+							result.push(res.data.data.dataList.slice(i, i + chunk));
+						}
+						self.gootList = result
 					}
 				}
 			})
@@ -290,6 +296,21 @@
 			})
 		},
 		methods: {
+			goOtherUser(id){
+				uni.navigateTo({
+					url: '/pages/otherUser/otherUser?userid' + id
+				})
+			},
+			goShop(id){
+				uni.navigateTo({
+					url: '/pages/shopping-mall/detail/detail?id=' + id
+				})
+			},
+			goIndex2(id){
+				uni.navigateTo({
+					url: '/pages/index2/index2?id=' + id
+				})
+			},
 			goAlljuquan(){
 				uni.switchTab({
 					url: '/pages/juquan/juquan'
@@ -563,6 +584,16 @@
 	}
 	.zhong-content-image:nth-child(even){
 		margin-left: 16upx;
+	}
+	.zhong-content-text{
+		z-index: 10;
+	}
+	.zhong-content-tyt{
+		position: absolute;
+		border-radius:14upx;
+		width:346upx;
+		height:218upx;
+		background: rgba(0,0,0,.2);
 	}
 	
 	

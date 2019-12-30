@@ -7,7 +7,7 @@
             <image v-if="state==0" class="binded" @click="togglePopup('center', 'tip')" src="http://www.zhongjubang.com/api/upload/static/img/account/binded.png" />
             <image v-else class="binded" @tap="goBindphone" src="http://www.zhongjubang.com/api/upload/static/img/account/no-bind.png" />
         </view>
-		<view class="account1">
+		<view class="account1" @tap='goSetpwd'>
             <image class="phone" src="http://www.zhongjubang.com/api/upload/static/img/account/wechat.png" />
             <text class="public-text">微信</text>
             <image v-if="wxToken!=''" @click="togglePopup1('center', 'tip')" class="binded" src="http://www.zhongjubang.com/api/upload/static/img/account/binded.png" />
@@ -103,6 +103,11 @@
 			})
         },
 		methods: {
+			goSetpwd(){
+				uni.navigateTo({
+					url: ''
+				})
+			},
 			// 绑定微信
 			wechatbindLogin: function() {
 				const self = this

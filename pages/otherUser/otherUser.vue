@@ -296,9 +296,7 @@
 		},
         methods: {
 			back(){
-				uni.switchTab({
-					url: '/pages/juquan/juquan'
-				})
+				uni.navigateBack()
 			},
 			// 获取客户信息
 			getInfo(){

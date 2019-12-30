@@ -1,12 +1,12 @@
 <template>
     <view>
         <view class="search">
-			<image class="search-image" style="width:26upx;height:26upx;" src="../../static/img/stop/search.png" mode="" />
+			<image class="search-image" style="width:26upx;height:26upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/search.png" mode="" />
 			<input @tap="goSearch" class="search-insert" type="text" placeholder="请输入您所需要的商品">
-			<image class="car" style="width:41upx;height:39upx;" src="../../static/img/stop/car.png" mode="" />
+			<image @tap="goCar" class="car" style="width:41upx;height:39upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/car.png" mode="" />
 		</view>
 		<view class="banner">
-			<image class="banner-image" style="width:663upx;height:345upx;" src="../../static/img/stop/banner.png" mode="" />
+			<image class="banner-image" style="width:663upx;height:345upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/banner.png" mode="" />
 			<uni-swiper-dot :info='categoryList' :current="current" :mode="mode" :dots-styles="dotStyle" field="content">
 				<swiper class="swiper-box" @change="change">
 					<swiper-item v-for="(item, index) in categoryList" :key="index">
@@ -46,11 +46,11 @@
 		<!-- 精品抢购 -->
 		<view class="good">
 			<view class="good-top">
-				<image class="good-left" style="width:66upx;height:62upx;" src="../../static/img/stop/good-left.png" />
+				<image class="good-left" style="width:66upx;height:62upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/good-left.png" />
 				<text class="good-title">精品抢购</text>
-				<image class="good-right" style="width:66upx;height:62upx;" src="../../static/img/stop/good-right.png" />
+				<image class="good-right" style="width:66upx;height:62upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/good-right.png" />
 				<text class="good-more" @tap="goJingpin">更多</text>
-				<image class="good-more-image" style="width:13upx;height:20upx;" src="../../static/img/stop/more.png" />
+				<image class="good-more-image" style="width:13upx;height:20upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/more.png" />
 			</view>
 			<view>
 				<swiper
@@ -64,14 +64,14 @@
 				>
 					<swiper-item v-for="(item, index) in goodsList" :key="index" :class="cardCur == index ? 'cur' : ''">
 						<!-- <view @tap="goShop(item.shop_id)" class="swiper-item-immeuble"> -->
-						<view @tap="goJingpin" class="swiper-item-immeuble">
-							<image class="swiper-item-immeuble-take" style="width:80upx;height:38upx;" src="../../static/img/stop/take.png" mode="" />
+						<view @tap="goShop(item.shop_id)" class="swiper-item-immeuble">
+							<image class="swiper-item-immeuble-take" style="width:80upx;height:38upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/take.png" mode="" />
 							<image class="" style="width:283upx;height:240upx;" :src="item.top_img_list[0]" mode="" />
 							<view class="immeuble">
 								<view class="immeuble-desc">{{item.goods_name | ellipsis}}</view>
 								<view class="immeuble-price">
 									<text  class="immeuble-price-text">￥{{item.goods_price}}</text>
-									<image class="immeuble-price-image" style="width:29upx;height:25upx;" src="../../static/img/stop/car.png" mode="" />
+									<image class="immeuble-price-image" style="width:29upx;height:25upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/car.png" mode="" />
 								</view>
 							</view>
 						</view>
@@ -161,6 +161,11 @@
 		},
 		
         methods: {
+			goCar(){
+				uni.navigateTo({
+					url: 'pages/shop/shop'
+				});
+			},
 			goShop(id){
 				uni.navigateTo({
 					url: '/pages/shopping-mall/detail/detail?id=' + id
