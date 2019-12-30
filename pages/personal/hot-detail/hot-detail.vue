@@ -7,7 +7,7 @@
 			</view>
 			<view class="right">
 				<view class="num">{{item.value}}</view>
-				<image src="../../../static/img/user/hot.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/img/user/hot.png" mode=""></image>
 			</view>
 		</view>
 	</view>
@@ -43,6 +43,11 @@
 					header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
 					success:(res) => {
 						uni.hideLoading();
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 						if(res.data.code == 200) {
 							// console.log()
 							let data = res.data.data

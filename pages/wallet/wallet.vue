@@ -1,30 +1,30 @@
 <template>
     <view>
         <view class="account">
-            <image class="bg" src="../../static/img/wallet/bg.png" />
+            <image class="bg" src="http://www.zhongjubang.com/api/upload/static/img/wallet/bg.png" />
             <text class="text">账户余额 </text>
             <text class="money">￥{{money}} </text>
-            <image class="cash" @click="togglePopup('center', 'tip')" src="../../static/img/wallet/cash.png" />
+            <image class="cash" @click="togglePopup('center', 'tip')" src="http://www.zhongjubang.com/api/upload/static/img/wallet/cash.png" />
         </view>
         <view class="bottom">
             <view class="bottom-content">
-                <image class="image" src="../../static/img/wallet/account-details.png" />
+                <image class="image" src="http://www.zhongjubang.com/api/upload/static/img/wallet/account-details.png" />
                 <text class="account-details">余额明细</text>
             </view>
             <view class="bottom-content">
-                <image class="bank-bind" src="../../static/img/wallet/bank-bind.png" />
+                <image class="bank-bind" src="http://www.zhongjubang.com/api/upload/static/img/wallet/bank-bind.png" />
                 <text class="account-details">银行卡绑定</text>
             </view>
             <view class="bottom-content">
-                <image class="ali-pay" src="../../static/img/wallet/ali-pay.png" />
+                <image class="ali-pay" src="http://www.zhongjubang.com/api/upload/static/img/wallet/ali-pay.png" />
                 <text class="account-details">支付宝绑定</text>
             </view>
             <view class="bottom-content">
-                <image class="ID-card" src="../../static/img/wallet/ID-card.png" />
+                <image class="ID-card" src="http://www.zhongjubang.com/api/upload/static/img/wallet/ID-card.png" />
                 <text class="account-details">身份认证</text>
             </view>
             <view class="bottom-content" @tap="menu">
-                <image class="menu" src="../../static/img/wallet/menu.png" />
+                <image class="menu" src="http://www.zhongjubang.com/api/upload/static/img/wallet/menu.png" />
                 <text class="account-details">优惠券</text>
             </view>
         </view>

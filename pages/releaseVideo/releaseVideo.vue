@@ -1,9 +1,9 @@
 <template>
 	<view>
         <view class="release-video">
-            <image class="back" src="../../static/img/back.png" @click="cancel" mode="" />
+            <image class="back" src="http://www.zhongjubang.com/api/upload/static/img/back.png" @click="cancel" mode="" />
 			<text class="title">发布视频</text>
-			<image class="fly" src="../../static/img/releaseVideo/release.png" mode="" @tap="release" />
+			<image class="fly" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo/release.png" mode="" @tap="release" />
         </view>
 		<view class="release">
 			<view class="desc">
@@ -13,17 +13,17 @@
 		</view>
 		
 		<view class="video" @tap="chooseVideo">
-			<image class="add" src="../../static/img/releaseVideo/add.png" mode="" />
+			<image class="add" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo/add.png" mode="" />
 		</view>
 		<!--  v-if="src" -->
 		<view class="video1" v-if="videoUrl">
 			<video :src="videoUrl" mode=""></video>
-			<image class="close" @tap="delectVideo" src="../../static/img/releaseVideo/close.png" mode="" />
+			<image class="close" @tap="delectVideo" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo/close.png" mode="" />
 		</view>
 
 		<!-- 底部 start -->
 		<view class="bottom" @click="togglePopup('center', 'tip')">
-			<image src="../../static/img/releaseVideo/save.png" mode=""></image>
+			<image src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo/save.png" mode=""></image>
 			<view>存草稿</view>
 		</view>
 
@@ -33,8 +33,8 @@
 				<!-- <view class="uni-tip-title">提示</view> -->
 				<view class="uni-tip-content">要保存到草稿箱吗？</view>
 				<view class="uni-tip-group-button">
-					<view class="uni-tip-button" @click="cancelPopup('tip')" style="color: #F9B72C;">不保存</view>
-					<view class="uni-tip-button insist-skip" @click="cancelPopup('skip')">保存</view>
+					<view class="uni-tip-button" @click="cancelPopup('tip')">不保存</view>
+					<view class="uni-tip-button insist-skip" @click="cancelPopup('skip')" style="color: #F9B72C;">保存</view>
 				</view>
 			</view>
 		</uni-popup>
@@ -59,7 +59,7 @@
 				popupType: '',
 				type: '',
 				appUserDraftsId: '',
-				// src: '../../static/img/releaseVideo/add.png'
+				// src: 'http://www.zhongjubang.com/api/upload/static/img/releaseVideo/add.png'
 	        }
 		},
 		onLoad(options){
@@ -99,6 +99,11 @@
 					data: {'type': 2},
 					header : {'content-type':'application/x-www-form-urlencoded', 'token': that.token, 'port': 'app'},
 					success: ((res) => {
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 						if(res.data.code == 200) {
 							this.draftsList = res.data.data;
 						}
@@ -193,6 +198,11 @@
 						'token': token
 					},
 					success: function (res){
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 						console.log(res)
 						console.log(res.data.code)
 						if(res.data.code==200){
@@ -251,6 +261,11 @@
 							'token': token
 						},
 						success: function (res){
+							if(res.data.code==421){
+								uni.navigateTo({
+									url: '/pages/loginPhone/loginPhone'
+								})
+							}
 							console.log(res)
 							console.log(res.data.code)
 							if(res.data.code==200){
@@ -273,6 +288,11 @@
 							'token': token
 						},
 						success: function (res){
+							if(res.data.code==421){
+								uni.navigateTo({
+									url: '/pages/loginPhone/loginPhone'
+								})
+							}
 							console.log(res.data.code)
 							if(res.data.code==200){
 								uni.navigateTo({
@@ -310,8 +330,8 @@
 			// 取消弹出层
 			cancelPopup(type) {
 				if (type === 'tip') {
-					this.show = false
-					return
+					// this.show = false
+					uni.navigateBack()
 				}
 				if(type === 'skip') {
 					this.save();

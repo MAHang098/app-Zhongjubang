@@ -3,26 +3,16 @@
   <component name="ChangeListManager">
     <list default="true" id="84510198-0e66-4579-b3e0-3c273ca7765b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-searchList/order-searchList.vue" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pages.json" beforeDir="false" afterPath="$PROJECT_DIR$/pages.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/G-circle/search-content/search-content.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/G-circle/search-content/search-content.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/G-circle/search-list/search-list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/G-circle/search-list/search-list.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/drafts/drafts.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/drafts/drafts.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/information/add-fans/add-fans.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/information/add-fans/add-fans.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/information/collection/collection.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/information/collection/collection.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/information/comments/comments.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/information/comments/comments.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/information/give-like/give-like.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/information/give-like/give-like.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/information/information-list/information-list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/information/information-list/information-list.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/juquan/juquan.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/juquan/juquan.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/release/release.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/release/release.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/order-search/order-search.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/order-search/order-search.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/releaseImage-details/releaseImage-details.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/releaseImage-details/releaseImage-details.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/releaseImage/release-image/release-image.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/releaseImage/release-image/release-image.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/shopping-mall/replacement-apply/replacement-apply.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/shopping-mall/replacement-apply/replacement-apply.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/shopping-mall/replacement-applyDetail/replacement-applyDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/shopping-mall/replacement-applyDetail/replacement-applyDetail.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/user/user.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/user/user.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/comments.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/comments.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/information.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/information.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/shopping-mall/all-order/all-order.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/shopping-mall/all-order/all-order.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/shopping-mall/order-comments/order-comments.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/shopping-mall/order-comments/order-comments.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/shopping-mall/order-detail/order-detail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/shopping-mall/order-detail/order-detail.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/topicDetails/topicDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/topicDetails/topicDetails.vue" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -64,18 +54,22 @@
     <session id="-135722125">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
+          <entry key="project.closed" value="2" />
+          <entry key="project.open.time.270" value="1" />
           <entry key="project.open.time.3" value="1" />
-          <entry key="project.open.time.7" value="1" />
-          <entry key="project.opened" value="2" />
+          <entry key="project.open.time.7" value="2" />
+          <entry key="project.opened" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
+          <entry key="js" value="3" />
           <entry key="vue" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
+          <entry key="JavaScript" value="3" />
           <entry key="Vue.js" value="1" />
         </counts>
       </usages-collector>
@@ -86,14 +80,31 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pages/topicDetails/topicDetails.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6859">
-              <caret line="361" column="25" selection-start-line="361" selection-start-column="25" selection-end-line="361" selection-end-column="25" />
+            <state relative-caret-position="7315">
+              <caret line="385" column="25" selection-start-line="385" selection-start-column="25" selection-end-line="385" selection-end-column="25" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pages/releaseImage-details/releaseImage-details.vue">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/store/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="363">
+              <caret line="107" column="2" lean-forward="true" selection-start-line="107" selection-start-column="2" selection-end-line="107" selection-end-column="2" />
+              <folding>
+                <element signature="e#0#21#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/store/module/image.js">
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
@@ -203,23 +214,6 @@
               <item name="app-Zhongjubang" type="b2602c69:ProjectViewProjectNode" />
               <item name="app-Zhongjubang" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="app-Zhongjubang" type="b2602c69:ProjectViewProjectNode" />
-              <item name="app-Zhongjubang" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="app-Zhongjubang" type="b2602c69:ProjectViewProjectNode" />
-              <item name="app-Zhongjubang" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="releaseImage-details" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="app-Zhongjubang" type="b2602c69:ProjectViewProjectNode" />
-              <item name="app-Zhongjubang" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="user" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -256,16 +250,18 @@
       <workItem from="1575510276364" duration="10050000" />
       <workItem from="1576562704054" duration="1046000" />
       <workItem from="1576739482029" duration="250000" />
+      <workItem from="1577064017591" duration="144000" />
+      <workItem from="1577670861024" duration="1087000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="11904000" />
+    <option name="totallyTimeSpent" value="13135000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18336888" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18763326" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -352,13 +348,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pages/topicDetails/topicDetails.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6859">
-          <caret line="361" column="25" selection-start-line="361" selection-start-column="25" selection-end-line="361" selection-end-column="25" />
+        <state relative-caret-position="7315">
+          <caret line="385" column="25" selection-start-line="385" selection-start-column="25" selection-end-line="385" selection-end-column="25" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pages/releaseImage-details/releaseImage-details.vue">
       <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/store/module/image.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Temp/Rar$DRa1328.11320/app-Zhongjubang/store/index.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/store/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="363">
+          <caret line="107" column="2" lean-forward="true" selection-start-line="107" selection-start-column="2" selection-end-line="107" selection-end-column="2" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
     </entry>
   </component>
 </project>

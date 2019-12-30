@@ -4,10 +4,10 @@
 			<view class="details-list">
 				<view class="left">
 					<view class="avatar">
-						<image src="../../../static/avatar.png" mode=""></image>
+						<image src="http://www.zhongjubang.com/api/upload/static/avatar.png" mode=""></image>
 					</view>
 					<view class="details">
-						<view class="name">{{item.msg.nickName}} <image src="../../../static/fans-logo.png" mode=""></image></view>
+						<view class="name">{{item.msg.nickName}} <image src="http://www.zhongjubang.com/api/upload/static/fans-logo.png" mode=""></image></view>
 						<view class="time">{{item.createTime}}</view>
 						<view class="follow">{{item.msg.text}}</view>
 					</view>
@@ -56,6 +56,11 @@
 					data: {pageIndex: 1,pageSize: this.count, msgType: this.type},
 					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
 					success: ((res) => {
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 						if(res.data.code == 200) {
 							let data = res.data.data.dataList;
 							for(let i=0; i<data.length; i++) {

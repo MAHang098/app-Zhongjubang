@@ -2,16 +2,16 @@
 	<view>
 		<view class="header" v-bind:class="{ 'in': scrollFlag }">
 			<view class="header-left" @click.stop="backPreve">
-				<image :class="scrollFlag ? 'scroolImg1' : ''"  :src="scrollFlag ? '../../../static/img/shopping-mall/detail/back-select.png' : '../../../static/img/shopping-mall/detail/product-back.png' " mode=""></image>
+				<image :class="scrollFlag ? 'scroolImg1' : ''"  :src="scrollFlag ? 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/detail/back-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/detail/product-back.png' " mode=""></image>
 			</view>
-			<view class="type-detail" v-if="scrollFlag">
-				<view class="active">商品</view>
-				<view>评论</view>
-				<view>推荐</view>
-				<view>详情</view>
-			</view>
+			<scroll-view class="scroll-Y" style='height:100%;'>
+				<view class="type-detail" v-if="scrollFlag">
+					<view :class="current == index ? 'active' : '' " @tap.stop="changeType(index)" v-for="(item, index) in detailType" :key="index">{{item}}</view>
+				</view>
+			</scroll-view>
+			
 			<view class="header-right">
-				<image :class="scrollFlag ? 'scroolImg' : '' " :src="scrollFlag ? '../../../static/img/shopping-mall/detail/share-select.png' : '../../../static/img/shopping-mall/detail/product-share.png'" mode=""></image>
+				<image :class="scrollFlag ? 'scroolImg' : '' " :src="scrollFlag ? 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/detail/share-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/detail/product-share.png'" mode=""></image>
 			</view>
 		</view>
 		
@@ -30,9 +30,9 @@
 		<!-- 商品轮播 end -->
 		<!-- 商品title start -->
 		<view class="product">
-			<view class="main-title">{{detailItem.goodsName}}</view>
+			<view class="main-title" >{{detailItem.goodsName}}</view>
 			<view class="adress">
-				<image src="../../../static/img/shopping-mall/detail/map.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/img/shopping-mall/detail/map.png" mode=""></image>
 				<view>广东佛山</view>
 			</view>
 			<view class="price">
@@ -44,7 +44,7 @@
 		<!-- 保障 start -->
 		<view class="guarantee">
 			<view v-for="(item, index) in detailItem.tag" :key="index">
-				<image src="../../../static/img/shopping-mall/detail/checked.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/img/shopping-mall/detail/checked.png" mode=""></image>
 				<text>{{item}}</text>
 			</view>
 			
@@ -56,14 +56,14 @@
 				<text>选择产品规格</text>
 				<view class="description-spec_type">
 					<text>{{spec_type_name}}</text>
-					<image src="../../../static/topic/arrow.png" mode=""></image>
+					<image src="http://www.zhongjubang.com/api/upload/static/topic/arrow.png" mode=""></image>
 				</view>
 			</view>
 			<view @click.stop="explainShow">
 				<text>产品说明</text>
-				<image src="../../../static/topic/arrow.png" mode="" :class="showExplain ? 'arrowTr' : ''"></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/topic/arrow.png" mode="" :class="showExplain ? 'arrowTr' : ''"></image>
 			</view>
-			<text class="explain" v-show="showExplain">索菲亚衣柜索菲亚衣柜索菲亚衣柜索菲亚衣索菲亚衣柜柜索菲亚衣索菲亚衣柜索菲亚衣柜索菲亚衣柜索菲亚衣索菲亚衣柜柜索菲亚衣索菲亚衣柜索菲亚衣柜索菲亚衣柜索菲亚衣索菲亚衣柜。</text>
+			<text class="explain" v-show="showExplain">{{detailItem.goodsShow}}</text>
 		</view>
 		<!-- 规格/说明 end -->
 		
@@ -78,7 +78,7 @@
 					<view>{{item.goodsContentDiscuss}} </view>
 				</view>
 			</view>
-			<view class="get-comment" @click.stop="getAllComments(detailItem.id)">查看全部评论 <image src="../../../static/img/shopping-mall/detail/y-arrow.png" mode=""></image></view>
+			<view v-show="commentList.length > 2" class="get-comment" @click.stop="getAllComments(detailItem.id)">查看全部评论 <image src="http://www.zhongjubang.com/api/upload/static/img/shopping-mall/detail/y-arrow.png" mode=""></image></view>
 		</view>
 		<!-- 商品评论 end -->
 		
@@ -93,7 +93,7 @@
 				<view class="shop-collect">
 					<text  @click.stop="collectShop(shopItem.shopId)" v-if="shopItem.state == 0">+收藏</text>
 					<text class="isShop-collect" @click.stop="collectShop(shopItem.shopId)" v-else>已收藏</text>
-					<text>进店逛逛</text>
+					<text @tap="goShop(shopItem.shopId)">进店逛逛</text>
 				</view>
 			</view>
 			
@@ -109,7 +109,7 @@
 									<view class="recommend-detail_text">
 										<text>{{item.goods_name　|　ellipsis}}</text>
 										<view>￥{{item.goods_price}}</view>
-										<image src="../../../static/img/shopping-mall/detail/cart.png" mode=""></image>
+										<image src="http://www.zhongjubang.com/api/upload/static/img/shopping-mall/detail/cart.png" mode=""></image>
 									</view>
 								</view>
 							</swiper-item>
@@ -139,7 +139,7 @@
 				<view class="message">
 					<image :src="swiperItem[0]" mode=""></image>
 					<view><text>{{'￥' + detailItem.goodsPrice}}</text><text>库存:{{activeIndex == -1 ? '请选择规格' :  reserve}}</text></view>
-					<image src="../../../static/img/shopping-mall/detail/close.png" mode="" @click.stop="cancelPopup('spec')"></image>
+					<image src="http://www.zhongjubang.com/api/upload/static/img/shopping-mall/detail/close.png" mode="" @click.stop="cancelPopup('spec')"></image>
 				</view>	
 				<view class="category">
 					<view>分类</view>
@@ -163,16 +163,16 @@
 		
 		<view id="detail-bottom">
 			<view class="kefu">
-				<image src="../../../static/img/shopping-mall/detail/kefu.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/img/shopping-mall/detail/kefu.png" mode=""></image>
 				<view>客服</view>
 			</view>
-			<view class="kefu">
-				<image src="../../../static/img/shopping-mall/detail/kefu.png" mode=""></image>
-				<view>客服</view>
-			</view>
-			<view class="in-shop">
-				<image src="../../../static/img/shopping-mall/detail/shop.png" mode=""></image>
+			<view class="kefu" @tap="goShop(shopItem.shopId)">
+				<image src="http://www.zhongjubang.com/api/upload/static/img/shopping-mall/detail/shop.png" mode=""></image>
 				<view>进店</view>
+			</view>
+			<view class="in-shop" @tap.stop="collectProduct(detailItem.id)">
+				<image :src="detailItem.state == 0 ? 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/detail/collet.png' : 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/detail/collet-select.png'" mode=""></image>
+				<view>收藏</view>
 			</view>
 			<view class="join">
 				<text @click.stop="addCart">加入购物车</text>
@@ -188,7 +188,7 @@
 		components:{uniPopup},
 		data() {
 			return {
-				scrollFlag: false,
+				scrollFlag: true,
 				swiperItem: [],
 				token: '',
 				showExplain: false,
@@ -206,7 +206,11 @@
 				recommendItem: [],
 				detailId: '',
 				shopItem: {},
-				reserve: ''
+				reserve: null,
+				scolltop: 0, //记录评论节点位置
+				detailType: ['商品', '评论', '推荐', '详情'],
+				current: 0,
+				scrollTop: 0,
 			}
 		},
 		filters: {
@@ -229,18 +233,57 @@
 		},
 		onLoad(option) {
 			this.detailId = option.id;
+			// this.detailId = 1;
 		},
 		onShow() {
 			uni.getStorage({
 				key:"token",
 				success:((res) => {
-					this.token = res.data;
+					// this.token = res.data;
 				})
 			});
 			this.init();
 			this.gainProductRecommend();
 		},
 		methods: {
+			goShop(id){
+				uni.navigateTo({
+					url: '/pages/shop-command/shop-command?id=' + id
+				})
+			},
+			changeType(index) {
+				this.current = index;
+				let explainH = 0
+				let info = uni.createSelectorQuery().select(".explain");
+				info.boundingClientRect(function(data) { //data - 各种参数
+					explainH = data.height ;
+					if(index == 0) {
+						uni.pageScrollTo({
+							duration:0,
+							scrollTop: 0
+						})
+					}
+					if(index == 1) {
+						uni.pageScrollTo({
+							duration:0,
+							scrollTop: 611 + explainH
+						})
+					}
+					if(index == 2) {
+						uni.pageScrollTo({
+							duration:0,
+							scrollTop: 900 + explainH
+						})
+					}
+					if(index == 3) {
+						uni.pageScrollTo({
+							duration:0,
+							scrollTop: 1110 + explainH
+						})
+					}
+		　　    }).exec();
+				
+			},
 			init() {
 				uni.request({
 				    url: this.url + 'controller/shopcontroller/getgoodsbyid',
@@ -286,11 +329,7 @@
 				        if(res.data.code == 200) {
 							this.recommendItem = res.data.data.dataList;
 				        } 
-						if(res.data.code == 421) {
-							uni.navigateTo({
-								url: '/pages/loginPhone/loginPhone'
-							})
-						}
+						
 				    })
 				});
 			},
@@ -334,6 +373,26 @@
 				    url: this.url + 'controller/usercontroller/addusercollection',
 				    method: 'post',
 				    data: {type: '4', collectionContentId: id},
+				    header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
+				    success:((res) => {
+				        if(res.data.code == 200) {
+							// this.typeItem = res.data.data;
+							this.init();
+				        } 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+				    })
+				});
+			},
+			// 收藏商品
+			collectProduct(id) {
+				uni.request({
+				    url: this.url + 'controller/usercontroller/addusercollection',
+				    method: 'post',
+				    data: {type: '3', collectionContentId: id},
 				    header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 				    success:((res) => {
 				        if(res.data.code == 200) {
@@ -402,6 +461,13 @@
 			},
 			// 加入购物车
 			addCart() {
+				if(this.reserve == 0 ) {
+					uni.showToast({
+						title: '此商品暂时缺货',
+						icon: 'none'
+					})
+					return;
+				}
 				if(this.spec_type_name == '') {
 					this.togglePopup('bottom', 'spec');
 					this.addType = 1;
@@ -410,11 +476,13 @@
 				uni.request({
 				    url: this.url + 'controller/shopcontroller/addshoppingcart',
 				    method: 'post',
-				    data: {goodsId: this.detailItem.id, quantity: this.product_num, specificationsId: this.specificationsId},
+				    data: {goodsId: this.detailItem.id, quantity: this.product_num, specificationsId: this.specificationsId, shopId: this.shopItem.shopId},
 				    header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 				    success:((res) => {
 				        if(res.data.code == 200) {
-							console.log(res.data)
+							uni.showToast({
+								title: '添加成功'
+							})
 				        } 
 						if(res.data.code == 421) {
 							uni.navigateTo({
@@ -426,6 +494,13 @@
 			},
 			// 立即下单
 			buy() {
+				if(this.reserve == 0) {
+					uni.showToast({
+						title: '此商品暂时缺货',
+						icon: 'none'
+					})
+					return;
+				}
 				if(this.spec_type_name == '') {
 					this.addType = 2;
 					this.togglePopup('bottom', 'spec');
@@ -511,14 +586,27 @@
 	.active {
 		border-bottom: 3px solid #F9B72D;
 	}
+	.scroll-Y {
+		margin-top: 16px;
+		height: 30px;
+	}
 	.type-detail {
-		width: 52%;
+		width: 60%;
 		font-size:28rpx;
 		font-family:PingFang SC;
 		color:rgba(51,51,51,1);
 		display: flex;
 		justify-content: space-between;
+		margin: 0 auto !important;
+		height: 27px !important;
 	}
+	.type-detail view {
+		margin: 0 !important;
+	}
+	/* .type-detail view {
+		width: 25%;
+		text-align: center;
+	} */
 	.header-topic {
 		font-size: 32rpx;
 	}
@@ -873,7 +961,7 @@
 	/* 商品推荐 start */
 	.product-recommend {
 		padding-left: 30rpx;
-		height: 491rpx;
+		height: 461rpx;
 	}
 	.swipers {
 		height: 386rpx;

@@ -9,7 +9,7 @@
 			<view v-for="(item,index) in info" :style="{
         'width': dots.width + 'px','height':dots.height +'px' ,'background-color':index !== current?dots.backgroundColor:dots.selectedBackgroundColor,'border':index !==current ? dots.border:dots.selectedBorder}" :key="index" class="uni-swiper__dots-item" />
 		</view>
-		<view v-if="mode === 'round'" :style="{'bottom':'29px'}" class="uni-swiper__dots-box">
+		<view v-if="mode === 'round'" :style="{'bottom':'58upx'}" class="uni-swiper__dots-box">
 			<view v-for="(item,index) in info" :class="[index === current&&'uni-swiper__dots-long']" :style="{
 		    'width':(index === current? dots.width*2:dots.width ) + 'px','height':dots.height +'px' ,'background-color':index !== current?dots.backgroundColor:dots.selectedBackgroundColor,'border':index !==current ? dots.border:dots.selectedBorder}" :key="index" class="uni-swiper__dots-item " />
 		</view>
@@ -58,8 +58,8 @@
 		data() {
 			return {
 				dots: {
-					width: 8,
-					height: 8,
+					width: 6,
+					height: 6,
 					bottom: 10,
 					color: '#fff',
 					backgroundColor: 'rgba(0, 0, 0, .3)',

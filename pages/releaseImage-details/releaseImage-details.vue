@@ -2,12 +2,12 @@
 	<view id="releaseDetials">
 		<view class="top">
 			<view class="release-video">
-				<image class="back" src="../../static/img/back.png" mode="" @click.stop="cacelPage"/>
+				<image class="back" src="http://www.zhongjubang.com/api/upload/static/img/back.png" mode="" @click.stop="cacelPage"/>
 				<text class="title" v-if="!scrollFlag">{{indexImg}}/{{imageLength}}</text>
 				<view class="header-user" v-else>
 					<image :src="dataItem.head" mode="" class="avatar"></image>
 					<view class="name">{{dataItem.nickName}}</view>
-					<image v-show="dataItem.state == 0 " :src="dataItem.attentionState == 0 ? '../../static/follow.png' : dataItem.attentionState == 2 ? '../../static/mutual-follow.png' : '../../static/follow-checked.png'" mode="" class="follow"  @click.stop="focus(dataItem.userId, dataItem.attentionState)"></image>
+					<image v-show="dataItem.state == 0 " :src="dataItem.attentionState == 0 ? 'http://www.zhongjubang.com/api/upload/static/follow.png' : dataItem.attentionState == 2 ? 'http://www.zhongjubang.com/api/upload/static/mutual-follow.png' : 'http://www.zhongjubang.com/api/upload/static/follow-checked.png'" mode="" class="follow"  @click.stop="focus(dataItem.userId, dataItem.attentionState)"></image>
 				</view>
 			</view>
 			
@@ -24,16 +24,16 @@
 					<view class="name">{{dataItem.nickName}}</view>
 					<view class="time">发布时间：{{dataItem.createTime}}</view>
 				</view>
-				<image v-show="dataItem.state == 0 " :src="dataItem.attentionState == 0 ? '../../static/follow.png' : dataItem.attentionState == 2 ? '../../static/mutual-follow.png' : '../../static/follow-checked.png'" mode="" class="follow"  @click.stop="focus(dataItem.userId, dataItem.attentionState)"></image>
+				<image v-show="dataItem.state == 0 " :src="dataItem.attentionState == 0 ? 'http://www.zhongjubang.com/api/upload/static/follow.png' : dataItem.attentionState == 2 ? 'http://www.zhongjubang.com/api/upload/static/mutual-follow.png' : 'http://www.zhongjubang.com/api/upload/static/follow-checked.png'" mode="" class="follow"  @click.stop="focus(dataItem.userId, dataItem.attentionState)"></image>
 			</view>
 			<view class="content" :style="{marginTop: scrollFlag ? '10px' : '0'}">
 				<view v-if="!isShowAllContent" class="text">{{dataItem.content }}</view>
 				<view v-else class="text">{{dataItem.content | ellipsis}}</view>
-				<view class="anCotent" v-if="contentLength > 45 " @click="open()">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
+				<view class="anCotent" v-if="contentLength > 45 " @click="open()">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'in'" src="http://www.zhongjubang.com/api/upload/static/drafts/arrow-bottom.png" mode=""></image></view>
 			</view>
 			<view class="release-image_topic" v-if="titleItem.topic != '' ">
 				<view class="left"  @click.stop="goTopic(titleItem.title.topicId)">
-					<image src="../../static/topic/topic.png" mode=""></image>
+					<image src="http://www.zhongjubang.com/api/upload/static/topic/topic.png" mode=""></image>
 					<view>{{titleItem.topic}}</view>
 				</view>
 				<view class="right"></view>
@@ -47,7 +47,7 @@
 			<view class="comments-input">
 				<image :src="dataItem.head" mode=""></image>
 				<view class="comments-text">
-					<image src="../../static/img/releaseImage-details/recommend.png" mode=""></image>
+					<image src="http://www.zhongjubang.com/api/upload/static/img/releaseImage-details/recommend.png" mode=""></image>
 					<input type="text" :value="commentsContent" placeholder="留下你的评论..." @click.stop="togglePopup('bottom', 'popup')" maxlength="200" :disabled="true"/>
 					<!-- <input class="uni-input" confirm-type="search" placeholder="键盘右下角按钮显示为搜索" /> -->
 				</view>
@@ -62,7 +62,7 @@
 					</view>
 					<view class="fabulous"  @click.stop="commentsFabulous(item.id)">
 						{{item.likenum}}
-						<image :src=" item.state == 0 ? '../../static/img/user/good.png' : '../../static/topic/fabulous-select.png' " mode=""></image>
+						<image :src=" item.state == 0 ? 'http://www.zhongjubang.com/api/upload/static/img/user/good.png' : 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' " mode=""></image>
 					</view>
 				</view>
 				<view class="comments-content">
@@ -86,18 +86,18 @@
 		
 		
 		<view class="operate-bottom">
-			<view class="operate-bottom_share"><image src="../../static/img/user/share.png" mode=""></image></view>
+			<view class="operate-bottom_share"><image src="http://www.zhongjubang.com/api/upload/static/img/user/share.png" mode=""></image></view>
 			<view class="operate-bottom_number">
 				<view class="number-message" @click.stop="togglePopup('bottom', 'popup')">
-					<image src="../../static/img/user/message.png" mode=""></image>
+					<image src="http://www.zhongjubang.com/api/upload/static/img/user/message.png" mode=""></image>
 					<text>{{dataItem.discussNum}}</text>
 				</view>
 				<view class="collect">
-					<image  @click.stop="collect(detailId)" :src="dataItem.collectionState == 0 ? '../../static/img/user/star.png' : '../../static/topic/collect-select.png' " mode=""></image>
+					<image  @click.stop="collect(detailId)" :src="dataItem.collectionState == 0 ? 'http://www.zhongjubang.com/api/upload/static/img/user/star.png' : 'http://www.zhongjubang.com/api/upload/static/topic/collect-select.png' " mode=""></image>
 					<text>{{dataItem.collectionNum}}</text>
 				</view>
 				<view class="fabulous"  @click.stop="fabulous(detailId)">
-					<image :src="dataItem.gcircleContentLikeState == 0 ? '../../static/img/user/good.png' : '../../static/topic/fabulous-select.png'" mode=""></image>
+					<image :src="dataItem.gcircleContentLikeState == 0 ? 'http://www.zhongjubang.com/api/upload/static/img/user/good.png' : 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png'" mode=""></image>
 					<text>{{dataItem.gclLikeNum}}</text>
 				</view>
 			</view>
@@ -142,12 +142,13 @@
 		// 监听页面滚动
 		onPageScroll(e) {
 			 let _this=this;
-			if(e.scrollTop > 50) {
+			if(e.scrollTop > 150) {
 				_this.scrollFlag = true
 			} else {
 				_this.scrollFlag = false
 			}
 		},
+		
 		onLoad(option) {
 			this.detailId = option.id;
 			// this.detailId = '54'
@@ -171,6 +172,9 @@
 			this.init();
 		},
 	    methods: {
+			back(){
+				uni.navigateBack()
+			},
 			init() {
 				let parmas = {
 					pageSize: 100,
@@ -184,6 +188,11 @@
 				    data: parmas,
 				    header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 				    success:((res) => {
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 				        if(res.data.code == 200) {
 							let data = res.data.data.dataList[0];
 							data.imgList = JSON.parse(data.imgList);
@@ -208,6 +217,11 @@
 			        data: {outUserId: id},
 			        header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 			        success:(res) => {
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 			            if(res.data.code == 200) {
 			                this.init();
 			            } 
@@ -227,6 +241,11 @@
 			        data: {collectionContentId: id, type: '1'},
 			        header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 			        success:(res) => {
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 			            if(res.data.code == 200) {
 							this.init();
 			            } 
@@ -246,6 +265,11 @@
 			        data: {gcircleContentId: id},
 			        header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 			        success:((res) => {
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 			            if(res.data.code == 200) {
 			                this.init();
 			            } 
@@ -265,6 +289,11 @@
 					data: {discussId: id, type: '1'},
 					header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 					success:(res) => {
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 						if(res.data.code == 200) {
 							this.init()
 							
@@ -499,7 +528,9 @@
 	/* 轮播图 start */
 	.swiper-item, .swiper {
 		height: 692rpx;
-		margin-top: 62rpx;
+	}
+	.swiper  {
+		margin-top: 150rpx;
 	}
 	.swiper-item image {
 		width: 100%;

@@ -2,14 +2,14 @@
     <view>
         <view class="horizen"></view>
         <view class="wrap">
-            <image class="wrap-image" style="width:90rpx;height:90rpx;" src="../../static/img/wallet/money.png" />
+            <image class="wrap-image" style="width:90rpx;height:90rpx;" src=".http://www.zhongjubang.com/api/upload/static/img/wallet/money.png" />
             <text class="cash">余额提现到银行卡</text>
             <text class="data">2019-09-12  09:31:30</text>
             <text class="num">-100.00</text>
             <view class="horizen1"></view>
         </view>
         <view class="wrap">
-            <image class="wrap-image" style="width:90rpx;height:90rpx;" src="../../static/img/wallet/money.png" />
+            <image class="wrap-image" style="width:90rpx;height:90rpx;" src=".http://www.zhongjubang.com/api/upload/static/img/wallet/money.png" />
             <text class="cash">余额提现到银行卡</text>
             <text class="data">2019-09-12  09:31:30</text>
             <text class="num">-100.00</text>
@@ -45,6 +45,11 @@ export default {
                 'token': token
             },
             success: function (res){
+				if(res.data.code==421){
+					uni.navigateTo({
+						url: '/pages/loginPhone/loginPhone'
+					})
+				}
                 console.log(res.data.code)
                 if(res.data.code==200){
                     console.log(res.data.data)

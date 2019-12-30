@@ -25,11 +25,11 @@
 					</view>
 					<view class="edit-message">
 						<view class="delete" @click.stop="togglePopup('center', 'tip', item.id)">
-							<img src="../../static/delete.png" alt="">
+							<img src="http://www.zhongjubang.com/api/upload/static/delete.png" alt="">
 							<text>删除</text>
 						</view>
 						<view class="edit" @click.stop="editAdress(item.id)">
-							<img src="../../static/edit.png" alt="">
+							<img src="http://www.zhongjubang.com/api/upload/static/edit.png" alt="">
 							<text>编辑</text>
 						</view>
 					</view>
@@ -99,6 +99,11 @@
 					method: 'post',
 					header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 					success: (res => {
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 						if(res.data.code == 200) {
 							if(res.data.data.length == 0) {
 								this.isShow = true;
@@ -150,6 +155,11 @@
 					data: {userAdressId: id, isDefault: 1},
 					header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 					success: ((res) =>  {
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 						if(res.data.code == 200) {
 							this.init()
 							// uni.hideToast();
@@ -208,6 +218,11 @@
 						data: {'userAdressId': this.deleteId},
 						header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 						success: (res => {
+							if(res.data.code==421){
+								uni.navigateTo({
+									url: '/pages/loginPhone/loginPhone'
+								})
+							}
 							console.log(res)
 							if(res.data.code == 200) {
 								this.show = false;

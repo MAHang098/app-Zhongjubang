@@ -58,13 +58,14 @@
 		},
 		// 点击保存
 		onNavigationBarButtonTap(e){
-			let myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+			console.log(e);
+			let myreg = /^[1][3,4,5,7,6,8][0-9]{9}$/;
 			if (this.phoneNumber.length < 11 || this.phoneNumber.length > 11 ) {
 			    uni.showToast({
 			        icon: 'none',
 			        title: '请输入正确的电话号码!'
 			    });
-				uni.hideToast();
+				// uni.hideToast();
 			    return;
 			}
 			if(!myreg.test(this.phoneNumber)) {
@@ -143,6 +144,11 @@
 				data: parmas,
 				header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
 				success: ((res) => {
+					if(res.data.code==421){
+						uni.navigateTo({
+							url: '/pages/loginPhone/loginPhone'
+						})
+					}
 					if(res.data.code == 200) {
 						uni.showToast({
 							title: '添加成功',
@@ -188,6 +194,11 @@
 					data: {'id': option.id},
 					header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
 					success: (res => {
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 						if(res.data.code == 200) {
 							let data = res.data.data;
 							console.log(data);

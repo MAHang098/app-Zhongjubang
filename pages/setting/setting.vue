@@ -3,7 +3,7 @@
         <view class="horizen"></view>
         <view class="wrap" @tap="goEditinfo">
             <text class="editInfo">编辑个人资料</text>
-            <image class="wrap-image" style="width:16rpx;height:27rpx;" src="../../static/img/wallet/go.png" />
+            <image class="wrap-image" style="width:16rpx;height:27rpx;" src="http://www.zhongjubang.com/api/upload/static/img/wallet/go.png" />
         </view>
         <view class="horizen"></view>
         <view class="wrap">
@@ -14,16 +14,16 @@
         </view>
         <view class="wrap1" @tap="toAgreement">
             <text class="editInfo">用户协议</text>
-            <image class="wrap-image" style="width:16rpx;height:27rpx;" src="../../static/img/wallet/go.png" />
+            <image class="wrap-image" style="width:16rpx;height:27rpx;" src="http://www.zhongjubang.com/api/upload/static/img/wallet/go.png" />
         </view>
-        <view class="wrap">
+        <view class="wrap" @tap="goAbout">
             <text class="editInfo">关于众居邦</text>
-            <image class="wrap-image" style="width:16rpx;height:27rpx;" src="../../static/img/wallet/go.png" />
+            <image class="wrap-image" style="width:16rpx;height:27rpx;" src="http://www.zhongjubang.com/api/upload/static/img/wallet/go.png" />
         </view>
         <view class="horizen"></view>
         <view class="wrap">
             <text class="editInfo">喜欢去鼓励下我们</text>
-            <image class="wrap-image" style="width:16rpx;height:27rpx;" src="../../static/img/wallet/go.png" />
+            <image class="wrap-image" style="width:16rpx;height:27rpx;" src="http://www.zhongjubang.com/api/upload/static/img/wallet/go.png" />
         </view>
         <view class="wrap2" @click="togglePopup('center', 'tip')">
             退出登录
@@ -51,16 +51,22 @@
                 show: false,
                 indicatorDots: true,
                 popupType: '',
+				token: [],
 			}
         },
         methods: {
+			goAbout(){
+				uni.navigateTo({
+					url: "/pages/about/about"
+				})
+			},
             toAgreement(){
 				uni.navigateTo({
 					url: "/pages/agreement/agreement"
 				})
 			},
             goEditinfo(){
-                uni.navitageTo({
+                uni.navigateTo({
                     url: "/pages/editInfo/editInfo"
                 })
             },
@@ -136,6 +142,10 @@
                         console.log(res.data.code)
                         if(res.data.code==200){
                             console.log(res)
+							uni.setStorage({
+								key:"token",
+								data: '0',
+							})
                             uni.navigateTo({
                                 url: '/pages/loginPhone/loginPhone'
                             })
@@ -200,7 +210,7 @@
     }
     .indice{
         position: absolute;
-        left: 348px;
+        left: 614upx;
         top: 30rpx;
     }
      /* 提示窗口 */

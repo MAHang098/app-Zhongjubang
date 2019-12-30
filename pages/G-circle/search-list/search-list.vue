@@ -2,9 +2,9 @@
 	<view>
 		<!-- 搜索栏 start -->
 		<view class="header">
-			<image src="../../../static/img/G-circle/search-back.png" mode="" class="back" @click.stop="gainInput"></image>
+			<image src="http://www.zhongjubang.com/api/upload/static/img/G-circle/search-back.png" mode="" class="back" @click.stop="gainInput"></image>
 			<view class="search-input">
-				<image src="../../../static/search/nav-search.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/search/nav-search.png" mode=""></image>
 				<input type="text" :value="searchValue"  placeholder="搜索您需要的商品" @input.stop="gainInput" @focus="onFocus" @blur="onBlur"/>
 			</view>
 			<view class="cancel" @click.stop="gainInput">取消</view>
@@ -29,7 +29,7 @@
 							<image :src="item.head" mode=""></image>
 						</view>
 						<view class="details">
-							<view class="name">{{item.nickName}} <image src="../../../static/fans-logo.png" mode=""></image></view>
+							<view class="name">{{item.nickName}} <image src="http://www.zhongjubang.com/api/upload/static/fans-logo.png" mode=""></image></view>
 							<view class="follow">粉丝{{item.count}}</view>
 						</view>
 					</view>
@@ -42,15 +42,15 @@
 		
 		<!-- 商品列表 start -->
 		<view class="product-list" v-show="current == 1">
-			<view class="product-list_detail" v-for="(item, index) in productList" :key="index">
+			<view class="product-list_detail" v-for="(item, index) in productList" :key="index" @tap.stop="goDetail(item.goodsId)">
 				<image :src="item.topImgList[0]" mode=""></image>
-				<view class="product-list_detail_title">{{item.goodsContent | ellipsis }}</view>
+				<view class="product-list_detail_title">{{item.goodsName | ellipsis }}</view>
 				<view class="product-list_detail_price">{{'￥' + item.goodsPrice}}</view>
 				<view class="product-list_detail_shop">
 					<view class="product-list_detail_shopleft">{{item.shopName}}</view>
 					<view class="product-list_detail_shopright">
 						<view>巡店</view>
-						<image src="../../../static/topic/arrow.png" mode=""></image>
+						<image src="http://www.zhongjubang.com/api/upload/static/topic/arrow.png" mode=""></image>
 					</view>
 				</view>
 			</view>
@@ -69,7 +69,7 @@
 					<image :src="item.head" mode="" class="avatar"></image>
 					<text class="nikename">{{item.nickName}}</text>
 					<text class="count">{{item.count}}</text>
-					<image :src="item.state === 1 ? '../../../static/topic/collect-select.png' : '../../../static/img/user/star.png' " mode="" class="collect"></image>
+					<image :src="item.state === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/collect-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/star.png' " mode="" class="collect"></image>
 				</view>
 			</view>
 			
@@ -129,6 +129,11 @@
 				    data: parmas,
 				    header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 				    success:((res) => {
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 				        if(res.data.code == 200) {
 							let data = res.data.data.dataList;
 							for(let i=0; i<data.length; i++) {
@@ -157,6 +162,11 @@
 				    data: parmas,
 				    header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 				    success:((res) => {
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 				        if(res.data.code == 200) {
 							let data = res.data.data.dataList;
 							this.productList = data;
@@ -182,6 +192,11 @@
 				    data: parmas,
 				    header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 				    success:((res) => {
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 				        if(res.data.code == 200) {
 							let data = res.data.data.dataList;
 							this.userList = data;
@@ -238,6 +253,11 @@
 			goGcicle(id) {
 				uni.navigateTo({
 					url: '/pages/releaseImage-details/releaseImage-details?id=' + id
+				})
+			},
+			goDetail(id) {
+				uni.navigateTo({
+					url: '/pages/shopping-mall/detail/detail?id=' + id
 				})
 			}
 		}

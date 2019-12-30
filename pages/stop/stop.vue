@@ -3,30 +3,21 @@
         <view class="search">
 			<image class="search-image" style="width:26upx;height:26upx;" src="../../static/img/stop/search.png" mode="" />
 			<input @tap="goSearch" class="search-insert" type="text" placeholder="请输入您所需要的商品">
+<<<<<<< HEAD
+			<image @click.stop="goCart" class="car" style="width:41upx;height:39upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/car.png" mode="" />
+=======
 			<image class="car" style="width:41upx;height:39upx;" src="../../static/img/stop/car.png" mode="" />
+>>>>>>> e8acdcd4d5dc9c62f8541778d1a774d26ac422f2
 		</view>
 		<view class="banner">
 			<image class="banner-image" style="width:663upx;height:345upx;" src="../../static/img/stop/banner.png" mode="" />
-			<uni-swiper-dot :info="info" :current="current" :mode="mode" :dots-styles="dotStyle" field="content">
+			<uni-swiper-dot :info='categoryList' :current="current" :mode="mode" :dots-styles="dotStyle" field="content">
 				<swiper class="swiper-box" @change="change">
-					<swiper-item v-for="(item, index) in info" :key="index">
+					<swiper-item v-for="(item, index) in categoryList" :key="index">
 						<view :class="item.colorClass" class="swiper-item">
-							<!-- <image :src="item.url" mode="aspectFill" /> -->
-							<view class="banner-content-des">
-								<image class="banner-content-des-image" style="width:85upx;height:86upx;" src="../../static/img/stop/banner-image.png" mode="aspectFill" />
-								<view class="banner-content-des-title">全屋定制</view>
-							</view>
-							<view class="banner-content-des">
-								<image class="banner-content-des-image" style="width:85upx;height:86upx;" src="../../static/img/stop/banner-image.png" mode="aspectFill" />
-								<view class="banner-content-des-title">全屋定制</view>
-							</view>
-							<view class="banner-content-des">
-								<image class="banner-content-des-image" style="width:85upx;height:86upx;" src="../../static/img/stop/banner-image.png" mode="aspectFill" />
-								<view class="banner-content-des-title">全屋定制</view>
-							</view>
-							<view class="banner-content-des">
-								<image class="banner-content-des-image" style="width:85upx;height:86upx;" src="../../static/img/stop/banner-image.png" mode="aspectFill" />
-								<view class="banner-content-des-title">全屋定制</view>
+							<view class="banner-content-des" v-for="(item, index) in categoryList[index]" @tap="goCategory(item.id)" :key="index">
+								<image class="banner-content-des-image" style="width:85upx;height:86upx;border-radius: 50%;" :src="item.goodsImg" mode="aspectFill" />
+								<view class="banner-content-des-title">{{item.goodsType}}</view>
 							</view>
 						</view>
 					</swiper-item>
@@ -35,25 +26,25 @@
 			
 		</view>
 		<view class="buy">
-			<view class="buy-left">
+			<view class="buy-left" @tap='goWanghong'>
 				<text class="buy-left-title">网红品，大家都在买></text>
 				<view class="balance-content">
-					<image class="balance-content-image" style="width:74upx;height:76upx;" src="../../static/img/stop/banner-image.png" mode="aspectFill" />
-					<image class="balance-content-image" style="width:74upx;height:76upx;" src="../../static/img/stop/banner-image.png" mode="aspectFill" />
-					<image class="balance-content-image" style="width:74upx;height:76upx;" src="../../static/img/stop/banner-image.png" mode="aspectFill" />
+					<view class="wanghong-box" v-for="(item, index) in wanghongList" :key="index">
+						<image class="balance-content-image" style="width:74upx;height:76upx;border-radius: 50%;" :src="item.top_img_list[0]" mode="aspectFill" />
+					</view>
 					<text class="balance">...</text>
 				</view>
 				<text class="buy-left-buy">广佛2w人都在买</text>
 			</view>
-			<view class="buy-left">
-				<text class="buy-left-title">网红品，大家都在买></text>
+			<view class="buy-left" @tap='goHaodian'>
+				<text class="buy-left-title">优选店铺></text>
 				<view class="balance-content">
-					<image class="balance-content-image" style="width:74upx;height:76upx;" src="../../static/img/stop/banner-image.png" mode="aspectFill" />
-					<image class="balance-content-image" style="width:74upx;height:76upx;" src="../../static/img/stop/banner-image.png" mode="aspectFill" />
-					<image class="balance-content-image" style="width:74upx;height:76upx;" src="../../static/img/stop/banner-image.png" mode="aspectFill" />
+					<view class="wanghong-box" v-for="(item, index) in haodianList" :key="index">
+						<image class="balance-content-image" style="width:74upx;height:76upx;border-radius: 6upx;" :src="item.shop_logo" mode="aspectFill" />
+					</view>
 					<text class="balance">...</text>
 				</view>
-				<text class="buy-left-buy">广佛2w人都在买</text>
+				<text class="buy-left-buy">大家都在夸</text>
 			</view>
 		</view>
 		<!-- 精品抢购 -->
@@ -62,7 +53,7 @@
 				<image class="good-left" style="width:66upx;height:62upx;" src="../../static/img/stop/good-left.png" />
 				<text class="good-title">精品抢购</text>
 				<image class="good-right" style="width:66upx;height:62upx;" src="../../static/img/stop/good-right.png" />
-				<text class="good-more">更多</text>
+				<text class="good-more" @tap="goJingpin">更多</text>
 				<image class="good-more-image" style="width:13upx;height:20upx;" src="../../static/img/stop/more.png" />
 			</view>
 			<view>
@@ -75,15 +66,15 @@
 					indicator-color="#8799a3"
 					indicator-active-color="#0081ff"
 				>
-					<swiper-item v-for="(item, index) in swiperList" :key="index" :class="cardCur == index ? 'cur' : ''">
-						<view class="swiper-item-immeuble">
-
+					<swiper-item v-for="(item, index) in goodsList" :key="index" :class="cardCur == index ? 'cur' : ''">
+						<!-- <view @tap="goShop(item.shop_id)" class="swiper-item-immeuble"> -->
+						<view @tap="goJingpin" class="swiper-item-immeuble">
 							<image class="swiper-item-immeuble-take" style="width:80upx;height:38upx;" src="../../static/img/stop/take.png" mode="" />
-							<image class="" style="width:283upx;height:240upx;" src="../../static/img/stop/immeuble.png" mode="" />
+							<image class="" style="width:283upx;height:240upx;" :src="item.top_img_list[0]" mode="" />
 							<view class="immeuble">
-								<view class="immeuble-desc">百纯家具沙发客厅整沙发装组合...</view>
+								<view class="immeuble-desc">{{item.goods_name | ellipsis}}</view>
 								<view class="immeuble-price">
-									<text  class="immeuble-price-text">￥8460.00</text>
+									<text  class="immeuble-price-text">￥{{item.goods_price}}</text>
 									<image class="immeuble-price-image" style="width:29upx;height:25upx;" src="../../static/img/stop/car.png" mode="" />
 								</view>
 							</view>
@@ -91,89 +82,11 @@
 					</swiper-item>
 				</swiper>
 			</view>
-		</view>
-		<!-- G圈列表 start -->
-		<view class="">
-			<view v-for="(items, index) in releaseImgList" :key="index">
-				<view class="relese-image_detail" >
-					<!-- 用户信息 start -->
-					<view class="user">
-						<view class="user-message">
-							<image src="../../static/drafts.png" mode=""></image>
-							<view>
-								<view class="name">晴天小猪</view>
-								<view class="time">219-12-30 09:30</view>
-							</view>
-						</view>
-						<view class="operate-user" @click.stop="operate(index)">
-							<text></text>
-							<text></text>
-							<text></text>
-							<view class="operate-detail" v-show="cIndex == index && showEdit">
-								<view class="operate-arrow"></view>
-								<view class="operate-btn">
-									<view @click.stop="editRelease(items.gcircleContentDTO, items.gcircleContentDTO.id)"><image src="../../static/edit.png" mode=""></image>编辑</view>
-									<view @click.stop="deleteRelease(items.gcircleContentDTO.id)"><image src="../../static/delete.png" mode=""></image>删除</view>
-								</view>
-							</view>
-						</view>
-					</view>
-					<!-- 用户信息 start -->
-					
-					<!-- 草稿内容 start -->
-					<view class="content"  v-if="items.gcircleContentDTO.content != '' ">
-						<view v-if="!isShowAllContent" class="text">{{items.gcircleContentDTO.content }}</view>
-						<view v-else class="text">{{items.gcircleContentDTO.content | ellipsis}}</view>
-						<view class="anCotent" v-if="items.gcircleContentDTO.content.length > 45 " @click="open()">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
-					</view>
-					<!-- 草稿内容 end -->
-					
-					<!-- 图片/视频 start -->
-					<view class="imageList">
-					<!-- 	<view v-for="(tese, indexT) in JSON.stringify(JSON.parse(items.gcircleContentDTO.imgList))" :key="indexT">
-							{{1111}}
-						</view> -->
-						<image :mode="items.gcircleContentDTO.imgList.length > 1 ? 'aspectFit' : '' " :class="items.gcircleContentDTO.imgList.length > 1 ? 'imageListIn' : 'imageListSingle' " :src="row.fileUrl" v-for="(row, indexI) in items.gcircleContentDTO.imgList" :key="indexI" @click.stop="previewImage(indexI, items.gcircleContentDTO.imgList)"></image>
-					</view>
-					<!-- 图片/视频 end -->
-					
-					<!-- 话题 start -->
-					<view class="release-image_topic"  v-show="show" v-if="items.gcircleContentDTO.title.topic != '' " >
-						<view class="left" @click.stop="goTopic(items.gcircleContentDTO.title)">
-							<image src="../../static/topic/topic.png" mode=""></image>
-							<view>{{items.gcircleContentDTO.title.topic}}</view>
-						</view>
-						<view class="right"></view>
-					</view>
-					<!-- 话题 end -->
-					<!-- 操作按钮 start -->
-					<view class="operate-bottom">
-						<view class="operate-bottom_share"><image src="../../static/img/user/share.png" mode=""></image></view>
-						<view class="operate-bottom_number">
-							<view class="number-message"  @click.stop="togglePopup('bottom', 'comments',items.gcircleContentDTO.userId, items.gcircleContentDTO.id, nickName,items.gCollectionDiscussNum)">
-								<image src="../../static/img/topicDetails/message.png" mode=""></image>
-								<text>{{items.gCollectionDiscussNum}}</text>
-							</view>
-							<view class="collect">
-								<image @click.stop="collect(index, items.gcircleContentDTO.id, items.collectionState)" :src="(activeIndex == index && isShowCollect) || items.collectionState === 1 ? '../../static/topic/collect-select.png' : '../../static/img/user/star.png' " mode=""></image>
-								<text>{{items.collectionNum}}</text>
-							</view>
-							<view class="fabulous" >
-								<image @click.stop="fabulous(index, items.gcircleContentDTO.id, items.gcircleContentLikeState)" :src="(fabulousIndex == index && isShowFabulous) || items.gcircleContentLikeState === 1 ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
-								<text>{{items.gcircleContentLikeNum}}</text>
-							</view>
-						</view>
-					</view>
-					<!-- 操作按钮 end -->
-				</view>
+			<view class="footer">
+				-亲，已经到底了-
 			</view>
-			
 		</view>
-		<!-- 点击右边三点显示的遮罩层 start -->
-		<view id="mask" v-show="showEdit"></view>
-		<!-- 点击右边三点显示的遮罩层 end -->
 		
-		<!-- G圈列表 end -->
     </view>
 </template>
 
@@ -187,15 +100,6 @@
         data() {
 			return {
 				releaseImgList: [],
-				info: [{
-						url: '../../static/img/main/bg.png',
-						content: '内容 A'
-					},
-					{
-						url: '../../static/img/main/bg.png',
-						content: '内容 B'
-					}
-				],
 				dotStyle: {
 					backgroundColor: '#CCCCCC',
 					border: '1px #CCCCCC solid',
@@ -236,13 +140,136 @@
 				mode: 'round',
 				cardCur: 0,
 				showEdit: false,
+				Tokens: '',
+				categoryList: [],
+				goodsList: [],
+				wanghongList: [],
+				haodianList: [],
 			}
 		},
 		onShow(){
 			this.init()
+			this.getCategory()
+			this.getGoods()
+			this.getWanghong()
+			this.getHaodian()
+		},
+		filters: {
+			ellipsis (value) {
+			  if (!value) return ''
+			  if (value.length > 15) {
+				return value.slice(0,15) + '...'
+			  }
+			  return value
+			}
 		},
 		
         methods: {
+			goShop(id){
+				uni.navigateTo({
+					url: '/pages/shopping-mall/detail/detail?id=' + id
+				})
+			},
+			goCategory(id){
+				uni.navigateTo({
+					url: '/pages/category/category?id=' + id
+				})
+			},
+			goWanghong(){
+				uni.navigateTo({
+					url: '/pages/wanghong/wanghong'
+				})
+			},
+			goHaodian(){
+				uni.navigateTo({
+					url: '/pages/haodian/haodian'
+				})
+			},
+			goJingpin(){
+				uni.navigateTo({
+					url: '/pages/jingpin/jingpin'
+				})
+			},
+			// 获取好店
+			　getHaodian(){
+				let self = this
+				uni.request({
+					url: this.url + "controller/shopcontroller/getGoodShopRecommend",
+					data: {
+						pageIndex: 1,
+						pageSize: 1000
+					},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': ''
+					},
+					success: function (res){
+						// console.log(res.data.code)
+						
+						if(res.data.code==200){
+							console.log(res)
+							self.haodianList = res.data.data.dataList
+							
+						}else{
+							console.log("请求异常")
+						}
+					}
+				})
+			},
+			// 获取网红
+			getWanghong(){
+				let self = this
+				uni.request({
+					url: this.url + "controller/shopcontroller/getAppInternetCelebrityGoods",
+					data: {
+						pageIndex: 1,
+						pageSize: 1000
+					},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': ''
+					},
+					success: function (res){
+						// console.log(res.data.code)
+						if(res.data.code==200){
+							self.wanghongList = res.data.data.dataList
+							
+						}else{
+							console.log("请求异常")
+						}
+					}
+				})
+			},
+			// 获取精品
+			getGoods(){
+				let self = this
+				uni.request({
+					url: this.url + "controller/shopcontroller/getAppGoodMatterGoods",
+					data: {
+						pageIndex: 1,
+						pageSize: 1000
+					},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': ''
+					},
+					success: function (res){
+						// console.log(res.data.code)
+						if(res.data.code==200){
+							self.goodsList = res.data.data.dataList
+							
+						}else{
+							console.log("请求异常")
+						}
+					}
+				})
+			},
 			goSearch(){
 				uni.navigateTo({
 					url: "/pages/G-circle/search-list/search-list"
@@ -283,10 +310,33 @@
 				});
 				this.showEdit = !this.showEdit;
 			},
-			// 获取G圈列表内容
-			init() {
+			// 获取(左侧)
+			getCategory() {
+				
 				let token
 				let self = this
+				const url = this.url
+				uni.request({
+					url: this.url + 'controller/shopcontroller/getgoodstype',
+					method: 'post',
+					header : {'content-type':'application/x-www-form-urlencoded',  token: '', 'port': 'app'},
+					success: (res => {
+						if(res.data.code == 200) {
+							var result = [];
+							var chunk = 4;
+							for(var i = 0, j = res.data.data.length;i < j;i += chunk){
+								result.push(res.data.data.slice(i, i + chunk));
+							}
+							this.categoryList = result
+						}
+						
+					})
+				});
+			},
+			// 获取G圈列表内容
+			init() {
+				let self = this
+				let token
 				uni.getStorage({
 					key:"token",
 					success: function (res) {
@@ -306,21 +356,16 @@
 					url: this.url + "/controller/usercontroller/getgcirclecontentlist",
 					data: parmas,
 					method: 'POST',
-					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.Tokens},
+					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': token},
 					success: ((res) => {
 						uni.hideLoading()
 						if(res.data.code == 200) {
 							let data = res.data.data.dataList;
 							// 
 							for(let i=0; i<data.length; i++) {
-								let test = data[i].gcircleContentDTO;
-								data[i].gcircleContentDTO.imgList = JSON.parse(data[i].gcircleContentDTO.imgList);
-								data[i].gcircleContentDTO.title = JSON.parse(data[i].gcircleContentDTO.title);
+								data[i].imgList = JSON.parse(data[i].imgList);
+								data[i].title = JSON.parse(data[i].title);
 							}
-							// data.forEach((item, i) => {
-							// 	item.gcircleContentDTO.imgList = JSON.stringify(item.gcircleContentDTO.imgList);
-							// 	item.gcircleContentDTO.title = JSON.parse(item.gcircleContentDTO.title);
-							// })
 							this.releaseImgList = data;
 						}
 					})
@@ -332,6 +377,7 @@
 				this.showEdit = !this.showEdit;
 			},
             change(e) {
+				console.log(e.detail.current)
 				this.current = e.detail.current
 			},
 			// 卡片轮播
@@ -342,18 +388,24 @@
 			cardSwiper(e) {
 				this.cardCur = e.detail.current;
 			},
-            
+            // 跳转到购物车
+			goCart() {
+				uni.navigateTo({
+					url:'/pages/shop/shop'
+				})
+			},
         }
     }
 </script>
 
 <style>
+	@import '../../static/css/releaseImgList.css'; /*引入G圈列表样式*/
 	page{
 		background:rgba(249,249,249,1);
 	}
 	.search{
 		position: relative;
-		margin-top: 41upx;
+		margin-top: 80upx;
 		width: 750upx;
 		height: 88upx;
 		box-shadow:0px 2upx 2upx 0px rgba(93,93,93,0.07);
@@ -461,6 +513,9 @@
 		float: left;
 		margin-right: 8upx;
 	}
+	.balance-content-image:nth-child(3){
+		margin-right: 0;
+	}
 	.balance{
 		font-size:31upx;
 		font-family:PingFang SC;
@@ -468,7 +523,9 @@
 		color:rgba(51,51,51,1);
 		line-height: 76upx;
 	}
+	/* 精品抢购 */
 	.good{
+		position: relative;
 		margin-top: 23upx;
 		width:750upx;
 		height:532upx;
@@ -507,8 +564,8 @@
 	}
 	.good-more-image{
 		position: absolute;
-		left: 392px;
-		top: 25px;
+		left: 710upx;
+		top: 54upx;
 	}
 	/* 精品抢购 */
 	
@@ -561,6 +618,9 @@
 		line-height: 30upx;
 	}
 	.immeuble-price{
+		margin-top: 16upx;
+		display: flex;
+		justify-content: space-between;
 		font-size:24upx;
 		font-family:PingFang SC;
 		font-weight:bold;
@@ -570,7 +630,7 @@
 		float: left;
 	} */
 	.immeuble-price-image{
-		margin-left: 46px;
+		/* margin-left: 46px; */
 	}
 	.card-swiper-immeuble {
 		height: 392rpx !important;
@@ -579,5 +639,17 @@
 	.swiper-item-immeuble-take{
 		position: absolute;
 		z-index: 100;
+	}
+	.wanghong-box{
+		max-width: 270upx;
+	}
+	.footer{
+		position: relative;
+		text-align: center;
+		margin-top: -30upx;
+		margin-bottom: 120upx;
+		font-size:24upx;
+		font-family:PingFang SC;
+		color:rgba(204,204,204,1);
 	}
 </style>

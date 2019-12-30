@@ -12,7 +12,7 @@
 				<!-- 用户信息 start -->
 				<view class="user">
 					<view class="message">
-						<image src="../../static/drafts.png" mode=""></image>
+						<image src="http://www.zhongjubang.com/api/upload/static/drafts.png" mode=""></image>
 						<view>
 							<view class="name">晴天小猪</view>
 							<view class="time">219-12-30 09:30</view>
@@ -26,8 +26,8 @@
 							<view class="operate-arrow"></view>
 							<view class="operate-btn">
 								<!-- <view v-if="currentType==2" @tap="draftsVideo"></view> -->
-								<view @click="editRelease(item, items.appUserDraftsId)"><image src="../../static/edit.png" mode="" ></image>编辑</view>
-								<view @click.stop="deleteDraft(items.appUserDraftsId)"><image src="../../static/delete.png" mode=""></image>删除</view>
+								<view @click="editRelease(item, items.appUserDraftsId)"><image src="http://www.zhongjubang.com/api/upload/static/edit.png" mode="" ></image>编辑</view>
+								<view @click.stop="deleteDraft(items.appUserDraftsId)"><image src="http://www.zhongjubang.com/api/upload/static/delete.png" mode=""></image>删除</view>
 							</view>
 						</view>
 					</view>
@@ -40,7 +40,7 @@
 					<!-- <view class="text" v-show="!isShowAllContent">{{item.content }}</view> -->
 					<view v-if="activeIndex == indexs && !isShowAllContent" class="text"  @click.stop="editRelease(item, items.appUserDraftsId)">{{item.content }}</view>
 					<view v-else class="text"  @click.stop="editRelease(item, items.appUserDraftsId)">{{item.content | ellipsis}}</view>
-					<view class="anCotent" v-if="item.content.length > 60 " @click.stop="open(indexs)">{{activeIndex == indexs && brandFold  ? '收起' : '展开'}}<image :class="brandFold ? 'in' : ''" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
+					<view class="anCotent" v-if="item.content.length > 60 " @click.stop="open(indexs)">{{activeIndex == indexs && brandFold  ? '收起' : '展开'}}<image :class="brandFold ? 'in' : ''" src="http://www.zhongjubang.com/api/upload/static/drafts/arrow-bottom.png" mode=""></image></view>
 				</view>
 				<!-- 草稿内容 end -->
 				
@@ -53,7 +53,7 @@
 				<!-- 话题 start -->
 				<view class="draftsTopic" v-show="show" v-if="item.title.topic != '' && current == 0 ">
 					<view class="left" @click.stop="takePart(item.title.topicId)">
-						<image src="../../static/topic/topic.png" mode=""></image>
+						<image src="http://www.zhongjubang.com/api/upload/static/topic/topic.png" mode=""></image>
 						<view>{{item.title.topic}}</view>
 					</view>
 					<view class="right"></view>
@@ -144,6 +144,11 @@
 					data: params,
 					header : {'content-type':'application/x-www-form-urlencoded', 'token': that.token, 'port': 'app'},
 					success: (res => {
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 						if(res.data.code == 200) {
 							uni.showToast({
 								title: '删除成功',

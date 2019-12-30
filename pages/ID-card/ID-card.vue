@@ -1,7 +1,7 @@
 <template>
     <view>
         <view class="horizen"></view>
-        <image class="ID-card" style="width:189rpx;height:189rpx;" src="../../static/img/ID-card/ID-card.png" />
+        <image class="ID-card" style="width:189rpx;height:189rpx;" src="http://www.zhongjubang.com/api/upload/static/img/ID-card/ID-card.png" />
         <text class="notice">认证提示</text>
         <text class="notice1">实名认证将您的资产与个人绑定，保障账户资金安全</text>
         <view class="name">
@@ -19,7 +19,7 @@
         <!-- 认证成功标签 start -->
 		<uni-popup :show="show" :popupType ="popupType" :custom="true" :mask-click="false" >
 			<view class="uni-tip">
-                <image style="width:436rpx;height:393rpx;" src="../../static/img/ID-card/success.png" />
+                <image style="width:436rpx;height:393rpx;" src="http://www.zhongjubang.com/api/upload/static/img/ID-card/success.png" />
 			</view>
 		</uni-popup>
 		<!-- 保存标签 end -->
@@ -80,6 +80,11 @@ export default {
 					'token': token
 				},
 				success: function (res){
+					if(res.data.code==421){
+						uni.navigateTo({
+							url: '/pages/loginPhone/loginPhone'
+						})
+					}
 					console.log(res.data.code)
 					if(res.data.code==200){
                         console.log(res)
