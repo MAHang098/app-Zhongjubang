@@ -5,9 +5,9 @@
 			<image v-if="orderData.state == 2" src="../../../static/img/shopping-mall/detail/receiving.png" mode=""></image>
 			<image v-if="orderData.state == 7" src="../../../static/img/shopping-mall/detail/close-order.png" mode=""></image>
 			<image v-if="orderData.state == 0" src="../../../static/img/shopping-mall/detail/payment.png" mode=""></image>
-			<image v-if="orderData.state == 3" src="../../../static/img/shopping-mall/detail/receiving-select.png" mode=""></image>
+			<image v-if="orderData.state == 3 || orderData.state == 4" src="../../../static/img/shopping-mall/detail/receiving-select.png" mode=""></image>
 			<view class="adress">
-				<image src="../../../static/img/user/hot-point/adress-image.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/img/user/hot-point/adress-image.png" mode=""></image>
 				<view class="user">
 					<text>{{adressData.userName}}</text>
 					<text>{{adressData.userPhone}}</text>
@@ -19,9 +19,9 @@
 		<!-- 商品信息 start -->
 		<view class="order-product_detail">
 			<view class="order-product_detail_shop">
-				<image src="../../../static/img/shopping-mall/order/shop.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/shop.png" mode=""></image>
 				<view>{{orderData.shopName}}</view>
-				<image src="../../../static/topic/arrow.png" mode="" class="arrow-right"></image>
+				<image src="http://www.zhongjubang.com/api/upload/static//topic/arrow.png" mode="" class="arrow-right"></image>
 			</view>
 			<view class="product-list">
 				<view class="product-detail" v-for="item in orderData.orderList" :key="item.appUserOrderId">
@@ -34,7 +34,9 @@
 						<view class="specs">规格：{{item.specifications}}</view>
 						<view><text class="price">￥{{item.goodsPrice}}</text> <text class="num">x{{item.quantity}}</text></view>
 					</view>
+					<view class="refund"><view @click.stop="refunds(item.appUserOrderId)">退款</view></view>
 				</view>
+				
 				<view class="total">商品总价<text class="total-price">￥{{orderData.price}}</text></view>
 			</view>
 		</view>
@@ -43,7 +45,7 @@
 		<view class="order-detail_number">
 			<view class="order-detail_numberText"><text></text>订单信息</view>
 			<view class="numbers">订单编号：{{orderData.orderNum}}</view>
-			<image src="../../../static/img/shopping-mall/order/copy.png" mode="" @click="copyNum(orderData.orderNum)"></image>
+			<image src="http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/copy.png" mode="" @click="copyNum(orderData.orderNum)"></image>
 			<view>下单时间：{{orderData.createTime}}</view>
 		</view>
 		<view class="like">
@@ -57,7 +59,7 @@
 				<image class="category-content-image" :src="item.top_img_list[0]" />
 				<view class="category-content-des">{{item.goods_name}}</view>
 				<text class="category-content-price">￥{{item.goods_price}}</text>
-				<image class="category-content-car" src="../../../static/img/category/car.png" />
+				<image class="category-content-car" src="http://www.zhongjubang.com/api/upload/static/img/category/car.png" />
 			</view>
 			
 		</view>
@@ -77,7 +79,8 @@
 				token: '',
 				orderData: [],
 				adressData: [],
-				detailAdress: ''
+				detailAdress: '',
+				totalPage: 0
 			}
 		},
 		created() {
@@ -85,7 +88,9 @@
 		},
 		// 上拉加载
 		onReachBottom: function() {
-			this.moreLike();
+			if(this.totalPage > 1) {
+				this.moreLike();
+			}
 		},	
 		onLoad(option) {
 			uni.getStorage({
@@ -147,6 +152,7 @@
 					success: function (res){
 						uni.hideLoading()
 						let totalPage = res.data.data.pageSize * res.data.data.totalPage;
+						this.totalPage = res.data.data.totalPage;
 						if(_self.goodsList.length == totalPage ) {
 							return;
 						}
@@ -156,6 +162,7 @@
 							if(res.data.data.totalPage < 2) {
 								return;
 							}
+							console.log(_self.page)
 							_self.page++;
 						}
 						if(res.data.code==421){
@@ -179,7 +186,13 @@
 						})
 					}	
 				})
-			}
+			},
+			// 商品退款
+			refunds(id){
+				uni.navigateTo({
+					url: '/pages/shopping-mall/replacement-apply/replacement-apply?orderId='+id
+				})
+			},
 		}
 	}
 </script>
@@ -188,12 +201,10 @@
 	page, #order-detail {
 		width: 100%;
 		height: 100%;
-		overflow: hidden;
 		background: #F9F9F9;
 	}
 	/* 物流信息 start */
 	.order-adress_message {
-		height: 100%;
 		width: 100%;
 		box-sizing: border-box;
 		padding: 30rpx;
@@ -262,22 +273,45 @@
 		height: 21rpx !important;
 		display: inline-block;
 	}
+	.product-list {
+		background: #FFFFFF;
+		overflow: hidden;
+	}
 	.product-detail {
-		display: flex;
-		justify-content: space-between;
+		/* display: flex;
+		justify-content: space-between; */
 		margin: 15px 0;
+		overflow: hidden;
+		border-bottom: 1px solid #E2E2E2;
 	}
 	.product-massage {
 		margin-left: 10px;
 		width: 75%;
+		float: right;
 	}
 	.product-image {
 		width: 150rpx;
 		height: 150rpx;
 		display: block;
-		/* border: 1px solid red; */
-		
-		
+		float: left;
+	}
+	/* 退款按钮 start */
+	.refund {
+		height: 50px;
+		background: #fff;
+		clear: both;
+	}
+	.refund view {
+		width: 75px;
+		height: 30px;
+		border: 1px solid #999999;
+		text-align: center;
+		border-radius: 25px;
+		font-size: 14px;
+		color: #333;
+		line-height: 30px;
+		float: right;
+		margin: 8px 0;
 	}
 	.product-image image {
 		width: 100%;
@@ -477,4 +511,5 @@
 		color:rgba(204,204,204,1);
 		margin-bottom: 100rpx;
 	}
+	
 </style>

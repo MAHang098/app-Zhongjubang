@@ -4,12 +4,12 @@
 		<!-- 头部 start -->
         <view class="navigate">
             <view class="navigate-image" @click.stop="backPage">
-				<image style="width: 15upx;height: 31upx;" src=".http://www.zhongjubang.com/api/upload/static/img/juquanVideo/back.png" />
+				<image style="width: 15upx;height: 31upx;" src="http://www.zhongjubang.com/api/upload/static/img/juquanVideo/back.png" />
 			</view>
             <text class="car">购物车({{cartTotal}})</text>
             <text class="edit" @click.stop="editP">{{isShowEdit ? '完成' : '编辑'}}</text>
         </view>
-		
+
 		<!-- 购物车为空 start -->
 		<image src="http://www.zhongjubang.com/api/upload/static/img/shop/carts.png" mode="" v-if="this.goodsList.length == 0" class="empty-cart"></image>
 		
@@ -38,6 +38,7 @@
 			</view>
 		</scroll-view>
 		
+
 		<!-- 全选 start -->
 		<view id="cart-fotter">
 			<label>
@@ -96,7 +97,6 @@
 			this.init()
 		},
 		methods: {
-			
 			init(){
 				uni.request({
 					url: this.url + "controller/shopcontroller/getshoppingcartlist",
@@ -305,7 +305,68 @@
 				uni.navigateBack({
 					delta:1
 				})
-			}
+			},
+			// 弹出层弹出的方式
+			togglePopup(type, open) {
+				this.type = type;
+				if(this.checkNum == 0) {
+					uni.showToast({
+						title: '请选择需要删除的商品',
+						icon: 'none'
+					});
+					return;
+				}
+				if (open === 'tip') {
+					this.show = true;
+				} else {
+					this.$refs[open].open()
+				}
+			},
+			// 弹框关闭
+			cancel(type) {
+				let _this = this;
+				if (type === 'tip') {
+					this.show = false;
+					this.deleteIds = [];
+					return
+				}
+				if(type === 'skip') {
+					this.goodsList.forEach((item, index) => {
+						console.log(item)
+						if(item.checked) {
+							if(_this.deleteIds.length > 0) {
+								for(let i=0; i<this.deleteIds.length; i++) {
+									if(this.deleteIds[i] == item.goodsId) {
+										return;
+									}
+								}
+							}
+							_this.deleteIds.push(item.goodsId);
+						} 
+					})
+					
+					uni.request({
+						url: this.url + "controller/shopcontroller/delshoppingcartbyidlist",
+						data: {ids: this.deleteIds.toString()},
+						method: 'POST',
+						header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
+						success: ((res) => {
+							// console.log(res.data.code)
+							if(res.data.code==200){
+								this.isShowEdit = true;
+								uni.showToast({
+									title: '删除成功'
+								})
+								this.init();
+								this.show = false
+							}else{
+								console.log("请求异常")
+							}
+						})
+					})
+				}
+				// this.$refs[type].close()
+			},
 		}
 	}
 </script>
@@ -383,9 +444,6 @@
 		height: 23rpx;
 		display: inline-block;
 		margin-left: 5px;
-	}
-	.shop-detail {
-		font-size: 14px;
 		color: #333333;
 	}
 	/deep/ uni-checkbox .uni-checkbox-input {

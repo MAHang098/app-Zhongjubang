@@ -13,7 +13,7 @@
             <image v-if="wxToken!=''" @click="togglePopup1('center', 'tip')" class="binded" src="http://www.zhongjubang.com/api/upload/static/img/account/binded.png" />
             <image v-else class="binded" @tap="wechatbindLogin" src="http://www.zhongjubang.com/api/upload/static/img/account/no-bind.png" />
         </view>
-		<view class="account1">
+		<view class="account1" @tap='goSetpwd'>
             <image class="phone" src="http://www.zhongjubang.com/api/upload/static/img/account/update.png" />
             <text class="public-text">修改密码</text>
             <image class="arrow" src="http://www.zhongjubang.com/api/upload/static/img/account/arrow.png" />

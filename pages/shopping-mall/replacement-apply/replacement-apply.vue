@@ -1,10 +1,10 @@
 <template>
 	<view class="replacement">
 		<view class="replacement-product">
-			<image src="http://www.zhongjubang.com/api/upload/static/img/G-circle/p1.png" mode=""></image>
+			<image :src="detailImg[0]" mode=""></image>
 			<view class="product-detai">
-				<view class="title">索菲亚衣柜索菲亚衣柜索菲亚衣柜索菲亚衣柜索柜 衣柜索菲亚衣柜</view>
-				<view class="specs">规格：全部套装</view>
+				<view class="title">{{detailData.goodsName}}</view>
+				<view class="specs">规格：{{detailData.specifications}}</view>
 			</view>
 		</view>
 		
@@ -12,17 +12,17 @@
 			<view class="goods-state ">
 				<view>货物状态</view>
 				<view class="state" @click="togglePopup('bottom', 'popup')">
-					请选择
+					{{goodsState == 2 ? '未收到货': goodsState == 3 ? '已收到货' : '请选择'}}
 					<image src="http://www.zhongjubang.com/api/upload/static/topic/arrow.png" mode=""></image>
 				</view>
 			</view>
 			<view class="refund-amount">
 				<text>退款金额：</text>
-				<text>￥128.00</text>
+				<text>￥{{detailData.goodsPrice}}</text>
 			</view>
 			<view class="refund-amount">
 				<text>退款原因：</text>
-				<input type="text" value="" placeholder="必填"/>
+				<input type="text" v-model="reason" placeholder="必填"/>
 			</view>
 		</view>
 		
@@ -38,15 +38,15 @@
 			</view>
 			<!-- <image :src="item.fileUrl" mode="" v-for="(item, index) in imgList" :key="index" v-if="imgList.length > 0"></image>
 			<image src="http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/upload.png" mode="" @click.stop="chooseImage"></image> -->
-			<view id="commit">提交</view>
+			<view id="commit" @click.stop="commit">提交</view>
 		</view>
 		<!-- 上传图片 end -->
 		
 		<!-- 货物状态 start -->
 		<uni-popup ref="popup" :type="popupType" :show="show" id="popup">
-			<view class="product-state">未收到货</view>
-			<view class="product-state">已收到货</view>
-			<view class="product-state">取消</view>
+			<view class="product-state" @click.stop="notArrived(2, 'popup')">未收到货</view>
+			<view class="product-state"  @click.stop="notArrived(3, 'popup')">已收到货</view>
+			<view class="product-state" @click.stop="cancel('popup')">取消</view>
 		</uni-popup>
 		<!-- 货物状态 end -->
 	</view>
@@ -58,12 +58,48 @@
 		components:{ uniPopup},
 		data () {
 			return {
+				token: '',
 				popupType: '',
 				show: false,
-				imgList: []
+				imgList: [],
+				detailData: {},
+				goodsState: 0,
+				reason: '',
+				detailImg: '',
+				detailId: ''
 			}
 		},
+		onLoad(option) {
+			uni.getStorage({
+				key:"token",
+				success:((res) => {
+					this.token = res.data;
+				})
+			});
+			this.detailId = option.orderId;
+			this.init()
+		},
 		methods: {
+			init() {
+				uni.request({
+					url: this.url + 'controller/shopcontroller/getcancelorderdetail',
+					method: 'post',
+					data: {appUserOrderId: this.detailId},
+					header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
+					success:((res) => {
+						if(res.data.code == 200) {
+							let data = res.data.data;
+							this.detailImg = data[0].topImgList;
+							this.detailData = data[0];
+						} 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+					})
+				});
+			},
 			// 删除图片
 			deleteImage(name, index) {
 				this.imgList.forEach((item, i, array) => {
@@ -97,7 +133,6 @@
 								},
 								success: (uploadFileRes) => {
 									uni.hideLoading();
-									
 									let data = JSON.parse(uploadFileRes.data);
 									let obj = {
 										fileName: data.data.fileName,
@@ -125,10 +160,59 @@
 			// 弹框关闭
 			cancel(type) {
 				if (type === 'tip') {
-					this.show = false
+					this.show = false;
 					return
 				}
-				// this.$refs[type].close()
+				this.$refs[type].close()
+			},
+			notArrived(name, type) {
+				this.goodsState = name;
+				this.$refs[type].close()
+			},
+			// 提交
+			commit() {
+				if(this.goodsState == 0) {
+					uni.showToast({
+						title: '请选择货物状态',
+						icon: 'none'
+					})
+					return;
+				}
+				if(this.reason == '') {
+					uni.showToast({
+						title: '请填写退款原因',
+						icon: 'none'
+					})
+					return;
+				}
+				let params = {
+					appUserOrderId: this.detailId,
+					orderState: this.goodsState,
+					outOrderCause: this.reason,
+					voucherImg: JSON.stringify(this.imgList),
+					orderRealPrice: this.detailData.goodsPrice
+				}
+				uni.request({
+					url: this.url + 'controller/shopcontroller/adduserorderout',
+					method: 'post',
+					data: params,
+					header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
+					success:((res) => {
+						if(res.data.code == 200) {
+							uni.showToast({
+								title: '申请成功'
+							})
+							uni.navigateTo({
+								url: '/pages/shopping-mall/all-order/all-order?type=4'
+							})
+						} 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+					})
+				});
 			},
 		}
 	}

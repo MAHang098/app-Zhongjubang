@@ -3,7 +3,7 @@
         <view class="search">
 			<image class="search-image" style="width:26upx;height:26upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/search.png" mode="" />
 			<input @tap="goSearch" class="search-insert" type="text" placeholder="请输入您所需要的商品">
-			<image @tap="goCar" class="car" style="width:41upx;height:39upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/car.png" mode="" />
+			<image @click.stop="goCart" class="car" style="width:41upx;height:39upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/car.png" mode="" />
 		</view>
 		<view class="banner">
 			<image class="banner-image" style="width:663upx;height:345upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/banner.png" mode="" />
@@ -161,11 +161,6 @@
 		},
 		
         methods: {
-			goCar(){
-				uni.navigateTo({
-					url: 'pages/shop/shop'
-				});
-			},
 			goShop(id){
 				uni.navigateTo({
 					url: '/pages/shopping-mall/detail/detail?id=' + id
@@ -389,7 +384,12 @@
 			cardSwiper(e) {
 				this.cardCur = e.detail.current;
 			},
-            
+            // 跳转到购物车
+			goCart() {
+				uni.navigateTo({
+					url:'/pages/shop/shop'
+				})
+			},
         }
     }
 </script>
@@ -440,12 +440,12 @@
 		box-shadow:0px 0px 9upx 0px rgba(93,93,93,0.06);
 	}
 	.banner-image{
-		top: 23upx;
-		left: 33upx;
+		margin-top: 23upx;
+		margin-left: 44upx;
 	}
 	/* 商品类别 */
 	.swiper-box {
-		margin-top: 22px;
+		margin-top: 6upx;
 		height: 103px;
 		z-index: -1;
 	}

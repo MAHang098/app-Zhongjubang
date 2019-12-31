@@ -9,7 +9,15 @@
 			}
 		},
 		{
-			"path": "pages/designation/designation",
+			"path": "pages/indexIOS/indexIOS",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		{
+			"path": "pages/myRanked/myRanked",
 			"style": {
 				"app-plus": {
 					"titleNView": false //禁用原生导航栏  
@@ -18,6 +26,30 @@
 		},
 		{
 			"path": "pages/loginPhone/loginPhone",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		{
+			"path": "pages/index/index",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		{
+			"path": "pages/swiper-vertical/swiper-vertical",
+			"style": {
+				"app-plus": {
+					"titleNView": false //禁用原生导航栏  
+				}
+			}
+		},
+		{
+			"path": "pages/index2/index2",
 			"style": {
 				"app-plus": {
 					"titleNView": false //禁用原生导航栏  
@@ -103,22 +135,7 @@
 				}
 			}
 		},
-		{
-			"path": "pages/index/index",
-			"style": {
-				"app-plus": {
-					"titleNView": false //禁用原生导航栏  
-				}
-			}
-		},
-		{
-			"path": "pages/index2/index2",
-			"style": {
-				"app-plus": {
-					"titleNView": false //禁用原生导航栏  
-				}
-			}
-		},
+		
 		
 		{
 			"path": "pages/juquanVideo/juquanVideo",
@@ -477,6 +494,28 @@
             "style": {
                 "navigationBarTitleText": "居圈达人认证"
             }
+        }
+        ,{
+            "path" : "pages/order-search/order-search",
+            "style" : {
+				"app-plus": {
+				    "titleNView": false //禁用原生导航栏  
+				}
+			}
+        }
+        ,{
+            "path" : "pages/order-searchList/order-searchList",
+            "style" : {
+            	"app-plus": {
+            	    "titleNView": false //禁用原生导航栏  
+            	}
+            }
+        }
+        ,{
+            "path" : "pages/my-evaluate/my-evaluate",
+            "style" : {
+				"navigationBarTitleText": "我发布的评论"
+			}
         }
     ],
 	"subPackages": [

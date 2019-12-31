@@ -7,7 +7,7 @@
 				<input type="text" value=""  placeholder="搜索您需要的商品" @input="gainInput" @focus="onFocus" @blur="onBlur" @click.stop="goSearch"/>
 			</view>
 			<view class="cancel">
-				<image src="http://www.zhongjubang.com/api/upload/static/img/G-circle/more.png" mode="" class="more-list"></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/img/G-circle/more.png" mode="" class="more-list" @click.stop="category"></image>
 			</view>
 		</view>
 		<!-- 搜索栏 end -->
@@ -103,16 +103,16 @@
 					<view class="operate-bottom">
 						<view class="operate-bottom_share"><image src="http://www.zhongjubang.com/api/upload/static/img/user/share.png" mode=""></image></view>
 						<view class="operate-bottom_number">
-							<view class="number-message">
+							<view class="number-message" @click.stop="contentDetail(items.gcircleContentId)">
 								<image src="http://www.zhongjubang.com/api/upload/static/img/user/message.png" mode=""></image>
 								<text>{{items.gCollectionDiscussNum}}</text>
 							</view>
 							<view class="collect">
-								<image @click.stop="collect(index, items.gcircleContentId, items.collectionState, current)" :src="(activeIndex == index && isShowCollect) || items.collectionState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/collect-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/star.png' " mode=""></image>
+								<image @click.stop="collect(index, items.gcircleContentId, items.collectionState, current)" :src="items.collectionState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/collect-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/star.png' " mode=""></image>
 								<text>{{items.collectionNum}}</text>
 							</view>
 							<view class="fabulous" >
-								<image @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState, current)" :src="(fabulousIndex == index && isShowFabulous) || items.gcircleContentLikeState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
+								<image @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState, current)" :src="items.gcircleContentLikeState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
 								<text>{{items.gcircleContentLikeNum}}</text>
 							</view>
 						</view>
@@ -169,6 +169,7 @@
 				isShowFocus: false,   //是否显示已关注图标
 				recommendList: [],   	  // G圈推荐
 				userListContent: [],		// 关注用户的G圈列表
+				currentPage: 0
 			}
 		},
 		filters: {
@@ -229,7 +230,7 @@
 			init() {
 				let parmas = {
 					pageIndex: this.page,
-					pageSize: 10
+					pageSize: 20
 				}
 				uni.showLoading({
 					title: '加载中...',
@@ -243,22 +244,32 @@
 					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
 					success: ((res) => {
 						uni.hideLoading()
-						let totalPage = res.data.data.pageSize * res.data.data.totalPage;
-						if(this.releaseImgList.length == totalPage) {
-							this.status = 'end';
-							return;
-						}
+						// let totalPage = res.data.data.pageSize * res.data.data.totalPage;
+						// if(this.releaseImgList.length == totalPage) {
+						// 	this.status = 'end';
+						// 	return;
+						// }
 						if(res.data.code == 200) {
 							let data = res.data.data.dataList;
 							for(let i=0; i<data.length; i++) {
 								data[i].imgList = JSON.parse(data[i].imgList);
 								data[i].title = JSON.parse(data[i].title);
 							}
-							this.releaseImgList = this.reload ? data : this.releaseImgList.concat(data);
+							this.releaseImgList = data;
+							// if(this.page == res.data.data.currentPage) {
+							// 	this.reload = true;
+							// }
+							// this.releaseImgList = this.reload ? data : this.releaseImgList.concat(data);
+							// console.log(this.page)
 							if(res.data.data.totalPage < 2) {
 								return;
 							}
-							this.page++;
+							// this.page++;
+						}
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
 						}
 					})
 				})
@@ -348,6 +359,7 @@
 			        success:(res) => {
 			            if(res.data.code == 200) {
 							if(currents == 0) {
+								// this.page = 1;
 								this.init();
 							}
 			                if(currents == 1) {
@@ -526,6 +538,9 @@
 				}
 				if(index == 1) {
 					// 跳转到网红视频页面
+					uni.navigateTo({
+						url:'/pages/index2/index2?id=' + id
+					})
 					return;
 				}
 				if(index == 2) {
@@ -541,7 +556,13 @@
 				uni.navigateTo({
 					url:'/pages/topicDetails/topicDetails?id=' + id
 				})
-			}
+			},
+			// 跳转到更多分类
+			category() {
+				uni.navigateTo({
+					url: '/pages/releaseImage/search-title/search-title?type=Gcircle'
+				})
+			},
 		}
 	}
 </script>

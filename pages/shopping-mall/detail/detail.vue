@@ -188,7 +188,7 @@
 		components:{uniPopup},
 		data() {
 			return {
-				scrollFlag: false,
+				scrollFlag: true,
 				swiperItem: [],
 				token: '',
 				showExplain: false,
@@ -239,7 +239,7 @@
 			uni.getStorage({
 				key:"token",
 				success:((res) => {
-					this.token = res.data;
+					// this.token = res.data;
 				})
 			});
 			this.init();

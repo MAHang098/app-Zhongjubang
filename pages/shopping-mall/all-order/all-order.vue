@@ -48,9 +48,9 @@
 			<view class="order-detail" v-for="(item, index) in orderList" :key="index">
 				<view class="shop" @click.stop="goshop(item.shopId)">
 					<view class="shop-detail">
-						<image src="../../../static/img/shopping-mall/order/shop.png" mode="" class="shop-image"></image>
+						<image src="http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/shop.png" mode="" class="shop-image"></image>
 						<text>{{item.shopName}}</text>
-						<image src="../../../static/topic/arrow.png" mode="" class="arrow-right"></image>
+						<image src="http://www.zhongjubang.com/api/upload/static/topic/arrow.png" mode="" class="arrow-right"></image>
 					</view>
 					<view class="order-massage">
 						{{item.state == 1 ? '已付款': item.state == 2 ? '待收货' : item.state == 3 ? '已完成' : item.state == 4 ? '评价' : item.state == 5 ? '售后' : item.state == 6 ? '其他' : item.state == 7 ? '取消订单' : '待付款'}}
@@ -60,20 +60,19 @@
 				<view class="product-list">
 					<view class="product-detail" v-for="(row, i) in item.list" :key="i" @click.stop="pDetail(row.orderNum)">
 						<view class="product-image">
-							<!-- <image :src="row.topImgList[0]" mode=""></image> -->
-							<image src="../../../static/img/G-circle/p1.png" mode=""></image>
+							<image :src="row.topImgList[0]" mode=""></image>
 						</view>
 						<view class="product-massage">
 							<view class="title">{{row.shopName}}</view>
-							<view class="specs">规格：{{item.specifications}}</view>
+							<view class="specs">规格：{{row.specifications}}</view>
 							<view><text class="price">￥{{row.goodsPrice}}</text> <text class="num">x1</text></view>
 						</view>
 					</view>
-					<view class="total">共{{item.sum}}件商品，合计： <text class="total-price">￥{{item.price}}</text></view>
+					<view class="total">共{{item.num}}件商品，合计： <text class="total-price">￥{{item.price}}</text></view>
 				</view>
 				<view class="bottom">
 					<!-- 0待付款 1已付款 2待收货 3已完成 4评价 5售后 6其他 7取消 -->
-					<view :class="item.state == 4 || item.state == 0 || item.state == 2 ? 'active' : ''">
+					<view :class="item.state == 4 || item.state == 0 || item.state == 2 ? 'active' : ''" @click.stop="jump(item.state, item.orderNum)">
 						{{item.state == 1 || item.state == 2? '查看物流' : item.state == 3 ? '已完成' : item.state == 4 ? '评价' : item.state == 5 ? '售后' : item.state == 6 ? '其他' : item.state == 7 ? '取消订单' : '待付款'}}
 					</view>
 				</view>
@@ -111,15 +110,19 @@
 				saleList: []
 			}
 		},
-		onShow(){
+		onLoad(option) {
 			uni.getStorage({
 				key:"token",
 				success:((res) => {
 					this.token = res.data;
 				})
 			});
-			this.init('');
 			this.afterSale();
+			if(option.type) {
+				this.changeOrder(option.type)
+			} else {
+				this.changeOrder(0)
+			}
 		},
 		methods: {
 			
@@ -242,6 +245,14 @@
 				uni.navigateTo({
 					url:'/pages/shopping-mall/order-detail/order-detail?orderNum='+num
 				})
+			},
+			// 跳转到相应的页面
+			jump(state, num) {
+				if(state == 4) {
+					uni.navigateTo({
+						url:'/pages/shopping-mall/order-comments/order-comments?num=' + num
+					})
+				}
 			}
 		}
 	}

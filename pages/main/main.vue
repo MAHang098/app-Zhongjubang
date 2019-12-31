@@ -2,11 +2,12 @@
 	<view class="">
 		<!-- 轮播图 -->
 		<view class="banner">
-			<text class="address">广州</text>
+			<text @tap="goText" class="address">广州</text>
 			<image class="arrow" style="width:23upx;height:19upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/arrow.png" mode="" />
 			<image class="info" style="width:44upx;height:44upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/info.png" mode="" />
 			<image class="search-image" style="width:29upx;height:29upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/search.png" mode="" />
-			<input @tap="goSearch" class="search" type="text" placeholder="搜你想搜的一切">
+			<view @tap="goSearch" class="search">搜你想搜的一切</view>
+			<!-- <input @tap="goSearch" class="search" type="text" placeholder="搜你想搜的一切"> -->
 			<image class="search-white" style="width:750upx;height:105upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/white.png" mode="" />
 			<uni-swiper-dot :info=bannerList :current="current" :mode="mode" :dots-styles="dotStyle" field="content">
 				<swiper class="swiper-box" @change="change">
@@ -35,7 +36,7 @@
 					:circular="true"
 					@change="cardSVideo"
 				>
-					<swiper-item @tap="goJuquanVideo" v-for="(item, index) in videoList" :key="index" :class="cardvvideo == index ? 'cur' : ''">
+					<swiper-item v-for="(item, index) in videoList" :key="index" :class="cardvvideo == index ? 'cur' : ''">
 						<view class="swiper-item">
 							<image @tap="goIndex2(item.shortVideoId)" :src="item.videoUrl" mode="aspectFill"></image>
 							<image v-if="cardvvideo == index" class="video-image" style="width:94upx;height:94upx;z-index:400;" src="http://www.zhongjubang.com/api/upload/static/img/main/start.png" mode="aspectFill"></image>
@@ -115,7 +116,7 @@
 			<image class="" style="width:750upx;height:230upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/juquan-bg.png" mode="" />
 			<view class="juquan-content" v-for="(item, index) in topList" :key="index">
 				<view class="juquan-content-model">
-					<image @tap="goJuquan(item.create_by)" class="juquan-content-model-image" style="width:347upx;height:355upx;" :src="item.img_list[0].fileUrl" mode="" />
+					<image @tap="goJuquan(item.id)" class="juquan-content-model-image" style="width:347upx;height:355upx;" :src="item.img_list[0].fileUrl" mode="" />
 					<view class="juquan-content-model-des">{{item.content | ellipsis}}</view>
 					<image @tap="goOtherUser(item.user_id)" class="juquan-content-info-avator" style="width:52upx;height:55upx;border-radius: 50%;" :src="item.head" mode="" />
 					<view @tap="goOtherUser(item.user_id)" class="juquan-content-info-nickname">{{item.nickName}}</view>
@@ -296,6 +297,11 @@
 			})
 		},
 		methods: {
+			goText(){
+				uni.navigateTo({
+					url: '/pages/swiper-vertical/swiper-vertical',
+				})
+			},
 			goOtherUser(id){
 				uni.navigateTo({
 					url: '/pages/otherUser/otherUser?userid' + id
@@ -449,10 +455,13 @@
 		left: 63upx;
 		width: 624upx;
 		height: 64upx;
+		line-height: 64upx;
 		background:rgba(246,246,246,1);
 		border-radius:36upx;
 		padding-left: 60upx;
 		font-size: 26upx;
+		font-family:PingFang SC;
+		color:rgba(153,153,153,1);
 	}
 	
 	.swiper-box {

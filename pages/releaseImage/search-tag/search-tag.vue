@@ -29,13 +29,21 @@
 					</view>
 				</view>
 				<view class="product-list">
-					<view class="list" v-for="(item, index) in productItem" :key="index" @click.stop="goBack('product', item.title)">
-						<view><image src="http://www.zhongjubang.com/api/upload/static/search/product.png" mode=""></image></view>
+					<view class="list" v-if="current == 0" v-for="(item, index) in addProduct" :key="index" @click.stop="goBack('product', item.tagName, item.price, item.fileUrl, item.goodsId)">
+						<view><image :src="item.fileUrl" mode=""></image></view>
 						<view class="detail">
-							<view>{{item.title}}</view>
+							<view>{{item.tagName}}</view>
 							<view class="price">{{item.price}}</view>
 						</view>
 					</view>
+					<view class="list" v-if="current == 1" v-for="(item, index) in productItem" :key="index" @click.stop="goBack('product', item.goodsName, item.goodsPrice, item.topImgList[0], item.goodsId)">
+						<view><image :src="item.topImgList[0]" mode=""></image></view>
+						<view class="detail">
+							<view>{{item.goodsName}}</view>
+							<view class="price">{{item.goodsPrice}}</view>
+						</view>
+					</view>
+					
 				</view>
 				
 			</view>
@@ -57,16 +65,13 @@
 				arrImage: [],   // 所有图片的详细信息
 				tagArr: [],
 				fileName: '',
+				fileUrl: '',
 				imageHeight: 0,
 				imageWidth: 0,
-				productItem: [
-					{title: '百醇家具布衣111沙发小户型客厅整111装组合百醇1111家具布衣沙发小户型客厅整装组合户型客厅整装组合装组合', price: '￥8460.00'},
-					{title: '百醇家具布衣111沙发小户型客厅整111装组合百醇1111家具布衣沙发小户型客厅整装组合户型客厅整装组合装组合', price: '￥8460.00'},
-					{title: '百醇家具布衣111沙发小户型客厅整111装组合百醇1111家具布衣沙发小户型客厅整装组合户型客厅整装组合装组合', price: '￥8460.00'},
-					{title: '百醇家具布衣111沙发小户型客厅整111装组合百醇1111家具布衣沙发小户型客厅整装组合户型客厅整装组合装组合', price: '￥8460.00'},
-					{title: '百醇家具布衣111沙发小户型客厅整111装组合百醇1111家具布衣沙发小户型客厅整装组合户型客厅整装组合装组合', price: '￥8460.00'},
-					{title: '百醇家具布衣111沙发小户型客厅整111装组合百醇1111家具布衣沙发小户型客厅整装组合户型客厅整装组合装组合', price: '￥8460.00'}
-				]
+				productItem: [],
+				collectList: [],
+				token: '',
+				addProduct: []
 			}
 		},
 		onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
@@ -74,8 +79,41 @@
 			this.fileName = option.name;
 			this.imageHeight = option.height;
 			this.imageWidth = option.width;
+			uni.getStorage({
+				key:"token",
+				success:((res) => {
+					this.token = res.data;
+				})
+			});
+			
+		},
+		onShow() {
+			this.getProduct();
 		},
 		methods: {
+			// 获取添标商品
+			getProduct() {
+				let _this = this;
+				let data = this.$store.state.uploadImage;
+			
+				let a2 = [];
+				let obj = {}
+				for(let i =0; i<data.length; i++) {
+					if(data[i].testArr.length < 1) {
+						break;
+					}
+					let a1 = data[i].testArr[0].allTagArr;
+					
+					for(let j =0; j<a1.length; j++) {
+						if(!obj[a1[j].goodsId]){
+						  a2.push(a1[j]);
+						  obj[a1[j].goodsId] = true;
+					   }
+					}
+				}
+				
+				_this.addProduct = a2;
+			},
 			// 输入框获取焦点/失去焦点
 			onFocus() {
 				// #ifdef APP-PLUS
@@ -106,9 +144,7 @@
 					 delta: 1,
 				});
 			},
-			changeProduct(index) {
-				this.current = index;
-			},
+			
 			// 失去焦点后获取输入内容
 			gainInput(e) {
 				if(e.detail.value == '') {
@@ -119,7 +155,7 @@
 				this.isShowAdd = true;
 			},
 			// 点击添加标签按钮返回图片标签页面
-			goBack(type, name) {
+			goBack(type, name, price, url, id) {
 				
 				if(name) {
 					this.searchInput = name;
@@ -135,7 +171,10 @@
 						tagName: this.searchInput,
 						tagX: this.fRandomBy(0,225),
 						tagY: this.fRandomBy(-76,400),
-						type: type
+						type: type,
+						fileUrl: url, 
+						price: price,
+						goodsId: id
 					}
 				} else {
 					// 当前图片标签对象
@@ -158,6 +197,31 @@
 					 delta: 1,
 				});
 				
+			},
+			changeProduct(index) {
+				this.current = index;
+				if(index == 1) {
+					this.collects();
+				}
+			},
+			// 用户收藏列表
+			collects() {
+				uni.request({
+					url: this.url + 'controller/usercontroller/getgoodslistbycollection',
+					method: 'post',
+					data: {pageIndex: 1, pageSize: 20},
+					header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
+					success:((res) => {
+						if(res.data.code == 200) {
+							this.productItem = res.data.data.dataList;
+						} 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+					})
+				});
 			}
 		},
 	}
