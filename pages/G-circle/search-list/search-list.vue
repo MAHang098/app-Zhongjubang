@@ -23,7 +23,7 @@
 		<!-- 用户列表 start -->
 		<view class="user-massage" v-show="current == 2">
 			<view class="user-list">
-				<view class="user-details" v-for="(item, index) in userList" :key="index">
+				<view class="user-details" v-for="(item, index) in userList" :key="index" @click.stop="getUser(item.id)">
 					<view class="left">
 						<view class="avatar">
 							<image :src="item.head" mode=""></image>
@@ -64,7 +64,7 @@
 				<view  class="product-image">
 					<image :src="item.imgList[0].fileUrl" mode="widthFix"></image>
 				</view>
-				<text>{{item.content | ellipsis}}</text>
+				<view class="gCircle-list_content">{{item.content | ellipsis}}</view>
 				<view class="gCircle-message">
 					<image :src="item.head" mode="" class="avatar"></image>
 					<text class="nikename">{{item.nickName}}</text>
@@ -72,11 +72,9 @@
 					<image :src="item.state === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/collect-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/star.png' " mode="" class="collect"></image>
 				</view>
 			</view>
-			
-			
-			
 		</view>
 		<!-- 居圈列表 end -->
+		<view class="look-more">-没有更多-</view>
 	</view>
 </template>
 
@@ -100,7 +98,7 @@
 			  if (value.length > 20) {
 				return value.slice(0,20) + '...'
 			  }
-			  return value
+			  return value.replace(/\n/g, '<br>');
 			}
 		},
 		onLoad(option) {
@@ -259,6 +257,12 @@
 				uni.navigateTo({
 					url: '/pages/shopping-mall/detail/detail?id=' + id
 				})
+			},
+			// 跳转到用户信息
+			getUser(id) {
+				uni.navigateTo({
+					url: '/pages/otherUser/otherUser?userid=' + id
+				})
 			}
 		}
 	}
@@ -382,16 +386,16 @@
 		width: 100%;
 		height: 100%;
 	}
-	.list-detail text {
+	.list-detail .gCircle-list_content {
 		font-size:12px;
-		height: 70rpx;
+		height: 60rpx;
 		font-family:PingFang SC;
 		font-weight:bold;
 		color:rgba(51,51,51,1);
 		display: block;
 		line-height: 15px;
 		margin-top: 10px;
-		
+		overflow: hidden;
 	}
 	.list-detail>text {
 		box-sizing: border-box;
@@ -430,6 +434,7 @@
 		font-size:24rpx;
 		font-family:PingFang SC;
 		color:rgba(153,153,153,1);
+		margin-top: 8px;
 	}
 	
 	/* 商品列表 start */
@@ -502,7 +507,7 @@
 		height: 100%;
 	}
 	.user-list {
-		height: 164rpx;
+		/* height: 164rpx; */
 		box-sizing: border-box;
 		padding: 0rpx 36rpx;
 	}
@@ -555,5 +560,15 @@
 		float: right;
 		margin-top: 2%;
 		margin-left: 7px;
+	}
+	.look-more {
+		width: 100%;
+		height: 200rpx;
+		line-height: 140rpx;
+		text-align: center;
+		font-size:24rpx;
+		font-family:PingFang SC;
+		color:rgba(204,204,204,1);
+		margin-bottom: 100rpx;
 	}
 </style>

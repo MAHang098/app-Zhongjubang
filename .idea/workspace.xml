@@ -2,17 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="84510198-0e66-4579-b3e0-3c273ca7765b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/order-searchList/order-searchList.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages.json" beforeDir="false" afterPath="$PROJECT_DIR$/pages.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/G-circle/search-content/search-content.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/G-circle/search-content/search-content.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/juquan/juquan.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/juquan/juquan.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/order-search/order-search.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/order-search/order-search.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/releaseImage-details/releaseImage-details.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/releaseImage-details/releaseImage-details.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/releaseImage/search-title/search-title.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/releaseImage/search-title/search-title.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/shopping-mall/all-order/all-order.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/shopping-mall/all-order/all-order.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/shopping-mall/order-comments/order-comments.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/shopping-mall/order-comments/order-comments.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/shopping-mall/order-detail/order-detail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/shopping-mall/order-detail/order-detail.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/topicDetails/topicDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/topicDetails/topicDetails.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/shopping-mall/replacement-apply/replacement-apply.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/shopping-mall/replacement-apply/replacement-apply.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/user/user.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/user/user.vue" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -54,11 +50,12 @@
     <session id="-135722125">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="2" />
+          <entry key="project.closed" value="3" />
           <entry key="project.open.time.270" value="1" />
           <entry key="project.open.time.3" value="1" />
           <entry key="project.open.time.7" value="2" />
-          <entry key="project.opened" value="4" />
+          <entry key="project.open.time.8" value="1" />
+          <entry key="project.opened" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -94,8 +91,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/store/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="363">
-              <caret line="107" column="2" lean-forward="true" selection-start-line="107" selection-start-column="2" selection-end-line="107" selection-end-column="2" />
+            <state relative-caret-position="364">
+              <caret line="107" column="2" selection-start-line="107" selection-start-column="2" selection-end-line="107" selection-end-column="2" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -195,7 +192,7 @@
       <path value="$PROJECT_DIR$/node_modules/weex-ui/packages/wxc-tag/package.json" />
     </packageJsonPaths>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="260" />
     <option name="y" value="20" />
     <option name="width" value="1400" />
@@ -206,7 +203,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -214,10 +210,22 @@
               <item name="app-Zhongjubang" type="b2602c69:ProjectViewProjectNode" />
               <item name="app-Zhongjubang" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="app-Zhongjubang" type="b2602c69:ProjectViewProjectNode" />
+              <item name="app-Zhongjubang" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="app-Zhongjubang" type="b2602c69:ProjectViewProjectNode" />
+              <item name="app-Zhongjubang" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
+              <item name="juquan" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -252,16 +260,17 @@
       <workItem from="1576739482029" duration="250000" />
       <workItem from="1577064017591" duration="144000" />
       <workItem from="1577670861024" duration="1087000" />
+      <workItem from="1577696863778" duration="672000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13135000" />
+    <option name="totallyTimeSpent" value="13807000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18763326" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18976545" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -346,6 +355,7 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Temp/Rar$DRa1328.11320/app-Zhongjubang/store/index.js" />
     <entry file="file://$PROJECT_DIR$/pages/topicDetails/topicDetails.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="7315">
@@ -359,13 +369,10 @@
     <entry file="file://$PROJECT_DIR$/store/module/image.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Temp/Rar$DRa1328.11320/app-Zhongjubang/store/index.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/store/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="363">
-          <caret line="107" column="2" lean-forward="true" selection-start-line="107" selection-start-column="2" selection-end-line="107" selection-end-column="2" />
+        <state relative-caret-position="364">
+          <caret line="107" column="2" selection-start-line="107" selection-start-column="2" selection-end-line="107" selection-end-column="2" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>

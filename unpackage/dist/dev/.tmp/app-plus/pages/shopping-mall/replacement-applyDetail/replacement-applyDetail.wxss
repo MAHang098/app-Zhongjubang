@@ -1,0 +1,120 @@
+
+.result {
+	width: 171rpx;
+	height: 121rpx;
+	display: block;
+	right: 6.5%;
+	position: absolute;
+	bottom: 0;
+}
+.progress {
+	width: 100%;
+	height: 213rpx;
+	background: #FAF0DA;
+	box-sizing: border-box;
+	padding: 78rpx 30rpx;
+	position: relative;
+}
+.store-progress text:first-child {
+	display: inline-block;
+	width: 40rpx;
+	height: 40rpx;
+	border: 1px solid #FABE3F;
+	color: #FABE3F;
+	font-size: 28rpx;
+	border-radius: 50%;
+	text-align: center;
+	margin-right: 5px;
+}
+.store-progress text:last-child {
+	font-size:30rpx;
+	color: #333333;
+}
+.time {
+	font-size:24rpx;
+	font-family:PingFang SC;
+	color:rgba(51,51,51,1);
+	margin-top: 5px;
+	padding-left: 52rpx;
+}
+.manage {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0 30rpx;
+	overflow: hidden;
+}
+.success {
+	border-bottom: 1px solid #E2E2E2;
+	height: 100rpx;
+	line-height: 100rpx;
+	font-size: 26rpx;
+	color: #333333;
+}
+.sale-progress text:first-child {
+	width: 7px;
+	height: 7px;
+	display: inline-block;
+	background: #E2E2E2;
+	border-radius: 50%;
+	margin-right: 5px;
+}
+.sale-progress text:last-child {
+	font-size: 26rpx;
+	color: #333333;
+}
+.revoke-apply {
+	width: 150rpx;
+	height: 60rpx;
+	border: 1px solid #999999;
+	border-radius: 30rpx;
+	font-size: 26rpx;
+	color: #333333;
+	text-align: center;
+	line-height: 60rpx;
+	float: right;
+	margin-top: 25%;
+}
+/* 提示窗口 */
+.uni-tip {
+	padding-top: 15px;
+	width: 300px;
+	background: #fff;
+	box-sizing: border-box;
+	border-radius: 10px;
+}
+.uni-tip-title {
+	text-align: center;
+	font-weight: bold;
+	font-size: 41rpx;
+	color: #333;
+}
+.uni-tip-content {
+	padding: 15px 0;
+	font-size: 32rpx;
+	color: #666;
+	width: 360rpx;
+	color: #666666;
+	font-weight: 500;
+	margin: auto;
+}
+.uni-tip-group-button {
+	margin-top: 10px;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+}
+.uni-tip-button {
+	width: 100%;
+	text-align: center;
+	font-size: 14px;
+	color: #333333;
+	font-size: 37rpx;
+	font-weight: 500;
+	border-top: 1px solid #E2E2E2;
+	padding: 10px 0;
+}
+.insist-skip {
+	color: #F9B72C;
+	border-left: 1px solid #E2E2E2;
+}
+

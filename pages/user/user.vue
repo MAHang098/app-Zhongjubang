@@ -111,7 +111,7 @@
 			<!-- <view class="more">-上拉查看更多-</view> -->
 		</view>
 		<!-- G圈列表 start -->
-		<view  class="relese-image"  >
+		<view v-if="current==0" class="relese-image"  >
 			<view v-for="(items, index) in releaseImgList" :key="index">
 				<view class="relese-image_detail" >
 					<!-- 用户信息 start -->
@@ -401,11 +401,12 @@
 			},
 		},
 		onLoad(options){
-            
+			
 		},
         onShow(){
 			let token
-			let self = this
+			let self = this;
+			this.current = 0;
 			uni.getStorage({
 				key:"token",
 				success: function (res) {

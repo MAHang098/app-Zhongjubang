@@ -463,22 +463,7 @@
                 "navigationBarTitleText": "居圈达人认证"
             }
         }
-        ,{
-            "path" : "pages/order-search/order-search",
-            "style" : {
-				"app-plus": {
-				    "titleNView": false //禁用原生导航栏  
-				}
-			}
-        }
-        ,{
-            "path" : "pages/order-searchList/order-searchList",
-            "style" : {
-            	"app-plus": {
-            	    "titleNView": false //禁用原生导航栏  
-            	}
-            }
-        }
+        
         ,{
             "path" : "pages/my-evaluate/my-evaluate",
             "style" : {
@@ -692,6 +677,22 @@
 					"path" : "order-detail/order-detail",
 					"style" : {
 						"navigationBarTitleText": "订单详情"
+					}
+				},
+				{
+					"path" : "order-search/order-search",   // 订单搜索
+					"style" : {
+						"app-plus": {
+							"titleNView": false //禁用原生导航栏  
+						}
+					}
+				}
+				,{
+					"path" : "order-searchList/order-searchList",    // 订单搜索列变频
+					"style" : {
+						"app-plus": {
+							"titleNView": false //禁用原生导航栏  
+						}
 					}
 				}
 				

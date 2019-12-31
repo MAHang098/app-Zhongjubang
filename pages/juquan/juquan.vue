@@ -244,11 +244,11 @@
 					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
 					success: ((res) => {
 						uni.hideLoading()
-						let totalPage = res.data.data.pageSize * res.data.data.totalPage;
-						if(this.releaseImgList.length == totalPage) {
-							this.status = 'end';
-							return;
-						}
+						// let totalPage = res.data.data.pageSize * res.data.data.totalPage;
+						// if(this.releaseImgList.length == totalPage) {
+						// 	this.status = 'end';
+						// 	return;
+						// }
 						if(res.data.code == 200) {
 							let data = res.data.data.dataList;
 							for(let i=0; i<data.length; i++) {

@@ -1,0 +1,233 @@
+/* 提示窗口 */
+.uni-tip {
+	padding-top: 15px;
+	width: 300px;
+	background: #fff;
+	box-sizing: border-box;
+	border-radius: 10px;
+}
+.uni-tip-title {
+	text-align: center;
+	font-weight: bold;
+	font-size: 41rpx;
+	color: #333;
+}
+.uni-tip-content {
+	padding: 44rpx 0;
+	font-size: 32rpx;
+	color: #666;
+	width: 360rpx;
+	color: #666666;
+	font-weight: 500;
+	margin: auto;
+	text-align: center;
+}
+.uni-tip-group-button {
+	margin-top: 10px;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+}
+.uni-tip-button {
+	width: 100%;
+	text-align: center;
+	font-size: 14px;
+	color: #333333;
+	font-size: 37rpx;
+	font-weight: 500;
+	border-top: 1px solid #E2E2E2;
+	padding: 10px 0;
+}
+.insist-skip {
+	font-size:36rpx;
+	font-family:PingFang SC;
+	color:rgba(249,183,44,1);
+}
+/*引入收藏点赞消息的样式*/
+.order-exchange {
+	background: #F9F9F9;
+	height: 100%;
+}
+.no-adress {
+	height: 100rpx;
+	line-height: 100rpx;
+	box-sizing: border-box;
+	padding: 0 30rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	/* background: #F9F9F9; */
+	font-size:30rpx;
+	font-family:PingFang SC;
+	font-weight:500;
+	color:rgba(51,51,51,1);
+}
+.no-adress image {
+	width: 15rpx;
+	height: 30rpx;
+	display: block;
+}
+.have-class {
+	width: 100%;
+	height: 200rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	box-sizing: border-box;
+	padding: 0 30rpx;
+	background: #FFFFFF;
+	margin-bottom: 20rpx;
+	border-top: 1px solid #E2E2E2;
+}
+.have-class image:first-child {
+	width: 32rpx;
+	height: 30rpx;
+	display: block;
+}
+.have-class image:last-child {
+	width: 15rpx;
+	height: 30rpx;
+	display: block;
+}
+.adress-detail text {
+	margin-right: 20px;
+}
+.adress-detail {
+	width: 86%;
+	font-size: 28rpx;
+	color: #333333;
+	line-height: 50rpx;
+}
+/* .adress-image imag{
+	width: ;
+} */
+/* 商品详情 start */
+.exchange-list {
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	padding: 30rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	background: #FFFFFF;
+}
+.product-image {
+	width: 238rpx;
+	height: 207rpx;
+	background: #FFFFFF;
+	border-radius: 6rpx;
+	margin-right: 30rpx;
+}
+.content {
+	width: 80%;
+	position: relative;
+}
+.product-image image {
+	width: 100%;
+	height: 100%;
+	display: block;
+	border-radius: 6rpx;
+}
+.title {
+	font-size:28rpx;
+	font-family:PingFang SC;
+	color:rgba(51,51,51,1);
+	display: block;
+	/* height: 76rpx; */
+	margin-top: 36rpx;
+	/* margin-bottom: 20rpx; */
+}
+.in {
+	margin-top: 54rpx;
+}
+.scrore {
+	font-size:28rpx;
+	font-family:PingFang SC;
+	font-weight:bold;
+	color:rgba(244,51,72,1);
+}
+.number {
+	position: absolute;
+	/* text-align: right; */
+	right: 0;
+	top: 77px;
+}
+.number text {
+	width:45rpx;
+	height:41rpx;
+	line-height: 41rpx;
+	background:rgba(242,242,242,1);
+	border-radius:2rpx;
+	display: inline-block;
+	margin-right: 10rpx;
+	text-align: center;
+	font-size:30rpx;
+}
+.input {
+	color: #666666;
+	font-size: 24rpx !important;
+}
+.add {
+	color: #666666;
+}
+/* 底部 start */
+.foot {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	height: auto;
+}
+.available {
+	height: 66rpx;
+	line-height: 66rpx;
+	box-sizing: border-box;
+	padding: 0 30rpx;
+	background: rgba(249,183,44, .2);
+	color: #F9B72C;
+	font-size: 26rpx;
+}
+.total {
+	width: 100%;
+	height: 106rpx;
+	line-height: 106rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+}
+.total view {
+	width: 50%;
+	text-align: center;
+}
+.total  text {
+	font-size:32rpx;
+	font-family:PingFang SC;
+}
+.total  text:first-child {
+	color: #333333;
+}
+.total  text:last-child {
+	color: #F43348;
+}
+.total view:last-child {
+	background: #F9B72C;
+	color: #FFFFFF;
+	font-size: 36rpx;
+}
+.uni-tip-content {
+	width: 450rpx;
+	font-size:32rpx;
+}
+
