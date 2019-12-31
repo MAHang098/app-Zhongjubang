@@ -2,10 +2,10 @@
 	<view id="order-searchList">
 		<!-- 搜索栏 start -->
 		<view class="header">
-			<image src="../../static/img/G-circle/search-back.png" mode="" class="back"  @click.stop="cancelBack"></image>
+			<image src="http://www.zhongjubang.com/api/upload/static/img/G-circle/search-back.png" mode="" class="back"  @click.stop="cancelBack"></image>
 			<view class="search-input">
-				<image src="../../static/search/nav-search.png" mode=""></image>
-				<input type="text" v-model="searchInput"  placeholder="搜索您需要的商品" @confirm="gainInput" @focus="onFocus" @blur="onBlur"/>
+				<image src="http://www.zhongjubang.com/api/upload/static/search/nav-search.png" mode=""></image>
+				<input type="text" v-model="searchInput"  placeholder="搜索您需要的商品"  @focus="onFocus"/>
 			</view>
 			<view class="cancel" @click.stop="cancelBack">取消</view>
 		</view>
@@ -15,9 +15,9 @@
 			<view class="order-detail" v-for="(item, index) in orderList" :key="index">
 				<view class="shop" @click.stop="goshop(item.shopId)">
 					<view class="shop-detail">
-						<image src="../../static/img/shopping-mall/order/shop.png" mode="" class="shop-image"></image>
+						<image src="http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/shop.png" mode="" class="shop-image"></image>
 						<text>{{item.shopName}}</text>
-						<image src="../../static/topic/arrow.png" mode="" class="arrow-right"></image>
+						<image src="http://www.zhongjubang.com/api/upload/static/topic/arrow.png" mode="" class="arrow-right"></image>
 					</view>
 					<view class="order-massage">
 						{{item.state == 1 ? '已付款': item.state == 2 ? '待收货' : item.state == 3 ? '已完成' : item.state == 4 ? '评价' : item.state == 5 ? '售后' : item.state == 6 ? '其他' : item.state == 7 ? '取消订单' : '待付款'}}
@@ -31,7 +31,7 @@
 							<!-- <image src="../../static/img/G-circle/p1.png" mode=""></image> -->
 						</view>
 						<view class="product-massage">
-							<view class="title">{{row.shopName}}</view>
+							<view class="title">{{row.goodsName}}</view>
 							<view class="specs">规格：{{row.specifications}}</view>
 							<view><text class="price">￥{{row.goodsPrice}}</text> <text class="num">x1</text></view>
 						</view>
@@ -39,22 +39,44 @@
 					<view class="total">共{{item.num}}件商品，合计： <text class="total-price">￥{{item.price}}</text></view>
 				</view>
 				<view class="bottom">
-					<!-- 0待付款 1已付款 2待收货 3已完成 4评价 5售后 6其他 7取消 -->
-					<view :class="item.state == 4 || item.state == 0 || item.state == 2 ? 'active' : ''">
-						{{item.state == 1 || item.state == 2? '查看物流' : item.state == 3 ? '已完成' : item.state == 4 ? '评价' : item.state == 5 ? '售后' : item.state == 6 ? '其他' : item.state == 7 ? '取消订单' : '待付款'}}
+					<view v-if="item.state == 0" @click.stop="cancelOrder(item.orderNum)">取消订单</view>
+					<view v-if="item.state == 2 ||  item.state == 1  || item.state == 4 || item.state == 3">查看物流</view>
+					<view v-if="item.state == 2 ||  item.state == 1  || item.state == 4 || item.state == 3" @click.stop="pDetail(item.orderNum)">申请退换</view>
+					
+					<view :class="item.state == 4 || item.state == 3 || item.state == 0 || item.state == 2 ||  item.state == 1 ? 'active' : ''" @click.stop="jump(item.state, item.orderNum)">
+						{{item.state == 0? '立即付款' : item.state == 2 ||  item.state == 1 ? '确认收货'  : item.state == 4 || item.state == 3 ? '立即评价' : '删除订单' }}
 					</view>
+					<!-- <view :class="item.state == 4 || item.state == 0 || item.state == 2 ? 'active' : ''" @click.stop="jump(item.state, item.orderNum)">
+						{{item.state == 2 ? '待收货' : item.state == 3 ? '已完成' : item.state == 4 ? '评价' : item.state == 5 ? '售后' : item.state == 6 ? '其他' : item.state == 7 ? '取消订单' : '待付款'}}
+					</view> -->
 				</view>
 				
 			</view>
 			<!-- 订单详情 end -->
+			
+			<uni-popup :show="popupShow" :type="popupType" :custom="true" :mask-click="false" @change="change">
+				<view class="uni-tip">
+					<!-- <view class="uni-tip-title">提示</view> -->
+					<!-- <view class="uni-tip-content">您确定删除此订单？</view> -->
+					<view class="uni-tip-content">宝贝错过就没有啦 真的不要了吗？</view>
+					<view class="uni-tip-group-button">
+						<view class="uni-tip-button" @click.stop="cancel('tip')">取消</view>
+						<view class="uni-tip-button insist-skip" @click.stop="cancel('skip')">确定</view>
+					</view>
+				</view>
+			</uni-popup>
 		</view>
 	</view>
 </template>
 
 <script>
+	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 	export default {
+		components:{ uniPopup},
 		data() {
 			return {
+				popupShow: false,
+				popupType: '',
 				orderList: [],
 				token: '',
 				searchInput: '',
@@ -91,6 +113,104 @@
 					})
 				})
 			},
+			// 取消
+			cancelBack() {
+				uni.navigateBack({
+					delta:1
+				})
+			},
+			// 输入框获取焦点/失去焦点
+			onFocus() {
+				uni.navigateTo({
+					url: '/pages/shopping-mall/order-search/order-search'
+				})
+			},
+			
+			// 取消订单
+			cancelOrder(orderNum) {
+				this.togglePopup('center', 'tip')
+				this.order_num = orderNum
+			},
+			changeOrder(n) {
+				this.currentType = n;
+				// 全部订单
+				if(n == 0) {
+					this.init('');
+				}
+				// 待付款
+				if(n == 1) {
+					this.init('0')
+				}
+				// 待收货
+				if(n == 2) {
+					this.init('2')
+				}
+				// 待评价
+				if(n == 3) {
+					this.init('4')
+				}
+				// 售后
+				if(n == 4) {
+					this.init('5')
+				}
+				
+			},
+			// 弹出层弹出的方式
+			togglePopup(type, open) {
+				
+				switch (type) {
+					case 'top':
+						this.content = '顶部弹出 popup'
+						break
+			
+					case 'bottom':
+						this.content = '底部弹出 popup'
+						break
+					case 'center':
+						this.content = '居中弹出 popup'
+						break
+				}
+				this.popupType = type
+				if (open === 'tip') {
+					this.popupShow = true
+				} else {
+					this.$refs[open].open()
+				}
+			},
+			// 弹框关闭
+			cancel(type) {
+				if (type === 'tip') {
+					this.popupShow = false
+					return
+				}
+				if(type == 'skip') {
+					uni.request({
+						url: this.url + "controller/shopcontroller/delappuserorder",
+						method: 'POST',
+						data: {orderNum: this.order_num},
+						header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
+						success: ((res) => {
+							if(res.data.code==200){
+								uni.showToast({
+									title: '订单取消成功'
+								})
+								this.init();
+								this.afterSale()
+							}
+							if(res.data.code == 421) {
+								uni.navigateTo({
+									url: '/pages/loginPhone/loginPhone'
+								})
+							}
+						})
+					})
+				}
+				// this.$refs[type].close()
+			},
+			change(e) {
+				// console.log(e.show)
+			},
+			
 			// 跳转到店铺
 			goshop(id) {
 				uni.navigateTo({
@@ -101,6 +221,20 @@
 			pDetail(num) {
 				uni.navigateTo({
 					url:'/pages/shopping-mall/order-detail/order-detail?orderNum='+num
+				})
+			},
+			// 跳转到相应的页面
+			jump(state, num) {
+				if(state == 4) {
+					uni.navigateTo({
+						url:'/pages/shopping-mall/order-comments/order-comments?num=' + num
+					})
+				}
+			},
+			// 跳转到订单搜索
+			goSearchOrder() {
+				uni.navigateTo({
+					url: '/pages/shopping-mall/order-search/order-search'
 				})
 			}
 		}
@@ -311,5 +445,51 @@
 		border: none !important;
 		background: #F9B72C;
 		color: #FFFFFF !important;
+	}
+	/* 提示窗口 */
+	.uni-tip {
+		padding-top: 15px;
+		width: 300px;
+		background: #fff;
+		box-sizing: border-box;
+		border-radius: 10px;
+	}
+	
+	.uni-tip-title {
+		text-align: center;
+		font-weight: bold;
+		font-size: 41rpx;
+		color: #333;
+	}
+	
+	.uni-tip-content {
+		padding: 15px 0;
+		font-size: 32rpx;
+		color: #666;
+		width: 360rpx;
+		color: #666666;
+		font-weight: 500;
+		margin: auto;
+		text-align: center;
+	}
+	
+	.uni-tip-group-button {
+		margin-top: 10px;
+		display: flex;
+	}
+	
+	.uni-tip-button {
+		width: 100%;
+		text-align: center;
+		font-size: 14px;
+		color: #333333;
+		font-size: 37rpx;
+		font-weight: 500;
+		border-top: 1px solid #E2E2E2;
+		padding: 10px 0;
+	}
+	.insist-skip {
+		color: #F9B72C;
+		border-left: 1px solid #E2E2E2;
 	}
 </style>

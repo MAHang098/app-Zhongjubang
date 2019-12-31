@@ -17,7 +17,7 @@
 				<view class="tag-list">
 					<view :style="{transform: 'translateX(' + tag.tagX+'px) translateY(' + tag.tagY+'px) translateZ(0px) scale(1)'}"  class="tagText" v-for="(tag, tagIndex) in tagItems" :key="tagIndex" >
 						<image src="http://www.zhongjubang.com/api/upload/static/upload/indicator.png" mode=""></image>
-						<view class="tag-detail "  :class="rotate ? 'moveright' : 'moveleft' ">
+						<view class="tag-detail "  :class="rotate ? 'moveright' : 'moveleft' " @click.stop="goDetail(tag.goodsId)">
 							<image src="http://www.zhongjubang.com/api/upload/static/tag/cart.png" mode="" v-if="tag.type == 'product' || tag.type != 'tag'"></image>
 							{{tag.tagName | ellipsis}}
 						</view>
@@ -140,7 +140,14 @@
 				this.isShowAddTag = false;
 				
 			},
-			
+			// 跳转到商品详情
+			goDetail(id) {
+				if(id) {
+					uni.navigateTo({
+						url: '/pages/shopping-mall/detail/detail?id='+id
+					})
+				}
+			}
 		}
 	}
 </script>

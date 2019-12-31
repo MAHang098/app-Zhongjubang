@@ -2,12 +2,13 @@
 	<view>
 		<!-- 搜索栏 start -->
 		<view class="header">
-			<image src="../../static/img/G-circle/search-back.png" mode="" class="back"  @click.stop="cancelBack"></image>
+			<image src="http://www.zhongjubang.com/api/upload/static/img/G-circle/search-back.png" mode="" class="back"  @click.stop="cancelBack"></image>
 			<view class="search-input">
-				<image src="../../../static/search/nav-search.png" mode=""></image>
-				<input type="text" v-model="searchInput"  placeholder="搜索您需要的商品" @confirm="gainInput" @focus="onFocus" @blur="onBlur"/>
+				<image src="http://www.zhongjubang.com/api/upload/static/search/nav-search.png" mode=""></image>
+				<input type="text" v-model="searchInput"  placeholder="商品名称/订单编号" @confirm="gainInput" @focus="onFocus" @blur="onBlur"/>
 			</view>
-			<view class="cancel" @click.stop="cancelBack">取消</view>
+			<view class="cancel" v-if="searchInput == '' " @click.stop="cancelBack">取消</view>
+			<view class="cancel" v-else @click.stop="searchContent(searchInput)">搜索</view>
 		</view>
 		<!-- 搜索栏 end -->
 		<!-- 列表 start -->
@@ -19,10 +20,10 @@
 		<view class="history-all content-list" v-show="isShowList">
 			<view class="history-operate content-list_operate">
 				<view class="history-operate_left content-list_operate_left">
-					<image src="../../static/img/G-circle/history.png" mode=""></image>
+					<image src="http://www.zhongjubang.com/api/upload/static/img/G-circle/history.png" mode=""></image>
 					<text>历史搜索</text>
 				</view>
-				<image src="../../static/img/G-circle/history-del.png" mode="" class="history-operate_right content-list_operate_right" @click.stop="togglePopup('center', 'tip')"></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/img/G-circle/history-del.png" mode="" class="history-operate_right content-list_operate_right" @click.stop="togglePopup('center', 'tip')"></image>
 			</view>
 			
 			<view class="search-list">
@@ -85,7 +86,7 @@
 			// 将搜索记录存本地
 			const _this = this;
 			uni.getStorage({
-				key: 'searchAll_key',
+				key: 'searchOrder_key',
 				success: ((res) =>  {
 					_this.historyList = res.data.reverse();
 				})
@@ -107,12 +108,8 @@
 			
 			// 点击搜索列表的其中一个，跳转到商品详情
 			searchContent(name) {
-				if(name!= null && name!= ""){  
-					var reg = /[\u4e00-\u9fa5]/g;   
-					name = name.match(reg).join("");  
-				}  
 				uni.navigateTo({
-					url: '/pages/G-circle/search-list/search-list?name=' + name
+					url: '/pages/shopping-mall/order-searchList/order-searchList?name='+name
 				});
 				this.isShowList = !this.isShowList;
 				if(this.historyList.length > 0) {
@@ -127,7 +124,7 @@
 					this.historyList.pop();
 				}
 				uni.setStorage({
-					key: 'searchAll_key',
+					key: 'searchOrder_key',
 					data: this.historyList,    
 					success: function () {
 						
@@ -202,8 +199,8 @@
 			},
 			// 取消
 			cancelBack() {
-				uni.switchTab({
-					url: '/pages/juquan/juquan'
+				uni.navigateBack({
+					delta:1
 				})
 			},
 		}

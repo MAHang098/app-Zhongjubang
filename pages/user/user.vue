@@ -402,11 +402,12 @@
 			},
 		},
 		onLoad(options){
-            
+			
 		},
         onShow(){
 			let token
-			let self = this
+			let self = this;
+			this.current = 0;
 			uni.getStorage({
 				key:"token",
 				success: function (res) {
