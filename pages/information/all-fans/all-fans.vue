@@ -101,7 +101,7 @@
 							})
 						}
 						if(res.data.code == 200) {
-							let data = res.data.data;
+							let data = res.data.data.dataList;
 							this.followData = data;
 						}
 						if(res.data.code == 407) {
@@ -127,7 +127,7 @@
 							})
 						}
 						if(res.data.code == 200) {
-							let data = res.data.data;
+							let data = res.data.data.dataList;
 							this.fansData = data;
 						}
 						if(res.data.code == 407) {

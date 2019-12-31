@@ -3,11 +3,7 @@
         <view class="search">
 			<image class="search-image" style="width:26upx;height:26upx;" src="../../static/img/stop/search.png" mode="" />
 			<input @tap="goSearch" class="search-insert" type="text" placeholder="请输入您所需要的商品">
-<<<<<<< HEAD
 			<image @click.stop="goCart" class="car" style="width:41upx;height:39upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/car.png" mode="" />
-=======
-			<image class="car" style="width:41upx;height:39upx;" src="../../static/img/stop/car.png" mode="" />
->>>>>>> e8acdcd4d5dc9c62f8541778d1a774d26ac422f2
 		</view>
 		<view class="banner">
 			<image class="banner-image" style="width:663upx;height:345upx;" src="../../static/img/stop/banner.png" mode="" />

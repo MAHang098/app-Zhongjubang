@@ -34,7 +34,7 @@
 						<view class="specs">规格：{{item.specifications}}</view>
 						<view><text class="price">￥{{item.goodsPrice}}</text> <text class="num">x{{item.quantity}}</text></view>
 					</view>
-					<view class="refund"><view @click.stop="refunds(item.appUserOrderId)">退款</view></view>
+					<view class="refund"><view @click.stop="refunds(item.appUserOrderId)"  v-if="orderData.state != 0">退款</view></view>
 				</view>
 				
 				<view class="total">商品总价<text class="total-price">￥{{orderData.price}}</text></view>

@@ -114,7 +114,7 @@
 			<image class="" style="width:750upx;height:230upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/juquan-bg.png" mode="" />
 			<view class="juquan-content" v-for="(item, index) in topList" :key="index">
 				<view class="juquan-content-model">
-					<image @tap="goJuquan(item.create_by)" class="juquan-content-model-image" style="width:347upx;height:355upx;" :src="item.img_list[0].fileUrl" mode="" />
+					<image @tap="goJuquan(item.id)" class="juquan-content-model-image" style="width:347upx;height:355upx;" :src="item.img_list[0].fileUrl" mode="" />
 					<view class="juquan-content-model-des">{{item.content | ellipsis}}</view>
 					<image class="juquan-content-info-avator" style="width:52upx;height:55upx;border-radius: 50%;" :src="item.head" mode="" />
 					<view class="juquan-content-info-nickname">{{item.nickName}}</view>
