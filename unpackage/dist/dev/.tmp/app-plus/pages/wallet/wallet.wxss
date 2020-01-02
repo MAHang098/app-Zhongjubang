@@ -1,0 +1,178 @@
+
+page{
+        background-color: rgba(245,245,245,1);
+}
+.account{
+        position: relative;
+        border-top: 1px solid rgba(226,226,226,1);
+        width:750rpx;
+        height:372rpx;
+        background:rgba(255,255,255,1);
+}
+.bg{
+        position: absolute;
+        left: 30rpx;
+        top: 40rpx;
+        width: 690rpx;
+        height: 290rpx;
+}
+.bg image{
+        width: 690rpx;
+        height: 290rpx;
+}
+.text{
+        position: absolute;
+        left: 80rpx;
+        top: 137rpx;
+        font-size:32rpx;
+        font-family:PingFang SC;
+        color:rgba(255,255,255,1);
+}
+.money{
+        position: absolute;
+        left: 64rpx;
+        top: 201rpx;
+        font-size:60rpx;
+        font-weight:bold;
+        font-family:PingFang SC;
+        color:rgba(255,255,255,1);
+}
+.cash{
+        position: absolute;
+        left: 572rpx;
+        top: 154rpx;
+        width: 148rpx;
+        height: 74rpx;
+}
+.cash image{
+        width: 148rpx;
+        height: 74rpx;
+}
+.bottom{
+        margin-top: 16rpx;
+        width:750Rpx;
+        height:809Rpx;
+        background:rgba(255,255,255,1);
+}
+.bottom-content{
+        position: relative;
+        width: 750rpx;
+        height: 120rpx;
+        border-bottom: 1px solid rgba(226,226,226,1);
+}
+.image{
+        position: absolute;
+        left: 30rpx;
+        top: 40rpx;
+        width: 42rpx;
+        height: 42rpx;
+}
+.image image{
+        width: 42rpx;
+        height: 42rpx;
+}
+.bank-bind{
+        position: absolute;
+        left: 30rpx;
+        top: 48rpx;
+        width: 48rpx;
+        height: 34rpx;
+}
+.bank-bind image{
+        width: 48rpx;
+        height: 34rpx;
+}
+.ali-pay{
+        position: absolute;
+        left: 30rpx;
+        top: 40rpx;
+        width: 47rpx;
+        height: 47rpx;
+}
+.ali-pay image{
+        width: 47rpx;
+        height: 47rpx;
+}
+.ID-card{
+        position: absolute;
+        left: 30rpx;
+        top: 48rpx;
+        width: 55rpx;
+        height: 42rpx;
+}
+.ID-card image{
+        width: 55rpx;
+        height: 42rpx;
+}
+.menu{
+        position: absolute;
+        left: 30rpx;
+        top: 48rpx;
+        width: 57rpx;
+        height: 33rpx;
+}
+.menu image{
+        width: 57rpx;
+        height: 33rpx;
+}
+.account-details{
+        position: absolute;
+        left: 106rpx;
+        top: 45rpx;
+        font-size:32rpx;
+        font-family:PingFang SC;
+        color:rgba(51,51,51,1);
+}
+    /* 提示窗口 */
+.uni-tip {
+		padding-top: 15px;
+		width: 300px;
+		background: #fff;
+		box-sizing: border-box;
+		border-radius: 10rpx;
+}
+.uni-tip-title {
+		text-align: center;
+		font-weight: bold;
+		font-size: 41rpx;
+		color: #333;
+}
+.uni-tip-content {
+		padding: 44rpx 0;
+		font-size: 32rpx;
+		color: #666;
+		width: 360rpx;
+		color: #666666;
+		font-weight: 500;
+		margin: auto;
+		text-align: center;
+}
+.uni-tip-group-button {
+		margin-top: 10px;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: flex;
+}
+.uni-tip-button:nth-child(1) {
+		width: 100%;
+		text-align: center;
+		font-size: 14px;
+		color: #333333;
+		font-size: 37rpx;
+		font-weight: 500;
+		border-top: 1px solid #E2E2E2;
+		border-right: 1px solid #E2E2E2;
+		padding: 10px 0;
+}
+.uni-tip-button {
+		width: 100%;
+		text-align: center;
+		font-size: 14px;
+		color: #333333;
+		font-size: 37rpx;
+		font-weight: 500;
+		border-top: 1px solid #E2E2E2;
+		padding: 10px 0;
+}
+    
+

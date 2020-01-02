@@ -1,0 +1,66 @@
+
+.addBank{
+    position: relative;
+    width: 750rpx;
+    height: 114rpx;
+    border-bottom: 1px solid rgba(224,224,224,1);
+    border-top: 1px solid rgba(224,224,224,1);
+}
+.addBank-image{
+    position: absolute;
+    left: 30rpx;
+    top: 43rpx;
+}
+.addBank-image2{
+    position: absolute;
+    left: 705rpx;
+    top: 43rpx;
+}
+.addBank-text{
+    position: absolute;
+    left: 100rpx;
+    line-height: 114rpx;
+    font-size:30rpx;
+    font-family:PingFang SC;
+    color:rgba(102,102,102,1);
+}
+.bank{
+    position: relative;
+    left: 30rpx;
+    margin-top: 50rpx;
+    width:690rpx;
+    height:208rpx;
+}
+.business{
+    position: absolute;
+    left: 126rpx;
+    top: 37rpx;
+    width:88rpx;
+    height:88rpx;
+}
+.bank-name{
+    position: absolute;
+    left: 260rpx;
+    top: 32rpx;
+    font-size:32rpx;
+    font-family:PingFang SC;
+    color:rgba(50,50,50,1);
+}
+.bank-type{
+    position: absolute;
+    left: 260rpx;
+    top: 89rpx;
+    font-size:24rpx;
+    font-family:PingFang SC;
+    color:rgba(120,120,120,1);
+}
+.bank-num{
+    position: absolute;
+    left: 136rpx;
+    top: 142rpx;
+    font-size:40rpx;
+    font-family:PingFang SC;
+    font-weight:500;
+    color:rgba(50,50,50,1);
+}
+
