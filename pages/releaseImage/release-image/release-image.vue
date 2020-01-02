@@ -246,6 +246,7 @@
 				// 	this.$store.commit('defaultPage', '');  // 清空页面类型
 				// 	this.$store.commit('updateType', {topic: '', topicId: ''});
 				// }
+				
 				this.togglePopup('center', 'tip');
 				return true;
 			},

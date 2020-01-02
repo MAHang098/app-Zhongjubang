@@ -2,7 +2,7 @@
 	<view class="">
 		<view class="wrap-top">
 			<image class="banner" style="width: 750upx;height: 521upx;" src="http://www.zhongjubang.com/api/upload/static/img/designation/banner.png" />
-			<view class="back">
+			<view @tap="goBack" class="back">
 				<image src="http://www.zhongjubang.com/api/upload/static/img/designation/back.png" />
 			</view>
 			<view class="title">我的称号</view>
@@ -28,12 +28,15 @@
 			</view>
 			<!-- 内容 -->
 			<view v-if="show" class="wrap-content-all">
-				<view class="wrap-content-mid" >
-					<image class="" style="width: 148upx;height: 148upx;" src="http://www.zhongjubang.com/api/upload/static/img/designation/icon.png" />
-					<view class="title-designe">金牌业主</view>
+				<view class="wrap-content-mid" v-for="(item,index) in dataList" :key="index">
+					<image v-if="item.title=='金牌业主'" class="" style="width: 148upx;height: 148upx;" src="http://www.zhongjubang.com/api/upload/static/img/designation/icon.png" />
+					<image v-if="item.title=='设计达人'" class="" style="width: 148upx;height: 148upx;" src="../../static/img/designation/icon2.png" />
+					<image v-if="item.title=='网红达人'" class="" style="width: 148upx;height: 148upx;" src="../../static/img/designation/icon3.png" />
+					<image v-if="item.title=='G圈达人'" class="" style="width: 148upx;height: 148upx;" src="../../static/img/designation/icon4.png" />
+					<view class="title-designe">{{item.title}}</view>
 					<view class="">
 						<label>
-							<radio value="r1" color="#FFCC33" style="transform:scale(0.7)" @click.stop=""/>
+							<radio checked=“true” value="r1" color="#FFCC33" style="transform:scale(0.7)" @click.stop=""/>
 						</label>
 					</view>
 				</view>
@@ -91,6 +94,7 @@
 				head: '',
 				dataList: [],
 				popupType: '',
+				name: ''
 			}
 		},
 		onShow(){
@@ -98,6 +102,11 @@
 			this.initInfo()
 		},
 		methods: {
+			goBack(){
+				uni.navigateBack({
+					delta: 1
+				});
+			},
 			// 取消弹出层
 			cancelPopup(type) {
 				this.$refs[type].close();
@@ -184,6 +193,9 @@
 						console.log(res.data.data)
 						if(res.data.code==200){
 							self.dataList = res.data.data
+							if(res.data.data.length>0){
+								self.show = true
+							}
 						}else{
 							console.log("请求异常")
 						}
@@ -287,11 +299,12 @@
 	.wrap-content-all{
 		width: 750upx;
 		height: 100%;
-		padding: 56upx;
+		padding: 0 56upx;
 	}
 	.wrap-content-mid{
 		float: left;
 		margin-left: 96upx;
+		margin-top: 56upx;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -299,6 +312,9 @@
 		width: 148upx;
 	}
 	.wrap-content-mid:nth-child(1){
+		margin-left: 0;
+	}
+	.wrap-content-mid:nth-child(4){
 		margin-left: 0;
 	}
 	.title-designe{

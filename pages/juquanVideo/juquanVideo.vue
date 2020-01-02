@@ -33,18 +33,20 @@
             
             <view class="video-all">
 				<!-- 全部 -->
-                <view class="video-wrap" v-show="isShow">
+                <view class="video-wrap" v-if="current==0">
                     <view class="video-detail" v-for="(item, index) in videoList" :key="index">
                         <view class="video-content">
                             <image class="video-content-start" style="width:52rpx;height:52rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/start.png" mode=""></image>
-                            <image class="video-content-avator" style="width:60rpx;height:60rpx;border-radius:50%;" :src="item.head" mode=""></image>
-                            <view class="video-content-nickname">{{item.nickName}}</view>
+                            <view class="" @tap="goOtherUser(item.userId)">
+                            	<image class="video-content-avator" style="width:60rpx;height:60rpx;border-radius:50%;" :src="item.head" mode=""></image>
+                            	<view class="video-content-nickname">{{item.nickName}}</view>
+                            </view>
                             <image @tap="sendVideo(item.shortVideoId)" class="video-content-image" style="width:350rpx;height:512rpx;border-radius:3px;" :src="item.videoUrl"></image>
                         </view>
                     </view>
                 </view>
 				<!-- 网红 -->
-                <view class="video-wrap" v-show="!isShow">
+                <view class="video-wrap" v-if="current==1">
                     <image class="video-wrap-image" style="width:750rpx;height:359rpx;" src="http://www.zhongjubang.com/api/upload/static/img/juquanVideo/miao.png" mode=""></image>
                     <view class="video-detail" v-for="(item, index) in InternetCelebrityList" :key="index">
                         <view class="video-content">
@@ -90,7 +92,7 @@
 		
 		methods: {
 			goOtherUser(id){
-				uni.uni.navigateTo({
+				uni.navigateTo({
 					url: '/pages/otherUser/otherUser?userid=' + id
 				})
 			},
@@ -136,7 +138,6 @@
 			changeProduct(index) {
 				this.current = index;
 				console.log(index)
-				this.isShow = !this.isShow;
 				
             },
             back(){

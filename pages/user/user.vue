@@ -60,10 +60,14 @@
 		<!-- 客户信息 -->
 		<view class="user-info">
 			<view class="user-state">
+<<<<<<< HEAD
 				<image v-if="userTitle == '设计达人'" src="../../static/img/title/design-people.png" mode=""></image>
 				<image v-if="userTitle == '人气网红'" src="../../static/img/title/red-hot.png" mode=""></image>
 				<image v-if="userTitle == '居圈达人'" src="../../static/img/title/circle-people.png" mode=""></image>
 				<image v-if="userTitle == '金牌业主'" src="../../static/img/title/gold-owner.png" mode=""></image>
+=======
+				<image v-if="designDarenState" src="http://www.zhongjubang.com/api/upload/static/img/user/user-state.png" mode=""></image>
+>>>>>>> origin/master
 			</view>
 			<view @tap="editInfo" class="edit-info">
 				<image src="http://www.zhongjubang.com/api/upload/static/img/user/edit-info.png" mode=""></image>
@@ -80,12 +84,12 @@
 			</view>
 			
 			<view class="user-intro">
-				{{remarks}}
+				{{remarks | ellipsis2}}
 			</view>
 			<view class="user-recommend">
-				<text>粉丝{{fannum}}</text><text>关注{{attentionnum}}</text><text>获赞{{likenum}}</text>
-				<image src="http://www.zhongjubang.com/api/upload/static/img/user/hot.png" mode=""></image>
-				<text id="number">{{feverBranch}}</text>
+				<text @tap="goAddfans">粉丝{{fannum}}</text><text>关注{{attentionnum}}</text><text @tap="goGiveLike">获赞{{likenum}}</text>
+				<image  @tap="goHot" src="http://www.zhongjubang.com/api/upload/static/img/user/hot.png" mode=""></image>
+				<text  @tap="goHot" id="number">{{feverBranch}}</text>
 			</view>
 		</view>
 		<!-- 我的动态 -->
@@ -114,7 +118,7 @@
 			<!-- <view class="more">-上拉查看更多-</view> -->
 		</view>
 		<!-- G圈列表 start -->
-		<view v-if="current==0" class="relese-image"  >
+		<view  class="relese-image" v-if="current==0">
 			<view v-for="(items, index) in releaseImgList" :key="index">
 				<view class="relese-image_detail" >
 					<!-- 用户信息 start -->
@@ -377,6 +381,7 @@
 				commentItem: [],
 				deleteType: 0,
 				cover: '',
+				designDarenState: '',
 				reload: false,
 				statusMore: 'more',
 				contentText: {
@@ -465,7 +470,11 @@
 					self.nickName = res.data.data.nickName
 					self.remarks = res.data.data.remarks
 					self.sex = res.data.data.sex
+<<<<<<< HEAD
 					self.userTitle = res.data.data.title
+=======
+					self.designDarenState = res.data.data.designDarenState
+>>>>>>> origin/master
 					if(res.data.data.sex==1){
 						self.show = true
 					}else if(res.data.data.sex==2){
@@ -491,6 +500,16 @@
 			this.init();
 		},
         methods: {
+			goGiveLike(){
+				uni.navigateTo({
+					url: '/pages/information/give-like/give-like'
+				})
+			},
+			goAddfans(){
+				uni.navigateTo({
+					url: '/pages/information/all-fans/all-fans'
+				})
+			},
 			//删除商品
 			deleteCommand(id){
 				console.log(id)
@@ -588,6 +607,9 @@
 				if(index == 1) {
 					type = 2;
 				} 
+				if(index==2){
+					this.changeCollect(0)
+				}
 				this.init(type);
 			},
 			changeCollect(index) {
@@ -1190,6 +1212,10 @@
 				})
 			},
 			goRecommend(){
+				uni.navigateTo({
+					url: '/pages/my-evaluate/my-evaluate'
+				})
+				
 			},
 			goAccount(){
 				uni.navigateTo({
@@ -1197,6 +1223,9 @@
 				})
 			},
 			goRanked(){
+				uni.navigateTo({
+					url: '/pages/myRanked/myRanked'
+				})
 			},
 			goIdentify(){
 				uni.navigateTo({

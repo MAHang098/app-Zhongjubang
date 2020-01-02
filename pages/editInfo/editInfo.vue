@@ -57,7 +57,7 @@
         <view class="gender" @tap="chooseImage2">
             <view class="gender-text">个人封面</view>
         </view>
-        <view class="gender">
+        <view class="gender" @tap="goAddress">
             <view class="address">收货地址</view>
         </view>
 	</view>
@@ -123,6 +123,11 @@
             
         },
 	    methods: {
+			goAddress(){
+				uni.navigateTo({
+					url: '/pages/add-adress/add-adress'
+				})
+			},
             back(){
                 uni.navigateBack()
             },
@@ -219,8 +224,7 @@
 						birthday: self.birthday,
 						sex: self.sex,
 						remarks: self.remarks,
-						cover: self.cover,
-						title: self.nickName
+						cover: self.cover
 					},
 					method: 'POST',
 					header : {

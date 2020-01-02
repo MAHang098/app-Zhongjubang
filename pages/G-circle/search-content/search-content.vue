@@ -286,6 +286,7 @@
 			},
 			// 取消
 			cancelBack() {
+
 				uni.navigateBack()
 			},
 		}
@@ -476,5 +477,4 @@
 		color: #F9B72C;
 		border-left: 1px solid #E2E2E2;
 	}
-	
-</style>
+

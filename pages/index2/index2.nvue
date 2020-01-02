@@ -18,7 +18,8 @@
 				<!-- <div class="edit-del" :style="{bottom:'0'}" @tap="ifAttention"> -->
 				<div class="edit-del" @tap="ifAttention">
 					<image v-if="attention==0" style="width:106rpx;height:48rpx;" src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/interest.png" mode=""></image>
-					<image v-if="attention==1" style="width:106rpx;height:48rpx;" src="../../static/follow-checked.png" mode=""></image>
+					<image v-if="attention==1" style="width:106rpx;height:48rpx;" src="../../static/inte-follow.png" mode=""></image>
+					<image v-if="attention==2" style="width:106rpx;height:48rpx;" src="../../static/mutual-follow.png" mode=""></image>
 				</div>
 				<div class="element">
 					<text v-if="!isShowAllContent" class="text">{{content2}}</text>
@@ -252,7 +253,7 @@
 				//获取短视频内容
 				uni.request({
 					url: self.url + "controller/usercontroller/addattentionrelationship",
-					data: {shortVideoId:id},
+					data: {outUserId:self.outUserId},
 					method: 'POST',
 					header : {
 						'content-type':'application/x-www-form-urlencoded', 
@@ -261,11 +262,7 @@
 					},
 					success: function (res){
 						console.log(res)
-						if(res.data.code==421){
-							uni.navigateTo({
-								url: '/pages/loginPhone/loginPhone'
-							})
-						}
+						self.getContent()
 					}
 				})
 			},
@@ -300,8 +297,8 @@
 						self.shortVideoDiscussNum = res.data.data.shortVideoDiscussNum
 						self.shortVideoLikeNum = res.data.data.shortVideoLikeNum
 						self.attention = res.data.data.attention
-						self.outUserId = res.data.data.id
-						console.log(res.data.data.id)
+						self.outUserId = res.data.data.userId
+						console.log(res.data.data.attention)
 						
 						if(res.data.data.shortVideoCollection==1){
 							self.showUpImg = false
@@ -311,9 +308,6 @@
 						}
 					}
 				})
-			},
-			ifAttention(){
-				
 			},
 			// 删除评论
 			 touchin(id,content) {
@@ -813,7 +807,7 @@
 	.edit-del{
 		position: absolute;
 		/* display: none; */
-		left: 277rpx;
+		left: 300rpx;
 		bottom: 168rpx;
 		width: 106rpx;
 		height: 48rpx;
