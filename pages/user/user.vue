@@ -80,7 +80,7 @@
 				{{remarks | ellipsis2}}
 			</view>
 			<view class="user-recommend">
-				<text @tap="goAddfans">粉丝{{fannum}}</text><text>关注{{attentionnum}}</text><text @tap="goGiveLike">获赞{{likenum}}</text>
+				<text @tap="goAddfans(0)">粉丝{{fannum}}</text><text @tap="goAddfans(1)">关注{{attentionnum}}</text><text>获赞{{likenum}}</text>
 				<image  @tap="goHot" src="http://www.zhongjubang.com/api/upload/static/img/user/hot.png" mode=""></image>
 				<text  @tap="goHot" id="number">{{feverBranch}}</text>
 			</view>
@@ -232,7 +232,7 @@
 				<view class="video-wrap" v-if="current2==3" >
 					<view class="wang-content-wrap">
 						<view class="wang-content" v-for="(item, index) in collectShop" :key="index">
-							<image class="wang-content-image" style="width:200upx;height:190upx;" :src="item.shopLogo" @tap="goDetails(item.shopId)" mode=""></image>
+							<image class="wang-content-image" style="width:200upx;height:190upx;" :src="item.shopLogo" @tap="goDetailsShop(item.shopId)" mode=""></image>
 						    <text class="wang-content-des">{{item.shop_name}}</text>
 						    <text class="wang-content-goods">{{item.goodsNum}}个商品</text>
 						    <text class="wang-content-tit">{{item.colNum}}人收藏</text>
@@ -243,9 +243,8 @@
 				<!-- 收藏店铺内容end -->
 				<!-- 收藏图片内容start -->
 				<!-- <view class="video-wrap"> -->
-					
 					<view class="category-content">
-						<view class="category-content-box"  v-if="current2==0" v-for="(item, index) in collectPic" :key="index" @tap="goDetails(item.id)">
+						<view class="category-content-box"  v-if="current2==0" v-for="(item, index) in collectPic" :key="index" @tap="goDetailsPic(item.id)">
 							<image class="category-content-image" style="width:345upx;height:345upx" :src="item.imgList[0].fileUrl" />
 							<view class="category-content-des">{{item.content | ellipsis2}}</view>
 							<image class="category-content-price" style="width:52upx;height:55upx;border-radius: 50%;" :src="item.head" />
@@ -321,7 +320,7 @@
 				showRigth: false,
 				showLeft: false,
 				tabType: ['我的动态', '短视频', '收藏'],
-				collectType: ['图片·0', '视频·0', '商品·0', '商铺·0'],
+				collectType: ['图片', '视频', '商品', '商铺'],
 				show: '',
 				show1: '',
 				showDelete: '',
@@ -488,14 +487,19 @@
 			this.init();
 		},
         methods: {
+			goDetailsPic(id){
+				uni.navigateTo({
+					url: '/pages/releaseImage-details/releaseImage-details?id=' + id
+				})
+			},
 			goGiveLike(){
 				uni.navigateTo({
 					url: '/pages/information/give-like/give-like'
 				})
 			},
-			goAddfans(){
+			goAddfans(id){
 				uni.navigateTo({
-					url: '/pages/information/all-fans/all-fans'
+					url: '/pages/information/all-fans/all-fans?id=' + id
 				})
 			},
 			//删除商品
@@ -540,6 +544,12 @@
 			goDetails(id){
 				uni.navigateTo({
 					url: '/pages/shopping-mall/detail/detail?id='+id
+				})
+			},
+			// 去店铺详情
+			goDetailsShop(id){
+				uni.navigateTo({
+					url: '/pages/shop-command/shop-command?id='+id
 				})
 			},
 			deleteVideo(activeVideo){

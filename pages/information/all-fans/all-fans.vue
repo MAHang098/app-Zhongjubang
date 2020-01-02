@@ -21,7 +21,7 @@
 			</view>
 			<view class="follow-fans"  v-show="current == 0">
 				<view class="fans-list" v-for="(item, index) in followData" :key="index">
-					<view class="left">
+					<view class="left" @tap="goOtherUser(item.outUserId)">
 						<view class="avatar">
 							<image :src="item.head" mode=""></image>
 						</view>
@@ -39,7 +39,7 @@
 			
 			<view class="fans" v-show="current == 1">
 				<view class="fans-list" v-for="(item, index) in fansData" :key="index">
-					<view class="left">
+					<view class="left" @tap="goOtherUser(item.outUserId)">
 						<view class="avatar">
 							<image :src="item.head" mode=""></image>
 						</view>
@@ -76,7 +76,14 @@
 				fansData: []
 			}
 		},
-		
+		onLoad(options){
+			if(options.id==0){
+				this.changeProduct(0)
+			}else{
+				this.changeProduct(1)
+			}
+			
+		},
 		mounted() {
 			uni.getStorage({
 				key:"token",
@@ -87,6 +94,11 @@
 			this.init();
 		},
 		methods: {
+			goOtherUser(id){
+				uni.navigateTo({
+					url: '/pages/otherUser/otherUser?userid=' + id
+				})
+			},
 			// 关注
 			init() {
 				uni.request({

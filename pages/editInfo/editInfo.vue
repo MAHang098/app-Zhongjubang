@@ -129,7 +129,9 @@
 				})
 			},
             back(){
-                uni.navigateBack()
+                uni.switchTab({
+					url: '/pages/user/user'
+				})
             },
             checkSex:function(e){
                 this.sex = e.currentTarget.dataset.index;

@@ -2,7 +2,7 @@
 	<view class="write-circle">
 		<image src="http://www.zhongjubang.com/api/upload/static/img/identity/owner-bg.png" mode="" class="write-circle_bg"></image>
 		<view class="circle-massage">
-			<view class="circle-massage_explain">以下信息仅用户众居邦房主审核认证，请确保信息真是有效，请 正确填写，众居邦将竭力保护您的隐私，请您放心！</view>
+			<view class="circle-massage_explain">以下信息仅用户众居金牌业主审核认证，请确保信息真是有效，请 正确填写，众居邦将竭力保护您的隐私，请您放心！</view>
 			
 			<!-- 资料填写 start -->
 			<view class="circle-massage_input">
@@ -63,7 +63,7 @@
 			<view class="agreement">
 				<radio value="r1" :checked="checked" color="#FFCC33" style="transform:scale(0.6)" @tap.stop="change"/>
 				<view>我同意</view>
-				<view>《众居邦APP金牌业主入驻奖励协议》</view>
+				<view>《众居邦APP奖励协议》</view>
 			</view>
 		</view>
 		

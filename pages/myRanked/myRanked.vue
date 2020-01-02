@@ -32,7 +32,7 @@
 					<image v-if="item.title=='金牌业主'" class="" style="width: 148upx;height: 148upx;" src="http://www.zhongjubang.com/api/upload/static/img/designation/icon.png" />
 					<image v-if="item.title=='设计达人'" class="" style="width: 148upx;height: 148upx;" src="../../static/img/designation/icon2.png" />
 					<image v-if="item.title=='网红达人'" class="" style="width: 148upx;height: 148upx;" src="../../static/img/designation/icon3.png" />
-					<image v-if="item.title=='G圈达人'" class="" style="width: 148upx;height: 148upx;" src="../../static/img/designation/icon4.png" />
+					<image v-if="item.title=='居圈达人'" class="" style="width: 148upx;height: 148upx;" src="../../static/img/designation/icon4.png" />
 					<view class="title-designe">{{item.title}}</view>
 					<view class="">
 						<label>

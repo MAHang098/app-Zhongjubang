@@ -2,9 +2,14 @@
 	<view class="">
 		<!-- 轮播图 -->
 		<view class="banner">
-			<text @tap="goText" class="address">广州</text>
+			<!-- <text @tap="goText" class="address">广州</text> -->
+			<view class="uni-list-cell-db">
+				<picker @change="bindPickerChange" :value="index" :range="array">
+					<view class="address">{{array[index]}}</view>
+				</picker>
+			</view>
 			<image class="arrow" style="width:23upx;height:19upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/arrow.png" mode="" />
-			<image class="info" style="width:44upx;height:44upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/info.png" mode="" />
+			<image class="info" @tap="goInformation" style="width:44upx;height:44upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/info.png" mode="" />
 			<image class="search-image" style="width:29upx;height:29upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/search.png" mode="" />
 			<view @tap="goSearch" class="search">搜你想搜的一切</view>
 			<!-- <input @tap="goSearch" class="search" type="text" placeholder="搜你想搜的一切"> -->
@@ -50,8 +55,8 @@
 			<view class="zhong-nav">
 				<text class="video-nav-hot">众话题</text>
 				<text class="video-nav-eye">热门话题等你来参与</text>
-				<text class="video-nav-more">更多</text>
-				<image class="video-nav-more-image" style="width:11upx;height:20upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/more.png" mode="" />
+				<text class="video-nav-more" @tap="category">更多</text>
+				<image class="video-nav-more-image" @tap="category" style="width:11upx;height:20upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/more.png" mode="" />
 			</view>
 
 			<view >
@@ -74,8 +79,8 @@
 			<view class="zhong-nav">
 				<text class="video-nav-hot">精选好物</text>
 				<text class="video-nav-eye">什么值得买</text>
-				<text class="video-nav-more">更多</text>
-				<image class="video-nav-more-image" style="width:11upx;height:20upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/more.png" mode="" />
+				<text class="video-nav-more" @tap="goJingpin">更多</text>
+				<image class="video-nav-more-image" @tap="goJingpin" style="width:11upx;height:20upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/more.png" mode="" />
 			</view>
 			<view>
 				<swiper
@@ -137,6 +142,8 @@
 		},
 		data() {
 			return {
+				array: ['广州', '佛山'],
+				index: 0,
 				dotStyle: {
 					backgroundColor: '#CCCCCC',
 					border: '1px #CCCCCC solid',
@@ -297,6 +304,27 @@
 			})
 		},
 		methods: {
+			// 跳转到消息页面
+			goInformation() {
+				uni.navigateTo({
+					url: '/pages/information/information-list/information-list'
+				})
+			},
+			bindPickerChange(e) {
+				console.log('picker发送选择改变，携带值为', e.target.value)
+				this.index = e.target.value
+			},
+			goJingpin(){
+				uni.navigateTo({
+					url: '/pages/jingpin/jingpin'
+				})
+			},
+			// 跳转到更多分类
+			category() {
+				uni.navigateTo({
+					url: '/pages/releaseImage/search-title/search-title?type=Gcircle'
+				})
+			},
 			goText(){
 				uni.navigateTo({
 					url: '/pages/swiper-vertical/swiper-vertical',
@@ -336,6 +364,9 @@
 				uni.navigateTo({
 					url: '/pages/juquanVideo/juquanVideo?type=' + 1 
 				})
+				// uni.navigateTo({
+				// 	url: '/pages/swiper-vertical/swiper-vertical'
+				// })
 			},
 			goSearch(){
 				uni.navigateTo({
@@ -595,14 +626,14 @@
 		margin-left: 16upx;
 	}
 	.zhong-content-text{
-		z-index: 10;
+		z-index: 1000;
 	}
 	.zhong-content-tyt{
 		position: absolute;
 		border-radius:14upx;
 		width:346upx;
 		height:218upx;
-		background: rgba(0,0,0,.2);
+		background: rgba(0,0,0,.1);
 	}
 	
 	

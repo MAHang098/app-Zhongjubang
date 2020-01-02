@@ -41,7 +41,7 @@
 								<image :src="item.head" mode=""></image>
 							</view>
 							<view class="user-details">
-								<view class="name">{{item.nickName}} <image src="http://www.zhongjubang.com/api/upload/static/fans-logo.png" mode=""></image></view>
+								<view class="name">{{item.nickName}} <image src="item.imgList" mode=""></image></view>
 								<view class="time">{{item.createTime}}</view>
 							</view>
 						</view>
@@ -187,6 +187,7 @@
 					contentnomore: '没有更多'
 				},
 				page: 1,
+				id: ''
 				
 			}
 		},
@@ -390,6 +391,7 @@
             },
             // 关注
             focus(index, id, state) {
+				let self = this
                 let token = '';
                 uni.getStorage({
                     key:"token",
@@ -404,7 +406,7 @@
                     header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
                     success:(res) => {
                         if(res.data.code == 200) {
-                            this.init(this.topicId);
+                            self.init(self.topicId);
                             this.activeIndex = index;
 							if(state == 1) {
 								this.isShowFocus = false;
@@ -700,7 +702,7 @@
 	.Subheading {
 		margin-bottom: 60rpx;
 		text-align: center;
-		height: 60rpx;
+		height: 66rpx;
 		text-overflow: ellipsis;
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
@@ -730,6 +732,7 @@
 		background: #F6F6F6;
 		border-radius:32rpx 32rpx 0px 0px;
 		overflow: hidden;
+		z-index: 10;
 	}
 	.detial {
 		position: static;
