@@ -240,10 +240,10 @@
 	margin-top: 20rpx;
 }
 .imageListIn {
-	width: 30%;
+	width: 32%;
 	height: 210rpx;
 	display: block;
-	margin-right: 34rpx;
+	margin-right: 12rpx;
 	margin-bottom: 10rpx;
 	object-fit:cover;
 }

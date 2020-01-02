@@ -352,6 +352,7 @@
 					    icon: 'none',
 					    duration: 2000,
 					})
+					return
 				}
 				if(this.imgList.length>9){
 					uni.showToast({
@@ -359,6 +360,7 @@
 					    icon: 'none',
 					    duration: 2000,
 					})
+					return
 				}
 				if(self.phone.length!=11){
 					uni.showToast({

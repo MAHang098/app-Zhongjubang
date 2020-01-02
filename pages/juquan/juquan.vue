@@ -103,7 +103,7 @@
 					<view class="operate-bottom">
 						<view class="operate-bottom_share"><image src="http://www.zhongjubang.com/api/upload/static/img/user/share.png" mode=""></image></view>
 						<view class="operate-bottom_number">
-							<view class="number-message">
+							<view class="number-message" @click.stop="contentDetail(items.gcircleContentId)">
 								<image src="http://www.zhongjubang.com/api/upload/static/img/user/message.png" mode=""></image>
 								<text>{{items.gCollectionDiscussNum}}</text>
 							</view>
@@ -538,6 +538,9 @@
 				}
 				if(index == 1) {
 					// 跳转到网红视频页面
+					uni.navigateTo({
+						url:'/pages/index2/index2?id=' + id
+					})
 					return;
 				}
 				if(index == 2) {

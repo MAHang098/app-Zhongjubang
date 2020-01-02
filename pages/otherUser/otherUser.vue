@@ -79,7 +79,7 @@
 					<!-- 用户信息 start -->
 					<view class="user">
 						<view class="user-message">
-							<image src="http://www.zhongjubang.com/api/upload/static/drafts.png" mode=""></image>
+							<image :src="head" mode=""></image>
 							<view>
 								<view class="name">{{items.nickName}}</view>
 								<view class="time">{{items.createTime}}</view>
@@ -296,9 +296,7 @@
 		},
         methods: {
 			back(){
-				uni.switchTab({
-					url: '/pages/juquan/juquan'
-				})
+				uni.navigateBack()
 			},
 			// 获取客户信息
 			getInfo(){

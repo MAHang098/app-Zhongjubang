@@ -1,1 +1,0 @@
-<view class="rednet"><image class="rednet-img" src="../../../static/img/identity/owner.png" mode="widthFix"></image><image class="authentication" src="../../../static/img/identity/authentication.png" mode="widthFix" data-event-opts="{{[['tap',[['ownerPeople',['$event']]]]]}}" catchtap="__e"></image></view>

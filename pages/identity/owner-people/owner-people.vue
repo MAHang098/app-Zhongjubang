@@ -1,6 +1,6 @@
 <template>
 	<view class="write-circle">
-		<image src="../../../static/img/identity/owner-bg.png" mode="" class="write-circle_bg"></image>
+		<image src="http://www.zhongjubang.com/api/upload/static/img/identity/owner-bg.png" mode="" class="write-circle_bg"></image>
 		<view class="circle-massage">
 			<view class="circle-massage_explain">以下信息仅用户众居邦房主审核认证，请确保信息真是有效，请 正确填写，众居邦将竭力保护您的隐私，请您放心！</view>
 			
@@ -22,7 +22,7 @@
 			<!-- 屋内照片 start -->
 			<view class="authentication">
 				<view class="camera">
-					<image src="../../../static/img/identity/camera.png" mode=""></image>
+					<image src="http://www.zhongjubang.com/api/upload/static/img/identity/camera.png" mode=""></image>
 					<text>屋内照片</text>
 				</view>
 				<image @click.stop="chooseImage" v-if="!showVideo" src="http://www.zhongjubang.com/api/upload/static/img/identity/add.png" mode="" class="add-img"></image>
@@ -38,7 +38,7 @@
 			
 			<!-- 材料认证 start -->
 			<view class="material">
-				<image src="../../../static/img/identity/v.png" mode=""></image>认证材料
+				<image src="http://www.zhongjubang.com/api/upload/static/img/identity/v.png" mode=""></image>认证材料
 			</view>
 			
 			<!-- 材料类型 start -->
@@ -49,9 +49,9 @@
 			
 			<!-- 身份证照片 start -->
 			<view class="idCard">
-				<image @tap="chooseImageOffice" v-if="!identifyOffice" src="../../../static/img/identity/facade.png" mode=""></image>
+				<image @tap="chooseImageOffice" v-if="!identifyOffice" src="http://www.zhongjubang.com/api/upload/static/img/identity/facade.png" mode=""></image>
 				<image @tap="chooseImageOffice" v-if="identifyOffice" :src="identifyOffice" mode=""></image>
-				<image @tap="chooseImageBack" v-if="!identifyBack" src="../../../static/img/identity/reverse.png" mode=""></image>
+				<image @tap="chooseImageBack" v-if="!identifyBack" src="http://www.zhongjubang.com/api/upload/static/img/identity/reverse.png" mode=""></image>
 				<image @tap="chooseImageBack" v-if="identifyBack" :src="identifyBack" mode=""></image>
 				
 			</view>

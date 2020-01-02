@@ -7,7 +7,13 @@
 						<image :src="item.head" mode=""></image>
 					</view>
 					<view class="details">
-						<view class="name">{{item.nickName}} <image src="http://www.zhongjubang.com/api/upload/static/fans-logo.png" mode=""></image></view>
+						<view class="name">{{item.nickName}} 
+							<!-- <image src="http://www.zhongjubang.com/api/upload/static/fans-logo.png" mode=""></image> -->
+							<!-- <image v-if="userTitle == '设计达人'" src="../../static/img/title/design-people.png" mode=""></image>
+							<image v-if="userTitle == '人气网红'" src="../../static/img/title/red-hot.png" mode=""></image>
+							<image v-if="userTitle == '居圈达人'" src="../../static/img/title/circle-people.png" mode=""></image>
+							<image v-if="userTitle == '金牌业主'" src="../../static/img/title/gold-owner.png" mode=""></image> -->
+						</view>
 						<view class="follow">
 							
 							{{ '评论了'+ item.outUserName +'的' + (item.state == 0 ? '图片：': '视频：') + item.discuss | ellipsis}}

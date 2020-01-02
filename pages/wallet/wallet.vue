@@ -7,11 +7,11 @@
             <image class="cash" @click="togglePopup('center', 'tip')" src="http://www.zhongjubang.com/api/upload/static/img/wallet/cash.png" />
         </view>
         <view class="bottom">
-            <view class="bottom-content">
+            <view class="bottom-content" @tap="goBalanceDetails">
                 <image class="image" src="http://www.zhongjubang.com/api/upload/static/img/wallet/account-details.png" />
                 <text class="account-details">余额明细</text>
             </view>
-            <view class="bottom-content">
+            <view class="bottom-content" @tap="gobindBank">
                 <image class="bank-bind" src="http://www.zhongjubang.com/api/upload/static/img/wallet/bank-bind.png" />
                 <text class="account-details">银行卡绑定</text>
             </view>
@@ -19,7 +19,7 @@
                 <image class="ali-pay" src="http://www.zhongjubang.com/api/upload/static/img/wallet/ali-pay.png" />
                 <text class="account-details">支付宝绑定</text>
             </view>
-            <view class="bottom-content">
+            <view class="bottom-content" @tap="goIdentity">
                 <image class="ID-card" src="http://www.zhongjubang.com/api/upload/static/img/wallet/ID-card.png" />
                 <text class="account-details">身份认证</text>
             </view>
@@ -91,6 +91,21 @@ export default {
         })
     },
     methods: {
+		goIdentity(){
+			uni.navigateTo({
+				url: '/pages/identity/all-authentication/all-authentication'
+			})
+		},
+		gobindBank(){
+			uni.navigateTo({
+				url: '/pages/bindBank/bindBank'
+			})
+		},
+		goBalanceDetails(){
+			uni.navigateTo({
+				url: '/pages/balanceDetails/balanceDetails'
+			})
+		},
         //判断优惠券
         menu(){
             uni.showToast({
