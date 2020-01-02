@@ -60,14 +60,10 @@
 		<!-- 客户信息 -->
 		<view class="user-info">
 			<view class="user-state">
-<<<<<<< HEAD
 				<image v-if="userTitle == '设计达人'" src="../../static/img/title/design-people.png" mode=""></image>
 				<image v-if="userTitle == '人气网红'" src="../../static/img/title/red-hot.png" mode=""></image>
 				<image v-if="userTitle == '居圈达人'" src="../../static/img/title/circle-people.png" mode=""></image>
 				<image v-if="userTitle == '金牌业主'" src="../../static/img/title/gold-owner.png" mode=""></image>
-=======
-				<image v-if="designDarenState" src="http://www.zhongjubang.com/api/upload/static/img/user/user-state.png" mode=""></image>
->>>>>>> origin/master
 			</view>
 			<view @tap="editInfo" class="edit-info">
 				<image src="http://www.zhongjubang.com/api/upload/static/img/user/edit-info.png" mode=""></image>
@@ -470,11 +466,8 @@
 					self.nickName = res.data.data.nickName
 					self.remarks = res.data.data.remarks
 					self.sex = res.data.data.sex
-<<<<<<< HEAD
 					self.userTitle = res.data.data.title
-=======
 					self.designDarenState = res.data.data.designDarenState
->>>>>>> origin/master
 					if(res.data.data.sex==1){
 						self.show = true
 					}else if(res.data.data.sex==2){
