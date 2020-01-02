@@ -1,7 +1,9 @@
 <template>
 	<view class="release">
 		<view class="header">
-			<image src="http://www.zhongjubang.com/api/upload/static/topic/topic-back.png" mode="" @click="cancel"></image>
+			<view id="cancelImg" @click="cancel">
+				<image src="http://www.zhongjubang.com/api/upload/static/topic/topic-back.png" mode="" ></image>
+			</view>
 			<view class="release-image">发布图片</view>
 			<view class="next" :class="isshowScusse ? 'successRelease' : ''" @click.stop="release">发布</view>
 		</view>
@@ -121,6 +123,14 @@
 		onNavigationBarButtonTap(e) {
 			
 		},
+		onBackPress(e) {
+			console.log(e)
+			 if(e.from == 'backbutton'){
+				 
+			    return true;//阻止默认返回行为
+			    }
+		},
+		
 		methods: {
 			// 发布
 			release() {
@@ -137,20 +147,27 @@
 				if(this.isshowScusse) {
 					return;
 				}
-				this.isshowScusse = true;
+				
 				if(this.participationTopic == '参与话题') {
 					this.participationTopic = '';
 				}
 				let topicObj = {
-						topic: this.participationTopic,
-						topicId: this.participationTopicId
-					}
+					topic: this.participationTopic,
+					topicId: this.participationTopicId
+				}
 				let parmas = {
 					content: this.desc,
 					imgList: JSON.stringify(this.allImage),
 					title: JSON.stringify(topicObj)
 				}
-				
+				if(this.desc == '' &&　this.allImage.length == 0) {
+					uni.showToast({
+						title:'请分享经验或者上传图片',
+						icon: 'none'
+					})
+					return;
+				}
+				this.isshowScusse = true;
 				if(this.gcircleContentId) {
 					parmas.gcircleContentId = this.gcircleContentId;
 					uni.request({
@@ -219,12 +236,16 @@
 			},
 			// 返回键
 			cancel() {
-				if(this.previewType==''){
-					// uni.switchTab({
-					// 	url: '/pages/juquan/juquan'
-					// })
-					uni.navigateBack()
-				}
+				// if(this.previewType==''){
+				// 	// uni.switchTab({
+				// 	// 	url: '/pages/juquan/juquan'
+				// 	// })
+				// 	uni.navigateBack();
+				// 	this.$store.commit('clearData', []);    // 清空存在vuex中图片上的所有数据
+				// 	this.$store.commit('clearDrafts', []);  // 清空草稿箱到发布页的数据
+				// 	this.$store.commit('defaultPage', '');  // 清空页面类型
+				// 	this.$store.commit('updateType', {topic: '', topicId: ''});
+				// }
 				this.togglePopup('center', 'tip');
 				return true;
 			},
@@ -552,7 +573,7 @@
 		width: 15rpx;
 		height: 31rpx;
 		display: block;
-		/* margin: auto 0; */
+		margin: auto;
 	}
 	.next {
 		width: 106rpx;
@@ -734,5 +755,10 @@
 		font-weight: 500;
 		border-top: 1px solid #E2E2E2;
 		padding: 10px 0;
+	}
+	#cancelImg {
+		width: 50px;
+		height: 48px;
+		display: flex;
 	}
 </style>

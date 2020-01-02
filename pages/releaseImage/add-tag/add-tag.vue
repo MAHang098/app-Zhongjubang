@@ -141,9 +141,16 @@
 			    }
 			}); 
 			this.clientHeight = height;
-			
 		},
-		   
+		// 监听页面卸载
+		onUnload: function() {
+			this.$store.commit('clearData', []);
+			console.log(this.$store.state.uploadImage)
+		},
+		// 监听安卓物理返回键
+		onBackPress(e) {
+			this.$store.commit('clearData', []);
+		},
 		methods: {
 			// 返回
 			cancel() {
