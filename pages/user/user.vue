@@ -8,7 +8,7 @@
 		</view>
 		<!-- 侧边栏start -->
 		<uni-drawer :visible="showLeft" mode="left" @close="closeDrawer('left')">
-			<view class="drawer-content">
+			<scroll-view scroll-y="true"  class="drawer-content">
 				<view class="drawer-more">更多</view>
 				<view class="more-list" @tap="goPockets">
 					<image class="more-list-image" style="width:33rpx;height:36rpx;margin-right:30rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/pockets.png" mode=""></image>
@@ -48,7 +48,8 @@
 					<image style="width:38rpx;height:39rpx;margin-right:30rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/setting.png" mode=""></image>
 					<text class="my-pockets">设置</text>
 				</view>
-			</view>
+				
+			</scroll-view>
 		</uni-drawer>
 		<!-- 侧边栏end -->
 		<view class="right-wechat" @click.stop="goInformation">
@@ -379,7 +380,8 @@
 					// contentrefresh: '加载中',
 					contentnomore: '没有更多'
 				},
-				page: 1
+				page: 1,
+				height: ''
 				
 	        }
 		},
@@ -400,7 +402,6 @@
 			},
 		},
 		onLoad(options){
-			
 		},
         onShow(){
 			let token
@@ -603,6 +604,9 @@
 				if(index == 1) {
 					type = 2;
 				} 
+				if(index == 2){
+					this.initCollectPic()
+				}
 				this.init(type);
 			},
 			changeCollect(index) {
@@ -1197,6 +1201,9 @@
 				})
 			},
 			goRanked(){
+				uni.navigateTo({
+					url: '/pages/myRanked/myRanked'
+				})
 			},
 			goIdentify(){
 				uni.navigateTo({
@@ -1465,7 +1472,6 @@
 	}
 	.drawer-content{
 		float: left;
-
 	}
 	.drawer-more{
 		float: left;
@@ -1485,6 +1491,7 @@
 	}
 	.more-list:first-child{
 		margin-top: 72rpx;
+		margin-bottom: 90rpx;
 	}
 	.more-list-image{
 		float: left;
