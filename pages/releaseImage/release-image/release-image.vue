@@ -575,7 +575,7 @@
 		width: 15rpx;
 		height: 31rpx;
 		display: block;
-		margin: auto;
+		margin: auto 0;
 	}
 	.next {
 		width: 106rpx;

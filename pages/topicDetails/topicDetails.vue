@@ -35,14 +35,18 @@
 			<!-- 话题详情 start -->
 			<view class="topic-participation">
 				<view class="detial" v-for="(item, index) in topicList" :key="index">
-					<view class="user-list">
+					<view class="user-list" @tap="goOtheruser(item.userId)">
 						<view class="left">
 							<view class="avatar">
 								<image :src="item.head" mode=""></image>
 							</view>
 							<view class="user-details">
 								<view class="name">{{item.nickName}} 
-									<image src="http://www.zhongjubang.com/api/upload/static/fans-logo.png" mode=""></image>
+									<!-- <image src="http://www.zhongjubang.com/api/upload/static/fans-logo.png" mode=""></image> -->
+									<image v-if="item.title == '设计达人'" src="../../static/img/title/design-people.png" mode=""></image>
+									<image v-if="item.title == '人气网红'" src="../../static/img/title/red-hot.png" mode=""></image>
+									<image v-if="item.title == '居圈达人'" src="../../static/img/title/circle-people.png" mode=""></image>
+									<image v-if="item.title == '金牌业主'" src="../../static/img/title/gold-owner.png" mode=""></image>
 								</view>
 								<view class="time">{{item.createTime}}</view>
 							</view>
@@ -54,8 +58,8 @@
 					
 					<!-- 文字内容 start -->
 					<view class="describe">
-						<view v-if="(activeIndex == index && !isShowAllContent)" class="text">{{item.content }}</view>
-						<view v-else class="text">{{item.content | ellipsis}}</view>
+						<view v-if="(activeIndex == index && !isShowAllContent)" class="text" @click.stop="contentDetail(item.gcircleContentId)">{{item.content }}</view>
+						<view v-else class="text" @click.stop="contentDetail(item.gcircleContentId)">{{item.content | ellipsis}}</view>
 						<view class="anCotent" v-if="item.content.length > 60 " @click.stop="open(index)">{{activeIndex == index && brandFold  ? '收起' : '展开'}}<image :class="brandFold ? '' : 'in'" src="http://www.zhongjubang.com/api/upload/static/drafts/arrow-bottom.png" mode=""></image></view>
 					</view>
 					<!-- 文字内容 end -->
@@ -63,7 +67,7 @@
 					<!-- 图片/视频 start -->
 					<view class="imageList">
 						<!-- <image src="http://www.zhongjubang.com/api/upload/static/draftsT.png" mode="" v-show="show"></image> -->
-						<image :mode="item.imgList.length > 1 ? '' : '' " :class="item.imgList.length > 1 ? 'imageListIn' : 'imageListSingle' " :src="row.fileUrl" v-for="(row, indexI) in item.imgList" :key="indexI" @click.stop="previewImage(indexI, items.imgList)"></image>
+						<image :mode="item.imgList.length > 1 ? '' : '' " :class="item.imgList.length > 1 ? 'imageListIn' : 'imageListSingle' " :src="row.fileUrl" v-for="(row, indexI) in item.imgList" :key="indexI" @click.stop="previewImage(indexI, item.imgList)"></image>
 					</view>
 					<!-- <video id="myVideo" :src="item.videoUrl" v-show="!show" enable-danmu danmu-btn controls></video> -->
 					<!-- 图片/视频 end -->
@@ -72,7 +76,7 @@
 					<view class="operate">
 						<view class="share"><image src="http://www.zhongjubang.com/api/upload/static/img/user/share.png" mode=""></image></view>
 						<view class="number">
-							<view class="message" @click.stop="togglePopup('bottom', 'comments',item.userId, item.gcircleContentId, item.nickName,item.gCollectionDiscussNum)">
+							<view class="message" @click.stop="contentDetail(item.gcircleContentId)">
 								<image src="http://www.zhongjubang.com/api/upload/static/img/user/message.png" mode=""></image>
 								<text>{{item.gCollectionDiscussNum}}</text>
 							</view>
@@ -101,7 +105,7 @@
 			</view>
 		</view>
 		<!-- 评论弹窗 start -->
-		<uni-popup ref="comments" :type="popupType" :custom="true" class="comments-list">
+		<!-- <uni-popup ref="comments" :type="popupType" :custom="true" class="comments-list">
 			<view class="uni-comments">
 				<view class="uni-comments-title">
 					<view>全部评论({{gCollectionDiscussNum}})</view>
@@ -134,20 +138,19 @@
 						</view>
 					</view>
 				</view>
-				<!-- <view class="uni-share-btn" @click="cancel('share')">取消分享</view> -->
 				<view class="comments-botton">
 					<input @confirm="recordName" :placeholder="replySay" :value="inputValue" type="text" />
 				</view>
 			</view>
-		</uni-popup>
+		</uni-popup> -->
 		<!-- 评论 end -->
     </view>
 </template>
 
 <script>
-	import uniPopup from "@/components/uni-popup/uni-popup.vue"
+	// import uniPopup from "@/components/uni-popup/uni-popup.vue"
     export default {
-		components:{ uniPopup},
+		// components:{ uniPopup},
         data() {
 			return {
 				isFoucs: false,   // 是否关注当前话题
@@ -554,15 +557,6 @@
 					}
 				});
 			},
-			// 预览图片
-			previewImage(i, arr) {
-				this.$store.commit('saveImage', arr);
-				let e = i + 1;
-				uni.navigateTo({
-					url: '/pages/previewImage/previewImage?current=' + i + '&indexImg=' + e
-				})
-				// var current = e.target.dataset.src
-			},
 			comments(id) {
 				let _this = this;
 				let token = '';
@@ -629,14 +623,24 @@
 			// 返回上一级
 			cancel() {
 				uni.navigateBack()
-			}
+			},
+			// 跳转到用户详情
+			goOtheruser(id){
+				uni.navigateTo({
+					url: '/pages/otherUser/otherUser?userid=' + id
+				})
+			},
+			// 跳转到G圈详情
+			contentDetail(id) {
+				uni.navigateTo({
+					url: '/pages/releaseImage-details/releaseImage-details?id=' + id
+				})
+			},
         }
     }
 </script>
 
 <style>
-	@import '../../static/css/releaseImgList.css'; /*引入G圈列表样式*/
-	/*@import 'http://www.zhongjubang.com/api/upload/static/css/comments.css'; *//*引入评论弹窗的样式 */
 	@import '../../static/css/releaseImgList.css'; /*引入G圈列表样式*/
 	page, #topicDetail {
 		background: #F9F9F9;
