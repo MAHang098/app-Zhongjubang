@@ -1,5 +1,5 @@
 <template>
-    <view>
+    <view id="topicDetail">
 		<view class="header" v-bind:class="{ 'in': scrollFlag }">
 			<view class="header-left">
 				<view class="header-left-image" @click.stop="cancel">
@@ -624,11 +624,11 @@
 <style>
 	/*@import 'http://www.zhongjubang.com/api/upload/static/css/comments.css'; *//*引入评论弹窗的样式 */
 	@import '../../static/css/releaseImgList.css'; /*引入G圈列表样式*/
-	page {
+	page, #topicDetail {
 		background: #F9F9F9;
 		width: 100%;
 		height: 100%;
-		overflow: hidden;
+		overflow-x: hidden;
 		font-family:PingFang SC;
 	}
 	.in {
@@ -747,7 +747,7 @@
 		width: 100%;
 		background: #F6F6F6;
 		border-radius:32rpx 32rpx 0px 0px;
-		overflow: hidden;
+		overflow-x: hidden;
 	}
 	.detial {
 		position: static;
