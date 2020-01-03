@@ -30,7 +30,7 @@
 				<view class="designe-price">
 					<input class="designe-price-input" @input = "priceMinInput" type="text" placeholder="最低价" />
 					<view class="horizen"></view>
-					<input class="designe-price-input" @input = "priceMinInput" type="text" placeholder="最高价" />
+					<input class="designe-price-input" @input = "priceMaxInput" type="text" placeholder="最高价" />
 					<view class="carrer">元/m2</view>
 				</view>
 			</view>
@@ -128,6 +128,7 @@
 				imgList: [],
 				specialityStyle: '',
 				isUpload: true,
+				email: ''
 			}
 		},
 		methods: {

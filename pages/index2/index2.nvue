@@ -1,18 +1,19 @@
 <template>
 	<div>
-		<div class="release-video">
-		    <div class="back" @tap="back"><image style="width:15rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/back.png" mode="" /></div> 
-			<image class="fly" style="width:39rpx;height:37rpx;" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/share.png" mode="" />
-		</div>
+		
 		<div class="release-content" :style="{height:height+'px'}">
+			<div class="release-video">
+			    <div class="back" @tap="back"><image style="width:15rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/back.png" mode="" /></div> 
+				<image class="fly" style="width:39rpx;height:37rpx;" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/share.png" mode="" />
+			</div>
 			<!-- 获取视频 -->
 			<div class="pic" :style="{height:height+'px'}">
-				<video autoplay="autoplay" muted :style="{height:height+'px'}" :src="videoUrl" />
+				<video autoplay="autoplay" :style="{height:height+'px'}" :src="videoUrl" />
 			</div>
 			<!--  -->
 			<div class="user-info">
 				<div class="my-active-image10">
-					<image style="width:80rpx;height:80rpx;" :src="head" mode="" />
+					<image style="width:80rpx;height:80rpx;border-radius: 50%;" :src="head" mode="" />
 				</div>
 				<text class="my-active-nickName10">{{nickName}}</text>
 				<!-- <div class="edit-del" :style="{bottom:'0'}" @tap="ifAttention"> -->
@@ -28,104 +29,105 @@
 					<image @click="open()" style="width:26rpx;height:19rpx;margin-bottom: -1rpx;" :class="brandFold ? '' : 'in'" src="http://www.zhongjubang.com/api/upload/static/drafts/arrow-bottom.png" mode=""></image> -->
 				</div>
 			</div>
-		</div>
-		<div class="footer">
-			<!-- 点赞 -->
-			<div class="good">
-				<image style="width:31rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/good.png"  v-if="showUpImg2" @click="good" />
-				<image style="width:31rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png"  v-if="!showUpImg2" @click="good" />
-			</div>
-			<text class="text10">{{shortVideoLikeNum}}</text>
-			<!-- 收藏 -->
-			<div class="star">
-				<image style="width:31rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/star.png"  v-if="showUpImg" @click="collect" mode="" />
-				<image style="width:31rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/topic/collect-select.png"  v-if="!showUpImg" @click="collect" mode="" />
-			</div>
-			<text class="text11">{{shortVideoCollectionNum}}</text>
-			<!-- 评论 -->
-			<div @click="openBottomPopup" class="message">
-				<image style="width:31rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/message.png" mode="" />
-			</div>
-			<text class="text12">{{shortVideoDiscussNum}}</text>
-			<div class="topic" @click="openBottomPopup">
-				<image class="topic-image" style="width:24rpx;height:24rpx;" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/message.png" mode="" />
-				<text class="text20">说点什么吧...</text>
-			</div>
-			<!-- 评论弹窗 -->
-			 <div class="btn yellow  btn-margin">
-			      <!-- <text class="btn-txt">点击弹出底部面板</text> -->
-			    
-			    <wxc-popup popup-color="#fff"
-			               :show="isBottomShow"
-			               @wxcPopupOverlayClicked="popupOverlayBottomClick"
-			               pos="bottom"
-			               height="450"
-						   ref="close"
-						   >
-			      <div class="recommend" style="border: 1px solid red;">
-					<div class="recommend-content">
-						<text class="all-recommend">全部评论 ({{shortVideoDiscussNum}})</text>
-						<view class="close" @tap="popupOverlayBottomClick" ><image style="width: 25rpx;height: 25rpx;" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/close.png" mode="" /></view> 
-					</div>
-					<div class="vertify"></div>
-					
-					<scroll-view scroll-y="true" class="replay-detail" style="height: 340px !important;">
-						<div v-for="(row, index) in dataList" :key="index">
-							<div>
-								<div class="replay-detail-left">
-									<div class="my-active-image">
-										<image style="width: 68rpx;height: 68rpx;border-radius: 50%;" :src="row.head" mode="" />
-									</div>
-									<div class="my-active-nickName-data">
-										<text class="my-active-nickName">{{row.nick_name}}</text>
-										<text class="my-active-data">{{row.cratee_time}}</text>
-									</div>
-									
-								</div>
-								<div class="replay-detail-right">
-									
-									<div @click="commentsFabulous(index, row.id)">
-										<text class="my-active-like">{{row.likenum}}</text>
-										<image  style="width: 31rpx;height: 31rpx;" class="my-active-good" :class="(activeIndex == index && isCommentsFabulous) ||  row.state == '1'? 'select' : '' " :src="(activeIndex == index && isCommentsFabulous) ||  row.state == '1' ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
-									</div>
-								</div>	
-							</div>
-							<div class="recommend-text-text-text">
-								<text class="recommend-text-text" 
-									@touchstart.prevent="touchin(row.id)" 
-									@touchend.prevent="cleartime"
-									@click="testreply(row.id, row.nick_name)"
-								>
-									{{row.short_video_discuss}}
-								</text>
-							</div>
-							
-							
-							
-							<div v-if="row.zilist.length>0" class="recommend-text-reply">
-								<div v-for="(rows, indexs) in row.zilist" :key="indexs">
-									<text class="recommend-text-reply-user" 
-										v-if="rows.nick_name==row.nick_name" 
-										@tap="testreply(row.id, row.nick_name)"
-										@touchstart.prevent="touchin(rows.id)"
-										@touchend.prevent="cleartime"
-									>{{rows.nick_name}} : {{rows.short_video_discuss}}</text>
-									<text class="recommend-text-reply-user" v-else @tap="testreply(rows.id, rows.nick_name,rows.inUserId)">{{rows.nick_name}}回复{{row.nick_name}}:{{rows.short_video_discuss}}</text>
-								</div>
-								<text v-if="row.sonCount>2" class="recommend-text-reply-count" @tap="reply(row.id, row.nick_name)">共{{row.sonCount}}条回复></text>
-							</div>
-							<div class="horizon2"></div>
-						</div>
-						
-					</scroll-view>
-					
-					<div class="replay-input">
-						<input @confirm="recordName" class="say-something" :placeholder="replySay" :value="inputValue" />
-					</div>
+			<div class="footer">
+				<!-- 点赞 -->
+				<div class="good">
+					<image style="width:31rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/good.png"  v-if="showUpImg2" @click="good" />
+					<image style="width:31rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png"  v-if="!showUpImg2" @click="good" />
 				</div>
-			    </wxc-popup>
+				<text class="text10">{{shortVideoLikeNum}}</text>
+				<!-- 收藏 -->
+				<div class="star">
+					<image style="width:31rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/star.png"  v-if="showUpImg" @click="collect" mode="" />
+					<image style="width:31rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/topic/collect-select.png"  v-if="!showUpImg" @click="collect" mode="" />
+				</div>
+				<text class="text11">{{shortVideoCollectionNum}}</text>
+				<!-- 评论 -->
+				<div @click="openBottomPopup" class="message">
+					<image style="width:31rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/message.png" mode="" />
+				</div>
+				<text class="text12">{{shortVideoDiscussNum}}</text>
+				<div class="topic" @click="openBottomPopup">
+					<image class="topic-image" style="width:24rpx;height:24rpx;" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/message.png" mode="" />
+					<text class="text20">说点什么吧...</text>
+				</div>
+				<!-- 评论弹窗 -->
+				 <div class="btn yellow  btn-margin">
+				      <!-- <text class="btn-txt">点击弹出底部面板</text> -->
+				    
+				    <wxc-popup popup-color="#fff"
+				               :show="isBottomShow"
+				               @wxcPopupOverlayClicked="popupOverlayBottomClick"
+				               pos="bottom"
+				               height="450"
+							   ref="close"
+							   >
+				      <div class="recommend" style="border: 1px solid red;">
+						<div class="recommend-content">
+							<text class="all-recommend">全部评论 ({{shortVideoDiscussNum}})</text>
+							<view class="close" @tap="popupOverlayBottomClick" ><image style="width: 25rpx;height: 25rpx;" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/close.png" mode="" /></view> 
+						</div>
+						<div class="vertify"></div>
+						
+						<scroll-view scroll-y="true" class="replay-detail">
+							<div v-for="(row, index) in dataList" :key="index">
+								<div>
+									<div class="replay-detail-left">
+										<div class="my-active-image">
+											<image style="width: 68rpx;height: 68rpx;border-radius: 50%;" :src="row.head" mode="" />
+										</div>
+										<div class="my-active-nickName-data">
+											<text class="my-active-nickName">{{row.nick_name}}</text>
+											<text class="my-active-data">{{row.cratee_time}}</text>
+										</div>
+										
+									</div>
+									<div class="replay-detail-right">
+										
+										<div @click="commentsFabulous(index, row.id)">
+											<text class="my-active-like">{{row.likenum}}</text>
+											<image  style="width: 31rpx;height: 31rpx;" class="my-active-good" :class="(activeIndex == index && isCommentsFabulous) ||  row.state == '1'? 'select' : '' " :src="(activeIndex == index && isCommentsFabulous) ||  row.state == '1' ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
+										</div>
+									</div>	
+								</div>
+								<div class="recommend-text-text-text">
+									<text class="recommend-text-text" 
+										@touchstart.prevent="touchin(row.id)" 
+										@touchend.prevent="cleartime"
+										@click="testreply(row.id, row.nick_name)"
+									>
+										{{row.short_video_discuss}}
+									</text>
+								</div>
+								
+								
+								
+								<div v-if="row.zilist.length>0" class="recommend-text-reply">
+									<div v-for="(rows, indexs) in row.zilist" :key="indexs">
+										<text class="recommend-text-reply-user" 
+											v-if="rows.nick_name==row.nick_name" 
+											@tap="testreply(row.id, row.nick_name)"
+											@touchstart.prevent="touchin(rows.id)"
+											@touchend.prevent="cleartime"
+										>{{rows.nick_name}} : {{rows.short_video_discuss}}</text>
+										<text class="recommend-text-reply-user" v-else @tap="testreply(rows.id, rows.nick_name,rows.inUserId)">{{rows.nick_name}}回复{{row.nick_name}}:{{rows.short_video_discuss}}</text>
+									</div>
+									<text v-if="row.sonCount>2" class="recommend-text-reply-count" @tap="reply(row.id, row.nick_name)">共{{row.sonCount}}条回复></text>
+								</div>
+								<div class="horizon2"></div>
+							</div>
+							
+						</scroll-view>
+						
+						<div class="replay-input">
+							<input @confirm="recordName" class="say-something" :placeholder="replySay" :value="inputValue" />
+						</div>
+					</div>
+				    </wxc-popup>
+				</div>
 			</div>
 		</div>
+		
 	</div>
 </template>
 
@@ -135,6 +137,7 @@
 		components: { WxcPopup },
 		data() {
 			return {
+				width: '',
 				isBottomShow: false,
 				height: 400,
 				btn: false,
@@ -200,8 +203,10 @@
 			uni.getSystemInfo({
 			    success: function (res) {
 					console.log(res.screenHeight)
-					self.height = res.screenHeight - 116
+					// self.height = res.screenHeight - 116
+					self.height = res.screenHeight
 					console.log(self.height)
+					self.width = res.screenWidth
 				},
 			})
 			console.log(options.id)
@@ -747,6 +752,9 @@
 		width:750rpx;
 	    /* height:1106rpx; */
 	}
+	.pic{
+		width:750rpx;
+	}
 	/* 视频内容 */
 	.user-info{
 		position: absolute;
@@ -763,13 +771,7 @@
 		margin-bottom: 0rpx;
 		width:80rpx;
 		height:80rpx;
-		background-color:#ff0;
-		border-radius:20%;
-		/* background-clip:padding-box; */
-		border-top-left-radius: 20%; 
-		border-top-right-radius: 20%; 
-		border-bottom-right-radius: 20%; 
-		border-bottom-left-radius: 20%; 
+		border-radius: 50%;
 	}
 	.my-active-nickName10{
 		position: absolute;

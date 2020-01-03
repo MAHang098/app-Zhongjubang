@@ -36,7 +36,7 @@
 					<view class="title-designe">{{item.title}}</view>
 					<view class="">
 						<label>
-							<radio checked=“true” value="r1" color="#FFCC33" style="transform:scale(0.7)" @click.stop=""/>
+							<radio value="r1" :checked="item.isDefault" color="#FFCC33" style="transform:scale(0.7)" @click.stop="singleChecked(item.id)"/>
 						</label>
 					</view>
 				</view>
@@ -102,6 +102,37 @@
 			this.initInfo()
 		},
 		methods: {
+			// 选择标签
+			singleChecked(id){
+				let token
+				let self = this
+				uni.getStorage({
+				    key:"token",
+				    success: function (res) {
+				        token = res.data;
+				    }
+				})
+				const url = this.url
+				uni.request({
+				    url: url + "controller/usercontroller/updateappusertitle",
+				    data: {
+						appUserTitleId: id
+					},
+				    method: 'POST',
+				    header : {
+				        'content-type':'application/x-www-form-urlencoded', 
+				        'port': 'app',
+				        'token': token
+				    },
+				    success: function (res){
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+				    }
+				})
+			},
 			goBack(){
 				uni.navigateBack({
 					delta: 1

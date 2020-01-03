@@ -1,6 +1,6 @@
 <template>
     <view class="wrap">
-        <view class="bg">
+        <view @tap="chooseImage2" class="bg">
         	<image :src="cover" mode=""></image>
         </view>
 		<view class="left-menu" @click="showDrawer('left')">
@@ -490,6 +490,60 @@
 			this.init();
 		},
         methods: {
+			// 修改背景图片
+			getCover(){
+				uni.request({
+					url: this.url + "/controller/usercontroller/getappuser",
+					data: {},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': this.Tokens
+					},
+					success: function (res){
+					// console.log(res.data.code)
+					if(res.data.code==200){
+						
+						self.cover = res.data.data.cover
+						
+						}else{
+							console.log("请求异常")
+						}
+					}
+				});
+			},
+			// 上传背景图片
+			chooseImage2() {
+				let that = this;
+				uni.chooseImage({
+				    count: 9, //默认9
+				    // sizeType:'compressed', //可以指定是原图还是压缩图，默认二者都有
+				    sourceType: ['album'], //从相册选择
+				    success: function (res) {
+						
+						const tempFilePaths = res.tempFilePaths[0];
+						
+			            uni.uploadFile({
+			                url: that.url + '/upload', //仅为示例，非真实的接口地址
+			                filePath: tempFilePaths,
+			                name: 'file',
+			                formData: {
+			                    'user': 'test'
+			                },
+			                success: (uploadFileRes) => {
+			                    let data = JSON.parse(uploadFileRes.data);
+			                    console.log(data.data.fileUrl)
+			                    that.cover = data.data.fileUrl
+								that.getCover()
+			                }
+			            })
+						
+						
+						
+				    }
+				})
+			},
 			goDetailsPic(id){
 				uni.navigateTo({
 					url: '/pages/releaseImage-details/releaseImage-details?id=' + id
@@ -1198,6 +1252,9 @@
 				})
 			},
 			goRecommend(){
+				uni.navigateTo({
+					url: '/pages/my-evaluate/my-evaluate'
+				})
 			},
 			goAccount(){
 				uni.navigateTo({
