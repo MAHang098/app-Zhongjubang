@@ -20,7 +20,8 @@
         data() {
             return {
                src: '',
-			   imgList: []
+			   imgList: [],
+			   tempFilePaths: []
             }
         },
         methods: {
@@ -82,18 +83,17 @@
 							title: '请稍等',
 							mask: true
 						})
-						const tempFilePaths = res.tempFilePaths;
-						for(let i in tempFilePaths) {
+						that.tempFilePaths = res.tempFilePaths;
+						for(let i in that.tempFilePaths) {
 							// this.imgList.push(tempFilePaths[i]);
 							uni.uploadFile({
 								url: that.url + '/upload', //仅为示例，非真实的接口地址
-								filePath: tempFilePaths[i],
+								filePath: that.tempFilePaths[i],
 								name: 'file',
 								formData: {
 								},
 								success: (uploadFileRes) => {
 									uni.hideLoading();
-									
 									let data = JSON.parse(uploadFileRes.data);
 									let obj = {
 										fileName: data.data.fileName,
@@ -101,11 +101,14 @@
 										testArr: []
 									}
 									that.imgList.push(obj)
-									if(that.imgList.length == tempFilePaths.length) {
+									// console.log(that.imgList , that.tempFilePaths)
+									if(that.imgList.length == that.tempFilePaths.length) {
 										that.$store.commit('saveImage', that.imgList)
 										uni.navigateTo({
 											url: '/pages/releaseImage/add-tag/add-tag'
-										})
+										});
+										that.imgList = [];
+										that.tempFilePaths = [];
 									}
 									
 								}
@@ -116,7 +119,19 @@
 				    }
 				});
 			}
-        }
+        },
+		// 监听页面卸载
+		onUnload: function() {
+			let _this = this;
+			_this.imgList = [];
+			_this.tempFilePaths = [];
+		},
+		// 监听安卓物理返回键
+		onBackPress(e) {
+			let _this = this;
+			_this.imgList = [];
+			_this.tempFilePaths = [];
+		},
     }
 </script>
 

@@ -181,7 +181,6 @@
 					pageIndex: 1,
 					gcircleContentId: this.detailId
 				}
-				
 				uni.request({
 				    url: this.url + 'controller/usercontroller/getgcdiscusslist',
 				    method: 'post',

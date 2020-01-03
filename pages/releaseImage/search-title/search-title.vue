@@ -16,9 +16,11 @@
 				<view class="nav-left-item" :class="'-1'==categoryActive?'active':''" @click.stop="allTopic('-1')">
 					<text class="left-name" :class="'-1'==categoryActive?'in':''">全部话题</text>
 				</view>
+				<view class="nav-left-item" :class="'-2'==categoryActive?'active':''" @click.stop="allTopic('-2')">
+					<text class="left-name" :class="'-2'==categoryActive?'in':''">关注</text>
+				</view>
 				<view class="nav-left-item" @click="categoryClickMain(item.id, index)"  :key="index" :class="index==categoryActive?'active':''"
 				    v-for="(item,index) in categoryList">
-					
 					<text class="left-name" :class="index==categoryActive?'in':''">{{item.talkThemeType}}</text>
 				</view>
 			</scroll-view>
@@ -96,9 +98,28 @@
 					})
 				});
 			},
+			// 关注话题列表
+			followTopic() {
+				uni.request({
+					url: this.url + 'controller/contentcontroller/gettalkthemeuserlistbyuserid',
+					method: 'post',
+					header : {'content-type':'application/x-www-form-urlencoded', token: this.token, 'port': 'app'},
+					data:  {pageIndex: 1, pageSize: 1000},
+					success: ((res) => {
+						if(res.data.code == 200) {
+							this.subCategoryList = res.data.data.dataList;
+						}
+						
+					})
+				});
+			},
 			// 点击所有话题
 			allTopic(index) {
 				this.categoryActive = index;
+				if(index == '-2') {
+					this.followTopic();
+					return;
+				}
 				this.init();
 			},
 			// 搜索话题

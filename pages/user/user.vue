@@ -60,7 +60,7 @@
 		<!-- 客户信息 -->
 		<view class="user-info">
 			<view class="user-state">
-				<image v-if="designDarenState" src="http://www.zhongjubang.com/api/upload/static/img/user/user-state.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/img/user/user-state.png" mode=""></image>
 			</view>
 			<view @tap="editInfo" class="edit-info">
 				<image src="http://www.zhongjubang.com/api/upload/static/img/user/edit-info.png" mode=""></image>
@@ -77,7 +77,7 @@
 			</view>
 			
 			<view class="user-intro">
-				{{remarks | ellipsis2}}
+				{{remarks}}
 			</view>
 			<view class="user-recommend">
 				<text @tap="goAddfans(0)">粉丝{{fannum}}</text><text @tap="goAddfans(1)">关注{{attentionnum}}</text><text>获赞{{likenum}}</text>
@@ -111,7 +111,7 @@
 			<!-- <view class="more">-上拉查看更多-</view> -->
 		</view>
 		<!-- G圈列表 start -->
-		<view  class="relese-image" v-if="current==0">
+		<view v-if="current==0" class="relese-image"  >
 			<view v-for="(items, index) in releaseImgList" :key="index">
 				<view class="relese-image_detail" >
 					<!-- 用户信息 start -->
@@ -244,7 +244,7 @@
 				<!-- 收藏图片内容start -->
 				<!-- <view class="video-wrap"> -->
 					<view class="category-content">
-						<view class="category-content-box"  v-if="current2==0" v-for="(item, index) in collectPic" :key="index" @tap="goDetailsPic(item.id)">
+						<view class="category-content-box"  v-if="current2==0" v-for="(item, index) in collectPic" :key="index" @tap="goDetailsPic(item.gcircleContentId)">
 							<image class="category-content-image" style="width:345upx;height:345upx" :src="item.imgList[0].fileUrl" />
 							<view class="category-content-des">{{item.content | ellipsis2}}</view>
 							<image class="category-content-price" style="width:52upx;height:55upx;border-radius: 50%;" :src="item.head" />
@@ -372,7 +372,6 @@
 				commentItem: [],
 				deleteType: 0,
 				cover: '',
-				designDarenState: '',
 				reload: false,
 				statusMore: 'more',
 				contentText: {
@@ -461,7 +460,6 @@
 					self.nickName = res.data.data.nickName
 					self.remarks = res.data.data.remarks
 					self.sex = res.data.data.sex
-					self.designDarenState = res.data.data.designDarenState
 					if(res.data.data.sex==1){
 						self.show = true
 					}else if(res.data.data.sex==2){
@@ -605,9 +603,6 @@
 				if(index == 1) {
 					type = 2;
 				} 
-				if(index==2){
-					this.changeCollect(0)
-				}
 				this.init(type);
 			},
 			changeCollect(index) {
@@ -1195,10 +1190,6 @@
 				})
 			},
 			goRecommend(){
-				uni.navigateTo({
-					url: '/pages/my-evaluate/my-evaluate'
-				})
-				
 			},
 			goAccount(){
 				uni.navigateTo({
@@ -1206,9 +1197,6 @@
 				})
 			},
 			goRanked(){
-				uni.navigateTo({
-					url: '/pages/myRanked/myRanked'
-				})
 			},
 			goIdentify(){
 				uni.navigateTo({
@@ -1702,7 +1690,7 @@
 	.category-content-box{
 		position: relative;
 		float: left;
-		margin-left: 20upx;
+		/* margin-left: 16upx; */
 		margin-top: 18upx;
 		position: relative;
 		width:345upx;
@@ -1713,7 +1701,7 @@
 		border-radius:6upx;
 	}
 	.category-content-box:nth-child(even){
-		margin-left: 16upx;
+		margin-left: 8upx;
 	}
 	.category-content-box:nth-last-child(1){
 		margin-bottom: 220upx;

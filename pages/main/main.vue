@@ -4,9 +4,7 @@
 		<view class="banner">
 			<!-- <text @tap="goText" class="address">广州</text> -->
 			<view class="uni-list-cell-db">
-				<picker @change="bindPickerChange" :value="index" :range="array">
-					<view class="address">{{array[index]}}</view>
-				</picker>
+					<view class="address">全国</view>
 			</view>
 			<image class="arrow" style="width:23upx;height:19upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/arrow.png" mode="" />
 			<image class="info" @tap="goInformation" style="width:44upx;height:44upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/info.png" mode="" />
@@ -44,7 +42,7 @@
 					<swiper-item v-for="(item, index) in videoList" :key="index" :class="cardvvideo == index ? 'cur' : ''">
 						<view class="swiper-item">
 							<image @tap="goIndex2(item.shortVideoId)" :src="item.videoUrl" mode="aspectFill"></image>
-							<image v-if="cardvvideo == index" class="video-image" style="width:94upx;height:94upx;z-index:400;" src="http://www.zhongjubang.com/api/upload/static/img/main/start.png" mode="aspectFill"></image>
+							<image @tap="goIndex2(item.shortVideoId)" v-if="cardvvideo == index" class="video-image" style="width:94upx;height:94upx;z-index:400;" src="http://www.zhongjubang.com/api/upload/static/img/main/start.png" mode="aspectFill"></image>
 						</view>
 					</swiper-item>
 				</swiper>
@@ -97,7 +95,7 @@
 					<swiper-item v-for="(item, index) in gootList" :key="index" :class="cardCur == index ? 'cur' : ''">
 						<view class="swiper-item-immeuble">
 							
-							<view v-for="(item, index) in gootList[index]" @tap="goShop(item.shop_id)" :key="index">
+							<view v-for="(item, index) in gootList[index]" @tap="goShop(item.id)" :key="index">
 								<view class="immeuble">
 									<image class="" style="width:179upx;height:160upx;" :src="item.top_img_list[0]" mode="" />
 									<view class="immeuble-desc">{{item.goods_name}}</view>
@@ -142,8 +140,6 @@
 		},
 		data() {
 			return {
-				array: ['广州', '佛山'],
-				index: 0,
 				dotStyle: {
 					backgroundColor: '#CCCCCC',
 					border: '1px #CCCCCC solid',

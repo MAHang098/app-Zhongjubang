@@ -4,15 +4,15 @@
 		    <div class="back" @tap="back"><image style="width:15rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/back.png" mode="" /></div> 
 			<image class="fly" style="width:39rpx;height:37rpx;" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/share.png" mode="" />
 		</div>
-		<div class="release-content">
+		<div class="release-content" :style="{height:height+'px'}">
 			<!-- 获取视频 -->
-			<div class="pic">
-				<video autoplay="autoplay" style="width:750rpx;height:1106rpx;" :src="videoUrl" />
+			<div class="pic" :style="{height:height+'px'}">
+				<video autoplay="autoplay" muted :style="{height:height+'px'}" :src="videoUrl" />
 			</div>
 			<!--  -->
 			<div class="user-info">
 				<div class="my-active-image10">
-					<image style="width:80rpx;height:80rpx;border-radius: 50%;" :src="head" mode="" />
+					<image style="width:80rpx;height:80rpx;" :src="head" mode="" />
 				</div>
 				<text class="my-active-nickName10">{{nickName}}</text>
 				<!-- <div class="edit-del" :style="{bottom:'0'}" @tap="ifAttention"> -->
@@ -69,7 +69,7 @@
 					</div>
 					<div class="vertify"></div>
 					
-					<scroll-view scroll-y="true" class="replay-detail">
+					<scroll-view scroll-y="true" class="replay-detail" style="height: 340px !important;">
 						<div v-for="(row, index) in dataList" :key="index">
 							<div>
 								<div class="replay-detail-left">
@@ -196,6 +196,14 @@
 			}
 		},
 		onLoad(options){
+			let self = this
+			uni.getSystemInfo({
+			    success: function (res) {
+					console.log(res.screenHeight)
+					self.height = res.screenHeight - 116
+					console.log(self.height)
+				},
+			})
 			console.log(options.id)
 			this.id = options.id
 		},
@@ -282,7 +290,7 @@
 				clearInterval(this.Loop); //再次清空定时器，防止重复注册定时器
 				this.Loop = setTimeout(function() {
 					this.actionSheetTap(id)
-					this.copyUrl(content)
+					// this.copyUrl(content)
 				}.bind(this), 1000);
 			},
 			cleartime(id) {
@@ -712,7 +720,7 @@
 	.release-video{
 		position:  relative;
 		width:750rpx;
-		height:128rpx;
+		height:64px;
 		background-color: #000000;
 	}
 	.back{
@@ -729,20 +737,15 @@
 		width: 39rpx;
 		height: 37rpx;
 	}
-	.bgg{
-		position: absolute;
-		width: 750rpx;
-		height: 1150rpx;
-	}
 	.release-content{
 		position: relative;
 		width:750rpx;
-	    height:1106rpx;
+	    /* height:1106rpx; */
 	}
 	.pic{
 		position: absolute;
 		width:750rpx;
-	    height:1106rpx;
+	    /* height:1106rpx; */
 	}
 	/* 视频内容 */
 	.user-info{
@@ -761,8 +764,12 @@
 		width:80rpx;
 		height:80rpx;
 		background-color:#ff0;
-		border-radius:50%;
-		overflow:hidden;
+		border-radius:20%;
+		/* background-clip:padding-box; */
+		border-top-left-radius: 20%; 
+		border-top-right-radius: 20%; 
+		border-bottom-right-radius: 20%; 
+		border-bottom-left-radius: 20%; 
 	}
 	.my-active-nickName10{
 		position: absolute;
@@ -822,7 +829,7 @@
 	.footer{
 		position: relative;
 		width:750rpx;
-		height:104rpx;
+		height:52px;
 		background-color:rgba(0,0,0,1);
 	}
 	.good{
