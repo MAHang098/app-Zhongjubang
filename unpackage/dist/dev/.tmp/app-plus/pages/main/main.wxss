@@ -1,0 +1,338 @@
+
+.banner{
+	position: relative;
+	width: 750rpx;
+	height: 466rpx;
+	background-color: #fff;
+}
+.address{
+	position: absolute;
+	z-index: 100;
+	top: 63rpx;
+	left: 30rpx;
+	font-size:24rpx;
+	font-family:PingFang SC;
+	color:rgba(255,255,255,1);
+}
+.arrow{
+	position: absolute;
+	z-index: 100;
+	top: 68rpx;
+	left: 79rpx;
+}
+.info{
+	position: absolute;
+	z-index: 100;
+	top: 59rpx;
+	left: 678rpx;
+}
+.search-image{
+	position: absolute;
+	z-index: 1000;
+	top: 334rpx;
+	left: 93rpx;
+}
+.search-white{
+	position: absolute;
+	z-index: 1000;
+	top: 364rpx;
+}
+.search{
+	position: absolute;
+	box-sizing: border-box;
+	z-index: 100;
+	top: 316rpx;
+	left: 63rpx;
+	width: 624rpx;
+	height: 64rpx;
+	line-height: 64rpx;
+	background:rgba(246,246,246,1);
+	border-radius:36rpx;
+	padding-left: 60rpx;
+	font-size: 26rpx;
+	font-family:PingFang SC;
+	color:rgba(153,153,153,1);
+}
+.swiper-box {
+	height: 466rpx;
+	z-index: -1;
+}
+.swiper-item {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	height: 100%;
+	background: #eee;
+	color: #fff;
+}
+.video-image{
+	position: absolute;
+	/* margin-top: -60upx; */
+	top: 322rpx;
+	left: 152rpx;
+}
+.swiper-item image {
+	width: 100%;
+	height: 100%;
+}
+.video-nav{
+	position: relative;
+	text-align: center;
+	/* margin-bottom: -26upx; */
+}
+.video-nav-hot{
+	position: absolute;
+	top: 8rpx;
+	left: 30rpx;
+	font-size:34rpx;
+	font-family:PingFang SC;
+	font-weight:600;
+	color:rgba(51,51,51,1);
+}
+.video-nav-eye{
+	top: 10rpx;
+	font-size:24rpx;
+	font-family:PingFang SC;
+	color:rgba(102,102,102,1);
+}
+.video-nav-more{
+	position: absolute;
+	top: 20rpx;
+	left: 656rpx;
+	font-size:24rpx;
+	font-family:PingFang SC;
+	color:rgba(102,102,102,1);
+}
+.video-nav-more-image{
+	position: absolute;
+	top: 26rpx;
+	left: 710rpx;
+}
+/* 卡片轮播 */
+.swiper-item{
+	background-color: #fff;
+	position: relative;
+}
+/* .swiper-item image,
+.swiper-item video {
+	width: 100%;
+	display: block;
+	height: 100%;
+	margin: 0;
+	pointer-events: none;
+} */
+.card-swiper {
+	height: 646rpx !important;
+}
+.card-swiper swiper-item {
+	width: 368rpx !important;
+	left: 180rpx;
+	box-sizing: border-box;
+	padding: 25rpx 0rpx 70rpx;
+	overflow: initial;
+}
+.card-swiper swiper-item .swiper-item {
+	display: block;
+	-webkit-transform: scale(0.9,0.75);
+	        transform: scale(0.9,0.75);
+	
+	-webkit-transition: all 0.2s ease-in 0s;
+	
+	transition: all 0.2s ease-in 0s;
+	overflow: hidden;
+	width:368rpx;
+	height:443rpx;
+	background:rgba(204,204,204,1);
+	border:1px solid rgba(226,226,226,1);
+	box-shadow:1px 2px 13rpx 0px rgba(38,38,38,0.31);
+	border-radius:50rpx;
+}
+.card-swiper swiper-item.cur .swiper-item {
+	-webkit-transform: none;
+	        transform: none;
+	-webkit-transition: all 0.2s ease-in 0s;
+	transition: all 0.2s ease-in 0s;
+}
+/* 众话题 */
+.zhong{
+	margin-top: -130rpx;
+	margin-bottom: 16px;
+}
+.zhong-nav{
+	position: relative;
+	text-align: center;
+}
+.zhong-content{
+	float: left;
+	margin-top: 10px;
+	margin-bottom: 30rpx;
+}
+.zhong-content-image{
+	float: left;
+	margin-left: 26rpx;
+	margin-bottom: 6px;
+	width:346rpx;
+	height:218rpx;
+	background:rgba(0,0,0,1);
+	border-radius:14rpx;
+	text-align: center;
+	font-size:30rpx;
+	font-family:PingFang SC;
+	color:rgba(255,255,255,1);
+	line-height: 218rpx;
+}
+.zhong-content-image:nth-child(even){
+	margin-left: 16rpx;
+}
+.zhong-content-text{
+	z-index: 10;
+}
+.zhong-content-tyt{
+	position: absolute;
+	border-radius:14rpx;
+	width:346rpx;
+	height:218rpx;
+	background: rgba(0,0,0,.2);
+}
+/* 精选好物 */
+.quality{
+	margin-bottom: 10px;
+}
+.card-swiper-immeuble{
+	margin-top: -10px;
+}
+.card-swiper-immeuble swiper-item {
+	width: 626rpx !important;
+	left: 26rpx;
+	box-sizing: border-box;
+	padding: 40rpx 0rpx 70rpx;
+	overflow: initial;
+}
+.card-swiper-immeuble swiper-item .swiper-item-immeuble {
+	height: 322rpx !important;
+	border:1px solid rgba(226,226,226,1);
+	box-shadow:-2rpx 1rpx 16rpx 0px rgba(0, 0, 0, 0.08);
+	border-radius:20rpx;
+	width: 100%;
+	display: block;
+	height: 100%;
+	border-radius: 10rpx;
+	-webkit-transform: scale(0.9);
+	        transform: scale(0.9);
+	-webkit-transition: all 0.2s ease-in 0s;
+	transition: all 0.2s ease-in 0s;
+	overflow: hidden;
+}
+.card-swiper-immeuble swiper-item.cur .swiper-item-immeuble {
+	-webkit-transform: none;
+	        transform: none;
+	-webkit-transition: all 0.2s ease-in 0s;
+	transition: all 0.2s ease-in 0s;
+}
+.swiper-item-immeuble{
+	float: left;
+	box-sizing: border-box;
+	padding: 12rpx 22rpx;
+	padding-top: 30rpx;
+}
+.immeuble{
+	float: left;
+	margin-left: 12rpx;
+	width: 179rpx;
+}
+.immeuble-desc{
+	margin: 5px 0;
+	font-size:24rpx;
+	line-height: 24rpx !important;
+	font-family:PingFang SC;
+	color:rgba(51,51,51,1);
+	line-height: 30rpx;
+}
+.immeuble-price{
+	font-size:24rpx;
+	font-family:PingFang SC;
+	font-weight:bold;
+	color:rgba(244,51,72,1);
+}
+.card-swiper-immeuble {
+	height: 392rpx !important;
+	margin-right: 26rpx;
+}
+/* 居圈 */
+.juquan{
+	margin-bottom: 60px;
+}
+.juquan-nav{
+	position: relative;
+	text-align: center;
+	margin-bottom: 22rpx;
+}
+.juquan-content{
+	float: left;
+	margin-top:10px;
+	margin-left: 11px;
+}
+.juquan-content:nth-last-child(1){
+	margin-bottom: 60px;
+}
+.juquan-content-model{
+	position: relative;
+	width: 347rpx;
+	height: 508rpx;
+	background:rgba(255,255,255,1);
+	box-shadow:1px 0px 7rpx 0px rgba(136,136,136,0.4);
+	border-radius:8rpx;
+}
+.juquan-content-model-image{
+	position: absolute;
+}
+.juquan-content-model-des{
+	position: absolute;
+	left: 20rpx;
+	top: 363rpx;
+	width: 298rpx;
+	height: 58rpx;
+	font-size:24rpx;
+	font-family:PingFang SC;
+	font-weight:bold;
+	color:rgba(51,51,51,1);
+	line-height:32rpx;
+}
+.juquan-content-info-avator{
+	position: absolute;
+	left: 20rpx;
+	top: 434rpx;
+}
+.juquan-content-info-nickname{
+	position: absolute;
+	left: 86rpx;
+	top: 446rpx;
+	font-size:22rpx;
+	font-family:PingFang SC;
+	font-weight:bold;
+	color:rgba(102,102,102,1);
+}
+.footer-more{
+	height: 120rpx;
+	line-height: 120rpx;
+	padding-bottom: 100rpx;
+	box-sizing: border-box;
+	bottom: 134px;
+	text-align: center;
+	font-size:24rpx;
+	font-family:PingFang SC;
+	color:rgba(204,204,204,1);
+}
+/* 流海屏 */
+.titleNview-placing {
+	height: var(--status-bar-height);
+	padding-top: 44px;
+	box-sizing: content-box;
+}
+

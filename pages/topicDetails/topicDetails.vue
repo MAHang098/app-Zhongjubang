@@ -41,7 +41,9 @@
 								<image :src="item.head" mode=""></image>
 							</view>
 							<view class="user-details">
-								<view class="name">{{item.nickName}} <image src="http://www.zhongjubang.com/api/upload/static/fans-logo.png" mode=""></image></view>
+								<view class="name">{{item.nickName}} 
+									<image src="http://www.zhongjubang.com/api/upload/static/fans-logo.png" mode=""></image>
+								</view>
 								<view class="time">{{item.createTime}}</view>
 							</view>
 						</view>
