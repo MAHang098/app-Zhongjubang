@@ -478,3 +478,4 @@
 		border-left: 1px solid #E2E2E2;
 	}
 
+</style>

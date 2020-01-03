@@ -93,7 +93,7 @@
 								formData: {
 								},
 								success: (uploadFileRes) => {
-									uni.hideLoading();
+									
 									let data = JSON.parse(uploadFileRes.data);
 									let obj = {
 										fileName: data.data.fileName,
@@ -101,8 +101,9 @@
 										testArr: []
 									}
 									that.imgList.push(obj)
-									// console.log(that.imgList , that.tempFilePaths)
+									console.log(that.imgList.length , that.tempFilePaths.length)
 									if(that.imgList.length == that.tempFilePaths.length) {
+										uni.hideLoading();
 										that.$store.commit('saveImage', that.imgList)
 										uni.navigateTo({
 											url: '/pages/releaseImage/add-tag/add-tag'

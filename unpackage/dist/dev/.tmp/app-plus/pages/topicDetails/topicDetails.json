@@ -1,6 +1,4 @@
 {
   "titleNView": false,
-  "usingComponents": {
-    "uni-popup": "/components/uni-popup/uni-popup"
-  }
+  "usingComponents": {}
 }

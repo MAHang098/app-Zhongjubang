@@ -60,8 +60,11 @@
 		<!-- 客户信息 -->
 		<view class="user-info">
 			<view class="user-state">
-				<image src="http://www.zhongjubang.com/api/upload/static/img/user/user-state.png" mode=""></image>
-			</view>
+				<image v-if="userTitle == '设计达人'" src="../../static/img/title/design-people.png" mode=""></image>
+				<image v-if="userTitle == '人气网红'" src="../../static/img/title/red-hot.png" mode=""></image>
+				<image v-if="userTitle == '居圈达人'" src="../../static/img/title/circle-people.png" mode=""></image>
+				<image v-if="userTitle == '金牌业主'" src="../../static/img/title/gold-owner.png" mode=""></image>
+			 </view>
 			<view @tap="editInfo" class="edit-info">
 				<image src="http://www.zhongjubang.com/api/upload/static/img/user/edit-info.png" mode=""></image>
 			</view>
@@ -156,7 +159,7 @@
 					<!-- 图片/视频 end -->
 					
 					<!-- 话题 start -->
-					<view class="release-image_topic"  v-show="show" v-if="items.title.topic != '' " >
+					<view class="release-image_topic"  v-if="items.title.topic != '' " >
 						<view class="left" @click.stop="goTopic(items.title)">
 							<image src="http://www.zhongjubang.com/api/upload/static/topic/topic.png" mode=""></image>
 							<view>{{items.title.topic}}</view>
@@ -906,7 +909,7 @@
 			},
 			// 点击话题到话题详情
 			goTopic(obj) {
-				let id = JSON.parse(obj).topicId;
+				let id = obj.topicId;
 				uni.navigateTo({
 					url: '/pages/topicDetails/topicDetails?id=' + id
 				})

@@ -52,13 +52,16 @@
 						<text>{{item.shopName}}</text>
 						<image src="http://www.zhongjubang.com/api/upload/static/topic/arrow.png" mode="" class="arrow-right"></image>
 					</view>
-					<view class="order-massage">
-						{{item.state == 1 ? '已付款': item.state == 2 ? '待收货' : item.state == 3 ? '已完成' : item.state == 4 ? '评价' : item.state == 5 ? '售后' : item.state == 6 ? '其他' : item.state == 7 ? '取消订单' : '待付款'}}
+					<view class="order-massage" v-if="currentType != 4">
+						{{item.state == 0 ? '待付款' : item.state == 2 ? '待收货' : item.state == '3' ? '已完成' : item.state == 4 ? '评价' : item.state == 7 ? '取消订单' : '退款成功' }}
+					</view>
+					<view class="order-massage" v-else>
+						{{item.state == 0 ? '处理中' : '退款成功'}}
 					</view>
 				</view>
 				
 				<view class="product-list">
-					<view class="product-detail" v-for="(row, i) in item.list" :key="i" @click.stop="pDetail(row.orderNum)">
+					<view class="product-detail" v-for="(row, i) in item.list" :key="i" @click.stop="pDetail(row.orderNum, row.appUserOrderId)">
 						<view class="product-image">
 							<image :src="row.topImgList[0]" mode=""></image>
 						</view>
@@ -70,7 +73,7 @@
 					</view>
 					<view class="total">共{{item.num}}件商品，合计： <text class="total-price">￥{{item.price}}</text></view>
 				</view>
-				<view class="bottom">
+				<view class="bottom" v-if="currentType != 4">
 					<view v-if="item.state == 0" @click.stop="cancelOrder(item.orderNum)">取消订单</view>
 					<view v-if="item.state == 2 ||  item.state == 1  || item.state == 4 || item.state == 3">查看物流</view>
 					<view v-if="item.state == 2 ||  item.state == 1  || item.state == 4 || item.state == 3" @click.stop="pDetail(item.orderNum)">申请退换</view>
@@ -82,7 +85,12 @@
 						{{item.state == 2 ? '待收货' : item.state == 3 ? '已完成' : item.state == 4 ? '评价' : item.state == 5 ? '售后' : item.state == 6 ? '其他' : item.state == 7 ? '取消订单' : '待付款'}}
 					</view> -->
 				</view>
-				
+				<view class="bottom" v-else>
+					
+					<view class="active" @click.stop="jump(item.state, item.orderNum)">
+						{{item.state == 0 ? '退款中' : '退款成功'  }}
+					</view>
+				</view>
 			</view>
 			<!-- 订单详情 end -->
 		</view>
@@ -132,7 +140,7 @@
 			}
 		},
 		methods: {
-			
+			// 所有订单
 			init(state) {
 				uni.request({
 					url: this.url + "controller/shopcontroller/getappuserorderlist",
@@ -197,9 +205,29 @@
 				}
 				// 售后
 				if(n == 4) {
-					this.init('5')
+					this.saleOrder();
 				}
 				
+			},
+			// 售后列表
+			saleOrder() {
+				uni.request({
+					url: this.url + "controller/shopcontroller/getappuserorderaftermarketlist",
+					method: 'POST',
+					data: {pageIndex: 1, pageSize: 50},
+					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
+					success: ((res) => {
+						if(res.data.code==200){
+							let data = res.data.data.dataList;
+							this.orderList = data;
+						}
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+					})
+				})
 			},
 			// 弹出层弹出的方式
 			togglePopup(type, open) {
@@ -241,7 +269,7 @@
 									title: '订单取消成功'
 								})
 								this.popupShow = false;
-								this.init();
+								this.init('');
 								this.afterSale()
 							}
 							if(res.data.code == 421) {
@@ -276,7 +304,13 @@
 				})
 			},
 			// 跳转到订单详情
-			pDetail(num) {
+			pDetail(num, id) {
+				if(this.currentType == 4) {
+					uni.navigateTo({
+						url:'/pages/shopping-mall/replacement-applyDetail/replacement-applyDetail?id='+id
+					})
+					return;
+				}
 				uni.navigateTo({
 					url:'/pages/shopping-mall/order-detail/order-detail?orderNum='+num
 				})

@@ -18,10 +18,19 @@
 					<image src="http://www.zhongjubang.com/api/upload/static/img/release.png" mode=""></image>
 					<text>点击添加{{searchInput}}</text>
 				</view>
+				<view class="product-list">
+					<view class="list" v-for="(item, index) in productItem" :key="index" @click.stop="goBack('product', item.goodsName, item.goodsPrice, item.topImgList[0], item.goodsId)">
+						<view><image :src="item.topImgList[0]" mode=""></image></view>
+						<view class="detail">
+							<view>{{item.goodsName}}</view>
+							<view class="price">{{item.goodsPrice}}</view>
+						</view>
+					</view>
+				</view>
 			</view>
 			<!-- add tag end -->
 			
-			<view class="product">
+			<view class="product" >
 				<view class="product-tag">
 					<view v-for="(item, index) in tabType" :class="index == current ? 'active' : '' " @click="changeProduct(index)" :key="index">
 						{{item}}
@@ -43,9 +52,7 @@
 							<view class="price">{{item.goodsPrice}}</view>
 						</view>
 					</view>
-					
 				</view>
-				
 			</view>
 		</view>
 		<!-- 列表 end -->
@@ -89,23 +96,24 @@
 		},
 		onShow() {
 			this.getProduct();
+			this.collects();
 		},
 		methods: {
 			// 获取添标商品
 			getProduct() {
 				let _this = this;
 				let data = this.$store.state.uploadImage;
-			
+				// console.log(data)
 				let a2 = [];
 				let obj = {}
-				for(let i =0; i<data.length; i++) {
+				for(let i = 0; i<data.length; i++) {
 					if(data[i].testArr.length < 1) {
 						break;
 					}
 					let a1 = data[i].testArr[0].allTagArr;
 					
-					for(let j =0; j<a1.length; j++) {
-						if(!obj[a1[j].goodsId]){
+					for(let j = 0; j < a1.length; j++) {
+						if(!obj[a1[j].goodsId] && a1[j].type == "product"){
 						  a2.push(a1[j]);
 						  obj[a1[j].goodsId] = true;
 					   }
