@@ -761,6 +761,7 @@
 }
 .more-list:first-child{
 	margin-top: 72rpx;
+	margin-bottom: 90rpx;
 }
 .more-list-image{
 	float: left;
@@ -961,7 +962,7 @@
 .category-content-box{
 	position: relative;
 	float: left;
-	margin-left: 20rpx;
+	/* margin-left: 16upx; */
 	margin-top: 18rpx;
 	position: relative;
 	width:345rpx;
@@ -972,7 +973,7 @@
 	border-radius:6rpx;
 }
 .category-content-box:nth-child(even){
-	margin-left: 16rpx;
+	margin-left: 8rpx;
 }
 .category-content-box:nth-last-child(1){
 	margin-bottom: 220rpx;
@@ -1019,31 +1020,5 @@
 	font-family:PingFang SC;
 	color:rgba(204,204,204,1);
 	/* margin-bottom: 100rpx; */
-}
-.comments-botton {
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: flex;
-	-webkit-align-content: center;
-	        align-content: center;
-}
-.send {
-	float: right;
-	width: 100rpx;
-	height: 100%;
-	line-height: 35px;
-	color: #333333;
-	text-align: center;
-	font-size: 14px;
-}
-/* 关闭弹窗 start */
-#remove {
-	width: 50px;
-	height: 35px;
-	/* border: 1px solid red; */
-	overflow: hidden;
-}
-#remove image {
-	float: right;
 }
 
