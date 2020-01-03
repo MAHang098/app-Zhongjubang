@@ -204,10 +204,7 @@
 			const url = this.url
 			let self = this
 			// app主页轮播图
-			uni.showLoading({
-				title: '加载中...',
-				mask: true
-			})
+			
 			uni.request({
 				url: url + 'public/public/getresourcesbyresourcestype',
 				data: {
@@ -216,7 +213,6 @@
 				method:"POST",
 				header : {'content-type':'application/x-www-form-urlencoded','port':'app'},
 				success: function (res){
-					uni.hideLoading()
 					if(res.data.code=="200"){
 						self.bannerList = res.data.data
 					}

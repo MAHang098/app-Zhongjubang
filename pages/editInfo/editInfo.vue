@@ -241,11 +241,9 @@
 							})
 						}
                         console.log(res)
-                        uni.showToast({
-                            title: '保存成功',
-                            icon: 'success',
-                            duration: 2000,
-                        })
+                        uni.switchTab({
+							url: '/pages/user/user'
+						})
                     }
                 })
                 

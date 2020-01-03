@@ -1,6 +1,6 @@
 <template>
     <view class="wrap">
-        <view class="bg">
+        <view @tap="chooseImage2" class="bg">
         	<image :src="cover" mode=""></image>
         </view>
 		<view class="left-menu" @click="showDrawer('left')">
@@ -61,7 +61,11 @@
 		<!-- 客户信息 -->
 		<view class="user-info">
 			<view class="user-state">
-				<image src="http://www.zhongjubang.com/api/upload/static/img/user/user-state.png" mode=""></image>
+				<!-- <image src="http://www.zhongjubang.com/api/upload/static/img/user/user-state.png" mode=""></image> -->
+				<image v-if="title=='金牌业主'" class="" src="../../static/img/designation/jinpai.png" />
+				<image v-if="title=='设计达人'" class="" src="../../static/img/designation/sheji.png" />
+				<image v-if="title=='网红达人'" class="" src="../../static/img/designation/wanghong.png" />
+				<image v-if="title=='居圈达人'" class="" src="../../static/img/designation/juquan.png" />
 			</view>
 			<view @tap="editInfo" class="edit-info">
 				<image src="http://www.zhongjubang.com/api/upload/static/img/user/edit-info.png" mode=""></image>
@@ -381,7 +385,8 @@
 					contentnomore: '没有更多'
 				},
 				page: 1,
-				height: ''
+				height: '',
+				title: '',
 				
 	        }
 		},
@@ -461,6 +466,7 @@
 					self.nickName = res.data.data.nickName
 					self.remarks = res.data.data.remarks
 					self.sex = res.data.data.sex
+					self.title = res.data.data.title
 					if(res.data.data.sex==1){
 						self.show = true
 					}else if(res.data.data.sex==2){
@@ -486,6 +492,60 @@
 			this.init();
 		},
         methods: {
+			// 修改背景图片
+			getCover(){
+				uni.request({
+					url: this.url + "/controller/usercontroller/getappuser",
+					data: {},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': this.Tokens
+					},
+					success: function (res){
+					// console.log(res.data.code)
+					if(res.data.code==200){
+						
+						self.cover = res.data.data.cover
+						
+						}else{
+							console.log("请求异常")
+						}
+					}
+				});
+			},
+			// 上传背景图片
+			chooseImage2() {
+				let that = this;
+				uni.chooseImage({
+				    count: 9, //默认9
+				    // sizeType:'compressed', //可以指定是原图还是压缩图，默认二者都有
+				    sourceType: ['album'], //从相册选择
+				    success: function (res) {
+						
+						const tempFilePaths = res.tempFilePaths[0];
+						
+			            uni.uploadFile({
+			                url: that.url + '/upload', //仅为示例，非真实的接口地址
+			                filePath: tempFilePaths,
+			                name: 'file',
+			                formData: {
+			                    'user': 'test'
+			                },
+			                success: (uploadFileRes) => {
+			                    let data = JSON.parse(uploadFileRes.data);
+			                    console.log(data.data.fileUrl)
+			                    that.cover = data.data.fileUrl
+								that.getCover()
+			                }
+			            })
+						
+						
+						
+				    }
+				})
+			},
 			goDetailsPic(id){
 				uni.navigateTo({
 					url: '/pages/releaseImage-details/releaseImage-details?id=' + id
@@ -1194,6 +1254,9 @@
 				})
 			},
 			goRecommend(){
+				uni.navigateTo({
+					url: '/pages/my-evaluate/my-evaluate'
+				})
 			},
 			goAccount(){
 				uni.navigateTo({
