@@ -3,12 +3,12 @@
 		<view class="top">
 			<view class="release-video">
 				<image class="back" src="http://www.zhongjubang.com/api/upload/static/img/back.png" mode="" @click.stop="cacelPage"/>
-				<text class="title" v-if="!scrollFlag">{{indexImg}}/{{imageLength}}</text>
-				<view class="header-user" v-else>
+				<text class="title">{{indexImg}}/{{imageLength}}</text>
+				<!-- <view class="header-user" v-else>
 					<image :src="dataItem.head" mode="" class="avatar"></image>
 					<view class="name">{{dataItem.nickName}}</view>
 					<image v-show="dataItem.state == 0 " :src="dataItem.attentionState == 0 ? 'http://www.zhongjubang.com/api/upload/static/follow.png' : dataItem.attentionState == 2 ? 'http://www.zhongjubang.com/api/upload/static/mutual-follow.png' : 'http://www.zhongjubang.com/api/upload/static/follow-checked.png'" mode="" class="follow"  @click.stop="focus(dataItem.userId, dataItem.attentionState)"></image>
-				</view>
+				</view> -->
 			</view>
 			
 			<swiper class="swiper"  :autoplay="false" :interval="2000" :duration="500" :circular="true" :current="current" @change.stop="changeImage">
@@ -142,7 +142,7 @@
 		// 监听页面滚动
 		onPageScroll(e) {
 			 let _this=this;
-			if(e.scrollTop > 150) {
+			if(e.scrollTop > 300) {
 				_this.scrollFlag = true
 			} else {
 				_this.scrollFlag = false
@@ -181,7 +181,6 @@
 					pageIndex: 1,
 					gcircleContentId: this.detailId
 				}
-				
 				uni.request({
 				    url: this.url + 'controller/usercontroller/getgcdiscusslist',
 				    method: 'post',

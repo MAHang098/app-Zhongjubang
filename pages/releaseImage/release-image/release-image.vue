@@ -84,12 +84,12 @@
 			// }
 			if(currPage) {
 				// #ifdef APP-PLUS || MP-WEIXIN
-				if(currPage.data.participationTopic==undefined || currPage.data.participationTopic==''){
+				// if(currPage.data.participationTopic==undefined || currPage.data.participationTopic==''){
 					
-				}else{
-					this.participationTopic = currPage.data.participationTopic
-					this.participationTopicId = currPage.data.participationTopicId
-				}
+				// }else{
+				// 	this.participationTopic = currPage.data.participationTopic
+				// 	this.participationTopicId = currPage.data.participationTopicId
+				// }
 				// #endif
 			}
 			
@@ -99,6 +99,7 @@
 				this.participationTopic = this.$store.state.topic;
 				this.participationTopicId = this.$store.state.topicId;
 			}
+			console.log(this.participationTopic, this.participationTopicId)
 			// this.allTag = this.$store.state.itemImage;
 			let drafts = this.$store.state.drafts;
 			// this.participationTopic = '参与话题'

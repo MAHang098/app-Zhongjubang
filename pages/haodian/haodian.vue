@@ -30,7 +30,7 @@
         methods: {
 			goDetails(id){
 				uni.navigateTo({
-					url: '/pages/shopping-mall/detail/detail?id='+id
+					url: '/pages/shop-command/shop-command?id='+id
 				})
 			},
             back(){

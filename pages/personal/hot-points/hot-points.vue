@@ -5,11 +5,11 @@
 			<image src="http://www.zhongjubang.com/api/upload/static/img/user/hot-point/hot-bg.png" mode=""></image>
 			<view class="point"><text>{{allPoints}}</text><text>我的热度分</text></view>
 			<view class="hot">
-				<view>
+				<view  @tap="gohotDetails">
 					<image src="http://www.zhongjubang.com/api/upload/static/img/user/hot-point/detail.png" mode=""></image>
 					<view>热度分明细</view>
 				</view>
-				<view>
+				<view @tap="goHotRules">
 					<image src="http://www.zhongjubang.com/api/upload/static/img/user/hot-point/rules.png" mode=""></image>
 					<view>热度分规则</view>
 				</view>
@@ -76,7 +76,16 @@
 			});
 		},
 		methods: {
-			
+			gohotDetails(){
+				uni.navigateTo({
+					url: '/pages/personal/hot-detail/hot-detail'
+				})
+			},
+			goHotRules(){
+				uni.navigateTo({
+					url: '/pages/personal/hot-rules/hot-rules'
+				})
+			}
 		}
 	}
 </script>

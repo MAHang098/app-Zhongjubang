@@ -106,6 +106,7 @@ export default {
 				url: '/pages/balanceDetails/balanceDetails'
 			})
 		},
+		
         //判断优惠券
         menu(){
             uni.showToast({

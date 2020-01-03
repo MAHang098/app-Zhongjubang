@@ -332,7 +332,7 @@
 	}
 	.video-content{
 		position: relative;
-		margin-left: 3px;
+		margin-left: 4upx;
 	}
 	.video-content-start{
 		position: absolute;

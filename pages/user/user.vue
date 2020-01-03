@@ -8,7 +8,7 @@
 		</view>
 		<!-- 侧边栏start -->
 		<uni-drawer :visible="showLeft" mode="left" @close="closeDrawer('left')">
-			<view class="drawer-content">
+			<scroll-view scroll-y="true"  class="drawer-content">
 				<view class="drawer-more">更多</view>
 				<view class="more-list" @tap="goPockets">
 					<image class="more-list-image" style="width:33rpx;height:36rpx;margin-right:30rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/pockets.png" mode=""></image>
@@ -48,7 +48,8 @@
 					<image style="width:38rpx;height:39rpx;margin-right:30rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/setting.png" mode=""></image>
 					<text class="my-pockets">设置</text>
 				</view>
-			</view>
+				
+			</scroll-view>
 		</uni-drawer>
 		<!-- 侧边栏end -->
 		<view class="right-wechat" @click.stop="goInformation">
@@ -60,10 +61,7 @@
 		<!-- 客户信息 -->
 		<view class="user-info">
 			<view class="user-state">
-				<image v-if="userTitle == '设计达人'" src="../../static/img/title/design-people.png" mode=""></image>
-				<image v-if="userTitle == '人气网红'" src="../../static/img/title/red-hot.png" mode=""></image>
-				<image v-if="userTitle == '居圈达人'" src="../../static/img/title/circle-people.png" mode=""></image>
-				<image v-if="userTitle == '金牌业主'" src="../../static/img/title/gold-owner.png" mode=""></image>
+				<image src="http://www.zhongjubang.com/api/upload/static/img/user/user-state.png" mode=""></image>
 			</view>
 			<view @tap="editInfo" class="edit-info">
 				<image src="http://www.zhongjubang.com/api/upload/static/img/user/edit-info.png" mode=""></image>
@@ -80,10 +78,10 @@
 			</view>
 			
 			<view class="user-intro">
-				{{remarks | ellipsis2}}
+				{{remarks}}
 			</view>
 			<view class="user-recommend">
-				<text @tap="goAddfans">粉丝{{fannum}}</text><text>关注{{attentionnum}}</text><text @tap="goGiveLike">获赞{{likenum}}</text>
+				<text @tap="goAddfans(0)">粉丝{{fannum}}</text><text @tap="goAddfans(1)">关注{{attentionnum}}</text><text>获赞{{likenum}}</text>
 				<image  @tap="goHot" src="http://www.zhongjubang.com/api/upload/static/img/user/hot.png" mode=""></image>
 				<text  @tap="goHot" id="number">{{feverBranch}}</text>
 			</view>
@@ -114,7 +112,7 @@
 			<!-- <view class="more">-上拉查看更多-</view> -->
 		</view>
 		<!-- G圈列表 start -->
-		<view  class="relese-image" v-if="current==0">
+		<view v-if="current==0" class="relese-image"  >
 			<view v-for="(items, index) in releaseImgList" :key="index">
 				<view class="relese-image_detail" >
 					<!-- 用户信息 start -->
@@ -191,7 +189,7 @@
 			<view class="look-more">-{{statusMore== 'end' ? '没有更多' : '上拉加载更多'}}-</view>
 		</view>
 		<!-- 点击右边三点显示的遮罩层 start -->
-		<view id="mask" v-show="showEdit" @click="closeMask"></view>
+		<view id="mask" v-show="showEdit"></view>
 		<!-- 点击右边三点显示的遮罩层 end -->
 		
 		<!-- G圈列表 end -->
@@ -235,7 +233,7 @@
 				<view class="video-wrap" v-if="current2==3" >
 					<view class="wang-content-wrap">
 						<view class="wang-content" v-for="(item, index) in collectShop" :key="index">
-							<image class="wang-content-image" style="width:200upx;height:190upx;" :src="item.shopLogo" @tap="goDetails(item.shopId)" mode=""></image>
+							<image class="wang-content-image" style="width:200upx;height:190upx;" :src="item.shopLogo" @tap="goDetailsShop(item.shopId)" mode=""></image>
 						    <text class="wang-content-des">{{item.shop_name}}</text>
 						    <text class="wang-content-goods">{{item.goodsNum}}个商品</text>
 						    <text class="wang-content-tit">{{item.colNum}}人收藏</text>
@@ -246,9 +244,8 @@
 				<!-- 收藏店铺内容end -->
 				<!-- 收藏图片内容start -->
 				<!-- <view class="video-wrap"> -->
-					
 					<view class="category-content">
-						<view class="category-content-box"  v-if="current2==0" v-for="(item, index) in collectPic" :key="index" @tap="goDetails(item.id)">
+						<view class="category-content-box"  v-if="current2==0" v-for="(item, index) in collectPic" :key="index" @tap="goDetailsPic(item.gcircleContentId)">
 							<image class="category-content-image" style="width:345upx;height:345upx" :src="item.imgList[0].fileUrl" />
 							<view class="category-content-des">{{item.content | ellipsis2}}</view>
 							<image class="category-content-price" style="width:52upx;height:55upx;border-radius: 50%;" :src="item.head" />
@@ -267,7 +264,7 @@
 			<view class="uni-comments">
 				<view class="uni-comments-title">
 					<view>全部评论({{gCollectionDiscussNum}})</view>
-					<view @click.stop="cancelPopup('comments')" id="remove">
+					<view @click.stop="cancelPopup('comments')">
 						<image src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/close.png" mode=""></image>
 					</view>
 				</view>
@@ -298,8 +295,7 @@
 				</view>
 				<!-- <view class="uni-share-btn" @click="cancel('share')">取消分享</view> -->
 				<view class="comments-botton">
-					<input :placeholder="replySay" :value="inputValue" type="text" @input="relpyContent"/>
-					<view class="send" @click.stop="recordName">发送</view>
+					<input @confirm="recordName" :placeholder="replySay" :value="inputValue" type="text" />
 				</view>
 			</view>
 		</uni-popup>
@@ -325,7 +321,7 @@
 				showRigth: false,
 				showLeft: false,
 				tabType: ['我的动态', '短视频', '收藏'],
-				collectType: ['图片·0', '视频·0', '商品·0', '商铺·0'],
+				collectType: ['图片', '视频', '商品', '商铺'],
 				show: '',
 				show1: '',
 				showDelete: '',
@@ -363,7 +359,7 @@
 				outUserId: '',
 				gcircleContentId: '',
 				// nickName: '',
-				gCollectionDiscussNum: 0,
+				gCollectionDiscussNum: '',
 				dataList: [],
 				videoList: [],
 				gcircleContentDTO: [],
@@ -377,7 +373,6 @@
 				commentItem: [],
 				deleteType: 0,
 				cover: '',
-				designDarenState: '',
 				reload: false,
 				statusMore: 'more',
 				contentText: {
@@ -386,7 +381,8 @@
 					contentnomore: '没有更多'
 				},
 				page: 1,
-				userTitle: ''
+				height: ''
+				
 	        }
 		},
 		filters: {
@@ -406,7 +402,6 @@
 			},
 		},
 		onLoad(options){
-			
 		},
         onShow(){
 			let token
@@ -466,8 +461,6 @@
 					self.nickName = res.data.data.nickName
 					self.remarks = res.data.data.remarks
 					self.sex = res.data.data.sex
-					self.userTitle = res.data.data.title
-					self.designDarenState = res.data.data.designDarenState
 					if(res.data.data.sex==1){
 						self.show = true
 					}else if(res.data.data.sex==2){
@@ -493,14 +486,19 @@
 			this.init();
 		},
         methods: {
+			goDetailsPic(id){
+				uni.navigateTo({
+					url: '/pages/releaseImage-details/releaseImage-details?id=' + id
+				})
+			},
 			goGiveLike(){
 				uni.navigateTo({
 					url: '/pages/information/give-like/give-like'
 				})
 			},
-			goAddfans(){
+			goAddfans(id){
 				uni.navigateTo({
-					url: '/pages/information/all-fans/all-fans'
+					url: '/pages/information/all-fans/all-fans?id=' + id
 				})
 			},
 			//删除商品
@@ -545,6 +543,12 @@
 			goDetails(id){
 				uni.navigateTo({
 					url: '/pages/shopping-mall/detail/detail?id='+id
+				})
+			},
+			// 去店铺详情
+			goDetailsShop(id){
+				uni.navigateTo({
+					url: '/pages/shop-command/shop-command?id='+id
 				})
 			},
 			deleteVideo(activeVideo){
@@ -600,8 +604,8 @@
 				if(index == 1) {
 					type = 2;
 				} 
-				if(index==2){
-					this.changeCollect(0)
+				if(index == 2){
+					this.initCollectPic()
 				}
 				this.init(type);
 			},
@@ -1004,11 +1008,9 @@
 				this.recommendName = name
 				this.replySay = '回复@' + name + ' :';
 			},
-			// 评论内容
-			relpyContent(e) {
+			recordName(e) {  
 				this.inputValue = e.detail.value;
-			},
-			recordName() {  
+				console.log(e.detail.value)
 				let token
 				let self = this
 				uni.getStorage({
@@ -1025,7 +1027,7 @@
 							outUserId: self.outUserId,
 							id: self.recommendId,
 							outUserName: self.recommendName,
-							gcircleContentDiscuss: this.inputValue
+							gcircleContentDiscuss: e.detail.value
 						},
 						method: 'POST',
 						header : {
@@ -1044,13 +1046,7 @@
 								this.cancelPopup('comments');
 								this.init();
 							}else{
-								this.inputValue = '';
-								
-								uni.showToast({
-									title: res.data.message,
-									icon: 'none'
-								});
-								this.cancelPopup('comments')
+								console.log("请求异常")
 							}
 						})
 					})
@@ -1061,7 +1057,7 @@
 							outUserId: self.outUserId,
 							gcircleContentId: self.gcircleContentId,
 							outUserName: self.nickName,
-							gcircleContentDiscuss: this.inputValue
+							gcircleContentDiscuss: e.detail.value
 						},
 						method: 'POST',
 						header : {
@@ -1078,14 +1074,9 @@
 								});
 								this.inputValue = ' ';
 								this.cancelPopup('comments');
-							}else{
-								this.inputValue = '';
 								
-								uni.showToast({
-									title: res.data.message,
-									icon: 'none'
-								});
-								this.cancelPopup('comments')
+							}else{
+								console.log("请求异常")
 							}
 						})
 					})
@@ -1171,8 +1162,6 @@
 			// 取消弹出层
 			cancelPopup(type) {
 				this.$refs[type].close();
-				this.inputValue = '';
-				
 			},
 			// 显示和隐藏tabbar
 			popupChange(e) {
@@ -1205,10 +1194,6 @@
 				})
 			},
 			goRecommend(){
-				uni.navigateTo({
-					url: '/pages/my-evaluate/my-evaluate'
-				})
-				
 			},
 			goAccount(){
 				uni.navigateTo({
@@ -1261,10 +1246,6 @@
 					url: '/pages/otherUser/otherUser?userid=' + id
 				})
 				uni.showTabBar();
-			},
-			// 关闭遮罩
-			closeMask() {
-				this.showEdit = false;
 			}
 		},
 		// 侧边栏
@@ -1491,7 +1472,6 @@
 	}
 	.drawer-content{
 		float: left;
-
 	}
 	.drawer-more{
 		float: left;
@@ -1511,6 +1491,7 @@
 	}
 	.more-list:first-child{
 		margin-top: 72rpx;
+		margin-bottom: 90rpx;
 	}
 	.more-list-image{
 		float: left;
@@ -1716,7 +1697,7 @@
 	.category-content-box{
 		position: relative;
 		float: left;
-		margin-left: 20upx;
+		/* margin-left: 16upx; */
 		margin-top: 18upx;
 		position: relative;
 		width:345upx;
@@ -1727,7 +1708,7 @@
 		border-radius:6upx;
 	}
 	.category-content-box:nth-child(even){
-		margin-left: 16upx;
+		margin-left: 8upx;
 	}
 	.category-content-box:nth-last-child(1){
 		margin-bottom: 220upx;
@@ -1775,28 +1756,5 @@
 		font-family:PingFang SC;
 		color:rgba(204,204,204,1);
 		/* margin-bottom: 100rpx; */
-	}
-	.comments-botton {
-		display: flex;
-		align-content: center;
-	}
-	.send {
-		float: right;
-		width: 100rpx;
-		height: 100%;
-		line-height: 35px;
-		color: #333333;
-		text-align: center;
-		font-size: 14px;
-	}
-	/* 关闭弹窗 start */
-	#remove {
-		width: 50px;
-		height: 35px;
-		/* border: 1px solid red; */
-		overflow: hidden;
-	}
-	#remove image {
-		float: right;
 	}
 </style>
