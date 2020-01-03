@@ -961,7 +961,7 @@
 .category-content-box{
 	position: relative;
 	float: left;
-	margin-left: 20rpx;
+	/* margin-left: 16upx; */
 	margin-top: 18rpx;
 	position: relative;
 	width:345rpx;
@@ -972,7 +972,7 @@
 	border-radius:6rpx;
 }
 .category-content-box:nth-child(even){
-	margin-left: 16rpx;
+	margin-left: 8rpx;
 }
 .category-content-box:nth-last-child(1){
 	margin-bottom: 220rpx;

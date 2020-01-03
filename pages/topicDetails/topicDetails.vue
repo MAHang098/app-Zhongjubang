@@ -60,8 +60,8 @@
 					
 					<!-- 图片/视频 start -->
 					<view class="imageList">
-						<image :mode="item.imgList.length > 1 ? '' : '' " :class="item.imgList.length > 1 ? 'imageListIn' : 'imageListSingle' " :src="row.fileUrl" v-for="(row, indexI) in item.imgList" :key="indexI" @click.stop="previewImage(indexI, item.imgList)"></image>
-						<!-- <image :src="item.imgList[0]" mode="" v-show="show"></image> -->
+						<!-- <image src="http://www.zhongjubang.com/api/upload/static/draftsT.png" mode="" v-show="show"></image> -->
+						<image :mode="item.imgList.length > 1 ? '' : '' " :class="item.imgList.length > 1 ? 'imageListIn' : 'imageListSingle' " :src="row.fileUrl" v-for="(row, indexI) in item.imgList" :key="indexI" @click.stop="previewImage(indexI, items.imgList)"></image>
 					</view>
 					<!-- <video id="myVideo" :src="item.videoUrl" v-show="!show" enable-danmu danmu-btn controls></video> -->
 					<!-- 图片/视频 end -->
@@ -371,11 +371,14 @@
 							return;
 						}
 						if(res.data.code == 200) {
-							for(let i=0; i<data.allGContentList.length; i++) {
-								data.allGContentList[i].imgList = JSON.parse(data.allGContentList[i].imgList);
-								// data.allGContentList[i].title = JSON.parse(data.allGContentList[i].title);
+							// this.topicList = data.allGContentList;
+							let item = data.allGContentList;
+							// let data = res.data.data.dataList;
+							for(let i=0; i<item.length; i++) {
+								item[i].imgList = JSON.parse(item[i].imgList);
+								// item[i].title = JSON.parse(item[i].title);
 							}
-							this.topicList = data.allGContentList;
+							this.topicList = item;
 							// this.topicList = this.reload ? data : this.topicList.concat(data.allGContentList);
 							// this.page++;
 							
@@ -388,6 +391,15 @@
 						}
 					})
 				});
+			},
+			// 预览图片
+			previewImage(i, arr) {
+				this.$store.commit('saveImage', arr);
+				let e = i + 1;
+				uni.navigateTo({
+					url: '/pages/previewImage/previewImage?current=' + i + '&indexImg=' + e
+				})
+				// var current = e.target.dataset.src
 			},
             open(index) {
             	this.activeIndex = index;
@@ -623,6 +635,7 @@
 <style>
 	@import '../../static/css/releaseImgList.css'; /*引入G圈列表样式*/
 	/*@import 'http://www.zhongjubang.com/api/upload/static/css/comments.css'; *//*引入评论弹窗的样式 */
+	@import '../../static/css/releaseImgList.css'; /*引入G圈列表样式*/
 	page {
 		background: #F9F9F9;
 		width: 100%;
@@ -717,7 +730,7 @@
 	.Subheading {
 		margin-bottom: 60rpx;
 		text-align: center;
-		height: 66rpx;
+		height: 64rpx;
 		text-overflow: ellipsis;
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
@@ -859,7 +872,26 @@
 		height: 19rpx;
 		margin-bottom: -1rpx;
 	}
-	
+	/* 图片样式 */
+	/* .imageList {
+		width: 100%;
+		display: flex;
+		justify-content: flex-start;
+		flex-wrap: wrap;
+	}
+	.imageList image {
+		width: 100%;
+	} */
+	/* .imageList image {
+		width: 30%;
+		height: 210rpx;
+		display: block;
+		margin-right: 34rpx;
+		margin-bottom: 10rpx;
+	}
+	.imageList image:nth-of-type(3n) {
+		margin: 0 !important;
+	} */
 
 	/* 操作按钮 start */
 	.operate {
