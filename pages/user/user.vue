@@ -417,6 +417,12 @@
 			this.page = 1;
 			this.releaseImgList = [];
 			this.init();
+			
+			let showVideo = getApp().globalData.showVideo
+			console.log(showVideo)
+			if(showVideo==1){
+				changeProduct(1)
+			}
 		},
         onShow(){
 			let token

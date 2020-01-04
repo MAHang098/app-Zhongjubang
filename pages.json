@@ -9,6 +9,15 @@
 		}
 	},
 	{
+	    "path" : "pages/testRelease/testRelease",
+	    "style" : {
+			"app-plus": {
+				"titleNView": false //禁用原生导航栏  
+			}
+		}
+	},
+	
+	{
 	    "path" : "pages/testVideo/testVideo",
 	    "style" : {
 			"app-plus": {
@@ -16,6 +25,7 @@
 			}
 		}
 	},
+	
 		
 		{
 			"path": "pages/indexIOS/indexIOS",
@@ -814,6 +824,21 @@
             "iconPath": "static/img/release.png",
             "selectedIconPath": "static/img/homeHL.png"
         },
+		// //#ifdef MP-WEIXIN
+		// {
+		// 	"pagePath": "pages/testRelease/testRelease",
+		// 	"iconPath": "static/img/release.png",
+		// 	"selectedIconPath": "static/img/release.png",
+		// 	"text": "发布"
+		// },
+		// //#endif
+		// //#ifndef MP-WEIXIN
+		// {
+		// 	"pagePath": "pages/testRelease/testRelease",
+		// 	"iconPath": "static/img/release.png",
+		// 	"selectedIconPath": "static/img/release.png"
+		// },
+		// //#endif
         {
             "pagePath": "pages/stop/stop",
             "text": "商城",

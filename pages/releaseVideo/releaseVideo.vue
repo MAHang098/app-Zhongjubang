@@ -206,6 +206,7 @@
 						console.log(res)
 						console.log(res.data.code)
 						if(res.data.code==200){
+							getApp().globalData.showVideo = 1
 							uni.switchTab({
 								url: "/pages/user/user"
 							})

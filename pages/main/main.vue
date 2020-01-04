@@ -30,7 +30,7 @@
 				<text @tap="goJuquanVideo" class="video-nav-more">更多</text>
 				<image @tap="goJuquanVideo" class="video-nav-more-image" style="width:11upx;height:20upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/more.png" mode="" />
 			</view>
-			
+			<view style="clear: both;"></view>
 			<view>
 				<swiper
 					class="card-swiper"
@@ -108,6 +108,7 @@
 				</swiper>
 			</view>
 		</view>
+		<view style="clear: both;"></view>
 		<!-- 居圈 -->
 		<view class="juquan">
 			<view class="juquan-nav">
@@ -522,20 +523,23 @@
 	}
 	.video-nav{
 		position: relative;
-		text-align: center;
+		/* text-align: center;
+		height: 60rpx; */
 		/* margin-bottom: -26upx; */
 	}
 	.video-nav-hot{
-		position: absolute;
-		top: 8upx;
-		left: 30upx;
+		float: left;
+		margin-top: 8upx;
+		margin-left: 30upx;
 		font-size:34upx;
 		font-family:PingFang SC;
 		font-weight:600;
 		color:rgba(51,51,51,1);
 	}
 	.video-nav-eye{
-		top: 10upx;
+		float: left;
+		margin-left: 50upx;
+		margin-top: 18upx;
 		font-size:24upx;
 		font-family:PingFang SC;
 		color:rgba(102,102,102,1);
@@ -710,16 +714,18 @@
 	.juquan-nav{
 		position: relative;
 		text-align: center;
-		margin-bottom: 22upx;
+		/* margin-bottom: 22upx; */
+		height: 90rpx;
+		margin-top: 60rpx;
 	}
 	.juquan-content{
 		float: left;
 		margin-top:10px;
 		margin-left: 11px;
 	}
-	.juquan-content:nth-last-child(1){
-		margin-bottom: 60px;
-	}
+	/* .juquan-content:nth-last-child(1){
+		margin-bottom: 60rpx;
+	} */
 	.juquan-content-model{
 		position: relative;
 		width: 347upx;
@@ -761,7 +767,7 @@
 	.footer-more{
 		height: 120upx;
 		line-height: 120upx;
-		padding-bottom: 100px;
+		/* padding-bottom: 100px; */
 		box-sizing: border-box;
 		bottom: 134px;
 		text-align: center;
