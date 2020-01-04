@@ -66,10 +66,10 @@
 				Tokens:'',
 	        }
 		},
-		// onLoad(options){
-		// 	console.log(options.Id)
-		// 	this.id = options.Id
-		// },
+		onLoad(options){
+			console.log(options.Id)
+			this.id = options.Id
+		},
 		onShow(){
 			this.init()
 		},
@@ -90,7 +90,7 @@
 				uni.request({
 					url: url + "/controller/videocontroller/getallzizist",
 					data: {
-						shortVideoDiscussId: 174,
+						shortVideoDiscussId: this.id,
 					},
 					method: 'POST',
 					header : {

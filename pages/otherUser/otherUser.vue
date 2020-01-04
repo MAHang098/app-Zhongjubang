@@ -17,10 +17,10 @@
 		<view class="user-info">
 			<view class="user-state">
 				<!-- <image src="http://www.zhongjubang.com/api/upload/static/img/user/user-state.png" mode=""></image> -->
-				<!-- <image v-if="title=='金牌业主'" class="" src="../../static/img/designation/jinpai.png" />
+				<image v-if="title=='金牌业主'" class="" src="../../static/img/designation/jinpai.png" />
 				<image v-if="title=='设计达人'" class="" src="../../static/img/designation/sheji.png" />
 				<image v-if="title=='网红达人'" class="" src="../../static/img/designation/wanghong.png" />
-				<image v-if="title=='居圈达人'" class="" src="../../static/img/designation/juquan.png" /> -->
+				<image v-if="title=='居圈达人'" class="" src="../../static/img/designation/juquan.png" />
 			</view>
 			<view class="info-attention" @tap="addAttention">
 				<image v-if='showAttentionInfo==0' src="../../static/img/user/attention.png" mode=""></image>
@@ -327,6 +327,7 @@
 						self.sex = res.data.data.dataList[0].sex
 						self.showAttentionInfo = res.data.data.dataList[0].attentionState
 						self.cover = res.data.data.dataList[0].cover
+						self.title = res.data.data.dataList[0].designation
 						if(res.data.data.dataList[0].sex==1){
 							self.show = true
 						}else if(res.data.data.dataList[0].sex==2){

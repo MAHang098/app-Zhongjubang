@@ -14,7 +14,7 @@
 			<image class="search-white" style="width:750upx;height:105upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/white.png" mode="" />
 			<uni-swiper-dot :info=bannerList :current="current" :mode="mode" :dots-styles="dotStyle" field="content">
 				<swiper class="swiper-box" @change="change">
-					<swiper-item v-for="(item, index) in bannerList" :key="index">
+					<swiper-item v-for="(item, index) in bannerList" :key="index" @tap="goBanner(item.url)">
 						<view :class="item.colorClass" class="swiper-item">
 							<image :src="item.resource" mode="aspectFill" />
 						</view>
@@ -62,7 +62,7 @@
 					<view 
 						class="zhong-content-image"
 						v-for="(item, index) in zhongList" :key="index"
-						:style="{backgroundImage: 'url(' + item.talk_theme_img + ')', backgroundSize:'contain'}"
+						:style="{backgroundImage: 'url(' + item.talk_theme_img + ')', backgroundSize:'cover'}"
 						@tap="goTopicDetails(item.id)"
 					>
 						<view class="zhong-content-tyt"></view>
@@ -128,6 +128,7 @@
 			</view>
 			
 		</view>
+		<view style="clear:both"></view>
 		<view class="footer-more">-上拉查看更多-</view>
 	</view>
 </template>
@@ -296,6 +297,15 @@
 			})
 		},
 		methods: {
+			goBanner(id){
+				if(id=='http'){
+					mWebView.loadUrl(id)
+				}else{
+					uni.navigateTo({
+						url: id
+					});
+				}
+			},
 			// 跳转到消息页面
 			goInformation() {
 				uni.navigateTo({
@@ -750,7 +760,7 @@
 	.footer-more{
 		height: 120upx;
 		line-height: 120upx;
-		padding-bottom: 100rpx;
+		padding-bottom: 100px;
 		box-sizing: border-box;
 		bottom: 134px;
 		text-align: center;
