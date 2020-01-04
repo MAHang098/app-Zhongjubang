@@ -37,13 +37,25 @@
 		data() {
 			return {
 				show: false,
-				type: ''
+				type: '',
+				orderid: '',
+				token: ''
+			}
+		},
+		onLoad(options) {
+			uni.getStorage({
+				key:"token",
+				success:((res) => {
+					this.token = res.data;
+				})
+			});
+			if(options.id) {
+				this.orderid = options.id;
 			}
 		},
 		methods: {
 			// 弹出层弹出的方式
-			togglePopup(type, open, id) {
-				this.deleteId = id;
+			togglePopup(type, open) {
 				switch (type) {
 					case 'top':
 						this.content = '顶部弹出 popup'
@@ -64,8 +76,31 @@
 				}
 			},
 			// 弹框关闭
-			cancel() {
-				this.show = false
+			cancel(type) {
+				// this.show = false
+				if(type == 'skip') {
+					uni.request({
+						url: this.url + "controller/shopcontroller/cancelorder",
+						method: 'POST',
+						data: {appUserOrderId: this.orderid},
+						header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
+						success: ((res) => {
+							if(res.data.code==200){
+								uni.showToast({
+									title: '取消成功'
+								})
+								uni.navigateTo({
+									url: '/pages/shopping-mall/all-order/all-order?type=0'
+								})
+							}
+							if(res.data.code == 421) {
+								uni.navigateTo({
+									url: '/pages/loginPhone/loginPhone'
+								})
+							}
+						})
+					})
+				}
 			},
 		}
 	}

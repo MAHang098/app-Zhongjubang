@@ -18,10 +18,15 @@
 					</view>
 				</swiper-item>
 			</swiper>
-			<view class="user" v-show="!scrollFlag">
+			<view class="user" v-show="!scrollFlag" @tap="goOtheruser(dataItem.userId)">
 				<image :src="dataItem.head" mode="" class="avatar"></image>
 				<view>
-					<view class="name">{{dataItem.nickName}}</view>
+					<view class="name">{{dataItem.nickName}}
+						<image v-if="dataItem.designation == '设计达人'" src="../../static/img/title/design-people.png" mode=""></image>
+						<image v-if="dataItem.designation == '人气网红'" src="../../static/img/title/red-hot.png" mode=""></image>
+						<image v-if="dataItem.designation == '居圈达人'" src="../../static/img/title/circle-people.png" mode=""></image>
+						<image v-if="dataItem.designation == '金牌业主'" src="../../static/img/title/gold-owner.png" mode=""></image>
+					</view>
 					<view class="time">发布时间：{{dataItem.createTime}}</view>
 				</view>
 				<image v-show="dataItem.state == 0 " :src="dataItem.attentionState == 0 ? 'http://www.zhongjubang.com/api/upload/static/follow.png' : dataItem.attentionState == 2 ? 'http://www.zhongjubang.com/api/upload/static/mutual-follow.png' : 'http://www.zhongjubang.com/api/upload/static/follow-checked.png'" mode="" class="follow"  @click.stop="focus(dataItem.userId, dataItem.attentionState)"></image>
@@ -460,7 +465,13 @@
 				uni.navigateBack({
 					delta:1
 				})
-			}
+			},
+			// 跳转到用户详情
+			goOtheruser(id){
+				uni.navigateTo({
+					url: '/pages/otherUser/otherUser?userid=' + id
+				})
+			},
 		}
 	}
 </script>
@@ -562,6 +573,14 @@
 		font-weight:bold;
 		color:rgba(51,51,51,1);
 		margin: 8rpx 0;
+		height: 28rpx;
+	}
+	.name image {
+		width: 43px;
+		height: 100%;
+		border-radius: 50%;
+		display: inline-block;
+		margin-right: 10px;
 	}
 	.time {
 		font-size:20rpx;

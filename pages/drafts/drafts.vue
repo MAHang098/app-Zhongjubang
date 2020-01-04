@@ -96,7 +96,7 @@
 			  return value
 			}
 		},
-		onShow() {
+		onLoad() {
 			let that = this;
 			uni.getStorage({
 				key:"token",
@@ -305,6 +305,7 @@
 		display: flex;
 		justify-content: flex-start;
 		line-height: 35rpx;
+		width: 80%;
 	}
 	.message image {
 		width: 90rpx;
@@ -323,7 +324,6 @@
 		margin-bottom: 12rpx;
 	}
 	.message .time {
-		width:210rpx;
 		height:19rpx;
 		font-size:24rpx;
 		font-family:PingFang SC;

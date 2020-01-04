@@ -53,7 +53,8 @@
 		</uni-drawer>
 		<!-- 侧边栏end -->
 		<view class="right-wechat" @click.stop="goInformation">
-			<image src="http://www.zhongjubang.com/api/upload/static/img/user/right-wechat.png" mode=""></image>
+			<image v-if="messageState == 1" src="http://www.zhongjubang.com/api/upload/static/img/user/right-wechat.png" mode=""></image>
+			<image v-else src="http://www.zhongjubang.com/api/upload/static/img/main/info.png" mode=""></image>
 		</view>
 		<view class="user-avater">
 			<image :src="head" mode=""></image>
@@ -61,12 +62,11 @@
 		<!-- 客户信息 -->
 		<view class="user-info">
 			<view class="user-state">
-				<!-- <image src="http://www.zhongjubang.com/api/upload/static/img/user/user-state.png" mode=""></image> -->
-				<image v-if="title=='金牌业主'" class="" src="../../static/img/designation/jinpai.png" />
-				<image v-if="title=='设计达人'" class="" src="../../static/img/designation/sheji.png" />
-				<image v-if="title=='网红达人'" class="" src="../../static/img/designation/wanghong.png" />
-				<image v-if="title=='居圈达人'" class="" src="../../static/img/designation/juquan.png" />
-			</view>
+				<image v-if="userTitle == '设计达人'" src="../../static/img/title/design-people.png" mode=""></image>
+				<image v-if="userTitle == '人气网红'" src="../../static/img/title/red-hot.png" mode=""></image>
+				<image v-if="userTitle == '居圈达人'" src="../../static/img/title/circle-people.png" mode=""></image>
+				<image v-if="userTitle == '金牌业主'" src="../../static/img/title/gold-owner.png" mode=""></image>
+			 </view>
 			<view @tap="editInfo" class="edit-info">
 				<image src="http://www.zhongjubang.com/api/upload/static/img/user/edit-info.png" mode=""></image>
 			</view>
@@ -161,7 +161,7 @@
 					<!-- 图片/视频 end -->
 					
 					<!-- 话题 start -->
-					<view class="release-image_topic"  v-show="show" v-if="items.title.topic != '' " >
+					<view class="release-image_topic"  v-if="items.title.topic != '' " >
 						<view class="left" @click.stop="goTopic(items.title)">
 							<image src="http://www.zhongjubang.com/api/upload/static/topic/topic.png" mode=""></image>
 							<view>{{items.title.topic}}</view>
@@ -177,12 +177,12 @@
 								<image src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/message.png" mode=""></image>
 								<text>{{items.gCollectionDiscussNum}}</text>
 							</view>
-							<view class="collect">
-								<image @click.stop="collect(index, items.gcircleContentId, items.collectionState)" :src="(activeIndex == index && isShowCollect) || items.collectionState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/collect-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/star.png' " mode=""></image>
+							<view class="collect" @click.stop="collect(index, items.gcircleContentId, items.collectionState)">
+								<image  :src="(activeIndex == index && isShowCollect) || items.collectionState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/collect-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/star.png' " mode=""></image>
 								<text>{{items.collectionNum}}</text>
 							</view>
-							<view class="fabulous" >
-								<image @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState)" :src="(fabulousIndex == index && isShowFabulous) || items.gcircleContentLikeState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
+							<view class="fabulous" @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState)" >
+								<image :style="{'margin-bottom': items.gcircleContentLikeState === 1 ? '2px': ''}" :src="(fabulousIndex == index && isShowFabulous) || items.gcircleContentLikeState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
 								<text>{{items.gcircleContentLikeNum}}</text>
 							</view>
 						</view>
@@ -386,8 +386,8 @@
 				},
 				page: 1,
 				height: '',
-				title: '',
-				
+				userTitle: '',
+				messageState: 0
 	        }
 		},
 		filters: {
@@ -407,6 +407,16 @@
 			},
 		},
 		onLoad(options){
+			let _this = this;
+			uni.getStorage({
+				key:"token",
+				success: function (res) {
+					_this.Tokens = res.data;
+				}
+			})
+			this.page = 1;
+			this.releaseImgList = [];
+			this.init();
 		},
         onShow(){
 			let token
@@ -416,7 +426,6 @@
 				key:"token",
 				success: function (res) {
 					token = res.data;
-					self.Tokens = res.data;
 				}
 			})
 			const url = this.url
@@ -466,7 +475,8 @@
 					self.nickName = res.data.data.nickName
 					self.remarks = res.data.data.remarks
 					self.sex = res.data.data.sex
-					self.title = res.data.data.title
+					self.userTitle = res.data.data.title;
+					self.messageState = res.data.data.messageState;
 					if(res.data.data.sex==1){
 						self.show = true
 					}else if(res.data.data.sex==2){
@@ -478,9 +488,7 @@
 				}
 			});
 			this.initVideo()
-			this.page = 1;
-			this.releaseImgList = [];
-			this.init();
+			
 		},
 		// 上拉加载
 		onReachBottom: function() {
@@ -990,7 +998,7 @@
 			},
 			// 点击话题到话题详情
 			goTopic(obj) {
-				let id = JSON.parse(obj).topicId;
+				let id = obj.topicId;
 				uni.navigateTo({
 					url: '/pages/topicDetails/topicDetails?id=' + id
 				})
@@ -1756,6 +1764,7 @@
 	/* 收藏图片内容start */
 	.category-content{
 		/* margin-left: -20upx; */
+		overflow: hidden;
 	}
 	.category-content-box{
 		position: relative;

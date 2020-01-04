@@ -46,7 +46,7 @@
 				<image :src="item.topImgList[0]" mode=""></image>
 				<view class="product-list_detail_title">{{item.goodsName | ellipsis }}</view>
 				<view class="product-list_detail_price">{{'￥' + item.goodsPrice}}</view>
-				<view class="product-list_detail_shop">
+				<view class="product-list_detail_shop" @click.stop="goShop(item.shopId)">
 					<view class="product-list_detail_shopleft">{{item.shopName}}</view>
 					<view class="product-list_detail_shopright">
 						<view>巡店</view>
@@ -262,6 +262,12 @@
 			getUser(id) {
 				uni.navigateTo({
 					url: '/pages/otherUser/otherUser?userid=' + id
+				})
+			},
+			// 调整到店铺
+			goShop(id) {
+				uni.navigateTo({
+					url: '/pages/shop-command/shop-command?id=' + id
 				})
 			}
 		}
