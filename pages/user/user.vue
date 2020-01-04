@@ -53,7 +53,8 @@
 		</uni-drawer>
 		<!-- 侧边栏end -->
 		<view class="right-wechat" @click.stop="goInformation">
-			<image src="http://www.zhongjubang.com/api/upload/static/img/user/right-wechat.png" mode=""></image>
+			<image v-if="messageState == 1" src="http://www.zhongjubang.com/api/upload/static/img/user/right-wechat.png" mode=""></image>
+			<image v-else src="http://www.zhongjubang.com/api/upload/static/img/main/info.png" mode=""></image>
 		</view>
 		<view class="user-avater">
 			<image :src="head" mode=""></image>
@@ -176,12 +177,12 @@
 								<image src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/message.png" mode=""></image>
 								<text>{{items.gCollectionDiscussNum}}</text>
 							</view>
-							<view class="collect">
-								<image @click.stop="collect(index, items.gcircleContentId, items.collectionState)" :src="(activeIndex == index && isShowCollect) || items.collectionState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/collect-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/star.png' " mode=""></image>
+							<view class="collect" @click.stop="collect(index, items.gcircleContentId, items.collectionState)">
+								<image  :src="(activeIndex == index && isShowCollect) || items.collectionState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/collect-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/star.png' " mode=""></image>
 								<text>{{items.collectionNum}}</text>
 							</view>
-							<view class="fabulous" >
-								<image @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState)" :src="(fabulousIndex == index && isShowFabulous) || items.gcircleContentLikeState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
+							<view class="fabulous" @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState)" >
+								<image :style="{'margin-bottom': items.gcircleContentLikeState === 1 ? '2px': ''}" :src="(fabulousIndex == index && isShowFabulous) || items.gcircleContentLikeState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
 								<text>{{items.gcircleContentLikeNum}}</text>
 							</view>
 						</view>
@@ -385,7 +386,8 @@
 				},
 				page: 1,
 				height: '',
-				userTitle: ''
+				userTitle: '',
+				messageState: 0
 	        }
 		},
 		filters: {
@@ -405,6 +407,16 @@
 			},
 		},
 		onLoad(options){
+			let _this = this;
+			uni.getStorage({
+				key:"token",
+				success: function (res) {
+					_this.Tokens = res.data;
+				}
+			})
+			this.page = 1;
+			this.releaseImgList = [];
+			this.init();
 		},
         onShow(){
 			let token
@@ -414,7 +426,6 @@
 				key:"token",
 				success: function (res) {
 					token = res.data;
-					self.Tokens = res.data;
 				}
 			})
 			const url = this.url
@@ -465,6 +476,7 @@
 					self.remarks = res.data.data.remarks
 					self.sex = res.data.data.sex
 					self.userTitle = res.data.data.title;
+					self.messageState = res.data.data.messageState;
 					if(res.data.data.sex==1){
 						self.show = true
 					}else if(res.data.data.sex==2){
@@ -476,9 +488,7 @@
 				}
 			});
 			this.initVideo()
-			this.page = 1;
-			this.releaseImgList = [];
-			this.init();
+			
 		},
 		// 上拉加载
 		onReachBottom: function() {

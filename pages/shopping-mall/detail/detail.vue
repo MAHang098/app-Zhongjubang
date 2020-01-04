@@ -19,11 +19,14 @@
 		<view class="uni-padding-wrap" id="swiper">
 			<view class="page-section">
 				<view class="page-section-spacing">
-					<swiper class="swiper" :indicator-dots="true" :autoplay="true" :interval="2000" :duration="1000" :circular="true">
-						<swiper-item v-for="(item, index) in swiperItem" :key="index">
-							<image :src="item" mode=""></image>
-						</swiper-item>
-					</swiper>
+					<uni-swiper-dot :info="swiperItem" :current="swiperCurrent" :mode="mode" :dotsStyles="dotsStyles">
+					    <swiper class="swiper-box" @change="swiperChange" :autoplay="true" :interval="2000" :duration="1000" :circular="true">
+					        <swiper-item v-for="(item ,index) in swiperItem" :key="index">
+					           <image :src="item" mode=""></image>
+					        </swiper-item>
+					    </swiper>
+					</uni-swiper-dot>
+				
 				</view>
 			</view>
 		</view>
@@ -184,11 +187,12 @@
 
 <script>
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
+	import uniSwiperDot from '@/components/uni-swiper-stop/uni-swiper-stop.vue'
 	export default {
-		components:{uniPopup},
+		components:{uniPopup, uniSwiperDot},
 		data() {
 			return {
-				scrollFlag: true,
+				scrollFlag: false,
 				swiperItem: [],
 				token: '',
 				showExplain: false,
@@ -211,6 +215,17 @@
 				detailType: ['商品', '评论', '推荐', '详情'],
 				current: 0,
 				scrollTop: 0,
+				swiperCurrent: 0,
+				mode: 'round',
+				dotsStyles: {
+						width: 7,
+						height: 6,
+						backgroundColor: 'rgba(0, 0, 0,0.3)',
+						border: '1px rgba(0, 0, 0,0) solid',
+						color: '#fff',
+						selectedBackgroundColor: 'rgba(249,183,45,1)',
+						selectedBorder: '1px rgba(249,183,45,1) solid'
+					},
 			}
 		},
 		filters: {
@@ -251,6 +266,9 @@
 					url: '/pages/shop-command/shop-command?id=' + id
 				})
 			},
+			swiperChange(e) {
+				 this.swiperCurrent = e.detail.current;
+			}, 
 			changeType(index) {
 				this.current = index;
 				let explainH = 0
@@ -450,6 +468,8 @@
 				}
 				if(this.addType == 2) {
 					// 跳转到下单页面
+					// console.log(this.specificationsId, this.product_num)
+					this.buy();
 					return;
 				}
 			},
@@ -505,6 +525,31 @@
 					this.addType = 2;
 					this.togglePopup('bottom', 'spec');
 				}
+				let goodsList = [{
+					id: this.detailId,
+					specificationsList :[{
+						specificationsId: this.specificationsId,
+						specificationsNum: this.product_num
+					}]
+				}];
+				uni.request({
+				    url: this.url + 'controller/shopcontroller/addorder',
+				    method: 'post',
+				    data: {goodsList: JSON.stringify(goodsList)},
+				    header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
+				    success:((res) => {
+				        if(res.data.code == 200) {
+							uni.navigateTo({
+								url: '/pages/confirm-order/confirm-order'
+							})
+				        } 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+				    })
+				});
 			},
 			// 添加数量
 			add() {
@@ -611,7 +656,7 @@
 		font-size: 32rpx;
 	}
 	/* 轮播 start */
-	#swiper, .swiper {
+	#swiper, .swiper-box {
 		width: 100%;
 		height: 682rpx;
 	}
@@ -626,9 +671,7 @@
 		display: block;
 	}
 	/deep/ uni-swiper .uni-swiper-dot-active {
-		width: 11px;
-		border-radius: 4px;
-		background-color:rgba(249,183,45,.7);
+		
 	}
 	/* 商品 start */
 	.product {

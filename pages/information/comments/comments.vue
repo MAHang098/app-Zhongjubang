@@ -3,11 +3,16 @@
 		<view class="collection-list" v-for="(item, index) in allData" :key="index">
 			<view class="details-list">
 				<view class="left">
-					<view class="avatar">
+					<view class="avatar" @tap="goOtheruser(item.userId)">
 						<image :src="item.msg.head" mode=""></image>
 					</view>
 					<view class="details">
-						<view class="name">{{item.msg.nickName}} <image src="http://www.zhongjubang.com/api/upload/static/fans-logo.png" mode=""></image></view>
+						<view class="name">{{item.msg.nickName}} 
+							<image v-if="item.msg.title == '设计达人'" src="../../../static/img/title/design-people.png" mode=""></image>
+							<image v-if="item.msg.title == '人气网红'" src="../../../static/img/title/red-hot.png" mode=""></image>
+							<image v-if="item.msg.title == '居圈达人'" src="../../../static/img/title/circle-people.png" mode=""></image>
+							<image v-if="item.msg.title == '金牌业主'" src="../../../static/img/title/gold-owner.png" mode=""></image>
+						</view>
 						<view class="time">{{item.createTime}}</view>
 						<view class="follow">
 							{{item.msg.discuss | ellipsis}}
@@ -157,6 +162,13 @@
 			},
 			// G圈的评论
 			circleUrl() {
+				if(this.discussInput == '') {
+					uni.showToast({
+						title: '请输入评论的内容',
+						icon: 'none'
+					})
+					return;
+				}
 				let params = {
 					outUserId: this.userId, 
 					id: this.id, 
@@ -176,20 +188,23 @@
 									url: '/pages/loginPhone/loginPhone'
 								})
 							}
-							this.discussInput = '';
+							
 							this.cancel('popup')
 							uni.showToast({
 								title: '发送成功',
 								duration: 500
 							})
+							this.discussInput = '';
 							this.init();
 						} else {
+							
 							this.cancel('popup')
 							uni.showToast({
 								title: '当前评论已删除',
 								duration: 500,
 								icon: 'none'
 							});
+							this.discussInput = '';
 							this.init();
 						}
 						if(res.data.code == 407) {
@@ -250,7 +265,12 @@
 				}
 				this.$refs[type].close()
 			},
-			
+			// 跳转到用户详情
+			goOtheruser(id){
+				uni.navigateTo({
+					url: '/pages/otherUser/otherUser?userid=' + id
+				})
+			},
 		}
 	}
 </script>

@@ -34,7 +34,7 @@
 					<text>系统信息</text>
 					<text>{{system.count > 0 ? '您有新的消息，请查看': '暂无消息'}}</text>
 				</view>
-				<view class="timers">{{system.createTime}}</view>
+				<!-- <view class="timers">{{system.createTime}}</view> -->
 			</view>
 			<view class="home" @click.stop="goGood">
 				<text class="num" v-show="good.count > 0">{{good.count}}</text>
@@ -45,7 +45,7 @@
 					<text>商品消息</text>
 					<text>{{good.count > 0 ? '您有新的消息，请查看': '暂无消息'}}</text>
 				</view>
-				<view class="timers">{{good.createTime}}</view>
+				<!-- <view class="timers">{{good.createTime}}</view> -->
 			</view>
 			<view class="private-letter">
 				<text class="num" v-show="item.likeCount > 0">{{item.likeCount}}</text>
@@ -56,7 +56,7 @@
 					<text>私信消息</text>
 					<text>{{item.likeCount > 0 ? '您有新的消息，请查看': '暂无消息'}}</text>
 				</view>
-				<view class="timers">11-19</view>
+				<!-- <view class="timers">11-19</view> -->
 			</view>
 		</view>
 		<!-- 信息详情 end -->

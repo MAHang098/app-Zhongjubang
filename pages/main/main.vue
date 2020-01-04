@@ -62,7 +62,7 @@
 					<view 
 						class="zhong-content-image"
 						v-for="(item, index) in zhongList" :key="index"
-						:style="{backgroundImage: 'url(' + item.talk_theme_img + ')', backgroundSize:'contain'}"
+						:style="{backgroundImage: 'url(' + item.talk_theme_img + ')', backgroundSize:'cover', 'backgroundRepeat': 'no-repeat'}"
 						@tap="goTopicDetails(item.id)"
 					>
 						<view class="zhong-content-tyt"></view>
@@ -607,7 +607,7 @@
 		width:346upx;
 		height:218upx;
 		background:rgba(0,0,0,1);
-		border-radius:14upx;
+		border-radius: 5px;
 		text-align: center;
 		font-size:30upx;
 		font-family:PingFang SC;
@@ -619,6 +619,7 @@
 	}
 	.zhong-content-text{
 		z-index: 1000;
+		font-size: 15px;
 	}
 	.zhong-content-tyt{
 		position: absolute;

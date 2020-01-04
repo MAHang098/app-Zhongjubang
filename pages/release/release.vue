@@ -65,7 +65,13 @@
 								}else{
 									console.log("请求异常")
 								}
-							}
+							}, 
+							fail: ((res) => {
+								uni.showToast({
+									title: '请求超时',
+									icon: 'none'
+								})
+							})
 						})
 					}
 				})
@@ -112,7 +118,13 @@
 										that.tempFilePaths = [];
 									}
 									
-								}
+								},
+								fail: ((res) => {
+									uni.showToast({
+										title: '请求超时',
+										icon: 'none'
+									})
+								})
 							});
 						}
 						
