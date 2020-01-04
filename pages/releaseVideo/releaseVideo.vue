@@ -44,6 +44,7 @@
 
 <script>
 	import uniPopup from "@/components/uni-popup/uni-popup.vue"
+	var app = getApp()
 	export default {
 		components:{ uniPopup},
 	    data() {
@@ -206,7 +207,6 @@
 						console.log(res)
 						console.log(res.data.code)
 						if(res.data.code==200){
-							getApp().globalData.showVideo = 1
 							uni.switchTab({
 								url: "/pages/user/user"
 							})

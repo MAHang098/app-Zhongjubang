@@ -9,6 +9,14 @@
 		}
 	},
 	{
+		"path": "pages/webView/webView",
+		"style": {
+			"app-plus": {
+				"titleNView": false //禁用原生导航栏  
+			}
+		}
+	},
+	{
 	    "path" : "pages/testRelease/testRelease",
 	    "style" : {
 			"app-plus": {
@@ -514,6 +522,10 @@
 			}
         }
         
+        ,{
+            "path" : "pages/webView/webView",
+            "style" : {}
+        }
     ],
 	"subPackages": [
 		// 上传图片需要用到的页面

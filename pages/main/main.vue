@@ -117,7 +117,7 @@
 				<text @tap="goAlljuquan" class="video-nav-more">更多</text>
 				<image @tap="goAlljuquan" class="video-nav-more-image" style="width:11upx;height:20upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/more.png" mode="" />
 			</view>
-			<image class="" style="width:750upx;height:230upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/juquan-bg.png" mode="" />
+			<image class="" style="width:750upx;height:230upx;" :src="gcircleList" mode="" />
 			<view class="juquan-content" v-for="(item, index) in topList" :key="index">
 				<view class="juquan-content-model">
 					<image @tap="goJuquan(item.id)" class="juquan-content-model-image" style="width:347upx;height:355upx;" :src="item.img_list[0].fileUrl" mode="" />
@@ -189,6 +189,7 @@
 				topList: [],
 				zhongList: [],
 				bannerList: [],
+				gcircleList: '',
 			}
 		},
 		filters: {
@@ -217,6 +218,21 @@
 				success: function (res){
 					if(res.data.code=="200"){
 						self.bannerList = res.data.data
+					}
+				}
+			})
+			// 居圈图片
+			
+			uni.request({
+				url: url + 'public/public/getresourcesbyresourcestype',
+				data: {
+					resourcesTypeName:'app_index_gcircle_img'
+				},
+				method:"POST",
+				header : {'content-type':'application/x-www-form-urlencoded','port':'app'},
+				success: function (res){
+					if(res.data.code=="200"){
+						self.gcircleList = res.data.data[0].resource
 					}
 				}
 			})
@@ -299,8 +315,12 @@
 		},
 		methods: {
 			goBanner(id){
-				if(id=='http'){
-					mWebView.loadUrl(id)
+				var str = id;
+				console.log(str.indexOf("http") != -1 );  // true
+				if(str.indexOf("http") != -1){
+					uni.navigateTo({
+						url: '/pages/webView/webView?lian=' + id
+					});
 				}else{
 					uni.navigateTo({
 						url: id

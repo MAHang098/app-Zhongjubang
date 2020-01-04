@@ -418,11 +418,7 @@
 			this.releaseImgList = [];
 			this.init();
 			
-			let showVideo = getApp().globalData.showVideo
-			console.log(showVideo)
-			if(showVideo==1){
-				changeProduct(1)
-			}
+			
 		},
         onShow(){
 			let token
@@ -494,7 +490,6 @@
 				}
 			});
 			this.initVideo()
-			
 		},
 		// 上拉加载
 		onReachBottom: function() {
