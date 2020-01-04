@@ -21,12 +21,17 @@
 			</view>
 			<view class="follow-fans"  v-show="current == 0">
 				<view class="fans-list" v-for="(item, index) in followData" :key="index">
-					<view class="left">
+					<view class="left" @tap="goOtherUser(item.outUserId)">
 						<view class="avatar">
 							<image :src="item.head" mode=""></image>
 						</view>
 						<view class="details">
-							<view class="name">{{item.nickName}} <image src="http://www.zhongjubang.com/api/upload/static/fans-logo.png" mode=""></image></view>
+							<view class="name">{{item.nickName}} 
+								<image v-if="item.title == '设计达人'" src="../../static/img/title/design-people.png" mode=""></image>
+								<image v-if="item.title == '人气网红'" src="../../static/img/title/red-hot.png" mode=""></image>
+								<image v-if="item.title == '居圈达人'" src="../../static/img/title/circle-people.png" mode=""></image>
+								<image v-if="item.title == '金牌业主'" src="../../static/img/title/gold-owner.png" mode=""></image>
+							</view>
 							<text class="follow">粉丝{{item.fanCount}}</text>
 						</view>
 					</view>
@@ -39,12 +44,17 @@
 			
 			<view class="fans" v-show="current == 1">
 				<view class="fans-list" v-for="(item, index) in fansData" :key="index">
-					<view class="left">
+					<view class="left" @tap="goOtherUser(item.inUserId)">
 						<view class="avatar">
 							<image :src="item.head" mode=""></image>
 						</view>
 						<view class="details">
-							<view class="name">{{item.nickName}} <image src="http://www.zhongjubang.com/api/upload/static/fans-logo.png" mode=""></image></view>
+							<view class="name">{{item.nickName}} 
+								<image v-if="item.title == '设计达人'" src="../../../static/img/title/design-people.png" mode=""></image>
+								<image v-if="item.title == '人气网红'" src="../../../static/img/title/red-hot.png" mode=""></image>
+								<image v-if="item.title == '居圈达人'" src="../../../static/img/title/circle-people.png" mode=""></image>
+								<image v-if="item.title == '金牌业主'" src="../../../static/img/title/gold-owner.png" mode=""></image>
+							</view>
 							<text class="follow">粉丝{{item.fanCount}}</text>
 						</view>
 					</view>
@@ -76,17 +86,27 @@
 				fansData: []
 			}
 		},
-		
-		mounted() {
+		onLoad(options){
 			uni.getStorage({
 				key:"token",
 				success:((res) => {
-				this.token = res.data;
-			  })
+					this.token = res.data;
+				})
 			});
 			this.init();
+			if(options.id==0){
+				this.changeProduct(1)
+			}else{
+				this.changeProduct(0)
+			}
+			
 		},
 		methods: {
+			goOtherUser(id){
+				uni.navigateTo({
+					url: '/pages/otherUser/otherUser?userid=' + id
+				})
+			},
 			// 关注
 			init() {
 				uni.request({
@@ -103,12 +123,6 @@
 						if(res.data.code == 200) {
 							let data = res.data.data.dataList;
 							this.followData = data;
-						}
-						if(res.data.code == 407) {
-							uni.showToast({
-								title: '请重新登录'
-								
-							})
 						}
 					})
 				})

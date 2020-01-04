@@ -30,7 +30,7 @@
 			</view>
 			<!-- add tag end -->
 			
-			<view class="product" >
+			<view class="product" v-show="showCollect">
 				<view class="product-tag">
 					<view v-for="(item, index) in tabType" :class="index == current ? 'active' : '' " @click="changeProduct(index)" :key="index">
 						{{item}}
@@ -78,7 +78,8 @@
 				productItem: [],
 				collectList: [],
 				token: '',
-				addProduct: []
+				addProduct: [],
+				showCollect: true
 			}
 		},
 		onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
@@ -96,7 +97,6 @@
 		},
 		onShow() {
 			this.getProduct();
-			this.collects();
 		},
 		methods: {
 			// 获取添标商品
@@ -129,7 +129,7 @@
 					softinputNavBar: 'none'
 				})
 				// #endif
-				
+				this.showCollect = false;
 			},
 			onBlur() {
 				// #ifdef APP-PLUS
@@ -137,7 +137,7 @@
 					softinputNavBar: 'auto'
 				})
 				// #endif
-				
+				this.showCollect = true;
 			},
 			// 设置标签的x，y轴坐标
 			fRandomBy(under, over) {
@@ -161,6 +161,7 @@
 				}
 				this.searchInput = e.detail.value;
 				this.isShowAdd = true;
+				this.searchList();
 			},
 			// 点击添加标签按钮返回图片标签页面
 			goBack(type, name, price, url, id) {
@@ -218,6 +219,25 @@
 					url: this.url + 'controller/usercontroller/getgoodslistbycollection',
 					method: 'post',
 					data: {pageIndex: 1, pageSize: 20},
+					header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
+					success:((res) => {
+						if(res.data.code == 200) {
+							this.productItem = res.data.data.dataList;
+						} 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+					})
+				});
+			},
+			// 用户搜索商品列表
+			searchList() {
+				uni.request({
+					url: this.url + 'controller/shopcontroller/getgoodslistbygoodsname',
+					method: 'post',
+					data: {pageIndex: 1, pageSize: 20, goodsName: this.searchInput},
 					header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 					success:((res) => {
 						if(res.data.code == 200) {

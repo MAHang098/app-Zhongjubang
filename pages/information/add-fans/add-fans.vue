@@ -3,11 +3,16 @@
 		<view class="fans-list" v-for="(item, index) in allData" :key="index">
 			<view class="fans-details">
 				<view class="left">
-					<view class="avatar">
+					<view class="avatar" @tap="goOtheruser(item.inUserId)">
 						<image :src="item.head" mode=""></image>
 					</view>
 					<view class="details">
-						<view class="name">{{item.nickName}} <image src="http://www.zhongjubang.com/api/upload/static/fans-logo.png" mode=""></image></view>
+						<view class="name">{{item.nickName}} 
+							<image v-if="item.title == '设计达人'" src="../../../static/img/title/design-people.png" mode=""></image>
+							<image v-if="item.title == '人气网红'" src="../../../static/img/title/red-hot.png" mode=""></image>
+							<image v-if="item.title == '居圈达人'" src="../../../static/img/title/circle-people.png" mode=""></image>
+							<image v-if="item.title == '金牌业主'" src="../../../static/img/title/gold-owner.png" mode=""></image>
+						</view>
 						<view class="time">{{item.createTime}}</view>
 						<view class="follow">关注了你</view>
 					</view>
@@ -97,6 +102,12 @@
 							})
 						}
 					})
+				})
+			},
+			// 跳转到用户详情
+			goOtheruser(id){
+				uni.navigateTo({
+					url: '/pages/otherUser/otherUser?userid=' + id
 				})
 			},
 		}

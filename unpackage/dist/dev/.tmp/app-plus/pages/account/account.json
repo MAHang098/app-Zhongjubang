@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "账号与绑定",
-  "usingComponents": {
-    "uni-popup": "/components/uni-popup/uni-popup"
-  }
-}

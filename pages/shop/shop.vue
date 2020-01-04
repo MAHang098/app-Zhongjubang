@@ -85,9 +85,10 @@
 				isShowEdit: false, // 是否显示删除
 				deleteIds: [],   // 删除的数组
 				cartTotal: 0,   // 总数
+				settlementP: []
 			}
 		},
-		onShow(){
+		onLoad(){
 			uni.getStorage({
 				key:"token",
 				success:((res) => {
@@ -185,12 +186,50 @@
 			},
 			// 结算
 			toDo() {
+				this.settlementP = [];
 				if(this.checkNum == 0) {
 					uni.showToast({
 						title: '请选择需要结算的商品',
 						icon: 'none'
 					})
+					return;
 				}
+				let list = [];
+				this.goodsList.forEach((item, index) => {
+					item.list.forEach((m, i) => {
+						if(m.checked) {
+							let obj = [{
+								specificationsId: m.specificationsId,
+								specificationsNum: m.quantity
+							}]
+							let arr = {
+								id: m.goodsId,
+								specificationsList: obj
+							}
+							
+							this.settlementP.push(arr);
+						}
+						
+					})
+				})
+				uni.request({
+				    url: this.url + 'controller/shopcontroller/addorder',
+				    method: 'post',
+				    data: {goodsList: JSON.stringify(this.settlementP)},
+				    header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
+				    success:((res) => {
+				        if(res.data.code == 200) {
+							uni.navigateTo({
+								url: '/pages/confirm-order/confirm-order'
+							})
+				        } 
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+				    })
+				});
 			},
 			// 全选
 			isSelectAll() {

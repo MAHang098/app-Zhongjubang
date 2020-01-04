@@ -1,1 +1,0 @@
-<view><view class="comment-list"><block wx:for="{{commentList}}" wx:for-item="item" wx:for-index="index" wx:key="index"><view class="comment-detail"><image src="{{item.head}}" mode></image><text>{{item.nickName}}</text><view class="comment-date">{{item.crateeTime}}</view><view>{{item.goodsContentDiscuss+''}}</view></view></block></view></view>

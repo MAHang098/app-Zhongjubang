@@ -53,7 +53,12 @@
 						<view class="user-message" @tap="goOtheruser(items.userId)">
 							<image :src="items.head" mode=""></image>
 							<view>
-								<view class="name">{{items.nickName}}</view>
+								<view class="name">{{items.nickName}}
+									<image v-if="items.designation == '设计达人'" src="../../static/img/title/design-people.png" mode=""></image>
+									<image v-if="items.designation == '人气网红'" src="../../static/img/title/red-hot.png" mode=""></image>
+									<image v-if="items.designation == '居圈达人'" src="../../static/img/title/circle-people.png" mode=""></image>
+									<image v-if="items.designation == '金牌业主'" src="../../static/img/title/gold-owner.png" mode=""></image>
+								</view>
 								<view class="time">{{items.createTime}}</view>
 							</view>
 						</view>
@@ -104,15 +109,15 @@
 						<view class="operate-bottom_share"><image src="http://www.zhongjubang.com/api/upload/static/img/user/share.png" mode=""></image></view>
 						<view class="operate-bottom_number">
 							<view class="number-message" @click.stop="contentDetail(items.gcircleContentId)">
-								<image src="http://www.zhongjubang.com/api/upload/static/img/user/message.png" mode=""></image>
+								<image src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/message.png" mode=""></image>
 								<text>{{items.gCollectionDiscussNum}}</text>
 							</view>
-							<view class="collect">
-								<image @click.stop="collect(index, items.gcircleContentId, items.collectionState, current)" :src="items.collectionState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/collect-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/star.png' " mode=""></image>
+							<view class="collect"  @click.stop="collect(index, items.gcircleContentId, items.collectionState, current)">
+								<image :src="items.collectionState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/collect-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/star.png' " mode=""></image>
 								<text>{{items.collectionNum}}</text>
 							</view>
-							<view class="fabulous" >
-								<image @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState, current)" :src="items.gcircleContentLikeState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
+							<view class="fabulous" @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState, current)" >
+								<image :style="{'margin-bottom': items.gcircleContentLikeState === 1 ? '2px': ''}" :src="items.gcircleContentLikeState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
 								<text>{{items.gcircleContentLikeNum}}</text>
 							</view>
 						</view>
@@ -125,7 +130,8 @@
 			<!-- 点击右边三点显示的遮罩层 start -->
 			<view id="mask" v-show="showEdit"></view>
 			<!-- 点击右边三点显示的遮罩层 end -->
-			<view class="look-more">-{{status== 'end' ? '没有更多' : '上拉加载更多'}}-</view>
+			<!-- <view class="look-more">-{{status== 'end' ? '没有更多' : '上拉加载更多'}}-</view> -->
+			<view class="look-more">-没有更多-</view>
 			<!-- <uni-load-more :status="status" :content-text="contentText" /> -->
 			<!-- G圈所有内容 end -->
 		</view>
@@ -181,7 +187,7 @@
 			  return value
 			}
 		},
-		onShow() {
+		onLoad() {
 			uni.getStorage({
 				key:"token",
 				success:((res) => {
@@ -194,6 +200,9 @@
 			this.releaseImgList = [];
 			this.init();
 			this.recommend();
+		},
+		onHide() {
+			this.init();
 		},
 		// 上拉加载
 		onReachBottom: function() {
@@ -702,7 +711,7 @@
 		border-radius: 3px;
 	}
 	.category-detial .mask {
-		width: 97%;
+		width: 96%;
 		height: 190rpx;
 		background: rgba(0,0,0,.3);
 		z-index: 1;
@@ -714,7 +723,9 @@
 		width: 100%;
 		font-size:30rpx;
 		font-family:PingFang SC;
-		color:rgba(255,205,99,1);
+		/* color:rgba(255,205,99,1); */
+		color: #fff;
+		font-weight: bold;
 		position: absolute;
 		top: 54rpx;
 		text-align: center;

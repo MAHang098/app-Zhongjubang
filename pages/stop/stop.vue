@@ -19,7 +19,6 @@
 					</swiper-item>
 				</swiper>
 			</uni-swiper-dot>
-			
 		</view>
 		<view class="buy">
 			<view class="buy-left" @tap='goWanghong'>
@@ -268,7 +267,7 @@
 			},
 			goSearch(){
 				uni.navigateTo({
-					url: "/pages/G-circle/search-list/search-list"
+					url: "/pages/G-circle/search-content/search-content"
 				})
 			},
 			// 删除G圈内容

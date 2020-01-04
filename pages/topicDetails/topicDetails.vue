@@ -41,7 +41,13 @@
 								<image :src="item.head" mode=""></image>
 							</view>
 							<view class="user-details">
-								<view class="name">{{item.nickName}} <image src="http://www.zhongjubang.com/api/upload/static/fans-logo.png" mode=""></image></view>
+								<view class="name">{{item.nickName}} 
+									<!-- <image src="http://www.zhongjubang.com/api/upload/static/fans-logo.png" mode=""></image> -->
+									<image v-if="item.title == '设计达人'" src="../../static/img/title/design-people.png" mode=""></image>
+									<image v-if="item.title == '人气网红'" src="../../static/img/title/red-hot.png" mode=""></image>
+									<image v-if="item.title == '居圈达人'" src="../../static/img/title/circle-people.png" mode=""></image>
+									<image v-if="item.title == '金牌业主'" src="../../static/img/title/gold-owner.png" mode=""></image>
+								</view>
 								<view class="time">{{item.createTime}}</view>
 							</view>
 						</view>
@@ -71,7 +77,7 @@
 						<view class="share"><image src="http://www.zhongjubang.com/api/upload/static/img/user/share.png" mode=""></image></view>
 						<view class="number">
 							<view class="message" @click.stop="contentDetail(item.gcircleContentId)">
-								<image src="http://www.zhongjubang.com/api/upload/static/img/user/message.png" mode=""></image>
+								<image src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/message.png" mode=""></image>
 								<text>{{item.gCollectionDiscussNum}}</text>
 							</view>
 							<view class="collect" @click.stop="collect(index, item.gcircleContentId, item.collectionState)">
@@ -79,10 +85,22 @@
 								<text>{{item.collectionNum}}</text>
 							</view>
 							<view class="fabulous"  @click.stop="fabulous(index, item.gcircleContentId,  item.gContentLikeState)">
-								<image :src="(fabulousIndex == index && isShowFabulous) || item.gContentLikeState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
+								<image :style="{'margin-bottom': item.gContentLikeState === 1 ? '2px': ''}" :src="(fabulousIndex == index && isShowFabulous) || item.gContentLikeState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
 								<text>{{item.gCollectionLikeNum}}</text>
-								<!-- <text>{{fabulousIndex }}</text> -->
+								
 							</view>
+							<!-- <view class="message" @click.stop="contentDetail(item.gcircleContentId)">
+								<image src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/message.png" mode=""></image>
+								<text>{{items.gCollectionDiscussNum}}</text>
+							</view>
+							<view class="collect"  @click.stop="collect(index, items.gcircleContentId, items.collectionState, current)">
+								<image :src="items.collectionState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/collect-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/star.png' " mode=""></image>
+								<text>{{items.collectionNum}}</text>
+							</view>
+							<view class="fabulous" @click.stop="fabulous(index, items.gcircleContentId, items.gContentLikeState, current)" >
+								<image :style="{'margin-bottom': items.gContentLikeState === 1 ? '2px': ''}" :src="items.gContentLikeState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
+								<text>{{items.gcircleContentLikeNum}}</text>
+							</view> -->
 						</view>
 					</view>
 					<!-- 操作按钮 end -->
@@ -187,6 +205,7 @@
 					contentnomore: '没有更多'
 				},
 				page: 1,
+				id: ''
 				
 			}
 		},
@@ -406,6 +425,7 @@
             },
             // 关注
             focus(index, id, state) {
+				let self = this
                 let token = '';
                 uni.getStorage({
                     key:"token",
@@ -420,7 +440,7 @@
                     header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
                     success:(res) => {
                         if(res.data.code == 200) {
-                            this.init(this.topicId);
+                            self.init(self.topicId);
                             this.activeIndex = index;
 							if(state == 1) {
 								this.isShowFocus = false;
@@ -633,7 +653,6 @@
 </script>
 
 <style>
-	/* @import 'http://www.zhongjubang.com/api/upload/static/css/comments.css'; /*引入评论弹窗的样式 */ 
 	@import '../../static/css/releaseImgList.css'; /*引入G圈列表样式*/
 	page, #topicDetail {
 		background: #F9F9F9;
@@ -923,8 +942,8 @@
 		display: inlin-block;
 	}
 	.collect image, .fabulous image, .comments-user .fabulous image {
-		width: 32rpx;
-		height: 31rpx;
+		width: 18px;
+		height: 17px;
 		display: inlin-block;
 	}
 	.select {

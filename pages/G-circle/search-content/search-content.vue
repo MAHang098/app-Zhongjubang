@@ -286,8 +286,9 @@
 			},
 			// 取消
 			cancelBack() {
-
-				uni.navigateBack()
+				uni.switchTab({
+					url: '/pages/juquan/juquan'
+				})
 			},
 		}
 	}
@@ -477,5 +478,5 @@
 		color: #F9B72C;
 		border-left: 1px solid #E2E2E2;
 	}
-
+	
 </style>

@@ -32,11 +32,11 @@
 					<image v-if="item.title=='金牌业主'" class="" style="width: 148upx;height: 148upx;" src="http://www.zhongjubang.com/api/upload/static/img/designation/icon.png" />
 					<image v-if="item.title=='设计达人'" class="" style="width: 148upx;height: 148upx;" src="../../static/img/designation/icon2.png" />
 					<image v-if="item.title=='网红达人'" class="" style="width: 148upx;height: 148upx;" src="../../static/img/designation/icon3.png" />
-					<image v-if="item.title=='G圈达人'" class="" style="width: 148upx;height: 148upx;" src="../../static/img/designation/icon4.png" />
+					<image v-if="item.title=='居圈达人'" class="" style="width: 148upx;height: 148upx;" src="../../static/img/designation/icon4.png" />
 					<view class="title-designe">{{item.title}}</view>
 					<view class="">
 						<label>
-							<radio checked=“true” value="r1" color="#FFCC33" style="transform:scale(0.7)" @click.stop=""/>
+							<radio value="r1" :checked="item.isDefault" color="#FFCC33" style="transform:scale(0.7)" @click.stop="singleChecked(item.id)"/>
 						</label>
 					</view>
 				</view>
@@ -102,6 +102,37 @@
 			this.initInfo()
 		},
 		methods: {
+			// 选择标签
+			singleChecked(id){
+				let token
+				let self = this
+				uni.getStorage({
+				    key:"token",
+				    success: function (res) {
+				        token = res.data;
+				    }
+				})
+				const url = this.url
+				uni.request({
+				    url: url + "controller/usercontroller/updateappusertitle",
+				    data: {
+						appUserTitleId: id
+					},
+				    method: 'POST',
+				    header : {
+				        'content-type':'application/x-www-form-urlencoded', 
+				        'port': 'app',
+				        'token': token
+				    },
+				    success: function (res){
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+				    }
+				})
+			},
 			goBack(){
 				uni.navigateBack({
 					delta: 1

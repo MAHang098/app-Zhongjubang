@@ -1,6 +1,6 @@
 <template>
     <view class="wrap">
-        <view class="bg">
+        <view @tap="chooseImage2" class="bg">
         	<image :src="cover" mode=""></image>
         </view>
 		<view class="left-menu" @click="showDrawer('left')">
@@ -8,7 +8,7 @@
 		</view>
 		<!-- 侧边栏start -->
 		<uni-drawer :visible="showLeft" mode="left" @close="closeDrawer('left')">
-			<view class="drawer-content">
+			<scroll-view scroll-y="true"  class="drawer-content">
 				<view class="drawer-more">更多</view>
 				<view class="more-list" @tap="goPockets">
 					<image class="more-list-image" style="width:33rpx;height:36rpx;margin-right:30rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/pockets.png" mode=""></image>
@@ -48,11 +48,13 @@
 					<image style="width:38rpx;height:39rpx;margin-right:30rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/setting.png" mode=""></image>
 					<text class="my-pockets">设置</text>
 				</view>
-			</view>
+				
+			</scroll-view>
 		</uni-drawer>
 		<!-- 侧边栏end -->
 		<view class="right-wechat" @click.stop="goInformation">
-			<image src="http://www.zhongjubang.com/api/upload/static/img/user/right-wechat.png" mode=""></image>
+			<image v-if="messageState == 1" src="http://www.zhongjubang.com/api/upload/static/img/user/right-wechat.png" mode=""></image>
+			<image v-else src="http://www.zhongjubang.com/api/upload/static/img/main/info.png" mode=""></image>
 		</view>
 		<view class="user-avater">
 			<image :src="head" mode=""></image>
@@ -83,9 +85,9 @@
 				{{remarks}}
 			</view>
 			<view class="user-recommend">
-				<text>粉丝{{fannum}}</text><text>关注{{attentionnum}}</text><text>获赞{{likenum}}</text>
-				<image src="http://www.zhongjubang.com/api/upload/static/img/user/hot.png" mode=""></image>
-				<text id="number">{{feverBranch}}</text>
+				<text @tap="goAddfans(0)">粉丝{{fannum}}</text><text @tap="goAddfans(1)">关注{{attentionnum}}</text><text>获赞{{likenum}}</text>
+				<image  @tap="goHot" src="http://www.zhongjubang.com/api/upload/static/img/user/hot.png" mode=""></image>
+				<text  @tap="goHot" id="number">{{feverBranch}}</text>
 			</view>
 		</view>
 		<!-- 我的动态 -->
@@ -175,12 +177,12 @@
 								<image src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/message.png" mode=""></image>
 								<text>{{items.gCollectionDiscussNum}}</text>
 							</view>
-							<view class="collect">
-								<image @click.stop="collect(index, items.gcircleContentId, items.collectionState)" :src="(activeIndex == index && isShowCollect) || items.collectionState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/collect-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/star.png' " mode=""></image>
+							<view class="collect" @click.stop="collect(index, items.gcircleContentId, items.collectionState)">
+								<image  :src="(activeIndex == index && isShowCollect) || items.collectionState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/collect-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/star.png' " mode=""></image>
 								<text>{{items.collectionNum}}</text>
 							</view>
-							<view class="fabulous" >
-								<image @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState)" :src="(fabulousIndex == index && isShowFabulous) || items.gcircleContentLikeState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
+							<view class="fabulous" @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState)" >
+								<image :style="{'margin-bottom': items.gcircleContentLikeState === 1 ? '2px': ''}" :src="(fabulousIndex == index && isShowFabulous) || items.gcircleContentLikeState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
 								<text>{{items.gcircleContentLikeNum}}</text>
 							</view>
 						</view>
@@ -235,7 +237,7 @@
 				<view class="video-wrap" v-if="current2==3" >
 					<view class="wang-content-wrap">
 						<view class="wang-content" v-for="(item, index) in collectShop" :key="index">
-							<image class="wang-content-image" style="width:200upx;height:190upx;" :src="item.shopLogo" @tap="goDetails(item.shopId)" mode=""></image>
+							<image class="wang-content-image" style="width:200upx;height:190upx;" :src="item.shopLogo" @tap="goDetailsShop(item.shopId)" mode=""></image>
 						    <text class="wang-content-des">{{item.shop_name}}</text>
 						    <text class="wang-content-goods">{{item.goodsNum}}个商品</text>
 						    <text class="wang-content-tit">{{item.colNum}}人收藏</text>
@@ -246,9 +248,8 @@
 				<!-- 收藏店铺内容end -->
 				<!-- 收藏图片内容start -->
 				<!-- <view class="video-wrap"> -->
-					
 					<view class="category-content">
-						<view class="category-content-box"  v-if="current2==0" v-for="(item, index) in collectPic" :key="index" @tap="goDetails(item.id)">
+						<view class="category-content-box"  v-if="current2==0" v-for="(item, index) in collectPic" :key="index" @tap="goDetailsPic(item.gcircleContentId)">
 							<image class="category-content-image" style="width:345upx;height:345upx" :src="item.imgList[0].fileUrl" />
 							<view class="category-content-des">{{item.content | ellipsis2}}</view>
 							<image class="category-content-price" style="width:52upx;height:55upx;border-radius: 50%;" :src="item.head" />
@@ -324,7 +325,7 @@
 				showRigth: false,
 				showLeft: false,
 				tabType: ['我的动态', '短视频', '收藏'],
-				collectType: ['图片·0', '视频·0', '商品·0', '商铺·0'],
+				collectType: ['图片', '视频', '商品', '商铺'],
 				show: '',
 				show1: '',
 				showDelete: '',
@@ -383,8 +384,10 @@
 					// contentrefresh: '加载中',
 					contentnomore: '没有更多'
 				},
-				page: 1
-				
+				page: 1,
+				height: '',
+				userTitle: '',
+				messageState: 0
 	        }
 		},
 		filters: {
@@ -404,7 +407,16 @@
 			},
 		},
 		onLoad(options){
-			
+			let _this = this;
+			uni.getStorage({
+				key:"token",
+				success: function (res) {
+					_this.Tokens = res.data;
+				}
+			})
+			this.page = 1;
+			this.releaseImgList = [];
+			this.init();
 		},
         onShow(){
 			let token
@@ -414,7 +426,6 @@
 				key:"token",
 				success: function (res) {
 					token = res.data;
-					self.Tokens = res.data;
 				}
 			})
 			const url = this.url
@@ -464,6 +475,8 @@
 					self.nickName = res.data.data.nickName
 					self.remarks = res.data.data.remarks
 					self.sex = res.data.data.sex
+					self.userTitle = res.data.data.title;
+					self.messageState = res.data.data.messageState;
 					if(res.data.data.sex==1){
 						self.show = true
 					}else if(res.data.data.sex==2){
@@ -475,9 +488,7 @@
 				}
 			});
 			this.initVideo()
-			this.page = 1;
-			this.releaseImgList = [];
-			this.init();
+			
 		},
 		// 上拉加载
 		onReachBottom: function() {
@@ -489,6 +500,75 @@
 			this.init();
 		},
         methods: {
+			// 修改背景图片
+			getCover(){
+				uni.request({
+					url: this.url + "/controller/usercontroller/getappuser",
+					data: {},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': this.Tokens
+					},
+					success: function (res){
+					// console.log(res.data.code)
+					if(res.data.code==200){
+						
+						self.cover = res.data.data.cover
+						
+						}else{
+							console.log("请求异常")
+						}
+					}
+				});
+			},
+			// 上传背景图片
+			chooseImage2() {
+				let that = this;
+				uni.chooseImage({
+				    count: 9, //默认9
+				    // sizeType:'compressed', //可以指定是原图还是压缩图，默认二者都有
+				    sourceType: ['album'], //从相册选择
+				    success: function (res) {
+						
+						const tempFilePaths = res.tempFilePaths[0];
+						
+			            uni.uploadFile({
+			                url: that.url + '/upload', //仅为示例，非真实的接口地址
+			                filePath: tempFilePaths,
+			                name: 'file',
+			                formData: {
+			                    'user': 'test'
+			                },
+			                success: (uploadFileRes) => {
+			                    let data = JSON.parse(uploadFileRes.data);
+			                    console.log(data.data.fileUrl)
+			                    that.cover = data.data.fileUrl
+								that.getCover()
+			                }
+			            })
+						
+						
+						
+				    }
+				})
+			},
+			goDetailsPic(id){
+				uni.navigateTo({
+					url: '/pages/releaseImage-details/releaseImage-details?id=' + id
+				})
+			},
+			goGiveLike(){
+				uni.navigateTo({
+					url: '/pages/information/give-like/give-like'
+				})
+			},
+			goAddfans(id){
+				uni.navigateTo({
+					url: '/pages/information/all-fans/all-fans?id=' + id
+				})
+			},
 			//删除商品
 			deleteCommand(id){
 				console.log(id)
@@ -531,6 +611,12 @@
 			goDetails(id){
 				uni.navigateTo({
 					url: '/pages/shopping-mall/detail/detail?id='+id
+				})
+			},
+			// 去店铺详情
+			goDetailsShop(id){
+				uni.navigateTo({
+					url: '/pages/shop-command/shop-command?id='+id
 				})
 			},
 			deleteVideo(activeVideo){
@@ -586,6 +672,9 @@
 				if(index == 1) {
 					type = 2;
 				} 
+				if(index == 2){
+					this.initCollectPic()
+				}
 				this.init(type);
 			},
 			changeCollect(index) {
@@ -1173,6 +1262,9 @@
 				})
 			},
 			goRecommend(){
+				uni.navigateTo({
+					url: '/pages/my-evaluate/my-evaluate'
+				})
 			},
 			goAccount(){
 				uni.navigateTo({
@@ -1180,6 +1272,9 @@
 				})
 			},
 			goRanked(){
+				uni.navigateTo({
+					url: '/pages/myRanked/myRanked'
+				})
 			},
 			goIdentify(){
 				uni.navigateTo({
@@ -1448,7 +1543,6 @@
 	}
 	.drawer-content{
 		float: left;
-
 	}
 	.drawer-more{
 		float: left;
@@ -1468,6 +1562,7 @@
 	}
 	.more-list:first-child{
 		margin-top: 72rpx;
+		margin-bottom: 90rpx;
 	}
 	.more-list-image{
 		float: left;
@@ -1673,7 +1768,7 @@
 	.category-content-box{
 		position: relative;
 		float: left;
-		margin-left: 20upx;
+		/* margin-left: 16upx; */
 		margin-top: 18upx;
 		position: relative;
 		width:345upx;
@@ -1684,7 +1779,7 @@
 		border-radius:6upx;
 	}
 	.category-content-box:nth-child(even){
-		margin-left: 16upx;
+		margin-left: 8upx;
 	}
 	.category-content-box:nth-last-child(1){
 		margin-bottom: 220upx;

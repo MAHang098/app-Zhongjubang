@@ -219,8 +219,8 @@
 }
 
 .relese-image_detail .collect image, .relese-image_detail .fabulous image, .relese-image_detail .comments-user .fabulous image, .relese-image_detail .number-message image  {
-	width: 32rpx;
-	height: 31rpx;
+	width: 18px;
+	height: 17px;
 	display: inlin-block;
 }
 .relese-image_detail .select {

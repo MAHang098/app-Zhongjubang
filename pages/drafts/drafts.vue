@@ -12,10 +12,10 @@
 				<!-- 用户信息 start -->
 				<view class="user">
 					<view class="message">
-						<image src="http://www.zhongjubang.com/api/upload/static/drafts.png" mode=""></image>
+						<image style="border-radius: 50%;" :src="head" mode=""></image>
 						<view>
-							<view class="name">晴天小猪</view>
-							<view class="time">219-12-30 09:30</view>
+							<view class="name">{{nickName}}</view>
+							<view class="time">{{items.createTime}}</view>
 						</view>
 					</view>
 					<view class="operate" @click.stop="operate(indexs)">
@@ -82,6 +82,8 @@
 				showEdit: false,
 				draftsList: [],
 				imageDrafts: [],
+				nickName: '',
+				head: '',
 				content: '某臣氏骑剑活动！水雾质地 很轻薄 不沾黏！在上待几分钟会变成雾面哑光感某臣氏骑剑活动！水雾质地 很轻薄 不沾黏！在上待几分钟会变成雾面哑光感 超高级！显色很持久...不沾黏！在上待几分钟会变成雾面哑光感 超高级！显色很持久...'
 			}
 		},
@@ -94,7 +96,7 @@
 			  return value
 			}
 		},
-		onShow() {
+		onLoad() {
 			let that = this;
 			uni.getStorage({
 				key:"token",
@@ -103,8 +105,24 @@
 			  }
 			})
 			this.init(1);
+			this.getInfo()
 		},
 		methods: {
+			getInfo(){
+				let that = this
+				uni.request({
+					url: this.url + 'controller/usercontroller/getappuser',
+					method: 'post',
+					data: {},
+					header : {'content-type':'application/x-www-form-urlencoded', 'token': that.token, 'port': 'app'},
+					success: ((res) => {
+						if(res.data.code == 200) {
+							that.nickName = res.data.data.nickName
+							that.head = res.data.data.head
+						}
+					})
+				});
+			},
 			//视频草稿
 			draftsVideo(){
 				console.log('1111')
@@ -287,6 +305,7 @@
 		display: flex;
 		justify-content: flex-start;
 		line-height: 35rpx;
+		width: 80%;
 	}
 	.message image {
 		width: 90rpx;
@@ -305,7 +324,6 @@
 		margin-bottom: 12rpx;
 	}
 	.message .time {
-		width:210rpx;
 		height:19rpx;
 		font-size:24rpx;
 		font-family:PingFang SC;

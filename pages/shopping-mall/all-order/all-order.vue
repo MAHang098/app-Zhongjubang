@@ -100,7 +100,7 @@
 			<view class="uni-tip">
 				<!-- <view class="uni-tip-title">提示</view> -->
 				<!-- <view class="uni-tip-content">您确定删除此订单？</view> -->
-				<view class="uni-tip-content">宝贝错过就没有啦 真的不要了吗？</view>
+				<view class="uni-tip-content">{{popupTitle}}</view>
 				<view class="uni-tip-group-button">
 					<view class="uni-tip-button" @click.stop="cancel('tip')">取消</view>
 					<view class="uni-tip-button insist-skip" @click.stop="cancel('skip')">确定</view>
@@ -122,7 +122,9 @@
 				token: '',
 				orderList: [],
 				saleList: [],
-				order_num: ''
+				order_num: '',
+				popupTitle: '宝贝错过就没有啦 真的不要了吗？',
+				orderState: null
 			}
 		},
 		onLoad(option) {
@@ -258,6 +260,10 @@
 					return
 				}
 				if(type == 'skip') {
+					if(this.orderState == 7) {
+						this.deluserorder();
+						return;
+					}
 					uni.request({
 						url: this.url + "controller/shopcontroller/delappuserorder",
 						method: 'POST',
@@ -322,6 +328,38 @@
 						url:'/pages/shopping-mall/order-comments/order-comments?num=' + num
 					})
 				}
+				if(state == 7) {
+					this.orderState = state;
+					this.order_num = num;
+					this.popupTitle = '确定删除订单吗？';
+					this.togglePopup('center', 'tip')
+					
+				}
+			},
+			// 删除订单
+			deluserorder(num) {
+				uni.request({
+					url: this.url + "controller/shopcontroller/deluserorder",
+					method: 'POST',
+					data: {orderNum: this.order_num},
+					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
+					success: ((res) => {
+						if(res.data.code==200){
+							
+							uni.showToast({
+								title: '订单删除成功'
+							})
+							this.popupShow = false;
+							this.init('');
+							this.afterSale()
+						}
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+					})
+				})
 			},
 			// 跳转到订单搜索
 			goSearchOrder() {

@@ -2,9 +2,10 @@
 	<view>
 		<view class="banner">
 			<image class="banner-image" style="width:750rpx;height:300rpx;" src="http://www.zhongjubang.com/api/upload/static/img/shop-command/banner.png" mode=""></image>
-			<image class="back" style="width:37rpx;height:46rpx;" src="http://www.zhongjubang.com/api/upload/static/img/shop-command/back.png" mode=""></image>
+			<image @tap="goBack" class="back" style="width:37rpx;height:46rpx;" src="http://www.zhongjubang.com/api/upload/static/img/shop-command/back.png" mode=""></image>
 			<image class="search-image" style="width:31rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/img/shop-command/search.png" mode=""></image>
-			<input placeholder="搜索品牌内商品" class="search" type="text" value="" />
+			<!-- <input placeholder="搜索品牌内商品" class="search" type="text" value="" /> -->
+			<view class="search" @tap="goSearch">搜索品牌内商品</view>
 			<image class="share-image" style="width:39upx;height:48upx;" src="http://www.zhongjubang.com/api/upload/static/img/shop-command/share.png" mode=""></image>
 			<image class="logo-image" style="width:148upx;height:138upx;" :src="shopLogo" mode=""></image>
 			<view class="title">{{shopName}}</view>
@@ -98,6 +99,16 @@
 			},
 		},
 		methods: {
+			goBack(){
+				uni.navigateBack({
+					delta: 1
+				})
+			},
+			goSearch(){
+				uni.navigateTo({
+					url: '/pages/G-circle/search-content/search-content'
+				})
+			},
 			goDetails(id){
 				uni.navigateTo({
 					url: '/pages/shopping-mall/detail/detail?id='+id
