@@ -417,6 +417,8 @@
 			this.page = 1;
 			this.releaseImgList = [];
 			this.init();
+			
+			
 		},
         onShow(){
 			let token
@@ -488,7 +490,6 @@
 				}
 			});
 			this.initVideo()
-			
 		},
 		// 上拉加载
 		onReachBottom: function() {
@@ -1764,6 +1765,7 @@
 	/* 收藏图片内容start */
 	.category-content{
 		/* margin-left: -20upx; */
+		overflow: hidden;
 	}
 	.category-content-box{
 		position: relative;

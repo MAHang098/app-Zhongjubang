@@ -14,7 +14,7 @@
 			<image class="search-white" style="width:750upx;height:105upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/white.png" mode="" />
 			<uni-swiper-dot :info=bannerList :current="current" :mode="mode" :dots-styles="dotStyle" field="content">
 				<swiper class="swiper-box" @change="change">
-					<swiper-item v-for="(item, index) in bannerList" :key="index">
+					<swiper-item v-for="(item, index) in bannerList" :key="index" @tap="goBanner(item.url)">
 						<view :class="item.colorClass" class="swiper-item">
 							<image :src="item.resource" mode="aspectFill" />
 						</view>
@@ -30,7 +30,7 @@
 				<text @tap="goJuquanVideo" class="video-nav-more">更多</text>
 				<image @tap="goJuquanVideo" class="video-nav-more-image" style="width:11upx;height:20upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/more.png" mode="" />
 			</view>
-			
+			<view style="clear: both;"></view>
 			<view>
 				<swiper
 					class="card-swiper"
@@ -108,6 +108,7 @@
 				</swiper>
 			</view>
 		</view>
+		<view style="clear: both;"></view>
 		<!-- 居圈 -->
 		<view class="juquan">
 			<view class="juquan-nav">
@@ -116,7 +117,7 @@
 				<text @tap="goAlljuquan" class="video-nav-more">更多</text>
 				<image @tap="goAlljuquan" class="video-nav-more-image" style="width:11upx;height:20upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/more.png" mode="" />
 			</view>
-			<image class="" style="width:750upx;height:230upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/juquan-bg.png" mode="" />
+			<image class="" style="width:750upx;height:230upx;" :src="gcircleList" mode="" />
 			<view class="juquan-content" v-for="(item, index) in topList" :key="index">
 				<view class="juquan-content-model">
 					<image @tap="goJuquan(item.id)" class="juquan-content-model-image" style="width:347upx;height:355upx;" :src="item.img_list[0].fileUrl" mode="" />
@@ -128,6 +129,7 @@
 			</view>
 			
 		</view>
+		<view style="clear:both"></view>
 		<view class="footer-more">-上拉查看更多-</view>
 	</view>
 </template>
@@ -187,6 +189,7 @@
 				topList: [],
 				zhongList: [],
 				bannerList: [],
+				gcircleList: '',
 			}
 		},
 		filters: {
@@ -208,13 +211,28 @@
 			uni.request({
 				url: url + 'public/public/getresourcesbyresourcestype',
 				data: {
-					resourcesTypeName:'app_shop_index_img'
+					resourcesTypeName:'app_index_img'
 				},
 				method:"POST",
 				header : {'content-type':'application/x-www-form-urlencoded','port':'app'},
 				success: function (res){
 					if(res.data.code=="200"){
 						self.bannerList = res.data.data
+					}
+				}
+			})
+			// 居圈图片
+			
+			uni.request({
+				url: url + 'public/public/getresourcesbyresourcestype',
+				data: {
+					resourcesTypeName:'app_index_gcircle_img'
+				},
+				method:"POST",
+				header : {'content-type':'application/x-www-form-urlencoded','port':'app'},
+				success: function (res){
+					if(res.data.code=="200"){
+						self.gcircleList = res.data.data[0].resource
 					}
 				}
 			})
@@ -296,6 +314,19 @@
 			})
 		},
 		methods: {
+			goBanner(id){
+				var str = id;
+				console.log(str.indexOf("http") != -1 );  // true
+				if(str.indexOf("http") != -1){
+					uni.navigateTo({
+						url: '/pages/webView/webView?lian=' + id
+					});
+				}else{
+					uni.navigateTo({
+						url: id
+					});
+				}
+			},
 			// 跳转到消息页面
 			goInformation() {
 				uni.navigateTo({
@@ -512,20 +543,23 @@
 	}
 	.video-nav{
 		position: relative;
-		text-align: center;
+		/* text-align: center;
+		height: 60rpx; */
 		/* margin-bottom: -26upx; */
 	}
 	.video-nav-hot{
-		position: absolute;
-		top: 8upx;
-		left: 30upx;
+		float: left;
+		margin-top: 8upx;
+		margin-left: 30upx;
 		font-size:34upx;
 		font-family:PingFang SC;
 		font-weight:600;
 		color:rgba(51,51,51,1);
 	}
 	.video-nav-eye{
-		top: 10upx;
+		float: left;
+		margin-left: 50upx;
+		margin-top: 18upx;
 		font-size:24upx;
 		font-family:PingFang SC;
 		color:rgba(102,102,102,1);
@@ -700,16 +734,18 @@
 	.juquan-nav{
 		position: relative;
 		text-align: center;
-		margin-bottom: 22upx;
+		/* margin-bottom: 22upx; */
+		height: 90rpx;
+		margin-top: 60rpx;
 	}
 	.juquan-content{
 		float: left;
 		margin-top:10px;
 		margin-left: 11px;
 	}
-	.juquan-content:nth-last-child(1){
-		margin-bottom: 60px;
-	}
+	/* .juquan-content:nth-last-child(1){
+		margin-bottom: 60rpx;
+	} */
 	.juquan-content-model{
 		position: relative;
 		width: 347upx;
@@ -751,7 +787,7 @@
 	.footer-more{
 		height: 120upx;
 		line-height: 120upx;
-		padding-bottom: 100rpx;
+		/* padding-bottom: 100px; */
 		box-sizing: border-box;
 		bottom: 134px;
 		text-align: center;
