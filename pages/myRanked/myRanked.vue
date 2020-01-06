@@ -10,7 +10,7 @@
 			<image class="head" style="width: 132upx;height: 126upx;border-radius: 50%;" :src="head" />
 			<view class="nick-name">{{nickName}}</view>
 			<view class="user-state">
-				<image src="../../static/img/title/design-people.png" mode=""></image>
+				<image v-if="userTitle == '设计达人'" src="../../static/img/title/design-people.png" mode=""></image>
 				<image v-if="userTitle == '人气网红'" src="../../static/img/title/red-hot.png" mode=""></image>
 				<image v-if="userTitle == '居圈达人'" src="../../static/img/title/circle-people.png" mode=""></image>
 				<image v-if="userTitle == '金牌业主'" src="../../static/img/title/gold-owner.png" mode=""></image>
@@ -213,7 +213,7 @@
 						}
 				        self.nickName = res.data.data.nickName
 				        self.head = res.data.data.head
-						self.userTitle = res.data.title
+						self.userTitle = res.data.data.title
 				    }
 				})
 			},
