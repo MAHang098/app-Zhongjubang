@@ -2,105 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="84510198-0e66-4579-b3e0-3c273ca7765b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/G-circle/search-content/search-content.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/G-circle/search-content/search-content.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/main/main.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/main/main.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/release/release.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/release/release.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/releaseImage/release-image/release-image.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/releaseImage/release-image/release-image.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/releaseImage/search-tag/search-tag.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/releaseImage/search-tag/search-tag.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/shopping-mall/all-order/all-order.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/shopping-mall/all-order/all-order.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/confirm-order/confirm-order.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/confirm-order/confirm-order.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/editInfo/editInfo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/editInfo/editInfo.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/loginPhone/loginPhone.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/loginPhone/loginPhone.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/receiving-address/receiving-address.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/receiving-address/receiving-address.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/shop/shop.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/shop/shop.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/shopping-mall/detail/detail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/shopping-mall/detail/detail.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/shopping-mall/replacement-applyDetail/replacement-applyDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/shopping-mall/replacement-applyDetail/replacement-applyDetail.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/topicDetails/topicDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/topicDetails/topicDetails.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/user/user.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/user/user.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/common/vendor.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/common/vendor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/components/m-icon/m-icon.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/components/m-icon/m-icon.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/components/m-input.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/components/m-input.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/components/mpvue-citypicker/mpvueCityPicker.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/components/mpvue-citypicker/mpvueCityPicker.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/components/mpvue-picker/mpvuePicker.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/components/mpvue-picker/mpvuePicker.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/components/uni-badge/uni-badge.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/components/uni-badge/uni-badge.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/components/uni-drawer/uni-drawer.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/components/uni-drawer/uni-drawer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/components/uni-icons/uni-icons.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/components/uni-icons/uni-icons.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/components/uni-list-item/uni-list-item.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/components/uni-list-item/uni-list-item.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/components/uni-list/uni-list.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/components/uni-list/uni-list.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/components/uni-pagination/uni-pagination.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/components/uni-pagination/uni-pagination.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/components/uni-popup/uni-popup.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/components/uni-popup/uni-popup.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/components/uni-section/uni-section.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/components/uni-section/uni-section.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/components/uni-swiper-banner/uni-swiper-banner.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/components/uni-swiper-banner/uni-swiper-banner.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/components/uni-swiper-stop/uni-swiper-stop.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/components/uni-swiper-stop/uni-swiper-stop.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/G-circle/search-content/search-content.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/G-circle/search-content/search-content.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/G-circle/search-list/search-list.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/G-circle/search-list/search-list.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/ID-card/ID-card.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/ID-card/ID-card.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/account/account.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/account/account.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/add-adress/add-adress.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/add-adress/add-adress.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/balanceDetails/balanceDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/balanceDetails/balanceDetails.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/bindPhone/bindPhone.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/bindPhone/bindPhone.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/bindPhone1/bindPhone1.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/bindPhone1/bindPhone1.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/changePwd/changePwd.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/changePwd/changePwd.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/drawer/drawer.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/drawer/drawer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/identity/all-authentication/all-authentication.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/identity/all-authentication/all-authentication.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/identity/circle-people/circle-people.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/identity/circle-people/circle-people.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/identity/designer-people/designer-people.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/identity/designer-people/designer-people.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/identity/designer/designer.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/identity/designer/designer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/identity/owner-people/owner-people.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/identity/owner-people/owner-people.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/identity/owner/owner.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/identity/owner/owner.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/identity/rednet-people/rednet-people.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/identity/rednet-people/rednet-people.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/identity/rednet/rednet.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/identity/rednet/rednet.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/identity/write/write.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/identity/write/write.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/information/comments/comments.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/information/comments/comments.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/loginPhone/loginPhone.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/loginPhone/loginPhone.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/loginPwd/loginPwd.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/loginPwd/loginPwd.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/main/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/main/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/main/main.wxml" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/main/main.wxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/main/main.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/main/main.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/myRanked/myRanked.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/myRanked/myRanked.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/otherUser/otherUser.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/otherUser/otherUser.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/personal/order-exchange/order-exchange.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/personal/order-exchange/order-exchange.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/previewImage/previewImage.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/previewImage/previewImage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/pwd/pwd.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/pwd/pwd.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/receiving-address/receiving-address.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/receiving-address/receiving-address.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/reg/reg.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/reg/reg.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/release/release.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/release/release.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/releaseImage-details/releaseImage-details.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/releaseImage-details/releaseImage-details.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/releaseImage/add-tag/add-tag.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/releaseImage/add-tag/add-tag.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/releaseImage/release-image/release-image.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/releaseImage/release-image/release-image.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/releaseImage/release-image/release-image.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/releaseImage/release-image/release-image.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/releaseImage/search-tag/search-tag.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/releaseImage/search-tag/search-tag.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/releaseImage/search-tag/search-tag.wxml" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/releaseImage/search-tag/search-tag.wxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/releaseVideo/releaseVideo.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/releaseVideo/releaseVideo.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/releaseVideo2/releaseVideo2.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/releaseVideo2/releaseVideo2.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/setting/setting.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/setting/setting.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/shop/shop.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/shop/shop.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/shopping-mall/all-order/all-order.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/shopping-mall/all-order/all-order.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/shopping-mall/all-order/all-order.wxml" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/shopping-mall/all-order/all-order.wxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/shopping-mall/detail-evaluate/detail-evaluate.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/shopping-mall/detail-evaluate/detail-evaluate.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/shopping-mall/detail/detail.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/shopping-mall/detail/detail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/shopping-mall/logistics/logistics.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/shopping-mall/logistics/logistics.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/shopping-mall/order-comments/order-comments.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/shopping-mall/order-comments/order-comments.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/shopping-mall/order-detail/order-detail.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/shopping-mall/order-detail/order-detail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/shopping-mall/order-search/order-search.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/shopping-mall/order-search/order-search.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/shopping-mall/order-searchList/order-searchList.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/shopping-mall/order-searchList/order-searchList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/shopping-mall/replacement-apply/replacement-apply.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/shopping-mall/replacement-apply/replacement-apply.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/shopping-mall/replacement-applyDetail/replacement-applyDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/shopping-mall/replacement-applyDetail/replacement-applyDetail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/stop/stop.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/stop/stop.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/take-cash/take-cash.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/take-cash/take-cash.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/topicDetails/topicDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/topicDetails/topicDetails.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/topicDetails/topicDetails.json" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/topicDetails/topicDetails.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/topicDetails/topicDetails.wxml" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/topicDetails/topicDetails.wxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/topicDetails/topicDetails.wxss" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/topicDetails/topicDetails.wxss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/updatePswd/updatePswd.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/updatePswd/updatePswd.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/updatePswd1/updatePswd1.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/updatePswd1/updatePswd1.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/user/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/user/user.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/user/user.wxml" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/user/user.wxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/wallet/wallet.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/.tmp/app-plus/pages/wallet/wallet.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/app-plus/__uniappview.html" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/app-plus/__uniappview.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/app-plus/app-config.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/app-plus/app-config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/app-plus/app-service.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/app-plus/app-service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/app-plus/app-view.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/app-plus/app-view.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/app-plus/pages/G-circle/search-content/search-content.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/app-plus/pages/G-circle/search-content/search-content.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/app-plus/pages/main/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/app-plus/pages/main/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/app-plus/pages/releaseImage/release-image/release-image.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/app-plus/pages/releaseImage/release-image/release-image.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/app-plus/pages/topicDetails/topicDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/app-plus/pages/topicDetails/topicDetails.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/shopping-mall/order-detail/order-detail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/shopping-mall/order-detail/order-detail.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/stop/stop.vue" beforeDir="false" afterPath="$PROJECT_DIR$/pages/stop/stop.vue" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -142,25 +51,26 @@
     <session id="-135722125">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="5" />
+          <entry key="project.closed" value="6" />
           <entry key="project.open.time.10" value="1" />
           <entry key="project.open.time.270" value="1" />
           <entry key="project.open.time.3" value="1" />
+          <entry key="project.open.time.41" value="1" />
           <entry key="project.open.time.7" value="2" />
           <entry key="project.open.time.8" value="2" />
-          <entry key="project.opened" value="7" />
+          <entry key="project.opened" value="8" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="js" value="3" />
-          <entry key="vue" value="2" />
+          <entry key="vue" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="JavaScript" value="3" />
-          <entry key="Vue.js" value="2" />
+          <entry key="Vue.js" value="3" />
         </counts>
       </usages-collector>
     </session>
@@ -170,8 +80,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pages/topicDetails/topicDetails.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7619">
-              <caret line="401" column="25" selection-start-line="401" selection-start-column="25" selection-end-line="401" selection-end-column="25" />
+            <state relative-caret-position="7980">
+              <caret line="420" column="25" selection-start-line="420" selection-start-column="25" selection-end-line="420" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -193,16 +103,18 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pages/G-circle/search-content/search-content.vue">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="361">
               <caret line="19" column="36" selection-start-line="19" selection-start-column="36" selection-end-line="19" selection-end-column="36" />
-              <folding>
-                <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
-              </folding>
             </state>
           </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/pages/releaseVideo2/releaseVideo2.vue">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
@@ -310,6 +222,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -326,39 +239,12 @@
               <item name="app-Zhongjubang" type="b2602c69:ProjectViewProjectNode" />
               <item name="app-Zhongjubang" type="462c0819:PsiDirectoryNode" />
               <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="G-circle" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="app-Zhongjubang" type="b2602c69:ProjectViewProjectNode" />
-              <item name="app-Zhongjubang" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="G-circle" type="462c0819:PsiDirectoryNode" />
-              <item name="search-content" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="app-Zhongjubang" type="b2602c69:ProjectViewProjectNode" />
-              <item name="app-Zhongjubang" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="G-circle" type="462c0819:PsiDirectoryNode" />
-              <item name="search-list" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="app-Zhongjubang" type="b2602c69:ProjectViewProjectNode" />
-              <item name="app-Zhongjubang" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="juquan" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="app-Zhongjubang" type="b2602c69:ProjectViewProjectNode" />
-              <item name="app-Zhongjubang" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="user" type="462c0819:PsiDirectoryNode" />
+              <item name="releaseVideo2" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -396,16 +282,17 @@
       <workItem from="1577696863778" duration="672000" />
       <workItem from="1578015352967" duration="272000" />
       <workItem from="1578036538896" duration="121000" />
+      <workItem from="1578296639343" duration="180000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14200000" />
+    <option name="totallyTimeSpent" value="14380000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19402985" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19616205" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -493,8 +380,8 @@
     <entry file="file://$USER_HOME$/AppData/Local/Temp/Rar$DRa1328.11320/app-Zhongjubang/store/index.js" />
     <entry file="file://$PROJECT_DIR$/pages/topicDetails/topicDetails.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7619">
-          <caret line="401" column="25" selection-start-line="401" selection-start-column="25" selection-end-line="401" selection-end-column="25" />
+        <state relative-caret-position="7980">
+          <caret line="420" column="25" selection-start-line="420" selection-start-column="25" selection-end-line="420" selection-end-column="25" />
         </state>
       </provider>
     </entry>
@@ -518,11 +405,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="361">
           <caret line="19" column="36" selection-start-line="19" selection-start-column="36" selection-end-line="19" selection-end-column="36" />
-          <folding>
-            <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/releaseVideo2/releaseVideo2.vue">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
   </component>
 </project>

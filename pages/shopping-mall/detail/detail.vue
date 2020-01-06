@@ -407,22 +407,33 @@
 			},
 			// 收藏商品
 			collectProduct(id) {
+				uni.showLoading({
+					title:'加载中'
+				})
 				uni.request({
 				    url: this.url + 'controller/usercontroller/addusercollection',
 				    method: 'post',
 				    data: {type: '3', collectionContentId: id},
 				    header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 				    success:((res) => {
+						console.log(res)
 				        if(res.data.code == 200) {
 							// this.typeItem = res.data.data;
 							this.init();
+							uni.hideLoading()
 				        } 
 						if(res.data.code == 421) {
 							uni.navigateTo({
 								url: '/pages/loginPhone/loginPhone'
 							})
 						}
-				    })
+				    }),
+					fail: ((res) => {
+						uni.showToast({
+							title: '请求超时',
+							icon: 'none'
+						})
+					})
 				});
 			},
 			// 商品规格
@@ -540,7 +551,7 @@
 				    success:((res) => {
 				        if(res.data.code == 200) {
 							uni.navigateTo({
-								url: '/pages/confirm-order/confirm-order'
+								url: '/pages/confirm-order/confirm-order?num='+res.data.data.orderNum
 							})
 				        } 
 						if(res.data.code == 421) {

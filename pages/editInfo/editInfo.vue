@@ -125,7 +125,7 @@
 	    methods: {
 			goAddress(){
 				uni.navigateTo({
-					url: '/pages/add-adress/add-adress'
+					url: '/pages/receiving-address/receiving-address'
 				})
 			},
             back(){
