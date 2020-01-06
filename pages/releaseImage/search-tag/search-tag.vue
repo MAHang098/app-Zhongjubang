@@ -286,22 +286,20 @@
 		height: 70rpx;
 		background: #f6f6f6;
 		border-radius: 35rpx;
+		display: flex;
+		align-items: center;
 	}
 	.search-input image {
 		width: 26rpx;
 		height: 26rpx;
 		display: block;
-		position: absolute;
-		top: 23rpx;
-		left: 24rpx;
-		
+		margin-left: 15px;
+		margin-right: 5px;
 	}
 	.search-input input {
 		width: 88%;
 		margin: 0;
 		font-size: 26rpx;
-		margin-left: 60rpx;
-		margin-top: 10rpx;
 	}
 	.cancel {
 		width: 13%;

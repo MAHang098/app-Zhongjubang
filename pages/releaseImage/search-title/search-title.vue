@@ -264,26 +264,23 @@
 	.search-input {
 		position: relative;
 		width: 100%;
-		/* line-height: 35rpx; */
+		height: 70rpx;
+		background: #f6f6f6;
+		border-radius: 35rpx;
+		display: flex;
+		align-items: center;
 	}
 	.search-input image {
 		width: 26rpx;
 		height: 26rpx;
 		display: block;
-		position: absolute;
-		top: 23rpx;
-		left: 24rpx;
-		
+		margin-left: 15px;
+		margin-right: 5px;
 	}
 	.search-input input {
 		width: 88%;
-		border-radius: 35rpx;
-		height: 70rpx;
-		line-height: 13px;
 		margin: 0;
 		font-size: 26rpx;
-		padding-left: 60rpx;
-		background: #f6f6f6;
 	}
 	.cancel {
 		width: 13%;

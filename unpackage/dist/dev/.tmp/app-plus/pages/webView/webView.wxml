@@ -1,0 +1,1 @@
+<view><image class="image" src="http://www.zhongjubang.com/api/upload/static/img/G-circle/search-back.png" mode data-event-opts="{{[['tap',[['goBack',['$event']]]]]}}" bindtap="__e"></image><web-view src="{{lian}}"></web-view></view>
