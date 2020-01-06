@@ -1,6 +1,14 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页,
 	{
+	    "path" : "pages/testVideo/testVideo",
+	    "style" : {
+			"app-plus": {
+				"titleNView": false //禁用原生导航栏  
+			}
+		}
+	},
+	{
 		"path": "pages/main/main",
 		"style": {
 			"app-plus": {
@@ -25,14 +33,7 @@
 		}
 	},
 	
-	{
-	    "path" : "pages/testVideo/testVideo",
-	    "style" : {
-			"app-plus": {
-				"titleNView": false //禁用原生导航栏  
-			}
-		}
-	},
+	
 	
 		
 		{

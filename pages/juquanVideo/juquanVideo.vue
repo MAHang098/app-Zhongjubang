@@ -91,6 +91,18 @@
 		},
 		
 		methods: {
+			changeVideoType(id){
+				id = id.replace('MP4','jpg')
+				id = id.replace('mp4','jpg')
+				id = id.replace('flv','jpg')
+				id = id.replace('avi','jpg')
+				id = id.replace('rmvb','jpg')
+				id = id.replace('rm','jpg')
+				id = id.replace('wmv','jpg')
+				id = id.replace('MOV','jpg')
+				id = id.replace('mov','jpg')
+				return id
+			},
 			goOtherUser(id){
 				uni.navigateTo({
 					url: '/pages/otherUser/otherUser?userid=' + id
@@ -119,9 +131,7 @@
 						if(res.data.code==200){
 				            console.log(res)
 							for(var i = 0;i < res.data.data.dataList.length;i++){
-								
-								res.data.data.dataList[i].videoUrl = res.data.data.dataList[i].videoUrl.replace('MP4','jpg')
-								res.data.data.dataList[i].videoUrl = res.data.data.dataList[i].videoUrl.replace('mp4','jpg')
+								res.data.data.dataList[i].videoUrl = self.changeVideoType(res.data.data.dataList[i].videoUrl)
 							}
 				            self.searchList = res.data.data.dataList
 						}else{
@@ -164,9 +174,7 @@
 						if(res.data.code==200){
                             console.log(res)
 							for(var i = 0;i < res.data.data.dataList.length;i++){
-								
-								res.data.data.dataList[i].videoUrl = res.data.data.dataList[i].videoUrl.replace('MP4','jpg')
-								res.data.data.dataList[i].videoUrl = res.data.data.dataList[i].videoUrl.replace('mp4','jpg')
+								res.data.data.dataList[i].videoUrl = self.changeVideoType(res.data.data.dataList[i].videoUrl)
 							}
                             self.videoList = res.data.data.dataList
 						}else{
@@ -191,8 +199,7 @@
                             console.log(res)
 							for(var i = 0;i < res.data.data.dataList.length;i++){
 								
-								res.data.data.dataList[i].videoUrl = res.data.data.dataList[i].videoUrl.replace('MP4','jpg')
-								res.data.data.dataList[i].videoUrl = res.data.data.dataList[i].videoUrl.replace('mp4','jpg')
+								res.data.data.dataList[i].videoUrl = self.changeVideoType(res.data.data.dataList[i].videoUrl)
 							}
                             self.InternetCelebrityList = res.data.data.dataList
 						}else{

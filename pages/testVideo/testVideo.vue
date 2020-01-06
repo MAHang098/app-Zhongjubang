@@ -20,45 +20,7 @@
 				
 				
 			</video>
-		
-				<view  class="goods padding">
-					<view class="title text-cut">{{video.goodstitle}}</view>
-					<view class="flex">
-						<view class="flex-sub">
-							<view class="seller">{{video.goodsnick}} | {{video.goodsarea}}</view>
-							<view class="payinfo">
-								<text class="currency">¥</text>
-								<text class="price">{{video.goodsprice}}</text>
-								<text class="payernum">{{video.payer_num}}人付款</text>
-							</view>
-						</view>
-						<view class="action flex flex-sub justify-end align-start">
-							
-								<view @tap="like" :data-index="index" class="favor">
-									<image class="favor-img" :src="video.favorId!=null?'/static/img/favor.png':'/static/img/unlike.png'"></image>
-									<view class="favor-num">{{video.favorite_num}}</view>
-								</view>
-								<view class="share">
-									<image src='/static/img/share.png'></image>
-									<view>{{video.share_num}}</view>
-								</view>
-							
-							<button @tap="toPage('/pages/goods/goods?goodsId='+video.goodsid)"  class="cu-btn round bg-blue">好物详情</button>
-						</view>
-					</view>
-				
-				
-					<view class="user flex justify-start align-end">
-						<image class="head-img" :src="video.head_img" ></image>
-						<view class="nickname">{{video.nick_name}}  推荐</view>
-						<view class="location flex justify-start align-end">
-							<view class="cuIcon-locationfill location-icon"></view>
-							<view class="location-name">{{video.location_name}}</view>
-						</view>
-					</view>
-					<view class="desc">{{video.video_desc}}</view>
-				</view>
-			</view>
+		</view>
 		</scroll-view>
 		
 		

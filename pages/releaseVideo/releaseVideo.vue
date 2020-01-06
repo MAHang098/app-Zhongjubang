@@ -17,8 +17,11 @@
 		</view>
 		<!--  v-if="src" -->
 		<view class="video1" v-if="videoUrl">
-			<video :src="videoUrl" mode=""></video>
+			<!-- <video :src="load" mode=""></video> -->
+			<image class="video-image" :src="load" mode=""></image>
 			<image class="close" @tap="delectVideo" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo/close.png" mode="" />
+			<image class="video-start" @tap="delectVideo" src="../../static/img/releaseVideo/start.png" mode="" />
+			
 		</view>
 
 		<!-- 底部 start -->
@@ -60,6 +63,7 @@
 				popupType: '',
 				type: '',
 				appUserDraftsId: '',
+				load: ''
 				// src: 'http://www.zhongjubang.com/api/upload/static/img/releaseVideo/add.png'
 	        }
 		},
@@ -67,6 +71,7 @@
 			let self = this
 			if(options.fileUrl){
 				console.log(options.fileUrl)
+				self.load = self.changeVideoType(options.fileUrl)
 				self.videoUrl = options.fileUrl
 				self.fileName = options.src
 			}else if(options.id){
@@ -75,6 +80,7 @@
 					console.log(drafts)
 					console.log(drafts.url)
 					console.log(drafts.name)
+					self.load = self.changeVideoType(drafts.url)
 					self.videoUrl = drafts.url
 					self.src = drafts.name
 					self.desc = drafts.content
@@ -91,6 +97,18 @@
 
 		},
 	    methods: {
+			changeVideoType(id){
+				id = id.replace('MP4','jpg')
+				id = id.replace('mp4','jpg')
+				id = id.replace('flv','jpg')
+				id = id.replace('avi','jpg')
+				id = id.replace('rmvb','jpg')
+				id = id.replace('rm','jpg')
+				id = id.replace('wmv','jpg')
+				id = id.replace('MOV','jpg')
+				id = id.replace('mov','jpg')
+				return id
+			},
 			init() {
 				let that = this
 				this.draftsList = [];
@@ -129,6 +147,7 @@
                     success:(res) =>{
                         if(res.confirm){
                             self.videoUrl = ''
+							self.load = ''
                         }
                     }
                 })
@@ -158,6 +177,7 @@
 								if(uploadFileRes.data.code==200){
 									self.src = uploadFileRes.data.data.fileName
 									self.videoUrl = uploadFileRes.data.data.fileUrl
+									self.load = self.changeVideoType(uploadFileRes.data.data.fileUrl)
 									console.log(self.src)
 									console.log(self.videoUrl)
 								}else{
@@ -413,7 +433,7 @@
 	.video{
 		position: absolute;
 		left: 29rpx;
-		top:428rpx;
+		top:460rpx;
 		width:221rpx;
 		height:208rpx;
 	}
@@ -424,12 +444,16 @@
 	.video1{
 		position: absolute;
 		left: 29rpx;
-		top:428rpx;
+		top:460rpx;
 		width:221rpx;
 		height:208rpx;
 		z-index: 99;
 	}
 	.video1 video{
+		width:221rpx;
+		height:208rpx;
+	}
+	.video-image{
 		width:221rpx;
 		height:208rpx;
 	}
@@ -439,6 +463,14 @@
 		top:20rpx;
 		width:26rpx;
 		height:26rpx;
+		z-index: 999;
+	}
+	.video-start{
+		position: absolute;
+		left: 90rpx;
+		top:80rpx;
+		width:54rpx;
+		height:60rpx;
 		z-index: 999;
 	}
 	.close image{
