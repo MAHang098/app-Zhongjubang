@@ -1,6 +1,38 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页,
 	{
+	    "path" : "pages/swiper-vertical2/swiper-vertical2",
+	    "style" : {
+			"app-plus": {
+				"titleNView": false //禁用原生导航栏  
+			}
+		}
+	},
+	{
+	    "path" : "pages/swiper-vertical/swiper-vertical",
+	    "style" : {
+			"app-plus": {
+				"titleNView": false //禁用原生导航栏  
+			}
+		}
+	},
+	{
+	    "path" : "pages/testRelease/testRelease",
+	    "style" : {
+			"app-plus": {
+				"titleNView": false //禁用原生导航栏  
+			}
+		}
+	},
+	{
+		"path": "pages/webView/webView",
+		"style": {
+			"app-plus": {
+				"titleNView": false //禁用原生导航栏  
+			}
+		}
+	},
+	{
 	    "path" : "pages/testVideo/testVideo",
 	    "style" : {
 			"app-plus": {
@@ -16,22 +48,8 @@
 			}
 		}
 	},
-	{
-		"path": "pages/webView/webView",
-		"style": {
-			"app-plus": {
-				"titleNView": false //禁用原生导航栏  
-			}
-		}
-	},
-	{
-	    "path" : "pages/testRelease/testRelease",
-	    "style" : {
-			"app-plus": {
-				"titleNView": false //禁用原生导航栏  
-			}
-		}
-	},
+	
+	
 	
 	
 	
