@@ -666,12 +666,14 @@
 			},
 			// 切换草稿类型
 			changeProduct(index) {
+				console.log(index)
 				this.current = index;
 				this.currentType = index + 1;
 				this.show1 = !this.show1;
 				let type = 1;
 				if(index == 1) {
 					type = 2;
+					this.initVideo()
 				} 
 				if(index == 2){
 					this.initCollectPic()

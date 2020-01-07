@@ -9,6 +9,13 @@
 			<image @click.stop="togglePopup('bottom','comments')" class="aboutDesigne" style="width: 189upx;height: 79upx;" src="http://www.zhongjubang.com/api/upload/static/img/designation/aboutDesigne.png" />
 			<image class="head" style="width: 132upx;height: 126upx;border-radius: 50%;" :src="head" />
 			<view class="nick-name">{{nickName}}</view>
+			<view class="user-state">
+				<image v-if="userTitle == '设计达人'" src="../../static/img/title/design-people.png" mode=""></image>
+				<image v-if="userTitle == '人气网红'" src="../../static/img/title/red-hot.png" mode=""></image>
+				<image v-if="userTitle == '居圈达人'" src="../../static/img/title/circle-people.png" mode=""></image>
+				<image v-if="userTitle == '金牌业主'" src="../../static/img/title/gold-owner.png" mode=""></image>
+			</view>
+			
 		</view>
 		<view class="wrap-content">
 			<view class="wrap-content-top">
@@ -31,12 +38,13 @@
 				<view class="wrap-content-mid" v-for="(item,index) in dataList" :key="index">
 					<image v-if="item.title=='金牌业主'" class="" style="width: 148upx;height: 148upx;" src="http://www.zhongjubang.com/api/upload/static/img/designation/icon.png" />
 					<image v-if="item.title=='设计达人'" class="" style="width: 148upx;height: 148upx;" src="../../static/img/designation/icon2.png" />
-					<image v-if="item.title=='网红达人'" class="" style="width: 148upx;height: 148upx;" src="../../static/img/designation/icon3.png" />
+					<image v-if="item.title=='人气网红'" class="" style="width: 148upx;height: 148upx;" src="../../static/img/designation/icon3.png" />
 					<image v-if="item.title=='居圈达人'" class="" style="width: 148upx;height: 148upx;" src="../../static/img/designation/icon4.png" />
+					
 					<view class="title-designe">{{item.title}}</view>
-					<view class="">
+					<view class="radios">
 						<label>
-							<radio value="r1" :checked="item.isDefault" color="#FFCC33" style="transform:scale(0.7)" @click.stop="singleChecked(item.id)"/>
+							<radio value="r1" :checked="item.isDefault == 1 ? true : false" color="#FFCC33" style="transform:scale(0.7)" @click.stop="singleChecked(item.id)"/>
 						</label>
 					</view>
 				</view>
@@ -94,7 +102,8 @@
 				head: '',
 				dataList: [],
 				popupType: '',
-				name: ''
+				name: '',
+				userTitle: ''
 			}
 		},
 		onShow(){
@@ -113,6 +122,9 @@
 				    }
 				})
 				const url = this.url
+				uni.showLoading({
+					title: '加载中'
+				})
 				uni.request({
 				    url: url + "controller/usercontroller/updateappusertitle",
 				    data: {
@@ -125,6 +137,10 @@
 				        'token': token
 				    },
 				    success: function (res){
+						if(res.data.code == 200) {
+							self.init();
+							uni.hideLoading()
+						}
 						if(res.data.code==421){
 							uni.navigateTo({
 								url: '/pages/loginPhone/loginPhone'
@@ -197,6 +213,7 @@
 						}
 				        self.nickName = res.data.data.nickName
 				        self.head = res.data.data.head
+						self.userTitle = res.data.data.title
 				    }
 				})
 			},
@@ -479,5 +496,20 @@
 		font-family:PingFang SC;
 		color:rgba(102,102,102,1);
 		line-height:41upx;
+	}
+	/deep/ uni-radio .uni-radio-input {
+		border: 1px solid #999;
+	}
+	.user-state{
+		position: absolute;
+		left: 57%;
+		top: 77%;
+		width: 149rpx;
+		height: 53rpx;
+		z-index: 100;
+	}
+	.user-state image{
+		width: 149rpx;
+		height: 53rpx;
 	}
 </style>

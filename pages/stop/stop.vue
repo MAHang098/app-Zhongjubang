@@ -6,7 +6,14 @@
 			<image @click.stop="goCart" class="car" style="width:41upx;height:39upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/car.png" mode="" />
 		</view>
 		<view class="banner">
-			<image class="banner-image" style="width:663upx;height:345upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/banner.png" mode="" />
+			<!-- <image class="banner-image" style="width:663upx;height:345upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/banner.png" mode="" /> -->
+			<swiper class="imageContainer" @change="handleChange" previous-margin="50rpx" next-margin="50rpx" circular  autoplay>
+				<block v-for="(item,index) in bannerImg" :key="index">
+					<swiper-item class="swiperitem">
+						<image class="itemImg" :class="currentIndex == index ? 'swiperactive': ''" :src="item.resource" lazy-load mode="scaleToFill"></image>
+					</swiper-item>
+				</block>
+			</swiper>
 			<uni-swiper-dot :info='categoryList' :current="current" :mode="mode" :dots-styles="dotStyle" field="content">
 				<swiper class="swiper-box" @change="change">
 					<swiper-item v-for="(item, index) in categoryList" :key="index">
@@ -140,6 +147,8 @@
 				goodsList: [],
 				wanghongList: [],
 				haodianList: [],
+				bannerImg: [],
+				currentIndex: 0
 			}
 		},
 		onShow(){
@@ -147,7 +156,8 @@
 			this.getCategory()
 			this.getGoods()
 			this.getWanghong()
-			this.getHaodian()
+			this.getHaodian();
+			this.getBanner();
 		},
 		filters: {
 			ellipsis (value) {
@@ -371,9 +381,9 @@
 				this.cIndex = index;
 				this.showEdit = !this.showEdit;
 			},
-            change(e) {
+            handleChange(e) {
 				console.log(e.detail.current)
-				this.current = e.detail.current
+				this.currentIndex = e.detail.current
 			},
 			// 卡片轮播
 			DotStyle(e) {
@@ -389,11 +399,35 @@
 					url:'/pages/shop/shop'
 				})
 			},
+			// 获取banner
+			getBanner() {
+				let token, self = this;
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+					token = res.data;
+					self.Tokens = res.data;
+					}
+				})
+				uni.request({
+					url: this.url + "/public/public/getresourcesbyresourcestype",
+					data: {resourcesTypeName: 'app_shop_index_img'},
+					method: 'POST',
+					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': token},
+					success: ((res) => {
+						uni.hideLoading()
+						if(res.data.code == 200) {
+							let data = res.data.data;
+							this.bannerImg = data;
+						}
+					})
+				})
+			}
         }
     }
 </script>
 
-<style>
+<style lang="scss">
 	@import '../../static/css/releaseImgList.css'; /*引入G圈列表样式*/
 	page{
 		background:rgba(249,249,249,1);
@@ -437,6 +471,7 @@
 		width:750upx;
 		height:579upx;
 		box-shadow:0px 0px 9upx 0px rgba(93,93,93,0.06);
+		padding-top: 10px;
 	}
 	.banner-image{
 		margin-top: 23upx;
@@ -646,5 +681,90 @@
 		font-size:24upx;
 		font-family:PingFang SC;
 		color:rgba(204,204,204,1);
+	}
+	/* banner start */
+	/* // 3D轮播样式 */
+	.imageContainer {
+		width: 100%;
+		/* height: 500rpx; */
+		/* background: #000; */
+		height: 325upx;
+		background-color: #fff;
+	}
+	
+	.swiperitem {
+		/* height: 500rpx; */
+		height: 255upx;
+		padding: 0upx 20upx;
+		box-sizing: border-box;
+		position: relative;
+		.swiperText {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			position: absolute;
+			top: 56upx;
+			left: 51upx;
+			z-index: 998;
+			width:162upx;
+			height:163upx;
+			background:rgba(255,255,255,1);
+			border-radius:8upx;
+			padding:10upx;
+			.name {
+				font-size:26upx;
+				font-weight:500;
+				color:rgba(253,57,91,1);
+				line-height:37upx;
+				margin-bottom: 10upx;
+			}
+			.zq,.cz {
+				font-size:20upx;
+				color:rgba(253,57,91,1);
+				line-height:35upx;
+			}
+			.addNl {
+				width:120upx;
+				height:26upx;
+				background:rgba(253,57,91,1);
+				border-radius:13upx;
+				font-size:20upx;
+				font-weight:500;
+				color:rgba(255,255,255,1);
+				text-align: center;
+				line-height: 26upx;
+				margin-top: 10upx;
+			}
+			
+		}
+	}
+	
+	.itemImg {
+		position: absolute;
+		width: 95%;
+		/* height: 380rpx; */
+		height: 255upx;
+		border-radius: 15rpx;
+		z-index: 5;
+		opacity: 0.7;
+		top: 5%;
+		box-shadow:0px 4upx 15upx 0px rgba(153,153,153,0.24);
+	}
+	
+	.swiperactive {
+		width: 95%;
+		opacity: 1;
+		z-index: 10;
+		/* height: 430rpx; */
+		height: 287upx;
+		top: 0%;
+		transition: all .2s ease-in 0s;
+	}
+	
+	.zhankai{
+		text-align: center;
+		.iconfont{
+			margin-left: 10upx;
+		}
 	}
 </style>

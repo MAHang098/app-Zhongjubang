@@ -9,6 +9,14 @@
 		}
 	},
 	{
+		"path": "pages/main/main",
+		"style": {
+			"app-plus": {
+				"titleNView": false //禁用原生导航栏  
+			}
+		}
+	},
+	{
 	    "path" : "pages/swiper-vertical/swiper-vertical",
 	    "style" : {
 			"app-plus": {
@@ -65,14 +73,7 @@
 				}
 			}
 		},
-		{
-			"path": "pages/loginPhone/loginPhone",
-			"style": {
-				"app-plus": {
-					"titleNView": false //禁用原生导航栏  
-				}
-			}
-		},
+		
 		{
 			"path": "pages/index/index",
 			"style": {

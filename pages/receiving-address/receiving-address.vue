@@ -67,7 +67,9 @@
 				type: '',
 				userAddress: '',
 				token: '',
-				deleteId: ''
+				deleteId: '',
+				order_num: '',
+				add_type: ''
 			}
 		},
 		onShow() {
@@ -84,6 +86,12 @@
 			uni.navigateTo({
 				url: '/pages/add-adress/add-adress'
 			})
+		},
+		onLoad(e) {
+			if(e.num) {
+				this.order_num = e.num;
+				this.add_type = e.type;
+			}
 		},
 		onBackPress() {
 			if(this.$store.state.pageType && this.$store.state.pageType == 'orderExchange') {
@@ -135,6 +143,33 @@
 					uni.navigateTo({
 						url: '/pages/personal/order-exchange/order-exchange'
 					})
+				}
+				if(this.add_type == 'confirm') {
+					uni.request({
+						url: this.url + 'controller/shopcontroller/updateAppUserOrder',
+						method: 'post',
+						data: {orderNum: this.order_num, userAddressId: item.id},
+						header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
+						success: ((res) =>  {
+							if(res.data.code==421){
+								uni.navigateTo({
+									url: '/pages/loginPhone/loginPhone'
+								})
+							}
+							if(res.data.code == 200) {
+								console.log(res.data.data)
+								uni.navigateTo({
+									url: '/pages/confirm-order/confirm-order?num='+this.order_num
+								})
+							} else {
+								uni.showToast({
+								    icon: 'none',
+								    title: res.data.message
+								});
+								uni.hideToast();
+							}
+						})
+					});
 				}
 			},
 			// 切换选中地址

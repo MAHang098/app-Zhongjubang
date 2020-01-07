@@ -112,12 +112,12 @@
 								<image src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/message.png" mode=""></image>
 								<text>{{items.gCollectionDiscussNum}}</text>
 							</view>
-							<view class="collect"  @click.stop="collect(index, items.gcircleContentId, items.collectionState, current)">
-								<image :src="items.collectionState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/collect-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/star.png' " mode=""></image>
-								<text>{{items.collectionNum}}</text>
+							<view class="collect"  @click.stop="collect(index, items.gcircleContentId, items.collectionState, current, items)">
+								<image :src="(collect_currentIndex == index && isShowCollect) || items.collectionState === 1  ? 'http://www.zhongjubang.com/api/upload/static/topic/collect-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/star.png' " mode=""></image>
+								<text>{{items.collectionNum }}</text>
 							</view>
-							<view class="fabulous" @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState, current)" >
-								<image :style="{'margin-bottom': items.gcircleContentLikeState === 1 ? '2px': ''}" :src="items.gcircleContentLikeState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
+							<view class="fabulous" @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState, current, items)" >
+								<image :style="{'margin-bottom': items.gcircleContentLikeState === 1 || fabulous_currentIndex == index && isShowFabulous ? '2px': ''}" :src="(fabulous_currentIndex == index && isShowFabulous) || items.gcircleContentLikeState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
 								<text>{{items.gcircleContentLikeNum}}</text>
 							</view>
 						</view>
@@ -175,7 +175,9 @@
 				isShowFocus: false,   //是否显示已关注图标
 				recommendList: [],   	  // G圈推荐
 				userListContent: [],		// 关注用户的G圈列表
-				currentPage: 0
+				currentPage: 0,
+				collect_currentIndex: -1,
+				fabulous_currentIndex: -1
 			}
 		},
 		filters: {
@@ -204,15 +206,10 @@
 		onHide() {
 			this.init();
 		},
-		// 上拉加载
-		onReachBottom: function() {
-			this.status = 'more';
-			if( this.page == 1) {
-				this.status = 'end';
-				return;
-			}
+		onReachBottom() {
+			this.page++;
 			this.init();
-		},	
+		},
 		methods: {
 			goOtheruser(id){
 				uni.navigateTo({
@@ -235,11 +232,12 @@
 					})
 				})
 			},
+			
 			// 获取居圈内容
 			init() {
 				let parmas = {
 					pageIndex: this.page,
-					pageSize: 20
+					pageSize: 2
 				}
 				uni.showLoading({
 					title: '加载中...',
@@ -253,22 +251,22 @@
 					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
 					success: ((res) => {
 						uni.hideLoading()
-						// let totalPage = res.data.data.pageSize * res.data.data.totalPage;
-						// if(this.releaseImgList.length == totalPage) {
-						// 	this.status = 'end';
-						// 	return;
-						// }
+						let totalPage = res.data.data.pageSize * res.data.data.totalPage;
+						if(this.releaseImgList.length == totalPage) {
+							this.status = 'end';
+							return;
+						}
 						if(res.data.code == 200) {
 							let data = res.data.data.dataList;
 							for(let i=0; i<data.length; i++) {
 								data[i].imgList = JSON.parse(data[i].imgList);
 								data[i].title = JSON.parse(data[i].title);
 							}
-							this.releaseImgList = data;
+							// this.releaseImgList = data;
 							// if(this.page == res.data.data.currentPage) {
 							// 	this.reload = true;
 							// }
-							// this.releaseImgList = this.reload ? data : this.releaseImgList.concat(data);
+							this.releaseImgList = this.reload ? data : this.releaseImgList.concat(data);
 							// console.log(this.page)
 							if(res.data.data.totalPage < 2) {
 								return;
@@ -359,7 +357,7 @@
 			    });
 			},
 			// 收藏
-			collect(index, id, state, currents) {
+			collect(index, id, state, currents, items) {
 			    uni.request({
 			        url: this.url + 'controller/usercontroller/addusercollection',
 			        method: 'post',
@@ -375,11 +373,22 @@
 								this.focusUserContent();
 							}
 			                this.activeIndex = index;
+							this.collect_currentIndex = index;
+							this.isShowCollect = !this.isShowCollect;
 							if(state == 1) {
 								this.isShowCollect = false;
-								return;
+								items.collectionState = 0;
+							} else {
+								this.isShowCollect = true;
+								items.collectionState = 1;
 							}
-			                this.isShowCollect = !this.isShowCollect;
+							if(this.isShowCollect == false) {
+								items.collectionNum--
+							} else {
+								items.collectionNum++
+							}
+			               
+							
 			            } 
 						if(res.data.code == 421) {
 							uni.navigateTo({
@@ -390,7 +399,7 @@
 			    });
 			},
 			// 点赞
-			fabulous(index, id, state, currents) {
+			fabulous(index, id, state, currents, items) {
 			    uni.request({
 			        url: this.url + 'controller/usercontroller/addgcirclecontentlike',
 			        method: 'post',
@@ -400,16 +409,26 @@
 			            if(res.data.code == 200) {
 			               if(currents == 0) {
 								this.init();
+								
 			               }
 							if(currents == 1) {
 								this.focusUserContent();
 							}
-			                this.fabulousIndex = index;
+							this.isShowFabulous = !this.isShowFabulous;
+							this.fabulous_currentIndex = index;
 							if(state == 1) {
 								this.isShowFabulous = false;
-								return;
+								items.gcircleContentLikeState = 0;
+							} else {
+								this.isShowFabulous = true;
+								items.gcircleContentLikeState = 1;
 							}
-							this.isShowFabulous = !this.isShowFabulous;
+							if(this.isShowFabulous == false) {
+								items.gcircleContentLikeNum--;
+							} else {
+								items.gcircleContentLikeNum++;
+							}
+							
 			            } 
 						if(res.data.code == 421) {
 							uni.navigateTo({
@@ -607,22 +626,20 @@
 		height: 70rpx;
 		background: #f6f6f6;
 		border-radius: 35rpx;
+		display: flex;
+		align-items: center;
 	}
 	.search-input image {
 		width: 26rpx;
 		height: 26rpx;
 		display: block;
-		position: absolute;
-		top: 23rpx;
-		left: 24rpx;
-		
+		margin-left: 15px;
+		margin-right: 5px;
 	}
 	.search-input input {
 		width: 88%;
 		margin: 0;
 		font-size: 26rpx;
-		margin-left: 60rpx;
-		margin-top: 10rpx;
 	}
 	.cancel {
 		height: 35px;
