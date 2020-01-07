@@ -217,7 +217,7 @@
 					<view class="video-content-nickname">{{item.nickName}}</view>
 					<image v-if="activeVideo == item.shortVideoId && showDelete" @tap="videoDelete(item.shortVideoId)" class="video-content-delete" style="width:156rpx;height:156rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/delete.png" mode=""></image>
 					<!-- <video style="width:359rpx;height:512rpx;" :src="item.videoUrl"></video> -->
-					<image class="video-content-image" style="width:340upx;height:512upx;border-radius:3px;" :src="item.videoUrl" @tap="sendVideo(item.shortVideoId)"></image>
+					<image class="video-content-image" style="width:340upx;height:512upx;border-radius:3px;" :src="item.videoUrl" @tap="sendVideoCollect(item.shortVideoId)"></image>
 					<view v-if="activeVideo == item.shortVideoId && showDelete" class="video-content-block" style="width:350rpx;height:512rpx;border-radius:3px;"></view>
 				</view>
 				<!-- 收藏短视频内容end -->
@@ -660,8 +660,19 @@
 				})
 			},
 			sendVideo(id){
+				// uni.navigateTo({
+				// 	url: '/pages/index/index?id=' + id
+				// })
 				uni.navigateTo({
-					url: '/pages/index/index?id=' + id
+					url: '/pages/testVideo/testVideo?id=' + id + '&type=3'
+				})
+			},
+			sendVideoCollect(id){
+				// uni.navigateTo({
+				// 	url: '/pages/index/index?id=' + id
+				// })
+				uni.navigateTo({
+					url: '/pages/testVideo/testVideo?id=' + id + '&type=4'
 				})
 			},
 			// 切换草稿类型
@@ -673,7 +684,6 @@
 				let type = 1;
 				if(index == 1) {
 					type = 2;
-					this.initVideo()
 				} 
 				if(index == 2){
 					this.initCollectPic()
@@ -885,7 +895,7 @@
 				// })
 				//获取视频内容
 				uni.request({
-					url: url + "/controller/usercontroller/getshortvideobyuserid",
+					url: url + "controller/usercontroller/getshortvideobyuserid",
 					data: {
 						pageSize: 100
 					},

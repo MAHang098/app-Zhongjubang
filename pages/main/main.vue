@@ -367,9 +367,43 @@
 				// uni.navigateTo({
 				// 	url: '/pages/index2/index2?id=' + id
 				// })
-				uni.navigateTo({
-					url: '/pages/testVideo/testVideo?id=' + id + '&type=2'
+				let self = this
+				let token
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+						self.token = res.data
+						token = res.data
+					}
 				})
+				// 判断token过期
+				const url = "https://www.zhongjubang.com/test/"
+				
+				//获取短视频内容
+				uni.request({
+					url: url + "controller/usercontroller/getshortvideobyid",
+					data: {shortVideoId:id},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': token
+					},
+					success: function (res){
+						
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+						if(res.data.code==200){
+							uni.navigateTo({
+								url: '/pages/testVideo/testVideo?id=' + id + '&type=2'
+							})
+						}
+					}
+				})
+				
 			},
 			goAlljuquan(){
 				uni.switchTab({

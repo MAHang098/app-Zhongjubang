@@ -154,7 +154,7 @@
     //             uni.navigateBack({
 				// 	delta: 2
 				// })
-				uni.navigateTo({
+				uni.switchTab({
 					url: '/pages/main/main'
 				})
             },
