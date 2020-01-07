@@ -15,7 +15,7 @@
 							<view class="video-content-nickname">{{item.nickName}}</view>
 						</view>
 			            
-			            <image class="video-content-image" style="width:350rpx;height:512rpx;border-radius:3px;" :src="item.videoUrl" @tap="sendVideo(item.shortVideoId)"></image>
+			            <image class="video-content-image" style="width:350rpx;height:512rpx;border-radius:3px;" :src="item.videoUrl" @tap="sendVideoWanghong(item.shortVideoId)"></image>
 			        </view>
 			    </view>
 			</view>
@@ -151,7 +151,12 @@
 				
             },
             back(){
-                uni.navigateBack()
+    //             uni.navigateBack({
+				// 	delta: 2
+				// })
+				uni.navigateTo({
+					url: '/pages/main/main'
+				})
             },
             // 获取短视频内容
 			initVideo(type) {
@@ -206,11 +211,22 @@
 							console.log("请求异常")
 						}
 					}
-				});
+				})
             },
             sendVideo(id){
+				// uni.navigateTo({
+				// 	url: '/pages/index2/index2?id=' + id
+				// })
 				uni.navigateTo({
-					url: '/pages/index2/index2?id=' + id
+					url: '/pages/testVideo/testVideo?id=' + id + '&type=1'
+				})
+			},
+			sendVideoWanghong(id){
+				// uni.navigateTo({
+				// 	url: '/pages/index2/index2?id=' + id
+				// })
+				uni.navigateTo({
+					url: '/pages/testVideo/testVideo?id=' + id + '&type=2'
 				})
 			},
 			

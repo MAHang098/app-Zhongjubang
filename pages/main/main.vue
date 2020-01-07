@@ -364,8 +364,11 @@
 				})
 			},
 			goIndex2(id){
+				// uni.navigateTo({
+				// 	url: '/pages/index2/index2?id=' + id
+				// })
 				uni.navigateTo({
-					url: '/pages/index2/index2?id=' + id
+					url: '/pages/testVideo/testVideo?id=' + id + '&type=2'
 				})
 			},
 			goAlljuquan(){

@@ -1,18 +1,18 @@
 <template>
 	<view>
         <view class="release-video">
-            <image class="back" src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/back.png" @tap="back" mode="" />
-			<image class="fly" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/share.png" mode="" />
+            <image class="back" src="../../static/img/topicDetails/back.png" @tap="back" mode="" />
+			<image class="fly" src="../../static/img/releaseVideo2/share.png" mode="" />
         </view>
 		<!-- 内容 -->
 		<view class="release-content">
 			
 			<view class="pic">
 				<video show-center-play-btn="false" :src="videoUrl" />
-				<!-- <image src="http://www.zhongjubang.com/api/upload/static/draftsT.png" mode=""></image> -->
+				<!-- <image src="../../static/draftsT.png" mode=""></image> -->
 			</view>
 			<!-- <view class="start">
-				<image @play="start" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/start.png" mode="" />
+				<image @play="start" src="../../static/img/releaseVideo2/start.png" mode="" />
 			</view> -->
 			
 			<view class="user-info">
@@ -21,12 +21,12 @@
 				</view>
 				<view class="my-active-nickName10" :style="{bottom:height+3+'px'}">{{nickName}}</view>
 				<view class="edit-del" :style="{bottom:height+'px'}" @tap="attention">
-					<image src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/interest.png" mode=""></image>
+					<image src="../../static/img/topicDetails/interest.png" mode=""></image>
 				</view>
 				<view class="content">
 					<view v-if="!isShowAllContent" class="text">{{content2}}</view>
 					<view v-else class="text">{{content2 | ellipsis}}</view>
-					<view class="anCotent" v-if="content2.length > 60 " @click="open()">{{brandFold  ? '收起' : '展开'}}<image :class="brandFold ? '' : 'in'" src="http://www.zhongjubang.com/api/upload/static/drafts/arrow-bottom.png" mode=""></image></view>
+					<view class="anCotent" v-if="content2.length > 60 " @click="open()">{{brandFold  ? '收起' : '展开'}}<image :class="brandFold ? '' : 'in'" src="../../static/drafts/arrow-bottom.png" mode=""></image></view>
 				</view>
 				
 			</view>
@@ -35,30 +35,30 @@
 		<view class="footer">
 			<!-- 点赞 -->
 			<view class="good">
-				<image  src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/good.png"  v-show="showUpImg2" @click="good" />
-				<image  src="http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png"  v-show="!showUpImg2" @click="good" />
+				<image  src="../../static/img/releaseVideo2/good.png"  v-show="showUpImg2" @click="good" />
+				<image  src="../../static/topic/fabulous-select.png"  v-show="!showUpImg2" @click="good" />
 			</view>
 			<text class="text10">{{shortVideoLikeNum}}</text>
 			<!-- 收藏 -->
 			<view class="star">
-				<image src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/star.png"  v-show="showUpImg" @click="collect" mode="" />
-				<image src="http://www.zhongjubang.com/api/upload/static/topic/collect-select.png"  v-show="!showUpImg" @click="collect" mode="" />
+				<image src="../../static/img/releaseVideo2/star.png"  v-show="showUpImg" @click="collect" mode="" />
+				<image src="../../static/topic/collect-select.png"  v-show="!showUpImg" @click="collect" mode="" />
 			</view>
 			<text class="text11">{{shortVideoCollectionNum}}</text>
 			<!-- 评论 -->
 			<view @click="togglePopup('bottom', 'popup')" class="message">
-				<image src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/message.png" mode="" />
+				<image src="../../static/img/releaseVideo2/message.png" mode="" />
 			</view>
 			<text class="text12">{{shortVideoDiscussNum}}</text>
-				<button class="topic" type="button" @click="togglePopup('bottom', 'popup')">
-					<image class="topic-image" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/message.png" mode="" />
+				<button class="topic" type="button" @click.stop="togglePopup('bottom', 'comments')">
+					<image class="topic-image" src="../../static/img/releaseVideo2/message.png" mode="" />
 					<text class="text20">说点什么吧...</text>
 				</button>
-			<uni-popup  ref="popup" :type="type" @change="change" >
+		<!-- 	<uni-popup  ref="popup" :type="type" @change="change" >
 				<view class="recommend">
 					<view class="recommend-content">
 						<view class="all-recommend">全部评论 ({{shortVideoDiscussNum}})</view>
-						<image class="close" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/close.png" mode="" />
+						<image class="close" src="../../static/img/releaseVideo2/close.png" mode="" />
 					</view>
 					<view v-for="(row, index) in dataList" :key="index" class="replay-detail">
 						<view class="recommend-content2">
@@ -69,19 +69,16 @@
 								<view class="my-active-nickName">{{row.nick_name}}</view>
 								<view class="my-active-data">{{row.cratee_time}}</view>
 							</view>
-							<text class="my-active-like">{{row.likenum}}</text>
-							<!-- <image @click="replyLike(row.id)" class="recommend-good" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/good.png" mode="" /> -->
-							<image  src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/good.png" class="recommend-good" v-if="showUpImg3"  @click="replyLike(row.id)" />
-							<image  src="http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png" class="recommend-good" v-if="!showUpImg3"  @click="replyLike(row.id)" />
-						</view>
-						<!-- <view class="recommend-text" @touchstart.prevent="touchstart(index)"   @touchend.prevent="touchend"> -->
+							<text class="my-active-like">{{row.likenum}}</text> -->
+							<!-- <image @click="replyLike(row.id)" class="recommend-good" src="../../static/img/releaseVideo2/good.png" mode="" /> -->
+							<!-- <image  :src=" UpImg3Index == index &&  showUpImg3 ?  '../../static/img/releaseVideo2/good.png'" class="recommend-good" v-if="showUpImg3"  @click="replyLike(index, row.id)" /> -->
+							<!-- <image class="recommend-good" :src="UpImg3Index == index &&  showUpImg3 || row.state != 0  ? '../../static/topic/fabulous-select.png' : '../../static/img/releaseVideo2/good.png'" mode=""  @click="replyLike(index, row.id)" ></image> -->
+							<!-- <image  src="../../static/topic/fabulous-select.png" class="recommend-good" v-if="!showUpImg3"  @click="replyLike(row.id)" /> -->
+						<!-- </view>
 						<view class="recommend-text" @click="testreply(row.id, row.nick_name)">
-						<!-- <view class="recommend-text" @touchstart.prevent="touchstart(index)"   @touchend.prevent="touchend"> -->
 							{{row.short_video_discuss}}
 						</view>
-						<!-- <view class="recommend-text" @click="testreply(row.id, row.nick_name)">
-							{{row.zilist.length}}
-						</view> -->
+					
 						
 						<view v-show="row.zilist.length>0" class="recommend-text-reply">
 							<view v-for="(rows, indexs) in row.zilist" :key="indexs">
@@ -98,13 +95,53 @@
 					</view>
 				</view>
 				
-			</uni-popup>
+			</uni-popup> -->
+			<!-- 评论弹窗 start -->
+			
+			<!-- 评论弹窗 end -->
 		</view>
+		<uni-popup ref="comments" :type="popupType" :custom="true" class="comments-list" :show="popupShow">
+			<view class="uni-comments">
+				<view class="uni-comments-title">
+					<view class="comments-number">全部评论({{commentsList.length}})</view>
+					<view @click="cancelPopup('comments')">
+						<image src="../../static/img/releaseVideo2/close.png" mode=""></image>
+					</view>
+				</view>
+				<view class="uni-comments-content">
+					<view class="comments-detail" v-for="(item, index) in commentsList" :key="index">
+						<view class="comments-user">
+							<image src="../../static/drafts.png" mode=""></image>
+							<view>
+								<text class="comments-name">{{item.nick_name}}</text>
+								<text class="date">{{item.cratee_time}}</text>
+							</view>
+							<view class="fabulous" @click="commentsFabulous(index, item.id)">
+								{{item.likenum}}
+								<image :class="(activeIndex == index && isCommentsFabulous) ||  item.state == '1'? 'select' : '' " :src="(activeIndex == index && isCommentsFabulous) ||  item.state == '1' ? '../../static/topic/fabulous-select.png' : '../../static/img/user/good.png'" mode=""></image>
+							</view>
+						</view>
+						<view class="comments-content" >
+							<text>{{item.short_video_discuss}}</text>
+							<view class="reply-comments" v-show="item.zilist.length > 0">
+								<text  v-for="(m, zIndex) in item.zilist" :key="zIndex">屋主：好</text>
+								<text class="all-replay" v-show="item.zilist.length > 2">共{{item.zilist.length}}条回复 ></text>
+							</view>
+							<text class="parting-line"></text>
+						</view>
+					</view>
+					
+				</view>
+				<view class="comments-botton">
+					<input type="text" value="" placeholder="说点什么把..."/>
+				</view>
+			</view>
+		</uni-popup>
     </view>
 </template>
 
 <script>
-	import uniPopup from '@/components/uni-popup/uni-popup.vue'
+	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 	import uniIcons from '@/components/uni-icons/uni-icons.vue'
 	
 	export default {
@@ -115,8 +152,9 @@
 		data() {
 			return {
 				isShowAllContent: true,
-				brandFold: true,
-				showUpImg3:true,
+				brandFold: false,
+				showUpImg3:false,
+				activeIndex: 0,
 				showUpImg2:true,
 				showUpImg:true,//收藏点亮
 				replySay: '说点什么吧...',
@@ -180,7 +218,13 @@
 				userId: '',
 				recommendId: '',
 				recommendName: '',
-				panduanId: 0
+				panduanId: 0,
+				getsvdiscussId: '',
+				// 弹窗所用到的变量
+				popupShow: false,
+				popupType: '',
+				commentsList: [],
+				isCommentsFabulous: false,
 			}
 		},
 		filters: {
@@ -197,7 +241,7 @@
 			views.fields({
 				size: true
 			}, data => {
-				console.log("得到节点信息" + JSON.stringify(data));
+				// console.log("得到节点信息" + JSON.stringify(data));
 				// console.log("节点的宽为" + data.height);
 				// self.height = data.height
 			}).exec();
@@ -226,13 +270,8 @@
 					'token': '024d0ef41526417b94e3d443f230f374'
 				},
 				success: function (res){
-					if(res.data.code==421){
-						uni.navigateTo({
-							url: '/pages/loginPhone/loginPhone'
-						})
-					}
-					console.log(res)
-					console.log(res.data.data.dataList[0].id)
+					// console.log(res)
+					// console.log(res.data.data.dataList[0].id)
 					id = res.data.data.dataList[0].id
 
 					self.id = res.data.data.dataList[0].id
@@ -249,17 +288,12 @@
 							'token': '024d0ef41526417b94e3d443f230f374'
 						},
 						success: function (res){
-							if(res.data.code==421){
-								uni.navigateTo({
-									url: '/pages/loginPhone/loginPhone'
-								})
-							}
-							console.log(res)
-							console.log(res.data.data.nickName)
+							// console.log(res)
+							// console.log(res.data.data.nickName)
 							self.nickName = res.data.data.nickName
 							self.head = res.data.data.head
 							self.content2 = res.data.data.content
-							console.log(self.content2.length)
+							// console.log(self.content2.length)
 							self.videoUrl = res.data.data.videoUrl
 							self.shortVideoCollectionNum = res.data.data.shortVideoCollectionNum
 							self.shortVideoDiscussNum = res.data.data.shortVideoDiscussNum
@@ -277,44 +311,53 @@
 						}
 					})
 					// 获取评论内容
+					self.getsvdiscussId = res.data.data.dataList[0].id;
+					self.init(res.data.data.dataList[0].id);
 					
-					uni.request({
-						url: url + "controller/videocontroller/getsvdiscusslist",
-						data: {
-							id: res.data.data.dataList[0].id
-						},
-						method: 'POST',
-						header : {
-							'content-type':'application/x-www-form-urlencoded', 
-							'port': 'app',
-							'token': token
-						},
-						success: function (res){
-							if(res.data.code==421){
-								uni.navigateTo({
-									url: '/pages/loginPhone/loginPhone'
-								})
-							}
-							console.log(res)
-							console.log(res.data.code)
-							if(res.data.code==200){
-								self.dataList = res.data.data.dataList
-								console.log(res.data.data.dataList[1].id)
-								if(res.data.data.shortVideoLike==1){
-									self.showUpImg2 = false
-								}
-								console.log(self.dataList)
-							}else{
-								console.log('请求异常')
-							}
-						}
-					})
 				}
 			})
 			
 			
 		},
 		methods: {
+			// 获取评论列表
+			init(id) {
+				let token = '';
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+						token = res.data;
+					}
+				})
+				uni.request({
+					url: this.url + "controller/videocontroller/getsvdiscusslist",
+					data: {
+						id: id,
+						pageIndex: 1,
+						pageSize: 1000
+					},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': '024d0ef41526417b94e3d443f230f374'
+					},
+					success: (res) => {
+						// console.log(res)
+						// console.log(res.data.code)
+						if(res.data.code==200){
+							this.dataList = res.data.data.dataList
+							// console.log(res.data.data.dataList[1].id)
+							if(res.data.data.shortVideoLike==1){
+								this.showUpImg2 = false
+							}
+							// console.log(this.dataList)
+						}else{
+							console.log('请求异常')
+						}
+					}
+				})
+			},
 			start(e){
 				console.log(e)
 			},
@@ -333,18 +376,17 @@
 					views.fields({
 						size: true
 					}, data => {
-						console.log("得到节点信息" + JSON.stringify(data));
-						console.log("节点的宽为" + data.height);
+						// console.log("得到节点信息" + JSON.stringify(data));
+						// console.log("节点的宽为" + data.height);
 						self.height = data.height
 					}).exec();
 				},1)
 				
 			},
-			replyLike(id){
-				this.showUpImg3 = !this.showUpImg3
-				this.panduanId = id
+			replyLike(index,id){
+				
 				let token
-				let self = this
+				// let self = this
 				uni.getStorage({
 					key:"token",
 					success: function (res) {
@@ -352,13 +394,13 @@
 					}
 				})
 				const url = this.url
-				console.log(id)
+				// console.log(id)
 				//添加、删除点赞
 				uni.request({
 					url: url + "/controller/usercontroller/adddiscusslike",
 					data: {
-						type: '2',
 						discussId: id,
+						type: '2'
 					},
 					method: 'POST',
 					header : {
@@ -366,16 +408,15 @@
 						'port': 'app',
 						'token': token
 					},
-					success: function (res){
-						if(res.data.code==421){
-							uni.navigateTo({
-								url: '/pages/loginPhone/loginPhone'
-							})
-						}
-						console.log(res.data.code)
+					success: (res) => {
+						// console.log(res.data.code)
 						if(res.data.code==200){
-							console.log(res)
-							
+							// console.log(res)
+							this.UpImg3Index = index;
+							this.showUpImg3 = !this.showUpImg3;
+							console.log(this.UpImg3Index)
+							// this.panduanId = id;
+							this.init(this.getsvdiscussId);
 						}else{
 							console.log("请求异常")
 						}
@@ -413,11 +454,6 @@
 						'token': token
 					},
 					success: function (res){
-						if(res.data.code==421){
-							uni.navigateTo({
-								url: '/pages/loginPhone/loginPhone'
-							})
-						}
 						console.log(res.data.code)
 						if(res.data.code==200){
 							console.log(res)
@@ -459,11 +495,6 @@
 						'token': token
 					},
 					success: function (res){
-						if(res.data.code==421){
-							uni.navigateTo({
-								url: '/pages/loginPhone/loginPhone'
-							})
-						}
 						console.log(res.data.code)
 						if(res.data.code==200){
 							console.log(res)
@@ -530,11 +561,6 @@
 							'token': token
 						},
 						success: function (res){
-							if(res.data.code==421){
-								uni.navigateTo({
-									url: '/pages/loginPhone/loginPhone'
-								})
-							}
 							console.log(res)
 							if(res.data.code==200){
 								
@@ -559,11 +585,6 @@
 							'token': token
 						},
 						success: function (res){
-							if(res.data.code==421){
-								uni.navigateTo({
-									url: '/pages/loginPhone/loginPhone'
-								})
-							}
 							console.log(res.data.code)
 							if(res.data.code==200){
 								
@@ -642,11 +663,13 @@
 					}).exec();
 				}
 			},
-			togglePopup(type, open) {
+			// 弹出层弹出的方式  i:当前标签的下标, name: 当前标签的name
+			togglePopup(type, open, id) {
 				switch (type) {
 					case 'top':
 						this.content = '顶部弹出 popup'
 						break
+			
 					case 'bottom':
 						this.content = '底部弹出 popup'
 						break
@@ -654,20 +677,88 @@
 						this.content = '居中弹出 popup'
 						break
 				}
-				this.type = type
+				this.popupType = type
 				if (open === 'tip') {
-					this.show = true
+					this.popupShow = true
 				} else {
 					this.$refs[open].open()
 				}
+				this.comments();
 			},
-			cancel(type) {
-				if (type === 'tip') {
-					this.show = false
-					return
+			// 评论详情
+			comments() {
+				let token = '';
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+					 token = res.data;
+				  }
+				});
+				let parmas = {
+					id: this.getsvdiscussId,
+					pageIndex: 1,
+					pageSize: 10000
 				}
+				uni.request({
+					url: this.url + 'controller/videocontroller/getsvdiscusslist',
+					method: 'post',
+					data: parmas,
+					header : {'content-type':'application/x-www-form-urlencoded', 'token': '024d0ef41526417b94e3d443f230f374', 'port': 'app'},
+					success:(res) => {
+						if(res.data.code == 200) {
+							// console.log(res.data.data);
+							let data = res.data.data;
+							this.commentsList = data.dataList;
+						} else {
+							uni.showToast({
+							    icon: 'none',
+							    title: res.data.message
+							});
+							uni.hideToast();
+						}
+					}
+				});
+			},
+			// 评论点赞
+			commentsFabulous(index, id) {
+				
+				let token = '';
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+					 token = res.data;
+				  }
+				});
+				uni.request({
+					url: this.url + 'controller/usercontroller/adddiscusslike',
+					method: 'post',
+					data: {discussId: id, type: '2'},
+					header : {'content-type':'application/x-www-form-urlencoded', 'token': '024d0ef41526417b94e3d443f230f374', 'port': 'app'},
+					success:(res) => {
+						if(res.data.code == 200) {
+							this.activeIndex = id;
+							this.isCommentsFabulous = !this.isCommentsFabulous;
+							console.log(this.activeIndex, this.isCommentsFabulous)
+							// console.log(res.data.data);
+							// let data = res.data.data;
+							// this.commentsList = data.dataList;
+							this.comments(this.getsvdiscussId)
+							
+						} else {
+							uni.showToast({
+							    icon: 'none',
+							    title: res.data.message
+							});
+							uni.hideToast();
+						}
+					}
+				});
+			},
+			// 取消弹出层
+			cancelPopup(type) {
 				this.$refs[type].close()
 			},
+			
 			change(e) {
 				console.log(e.show)
 			}
@@ -676,6 +767,7 @@
 </script>
 
 <style>
+	@import '../../static/css/comments.css'; /*引入评论弹窗的样式*/
 	page{
 		background-color: #000;
 	}
