@@ -18,7 +18,7 @@
 		<!-- 热度分 end -->
 		
 		<!-- 热度分商城/活动 start -->
-		<view class="activity">
+		<view class="activity" @tap="change">
 			<view class="mall">
 				<image src="http://www.zhongjubang.com/api/upload/static/img/user/hot-point/mall.png" mode=""></image>
 				<text>立即兑换</text>
@@ -76,6 +76,12 @@
 			});
 		},
 		methods: {
+			change(){
+				uni.showToast({
+				    icon: 'none',
+				    title: '敬请期待！'
+				});
+			},
 			gohotDetails(){
 				uni.navigateTo({
 					url: '/pages/personal/hot-detail/hot-detail'

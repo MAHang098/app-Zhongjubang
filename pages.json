@@ -1,8 +1,8 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页,
 	{
-	    "path" : "pages/swiper-vertical2/swiper-vertical2",
-	    "style" : {
+		"path": "pages/main/main",
+		"style": {
 			"app-plus": {
 				"titleNView": false //禁用原生导航栏  
 			}
@@ -16,6 +16,8 @@
 			}
 		}
 	},
+	
+	
 	{
 	    "path" : "pages/testRelease/testRelease",
 	    "style" : {
@@ -40,14 +42,7 @@
 			}
 		}
 	},
-	{
-		"path": "pages/main/main",
-		"style": {
-			"app-plus": {
-				"titleNView": false //禁用原生导航栏  
-			}
-		}
-	},
+	
 	
 	
 	

@@ -1,0 +1,388 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /* 搜索 */
+.search-text {
+        position: absolute;
+		top: 7px;
+        left: 660rpx;
+        font-size:32rpx;
+        font-family:PingFang SC;
+        font-weight:400;
+        color:rgba(51,51,51,1);
+}
+.G-cicle_content {
+		width: 100%;
+		height: 100%;
+		background: #fff;
+		position: relative;
+		
+		top: 80rpx;
+}
+.input{
+        position: absolute;
+        left: 87rpx;
+        padding-left: 67rpx;
+        box-sizing: border-box;
+        width:547rpx;
+        height:70rpx;
+        background:rgba(246,246,246,1);
+        border-radius:35rpx;
+        font-size:28rpx;
+        font-family:PingFang SC;
+        font-weight:400;
+        color:rgba(51,51,51,1);
+        line-height: 70rpx;
+}
+.input-search{
+        position: absolute;
+		top: 11px;
+        left: 114rpx;
+        z-index: 10;
+}
+.search-wrap{
+		
+		background: #fff;
+		width: 100%;
+		height: 100%;
+		box-sizing: border-box;
+		padding: 0 20rpx;
+		padding-top: 60px;
+}
+    /* 切换视频类型 start */
+.back {
+        position: absolute;
+		top: 3px;
+        left: 10px;
+}
+.search {
+        position: absolute;
+		top: 7px;
+        left: 683rpx;
+}
+.G-list_content {
+        box-sizing: border-box;
+        padding-left: 90px;
+		height: 70rpx;
+		background: #FFFFFF;
+}
+.G-list_content view {
+		width: 38%;
+		height: 34rpx;
+		line-height: 34rpx;
+		text-align: center;
+		color: #747474;
+		font-size: 32rpx;
+		display: inline-block;
+		/* border-right: 1rpx solid #E2E2E2; */
+}
+.G-list_content view:last-child {
+		border: none;
+}
+.active {
+		color: #333333 !important;
+		font-weight: bold;
+		border-width: 50rpx;
+		border-color: red;
+}
+.active-status {
+		margin: 9px auto;
+		display: block;
+		width:52rpx;
+		height:6rpx;
+		background:rgba(249,183,44,1);
+        border-radius:4px;
+}
+    /* 切换视频类型 end */
+    /* 短视频样式start */
+.video-all{
+        width: 100%;
+		height: 100%;
+        box-sizing: border-box;
+		padding: 0 20rpx;
+}
+.video-wrap{
+		margin-top: 15px;
+		background: #fff;
+}
+.video-wrap-image{
+		box-sizing: border-box;
+		margin-left: -11px;
+}
+.video-detail{
+		float: left;
+		top: 20px;
+}
+.video-content{
+		position: relative;
+		margin-left: 4rpx;
+}
+.video-content-start{
+		position: absolute;
+		z-index: 100;
+		left: 276rpx;
+		top: 20rpx;
+}
+.video-content-avator{
+		position: absolute;
+		z-index: 100;
+		top: 440rpx;
+		left: 24rpx;
+}
+.video-content-delete{
+		position: absolute;
+		z-index: 300;
+		top: 102px;
+		left: 51px;
+}
+.video-content-image{
+}
+.video-content-block{
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		z-index: 200;
+		background: rgba(0,0,0,.3);
+}
+.video-content-nickname{
+		position: absolute;
+		z-index: 100;
+		top: 450rpx;
+		left: 100rpx;
+		font-size:24rpx;
+		font-family:PingFang SC;
+		font-weight:bold;
+		color:rgba(255,255,255,1);
+}
+    /* 短视频样式end */
+
