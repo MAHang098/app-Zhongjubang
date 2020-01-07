@@ -1,0 +1,124 @@
+
+.account{
+        position: relative;
+        width: 750rpx;
+        height: 167rpx;
+        border-bottom: 1px solid rgba(194,194,196,1);
+        border-top: 1px solid rgba(226,226,226,1);
+}
+.account1{
+        position: relative;
+        width: 750rpx;
+        height: 167rpx;
+        border-bottom: 1px solid rgba(194,194,196,1);
+}
+.phone{
+        position: absolute;
+        left: 30rpx;
+        top: 45rpx;
+        width: 76rpx;
+        height: 76rpx;
+}
+.phone image{
+        width: 76rpx;
+        height: 76rpx;
+}
+.phone-text{
+        position: absolute;
+        left: 132rpx;
+        top: 42rpx;
+        font-size:32rpx;
+        font-family:PingFang SC;
+        color:#333333;
+}
+.public-text{
+        position: absolute;
+        left: 132rpx;
+        top: 58rpx;
+        font-size:32rpx;
+        font-family:PingFang SC;
+        color:#333333;
+}
+.phone-number{
+        position: absolute;
+        left: 132rpx;
+        bottom: 48rpx;
+        font-size:32rpx;
+        font-family:PingFang SC;
+        color:#666;
+}
+.binded{
+        position: absolute;
+        right: 30rpx;
+        bottom: 48rpx;
+        width:114rpx;
+        height:52rpx;
+}
+.binded image{
+        width:114rpx;
+        height:52rpx;
+}
+.arrow{
+        position: absolute;
+        right: 30rpx;
+        bottom: 66rpx;
+        width:15rpx;
+        height:28rpx;
+}
+.arrow image{
+        width:15rpx;
+        height:28rpx;
+}
+	/* 提示窗口 */
+.uni-tip {
+		padding-top: 15px;
+		width: 300px;
+		background: #fff;
+		box-sizing: border-box;
+		border-radius: 10rpx;
+}
+.uni-tip-title {
+		text-align: center;
+		font-weight: bold;
+		font-size: 41rpx;
+		color: #333;
+}
+.uni-tip-content {
+		padding: 44rpx 0;
+		font-size: 32rpx;
+		color: #666;
+		width: 360rpx;
+		color: #666666;
+		font-weight: 500;
+		margin: auto;
+		text-align: center;
+}
+.uni-tip-group-button {
+		margin-top: 10px;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: flex;
+}
+.uni-tip-button:nth-child(1) {
+		width: 100%;
+		text-align: center;
+		font-size: 14px;
+		color: #333333;
+		font-size: 37rpx;
+		font-weight: 500;
+		border-top: 1px solid #E2E2E2;
+		border-right: 1px solid #E2E2E2;
+		padding: 10px 0;
+}
+.uni-tip-button {
+		width: 100%;
+		text-align: center;
+		font-size: 14px;
+		color: #333333;
+		font-size: 37rpx;
+		font-weight: 500;
+		border-top: 1px solid #E2E2E2;
+		padding: 10px 0;
+}
+    
+

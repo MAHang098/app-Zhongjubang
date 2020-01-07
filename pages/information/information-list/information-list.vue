@@ -2,22 +2,22 @@
 	<view class="information">
 		<view class="information-list">
 			<view @click.stop="goAddFans(item.fanCount)">
-				<text class="num" v-show="item.fanCount > 0">{{item.fanCount}}</text>
+				<text class="num" v-if="item.fanCount > 0" :class="item.fanCount > 9 ? 'all-numIn' : ''">{{item.fanCount}}</text>
 				<image src="http://www.zhongjubang.com/api/upload/static/img/information/people.png" mode=""></image>
 				<view class="name">新粉丝</view>
 			</view>
 			<view @click.stop="goDiscussCount(item.discussCount)">
-				<text class="num" v-show="item.discussCount > 0">{{item.discussCount}}</text>
+				<text class="num" v-if="item.discussCount > 0"  :class="item.discussCount > 9 ? 'all-numIn' : ''" >{{item.discussCount}}</text>
 				<image src="http://www.zhongjubang.com/api/upload/static/img/information/message.png" mode=""></image>
 				<view class="name">评论</view>
 			</view>
 			<view @click.stop="goCollect(item.collectionCount)">
-				<text class="num" v-show="item.collectionCount > 0">{{item.collectionCount}}</text>
+				<text class="num" v-if="item.collectionCount > 0"  :class="item.collectionCount > 9 ? 'all-numIn' : ''">{{item.collectionCount}}</text>
 				<image src="http://www.zhongjubang.com/api/upload/static/img/information/collection.png" mode=""></image>
 				<view class="name">收藏</view>
 			</view>
 			<view @click.stop="goGiveLike(item.likeCount)">
-				<text class="num" v-show="item.likeCount > 0">{{item.likeCount}}</text>
+				<text class="num" v-if="item.likeCount > 0"  :class="item.likeCount > 9 ? 'all-numIn' : ''">{{item.likeCount}}</text>
 				<image src="http://www.zhongjubang.com/api/upload/static/img/information/fabulous.png" mode=""></image>
 				<view class="name">点赞</view>
 			</view>
@@ -26,7 +26,7 @@
 		<!-- 信息详情 start -->
 		<view class="information-detail">
 			<view class="small-bell" @click.stop="goSystem">
-				<text class="num" v-show="system.count > 0">{{system.count}}</text>
+				<text class="num" v-if="system.count > 0" :class="system.count > 9 ? 'all-numIn' : ''">{{system.count}}</text>
 				<view class="images">
 					<image src="http://www.zhongjubang.com/api/upload/static/img/information/small-bell.png" mode=""></image>
 				</view>
@@ -37,7 +37,7 @@
 				<!-- <view class="timers">{{system.createTime}}</view> -->
 			</view>
 			<view class="home" @click.stop="goGood">
-				<text class="num" v-show="good.count > 0">{{good.count}}</text>
+				<text class="num" v-if="good.count > 0"  :class="good.count > 9 ? 'all-numIn' : ''">{{good.count}}</text>
 				<view class="images">
 					<image src="http://www.zhongjubang.com/api/upload/static/img/information/home.png" mode=""></image>
 				</view>
@@ -48,7 +48,7 @@
 				<!-- <view class="timers">{{good.createTime}}</view> -->
 			</view>
 			<view class="private-letter">
-				<text class="num" v-show="item.likeCount > 0">{{item.likeCount}}</text>
+				<text class="num" v-if="item.likeCount > 0"  :class="item.likeCount > 9 ? 'all-numIn' : ''">{{item.likeCount}}</text>
 				<view class="images">
 					<image src="http://www.zhongjubang.com/api/upload/static/img/information/private-letter.png" mode=""></image>
 				</view>
@@ -104,6 +104,7 @@
 						if(res.data.code==200){
 							let data = res.data.data;
 							this.item = data;
+							this.item.fanCount = 10;
 							this.good = data.goods[0];
 							this.system = data.system[0];
 						}
@@ -303,5 +304,11 @@
 		font-family:PingFang SC;
 		font-weight:500;
 		color:rgba(102,102,102,1);
+	}
+	.all-numIn {
+		border-radius: 36rpx !important;
+		padding: 5px 0 !important;
+		right: -9px !important;
+		width: 25px !important;
 	}
 </style>

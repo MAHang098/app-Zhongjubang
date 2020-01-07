@@ -1,0 +1,457 @@
+
+page{
+		background-color: #000;
+}
+.in {
+		-webkit-transform: rotate(180deg);
+		        transform: rotate(180deg);
+		margin-bottom: 0 !important;
+}
+.release-video{
+        position: relative;
+        width:750rpx;
+        height:128rpx;
+        background:#000000;
+}
+.back{
+        position: absolute;
+        left: 31rpx;
+        bottom: 26rpx;
+        width:15rpx;
+        height:31rpx;
+}
+.back image{
+        width:15rpx;
+        height:31rpx;
+}
+.fly{
+	    position: absolute;
+	    right: 27rpx;
+	    top: 67rpx;
+	    width:39rpx;
+	    height:37rpx;
+}
+.fly image{
+	    width:39rpx;
+	    height:37rpx;
+}
+	/* 内容 */
+.release-content{
+		position: relative;
+		width:750rpx;
+	    height:1106rpx;
+}
+.pic{
+		position: absolute;
+		width:750rpx;
+	    height:1106rpx;
+}
+.pic video{
+		width:750rpx;
+	    height:1106rpx;
+}
+.pic image{
+		width:750rpx;
+	    height:1106rpx;
+}
+.start{
+		position: absolute;
+		top: 458rpx;
+		left: 301rpx;
+		width:148rpx;
+	    height:162rpx;
+}
+.start image{
+		width:148rpx;
+	    height:162rpx;
+}
+.user-info{
+		position: absolute;
+		-webkit-box-align: center;
+		-webkit-align-items: center;
+		        align-items: center;
+		left: 30rpx;
+		bottom: 0;
+		width: 690rpx;
+		height: 300rpx;
+}
+.my-active-image10{
+		position: absolute;
+		left: 10rpx;
+		bottom: 158rpx;
+		margin-bottom: 0rpx;
+		width:80rpx;
+		height:80rpx;
+		background:#ff0;
+		border-radius:50%;
+}
+.my-active-image10 image{
+		border-radius:50%;
+		width:80rpx;
+		height:80rpx;
+}
+.my-active-nickName10{
+		position: absolute;
+		left: 120rpx;
+		bottom: 173rpx;
+		font-size:32rpx;
+		font-family:PingFang SC;
+		font-weight:bold;
+		color:rgba(255,255,255,1);
+}
+.edit-del{
+		/* position: absolute; */
+		display: none;
+		left: 277rpx;
+		bottom: 168rpx;
+		width: 106rpx;
+		height: 48rpx;
+}
+.edit-del image{
+		width: 106rpx;
+		height: 48rpx;
+}
+	/* 展开 */
+.content {
+		z-index: 99;
+		position: absolute;
+		bottom: 0rpx;
+		padding: 30rpx 0;
+		overflow: hidden;
+}
+.content view {
+		display: inline;
+}
+.text {
+		width: 100%;
+		font-size:28rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(255,255,255,1);
+		line-height:33rpx;
+		/* float: left; */
+		position: relative;
+}
+.content .anCotent {
+		font-size:24rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(90,124,171,1);
+		line-height:33rpx;
+		margin-left: 20rpx;
+}
+.content .anCotent image {
+		width: 26rpx;
+		height: 19rpx;
+		margin-bottom: -1rpx;
+}
+.my-active-more{
+		margin-left: 10rpx;
+		font-size:24rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(255,255,255,1);
+		line-height:33rpx;
+}
+.my-active-more-image{
+		display: inline-block;
+		padding-bottom: 6rpx;
+		margin-left: 6rpx;
+		-webkit-transform: rotate(90deg);
+		        transform: rotate(90deg);
+		font-size:36rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(255,255,255,1);
+		line-height:49rpx;
+}
+.footer{
+		position: relative;
+		width:750rpx;
+		height:100rpx;
+		background:rgba(0,0,0,1);
+}
+.good{
+		position: absolute;
+		right: 27rpx;
+		bottom: 44rpx;
+		width: 31rpx;
+		height: 31rpx;
+}
+.good image{
+		width: 31rpx;
+		height: 31rpx;
+}
+.text10{
+		position: absolute;
+		right: 62rpx;
+		bottom: 36rpx;
+		font-size:26rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(153,153,153,1);
+}
+.star{
+		position: absolute;
+		right: 151rpx;
+		bottom: 44rpx;
+		width: 31rpx;
+		height: 31rpx;
+}
+.star image{
+		width: 31rpx;
+		height: 31rpx;
+}
+.text11{
+		position: absolute;
+		right: 190rpx;
+		bottom: 36rpx;
+		font-size:26rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(153,153,153,1);
+}
+.message{
+		position: absolute;
+		right: 274rpx;
+		bottom: 44rpx;
+		width: 31rpx;
+		height: 31rpx;
+}
+.message image{
+		width: 31rpx;
+		height: 31rpx;
+}
+.text12{
+		position: absolute;
+		right: 311rpx;
+		bottom: 36rpx;
+		font-size:26rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(153,153,153,1);
+}
+.topic{
+		position: absolute;
+		left: 30rpx;
+		bottom: 14rpx;
+		width:302rpx;
+		height:70rpx;
+		background:rgba(86,86,86,1);
+		border-radius:35rpx;
+}
+.topic-image{
+		position: absolute;
+		left: 20rpx;
+		bottom: 23rpx;
+		width:24rpx;
+		height:24rpx;
+}
+.topic-image image{
+		width:24rpx;
+		height:24rpx;
+}
+.text20{
+		position: absolute;
+		left: 58rpx;
+		bottom: 6rpx;
+		font-size:24rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(255,255,255,1);
+}
+.uni-popup__wrapper.bottom{
+		border-radius:22rpx 22rpx 0px 0px;
+}
+.recommend{
+		z-index: 99;
+		margin-top: -30rpx;
+		margin-left: -30rpx;
+		width:750rpx;
+		height:100%;
+		background:rgba(255,255,255,1);
+		border-radius:22rpx 22rpx 0px 0px;
+		padding-bottom: 140rpx;
+}
+.replay-detail{
+		z-index: 99;
+		margin-top: -30rpx;
+		margin-left: -30rpx;
+		width:750rpx;
+		height:100%;
+		background:rgba(255,255,255,1);
+		border-radius:22rpx 22rpx 0px 0px;
+		padding-bottom: 140rpx;
+}
+.recommend-content{
+		height: 111rpx;
+		width:750rpx;
+		border-bottom: 1px solid rgba(226,226,226,1);
+}
+.all-recommend{
+		position: absolute;
+		left: 30rpx;
+		top: 41rpx;
+		font-size:32rpx;
+		font-family:PingFang SC;
+		font-weight:bold;
+		color:rgba(51,51,51,1);
+}
+.close{
+		position: absolute;
+		right: 30rpx;
+		top: 44rpx;
+		width:25rpx;
+		height:25rpx;
+}
+.close image{
+		width:25rpx;
+		height:25rpx;
+}
+.recommend-content2{
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: flex;
+		-webkit-justify-content: space-around;
+		        justify-content: space-around;
+		padding-top: 30rpx;
+		padding-left: 26rpx;
+		padding-right: 26rpx;
+		height: 100rpx;
+		/* height: 206rpx; */
+		width:698rpx;
+}
+.my-active-image{
+		/* float: left;
+		margin-left: 30rpx;
+		margin-top: 30rpx; */
+		width:68rpx;
+		height:68rpx;
+		background:rgba(149,149,149,1);
+		border-radius:50%;
+}
+.my-active-image image{
+		width:68rpx;
+		height:68rpx;
+		border-radius:50%;
+}
+.nickName-data{
+		width: 530rpx;
+}
+.my-active-nickName{
+		
+		font-size:30rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(102,102,102,1);
+}
+.my-active-data{
+		
+		font-size:24rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(102,102,102,1);
+		line-height:60rpx;
+}
+.my-active-like{
+		margin-top: 36rpx;
+		font-size:26rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(153,153,153,1);
+}
+.recommend-good{
+		/* float: left;
+		right: 30rpx;
+		top: 185rpx; */
+		padding-top: 40rpx;
+		width:31rpx;
+		height:31rpx;
+}
+.recommend-good image{
+		width:31rpx;
+		height:31rpx;
+}
+.recommend-text{
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: flex;
+		/* height:67rpx; */
+		overflow: hidden;
+		width: 568rpx;
+		padding-left: 125rpx;
+		padding-right: 57rpx;
+		font-size:26rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(51,51,51,1);
+		line-height:40rpx;
+}
+.recommend-text-reply{
+		position: relative;
+		top: 12rpx;
+		left: 123rpx;
+		width:566rpx;
+		height:135rpx;
+		background:rgba(248,248,248,1);
+		border:1px solid rgba(239,239,239,1);
+		border-radius:6rpx;
+}
+.recommend-text-reply-user{
+		margin-left: 16rpx;
+		font-size:24rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(102,102,102,1);
+		line-height:28rpx;
+}
+.recommend-text-reply-user2{
+		margin-left: 16rpx;
+		font-size:24rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(102,102,102,1);
+		line-height:28rpx;
+}
+.recommend-text-reply-count{
+		position: absolute;
+		bottom: 2px;
+		margin-left: 16rpx;
+		font-size:22rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(249,183,44,1);
+		line-height:28rpx;
+}
+.horizon2{
+		float: right;
+		margin-right: 30rpx;
+		margin-top: 40rpx;
+		width:594rpx;
+		height:2rpx;
+		background:rgba(226,226,226,1);
+}
+.replay-input {
+		width: 100%;
+		height: 120rpx;
+		background: #FFFFFF;
+		box-sizing: border-box;
+		padding: 20rpx;
+		position: fixed;
+		bottom: 0;
+}
+.replay-input2 {
+		display: none;
+}
+.say-something{
+		/* position: absolute;
+		right: 30rpx;
+		bottom: 30rpx;	
+		width:671rpx;*/
+		height:70rpx; 
+		background:rgba(240,240,240,1);
+		border-radius:30rpx;
+		padding-left: 30rpx;
+		/* border: 1px solid red; */
+}
+

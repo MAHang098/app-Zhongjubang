@@ -9,6 +9,14 @@
 		}
 	},
 	{
+		"path": "pages/loginPhone/loginPhone",
+		"style": {
+			"app-plus": {
+				"titleNView": false //禁用原生导航栏  
+			}
+		}
+	},
+	{
 	    "path" : "pages/testVideo/testVideo",
 	    "style" : {
 			"app-plus": {

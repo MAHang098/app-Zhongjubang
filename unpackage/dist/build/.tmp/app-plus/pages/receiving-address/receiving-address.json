@@ -1,0 +1,17 @@
+{
+  "navigationBarTitleText": "我的收货地址",
+  "titleNView": {
+    "buttons": [
+      {
+        "text": "添加收获地址",
+        "fontSize": "14px",
+        "color": "#666666",
+        "width": "110px"
+      }
+    ]
+  },
+  "bounce": "none",
+  "usingComponents": {
+    "uni-popup": "/components/uni-popup/uni-popup"
+  }
+}
