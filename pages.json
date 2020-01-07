@@ -9,8 +9,8 @@
 		}
 	},
 	{
-	    "path" : "pages/swiper-vertical/swiper-vertical",
-	    "style" : {
+		"path": "pages/loginPhone/loginPhone",
+		"style": {
 			"app-plus": {
 				"titleNView": false //禁用原生导航栏  
 			}

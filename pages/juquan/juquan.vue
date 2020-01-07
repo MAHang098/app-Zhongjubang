@@ -74,7 +74,7 @@
 								</view>
 							</view>
 						</view>
-						<view v-else class="user-right" @click.stop="focus(items.userId, current)">
+						<view v-else class="user-right" @click.stop="focus(items.userId, current, items, index)">
 							<image :src="items.attentionState == 0 ? 'http://www.zhongjubang.com/api/upload/static/follow.png' : items.attentionState == 2 ? 'http://www.zhongjubang.com/api/upload/static/mutual-follow.png' : 'http://www.zhongjubang.com/api/upload/static/follow-checked.png'" mode=""></image>
 						</view>
 					</view>
@@ -176,8 +176,13 @@
 				recommendList: [],   	  // G圈推荐
 				userListContent: [],		// 关注用户的G圈列表
 				currentPage: 0,
-				collect_currentIndex: -1,
-				fabulous_currentIndex: -1
+				collect_currentIndex: -1,	// 预处理收藏成功显示图片
+				fabulous_currentIndex: -1,	// 预处理点赞成功显示图片
+				attention_currentIndex: -1,	// 预处理关注他人成功显示图片
+				mutual_currentIndex: -1,	// 预处理相互关注成功显示图片
+				click_index: 0,				// 点击当前tabbar按钮几次，超过1刷新当前页面并返回顶部 
+				isShow_attention: false,
+				isShow_current: false
 			}
 		},
 		filters: {
@@ -204,11 +209,31 @@
 			this.recommend();
 		},
 		onHide() {
-			this.init();
+			let _this = this;
+			_this.click_index = 0;
 		},
+		onShow() {
+			// let _this = this;
+			// _this.click_index = 0;
+		},
+		// 滚动到底部请求第二页数据
 		onReachBottom() {
 			this.page++;
 			this.init();
+		},
+		// 点击底部tabbar刷新页面，并滚动到最前面
+		onTabItemTap() {
+			let _this = this;
+			_this.click_index++;
+			if(_this.click_index > 1) {
+				this.page = 1;
+				uni.pageScrollTo({
+					scrollTop: 0,
+					duration: 0
+				});
+				this.init();
+				
+			}
 		},
 		methods: {
 			goOtheruser(id){
@@ -237,7 +262,7 @@
 			init() {
 				let parmas = {
 					pageIndex: this.page,
-					pageSize: 2
+					pageSize: 10
 				}
 				uni.showLoading({
 					title: '加载中...',
@@ -278,6 +303,17 @@
 								url: '/pages/loginPhone/loginPhone'
 							})
 						}
+					}),
+					fail:((res) => {
+						this.isShowCollect = false;
+						this.isShow_attention = false;
+						this.isShow_current = false;
+						this.isShowFabulous = false;
+						uni.showToast({
+							title: '加载失败',
+							icon: 'none'
+						});
+						
 					})
 				})
 			},
@@ -287,7 +323,6 @@
 					title: '加载中',
 					mask: true
 				})
-				
 				uni.request({
 				    url: this.url + 'controller/usercontroller/getRecommendUserList',
 				    method: 'post',
@@ -331,47 +366,95 @@
 				});
 			},
 			// 关注
-			focus(id,currents) {
+			focus(id,currents, items, index) {
+				console.log(items)
+				return;
+				uni.showLoading({
+					title: '加载中'
+				})
 			    uni.request({
 			        url: this.url + 'controller/usercontroller/addattentionrelationship',
 			        method: 'post',
 			        data: {outUserId: id},
 			        header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 			        success:((res) => {
-			            if(res.data.code == 200) {
-							if(currents == 0) {
-								this.init();
-							}
-							if(currents == 1) {
-								this.focusUserContent();
-								this.focusUser();
-							}
-			                // this.init(this.topicId);
-			            } 
 						if(res.data.code == 421) {
 							uni.navigateTo({
 								url: '/pages/loginPhone/loginPhone'
 							})
 						}
-			        })
+			            if(res.data.code == 200) {
+							uni.hideLoading()
+							// if(currents == 0) {
+							// 	this.init();
+							// }
+							if(currents == 1) {
+								// this.focusUserContent();
+								this.focusUser();
+							}
+							
+							if(!items) {
+								return;
+							}
+							if(items.attentionState == 2) {
+								items.attentionState = 0;
+								return;
+							}
+							if(items.attentionState == 0 &&　items.fanState == 1) {
+								items.attentionState = 2;
+								return;
+							}
+							if(items.attentionState == 1) {
+								items.attentionState = 0;
+								return;
+							}
+							if(items.attentionState == 0 && items.fanState　== 0) {
+								items.attentionState = 1;
+								return;
+							}
+							// console.log(this.isShow_current)
+			                // this.init(this.topicId);
+			            } else {
+							uni.showToast({
+								title:'网络异常',
+								icon: 'none'
+							})
+						} 
+						
+			        }),
+					fail:((res) => {
+						uni.showToast({
+							title: '网络异常',
+							icon: 'none'
+						})
+					})
 			    });
 			},
 			// 收藏
 			collect(index, id, state, currents, items) {
+				uni.showLoading({
+					title: '加载中'
+				})
 			    uni.request({
 			        url: this.url + 'controller/usercontroller/addusercollection',
 			        method: 'post',
 			        data: {collectionContentId: id, type: '1'},
 			        header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 			        success:(res) => {
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 			            if(res.data.code == 200) {
-							if(currents == 0) {
-								// this.page = 1;
-								this.init();
-							}
-			                if(currents == 1) {
-								this.focusUserContent();
-							}
+							uni.hideLoading();
+							// if(currents == 0) {
+							// 	// this.page = 1;
+							// 	this.init();
+							// }
+			    //             if(currents == 1) {
+							// 	this.focusUserContent();
+							// }
 			                this.activeIndex = index;
 							this.collect_currentIndex = index;
 							this.isShowCollect = !this.isShowCollect;
@@ -387,33 +470,41 @@
 							} else {
 								items.collectionNum++
 							}
-			               
-							
-			            } 
-						if(res.data.code == 421) {
-							uni.navigateTo({
-								url: '/pages/loginPhone/loginPhone'
+			            } else {
+							uni.showToast({
+								title: '网络异常',
+								icon: 'none'
 							})
 						}
+						
 			        }
 			    });
 			},
 			// 点赞
 			fabulous(index, id, state, currents, items) {
+				uni.showLoading({
+					title: '加载中'
+				})
 			    uni.request({
 			        url: this.url + 'controller/usercontroller/addgcirclecontentlike',
 			        method: 'post',
 			        data: {gcircleContentId: id},
 			        header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 			        success:((res) => {
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 			            if(res.data.code == 200) {
-			               if(currents == 0) {
-								this.init();
+							uni.hideLoading();
+							// if(currents == 0) {
+							// 	this.init();
 								
-			               }
-							if(currents == 1) {
-								this.focusUserContent();
-							}
+							// }
+							// if(currents == 1) {
+							// 	this.focusUserContent();
+							// }
 							this.isShowFabulous = !this.isShowFabulous;
 							this.fabulous_currentIndex = index;
 							if(state == 1) {
@@ -429,12 +520,13 @@
 								items.gcircleContentLikeNum++;
 							}
 							
-			            } 
-						if(res.data.code == 421) {
-							uni.navigateTo({
-								url: '/pages/loginPhone/loginPhone'
+			            } else {
+							uni.showToast({
+								title: '网络异常',
+								icon: 'none'
 							})
 						}
+						
 			        })
 			    });
 			},
