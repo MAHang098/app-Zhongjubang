@@ -238,7 +238,6 @@
 						'token': token
 					},
 					success: function (res){
-						console.log(res.data.data)
 						if(res.data.code==200){
 							self.dataList = res.data.data
 							if(res.data.data.length>0){

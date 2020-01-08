@@ -68,7 +68,7 @@
 		<view class="footer">
 			<text class="total">合计:</text>
 			<text class="price">￥{{total_price | priceFilter}}</text>
-			<view class="balance">提交订单</view>
+			<view class="balance" @click.stop="commitOrder">提交订单</view>
 		</view>
 		<!-- 底部 end -->
 	</view>
@@ -195,7 +195,33 @@
 					url: '/pages/receiving-address/receiving-address?type=confirm&num='+this.order_num
 				})
 			},
-			
+			// 确认订单
+			commitOrder() {
+				uni.getProvider({
+				    service: 'oauth',
+				    success: function (res) {
+				        console.log(res.provider)
+				        // if (~res.provider.indexOf('qq')) {
+				        //     uni.login({
+				        //         provider: 'qq',
+				        //         success: function (loginRes) {
+				        //             console.log(JSON.stringify(loginRes));
+				        //         }
+				        //     });
+				        // }
+				    }
+				});
+				// uni.requestPayment({
+				//     provider: 'alipay',
+				//     orderInfo: 'orderInfo', //微信、支付宝订单数据
+				//     success: function (res) {
+				//         console.log('success:' + JSON.stringify(res));
+				//     },
+				//     fail: function (err) {
+				//         console.log('fail:' + JSON.stringify(err));
+				//     }
+				// });
+			}
 		}
 	}
 </script>

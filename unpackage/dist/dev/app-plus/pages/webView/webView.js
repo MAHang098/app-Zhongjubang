@@ -1,2 +1,0 @@
-setCssToHead([".",[1],"image{ position: fixed; width: 15px; height: 25px; left: 5px; top: 16px; z-index: 1000; }\n",],undefined,{path:"./pages/webView/webView.wxss"})();
-document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/webView/webView.wxml') } }));

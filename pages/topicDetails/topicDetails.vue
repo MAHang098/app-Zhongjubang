@@ -15,7 +15,7 @@
 		</view>
 		<view class="topic-detail">
 			<view class="title">
-				<image src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/bg.png" mode=""></image>
+				<image :src="talkThemeImg" mode=""></image>
 				<view class="content">
 					<view class="main-title">
 						<image src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/money.png" mode=""></image>
@@ -205,7 +205,8 @@
 					contentnomore: '没有更多'
 				},
 				page: 1,
-				id: ''
+				id: '',
+				talkThemeImg: ''
 				
 			}
 		},
@@ -375,6 +376,7 @@
 						let totalPage = res.data.data.pageSize * res.data.data.totalPage;
 						let data = res.data.data.dataList[0]
 						this.topic = data.talkTheme;
+						this.talkThemeImg = data.talkThemeImg;
 						this.talkThemeNum = data.talkThemeNum;
 						this.participateCount = data.participateCount
 						this.talkThemeState = data.talkThemeState;
@@ -861,6 +863,7 @@
 		overflow: hidden;
 		line-height: 36rpx;
 		/* position: relative; */
+		white-space: pre-wrap;
 	}
 	.describe view {
 		display: inline;

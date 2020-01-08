@@ -87,6 +87,7 @@
 	line-height:33rpx;
 	/* float: left; */
 	position: relative;
+	white-space: pre-wrap;
 }
 .relese-image_detail .content .anCotent {
 	font-size:24rpx;
