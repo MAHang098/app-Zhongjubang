@@ -31,12 +31,12 @@
 				<view class="wrap-content-mid" v-for="(item,index) in dataList" :key="index">
 					<image v-if="item.title=='金牌业主'" class="" style="width: 148upx;height: 148upx;" src="http://www.zhongjubang.com/api/upload/static/img/designation/icon.png" />
 					<image v-if="item.title=='设计达人'" class="" style="width: 148upx;height: 148upx;" src="../../static/img/designation/icon2.png" />
-					<image v-if="item.title=='网红达人'" class="" style="width: 148upx;height: 148upx;" src="../../static/img/designation/icon3.png" />
+					<image v-if="item.title=='人气网红'" class="" style="width: 148upx;height: 148upx;" src="../../static/img/designation/icon3.png" />
 					<image v-if="item.title=='居圈达人'" class="" style="width: 148upx;height: 148upx;" src="../../static/img/designation/icon4.png" />
 					<view class="title-designe">{{item.title}}</view>
 					<view class="">
 						<label>
-							<radio value="r1" :checked="item.isDefault" color="#FFCC33" style="transform:scale(0.7)" @click.stop="singleChecked(item.id)"/>
+							<radio value="r1" :checked="item.isDefault == 1 ? true : false " color="#FFCC33" style="transform:scale(0.7)" @click.stop="singleChecked(item.id, item)"/>
 						</label>
 					</view>
 				</view>
@@ -103,7 +103,7 @@
 		},
 		methods: {
 			// 选择标签
-			singleChecked(id){
+			singleChecked(id, item){
 				let token
 				let self = this
 				uni.getStorage({
@@ -125,6 +125,13 @@
 				        'token': token
 				    },
 				    success: function (res){
+						if(res.data.code == 200) {
+							if(item.isDefault == 1) {
+								item.isDefault  = 0
+							} else {
+								item.isDefault  = 1;
+							}
+						}
 						if(res.data.code==421){
 							uni.navigateTo({
 								url: '/pages/loginPhone/loginPhone'
@@ -221,7 +228,6 @@
 						'token': token
 					},
 					success: function (res){
-						console.log(res.data.data)
 						if(res.data.code==200){
 							self.dataList = res.data.data
 							if(res.data.data.length>0){

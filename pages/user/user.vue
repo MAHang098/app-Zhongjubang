@@ -268,7 +268,7 @@
 			<view class="uni-comments">
 				<view class="uni-comments-title">
 					<view>全部评论({{gCollectionDiscussNum}})</view>
-					<view @click.stop="cancelPopup('comments')">
+					<view @click.stop="cancelPopup('comments')" id="remove">
 						<image src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/close.png" mode=""></image>
 					</view>
 				</view>
@@ -299,7 +299,8 @@
 				</view>
 				<!-- <view class="uni-share-btn" @click="cancel('share')">取消分享</view> -->
 				<view class="comments-botton">
-					<input @confirm="recordName" :placeholder="replySay" :value="inputValue" type="text" />
+					<input :placeholder="replySay" :value="inputValue" type="text" />
+					<view class="send" @click.stop="recordName">发送</view>
 				</view>
 			</view>
 		</uni-popup>
@@ -1828,4 +1829,27 @@
 		color:rgba(204,204,204,1);
 		/* margin-bottom: 100rpx; */
 	}
+	.comments-botton {
+			display: flex;
+			align-content: center;
+		}
+		.send {
+			float: right;
+			width: 100rpx;
+			height: 100%;
+			line-height: 35px;
+			color: #333333;
+			text-align: center;
+			font-size: 14px;
+		}
+		/* 关闭弹窗 start */
+		#remove {
+			width: 50px;
+			height: 35px;
+			/* border: 1px solid red; */
+			overflow: hidden;
+		}
+		#remove image {
+			float: right;
+		}
 </style>
