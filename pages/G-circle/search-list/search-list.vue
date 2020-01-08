@@ -368,7 +368,7 @@
 	}
 	.list-detail {
 		width: 48%;
-		height: 530rpx;
+		height: 500rpx;
 		box-shadow:1px 0px 4px 0px rgba(136,136,136,0.4);
 		border-radius:4px;
 		background: #FFFFFF;
@@ -400,6 +400,8 @@
 		line-height: 15px;
 		margin-top: 10px;
 		overflow: hidden;
+		box-sizing: border-box;
+		padding: 0 5px;
 	}
 	.list-detail>text {
 		box-sizing: border-box;

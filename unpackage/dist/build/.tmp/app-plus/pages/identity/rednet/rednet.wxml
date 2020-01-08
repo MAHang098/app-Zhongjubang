@@ -1,1 +1,0 @@
-<view class="rednet"><image class="rednet-img" src="http://www.zhongjubang.com/api/upload/static/img/identity/rednet.png" mode="widthFix"></image><image class="authentication" src="http://www.zhongjubang.com/api/upload/static/img/identity/authentication.png" mode="widthFix" data-event-opts="{{[['tap',[['rednetPeople',['$event']]]]]}}" catchtap="__e"></image></view>

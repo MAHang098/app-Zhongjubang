@@ -196,6 +196,7 @@
 								this.$store.commit('updateType', {topic: '', topicId: ''});
 							} 
 							if(res.data.code == 421) {
+								uni.hideLoading();
 								uni.navigateTo({
 									url: '/pages/loginPhone/loginPhone'
 								})
@@ -228,6 +229,7 @@
 							this.isshowScusse = false;
 						} 
 						if(res.data.code == 421) {
+							uni.hideLoading();
 							uni.navigateTo({
 								url: '/pages/loginPhone/loginPhone'
 							})
@@ -307,6 +309,7 @@
 								}, 1000);
 							} 
 							if(res.data.code == 421) {
+								uni.hideLoading();
 								uni.navigateTo({
 									url: '/pages/loginPhone/loginPhone'
 								})
@@ -339,6 +342,7 @@
 							// uni.hideToast();
 						} 
 						if(res.data.code == 421) {
+							uni.hideLoading();
 							uni.navigateTo({
 								url: '/pages/loginPhone/loginPhone'
 							})

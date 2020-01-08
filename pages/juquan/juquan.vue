@@ -75,7 +75,9 @@
 							</view>
 						</view>
 						<view v-else class="user-right" @click.stop="focus(items.userId, current, items, index)">
-							<image :src="items.attentionState == 0 ? 'http://www.zhongjubang.com/api/upload/static/follow.png' : items.attentionState == 2 ? 'http://www.zhongjubang.com/api/upload/static/mutual-follow.png' : 'http://www.zhongjubang.com/api/upload/static/follow-checked.png'" mode=""></image>
+							<image v-if="current == 0" :src="items.attentionState == 0 ? 'http://www.zhongjubang.com/api/upload/static/follow.png' : items.attentionState == 2 ? 'http://www.zhongjubang.com/api/upload/static/mutual-follow.png' : 'http://www.zhongjubang.com/api/upload/static/follow-checked.png'" mode=""></image>
+							<image v-if="current == 1" :src="items.attentionState == 2 ? 'http://www.zhongjubang.com/api/upload/static/follow.png' : items.attentionState == 1 ? 'http://www.zhongjubang.com/api/upload/static/mutual-follow.png' : 'http://www.zhongjubang.com/api/upload/static/follow-checked.png'" mode=""></image>
+												
 						</view>
 					</view>
 					<!-- 用户信息 start -->
@@ -182,7 +184,8 @@
 				mutual_currentIndex: -1,	// 预处理相互关注成功显示图片
 				click_index: 0,				// 点击当前tabbar按钮几次，超过1刷新当前页面并返回顶部 
 				isShow_attention: false,
-				isShow_current: false
+				isShow_current: false,
+				page_attention: 1        // 关注G圈用户的G圈内容
 			}
 		},
 		filters: {
@@ -218,6 +221,11 @@
 		},
 		// 滚动到底部请求第二页数据
 		onReachBottom() {
+			if(this.current == 1) {
+				this.page_attention++;
+				this.focusUserContent();
+				return;
+			}
 			this.page++;
 			this.init();
 		},
@@ -226,11 +234,16 @@
 			let _this = this;
 			_this.click_index++;
 			if(_this.click_index > 1) {
-				this.page = 1;
 				uni.pageScrollTo({
 					scrollTop: 0,
 					duration: 0
 				});
+				if(this.current == 1) {
+					this.page_attention = 1;
+					this.focusUserContent();
+					return;
+				}
+				this.page = 1;
 				this.init();
 				
 			}
@@ -345,30 +358,63 @@
 				uni.showLoading({
 					title: '加载中...',
 					mask: true
-				})
+				});
+				let parmas = {
+					pageIndex: this.page_attention,
+					pageSize: 10
+				}
 				uni.request({
 				    url: this.url + 'controller/contentcontroller/getGcircleContentListByAttention',
 				    method: 'post',
-					data: {pageSize: 100, pageIndex: 1},
+					data: parmas,
 				    header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 				    success:(res) => {
 						uni.hideLoading();
-				        if(res.data.code == 200) {
+				   //      if(res.data.code == 200) {
+							// let data = res.data.data.dataList;
+							// for(let i=0; i<data.length; i++) {
+							// 	data[i].imgList = JSON.parse(data[i].imgList);
+							// 	data[i].title = JSON.parse(data[i].title);
+							// }
+				   //          this.releaseImgList = data;
+				   //      }
+						let totalPage = res.data.data.pageSize * res.data.data.totalPage;
+						if(this.releaseImgList.length == totalPage) {
+							return;
+						}
+						if(res.data.code == 200) {
 							let data = res.data.data.dataList;
 							for(let i=0; i<data.length; i++) {
 								data[i].imgList = JSON.parse(data[i].imgList);
 								data[i].title = JSON.parse(data[i].title);
 							}
-				            this.releaseImgList = data;
-				        }
-						
-				    }
+							// this.releaseImgList = data;
+							// if(this.page == res.data.data.currentPage) {
+							// 	this.reload = true;
+							// }
+							this.releaseImgList = this.reload ? data : this.releaseImgList.concat(data);
+							// console.log(this.page)
+							if(res.data.data.totalPage < 2) {
+								return;
+							}
+							// this.page++;
+						}
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+				    },
+					fail: ((res) =>{
+						uni.showToast({
+							title: '网络异常',
+							icon: 'none'
+						})
+					})
 				});
 			},
 			// 关注
 			focus(id,currents, items, index) {
-				console.log(items)
-				return;
 				uni.showLoading({
 					title: '加载中'
 				})
@@ -396,21 +442,38 @@
 							if(!items) {
 								return;
 							}
-							if(items.attentionState == 2) {
-								items.attentionState = 0;
-								return;
+							if(this.current == 0) {
+								if(items.attentionState == 2) {
+									items.attentionState = 0;
+									return;
+								}
+								if(items.attentionState == 0 &&　items.fanState == 1) {
+									items.attentionState = 2;
+									return;
+								}
+								if(items.attentionState == 1) {
+									items.attentionState = 0;
+									return;
+								}
+								if(items.attentionState == 0 && items.fanState　== 0) {
+									items.attentionState = 1;
+									return;
+								}
 							}
-							if(items.attentionState == 0 &&　items.fanState == 1) {
-								items.attentionState = 2;
-								return;
-							}
-							if(items.attentionState == 1) {
-								items.attentionState = 0;
-								return;
-							}
-							if(items.attentionState == 0 && items.fanState　== 0) {
-								items.attentionState = 1;
-								return;
+							if(this.current == 1) {
+								console.log(items.attentionState)
+								if(items.attentionState == 1 || items.attentionState == 0) {
+									items.attentionState = 2;
+									return;
+								}
+								if(items.attentionState == 2 &&　items.fanState　== 1) {
+									items.attentionState = 1;
+									return;
+								}
+								if(items.attentionState == 2 &&　items.fanState　== 0) {
+									items.attentionState = 0;
+									return;
+								}
 							}
 							// console.log(this.isShow_current)
 			                // this.init(this.topicId);
@@ -477,7 +540,13 @@
 							})
 						}
 						
-			        }
+			        },
+					fail: ((res) => {
+						uni.showToast({
+							title: '网络异常',
+							icon: 'none'
+						})
+					})
 			    });
 			},
 			// 点赞
@@ -527,7 +596,13 @@
 							})
 						}
 						
-			        })
+			        }),
+					fail: ((res) => {
+						uni.showToast({
+							title: '网络异常',
+							icon: 'none'
+						})
+					})
 			    });
 			},
 			// 预览图片
@@ -548,7 +623,6 @@
 			// 切换居圈/关注/短视频
 			changeProduct(index) {
 				this.current = index;
-				console.log(index)
 				if(index == 2) {
 					uni.navigateTo({
 						url: '/pages/juquanVideo/juquanVideo'
@@ -557,6 +631,7 @@
 				if(index == 1) {
 					this.focusUser();
 					this.focusUserContent();
+					this.releaseImgList = []
 				}
 				if(index == 0) {
 					this.init();

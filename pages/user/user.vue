@@ -146,7 +146,9 @@
 					<!-- 草稿内容 start -->
 					<view class="content"  v-if="items.content != '' ">
 						<view v-if="!isShowAllContent" class="text">{{items.content }}</view>
-						<view v-else class="text">{{items.content | ellipsis}}</view>
+						<view v-else class="text">
+							{{items.content | ellipsis}}
+						</view>
 						<view class="anCotent" v-if="items.content.length > 45 " @click="open()">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'in'" src="http://www.zhongjubang.com/api/upload/static/drafts/arrow-bottom.png" mode=""></image></view>
 					</view>
 					<!-- 草稿内容 end -->
@@ -406,20 +408,6 @@
 			  return value
 			},
 		},
-		onLoad(options){
-			let _this = this;
-			uni.getStorage({
-				key:"token",
-				success: function (res) {
-					_this.Tokens = res.data;
-				}
-			})
-			this.page = 1;
-			this.releaseImgList = [];
-			this.init();
-			
-			
-		},
         onShow(){
 			let token
 			let self = this;
@@ -428,6 +416,7 @@
 				key:"token",
 				success: function (res) {
 					token = res.data;
+					self.Tokens = res.data;
 				}
 			})
 			const url = this.url
@@ -490,6 +479,9 @@
 				}
 			});
 			this.initVideo()
+			// this.page = 1;
+			// this.releaseImgList = [];
+			this.init();
 		},
 		// 上拉加载
 		onReachBottom: function() {
@@ -1053,7 +1045,7 @@
 				let parmas = {
 					gcircleContentId: id,
 					pageIndex: 1,
-					pageSize: 1000
+					pageSize: 20
 				}
 				uni.request({
 					url: this.url + "controller/usercontroller/getgcdiscusslist",
@@ -1070,6 +1062,12 @@
 							});
 							uni.hideToast();
 						}
+					}),
+					fail: ((res) => {
+						uni.showToast({
+							title: '网络异常',
+							icon: 'none'
+						})
 					})
 				})
 			},
