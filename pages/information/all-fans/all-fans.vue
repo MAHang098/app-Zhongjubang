@@ -19,6 +19,15 @@
 					<text v-bind:class="index == current ? 'active-status' : '' "></text>
 				</view>
 			</view>
+			<!-- 关注缺省页start -->
+			<view v-if="current==0&&requiresAttentions==1" class="requires-content">
+				<view class="requires-images">
+					<image style="width: 212rpx;height: 214rpx;" src="../../../static/img/requiresPage/attentions.png" mode=""></image>
+				</view>
+				暂无关注的好友！
+			</view>
+			<!-- 关注缺省页end -->
+			
 			<view class="follow-fans"  v-show="current == 0">
 				<view class="fans-list" v-for="(item, index) in followData" :key="index">
 					<view class="left" @tap="goOtherUser(item.outUserId)">
@@ -27,10 +36,10 @@
 						</view>
 						<view class="details">
 							<view class="name">{{item.nickName}} 
-								<image v-if="item.title == '设计达人'" src="../../static/img/title/design-people.png" mode=""></image>
-								<image v-if="item.title == '人气网红'" src="../../static/img/title/red-hot.png" mode=""></image>
-								<image v-if="item.title == '居圈达人'" src="../../static/img/title/circle-people.png" mode=""></image>
-								<image v-if="item.title == '金牌业主'" src="../../static/img/title/gold-owner.png" mode=""></image>
+								<image v-if="item.title == '设计达人'" src="../../../static/img/title/design-people.png" mode=""></image>
+								<image v-if="item.title == '人气网红'" src="../../../static/img/title/red-hot.png" mode=""></image>
+								<image v-if="item.title == '居圈达人'" src="../../../static/img/title/circle-people.png" mode=""></image>
+								<image v-if="item.title == '金牌业主'" src="../../../static/img/title/gold-owner.png" mode=""></image>
 							</view>
 							<text class="follow">粉丝{{item.fanCount}}</text>
 						</view>
@@ -40,7 +49,14 @@
 					</view>
 				</view>
 			</view>
-			
+			<!-- 粉丝缺省页start -->
+			<view v-if="current==1&&requiresFans==1" class="requires-content">
+				<view class="requires-images">
+					<image style="width: 212rpx;height: 214rpx;" src="../../../static/img/requiresPage/attentions.png" mode=""></image>
+				</view>
+				您还没有粉丝！
+			</view>
+			<!-- 粉丝缺省页end -->
 			
 			<view class="fans" v-show="current == 1">
 				<view class="fans-list" v-for="(item, index) in fansData" :key="index">
@@ -78,6 +94,8 @@
 	export default {
 		data() {
 			return {
+				requiresFans: 0,
+				requiresAttentions: 0,
 				tabList: ["关注", "粉丝"],
 				current: 0 ,
 				isShow: false,
@@ -122,6 +140,11 @@
 						}
 						if(res.data.code == 200) {
 							let data = res.data.data.dataList;
+							if(res.data.data.dataList.length==0){
+								this.requiresAttentions = 1
+							}else{
+								this.requiresAttentions = 0
+							}
 							this.followData = data;
 						}
 					})
@@ -141,6 +164,11 @@
 							})
 						}
 						if(res.data.code == 200) {
+							if(res.data.data.dataList.length==0){
+								this.requiresFans = 1
+							}else{
+								this.requiresFans = 0
+							}
 							let data = res.data.data.dataList;
 							this.fansData = data;
 						}
@@ -330,4 +358,21 @@
 		background:rgba(249,183,44,1);
 		border-radius:3px;
 	}
+	/* 缺省页start */
+	.requires-content{
+		text-align: center;
+		font-size:30rpx;
+		font-family:PingFang SC;
+		color:rgba(153,153,153,1);
+		line-height:30rpx;
+	}
+	.requires-images{
+		display: flex;
+		margin-left: 240rpx;
+		margin-top: 60rpx;
+		width: 212rpx;
+		height: 214rpx;
+		margin-bottom: 60rpx;
+	}
+	/* 缺省页end */
 </style>

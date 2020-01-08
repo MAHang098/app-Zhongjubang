@@ -89,6 +89,9 @@
 	height: 289rpx;
 	display: block;
 }
+.idCard image:nth-child(2){
+		margin-left: 20rpx;
+	}
 
 /* 提交 start */
 .btn {

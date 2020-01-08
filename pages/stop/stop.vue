@@ -170,6 +170,11 @@
 		},
 		
         methods: {
+			// 第二轮播
+		  change(e) {
+			console.log(e.detail.current)
+			this.current = e.detail.current
+		  },
 			goShop(id){
 				uni.navigateTo({
 					url: '/pages/shopping-mall/detail/detail?id=' + id
@@ -469,7 +474,7 @@
 	.banner{
 		background: #fff;
 		width:750upx;
-		height:579upx;
+		height:498upx;
 		box-shadow:0px 0px 9upx 0px rgba(93,93,93,0.06);
 		padding-top: 10px;
 	}
@@ -509,7 +514,7 @@
 		justify-content: space-around;
 		padding: 0 14upx;
 		box-sizing: border-box;
-		margin-top: 21upx;
+		margin-top: 48upx;
 	}
 	.buy-left{
 		display: flex;
@@ -595,13 +600,13 @@
 	.good-more-image{
 		position: absolute;
 		left: 710upx;
-		top: 54upx;
+		top: 48upx;
 	}
 	/* 精品抢购 */
 	
 	.card-swiper-immeuble{
 		margin-top: 50px;
-		margin-bottom: 50px;
+		// margin-bottom: 50px;
 	}
 	.card-swiper-immeuble swiper-item {
 		width: 283upx !important;
@@ -612,14 +617,14 @@
 	}
 
 	.card-swiper-immeuble swiper-item .swiper-item-immeuble {
-		height: 380rpx !important;
+		height: 360rpx !important;
 		border:1px solid rgba(226,226,226,1);
 		box-shadow:-2upx 1upx 16upx 0px rgba(0, 0, 0, 0.08);
 		width: 100%;
 		display: block;
 		height: 100%;
 		border-radius: 10rpx;
-		transform: scale(0.9);
+		transform: scale(0.9,0.99);
 		transition: all 0.2s ease-in 0s;
 		overflow: hidden;
 	}

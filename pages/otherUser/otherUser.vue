@@ -916,8 +916,8 @@
 		height: 100%;
 		box-sizing: border-box;
 		padding: 40rpx 20rpx;
-		border-top: 1px solid #E2E2E2;
 		background: #fff;
+		margin-top: -20rpx;
 	}
 	.drafts-type {
 		height: 70rpx;

@@ -1,0 +1,1 @@
+<view><block wx:for="{{detailList}}" wx:for-item="item" wx:for-index="index" wx:key="index"><view class="detail"><view class="left"><view>{{item.log}}</view><view>{{item.createTime}}</view></view><view class="right"><view class="num">{{item.value}}</view><image src="http://www.zhongjubang.com/api/upload/static/img/user/hot.png" mode></image></view></view></block></view>

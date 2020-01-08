@@ -11,6 +11,7 @@
 		</view>
 		<!-- 搜索栏 end -->
 		
+		
 		<!-- 居圈/商品/用户 start-->
 		<view class="G-list_content">
 			<view v-for="(item, index) in tabType" :class="index == current ? 'active' : '' " @click.stop="changeProduct(index)" :key="index">
@@ -19,7 +20,20 @@
 			</view>
 		</view>
 		<!-- 居圈/商品/用户 end -->
-		
+		<!-- 缺省页start -->
+		<view v-if="current==0&&requiresGcircle==1" class="requires-images">
+			<image style="width: 512rpx;height: 435rpx;" src="../../../static/img/requiresPage/searchGcircle.png" mode=""></image>
+			<text class="requires-images-text">无搜索结果换个词试试吧~</text>
+		</view>
+		<view v-if="current==1&&requiresGoods==1" class="requires-images">
+			<image style="width: 512rpx;height: 435rpx;" src="../../../static/img/requiresPage/searchGcircle.png" mode=""></image>
+			<text class="requires-images-text">无搜索结果换个词试试吧~</text>
+		</view>
+		<view v-if="current==2&&requiresUser==1" class="requires-images">
+			<image style="width: 512rpx;height: 435rpx;" src="../../../static/img/requiresPage/searchGcircle.png" mode=""></image>
+			<text class="requires-images-text">无搜索结果换个词试试吧~</text>
+		</view>
+		<!-- 缺省页end -->
 		<!-- 用户列表 start -->
 		<view class="user-massage" v-show="current == 2">
 			<view class="user-list">
@@ -74,7 +88,7 @@
 			</view>
 		</view>
 		<!-- 居圈列表 end -->
-		<view class="look-more">-没有更多-</view>
+		<!-- <view class="look-more">-没有更多-</view> -->
 	</view>
 </template>
 
@@ -89,7 +103,10 @@
 				circleData: [],
 				activeIndex: -1,
 				productList: [],
-				userList: []
+				userList: [],
+				requiresGcircle: 0,
+				requiresGoods: 0,
+				requiresUser: 0,
 			}
 		},
 		filters: {
@@ -134,6 +151,11 @@
 						}
 				        if(res.data.code == 200) {
 							let data = res.data.data.dataList;
+							if(data.length==0){
+								this.requiresGcircle = 1
+							}else{
+								this.requiresGcircle = 0
+							}
 							for(let i=0; i<data.length; i++) {
 								data[i].imgList = JSON.parse(data[i].imgList);
 							}
@@ -167,6 +189,11 @@
 						}
 				        if(res.data.code == 200) {
 							let data = res.data.data.dataList;
+							if(data.length==0){
+								this.requiresGoods = 1
+							}else{
+								this.requiresGoods = 0
+							}
 							this.productList = data;
 				        } 
 						if(res.data.code == 421) {
@@ -197,6 +224,11 @@
 						}
 				        if(res.data.code == 200) {
 							let data = res.data.data.dataList;
+							if(data.length==0){
+								this.requiresUser = 1
+							}else{
+								this.requiresUser = 0
+							}
 							this.userList = data;
 				        }
 						if(res.data.code == 421) {
@@ -575,4 +607,22 @@
 		color:rgba(204,204,204,1);
 		margin-bottom: 100rpx;
 	}
+	/* 缺省页start */
+	.requires-images{
+		position: relative;
+		display: flex;
+		margin-left: 150rpx;
+		margin-top: 140rpx;
+		width: 512rpx;
+		height: 435rpx;
+	}
+	.requires-images-text{
+		position: absolute;
+		top: 400rpx;
+		left: 50rpx;
+		font-size:30rpx;
+		font-family:PingFang SC;
+		color:rgba(153,153,153,1);
+	}
+	/* 缺省页end */ 
 </style>

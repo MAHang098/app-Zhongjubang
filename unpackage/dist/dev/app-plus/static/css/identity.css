@@ -1,0 +1,143 @@
+.write-circle {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+.write-circle_bg {
+	width: 100%;
+	height: 376rpx;
+	display: block;
+}
+/* 资料填写 start */
+.circle-massage {
+	width: 100%;
+	height: 100%;
+	padding-top: 15px;
+	position: relative;
+	top: -13px;
+	background: #fff;
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+}
+.circle-massage_explain, .circle-massage_input, .material, .material-type, .idCard, .authentication {
+	box-sizing: border-box;
+	padding: 0 15px;
+	width: 100%;
+}
+.circle-massage_explain {
+	font-size:12px;
+	font-family:PingFang SC;
+	color:rgba(102,102,102,1);
+	margin-bottom: 20px;
+}
+.circle-massage_input {
+	height: 98rpx;
+	line-height: 98rpx;
+	width: 100%;
+	border-bottom: 1px solid #E2E2E2;
+	display: flex;
+	/* padding-top: 15px; */
+}
+.circle-massage_input input {
+	font-size:14px;
+	padding-top: 13px;
+	width: 80%;
+}
+.circle-massage_input label {
+	font-size:28rpx;
+	font-family:PingFang SC;
+	color:rgba(51,51,51,1);
+	width: 30%;
+}
+/* 认证材料 start */
+.material {
+	width: 100%;
+	height: 50rpx;
+	line-height: 50rpx;
+	font-size:15px;
+	font-family:PingFang SC;
+	color:rgba(249,183,45,1);
+	display: flex;
+	margin-top: 70rpx;
+}
+.material image {
+	width: 44rpx;
+	height: 44rpx;
+	display: inline-block;
+	align-items: center;
+}
+/* 身份证认证 start */
+.material-type {
+	font-size:14px;
+	font-family:PingFang SC;
+	color:rgba(51,51,51,1);
+	margin-top: 10px;
+	padding-left: 30px;
+	display: flex;
+}
+.material-type radio {
+	margin-top: -3px;
+}
+/* 身份证照片 start */
+.idCard {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 40rpx;
+}
+.idCard image {
+	width: 50%;
+	height: 289rpx;
+	display: block;
+}
+
+/* 提交 start */
+.btn {
+	width: 318rpx;
+	height: 90rpx;
+	margin: 100rpx auto;
+	border: 1px solid #F9B72C;
+	border-radius: 50rpx;
+	color: #F9B72C;
+	text-align: center;
+	line-height: 90rpx;
+}
+/* 协议 start */
+.agreement {
+	width: 72%;
+	display: flex;
+	font-size:24rpx;
+	font-family:PingFang SC;
+	color:rgba(153,153,153,1);
+	height: 74rpx;
+	line-height: 74rpx;
+	margin: 0 auto;
+}
+
+.agreement radio {
+	margin-top: -2px;
+}
+
+/* 屋内照片 */
+
+.camera {
+	display: flex;
+	align-items: center;
+	align-content: center;
+	height: 30rpx;
+	font-size:30rpx;
+	font-family:PingFang SC;
+	color:rgba(249,183,45,1);
+	margin: 30px 0 15px 0;
+}
+.camera image {
+	width: 38rpx;
+	height: 30rpx;
+	display: block;
+	margin-right: 5px;
+}
+.add-img {
+	width: 80%;
+	height: 296rpx;
+	display: block;
+	margin: 0 auto;
+}

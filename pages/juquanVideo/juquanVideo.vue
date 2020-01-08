@@ -221,7 +221,6 @@
 				uni.getStorage({
 					key:"token",
 					success: function (res) {
-						self.token = res.data
 						token = res.data
 					}
 				})
@@ -262,7 +261,6 @@
 				uni.getStorage({
 					key:"token",
 					success: function (res) {
-						self.token = res.data
 						token = res.data
 					}
 				})
@@ -295,10 +293,6 @@
 				})
 				
 			},
-			
-			
-			
-		
 			
 		}
 	}

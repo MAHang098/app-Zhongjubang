@@ -131,9 +131,12 @@
 			},
 			// 返回键
 			cancel() {
-				this.togglePopup('center', 'tip');
+				// this.togglePopup('center', 'tip');
 				// console.log(1111)
-				return true;
+				// return true;
+				uni.navigateBack({
+					delta:1
+				})
 			},
 			descInput(e) {
 				this.remnant = e.detail.value.length
@@ -291,7 +294,7 @@
 							console.log(res.data.code)
 							if(res.data.code==200){
 								uni.navigateTo({
-									url: "/pages/drafts/drafts"
+									url: "/pages/drafts/drafts?type=2"
 								})
 							}else{
 								console.log('请求异常')
@@ -317,7 +320,7 @@
 							console.log(res.data.code)
 							if(res.data.code==200){
 								uni.navigateTo({
-									url: "/pages/drafts/drafts"
+									url: "/pages/drafts/drafts?type=2"
 								})
 							}else{
 								console.log('请求异常')
@@ -351,8 +354,8 @@
 			// 取消弹出层
 			cancelPopup(type) {
 				if (type === 'tip') {
-					// this.show = false
-					uni.navigateBack()
+					this.show = false
+					// uni.navigateBack()
 				}
 				if(type === 'skip') {
 					this.save();

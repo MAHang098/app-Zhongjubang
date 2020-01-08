@@ -100,7 +100,14 @@
 				</view>
 			</view>
 			<!-- 短视频内容start -->
+			<!-- 短视频缺省页start -->
+			<view v-if="current==1&&requiresShortvideo==1" class="requires-images">
+				<image style="width: 629rpx;height: 463rpx;" src="../../static/img/requiresPage/video.png" mode=""></image>
+				<text class="requires-images-text">还没有视频，快去发布吧~</text>
+			</view>
+			<!-- 短视频缺省页end -->
 			<view class="video-content"  v-if="current==1" v-for="(item, index) in videoList" :key="index" @longtap="deleteVideo(item.shortVideoId)">
+				
 				<image class="video-content-start" style="width:52rpx;height:52rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/start.png" mode=""></image>
 				<image class="video-content-avator" style="width:60rpx;height:60rpx;border-radius:50%;" :src="item.head" mode=""></image>
 				<view class="video-content-nickname">{{item.nickName}}</view>
@@ -116,8 +123,16 @@
 			<!-- <view class="more">-上拉查看更多-</view> -->
 		</view>
 		<!-- G圈列表 start -->
+		<!-- 居圈缺省页start -->
+		<view v-if="current==0&&requiresGcircle==1" class="requires-images">
+			<image style="width: 629rpx;height: 463rpx;" src="../../static/img/user/Gcircle.png" mode=""></image>
+		</view>
+		<!-- 居圈缺省页end -->
 		<view v-if="current==0" class="relese-image"  >
 			<view v-for="(items, index) in releaseImgList" :key="index">
+				<!-- <view v-if="items.length==0" class="requires-images">
+					<image style="width: 629rpx;height: 463rpx;" src="../../static/img/user/requires.png" mode=""></image>
+				</view> -->
 				<view class="relese-image_detail" >
 					<!-- 用户信息 start -->
 					<view class="user">
@@ -322,6 +337,8 @@
 		},
 		data() {
 	        return {
+				requiresGcircle: 0,
+				requiresShortvideo: 0,
 				showRigth: false,
 				showLeft: false,
 				tabType: ['我的动态', '短视频', '收藏'],
@@ -407,6 +424,7 @@
 			},
 		},
 		onLoad(options){
+			this.showLeft = false
 			let _this = this;
 			uni.getStorage({
 				key:"token",
@@ -415,7 +433,7 @@
 				}
 			})
 			this.page = 1;
-			this.releaseImgList = [];
+			// this.releaseImgList = [];
 			this.init();
 			
 			
@@ -856,6 +874,9 @@
 					success: ((res) => {
 						uni.hideLoading()
 						let totalPage = res.data.data.pageSize * res.data.data.totalPage;
+						if(res.data.data.dataList.length==0){
+							this.requiresGcircle = 1
+						}
 						if(this.releaseImgList.length == totalPage) {
 							this.statusMore = 'end';
 							return;
@@ -916,6 +937,11 @@
 								// console.log(res.data.data.dataList[0][i].videoUrl)
 							}
 							self.videoList = res.data.data.dataList[0]
+							if(self.videoList.length==0){
+								self.requiresShortvideo = 1
+								console.log('视频为空')
+								console.log(self.requiresShortvideo)
+							}
 						}else{
 							console.log("请求异常")
 						}
@@ -1842,4 +1868,24 @@
 		color:rgba(204,204,204,1);
 		/* margin-bottom: 100rpx; */
 	}
+	/* 缺省页start */
+	.requires-images{
+		position: relative;
+		display: flex;
+		margin-left: 38rpx;
+		margin-top: 60rpx;
+		width: 629rpx;
+		height: 463rpx;
+	}
+	.requires-images-text{
+		position: absolute;
+		top: 400rpx;
+		left: 150rpx;
+		font-size:30rpx;
+		font-family:PingFang SC;
+		font-weight:400;
+		color:rgba(102,102,102,1);
+		line-height:23px;
+	}
+	/* 缺省页end */
 </style>

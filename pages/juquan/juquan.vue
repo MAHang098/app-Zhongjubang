@@ -839,7 +839,7 @@
 		top: 54rpx;
 		text-align: center;
 		z-index: 2;
-		
+		text-shadow:1px 1px 0px rgba(0, 0, 0, 0.61);
 	}
 	.category-detial view:last-child {
 		width: 100%;

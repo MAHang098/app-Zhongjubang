@@ -77,8 +77,8 @@
 			<view class="zhong-nav">
 				<text class="video-nav-hot">精选好物</text>
 				<text class="video-nav-eye">什么值得买</text>
-				<text class="video-nav-more" @tap="goJingpin">更多</text>
-				<image class="video-nav-more-image" @tap="goJingpin" style="width:11upx;height:20upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/more.png" mode="" />
+				<text class="video-nav-more-quality" @tap="goJingpin">更多</text>
+				<image class="video-nav-more-image-quality" @tap="goJingpin" style="width:11upx;height:20upx;" src="http://www.zhongjubang.com/api/upload/static/img/main/more.png" mode="" />
 			</view>
 			<view>
 				<swiper
@@ -355,7 +355,7 @@
 			},
 			goOtherUser(id){
 				uni.navigateTo({
-					url: '/pages/otherUser/otherUser?userid' + id
+					url: '/pages/otherUser/otherUser?userid=' + id
 				})
 			},
 			goShop(id){
@@ -400,6 +400,17 @@
 							uni.navigateTo({
 								url: '/pages/testVideo/testVideo?id=' + id + '&type=2'
 							})
+							// let height,width
+							// uni.getSystemInfo({
+							//     success: function (res) {
+							// 		height = res.screenHeight
+							// 		width = res.screenWidth
+							// 	},
+							// })
+							// let urlWebview = "http://192.168.0.131:8081/#/pages/swiper-vertical2/swiper-vertical2?token=" + token + "&h=" + height + "&w=" + width + "&id=" + id + "&type=2"
+							// uni.navigateTo({
+							// 	url: '/pages/testVideo/testVideo?urlWebview=' + urlWebview
+							// })
 						}
 					}
 				})
@@ -609,9 +620,23 @@
 		font-family:PingFang SC;
 		color:rgba(102,102,102,1);
 	}
+	
 	.video-nav-more-image{
 		position: absolute;
 		top: 26upx;
+		left: 710upx;
+	}
+	.video-nav-more-quality{
+		position: absolute;
+		top: 40upx;
+		left: 656upx;
+		font-size:24upx;
+		font-family:PingFang SC;
+		color:rgba(102,102,102,1);
+	}
+	.video-nav-more-image-quality{
+		position: absolute;
+		top: 46upx;
 		left: 710upx;
 	}
 	/* 卡片轮播 */
@@ -680,24 +705,26 @@
 		background:rgba(0,0,0,1);
 		border-radius: 5px;
 		text-align: center;
-		font-size:30upx;
+		font-size:32upx;
+		font-weight: bold;
 		font-family:PingFang SC;
 		color:rgba(255,255,255,1);
 		line-height: 218upx;
+		text-shadow:1px 1px 0px rgba(0, 0, 0, 0.61);
 	}
 	.zhong-content-image:nth-child(even){
 		margin-left: 16upx;
 	}
 	.zhong-content-text{
 		z-index: 1000;
-		font-size: 15px;
+		font-size: 32rpx;
 	}
 	.zhong-content-tyt{
 		position: absolute;
 		border-radius:14upx;
 		width:346upx;
 		height:218upx;
-		background: rgba(0,0,0,.1);
+		background: rgba(0,0,0,.05);
 	}
 	
 	
