@@ -54,10 +54,10 @@
 							<image :src="items.head" mode=""></image>
 							<view>
 								<view class="name">{{items.nickName}}
-									<image v-if="items.designation == '设计达人'" src="../../static/img/title/design-people.png" mode=""></image>
-									<image v-if="items.designation == '人气网红'" src="../../static/img/title/red-hot.png" mode=""></image>
-									<image v-if="items.designation == '居圈达人'" src="../../static/img/title/circle-people.png" mode=""></image>
-									<image v-if="items.designation == '金牌业主'" src="../../static/img/title/gold-owner.png" mode=""></image>
+									<image v-if="items.designation == '设计达人'" src="../../static/img/title/design-people.png" mode="scaleToFill"></image>
+									<image v-if="items.designation == '人气网红'" src="../../static/img/title/red-hot.png" mode="scaleToFill"></image>
+									<image v-if="items.designation == '居圈达人'" src="../../static/img/title/circle-people.png" mode="scaleToFill"></image>
+									<image style="margin-bottom: -5px;" v-if="items.designation == '金牌业主'" src="../../static/img/title/gold-owner.png" mode="scaleToFill"></image>
 								</view>
 								<view class="time">{{items.createTime}}</view>
 							</view>
@@ -74,8 +74,10 @@
 								</view>
 							</view>
 						</view>
-						<view v-else class="user-right" @click.stop="focus(items.userId, current)">
-							<image :src="items.attentionState == 0 ? 'http://www.zhongjubang.com/api/upload/static/follow.png' : items.attentionState == 2 ? 'http://www.zhongjubang.com/api/upload/static/mutual-follow.png' : 'http://www.zhongjubang.com/api/upload/static/follow-checked.png'" mode=""></image>
+						<view v-else class="user-right" @click.stop="focus(items.userId, current, items, index)">
+							<image v-if="current == 0" :src="items.attentionState == 0 ? 'http://www.zhongjubang.com/api/upload/static/follow.png' : items.attentionState == 2 ? 'http://www.zhongjubang.com/api/upload/static/mutual-follow.png' : 'http://www.zhongjubang.com/api/upload/static/follow-checked.png'" mode=""></image>
+							<image v-if="current == 1" :src="items.attentionState == 2 ? 'http://www.zhongjubang.com/api/upload/static/follow.png' : items.attentionState == 1 ? 'http://www.zhongjubang.com/api/upload/static/mutual-follow.png' : 'http://www.zhongjubang.com/api/upload/static/follow-checked.png'" mode=""></image>
+												
 						</view>
 					</view>
 					<!-- 用户信息 start -->
@@ -112,12 +114,12 @@
 								<image src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/message.png" mode=""></image>
 								<text>{{items.gCollectionDiscussNum}}</text>
 							</view>
-							<view class="collect"  @click.stop="collect(index, items.gcircleContentId, items.collectionState, current)">
-								<image :src="items.collectionState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/collect-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/star.png' " mode=""></image>
-								<text>{{items.collectionNum}}</text>
+							<view class="collect"  @click.stop="collect(index, items.gcircleContentId, items.collectionState, current, items)">
+								<image :src="(collect_currentIndex == index && isShowCollect) || items.collectionState === 1  ? 'http://www.zhongjubang.com/api/upload/static/topic/collect-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/star.png' " mode=""></image>
+								<text>{{items.collectionNum }}</text>
 							</view>
-							<view class="fabulous" @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState, current)" >
-								<image :style="{'margin-bottom': items.gcircleContentLikeState === 1 ? '2px': ''}" :src="items.gcircleContentLikeState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
+							<view class="fabulous" @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState, current, items)" >
+								<image :style="{'margin-bottom': items.gcircleContentLikeState === 1 || fabulous_currentIndex == index && isShowFabulous ? '2px': ''}" :src="(fabulous_currentIndex == index && isShowFabulous) || items.gcircleContentLikeState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
 								<text>{{items.gcircleContentLikeNum}}</text>
 							</view>
 						</view>
@@ -175,7 +177,15 @@
 				isShowFocus: false,   //是否显示已关注图标
 				recommendList: [],   	  // G圈推荐
 				userListContent: [],		// 关注用户的G圈列表
-				currentPage: 0
+				currentPage: 0,
+				collect_currentIndex: -1,	// 预处理收藏成功显示图片
+				fabulous_currentIndex: -1,	// 预处理点赞成功显示图片
+				attention_currentIndex: -1,	// 预处理关注他人成功显示图片
+				mutual_currentIndex: -1,	// 预处理相互关注成功显示图片
+				click_index: 0,				// 点击当前tabbar按钮几次，超过1刷新当前页面并返回顶部 
+				isShow_attention: false,
+				isShow_current: false,
+				page_attention: 1        // 关注G圈用户的G圈内容
 			}
 		},
 		filters: {
@@ -202,17 +212,42 @@
 			this.recommend();
 		},
 		onHide() {
-			this.init();
+			let _this = this;
+			_this.click_index = 0;
 		},
-		// 上拉加载
-		onReachBottom: function() {
-			this.status = 'more';
-			if( this.page == 1) {
-				this.status = 'end';
+		onShow() {
+			// let _this = this;
+			// _this.click_index = 0;
+		},
+		// 滚动到底部请求第二页数据
+		onReachBottom() {
+			if(this.current == 1) {
+				this.page_attention++;
+				this.focusUserContent();
 				return;
 			}
+			this.page++;
 			this.init();
-		},	
+		},
+		// 点击底部tabbar刷新页面，并滚动到最前面
+		onTabItemTap() {
+			let _this = this;
+			_this.click_index++;
+			if(_this.click_index > 1) {
+				uni.pageScrollTo({
+					scrollTop: 0,
+					duration: 0
+				});
+				if(this.current == 1) {
+					this.page_attention = 1;
+					this.focusUserContent();
+					return;
+				}
+				this.page = 1;
+				this.init();
+				
+			}
+		},
 		methods: {
 			goOtheruser(id){
 				uni.navigateTo({
@@ -235,11 +270,12 @@
 					})
 				})
 			},
+			
 			// 获取居圈内容
 			init() {
 				let parmas = {
 					pageIndex: this.page,
-					pageSize: 20
+					pageSize: 10
 				}
 				uni.showLoading({
 					title: '加载中...',
@@ -253,22 +289,22 @@
 					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
 					success: ((res) => {
 						uni.hideLoading()
-						// let totalPage = res.data.data.pageSize * res.data.data.totalPage;
-						// if(this.releaseImgList.length == totalPage) {
-						// 	this.status = 'end';
-						// 	return;
-						// }
+						let totalPage = res.data.data.pageSize * res.data.data.totalPage;
+						if(this.releaseImgList.length == totalPage) {
+							this.status = 'end';
+							return;
+						}
 						if(res.data.code == 200) {
 							let data = res.data.data.dataList;
 							for(let i=0; i<data.length; i++) {
 								data[i].imgList = JSON.parse(data[i].imgList);
 								data[i].title = JSON.parse(data[i].title);
 							}
-							this.releaseImgList = data;
+							// this.releaseImgList = data;
 							// if(this.page == res.data.data.currentPage) {
 							// 	this.reload = true;
 							// }
-							// this.releaseImgList = this.reload ? data : this.releaseImgList.concat(data);
+							this.releaseImgList = this.reload ? data : this.releaseImgList.concat(data);
 							// console.log(this.page)
 							if(res.data.data.totalPage < 2) {
 								return;
@@ -280,6 +316,17 @@
 								url: '/pages/loginPhone/loginPhone'
 							})
 						}
+					}),
+					fail:((res) => {
+						this.isShowCollect = false;
+						this.isShow_attention = false;
+						this.isShow_current = false;
+						this.isShowFabulous = false;
+						uni.showToast({
+							title: '加载失败',
+							icon: 'none'
+						});
+						
 					})
 				})
 			},
@@ -289,7 +336,6 @@
 					title: '加载中',
 					mask: true
 				})
-				
 				uni.request({
 				    url: this.url + 'controller/usercontroller/getRecommendUserList',
 				    method: 'post',
@@ -312,111 +358,251 @@
 				uni.showLoading({
 					title: '加载中...',
 					mask: true
-				})
+				});
+				let parmas = {
+					pageIndex: this.page_attention,
+					pageSize: 10
+				}
 				uni.request({
 				    url: this.url + 'controller/contentcontroller/getGcircleContentListByAttention',
 				    method: 'post',
-					data: {pageSize: 100, pageIndex: 1},
+					data: parmas,
 				    header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 				    success:(res) => {
 						uni.hideLoading();
-				        if(res.data.code == 200) {
+				   //      if(res.data.code == 200) {
+							// let data = res.data.data.dataList;
+							// for(let i=0; i<data.length; i++) {
+							// 	data[i].imgList = JSON.parse(data[i].imgList);
+							// 	data[i].title = JSON.parse(data[i].title);
+							// }
+				   //          this.releaseImgList = data;
+				   //      }
+						let totalPage = res.data.data.pageSize * res.data.data.totalPage;
+						if(this.releaseImgList.length == totalPage) {
+							return;
+						}
+						if(res.data.code == 200) {
 							let data = res.data.data.dataList;
 							for(let i=0; i<data.length; i++) {
 								data[i].imgList = JSON.parse(data[i].imgList);
 								data[i].title = JSON.parse(data[i].title);
 							}
-				            this.releaseImgList = data;
-				        }
-						
-				    }
+							// this.releaseImgList = data;
+							// if(this.page == res.data.data.currentPage) {
+							// 	this.reload = true;
+							// }
+							this.releaseImgList = this.reload ? data : this.releaseImgList.concat(data);
+							// console.log(this.page)
+							if(res.data.data.totalPage < 2) {
+								return;
+							}
+							// this.page++;
+						}
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+				    },
+					fail: ((res) =>{
+						uni.showToast({
+							title: '网络异常',
+							icon: 'none'
+						})
+					})
 				});
 			},
 			// 关注
-			focus(id,currents) {
+			focus(id,currents, items, index) {
+				uni.showLoading({
+					title: '加载中'
+				})
 			    uni.request({
 			        url: this.url + 'controller/usercontroller/addattentionrelationship',
 			        method: 'post',
 			        data: {outUserId: id},
 			        header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 			        success:((res) => {
-			            if(res.data.code == 200) {
-							if(currents == 0) {
-								this.init();
-							}
-							if(currents == 1) {
-								this.focusUserContent();
-								this.focusUser();
-							}
-			                // this.init(this.topicId);
-			            } 
 						if(res.data.code == 421) {
 							uni.navigateTo({
 								url: '/pages/loginPhone/loginPhone'
 							})
 						}
-			        })
+			            if(res.data.code == 200) {
+							uni.hideLoading()
+							// if(currents == 0) {
+							// 	this.init();
+							// }
+							if(currents == 1) {
+								// this.focusUserContent();
+								this.focusUser();
+							}
+							
+							if(!items) {
+								return;
+							}
+							if(this.current == 0) {
+								if(items.attentionState == 2) {
+									items.attentionState = 0;
+									return;
+								}
+								if(items.attentionState == 0 &&　items.fanState == 1) {
+									items.attentionState = 2;
+									return;
+								}
+								if(items.attentionState == 1) {
+									items.attentionState = 0;
+									return;
+								}
+								if(items.attentionState == 0 && items.fanState　== 0) {
+									items.attentionState = 1;
+									return;
+								}
+							}
+							if(this.current == 1) {
+								console.log(items.attentionState)
+								if(items.attentionState == 1 || items.attentionState == 0) {
+									items.attentionState = 2;
+									return;
+								}
+								if(items.attentionState == 2 &&　items.fanState　== 1) {
+									items.attentionState = 1;
+									return;
+								}
+								if(items.attentionState == 2 &&　items.fanState　== 0) {
+									items.attentionState = 0;
+									return;
+								}
+							}
+							// console.log(this.isShow_current)
+			                // this.init(this.topicId);
+			            } else {
+							uni.showToast({
+								title:'网络异常',
+								icon: 'none'
+							})
+						} 
+						
+			        }),
+					fail:((res) => {
+						uni.showToast({
+							title: '网络异常',
+							icon: 'none'
+						})
+					})
 			    });
 			},
 			// 收藏
-			collect(index, id, state, currents) {
+			collect(index, id, state, currents, items) {
+				uni.showLoading({
+					title: '加载中'
+				})
 			    uni.request({
 			        url: this.url + 'controller/usercontroller/addusercollection',
 			        method: 'post',
 			        data: {collectionContentId: id, type: '1'},
 			        header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 			        success:(res) => {
-			            if(res.data.code == 200) {
-							if(currents == 0) {
-								// this.page = 1;
-								this.init();
-							}
-			                if(currents == 1) {
-								this.focusUserContent();
-							}
-			                this.activeIndex = index;
-							if(state == 1) {
-								this.isShowCollect = false;
-								return;
-							}
-			                this.isShowCollect = !this.isShowCollect;
-			            } 
 						if(res.data.code == 421) {
 							uni.navigateTo({
 								url: '/pages/loginPhone/loginPhone'
 							})
 						}
-			        }
+			            if(res.data.code == 200) {
+							uni.hideLoading();
+							// if(currents == 0) {
+							// 	// this.page = 1;
+							// 	this.init();
+							// }
+			    //             if(currents == 1) {
+							// 	this.focusUserContent();
+							// }
+			                this.activeIndex = index;
+							this.collect_currentIndex = index;
+							this.isShowCollect = !this.isShowCollect;
+							if(state == 1) {
+								this.isShowCollect = false;
+								items.collectionState = 0;
+							} else {
+								this.isShowCollect = true;
+								items.collectionState = 1;
+							}
+							if(this.isShowCollect == false) {
+								items.collectionNum--
+							} else {
+								items.collectionNum++
+							}
+			            } else {
+							uni.showToast({
+								title: '网络异常',
+								icon: 'none'
+							})
+						}
+						
+			        },
+					fail: ((res) => {
+						uni.showToast({
+							title: '网络异常',
+							icon: 'none'
+						})
+					})
 			    });
 			},
 			// 点赞
-			fabulous(index, id, state, currents) {
+			fabulous(index, id, state, currents, items) {
+				uni.showLoading({
+					title: '加载中'
+				})
 			    uni.request({
 			        url: this.url + 'controller/usercontroller/addgcirclecontentlike',
 			        method: 'post',
 			        data: {gcircleContentId: id},
 			        header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 			        success:((res) => {
-			            if(res.data.code == 200) {
-			               if(currents == 0) {
-								this.init();
-			               }
-							if(currents == 1) {
-								this.focusUserContent();
-							}
-			                this.fabulousIndex = index;
-							if(state == 1) {
-								this.isShowFabulous = false;
-								return;
-							}
-							this.isShowFabulous = !this.isShowFabulous;
-			            } 
 						if(res.data.code == 421) {
 							uni.navigateTo({
 								url: '/pages/loginPhone/loginPhone'
 							})
 						}
-			        })
+			            if(res.data.code == 200) {
+							uni.hideLoading();
+							// if(currents == 0) {
+							// 	this.init();
+								
+							// }
+							// if(currents == 1) {
+							// 	this.focusUserContent();
+							// }
+							this.isShowFabulous = !this.isShowFabulous;
+							this.fabulous_currentIndex = index;
+							if(state == 1) {
+								this.isShowFabulous = false;
+								items.gcircleContentLikeState = 0;
+							} else {
+								this.isShowFabulous = true;
+								items.gcircleContentLikeState = 1;
+							}
+							if(this.isShowFabulous == false) {
+								items.gcircleContentLikeNum--;
+							} else {
+								items.gcircleContentLikeNum++;
+							}
+							
+			            } else {
+							uni.showToast({
+								title: '网络异常',
+								icon: 'none'
+							})
+						}
+						
+			        }),
+					fail: ((res) => {
+						uni.showToast({
+							title: '网络异常',
+							icon: 'none'
+						})
+					})
 			    });
 			},
 			// 预览图片
@@ -437,7 +623,6 @@
 			// 切换居圈/关注/短视频
 			changeProduct(index) {
 				this.current = index;
-				console.log(index)
 				if(index == 2) {
 					uni.navigateTo({
 						url: '/pages/juquanVideo/juquanVideo'
@@ -446,8 +631,10 @@
 				if(index == 1) {
 					this.focusUser();
 					this.focusUserContent();
+					this.releaseImgList = []
 				}
 				if(index == 0) {
+					this.releaseImgList = []
 					this.init();
 				}
 				this.isShow = !this.isShow;
@@ -607,22 +794,20 @@
 		height: 70rpx;
 		background: #f6f6f6;
 		border-radius: 35rpx;
+		display: flex;
+		align-items: center;
 	}
 	.search-input image {
 		width: 26rpx;
 		height: 26rpx;
 		display: block;
-		position: absolute;
-		top: 23rpx;
-		left: 24rpx;
-		
+		margin-left: 15px;
+		margin-right: 5px;
 	}
 	.search-input input {
 		width: 88%;
 		margin: 0;
 		font-size: 26rpx;
-		margin-left: 60rpx;
-		margin-top: 10rpx;
 	}
 	.cancel {
 		height: 35px;

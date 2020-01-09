@@ -4,7 +4,7 @@
 		<view class="header">
 			<view class="search-input">
 				<image src="http://www.zhongjubang.com/api/upload/static/search/nav-search.png" mode=""></image>
-				<input class="uni-input" placeholder="搜索您需要的商品" @focus="onFocus" @blur="onBlur" @input="searchTopic" value=""/>
+				<input class="uni-input" placeholder="搜索您需要参与的话题" @focus="onFocus" @blur="onBlur" @input="searchTopic" value=""/>
 			</view>
 			<view class="cancel" @click="cancel">取消</view>
 		</view>
@@ -25,7 +25,7 @@
 				</view>
 			</scroll-view>
 			<scroll-view class="nav-right" scroll-y :scroll-top="scrollTop" @scroll="scroll" :style="'height:'+height+'px'" scroll-with-animation>
-				<view  :id="index===0?'first':''" class="nav-right-item" v-for="(item,index) in subCategoryList" :key="index" @click.stop="topicDetail(item.id)">
+				<view  :id="index===0?'first':''" class="nav-right-item" v-for="(item,index) in subCategoryList" :key="index" @click.stop="topicDetail(item.talkThemeId)">
 					<view class="contnet">
 						<view class="left">
 							<view class="list-image">
@@ -36,7 +36,7 @@
 								<view class="num">共{{item.participateCount}}人参与</view>
 							</view>
 						</view>
-						<view class="right" @click.stop="chooseTopic(item.talkTheme, item.id)" v-show="showChoose">
+						<view class="right" @click.stop="chooseTopic(item.talkTheme, item.talkThemeId)" v-show="showChoose">
 							选择
 						</view>
 					</view>
@@ -62,7 +62,10 @@
 				scrollHeight: 0,
 				name: "七月_",
 				token: '',
-				showChoose: true
+				showChoose: true,
+				current_id: -1,
+				current_index: -1,
+				content: ''
 			}
 		},
 		onShow() {
@@ -73,7 +76,19 @@
 				that.token = res.data;
 			  }
 			});
-			this.init('');
+			if(this.categoryActive == '-2') {
+				this.allTopic('-2');
+				return;
+			}
+			if(this.categoryActive == '-1') {
+				this.allTopic('-1');
+				return;
+			}
+			if(this.current_id != -1) {
+				this.categoryClickMain(this.current_id, this.current_index);
+				return;
+			}
+			this.init();
 		},
 		onLoad(option) {
 			if(option.type == 'Gcircle') {
@@ -84,12 +99,12 @@
 			// this.detailId = 1;
 		},
 		methods: {
-			init(search) {
+			init() {
 				uni.request({
 					url: this.url + '/controller/contentcontroller/gettalkthemelist',
 					method: 'post',
 					header : {'content-type':'application/x-www-form-urlencoded', token: this.token, 'port': 'app'},
-					data:  {pageIndex: 1, pageSize: 1000, search: search},
+					data:  {pageIndex: 1, pageSize: 1000, content: this.content},
 					success: ((res) => {
 						if(res.data.code == 200) {
 							this.subCategoryList = res.data.data.dataList;
@@ -124,7 +139,8 @@
 			},
 			// 搜索话题
 			searchTopic(e) {
-				this.init(e.detail.value)
+				this.content = e.detail.value;
+				this.init()
 			},
 			onFocus() {
 				// #ifdef APP-PLUS
@@ -144,22 +160,29 @@
 			},
 			// 选择话题
 			chooseTopic(name, id) {
-				
+				console.log(name, id)
+				uni.setStorage({
+					key: 'topic_title',
+					data:  {participationTopic:　name, participationTopicId: id},    
+					success: function () {
+						
+					}
+				})
 				// let pages = getCurrentPages(), prevPage=null;
-				let pages = getCurrentPages();
-				let currPage = pages[pages.length - 1];  //当前页面
-				let prevPage = pages[pages.length - 2];  //上一个页面
-				if(prevPage) {
-						prevPage.participationTopic= name;
-						prevPage.participationTopicId = id ;
-					// #ifdef APP-PLUS || MP-WEIXIN
-						prevPage.setData({
-							participationTopic : name,
-							participationTopicId : id
-						})
-					// #endif
-				}
-				prevPage.ishow= false;
+				// let pages = getCurrentPages();
+				// let currPage = pages[pages.length - 1];  //当前页面
+				// let prevPage = pages[pages.length - 2];  //上一个页面
+				// if(prevPage) {
+				// 		prevPage.participationTopic= name;
+				// 		prevPage.participationTopicId = id ;
+				// 	// #ifdef APP-PLUS || MP-WEIXIN
+				// 		prevPage.setData({
+				// 			participationTopic : name,
+				// 			participationTopicId : id
+				// 		})
+				// 	// #endif
+				// }
+				// prevPage.ishow= false;
 				// console.log(prevPage)
 				uni.navigateBack();
 			},
@@ -197,7 +220,8 @@
 						
 					})
 				});
-				
+				this.current_id = id;
+				this.current_index = index;
 				this.categoryActive = index;
 				this.scrollTop = -this.scrollHeight * index;
 			},
@@ -229,6 +253,10 @@
 			},
 			// 话题详情
 			topicDetail(id) {
+				let obj = JSON.parse(id);
+				if(obj.topicId) {
+					id = obj.topicId
+				}
 				uni.navigateTo({
 					url: '/pages/topicDetails/topicDetails?type=topic&id=' + id
 				})
@@ -264,26 +292,23 @@
 	.search-input {
 		position: relative;
 		width: 100%;
-		/* line-height: 35rpx; */
+		height: 70rpx;
+		background: #f6f6f6;
+		border-radius: 35rpx;
+		display: flex;
+		align-items: center;
 	}
 	.search-input image {
 		width: 26rpx;
 		height: 26rpx;
 		display: block;
-		position: absolute;
-		top: 23rpx;
-		left: 24rpx;
-		
+		margin-left: 15px;
+		margin-right: 5px;
 	}
 	.search-input input {
 		width: 88%;
-		border-radius: 35rpx;
-		height: 70rpx;
-		line-height: 13px;
 		margin: 0;
 		font-size: 26rpx;
-		padding-left: 60rpx;
-		background: #f6f6f6;
 	}
 	.cancel {
 		width: 13%;

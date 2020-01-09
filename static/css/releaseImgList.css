@@ -25,12 +25,11 @@
 	position: relative;
 }
 .user-message image {
-	width: 90rpx;
-	height: 100%;
+	width: 100rpx;
+	height: 100rpx;
 	border-radius: 50%;
 	display: inline-block;
 	margin-right: 10px;
-	margin-bottom: -4px;
 }
 .user-message .name {
 	/* width:123rpx; */
@@ -43,14 +42,17 @@
 	margin-bottom: 12rpx;
 }
 .user-message .name image {
-	width: 104rpx;
-	border-radius: 0 !important;
-	margin-left: 4px;
+	 border-radius: 0 !important;
+	/*height: 20px;
+	width: 100rpx;
+	margin-bottom: -3px; */
+	width: 100rpx;
+	height: 31rpx;
+	display: block;
 	position: absolute;
-	left: -8px;
-	height: 20px;
-	border: 0;
-	top: 75%;
+	left: 0;
+	bottom: 0;
+	top: 84%;
 }
 .user-message .time {
 	height:19rpx;

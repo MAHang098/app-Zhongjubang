@@ -1,2 +1,0 @@
-setCssToHead([".",[1],"hot-rules { width: 100%; height: 100%; overflow: hidden; }\n.",[1],"hot-rules wx-image { width: 100%; height: 100%; display: block; }\n",],undefined,{path:"./pages/personal/hot-rules/hot-rules.wxss"})();
-document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/personal/hot-rules/hot-rules.wxml') } }));

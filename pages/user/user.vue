@@ -62,10 +62,10 @@
 		<!-- 客户信息 -->
 		<view class="user-info">
 			<view class="user-state">
-				<image v-if="userTitle == '设计达人'" src="../../static/img/title/design-people.png" mode=""></image>
-				<image v-if="userTitle == '人气网红'" src="../../static/img/title/red-hot.png" mode=""></image>
-				<image v-if="userTitle == '居圈达人'" src="../../static/img/title/circle-people.png" mode=""></image>
-				<image v-if="userTitle == '金牌业主'" src="../../static/img/title/gold-owner.png" mode=""></image>
+				<image v-if="userTitle == '设计达人'" src="../../static/img/title/big_design-people.png" mode=""></image>
+				<image v-if="userTitle == '人气网红'" src="../../static/img/title/big_red-hot.png" mode=""></image>
+				<image v-if="userTitle == '居圈达人'" src="../../static/img/title/big_circle-people.png" mode=""></image>
+				<image v-if="userTitle == '金牌业主'" src="../../static/img/title/big_gold-owner.png" mode=""></image>
 			 </view>
 			<view @tap="editInfo" class="edit-info">
 				<image src="http://www.zhongjubang.com/api/upload/static/img/user/edit-info.png" mode=""></image>
@@ -146,7 +146,9 @@
 					<!-- 草稿内容 start -->
 					<view class="content"  v-if="items.content != '' ">
 						<view v-if="!isShowAllContent" class="text">{{items.content }}</view>
-						<view v-else class="text">{{items.content | ellipsis}}</view>
+						<view v-else class="text">
+							{{items.content | ellipsis}}
+						</view>
 						<view class="anCotent" v-if="items.content.length > 45 " @click="open()">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'in'" src="http://www.zhongjubang.com/api/upload/static/drafts/arrow-bottom.png" mode=""></image></view>
 					</view>
 					<!-- 草稿内容 end -->
@@ -217,7 +219,7 @@
 					<view class="video-content-nickname">{{item.nickName}}</view>
 					<image v-if="activeVideo == item.shortVideoId && showDelete" @tap="videoDelete(item.shortVideoId)" class="video-content-delete" style="width:156rpx;height:156rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/delete.png" mode=""></image>
 					<!-- <video style="width:359rpx;height:512rpx;" :src="item.videoUrl"></video> -->
-					<image class="video-content-image" style="width:340upx;height:512upx;border-radius:3px;" :src="item.videoUrl" @tap="sendVideo(item.shortVideoId)"></image>
+					<image class="video-content-image" style="width:340upx;height:512upx;border-radius:3px;" :src="item.videoUrl" @tap="sendVideoCollect(item.shortVideoId)"></image>
 					<view v-if="activeVideo == item.shortVideoId && showDelete" class="video-content-block" style="width:350rpx;height:512rpx;border-radius:3px;"></view>
 				</view>
 				<!-- 收藏短视频内容end -->
@@ -407,18 +409,6 @@
 			  return value
 			},
 		},
-		onLoad(options){
-			let _this = this;
-			uni.getStorage({
-				key:"token",
-				success: function (res) {
-					_this.Tokens = res.data;
-				}
-			})
-			this.page = 1;
-			this.releaseImgList = [];
-			this.init();
-		},
         onShow(){
 			let token
 			let self = this;
@@ -427,6 +417,7 @@
 				key:"token",
 				success: function (res) {
 					token = res.data;
+					self.Tokens = res.data;
 				}
 			})
 			const url = this.url
@@ -489,7 +480,9 @@
 				}
 			});
 			this.initVideo()
-			
+			// this.page = 1;
+			// this.releaseImgList = [];
+			this.init();
 		},
 		// 上拉加载
 		onReachBottom: function() {
@@ -660,12 +653,24 @@
 				})
 			},
 			sendVideo(id){
+				// uni.navigateTo({
+				// 	url: '/pages/index/index?id=' + id
+				// })
 				uni.navigateTo({
-					url: '/pages/index/index?id=' + id
+					url: '/pages/testVideo/testVideo?id=' + id + '&type=3'
+				})
+			},
+			sendVideoCollect(id){
+				// uni.navigateTo({
+				// 	url: '/pages/index/index?id=' + id
+				// })
+				uni.navigateTo({
+					url: '/pages/testVideo/testVideo?id=' + id + '&type=4'
 				})
 			},
 			// 切换草稿类型
 			changeProduct(index) {
+				console.log(index)
 				this.current = index;
 				this.currentType = index + 1;
 				this.show1 = !this.show1;
@@ -883,7 +888,7 @@
 				// })
 				//获取视频内容
 				uni.request({
-					url: url + "/controller/usercontroller/getshortvideobyuserid",
+					url: url + "controller/usercontroller/getshortvideobyuserid",
 					data: {
 						pageSize: 100
 					},
@@ -1051,7 +1056,7 @@
 				let parmas = {
 					gcircleContentId: id,
 					pageIndex: 1,
-					pageSize: 1000
+					pageSize: 20
 				}
 				uni.request({
 					url: this.url + "controller/usercontroller/getgcdiscusslist",
@@ -1068,6 +1073,12 @@
 							});
 							uni.hideToast();
 						}
+					}),
+					fail: ((res) => {
+						uni.showToast({
+							title: '网络异常',
+							icon: 'none'
+						})
 					})
 				})
 			},
@@ -1444,15 +1455,15 @@
 	}
 	.user-state{
 		position: absolute;
-		left: 45rpx;
-		top: 40rpx;
+		left: 42rpx;
+		top: 48rpx;
 		width: 149rpx;
 		height: 53rpx;
 		z-index: 100;
 	}
 	.user-state image{
-		width: 149rpx;
-		height: 53rpx;
+		width: 150rpx;
+		height: 42rpx;
 	}
 	.edit-info{
 		position: absolute;
@@ -1765,6 +1776,7 @@
 	/* 收藏图片内容start */
 	.category-content{
 		/* margin-left: -20upx; */
+		overflow: hidden;
 	}
 	.category-content-box{
 		position: relative;

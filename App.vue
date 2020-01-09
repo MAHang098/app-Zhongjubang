@@ -13,12 +13,11 @@
 		},
 		onHide: function() {
 			console.log('App Hide');
-		},
+		}
 	}
 </script>
 
 <style>
-	
 	/* html, body {
 		 height: 100%;
 		 width: 100%;

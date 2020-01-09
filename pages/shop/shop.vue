@@ -212,6 +212,9 @@
 						
 					})
 				})
+				uni.showLoading({
+					title: '加载中'
+				});
 				uni.request({
 				    url: this.url + 'controller/shopcontroller/addorder',
 				    method: 'post',
@@ -220,15 +223,23 @@
 				    success:((res) => {
 				        if(res.data.code == 200) {
 							uni.navigateTo({
-								url: '/pages/confirm-order/confirm-order'
+								url: '/pages/confirm-order/confirm-order?num='+res.data.data.orderNum
 							})
+							uni.hideLoading()
 				        } 
 						if(res.data.code == 421) {
 							uni.navigateTo({
 								url: '/pages/loginPhone/loginPhone'
 							})
 						}
-				    })
+				    }),
+					fail:((res) => {
+						uni.hideLoading()
+						uni.showToast({
+							title: '网络异常',
+							icon: 'none'
+						})
+					})
 				});
 			},
 			// 全选
@@ -308,7 +319,6 @@
 								}
 								_this.deleteIds.push(m.goodsId);
 							}
-							
 						})
 					})
 					uni.request({
@@ -345,67 +355,7 @@
 					delta:1
 				})
 			},
-			// 弹出层弹出的方式
-			togglePopup(type, open) {
-				this.type = type;
-				if(this.checkNum == 0) {
-					uni.showToast({
-						title: '请选择需要删除的商品',
-						icon: 'none'
-					});
-					return;
-				}
-				if (open === 'tip') {
-					this.show = true;
-				} else {
-					this.$refs[open].open()
-				}
-			},
-			// 弹框关闭
-			cancel(type) {
-				let _this = this;
-				if (type === 'tip') {
-					this.show = false;
-					this.deleteIds = [];
-					return
-				}
-				if(type === 'skip') {
-					this.goodsList.forEach((item, index) => {
-						console.log(item)
-						if(item.checked) {
-							if(_this.deleteIds.length > 0) {
-								for(let i=0; i<this.deleteIds.length; i++) {
-									if(this.deleteIds[i] == item.goodsId) {
-										return;
-									}
-								}
-							}
-							_this.deleteIds.push(item.goodsId);
-						} 
-					})
-					
-					uni.request({
-						url: this.url + "controller/shopcontroller/delshoppingcartbyidlist",
-						data: {ids: this.deleteIds.toString()},
-						method: 'POST',
-						header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
-						success: ((res) => {
-							// console.log(res.data.code)
-							if(res.data.code==200){
-								this.isShowEdit = true;
-								uni.showToast({
-									title: '删除成功'
-								})
-								this.init();
-								this.show = false
-							}else{
-								console.log("请求异常")
-							}
-						})
-					})
-				}
-				// this.$refs[type].close()
-			},
+		
 		}
 	}
 </script>
@@ -471,10 +421,11 @@
 		height: 35px;
 		display: flex;
 		align-items: center;
+		font-size: 14px;
 	}
 	.shop-image {
-		width: 27rpx;
-		height: 24rpx;
+		width: 29rpx;
+		height: 28rpx;
 		display: inline-block;
 		margin-right: 3px;
 	}

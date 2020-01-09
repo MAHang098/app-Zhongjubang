@@ -1,13 +1,62 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页,
-		{
-			"path": "pages/main/main",
-			"style": {
-				"app-plus": {
-					"titleNView": false //禁用原生导航栏  
-				}
+	{
+		"path": "pages/main/main",
+		"style": {
+			"app-plus": {
+				"titleNView": false //禁用原生导航栏  
 			}
-		},
+		}
+	},
+	{
+		"path": "pages/loginPhone/loginPhone",
+		"style": {
+			"app-plus": {
+				"titleNView": false //禁用原生导航栏  
+			}
+		}
+	},
+	{
+	    "path" : "pages/loginPhone/loginPhone",
+	    "style" : {
+			"app-plus": {
+				"titleNView": false //禁用原生导航栏  
+			}
+		}
+	},
+	
+	
+	{
+	    "path" : "pages/testRelease/testRelease",
+	    "style" : {
+			"app-plus": {
+				"titleNView": false //禁用原生导航栏  
+			}
+		}
+	},
+	{
+		"path": "pages/webView/webView",
+		"style": {
+			"app-plus": {
+				"titleNView": false //禁用原生导航栏  
+			}
+		}
+	},
+	{
+	    "path" : "pages/testVideo/testVideo",
+	    "style" : {
+			"app-plus": {
+				"titleNView": false //禁用原生导航栏  
+			}
+		}
+	},
+	
+	
+	
+	
+	
+	
+		
 		{
 			"path": "pages/indexIOS/indexIOS",
 			"style": {
@@ -24,24 +73,9 @@
 				}
 			}
 		},
-		{
-			"path": "pages/loginPhone/loginPhone",
-			"style": {
-				"app-plus": {
-					"titleNView": false //禁用原生导航栏  
-				}
-			}
-		},
+		
 		{
 			"path": "pages/index/index",
-			"style": {
-				"app-plus": {
-					"titleNView": false //禁用原生导航栏  
-				}
-			}
-		},
-		{
-			"path": "pages/swiper-vertical/swiper-vertical",
 			"style": {
 				"app-plus": {
 					"titleNView": false //禁用原生导航栏  
@@ -502,6 +536,11 @@
 				"navigationBarTitleText": "我发布的评论"
 			}
         }
+        
+        ,{
+            "path" : "pages/webView/webView",
+            "style" : {}
+        }
     ],
 	"subPackages": [
 		// 上传图片需要用到的页面
@@ -812,6 +851,21 @@
             "iconPath": "static/img/release.png",
             "selectedIconPath": "static/img/homeHL.png"
         },
+		// //#ifdef MP-WEIXIN
+		// {
+		// 	"pagePath": "pages/testRelease/testRelease",
+		// 	"iconPath": "static/img/release.png",
+		// 	"selectedIconPath": "static/img/release.png",
+		// 	"text": "发布"
+		// },
+		// //#endif
+		// //#ifndef MP-WEIXIN
+		// {
+		// 	"pagePath": "pages/testRelease/testRelease",
+		// 	"iconPath": "static/img/release.png",
+		// 	"selectedIconPath": "static/img/release.png"
+		// },
+		// //#endif
         {
             "pagePath": "pages/stop/stop",
             "text": "商城",

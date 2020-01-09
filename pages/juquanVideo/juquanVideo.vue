@@ -15,7 +15,7 @@
 							<view class="video-content-nickname">{{item.nickName}}</view>
 						</view>
 			            
-			            <image class="video-content-image" style="width:350rpx;height:512rpx;border-radius:3px;" :src="item.videoUrl" @tap="sendVideo(item.shortVideoId)"></image>
+			            <image class="video-content-image" style="width:350rpx;height:512rpx;border-radius:3px;" :src="item.videoUrl" @tap="sendVideoWanghong(item.shortVideoId)"></image>
 			        </view>
 			    </view>
 			</view>
@@ -91,6 +91,18 @@
 		},
 		
 		methods: {
+			changeVideoType(id){
+				id = id.replace('MP4','jpg')
+				id = id.replace('mp4','jpg')
+				id = id.replace('flv','jpg')
+				id = id.replace('avi','jpg')
+				id = id.replace('rmvb','jpg')
+				id = id.replace('rm','jpg')
+				id = id.replace('wmv','jpg')
+				id = id.replace('MOV','jpg')
+				id = id.replace('mov','jpg')
+				return id
+			},
 			goOtherUser(id){
 				uni.navigateTo({
 					url: '/pages/otherUser/otherUser?userid=' + id
@@ -119,9 +131,7 @@
 						if(res.data.code==200){
 				            console.log(res)
 							for(var i = 0;i < res.data.data.dataList.length;i++){
-								
-								res.data.data.dataList[i].videoUrl = res.data.data.dataList[i].videoUrl.replace('MP4','jpg')
-								res.data.data.dataList[i].videoUrl = res.data.data.dataList[i].videoUrl.replace('mp4','jpg')
+								res.data.data.dataList[i].videoUrl = self.changeVideoType(res.data.data.dataList[i].videoUrl)
 							}
 				            self.searchList = res.data.data.dataList
 						}else{
@@ -141,7 +151,12 @@
 				
             },
             back(){
-                uni.navigateBack()
+    //             uni.navigateBack({
+				// 	delta: 2
+				// })
+				uni.switchTab({
+					url: '/pages/main/main'
+				})
             },
             // 获取短视频内容
 			initVideo(type) {
@@ -164,9 +179,7 @@
 						if(res.data.code==200){
                             console.log(res)
 							for(var i = 0;i < res.data.data.dataList.length;i++){
-								
-								res.data.data.dataList[i].videoUrl = res.data.data.dataList[i].videoUrl.replace('MP4','jpg')
-								res.data.data.dataList[i].videoUrl = res.data.data.dataList[i].videoUrl.replace('mp4','jpg')
+								res.data.data.dataList[i].videoUrl = self.changeVideoType(res.data.data.dataList[i].videoUrl)
 							}
                             self.videoList = res.data.data.dataList
 						}else{
@@ -191,20 +204,96 @@
                             console.log(res)
 							for(var i = 0;i < res.data.data.dataList.length;i++){
 								
-								res.data.data.dataList[i].videoUrl = res.data.data.dataList[i].videoUrl.replace('MP4','jpg')
-								res.data.data.dataList[i].videoUrl = res.data.data.dataList[i].videoUrl.replace('mp4','jpg')
+								res.data.data.dataList[i].videoUrl = self.changeVideoType(res.data.data.dataList[i].videoUrl)
 							}
                             self.InternetCelebrityList = res.data.data.dataList
 						}else{
 							console.log("请求异常")
 						}
 					}
-				});
+				})
             },
             sendVideo(id){
-				uni.navigateTo({
-					url: '/pages/index2/index2?id=' + id
+				// uni.navigateTo({
+				// 	url: '/pages/index2/index2?id=' + id
+				// })
+				let token
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+						self.token = res.data
+						token = res.data
+					}
 				})
+				// 判断token过期
+				const url = "https://www.zhongjubang.com/test/"
+				
+				//获取短视频内容
+				uni.request({
+					url: url + "controller/usercontroller/getshortvideobyid",
+					data: {shortVideoId:id},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': token
+					},
+					success: function (res){
+						
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+						if(res.data.code==200){
+							uni.navigateTo({
+								url: '/pages/testVideo/testVideo?id=' + id + '&type=1'
+							})
+						}
+					}
+				})
+				
+			},
+			sendVideoWanghong(id){
+				// uni.navigateTo({
+				// 	url: '/pages/index2/index2?id=' + id
+				// })
+				let token
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+						self.token = res.data
+						token = res.data
+					}
+				})
+				// 判断token过期
+				const url = "https://www.zhongjubang.com/test/"
+				
+				//获取短视频内容
+				uni.request({
+					url: url + "controller/usercontroller/getshortvideobyid",
+					data: {shortVideoId:id},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': token
+					},
+					success: function (res){
+						
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+						if(res.data.code==200){
+							uni.navigateTo({
+								url: '/pages/testVideo/testVideo?id=' + id + '&type=2'
+							})
+						}
+					}
+				})
+				
 			},
 			
 			

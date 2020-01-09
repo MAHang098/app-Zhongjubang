@@ -1,20 +1,20 @@
 <template>
 	<view class="order-exchange">
-		<view class="no-adress" @click="addAdress" v-show="showAdress">
+		<view class="no-adress" @click="addAdress" v-if="JSON.stringify(user_adress)=='{}'">
 			<view>请添加收获地址</view>
 			<image src="http://www.zhongjubang.com/api/upload/static/img/information/right-arrow.png" mode=""></image>
 		</view>
 		
 		<!-- 默认地址 start -->
-		<view class="have-class" @click="addAdress" v-show="!showAdress">
+		<view class="have-class" @click="addAdress" v-else>
 			<!-- <view class="adress-image"> -->
 				<image src="http://www.zhongjubang.com/api/upload/static/img/user/hot-point/adress-image.png" mode=""></image>
 			<!-- </view> -->
 			<view class="adress-detail">
-				<text>{{name}}</text>
-				<text>{{phone}}</text>
+				<text>{{user_adress.userName}}</text>
+				<text>{{user_adress.userPhone}}</text>
 				<view class="adress">
-					{{adress}} 
+					{{user_adress.userAddress}} 
 				</view>
 			</view>
 			<!-- <view class="arrow-right"> -->
@@ -25,24 +25,36 @@
 		
 		<!-- 商品详情 start -->
 		<view class="order-content">
-			<view class="order-title">
-				<view class="order-title-image"></view>
-				<text class="order-title-text">索菲亚衣柜</text>
+			<view class="product_detail" v-for="(item, index) in goodsItem" :key="index">
+				<view class="order-title">
+					<image class="order-title-image" src="http://www.zhongjubang.com/api/upload/static/img/shopping-mall/detail/shop.png" mode=""></image>
+					<text class="order-title-text">{{item.shop_name}}</text>
+				</view>
+				<view class="car-content" v-for="(g, s) in item.goods" :key="s">
+					<!-- <view ></view> -->
+					<image :src="g.top_img_list[0]" mode="" class="car-all-image"></image>
+					<view class="product_content">
+						<view class="car-all-des">{{g.goods_name}}</view>
+						<view class="car-all-name">{{g.specifications}}</view>
+						<view class="car-all-price">￥{{g.goods_price}}</view>
+						<text class="car-all-count">x{{g.count}}</text>
+					</view>
+				</view>
 			</view>
-			<view class="car-content">
-				<view class="car-all-image"></view>
-				<view class="car-all-des">索菲亚衣柜索菲亚衣柜索菲亚衣柜索菲亚衣衣柜索菲亚衣柜</view>
-				<text class="car-all-name">全部套装</text>
-				<text class="car-all-price">￥5800.00</text>
-				<text class="car-all-count">x1</text>
-				<text></text>
+			
+			<view class="product_send">
+				<view class="car-send">
+					<view>配送费</view>
+					<view>免费配送</view>
+				</view>
+				<view class="car-send">
+					<view>优惠券</view>
+					<view>
+						<text>暂无可用</text>
+						<image class="car-image"  src="http://www.zhongjubang.com/api/upload/static/img/information/right-arrow.png" mode=""></image>
+					</view>
+				</view>
 			</view>
-			<text class="car-send">配送费</text>
-			<text class="free-send">免费配送</text>
-			<view class="horizen"></view>
-			<text class="car-coupon">优惠券</text>
-			<text class="car-nouse">暂无可用</text>
-			<image class="car-image" style="width: 12upx;height: 23upx;" src="http://www.zhongjubang.com/api/upload/static/img/information/right-arrow.png" mode=""></image>
 		</view>
 		<view class="mask">
 			<textarea placeholder="备注："  v-model="desc"  maxlength="200" class="release-text"  @input = "descInput"/>
@@ -55,8 +67,8 @@
 		<!-- 底部 start -->
 		<view class="footer">
 			<text class="total">合计:</text>
-			<text class="price">￥5800.00</text>
-			<view class="balance">提交订单</view>
+			<text class="price">￥{{total_price | priceFilter}}</text>
+			<view class="balance" @click.stop="commitOrder">提交订单</view>
 		</view>
 		<!-- 底部 end -->
 	</view>
@@ -69,7 +81,6 @@
 				remnant: 0,
 				desc: '',
 				show: false,
-				showAdress: true,
 				showMask: true,
 				popupType: '',
 				content: '有温度的保温杯有',
@@ -79,7 +90,12 @@
 				available: 0, //可用热度分
 				singleScore: 200,
 				totleScore: 0,
-				num: 1
+				num: 1,
+				
+				order_num: '',
+				user_adress: {},
+				goodsItem: [],
+				total_price: 0
 			}
 		},
 		filters: {
@@ -89,27 +105,22 @@
 				return value.slice(0,30) + '...'
 			  }
 			  return value
+			},
+			priceFilter (value) {
+				let realVal = parseFloat(value).toFixed(3);
+				return realVal.substring(0, realVal.length - 1)
 			}
 		},
-		onShow() {
-			let that = this;
+		onLoad(e) {
+			let _this = this;
 			uni.getStorage({
 				key:"token",
 				success: function (res) {
-				that.token = res.data;
+				_this.token = res.data;
 			  }
 			})
-			let adress = that.$store.state.adress;
-			if(adress.userName != undefined) {
-				this.showAdress = true;
-				console.log(this.showAdress)
-				that.name = adress.userName;
-				that.phone = adress.userPhone;
-				that.adress = adress.userAddress;
-				that.showAdress = !that.showAdress;
-				return;
-			} 
-			that.init();
+			this.order_num = e.num;
+			this.init();
 		},
 		methods: {
 			// 留言
@@ -117,55 +128,100 @@
 				this.remnant = e.detail.value.length
 				this.showMask = !this.showMask
 			},
-			// 获取默认地址
 			init() {
-				uni.showLoading({
-					title: '加载中',
-					mask: true
-				})
 				uni.request({
-					url: this.url + 'controller/usercontroller/getuseradresslist',
+					url: this.url + '/controller/shopcontroller/getorderbyordernums',
 					method: 'post',
+					data: {orderNum: this.order_num},
 					header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
-					success: ((res) => {
-						uni.hideLoading();
+					success:((res) => {
 						if(res.data.code == 200) {
-							if(res.data.code==421){
-								uni.navigateTo({
-									url: '/pages/loginPhone/loginPhone'
-								})
-							}
 							let data = res.data.data;
-							for(let i =0; i<data.length; i++) {
-								if(data[i].isDefault == 1) {
-									this.showAdress = !this.showAdress;
-									this.name = data[i].userName;
-									this.phone = data[i].userPhone;
-									let obj = JSON.parse(data[i].userAddress);
-									let city = obj.city.split('-');
-									this.adress = city[0] + city[1] + city[2] + obj.detail;
-									let objs = {
-										userName: data[i].userName,
-										userPhone: data[i].userPhone,
-										userAddress: this.adress,
-									}
-									this.$store.commit('getAdress', objs);
-									break;
+							if(JSON.parse(data.address.userAddress) != '{}') {
+								let obj = JSON.parse(data.address.userAddress);
+								let city = obj.city.split('-');
+								this.adress = city[0] + city[1] + city[2] + obj.detail;
+								this.user_adress = {
+									userName: data.address.userName,
+									userPhone: data.address.userPhone,
+									userAddress: this.adress,
 								}
 							}
+							
+							let arr1 = data.goodsList;
+							let idArr=arr1.map(function(x){return x.shop_id});   // 获取ID集合 
+							idArr=Array.from(new Set(idArr));					// 去重
+							//遍历此数组并在arr1找到shop_id相同的放入新数组
+							let newArr=[];
+							let arr2 = []
+							idArr.forEach((v) => {
+								let obj = {
+									goods: []
+								}
+								arr2 = arr1.filter((x) => {
+									if( x.shop_id == v) {
+										obj.shop_id = x.shop_id;
+										obj.shop_name = x.shop_name;
+										obj.goods.push(x)
+									}
+							    })
+								
+								newArr.push(obj)
+							})
+							this.goodsItem = newArr;
+							arr1.forEach((item) => {
+								this.total_price += item.goods_price*item.count
+								
+							})
 						}
-						
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+					}),
+					fail: ((res) => {
+						uni.showToast({
+							title: '请求超时',
+							icon: 'none'
+						})
 					})
-				});
+				})
 			},
 			// 添加地址
 			addAdress() {
-				this.$store.commit('defaultPage', 'orderExchange');
+				// this.$store.commit('defaultPage', 'orderExchange');
 				uni.navigateTo({
-					url: '/pages/receiving-address/receiving-address'
+					url: '/pages/receiving-address/receiving-address?type=confirm&num='+this.order_num
 				})
 			},
-			
+			// 确认订单
+			commitOrder() {
+				uni.getProvider({
+				    service: 'oauth',
+				    success: function (res) {
+				        console.log(res.provider)
+				        // if (~res.provider.indexOf('qq')) {
+				        //     uni.login({
+				        //         provider: 'qq',
+				        //         success: function (loginRes) {
+				        //             console.log(JSON.stringify(loginRes));
+				        //         }
+				        //     });
+				        // }
+				    }
+				});
+				// uni.requestPayment({
+				//     provider: 'alipay',
+				//     orderInfo: 'orderInfo', //微信、支付宝订单数据
+				//     success: function (res) {
+				//         console.log('success:' + JSON.stringify(res));
+				//     },
+				//     fail: function (err) {
+				//         console.log('fail:' + JSON.stringify(err));
+				//     }
+				// });
+			}
 		}
 	}
 </script>
@@ -225,143 +281,129 @@
 		line-height: 50rpx;
 	}
 	/* 商品详情 start */
-	.order-content{
-		position: relative;
-		width: 750upx;
-		height: 521upx;
+	.product_detail {
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		margin-top: 7px;
 		background: #fff;
-		box-shadow:7upx 0px 5upx 0px rgba(202,202,202,0.31);
 	}
-	.order-title{
-		position: relative;
+	.order-content .product_detail:first-child {
+		margin-top: 0 ;
+	}
+	.order-content {
+		width: 100%;
+		box-shadow:7rpx 0px 5rpx 0px rgba(202,202,202,0.31);
+		overflow: hidden;
+	}
+	.order-title, .car-content, .product_send {
+		box-sizing: border-box;
+		padding: 0 30rpx;
+	}
+	.order-title {
 		background: #fff;
-		height: 80upx;
+		height: 80rpx;
+		display: flex;
+		align-items: center;
 	}
-	.order-title-image{
-		position: absolute;
-		left: 30upx;
-		top: 30upx;
-		width:27upx;
-		height:24upx;
-		background: #f0f;
+	
+	.order-title-image {
+		width:27rpx;
+		height:24rpx;
+		display: block;
+		margin-right: 3px;
 	}
 	.order-title-text{
-		position: absolute;
-		left: 67upx;
-		top: 30upx;
-		font-size:28upx;
+		font-size:14px;
 		font-family:PingFang SC;
 		color:rgba(51,51,51,1);
 	}
-	.car-content{
-		position: relative;
-		width:750upx;
-		height:190upx;
-		background:rgba(247,247,247,1);
+	.car-content {
+		width: 100%;
+		height: 95px;
+		display: flex;
+		padding-top: 10px;
 	}
 	.car-all-command{
-		position: absolute;
-		left: 21upx;
-		top: 157upx;
-		width:28upx;
-		height:28upx;
+		width:28rpx;
+		height:28rpx;
 		background:rgba(255,101,1,0);
 		border:1px solid rgba(153, 153, 153, 1);
 		border-radius:50%;
 	}
 	.car-all-image{
-		position: absolute;
-		left: 30upx;
-		top: 21upx;
-		width:150upx;
-		height:150upx;
+		width:75px;
+		height:75px;
 		background:#f0f;
+		margin-right: 7px;
+	}
+	.product_content {
+		width:75%;
 	}
 	.car-all-des{
-		position: absolute;
-		left: 200upx;
-		top: 25upx;
-		width:460upx;
-		height:60upx;
-		font-size:24upx;
+		width: 100%;
+		height:30px;
+		font-size:12px;
 		font-family:PingFang SC;
 		font-weight:400;
 		color:rgba(51,51,51,1);
-		line-height:32upx;
 	}
 	.car-all-name{
-		position: absolute;
-		left: 200upx;
-		top: 103upx;
-		font-size:24upx;
+		font-size:12px;
 		font-family:PingFang SC;
 		color:rgba(153,153,153,1);
+		margin: 6px 0;
 	}
 	.car-all-price{
-		position: absolute;
-		left: 200upx;
-		top: 149upx;
-		font-size:28upx;
+		font-size:14px;
 		font-family:PingFang SC;
 		font-weight:bold;
 		color:rgba(244,51,72,1);
+		float: left;
 	}
 	.car-all-count{
-		position: absolute;
-		left: 674upx;
-		top: 151upx;
-		font-size:26upx;
+		font-size:13px;
 		font-family:PingFang SC;
 		color:rgba(51,51,51,1);
+		float: right;
 	}
-	.car-send{
-		position: absolute;
-		left: 30upx;
-		top: 354upx;
-		font-size:26upx;
+	.product_send {
+		/* margin-top: 15px; */
+		background: #fff;
+	}
+	.car-send {
+		height: 51px;
+		font-size:13px;
 		font-family:PingFang SC;
 		font-weight:bold;
 		color:rgba(51,51,51,1);
+		display: flex;
+		justify-content: space-between;
+		align-content: center;
+		align-items: center;
 	}
-	.free-send{
-		position: absolute;
-		left: 613upx;
-		top: 354upx;
-		font-size:26upx;
-		font-family:PingFang SC;
-		font-weight:bold;
-		color:rgba(153,153,153,1);
+	.car-send:last-child {
+		border-top: 1px solid #E2E2E2;
+	}
+	.car-send image {
+		margin-left: 5px;
+		width: 7px;
+		height: 12px;
+		display: inline-block;
+		margin-bottom: -1px;
+	}
+	.car-send view {
+		font-size: 13px;
+		color: #333;
+		font-weight: bold;
+	}
+	.car-send view:last-child {
+		color: #999;
 	}
 	.horizen{
-		position: absolute;
-		left: 30upx;
-		top: 418upx;
-		width:690upx;
+		width:100%;
 		height:1px;
 		background:rgba(226,226,226,1);
-	}
-	.car-coupon{
-		position: absolute;
-		left: 30upx;
-		top: 455upx;
-		font-size:26upx;
-		font-family:PingFang SC;
-		font-weight:bold;
-		color:rgba(51,51,51,1);
-	}
-	.car-nouse{
-		position: absolute;
-		left: 594upx;
-		top: 454upx;
-		font-size:26upx;
-		font-family:PingFang SC;
-		font-weight:bold;
-		color:rgba(153,153,153,1);
-	}
-	.car-image{
-		position: absolute;
-		left: 709upx;
-		top: 462upx;
 	}
 	.mask{
 		position: relative;
@@ -409,6 +451,7 @@
 		position: fixed;
 		width:750upx;
 		height:105upx;
+		line-height: 105upx;
 		border-top: 1px solid rgba(226,226,226,1);
 		background:rgba(249,249,249,1);
 		bottom: 0;
@@ -425,7 +468,7 @@
 	.price{
 		position: absolute;
 		left: 167px;
-		top: 22px;
+		top: 2px;
 		font-size:24upx;
 		font-family:PingFang SC;
 		font-weight:400;

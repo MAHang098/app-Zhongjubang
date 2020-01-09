@@ -45,15 +45,89 @@
 						<image class="topic-image" style="width:24rpx;height:24rpx;" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/message.png" mode="" />
 						<text class="text20">说点什么吧...</text>
 					</div>
-					
+					<!-- 评论弹窗 -->
+					 <div class="btn yellow  btn-margin">
+					      <!-- <text class="btn-txt">点击弹出底部面板</text> -->
+					    
+					    <wxc-popup popup-color="#fff"
+					               :show="isBottomShow"
+					               @wxcPopupOverlayClicked="popupOverlayBottomClick"
+					               pos="bottom"
+					               height="450"
+								   ref="close"
+								   >
+					      <div class="recommend">
+							<div class="recommend-content">
+								<text class="all-recommend">全部评论 ({{shortVideoDiscussNum}})</text>
+								<view class="close" @tap="popupOverlayBottomClick" ><image style="width: 25rpx;height: 25rpx;" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/close.png" mode="" /></view> 
+							</div>
+							<div class="vertify"></div>
+							
+							<scroll-view scroll-y="true" class="replay-detail">
+								<div v-for="(row, index) in dataList" :key="index">
+									<div>
+										<div class="replay-detail-left">
+											<div class="my-active-image">
+												<image style="width: 68rpx;height: 68rpx;border-radius: 50%;" :src="row.head" mode="" />
+											</div>
+											<div class="my-active-nickName-data">
+												<text class="my-active-nickName">{{row.nick_name}}</text>
+												<text class="my-active-data">{{row.cratee_time}}</text>
+											</div>
+											
+										</div>
+										<div class="replay-detail-right">
+											
+											<div @click="commentsFabulous(index, row.id)">
+												<text class="my-active-like">{{row.likenum}}</text>
+												<image  style="width: 31rpx;height: 31rpx;" class="my-active-good" :class="(activeIndex == index && isCommentsFabulous) ||  row.state == '1'? 'select' : '' " :src="(activeIndex == index && isCommentsFabulous) ||  row.state == '1' ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
+											</div>
+										</div>	
+									</div>
+									<div class="recommend-text-text-text">
+										<text class="recommend-text-text" 
+											@touchstart.prevent="touchin(row.id)" 
+											@touchend.prevent="cleartime"
+											@click="testreply(row.id, row.nick_name)"
+										>
+											{{row.short_video_discuss}}
+										</text>
+									</div>
+									
+									
+									
+									<div v-if="row.zilist.length>0" class="recommend-text-reply">
+										<div v-for="(rows, indexs) in row.zilist" :key="indexs">
+											<text class="recommend-text-reply-user" 
+												v-if="rows.nick_name==row.nick_name" 
+												@tap="testreply(row.id, row.nick_name)"
+												@touchstart.prevent="touchin(rows.id)"
+												@touchend.prevent="cleartime"
+											>{{rows.nick_name}} : {{rows.short_video_discuss}}</text>
+											<text class="recommend-text-reply-user" v-else @tap="testreply(rows.id, rows.nick_name,rows.inUserId)">{{rows.nick_name}}回复{{row.nick_name}}:{{rows.short_video_discuss}}</text>
+										</div>
+										<text v-if="row.sonCount>2" class="recommend-text-reply-count" @tap="reply(row.id, row.nick_name)">共{{row.sonCount}}条回复></text>
+									</div>
+									<div class="horizon2"></div>
+								</div>
+								
+							</scroll-view>
+							
+							<div class="replay-input">
+								<input @confirm="recordName" class="say-something" :placeholder="replySay" :value="inputValue" />
+							</div>
+						</div>
+					    </wxc-popup>
+					</div>
 				</div>
             </swiper-item>
         </swiper>
     </view>
 </template>
 <script>
-    
+    import { WxcPopup } from 'weex-ui';
     export default {
+		components: { WxcPopup },
         data() {
             return {
                 circular: true,
@@ -104,7 +178,8 @@
 				commentsList: [],
 				isCommentsFabulous: false,
 				userID222: '',
-				url: "https://www.zhongjubang.com/test/"
+				url: "https://www.zhongjubang.com/test/",
+				token: ''
             }
         },
 		filters: {
@@ -117,7 +192,8 @@
 			  return value.replace('↵', ''); 
 			}
 		},
-        onLoad() {
+        onLoad(options) {
+			this.token = options.token
 		},
 		onShow(){
 			let self = this
@@ -141,7 +217,9 @@
 			            self.id = res.data.data.dataList[0].shortVideoId
 						self.initInfo(res.data.data.dataList[0].shortVideoId)
 						// 获取评论内容
-						self.id = res.data.data.dataList[0].shortVideoId;
+						self.id = res.data.data.dataList[0].shortVideoId
+						self.getsvdiscussId = id;
+						self.init(res.data.data.dataList[0].shortVideoId)
 						// self.init(res.data.data.dataList[0].shortVideoId);
 					}else{
 						console.log("请求异常")
@@ -155,10 +233,247 @@
             // this.getData();
         },
         methods: {
+			// 删除评论
+			 touchin(id,content) {
+				clearInterval(this.Loop); //再次清空定时器，防止重复注册定时器
+				this.Loop = setTimeout(function() {
+					this.actionSheetTap(id)
+					this.copyUrl(content)
+				}.bind(this), 1000);
+			},
+			cleartime(id) {
+				// 这个方法主要是用来将每次手指移出之后将计时器清零
+				clearInterval(this.Loop);
+			},
+			
+			actionSheetTap(id) {
+				let self = this
+				uni.showActionSheet({
+					itemList: ['删除'],
+					success: (e) => {
+						// console.log(e.tapIndex);
+						// uni.showToast({
+						// 	title:"点击了第" + e.tapIndex + "个选项",
+						// 	icon:"none"
+						// })
+						let idd = self.id
+						let token = this.token
+						const url = self.url
+						
+								
+						console.log(id)
+						//获取短视频内容
+						uni.request({
+							url: self.url + "controller/usercontroller/delshortvideodiscuss",
+							data: {shortVideoDiscussId:id},
+							method: 'POST',
+							header : {
+								'content-type':'application/x-www-form-urlencoded', 
+								'port': 'app',
+								'token': token
+							},
+							success: function (res){
+								if(res.data.code==200){
+									console.log("请求成功")
+									self.init(idd)
+								}else{
+									console.log("请求失败")
+								}
+							}
+						})
+					}
+				})
+			},
+			recordName(e) {
+				this.inputValue = e.detail.value;
+				console.log(e.detail.value)
+				let token = this.token
+				let self = this
+				
+				const url = this.url
+				
+				console.log(self.outUserId)
+				console.log(self.nickName)
+				if(this.recommendId!=''){
+					if(this.userID222!=undefined){
+						console.log('cechi::::'+self.userID222)
+						uni.request({
+							url: self.url + "controller/usercontroller/addanswershortvideodiscuss",
+							data: {
+								outUserId: self.userID222,
+								id: self.recommendId,
+								outUserName: self.recommendName,
+								shortVideoDiscuss: e.detail.value
+							},
+							method: 'POST',
+							header : {
+								'content-type':'application/x-www-form-urlencoded', 
+								'port': 'app',
+								'token': token
+							},
+							success: function (res){
+								console.log(res)
+								if(res.data.code==200){
+									console.log(self.recommendId)
+									self.init(self.id)
+									self.userID222 = ''
+									self.recommendId=''
+									e.detail.value=''
+									self.inputValue = ''
+									self.replySay = '说点什么吧...'
+								}else{
+									console.log("请求异常")
+								}
+							}
+						})
+					}else{
+						uni.request({
+							url: self.url + "controller/usercontroller/addanswershortvideodiscuss",
+							data: {
+								outUserId: self.outUserId,
+								id: self.recommendId,
+								outUserName: self.recommendName,
+								shortVideoDiscuss: e.detail.value
+							},
+							method: 'POST',
+							header : {
+								'content-type':'application/x-www-form-urlencoded', 
+								'port': 'app',
+								'token': token
+							},
+							success: function (res){
+								console.log(res)
+								if(res.data.code==200){
+									console.log('子评论回复')
+									console.log(self.recommendId)
+									self.init(self.id)
+									
+									self.recommendId=''
+									e.detail.value=''
+									self.inputValue = ''
+									self.replySay = '说点什么吧...'
+								}else{
+									console.log("请求异常")
+								}
+							}
+						})
+					}
+					
+				}else{
+					uni.request({
+						url: self.url + "controller/usercontroller/addshortvideodiscuss",
+						data: {
+							outUserId: self.outUserId,
+							shortVideoId: self.id,
+							outUserName: self.nickName,
+							shortVideoDiscuss: e.detail.value
+						},
+						method: 'POST',
+						header : {
+							'content-type':'application/x-www-form-urlencoded', 
+							'port': 'app',
+							'token': token
+						},
+						success: function (res){
+							console.log(res.data.code)
+							if(res.data.code==200){
+								console.log('评论内容')
+								console.log(self.id)
+								self.init(self.id)
+								self.recommendId=''
+								e.detail.value=''
+								self.inputValue = ''
+								self.replySay = '说点什么吧...'
+							}else{
+								console.log("请求异常")
+							}
+						}
+					})
+					
+				}
+				
+			},
 			back(){
-				uni.navigateBack({
-					delta: 1
+				uni.switchTab({
+					url: '/pages/user/user'
+				})
+			},
+			// 子回复跳转
+			reply(id){
+				console.log(id)
+				uni.navigateTo({
+					url: "/pages/answer/answer?Id=" + id
+				})
+			},
+			
+			// 点击视频内容获取id和名字
+			testreply(id, name,inUserId){
+				console.log(id, name)
+				this.userID222 = inUserId
+				console.log(inUserId)
+				this.recommendId = id
+				this.recommendName = name
+				this.replySay = '回复' + name + ':';
+				this.inputValue = ''
+				console.log(this.replySay)
+			},
+			openBottomPopup () {
+				this.isBottomShow = true;
+				// this.comments();
+			  },
+			 //非状态组件，需要在这里关闭
+			popupOverlayBottomClick () {
+				this.isBottomShow = false;
+			},
+			
+			open() {
+				let self = this
+				this.isShowAllContent = !this.isShowAllContent;
+				this.brandFold = !this.brandFold
+				// setTimeout(function() {
+				// 	let views = uni.createSelectorQuery().select(".content");
+				// 	views.fields({
+				// 		size: true
+				// 	}, data => {
+				// 		console.log("得到节点信息" + JSON.stringify(data));
+				// 		console.log("节点的宽为" + data.height);
+				// 		self.height = data.height
+				// 		console.log(data.height)
+				// 	}).exec();
+				// },1)
+				
+			},
+			// 评论点赞
+			commentsFabulous(index, id) {
+				let self = this
+				let token = this.token
+				uni.request({
+					url: self.url + "controller/usercontroller/adddiscusslike",
+					method: 'post',
+					data: {discussId: id, type: '2'},
+					header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
+					success:(res) => {
+						if(res.data.code == 200) {
+							self.activeIndex = id;
+							self.isCommentsFabulous = !self.isCommentsFabulous;
+							console.log(self.activeIndex, self.isCommentsFabulous)
+							// console.log(res.data.data);
+							// let data = res.data.data;
+							// this.commentsList = data.dataList;
+							// self.comments()
+							self.init(self.getsvdiscussId)
+						} else {
+							uni.showToast({
+								icon: 'none',
+								title: res.data.message
+							});
+							uni.hideToast();
+						}
+					}
 				});
+			},
+			change(e) {
+				console.log(e.show)
 			},
 			// 切换视频请求数据
 			onSwiperChange(e){
@@ -199,13 +514,7 @@
 			// 获取评论列表
 			init(id) {
 				console.log(id)
-				let token = '';
-				uni.getStorage({
-					key:"token",
-					success: function (res) {
-						token = res.data;
-					}
-				})
+				let token = this.token
 				console.log(id)
 				let self = this
 				uni.request({
@@ -242,16 +551,9 @@
 			// 点赞
 			good(){
 				this.showUpImg2 = !this.showUpImg2
-				let token
-				let self = this
-				uni.getStorage({
-					key:"token",
-					success: function (res) {
-						token = res.data;
-					}
-				})
+				let token = this.token
 				const url = this.url
-				
+				let self = this
 				console.log(self.id)
 				//添加、删除点赞
 				uni.request({
@@ -284,14 +586,9 @@
 			// 收藏
 			collect(){
 				this.showUpImg = !this.showUpImg 
-				let token
+				let token = this.token
 				let self = this
-				uni.getStorage({
-					key:"token",
-					success: function (res) {
-						token = res.data;
-					}
-				})
+				
 				const url = this.url
 				
 				console.log(self.id)
@@ -327,13 +624,7 @@
 			},
 			// 获取第一页客户信息
 			initInfo(id){
-				let token
-				uni.getStorage({
-					key:"token",
-					success: function (res) {
-						token = res.data;
-					}
-				})
+				let token = this.token
 				const url = this.url
 				
 						

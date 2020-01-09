@@ -98,6 +98,13 @@
 				success: ((res) =>  {
 					_this.desc = res.data;
 				})
+			});
+			uni.getStorage({
+				key: 'topic_title',
+				success: ((res) =>  {
+					_this.participationTopic = res.data.participationTopic;
+					_this.participationTopicId = res.data.participationTopicId;
+				})
 			})
 		},
 		onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
@@ -173,6 +180,7 @@
 					})
 					return;
 				}
+				
 				this.isshowScusse = true;
 				if(this.gcircleContentId) {
 					parmas.gcircleContentId = this.gcircleContentId;
@@ -199,6 +207,13 @@
 										this.desc = '';
 									})
 								})
+								uni.removeStorage({
+									key: 'topic_title',
+									success: ((res) => {
+										this.participationTopic = '';
+										this.participationTopicId = ''
+									})
+								})
 								uni.hideLoading();
 								this.isshowScusse = false;
 								this.$store.commit('clearData', []);    // 清空存在vuex中图片上的所有数据
@@ -207,6 +222,7 @@
 								this.$store.commit('updateType', {topic: '', topicId: ''});
 							} 
 							if(res.data.code == 421) {
+								uni.hideLoading();
 								uni.navigateTo({
 									url: '/pages/loginPhone/loginPhone'
 								})
@@ -243,8 +259,16 @@
 									this.desc = '';
 								})
 							})
+							uni.removeStorage({
+								key: 'topic_title',
+								success: ((res) => {
+									this.participationTopic = '';
+									this.participationTopicId = ''
+								})
+							})
 						} 
 						if(res.data.code == 421) {
+							uni.hideLoading();
 							uni.navigateTo({
 								url: '/pages/loginPhone/loginPhone'
 							})
@@ -328,8 +352,16 @@
 										this.desc = '';
 									})
 								})
+								uni.removeStorage({
+									key: 'topic_title',
+									success: ((res) => {
+										this.participationTopic = '';
+										this.participationTopicId = ''
+									})
+								})
 							} 
 							if(res.data.code == 421) {
+								uni.hideLoading();
 								uni.navigateTo({
 									url: '/pages/loginPhone/loginPhone'
 								})
@@ -366,8 +398,16 @@
 									this.desc = '';
 								})
 							})
+							uni.removeStorage({
+								key: 'topic_title',
+								success: ((res) => {
+									this.participationTopic = '';
+									this.participationTopicId = ''
+								})
+							})
 						} 
 						if(res.data.code == 421) {
+							uni.hideLoading();
 							uni.navigateTo({
 								url: '/pages/loginPhone/loginPhone'
 							})

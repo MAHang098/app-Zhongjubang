@@ -74,7 +74,7 @@
 			</view>
 		</view>
 		<!-- 居圈列表 end -->
-		<view class="look-more">-没有更多-</view>
+		<view class="look-more">-{{ is_more ? '上拉加载更多' : '没有更多'}}-</view>
 	</view>
 </template>
 
@@ -89,7 +89,12 @@
 				circleData: [],
 				activeIndex: -1,
 				productList: [],
-				userList: []
+				userList: [],
+				pageSize: 10,
+				page: 1,
+				reload: false,
+				totalPage: 0,
+				is_more: true
 			}
 		},
 		filters: {
@@ -114,13 +119,31 @@
 			})
 			this.init();
 		},
+		// 滚动到底部请求第二页数据
+		onReachBottom() {
+			// if(this.current == 1) {
+			// 	this.page_attention++;
+			// 	this.focusUserContent();
+			// 	return;
+			// }
+			if(this.page < this.totalPage) {
+				this.page++;
+				this.init();
+				this.is_more = true;
+			} else {
+				this.is_more = false;
+			}
+		},
 		methods: {
 			init() {
 				let parmas = {
-					pageIndex: 1,
-					pageSize: 100,
+					pageIndex: this.page,
+					pageSize: this.pageSize,
 					content: this.searchValue
 				}
+				uni.showLoading({
+					title: '加载中',
+				})
 				uni.request({
 				    url: this.url + 'controller/shopcontroller/getgcriclecontentbycontent',
 				    method: 'post',
@@ -132,18 +155,22 @@
 								url: '/pages/loginPhone/loginPhone'
 							})
 						}
+						// let totalPage = res.data.data.pageSize * res.data.data.totalPage;
+						// if(this.releaseImgList.length == totalPage) {
+						// 	this.status = 'end';
+						// 	return;
+						// }
 				        if(res.data.code == 200) {
 							let data = res.data.data.dataList;
+							this.totalPage = res.data.data.totalPage;
+							
 							for(let i=0; i<data.length; i++) {
 								data[i].imgList = JSON.parse(data[i].imgList);
 							}
-							this.circleData = data;
+							// this.circleData = data;
+							this.circleData = this.reload ? data : this.circleData.concat(data);
+							uni.hideLoading();
 				        } 
-						if(res.data.code == 421) {
-							uni.navigateTo({
-								url: '/pages/loginPhone/loginPhone'
-							})
-						}
 				    })
 				});
 			},
@@ -260,6 +287,7 @@
 			},
 			// 跳转到用户信息
 			getUser(id) {
+				
 				uni.navigateTo({
 					url: '/pages/otherUser/otherUser?userid=' + id
 				})
@@ -275,6 +303,7 @@
 </script>
 
 <style>
+	@import '../../../static/css/information.css'; /*引入收藏点赞消息的样式*/
 	.header {
 		width: 100%;
 		height: 140rpx;
@@ -305,22 +334,20 @@
 		height: 70rpx;
 		background: #f6f6f6;
 		border-radius: 35rpx;
+		display: flex;
+		align-items: center;
 	}
 	.search-input image {
 		width: 26rpx;
 		height: 26rpx;
 		display: block;
-		position: absolute;
-		top: 23rpx;
-		left: 24rpx;
-		
+		margin-left: 15px;
+		margin-right: 5px;
 	}
 	.search-input input {
 		width: 88%;
 		margin: 0;
 		font-size: 26rpx;
-		margin-left: 60rpx;
-		margin-top: 10rpx;
 	}
 	.cancel {
 		width: 13%;
@@ -370,7 +397,7 @@
 	}
 	.list-detail {
 		width: 48%;
-		height: 530rpx;
+		height: 500rpx;
 		box-shadow:1px 0px 4px 0px rgba(136,136,136,0.4);
 		border-radius:4px;
 		background: #FFFFFF;
@@ -402,6 +429,8 @@
 		line-height: 15px;
 		margin-top: 10px;
 		overflow: hidden;
+		box-sizing: border-box;
+		padding: 0 5px;
 	}
 	.list-detail>text {
 		box-sizing: border-box;
@@ -523,7 +552,7 @@
 		padding: 32rpx 0;
 		
 	}
-	.left {
+	/* .left {
 		display: flex;
 		justify-content: flex-start;
 	}
@@ -566,6 +595,9 @@
 		float: right;
 		margin-top: 2%;
 		margin-left: 7px;
+	} */
+	.details image {
+		bottom: -4px;
 	}
 	.look-more {
 		width: 100%;

@@ -154,6 +154,13 @@
 					
 				})
 			})
+			uni.removeStorage({
+				key: 'topic_title',
+				success: ((res) => {
+					// this.participationTopic = '';
+					// this.participationTopicId = ''
+				})
+			})
 		},
 		// 监听安卓物理返回键
 		onBackPress(e) {

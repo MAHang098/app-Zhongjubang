@@ -51,13 +51,16 @@
 				<video id="myVideo" :src="item.videoUrl" v-show="!show" enable-danmu danmu-btn controls></video>
 				<!-- 图片/视频 end -->
 				<!-- 话题 start -->
-				<view class="draftsTopic" v-show="show" v-if="item.title.topic != '' && current == 0 ">
-					<view class="left" @click.stop="takePart(item.title.topicId)">
-						<image src="http://www.zhongjubang.com/api/upload/static/topic/topic.png" mode=""></image>
-						<view>{{item.title.topic}}</view>
+				<view v-if="current == 0">
+					<view class="draftsTopic" v-show="show" v-if="item.title.topic != '' && current == 0 ">
+						<view class="left" @click.stop="takePart(item.title.topicId)">
+							<image src="http://www.zhongjubang.com/api/upload/static/topic/topic.png" mode=""></image>
+							<view>{{item.title.topic}}</view>
+						</view>
+						<view class="right"></view>
 					</view>
-					<view class="right"></view>
 				</view>
+				
 				<!-- 话题 end -->
 			</view>
 		</view>
