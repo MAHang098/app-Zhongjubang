@@ -27,10 +27,10 @@
 						</view>
 						<view class="details">
 							<view class="name">{{item.nickName}} 
-								<image v-if="item.title == '设计达人'" src="../../static/img/title/design-people.png" mode=""></image>
-								<image v-if="item.title == '人气网红'" src="../../static/img/title/red-hot.png" mode=""></image>
-								<image v-if="item.title == '居圈达人'" src="../../static/img/title/circle-people.png" mode=""></image>
-								<image v-if="item.title == '金牌业主'" src="../../static/img/title/gold-owner.png" mode=""></image>
+								<image v-if="item.title == '设计达人'" src="../../../static/img/title/design-people.png" mode=""></image>
+								<image v-if="item.title == '人气网红'" src="../../../static/img/title/red-hot.png" mode=""></image>
+								<image v-if="item.title == '居圈达人'" src="../../../static/img/title/circle-people.png" mode=""></image>
+								<image v-if="item.title == '金牌业主'" src="../../../static/img/title/gold-owner.png" mode=""></image>
 							</view>
 							<text class="follow">粉丝{{item.fanCount}}</text>
 						</view>
@@ -197,6 +197,7 @@
 </script>
 
 <style>
+	@import '../../../static/css/information.css'; /*引入收藏点赞消息的样式*/
 	page, .contant {
 		height: 100%;
 		box-sizing: border-box;
@@ -238,8 +239,7 @@
 	}
 	/* 列表 start */
 	.fans-list {
-		height: 188rpx;
-		/* width: 30%; */
+		height: 154rpx;
 		box-sizing: border-box;
 		padding: 28rpx 0;
 		display: flex;
@@ -247,13 +247,7 @@
 		border-bottom: 1px solid #E2E2E2;
 		align-items: center;
 	}
-	.left {
-		display: flex;
-		justify-content: flex-start;
-	}
-	.left text {
-		display: block;
-	}
+
 	.name {
 		font-size: 28rpx;
 		color: #333333;
@@ -269,27 +263,8 @@
 		font-size: 26rpx;
 		color: #666666;
 	}
-	.avatar {
-		width: 122rpx;
-		height: 130rpx;
-		display: inline-block;
-		margin-right: 5px;
-	}
-	.avatar image {
-		width: 100%;
-		height: 100%;
-		margin: auto;
-		display: block;
-		border-radius: 50%;
-	}
-	.details image {
-		width: 94rpx;
-		height: 31rpx;
-		display: block;
-		float: right;
-		margin-top: 2%;
-		margin-left: 7px;
-	}
+	
+	
 	.right image {
 		width: 127rpx;
 		height: 54rpx;

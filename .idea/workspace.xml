@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< HEAD
+    <list default="true" id="84510198-0e66-4579-b3e0-3c273ca7765b" name="Default Changelist" comment="" />
+=======
     <list default="true" id="84510198-0e66-4579-b3e0-3c273ca7765b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/app-Zhongjubang.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/app-Zhongjubang.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -27,6 +30,7 @@
       <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/app-plus/pages/index2/index2.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/app-plus/pages/index2/index2.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/unpackage/dist/dev/app-plus/pages/indexIOS/indexIOS.js" beforeDir="false" afterPath="$PROJECT_DIR$/unpackage/dist/dev/app-plus/pages/indexIOS/indexIOS.js" afterDir="false" />
     </list>
+>>>>>>> 99bc61a632d6c81de8b5d6d897a169643e130d93
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,8 +135,27 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pages/user/user.vue">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+            <state relative-caret-position="133">
+              <caret line="7" column="15" selection-start-line="7" selection-start-column="15" selection-end-line="7" selection-end-column="15" />
+              <folding>
+                <element signature="n#style#0;n#image#0;n#view#2;n#view#0;n#view#8;n#view#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#image#1;n#view#2;n#view#0;n#view#8;n#view#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#image#2;n#view#2;n#view#0;n#view#8;n#view#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#image#3;n#view#2;n#view#0;n#view#8;n#view#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#view#1;n#view#2;n#view#0;n#view#8;n#view#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#image#0;n#view#0;n#view#0;n#view#3;n#view#0;n#view#8;n#view#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#image#1;n#view#0;n#view#0;n#view#3;n#view#0;n#view#8;n#view#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#image#0;n#view#0;n#view#0;n#view#4;n#view#0;n#view#8;n#view#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#image#1;n#view#0;n#view#0;n#view#4;n#view#0;n#view#8;n#view#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#image#0;n#view#0;n#view#5;n#view#0;n#view#8;n#view#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#image#1;n#view#0;n#view#5;n#view#0;n#view#8;n#view#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="e#17150#17209#0" expanded="true" />
+              </folding>
+=======
             <state relative-caret-position="399">
               <caret line="21" column="143" selection-start-line="21" selection-start-column="143" selection-end-line="21" selection-end-column="143" />
+>>>>>>> 99bc61a632d6c81de8b5d6d897a169643e130d93
             </state>
           </provider>
         </entry>
@@ -160,8 +183,13 @@
       <find>topic-participation</find>
       <find>网红</find>
       <find>达人</find>
+<<<<<<< HEAD
+      <find>发送</find>
+      <find>send</find>
+=======
       <find>apply</find>
       <find>change</find>
+>>>>>>> 99bc61a632d6c81de8b5d6d897a169643e130d93
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -256,22 +284,31 @@
           <expand>
             <path>
               <item name="app-Zhongjubang" type="b2602c69:ProjectViewProjectNode" />
+<<<<<<< HEAD
+=======
               <item name="app-Zhongjubang" type="47feb1d3:ProjectViewModuleNode" />
             </path>
             <path>
               <item name="app-Zhongjubang" type="b2602c69:ProjectViewProjectNode" />
               <item name="app-Zhongjubang" type="47feb1d3:ProjectViewModuleNode" />
+>>>>>>> 99bc61a632d6c81de8b5d6d897a169643e130d93
               <item name="app-Zhongjubang" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="app-Zhongjubang" type="b2602c69:ProjectViewProjectNode" />
+<<<<<<< HEAD
+=======
               <item name="app-Zhongjubang" type="47feb1d3:ProjectViewModuleNode" />
+>>>>>>> 99bc61a632d6c81de8b5d6d897a169643e130d93
               <item name="app-Zhongjubang" type="462c0819:PsiDirectoryNode" />
               <item name="pages" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="app-Zhongjubang" type="b2602c69:ProjectViewProjectNode" />
+<<<<<<< HEAD
+=======
               <item name="app-Zhongjubang" type="47feb1d3:ProjectViewModuleNode" />
+>>>>>>> 99bc61a632d6c81de8b5d6d897a169643e130d93
               <item name="app-Zhongjubang" type="462c0819:PsiDirectoryNode" />
               <item name="pages" type="462c0819:PsiDirectoryNode" />
               <item name="user" type="462c0819:PsiDirectoryNode" />
@@ -327,13 +364,21 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
+    <option name="totallyTimeSpent" value="14333000" />
+=======
     <option name="totallyTimeSpent" value="18671000" />
+>>>>>>> 99bc61a632d6c81de8b5d6d897a169643e130d93
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
+<<<<<<< HEAD
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20255864" />
+=======
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20255864" />
+>>>>>>> 99bc61a632d6c81de8b5d6d897a169643e130d93
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />

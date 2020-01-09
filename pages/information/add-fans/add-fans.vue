@@ -115,6 +115,7 @@
 </script>
 
 <style>
+	@import '../../../static/css/information.css'; /*引入收藏点赞消息的样式*/
 	.fans {
 		width: 100%;
 		height: 100%;
@@ -157,31 +158,12 @@
 		font-size: 26rpx;
 		color: #666666;
 	}
-	.avatar {
-		width: 122rpx;
-		height: 130rpx;
-		display: inline-block;
-		margin-right: 5px;
-	}
-	.avatar image {
-		width: 100%;
-		height: 100%;
-		margin: auto;
-		display: block;
-		border-radius: 50%;
-	}
-	.details image {
-		width: 94rpx;
-		height: 31rpx;
-		display: block;
-		float: right;
-		margin-top: 2%;
-		margin-left: 7px;
-	}
+	
 	.right image {
 		width: 127rpx;
 		height: 54rpx;
 		display: block;
 		margin-top: 25%;
+		margin-right: 10px;
 	}
 </style>

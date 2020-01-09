@@ -36,7 +36,7 @@
 								<view class="num">共{{item.participateCount}}人参与</view>
 							</view>
 						</view>
-						<view class="right" @click.stop="chooseTopic(item.talkTheme, item.id)" v-show="showChoose">
+						<view class="right" @click.stop="chooseTopic(item.talkTheme, item.talkThemeId)" v-show="showChoose">
 							选择
 						</view>
 					</view>
@@ -160,22 +160,29 @@
 			},
 			// 选择话题
 			chooseTopic(name, id) {
-				
+				console.log(name, id)
+				uni.setStorage({
+					key: 'topic_title',
+					data:  {participationTopic:　name, participationTopicId: id},    
+					success: function () {
+						
+					}
+				})
 				// let pages = getCurrentPages(), prevPage=null;
-				let pages = getCurrentPages();
-				let currPage = pages[pages.length - 1];  //当前页面
-				let prevPage = pages[pages.length - 2];  //上一个页面
-				if(prevPage) {
-						prevPage.participationTopic= name;
-						prevPage.participationTopicId = id ;
-					// #ifdef APP-PLUS || MP-WEIXIN
-						prevPage.setData({
-							participationTopic : name,
-							participationTopicId : id
-						})
-					// #endif
-				}
-				prevPage.ishow= false;
+				// let pages = getCurrentPages();
+				// let currPage = pages[pages.length - 1];  //当前页面
+				// let prevPage = pages[pages.length - 2];  //上一个页面
+				// if(prevPage) {
+				// 		prevPage.participationTopic= name;
+				// 		prevPage.participationTopicId = id ;
+				// 	// #ifdef APP-PLUS || MP-WEIXIN
+				// 		prevPage.setData({
+				// 			participationTopic : name,
+				// 			participationTopicId : id
+				// 		})
+				// 	// #endif
+				// }
+				// prevPage.ishow= false;
 				// console.log(prevPage)
 				uni.navigateBack();
 			},

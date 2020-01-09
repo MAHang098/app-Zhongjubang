@@ -54,10 +54,10 @@
 							<image :src="items.head" mode=""></image>
 							<view>
 								<view class="name">{{items.nickName}}
-									<image v-if="items.designation == '设计达人'" src="../../static/img/title/design-people.png" mode=""></image>
-									<image v-if="items.designation == '人气网红'" src="../../static/img/title/red-hot.png" mode=""></image>
-									<image v-if="items.designation == '居圈达人'" src="../../static/img/title/circle-people.png" mode=""></image>
-									<image v-if="items.designation == '金牌业主'" src="../../static/img/title/gold-owner.png" mode=""></image>
+									<image v-if="items.designation == '设计达人'" src="../../static/img/title/design-people.png" mode="scaleToFill"></image>
+									<image v-if="items.designation == '人气网红'" src="../../static/img/title/red-hot.png" mode="scaleToFill"></image>
+									<image v-if="items.designation == '居圈达人'" src="../../static/img/title/circle-people.png" mode="scaleToFill"></image>
+									<image style="margin-bottom: -5px;" v-if="items.designation == '金牌业主'" src="../../static/img/title/gold-owner.png" mode="scaleToFill"></image>
 								</view>
 								<view class="time">{{items.createTime}}</view>
 							</view>
@@ -634,6 +634,7 @@
 					this.releaseImgList = []
 				}
 				if(index == 0) {
+					this.releaseImgList = []
 					this.init();
 				}
 				this.isShow = !this.isShow;

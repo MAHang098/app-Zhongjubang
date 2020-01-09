@@ -92,7 +92,20 @@
 				// }
 				// #endif
 			}
-			
+			let _this = this;
+			uni.getStorage({
+				key: 'topic_detail',
+				success: ((res) =>  {
+					_this.desc = res.data;
+				})
+			});
+			uni.getStorage({
+				key: 'topic_title',
+				success: ((res) =>  {
+					_this.participationTopic = res.data.participationTopic;
+					_this.participationTopicId = res.data.participationTopicId;
+				})
+			})
 		},
 		onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
 			if(this.$store.state.topic != '') {
@@ -122,7 +135,6 @@
 		},
 		// 发布图片
 		onNavigationBarButtonTap(e) {
-			
 		},
 		onBackPress(e) {
 			console.log(e)
@@ -168,6 +180,7 @@
 					})
 					return;
 				}
+				
 				this.isshowScusse = true;
 				if(this.gcircleContentId) {
 					parmas.gcircleContentId = this.gcircleContentId;
@@ -188,6 +201,19 @@
 										url: '/pages/user/user'
 									})
 								}, 500);
+								uni.removeStorage({
+									key: 'topic_detail',
+									success: ((res) => {
+										this.desc = '';
+									})
+								})
+								uni.removeStorage({
+									key: 'topic_title',
+									success: ((res) => {
+										this.participationTopic = '';
+										this.participationTopicId = ''
+									})
+								})
 								uni.hideLoading();
 								this.isshowScusse = false;
 								this.$store.commit('clearData', []);    // 清空存在vuex中图片上的所有数据
@@ -227,6 +253,19 @@
 							this.$store.commit('defaultPage', '');  // 清空页面类型
 							this.$store.commit('updateType', {topic: '', topicId: ''});
 							this.isshowScusse = false;
+							uni.removeStorage({
+								key: 'topic_detail',
+								success: ((res) => {
+									this.desc = '';
+								})
+							})
+							uni.removeStorage({
+								key: 'topic_title',
+								success: ((res) => {
+									this.participationTopic = '';
+									this.participationTopicId = ''
+								})
+							})
 						} 
 						if(res.data.code == 421) {
 							uni.hideLoading();
@@ -307,6 +346,19 @@
 										url: '/pages/user/user'
 									})
 								}, 1000);
+								uni.removeStorage({
+									key: 'topic_detail',
+									success: ((res) => {
+										this.desc = '';
+									})
+								})
+								uni.removeStorage({
+									key: 'topic_title',
+									success: ((res) => {
+										this.participationTopic = '';
+										this.participationTopicId = ''
+									})
+								})
 							} 
 							if(res.data.code == 421) {
 								uni.hideLoading();
@@ -340,6 +392,19 @@
 								})
 							}, 1000);
 							// uni.hideToast();
+							uni.removeStorage({
+								key: 'topic_detail',
+								success: ((res) => {
+									this.desc = '';
+								})
+							})
+							uni.removeStorage({
+								key: 'topic_title',
+								success: ((res) => {
+									this.participationTopic = '';
+									this.participationTopicId = ''
+								})
+							})
 						} 
 						if(res.data.code == 421) {
 							uni.hideLoading();
@@ -352,6 +417,13 @@
 			},
 			descInput(e) {
 				this.remnant = e.detail.value.length;
+				uni.setStorage({
+					key: 'topic_detail',
+					data:  e.detail.value,    
+					success: function () {
+						
+					}
+				})
 			},
 			// 选择话题
 			addTopic() {

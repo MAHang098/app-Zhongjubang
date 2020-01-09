@@ -277,7 +277,7 @@
 						ownerAddress: self.address,
 						houseImg: JSON.stringify(self.imgList),
 						certificationMaterials: JSON.stringify(self.certificationMaterials),
-						appUserOrderId: self.recommend,
+						// appUserOrderId: self.recommend,
 						pname: self.recommend,
 					},
 					method: 'POST',
