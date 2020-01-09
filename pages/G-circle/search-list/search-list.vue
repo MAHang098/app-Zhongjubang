@@ -88,11 +88,7 @@
 			</view>
 		</view>
 		<!-- 居圈列表 end -->
-<<<<<<< HEAD
 		<view class="look-more">-{{ is_more ? '上拉加载更多' : '没有更多'}}-</view>
-=======
-		<!-- <view class="look-more">-没有更多-</view> -->
->>>>>>> 38fbdae69878101f3c381211f494013fa90fe2fd
 	</view>
 </template>
 
@@ -108,17 +104,14 @@
 				activeIndex: -1,
 				productList: [],
 				userList: [],
-<<<<<<< HEAD
 				pageSize: 10,
 				page: 1,
 				reload: false,
 				totalPage: 0,
-				is_more: true
-=======
+				is_more: true,
 				requiresGcircle: 0,
 				requiresGoods: 0,
 				requiresUser: 0,
->>>>>>> 38fbdae69878101f3c381211f494013fa90fe2fd
 			}
 		},
 		filters: {
