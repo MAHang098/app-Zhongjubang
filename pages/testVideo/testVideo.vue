@@ -1,10 +1,10 @@
 <template>
     <view>
-        <!-- <web-view :webview-styles="webviewStyles" src="http://www.zhongjubang.com/h5/agreement.html"></web-view> -->
-		<div class="release-video">
-		    <div class="back" @tap="back"><image style="width:15rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/back.png" mode="" /></div> 
+		<!-- <view class="release-video">
+		    <view class="back" @tap="back"><image style="width:15rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/back.png" mode="" /></view> 
 			<image class="fly" style="width:39rpx;height:37rpx;" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/share.png" mode="" />
-		</div>
+		</view> -->
+		
         <web-view :src="url"></web-view>
     </view>
 </template>
@@ -21,7 +21,7 @@ export default {
 		}
     },
 	onLoad(options){
-		
+		// this.url = options.urlWebview
 		let height
 		let width
 		let token
@@ -33,13 +33,11 @@ export default {
 		})
 		uni.getSystemInfo({
 		    success: function (res) {
-				// self.height = res.screenHeight - 116
-				height = res.screenHeight
+				height = res.screenHeight - 60
 				width = res.screenWidth
 			},
 		})
 		this.url = "http://192.168.0.131:8081/#/pages/swiper-vertical2/swiper-vertical2?token=" + token + "&h=" + height + "&w=" + width + "&id=" + options.id + "&type=" + options.type
-		console.log(this.url)
 	},
 	methods: {
 		back(){

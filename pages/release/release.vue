@@ -54,7 +54,6 @@
 								'user': 'test'
 							},
 							success: (uploadFileRes) => {
-								console.log("111111")
 								uploadFileRes.data = JSON.parse(uploadFileRes.data)
 								console.log(uploadFileRes.data)
 								if(uploadFileRes.data.code==200){
@@ -66,12 +65,12 @@
 									console.log("请求异常")
 								}
 							}, 
-							fail: ((res) => {
-								uni.showToast({
-									title: '请求超时',
-									icon: 'none'
-								})
-							})
+							// fail: ((res) => {
+							// 	uni.showToast({
+							// 		title: '请求超时',
+							// 		icon: 'none'
+							// 	})
+							// })
 						})
 					}
 				})

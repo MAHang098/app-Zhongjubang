@@ -6,7 +6,20 @@
 				<text v-bind:class="index == current ? 'active-status' : '' "></text>
 			</view>
 		</view>
-		
+		<!-- 缺省页start -->
+		<view v-if="current==0&&requiresImages==1" class="requires-content">
+			<view class="requires-images">
+				<image style="width: 410rpx;height: 257rpx;" src="../../static/img/requiresPage/drafts.png" mode=""></image>
+			</view>
+			空空如也~
+		</view>
+		<view v-if="current==1&&requiresVideo==1" class="requires-content">
+			<view class="requires-images">
+				<image style="width: 410rpx;height: 257rpx;" src="../../static/img/requiresPage/drafts.png" mode=""></image>
+			</view>
+			空空如也~
+		</view>
+		<!-- 缺省页end -->
 		<view v-for="(items, indexs) in draftsList" :key="indexs">
 			<view class="drafts-detail" v-for="(item, index) in items.draftsContent" :key="index">
 				<!-- 用户信息 start -->
@@ -52,7 +65,7 @@
 				<!-- 图片/视频 end -->
 				<!-- 话题 start -->
 				<view v-if="current == 0">
-					<view class="draftsTopic" v-show="show" v-if="item.title.topic != '' && current == 0 ">
+					<view class="draftsTopic" v-show="show" v-if="item.title.topic != ''">
 						<view class="left" @click.stop="takePart(item.title.topicId)">
 							<image src="http://www.zhongjubang.com/api/upload/static/topic/topic.png" mode=""></image>
 							<view>{{item.title.topic}}</view>
@@ -74,6 +87,8 @@
 	export default {
 		data() {
 			return {
+				requiresImages: 0,
+				requiresVideo: 0,
 				tabType: ['图片', '视频'],
 				currentType: 1,
 				current: 0 ,
@@ -99,7 +114,7 @@
 			  return value
 			}
 		},
-		onLoad() {
+		onLoad(options) {
 			let that = this;
 			uni.getStorage({
 				key:"token",
@@ -108,6 +123,9 @@
 			  }
 			})
 			this.init(1);
+			if(options.type==2){
+				this.changeProduct(1)
+			}
 			this.getInfo()
 		},
 		methods: {
@@ -132,6 +150,7 @@
 			},
 			// 切换草稿类型
 			changeProduct(index) {
+				console.log(index)
 				this.current = index;
 				this.currentType = index + 1;
 				this.show = !this.show;
@@ -191,6 +210,20 @@
 					header : {'content-type':'application/x-www-form-urlencoded', 'token': that.token, 'port': 'app'},
 					success: ((res) => {
 						if(res.data.code == 200) {
+							var temp;
+							console.log(res)
+							if(res.data.data.length==0){
+								this.requiresImages = 1
+								this.requiresVideo = 1
+							}else{
+								this.requiresImages = 0
+								this.requiresVideo = 0
+							}
+							for(var i=0;i < res.data.data.length/2;i++){
+								temp=res.data.data[i];
+								res.data.data[i]=res.data.data[res.data.data.length-1-i];
+								res.data.data[res.data.data.length-1-i]=temp;
+							}
 							this.draftsList = res.data.data;
 						}
 					})
@@ -481,5 +514,21 @@
 	}
 	.imageList image:nth-of-type(3n) {
 		margin: 0 !important;
+	}
+	/* 草稿箱 */
+	.requires-content{
+		text-align: center;
+		font-size:30rpx;
+		font-family:PingFang SC;
+		color:rgba(153,153,153,1);
+		line-height:30rpx;
+	}
+	.requires-images{
+		display: flex;
+		margin-left: 170rpx;
+		margin-top: 60rpx;
+		width: 410rpx;
+		height: 257rpx;
+		margin-bottom: 60rpx;
 	}
 </style>
