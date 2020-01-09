@@ -130,7 +130,7 @@
 			
 		</view>
 		<view style="clear:both"></view>
-		<view class="footer-more">-上拉查看更多-</view>
+		<view class="footer-more">-亲，我们是有底线的-</view>
 	</view>
 </template>
 
@@ -303,7 +303,7 @@
 				header : {'content-type':'application/x-www-form-urlencoded'},
 				success: function (res){
 					if(res.data.code=="200"){
-						console.log(res)
+						// console.log(res)
 						for(var i = 0; i<res.data.data.dataList.length;i++){
 							res.data.data.dataList[i].img_list = JSON.parse(res.data.data.dataList[i].img_list);
 							// console.log(res.data.data.dataList[i].img_list[0].fileUrl)
@@ -316,7 +316,7 @@
 		methods: {
 			goBanner(id){
 				var str = id;
-				console.log(str.indexOf("http") != -1 );  // true
+				// console.log(str.indexOf("http") != -1 ); 
 				if(str.indexOf("http") != -1){
 					uni.navigateTo({
 						url: '/pages/webView/webView?lian=' + id
@@ -334,7 +334,7 @@
 				})
 			},
 			bindPickerChange(e) {
-				console.log('picker发送选择改变，携带值为', e.target.value)
+				// console.log('picker发送选择改变，携带值为', e.target.value)
 				this.index = e.target.value
 			},
 			goJingpin(){

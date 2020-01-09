@@ -34,7 +34,6 @@
 				<view v-show="!show" class="user-nickName-image"><image src="http://www.zhongjubang.com/api/upload/static/img/user/user-gender.png" mode=""></image></view>
 				<view v-show="show" class="user-nickName-image"><image src="http://www.zhongjubang.com/api/upload/static/img/editInfo/gender-man.png" mode=""></image></view>
 			</view>
-			
 			<view class="user-intro">
 				{{remarks}}
 			</view>
@@ -43,13 +42,10 @@
 				<image src="http://www.zhongjubang.com/api/upload/static/img/user/hot.png" mode=""></image>
 				<text id="number">{{feverBranch}}</text>
 			</view>
-			
-			
 		</view>
 		<!-- 我的动态 -->
 		<!-- <view class="my-active"> -->
 		<view class="drafts">
-
 			<view class="drafts-type">
 				<view v-for="(item, index) in tabType" :class="index == current ? 'active' : '' " @click="changeProduct(index)" :key="index">
 					{{item}}
@@ -57,8 +53,7 @@
 				</view>
 			</view>
 			<!-- 短视频内容start -->
-			
-			<view class="video-wrap" v-if="show1" >
+			<view class="video-wrap" v-if="!show1" >
 				<view class="video-detail" v-for="(item, index) in videoList" :key="index">
 					<view class="video-content" @longtap="deleteVideo(item.shortVideoId)">
 						<image class="video-content-start" style="width:52rpx;height:52rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/start.png" mode=""></image>
@@ -68,17 +63,13 @@
 						<image class="video-content-image" style="width:340upx;height:512upx;border-radius:3px;" :src="item.videoUrl" @tap="sendVideo(item.shortVideoId)"></image>
 						<view v-if="activeVideo == item.shortVideoId && showDelete" class="video-content-block" style="width:350rpx;height:512rpx;border-radius:3px;"></view>
 					</view>
-					
 				</view>
 			</view>
 			<!-- 短视频内容end -->
-			
-			
-			
 			<!-- <view class="more">-上拉查看更多-</view> -->
 		</view>
 		<!-- G圈列表 start -->
-		<view v-if="!show1" class="relese-image"  >
+		<view v-if="show1" class="relese-image"  >
 			<view v-for="(items, index) in releaseImgList" :key="index">
 				<view class="relese-image_detail" >
 					<!-- 用户信息 start -->
@@ -202,6 +193,11 @@
 		</uni-popup>
 		<!-- 评论 end -->
 		
+		<view v-if="showTopbar" class="topbar">
+			<view class="left-menu" @click="back">
+				<image src="http://www.zhongjubang.com/api/upload/static/img/back.png" mode=""></image>
+			</view>
+		</view>
     </view>
 </template>
 
@@ -226,7 +222,7 @@
 				showLeft: false,
 				tabType: ['我的动态', '短视频'],
 				show: '',
-				show1: '',
+				show1: true,
 				showDelete: '',
 				fannum: '',
 				attentionnum: '',
@@ -271,6 +267,7 @@
 				commentItem: [],
 				userid: '',
 				cover: '',
+				showTopbar: false
 				
 	        }
 		},
@@ -288,6 +285,21 @@
 				this.userid = options.userid
 			}else{
 				console.log('没有userid')
+			}
+		},
+		// 监听滑动
+		onPageScroll(res){
+			let height
+			uni.getSystemInfo({
+				success: function (res) {
+					height = res.screenHeight*1.5
+				},
+			})
+			// console.log(res.scrollTop)
+			if(res.scrollTop>height){
+				this.showTopbar = true
+			}else{
+				this.showTopbar = false
 			}
 		},
         onShow(){
@@ -446,13 +458,12 @@
 			// 切换草稿类型
 			changeProduct(index) {
 				this.current = index;
-				this.currentType = index + 1;
 				this.show1 = !this.show1;
-				let type = 1;
-				if(index == 1) {
-					type = 2;
-				} 
-				this.init(type);
+				// let type = 1;
+				// if(index == 1) {
+				// 	type = 2;
+				// } 
+				// this.init(type);
 			},
 			// 文字展开收起
 			open(index) {
@@ -461,7 +472,7 @@
 				this.brandFold = !this.brandFold
 			},
 			// 获取G圈列表内容
-			init() {
+			init(type) {
 				let parmas = {
 					pageIndex: 1,
 					pageSize: 1000,
@@ -504,7 +515,9 @@
 				uni.request({
 					url: url + "/controller/usercontroller/getshortvideobyuserid",
 					data: {
-						pageSize: 100
+						pageIndex: 1,
+						pageSize: 1000,
+						otherUserId: this.userid
 					},
 					method: 'POST',
 					header : {
@@ -515,12 +528,12 @@
 					success: function (res){
 						uni.hideLoading()
 						if(res.data.code==200){
-							for(var i = 0;i < res.data.data.dataList[0].length;i++){
+							for(var i = 0;i < res.data.data.dataList[0].shortVideoList.length;i++){
 								
-								res.data.data.dataList[0][i].videoUrl = res.data.data.dataList[0][i].videoUrl.replace('MP4','jpg')
-								res.data.data.dataList[0][i].videoUrl = res.data.data.dataList[0][i].videoUrl.replace('mp4','jpg')
+								res.data.data.dataList[0].shortVideoList[i].videoUrl = res.data.data.dataList[0].shortVideoList[i].videoUrl.replace('MP4','jpg')
+								res.data.data.dataList[0].shortVideoList[i].videoUrl = res.data.data.dataList[0].shortVideoList[i].videoUrl.replace('mp4','jpg')
 							}
-							self.videoList = res.data.data.dataList[0]
+							self.videoList = res.data.data.dataList[0].shortVideoList
 						}else{
 							console.log("请求异常")
 						}
@@ -1550,5 +1563,14 @@
 		padding: 20rpx 30rpx;
 		margin-bottom: 10px;
 		box-shadow:0px 0px 9rpx 0px rgba(93,93,93,0.08);
+	}
+	.topbar{
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 100;
+		height: 88rpx;
+		width: 100%;
+		background-color: #F8F8F8;
 	}
 </style>

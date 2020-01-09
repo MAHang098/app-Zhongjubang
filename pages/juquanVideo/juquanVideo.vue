@@ -115,30 +115,30 @@
 				
 				const url = this.url
 				// 获取全部视频内容
-				uni.request({
-					url: url + "controller/videocontroller/getallshortvideolist",
-					data: {
-				        pageIndex: 1,
-						pageSize: 100,
-						search: e.detail.value
-					},
-					method: 'POST',
-					header : {
-						'content-type':'application/x-www-form-urlencoded'
-					},
-					success: function (res){
-						// console.log(res.data.code)
-						if(res.data.code==200){
-				            console.log(res)
-							for(var i = 0;i < res.data.data.dataList.length;i++){
-								res.data.data.dataList[i].videoUrl = self.changeVideoType(res.data.data.dataList[i].videoUrl)
-							}
-				            self.searchList = res.data.data.dataList
-						}else{
-							console.log("请求异常")
-						}
-					}
-				});
+				// uni.request({
+				// 	url: url + "controller/videocontroller/getallshortvideolist",
+				// 	data: {
+				//         pageIndex: 1,
+				// 		pageSize: 100,
+				// 		search: e.detail.value
+				// 	},
+				// 	method: 'POST',
+				// 	header : {
+				// 		'content-type':'application/x-www-form-urlencoded'
+				// 	},
+				// 	success: function (res){
+				// 		// console.log(res.data.code)
+				// 		if(res.data.code==200){
+				//             console.log(res)
+				// 			for(var i = 0;i < res.data.data.dataList.length;i++){
+				// 				res.data.data.dataList[i].videoUrl = self.changeVideoType(res.data.data.dataList[i].videoUrl)
+				// 			}
+				//             self.searchList = res.data.data.dataList
+				// 		}else{
+				// 			console.log("请求异常")
+				// 		}
+				// 	}
+				// });
 			},
 			
             search(){

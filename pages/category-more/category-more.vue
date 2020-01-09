@@ -6,7 +6,7 @@
 			<image class="search" style="width:42upx;height:42upx;" src="http://www.zhongjubang.com/api/upload/static/img/category/search.png" />
 		</view>
 		<!-- 价格切换 -->
-		<image class="init" style="width:24upx;height:24upx;" src="http://www.zhongjubang.com/api/upload/static/img/category/init.png" />
+		<image class="init" v-if="showPrice==1" style="width:24upx;height:24upx;" src="http://www.zhongjubang.com/api/upload/static/img/category/init.png" />
 		<image class="up" v-if="showPrice==3" style="width:22upx;height:14upx;" src="http://www.zhongjubang.com/api/upload/static/img/category/up.png" />
 		<image class="down" v-if="showPrice==2" style="width:22upx;height:14upx;" src="http://www.zhongjubang.com/api/upload/static/img/category/down.png" />
 		<view class="G-list_content">

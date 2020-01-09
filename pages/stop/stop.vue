@@ -84,9 +84,10 @@
 					</swiper-item>
 				</swiper>
 			</view>
-			<view class="footer">
-				-亲，已经到底了-
-			</view>
+			
+		</view>
+		<view class="footer">
+			-亲，已经到底了-
 		</view>
 		
     </view>

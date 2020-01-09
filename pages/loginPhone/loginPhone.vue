@@ -170,104 +170,104 @@
 				    url: "/pages/loginPwd/loginPwd"
 				})
 			},
-			wechatbindLogin() {
-				uni.authorize({
-					scope: 'scope.userLocation',
-					success() {
-						uni.getLocation()
-					}
-				})
-			},
-			// wechatbindLogin: function() {
-			// 	const self = this
-			// 	uni.getProvider({
-			// 		service: 'oauth',
-			// 		success: function(res) {
-			// 			// console.log(res.provider);
-			// 			//支持微信、qq和微博等
-			// 			if (~res.provider.indexOf('weixin')) {
-			// 				uni.login({
-			// 					provider: 'weixin',
-			// 					success: function(loginRes) {
-			// 						// console.log('-------获取openid(unionid)-----');
-			// 						// console.log(JSON.stringify(loginRes));
-			// 						// 获取用户信息
-			// 						uni.getUserInfo({
-			// 							provider: 'weixin',
-			// 							success: function(infoRes) {
-			// 								// console.log('-------获取微信用户所有-----');
-			// 								// console.log(JSON.stringify(infoRes.userInfo));
-			// 								console.log(11)
-			// 								let userInfo = JSON.stringify(infoRes.userInfo)
-			// 								userInfo = JSON.parse(userInfo)
-			// 								uni.request({
-			// 									url: self.url + "/controller/usercontroller/weixinlogin",
-			// 									data: {
-			// 										wxToken: userInfo.openId,
-			// 										nickName: userInfo.nickName,
-			// 										sex: userInfo.gender,
-			// 										region: userInfo.province,
-			// 										head: userInfo.avatarUrl,
-			// 										unionId: userInfo.unionId
-			// 									},
-			// 									method: 'POST',
-			// 									header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app'},
-			// 									success: function (res){
-			// 										if(res.data.code==200){
-			// 											console.log(22)
-			// 											// console.log(res.data.token)
-			// 											uni.setStorage({
-			// 												key:"token",
-			// 												data: res.data.token
-			// 											})
-			// 											// 获取APP用户资料判断是否有手机号
-			// 											const token = res.data.token
-			// 											// console.log("22222")
-			// 											uni.request({
-			// 												url: self.url + "/controller/usercontroller/getappuser",
-			// 												data: {},
-			// 												method: 'POST',
-			// 												header : {
-			// 													'content-type':'application/x-www-form-urlencoded', 
-			// 													'port': 'app',
-			// 													'token': token
-			// 												},
-			// 												success: function (res){
-			// 													console.log(res)
-																
-			// 													// console.log("1111")
-			// 													// console.log(res)
-			// 													// console.log(res.data.data)
-			// 													// if(res.data.data.state==0){
-			// 													// 	// uni.switchTab({
-			// 													// 	// 	url: "/pages/main/main"
-			// 													// 	// })
-			// 													// 	uni.navigateTo({
-			// 													// 		url: "/pages/releaseVideo2/releaseVideo2"
-			// 													// 	})
-			// 													// }else{
-			// 													// 	uni.navigateTo({
-			// 													// 		url: "/pages/bindPhone/bindPhone"
-			// 													// 	})
-			// 													// }
-			// 												}
-			// 											})
-														
-			// 										}else{
-			// 											console.log("请求异常")
-			// 										}
-			// 										console.log(res.data.code)
-			// 									}
-			// 								})
-											
-			// 							}
-			// 						});
-			// 					}
-			// 				});
-			// 			}
+			// wechatbindLogin() {
+			// 	uni.authorize({
+			// 		scope: 'scope.userLocation',
+			// 		success() {
+			// 			uni.getLocation()
 			// 		}
-			// 	});
+			// 	})
 			// },
+			wechatbindLogin: function() {
+				const self = this
+				uni.getProvider({
+					service: 'oauth',
+					success: function(res) {
+						// console.log(res.provider);
+						//支持微信、qq和微博等
+						if (~res.provider.indexOf('weixin')) {
+							uni.login({
+								provider: 'weixin',
+								success: function(loginRes) {
+									// console.log('-------获取openid(unionid)-----');
+									// console.log(JSON.stringify(loginRes));
+									// 获取用户信息
+									uni.getUserInfo({
+										provider: 'weixin',
+										success: function(infoRes) {
+											// console.log('-------获取微信用户所有-----');
+											// console.log(JSON.stringify(infoRes.userInfo));
+											// console.log(11)
+											let userInfo = JSON.stringify(infoRes.userInfo)
+											userInfo = JSON.parse(userInfo)
+											uni.request({
+												url: self.url + "/controller/usercontroller/weixinlogin",
+												data: {
+													wxToken: userInfo.openId,
+													nickName: userInfo.nickName,
+													sex: userInfo.gender,
+													region: userInfo.province,
+													head: userInfo.avatarUrl,
+													unionId: userInfo.unionId
+												},
+												method: 'POST',
+												header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app'},
+												success: function (res){
+													if(res.data.code==200){
+														// console.log(22)
+														// console.log(res.data.token)
+														uni.setStorage({
+															key:"token",
+															data: res.data.token
+														})
+														// 获取APP用户资料判断是否有手机号
+														const token = res.data.token
+														// console.log("22222")
+														uni.request({
+															url: self.url + "/controller/usercontroller/getappuser",
+															data: {},
+															method: 'POST',
+															header : {
+																'content-type':'application/x-www-form-urlencoded', 
+																'port': 'app',
+																'token': token
+															},
+															success: function (res){
+																console.log(res)
+																
+																// console.log("1111")
+																// console.log(res)
+																// console.log(res.data.data)
+																// if(res.data.data.state==0){
+																	
+																	uni.switchTab({
+																		url: "/pages/main/main"
+																	})
+																// 	uni.navigateTo({
+																// 		url: "/pages/releaseVideo2/releaseVideo2"
+																// 	})
+																// }else{
+																// 	uni.navigateTo({
+																// 		url: "/pages/bindPhone/bindPhone"
+																// 	})
+																// }
+															}
+														})
+														
+													}else{
+														console.log("请求异常")
+													}
+												}
+											})
+											
+										}
+									});
+								}
+							});
+						}
+					}
+				});
+			},
 			toAgreement(){
 				uni.navigateTo({
 					url: "/pages/agreement/agreement"
