@@ -47,7 +47,7 @@
 		
 		<!-- 订单详情 start -->
 		<view id="all-order_detail">
-			 <view class="requires-images">
+			 <view v-if="currentType==0&&requiresSaleNum2==1" class="requires-images">
 			 	<image style="width: 447rpx;height: 344rpx;" src="../../../static/img/requiresPage/order.png" mode=""></image>
 			 	<text class="requires-collect-text">没有相关订单</text>
 			 </view>
@@ -165,7 +165,7 @@
 							}else{
 								this.requiresSaleNum2 = 0
 							}
-							// this.orderList = data;
+							this.orderList = data;
 						}
 						if(res.data.code == 421) {
 							uni.navigateTo({
