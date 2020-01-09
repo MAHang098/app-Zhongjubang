@@ -205,6 +205,8 @@
 					contentnomore: '没有更多'
 				},
 				page: 1,
+				pageSize: 10,
+				totalPage: 0,
 				id: '',
 				talkThemeImg: ''
 				
@@ -240,9 +242,15 @@
 			}
 		},
 		// 上拉加载
-		onReachBottom: function() {
-			this.statusMore = 'more';
-			this.init(this.topicId);
+		onReachBottom() {
+			// this.statusMore = 'more';
+			// this.init(this.topicId);
+			if(this.page < this.totalPage) {
+				this.page++;
+				this.init();
+			} else {
+				this.statusMore = 'end';
+			}
 		},	
         methods: {
 			testreply(id, name){
@@ -349,7 +357,7 @@
 				});
 			},
 			// 获取话题列表
-			init(id) {
+			init() {
 				uni.showLoading({
 					title: '加载中',
 					mask: true
@@ -362,9 +370,9 @@
 				  }
 				});
 				let parmas = {
-					talkThemeId: id,
+					talkThemeId: this.topicId,
 					pageIndex: this.page,
-					pageSize: 10
+					pageSize: this.pageSize
 				}
 				uni.request({
 					url: this.url + 'controller/contentcontroller/getgcriclecontentlistbytalkthemeid',
@@ -373,7 +381,7 @@
 					header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
 					success:((res) => {
 						uni.hideLoading();
-						let totalPage = res.data.data.pageSize * res.data.data.totalPage;
+						this.totalPage = res.data.data.totalPage;
 						let data = res.data.data.dataList[0]
 						this.topic = data.talkTheme;
 						this.talkThemeImg = data.talkThemeImg;
@@ -385,10 +393,7 @@
 						    // return;
 						}
 						this.talkThemeRemarks = data.talkThemeRemarks;
-						if(this.topicList.length == totalPage) {
-							this.statusMore = 'end';
-							return;
-						}
+						
 						if(res.data.code == 200) {
 							// this.topicList = data.allGContentList;
 							let item = data.allGContentList;
@@ -397,8 +402,8 @@
 								item[i].imgList = JSON.parse(item[i].imgList);
 								// item[i].title = JSON.parse(item[i].title);
 							}
-							this.topicList = item;
-							// this.topicList = this.reload ? data : this.topicList.concat(data.allGContentList);
+							// this.topicList = item;
+							this.topicList = this.reload ? data : this.topicList.concat(data.allGContentList);
 							// this.page++;
 							
 						} else {

@@ -45,6 +45,7 @@
 			</view>
 		</view> 
 		
+		<view id="interval"></view>
 		
 		<!-- 评论 start -->
 		<view class="all-comments" id="all-comments">
@@ -72,7 +73,8 @@
 				</view>
 				<view class="comments-content">
 					<text @click.stop="replyComment(item.id, item.nick_name)">{{item.gcircle_content_discuss}}</text>
-					<view class="reply-comments" v-show="item.zilist.length > 0">
+					<view v-if="item.zilist.length == 0" ></view>
+					<view v-else class="reply-comments" >
 						<view  v-for="(z, i) in item.zilist" :key="i" >
 							<!-- <text @click.stop="deleteComment(rows.id)">{{rows.nick_name}}：{{rows.gcircle_content_discuss}}</text> -->
 							<text @click.stop="togglePopup('bottom', 'popup', z.ziNickName, z.ziId, z.id)">{{z.ziNickName+'回复'+z.outUserName}}：{{z.gcircle_content_discuss}}</text>
@@ -147,11 +149,11 @@
 		// 监听页面滚动
 		onPageScroll(e) {
 			 let _this=this;
-			if(e.scrollTop > 300) {
-				_this.scrollFlag = true
-			} else {
-				_this.scrollFlag = false
-			}
+			// if(e.scrollTop > 300) {
+			// 	_this.scrollFlag = true
+			// } else {
+			// 	_this.scrollFlag = false
+			// }
 		},
 		
 		onLoad(option) {
@@ -186,6 +188,9 @@
 					pageIndex: 1,
 					gcircleContentId: this.detailId
 				}
+				uni.showLoading({
+					title: '加载中'
+				})
 				uni.request({
 				    url: this.url + 'controller/usercontroller/getgcdiscusslist',
 				    method: 'post',
@@ -204,13 +209,19 @@
 							this.contentLength = data.content.length;
 							this.titleItem = JSON.parse(data.title);
 							this.dataItem = data;
+							uni.hideLoading()
 				        } 
 						if(res.data.code == 421) {
 							uni.navigateTo({
 								url: '/pages/loginPhone/loginPhone'
 							})
 						}
-				    })
+				    }),
+					fail:((res) => {
+						uni.showToast({
+							title: '网络异常'
+						})
+					})
 				});
 			},
 			// 关注
@@ -313,7 +324,8 @@
 			
 			// 回复评论
 			replyComment(id, name) {
-				console.log(id, name)
+				// console.log(id, name)
+				
 				
 			},
 			// 滑动图片
@@ -330,7 +342,7 @@
 				// if(this.userName == name) {
 				// 	return;
 				// }
-				console.log( name, userId, id)
+				// console.log( name, userId, id)
 				if(!name) {
 					this.placeholder = '说点什么吧';
 					this.commentType = 0;
@@ -342,6 +354,8 @@
 				this.userId = userId;
 				this.commentsId = id;
 				this.popupType = type;
+				// console.log(name,userId, id )
+				
 				if (open === 'tip') {
 					this.popupShow = true
 				} else {
@@ -365,21 +379,20 @@
 					this.inputFocus = false;
 				}
 			},
-			// 发表评论
+			// 发布评论
 			sendComments() {
-				console.log(this.discussInput)
-				if(this.discussInput == '') {
-					console.log(22)
-					return;
-				}
-				console.log(33)
+				// console.log(this.discussInput);
+				// if(this.discussInput == '') {
+				// 	console.log(22)
+				// 	return;
+				// }
+				// console.log(33)
 				let parmas = {
 					outUserId: this.dataItem.userId,
 					gcircleContentId: this.detailId,
 					outUserName: this.dataItem.nickName,
 					gcircleContentDiscuss: this.discussInput
 				}
-				console.log(parmas)
 				uni.request({
 					url: this.url + 'controller/usercontroller/addgcirclecontentdiscuss',
 					method: 'post',
@@ -387,6 +400,7 @@
 					header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 					success:(res) => {
 						if(res.data.code == 200) {
+							
 							this.discussInput = '';
 							this.cancelPopup('popup')
 							uni.showToast({
@@ -400,12 +414,15 @@
 								url: '/pages/loginPhone/loginPhone'
 							})
 						}
-					}
+					},
+					fail:((res) => {
+						console.log('网络异常')
+					})
 				});
 			},
-			// 发送评论
+			// 回复评论评论
 			sendinputComments() {
-				
+				// console.log(this.commentType)
 				if(this.commentType == 0) {
 					this.sendComments();
 					return;
@@ -422,12 +439,13 @@
 					data: params,
 					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
 					success: ((res) => {
+						// console.log(res);
 						if(res.data.code == 200) {
 							this.discussInput = '';
 							this.cancelPopup('popup')
 							uni.showToast({
 								title: '发送成功',
-								duration: 500
+								duration: 2000
 							})
 							this.init();
 						} else {
@@ -435,10 +453,10 @@
 							this.cancelPopup('popup')
 							uni.showToast({
 								title: res.data.message,
-								duration: 500,
+								duration: 2000,
 								icon: 'none'
-							});
-							this.init();
+							})
+							// this.init();
 						}
 						if(res.data.code == 421) {
 							uni.navigateTo({
@@ -479,7 +497,8 @@
 <style scoped>
 	@import '../../static/css/comments.css'; /*引入评论弹窗的样式*/
 	page, #releaseDetials {
-		background:rgba(245,245,245,1);
+		/*  */
+		background: #fff;
 		width: 100%;
 		height: 100%;
 	}
@@ -554,6 +573,7 @@
 		box-sizing: border-box;
 		padding: 30rpx 40rpx ;
 		overflow: hidden;
+		position: relative;
 	}
 	.avatar {
 		width: 80rpx;
@@ -576,17 +596,21 @@
 		height: 28rpx;
 	}
 	.name image {
-		width: 43px;
-		height: 100%;
-		border-radius: 50%;
+		width: 50px;
+		height: 20px;
+		/* border-radius: 50%; */
 		display: inline-block;
 		margin-right: 10px;
+		position: absolute;
+		left: 5%;
+		bottom: 7px;
 	}
 	.time {
 		font-size:20rpx;
 		font-family:PingFang SC;
 		color:rgba(102,102,102,1);
 		clear: both;
+		margin-top: 7px;
 	}
 	.follow {
 		float: right;
@@ -801,5 +825,10 @@
 	}
 	.date {
 		display: block;
+	}
+	#interval {
+		width: 100%;
+		height: 10px;
+		background:rgba(245,245,245,1);
 	}
 </style>

@@ -85,7 +85,11 @@
 				isShowEdit: false, // 是否显示删除
 				deleteIds: [],   // 删除的数组
 				cartTotal: 0,   // 总数
-				settlementP: []
+				settlementP: [],
+				page: 1,
+				pageSize: 10,
+				reload: false,
+				totalPage: 0
 			}
 		},
 		onLoad(){
@@ -97,18 +101,28 @@
 			});
 			this.init()
 		},
+		onReachBottom() {
+			if(this.page < this.totalPage) {
+				this.page++;
+				this.init();
+			}
+		},
 		methods: {
 			init(){
+				uni.showLoading({
+					title: '加载中'
+				})
 				uni.request({
 					url: this.url + "controller/shopcontroller/getshoppingcartlist",
-					data: {pageIndex: 1, pageSize: 1000},
+					data: {pageIndex: this.page, pageSize: this.pageSize},
 					method: 'POST',
 					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
 					success: ((res) => {
 						// console.log(res.data.code)
 						if(res.data.code==200){
+							this.totalPage = res.data.data.totalPage;
 							let data =  res.data.data.dataList;
-							this.goodsList = res.data.data.dataList;
+							// this.goodsList = res.data.data.dataList;
 							let arr = []
 							data.forEach((item, index) => {
 								item.list.forEach((r, i) => {
@@ -116,6 +130,8 @@
 								})
 							})
 							this.cartTotal = arr.length;
+							this.goodsList = this.reload ? data : this.goodsList.concat(data);
+							uni.hideLoading();
 						}
 						if(res.data.code == 421) {
 							uni.navigateTo({

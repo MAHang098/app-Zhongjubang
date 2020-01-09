@@ -145,11 +145,19 @@
 			// }
 			if(this.page < this.totalPage) {
 				this.page++;
-				this.init();
+				
+				if(this.current == 0) {
+					this.init();
+				} else if(this.current == 1) {
+					this.pList();
+				} else {
+					this.searchName();
+				}
 				this.is_more = true;
 			} else {
 				this.is_more = false;
 			}
+			
 		},
 		methods: {
 			init() {
@@ -198,8 +206,8 @@
 			// 商品列表
 			pList() {
 				let parmas = {
-					pageIndex: 1,
-					pageSize: 100,
+					pageIndex: this.page,
+					pageSize: this.pageSize,
 					goodsName: this.searchValue
 				}
 				uni.request({
@@ -214,13 +222,15 @@
 							})
 						}
 				        if(res.data.code == 200) {
+							this.totalPage = res.data.data.totalPage;
 							let data = res.data.data.dataList;
 							if(data.length==0){
 								this.requiresGoods = 1
 							}else{
 								this.requiresGoods = 0
 							}
-							this.productList = data;
+							// this.productList = data;
+							this.productList = this.reload ? data : this.productList.concat(data);
 				        } 
 						if(res.data.code == 421) {
 							uni.navigateTo({
@@ -233,8 +243,8 @@
 			// 搜索用户
 			searchName() {
 				let parmas = {
-					pageIndex: 1,
-					pageSize: 100,
+					pageIndex: this.page,
+					pageSize: this.pageSize,
 					search: this.searchValue
 				}
 				uni.request({
@@ -250,12 +260,14 @@
 						}
 				        if(res.data.code == 200) {
 							let data = res.data.data.dataList;
+							this.totalPage = res.data.data.totalPage;
 							if(data.length==0){
 								this.requiresUser = 1
 							}else{
 								this.requiresUser = 0
 							}
-							this.userList = data;
+							this.userList = this.reload ? data : this.userList.concat(data);
+							// this.userList = data;
 				        }
 						if(res.data.code == 421) {
 							uni.navigateTo({

@@ -78,6 +78,12 @@
                 InternetCelebrityList: [],
 				searchList: [],
 				inputValue: '',
+				page: 1,
+				pageSize: 10,
+				totalPage: 0,
+				reload: false,
+				status_more: 'more',
+				page_type: ''
 			}
 		},
 		onLoad(options){
@@ -85,11 +91,23 @@
 			if(options.type==1){
 				this.changeProduct(1)
 			}
+			this.page_type = options.page_type
 		},
 		onShow() {
 			this.initVideo()
 		},
-		
+		onReachBottom() {
+			if(this.current == 1) {
+				
+				return
+			}
+			if(this.page < this.totalPage) {
+				this.page++;
+				this.initVideo();
+			} else {
+				this.status_more = 'end'
+			}
+		},
 		methods: {
 			changeVideoType(id){
 				id = id.replace('MP4','jpg')
@@ -115,30 +133,33 @@
 				
 				const url = this.url
 				// 获取全部视频内容
-				uni.request({
-					url: url + "controller/videocontroller/getallshortvideolist",
-					data: {
-				        pageIndex: 1,
-						pageSize: 100,
-						search: e.detail.value
-					},
-					method: 'POST',
-					header : {
-						'content-type':'application/x-www-form-urlencoded'
-					},
-					success: function (res){
-						// console.log(res.data.code)
-						if(res.data.code==200){
-				            console.log(res)
-							for(var i = 0;i < res.data.data.dataList.length;i++){
-								res.data.data.dataList[i].videoUrl = self.changeVideoType(res.data.data.dataList[i].videoUrl)
-							}
-				            self.searchList = res.data.data.dataList
-						}else{
-							console.log("请求异常")
-						}
-					}
-				});
+				// uni.request({
+				// 	url: url + "controller/videocontroller/getallshortvideolist",
+				// 	data: {
+				//         pageIndex: this.page,
+				// 		pageSize: this.pageSize,
+				// 		search: e.detail.value
+				// 	},
+				// 	method: 'POST',
+				// 	header : {
+				// 		'content-type':'application/x-www-form-urlencoded'
+				// 	},
+				// 	success: function (res){
+				// 		// console.log(res.data.code)
+				// 		if(res.data.code==200){
+				//             console.log(res)
+							
+				// 			for(var i = 0;i < res.data.data.dataList.length;i++){
+				// 				res.data.data.dataList[i].videoUrl = self.changeVideoType(res.data.data.dataList[i].videoUrl)
+				// 			}
+				//            self.searchList = res.data.data.dataList
+							
+							
+				// 		}else{
+				// 			console.log("请求异常")
+				// 		}
+				// 	}
+				// });
 			},
 			
             search(){
@@ -152,23 +173,27 @@
             },
             back(){
     //             uni.navigateBack({
-				// 	delta: 2
+				// 	delta: 1
 				// })
+				
 				uni.switchTab({
 					url: '/pages/main/main'
 				})
+				
             },
             // 获取短视频内容
 			initVideo(type) {
 				let self = this
-				
+				uni.showLoading({
+					title: '加载中'
+				})
 				const url = this.url
 				// 获取全部视频内容
 				uni.request({
 					url: url + "controller/videocontroller/getallshortvideolist",
 					data: {
-                        pageIndex: 1,
-						pageSize: 100
+                       pageIndex: this.page,
+                       pageSize: this.pageSize
 					},
 					method: 'POST',
 					header : {
@@ -177,15 +202,24 @@
 					success: function (res){
 						// console.log(res.data.code)
 						if(res.data.code==200){
-                            console.log(res)
+                            self.totalPage = res.data.data.totalPage;
 							for(var i = 0;i < res.data.data.dataList.length;i++){
 								res.data.data.dataList[i].videoUrl = self.changeVideoType(res.data.data.dataList[i].videoUrl)
 							}
-                            self.videoList = res.data.data.dataList
+                            let data = res.data.data.dataList
+							self.videoList = self.reload ? data : self.videoList.concat(data);
+							
 						}else{
 							console.log("请求异常")
 						}
-					}
+						uni.hideLoading()
+					},
+					fail:((res) =>{
+						uni.showToast({
+							title:'网络异常',
+							icon:'none'
+						})
+					})
 				});
 				// 获取网红视频内容
 				uni.request({
