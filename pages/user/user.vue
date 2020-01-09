@@ -224,9 +224,24 @@
 						<text v-bind:class="index == current ? 'collect-active-status' : '' "></text>
 					</view>
 				</view>
-				<view v-if="current2==0" class=""  >
-					
+				<!-- 收藏缺省页start -->
+				<view v-if="current2==0&&requiresCpic==1" class="requires-images">
+					<image style="width: 629rpx;height: 463rpx;" src="../../static/img/requiresPage/collect.png" mode=""></image>
+					<text class="requires-collect-text">空空如也~</text>
 				</view>
+				<view v-if="current2==1&&requiresCvideo==1" class="requires-images">
+					<image style="width: 629rpx;height: 463rpx;" src="../../static/img/requiresPage/collect.png" mode=""></image>
+					<text class="requires-collect-text">空空如也~</text>
+				</view>
+				<view v-if="current2==2&&requiresCgoods==1" class="requires-images">
+					<image style="width: 629rpx;height: 463rpx;" src="../../static/img/requiresPage/collect.png" mode=""></image>
+					<text class="requires-collect-text">空空如也~</text>
+				</view>
+				<view v-if="current2==3&&requiresCshop==1" class="requires-images">
+					<image style="width: 629rpx;height: 463rpx;" src="../../static/img/requiresPage/collect.png" mode=""></image>
+					<text class="requires-collect-text">空空如也~</text>
+				</view>
+				<!-- 收藏缺省页end -->
 				<!-- 收藏短视频内容start -->
 				<view class="video-content" v-if="current2==1" v-for="(item, index) in collectVideo" :key="index" @longtap="deleteVideo(item.shortVideoId)">
 					<image class="video-content-start" style="width:52rpx;height:52rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/start.png" mode=""></image>
@@ -339,6 +354,10 @@
 		},
 		data() {
 	        return {
+				requiresCpic: 0,
+				requiresCvideo: 0,
+				requiresCgoods: 0,
+				requiresCshop: 0,
 				requiresGcircle: 0,
 				requiresShortvideo: 0,
 				showRigth: false,
@@ -765,6 +784,11 @@
 					success: ((res) => {
 						uni.hideLoading()
 						if(res.data.code == 200) {
+							if(res.data.data.dataList.length==0){
+								this.requiresCvideo = 1
+							}else{
+								this.requiresCvideo = 0
+							}
 							for(var i = 0;i < res.data.data.dataList.length;i++){
 								
 								res.data.data.dataList[i].videoUrl = res.data.data.dataList[i].videoUrl.replace('MP4','jpg')
@@ -797,8 +821,12 @@
 						uni.hideLoading()
 						if(res.data.code == 200) {
 							console.log(res)
-							self.collectCommand = res.data.data.dataList;
-							
+							self.collectCommand = res.data.data.dataList
+							if(res.data.data.dataList.length==0){
+								this.requiresCgoods = 1
+							}else{
+								this.requiresCgoods = 0
+							}
 						}
 					})
 				})
@@ -824,6 +852,11 @@
 						uni.hideLoading()
 						if(res.data.code == 200) {
 							console.log(res)
+							if(res.data.data.dataList.length==0){
+								this.requiresCshop = 1
+							}else{
+								this.requiresCshop = 0
+							}
 							self.collectShop = res.data.data.dataList;
 							
 						}
@@ -851,6 +884,11 @@
 						uni.hideLoading()
 						if(res.data.code == 200) {
 							console.log(res)
+							if(res.data.data.dataList.length==0){
+								this.requiresCpic = 1
+							}else{
+								this.requiresCpic = 0
+							}
 							for(var i = 0;i<res.data.data.dataList.length;i++){
 								res.data.data.dataList[i].imgList = JSON.parse(res.data.data.dataList[i].imgList)
 							}
@@ -1893,6 +1931,16 @@
 		position: absolute;
 		top: 400rpx;
 		left: 150rpx;
+		font-size:30rpx;
+		font-family:PingFang SC;
+		font-weight:400;
+		color:rgba(102,102,102,1);
+		line-height:23px;
+	}
+	.requires-collect-text{
+		position: absolute;
+		top: 400rpx;
+		left: 230rpx;
 		font-size:30rpx;
 		font-family:PingFang SC;
 		font-weight:400;
