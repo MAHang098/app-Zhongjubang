@@ -20,7 +20,7 @@ const store = new Vuex.Store({
 		pageType: '',
 		adress: {},
 		listVideo: {},
-		topicId: ''
+		topicId: '',
     },
     mutations: {
         login(state, userName) {

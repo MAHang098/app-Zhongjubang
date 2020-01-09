@@ -303,7 +303,7 @@
 				header : {'content-type':'application/x-www-form-urlencoded'},
 				success: function (res){
 					if(res.data.code=="200"){
-						console.log(res)
+						// console.log(res)
 						for(var i = 0; i<res.data.data.dataList.length;i++){
 							res.data.data.dataList[i].img_list = JSON.parse(res.data.data.dataList[i].img_list);
 							// console.log(res.data.data.dataList[i].img_list[0].fileUrl)

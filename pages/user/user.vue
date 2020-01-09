@@ -194,12 +194,12 @@
 								<image src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/message.png" mode=""></image>
 								<text>{{items.gCollectionDiscussNum}}</text>
 							</view>
-							<view class="collect" @click.stop="collect(index, items.gcircleContentId, items.collectionState)">
-								<image  :src="(activeIndex == index && isShowCollect) || items.collectionState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/collect-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/star.png' " mode=""></image>
+							<view class="collect" @click.stop="collect(items.gcircleContentId, items)">
+								<image  :src="items.collectionState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/collect-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/star.png' " mode=""></image>
 								<text>{{items.collectionNum}}</text>
 							</view>
-							<view class="fabulous" @click.stop="fabulous(index, items.gcircleContentId, items.gcircleContentLikeState)" >
-								<image :style="{'margin-bottom': items.gcircleContentLikeState === 1 ? '2px': ''}" :src="(fabulousIndex == index && isShowFabulous) || items.gcircleContentLikeState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
+							<view class="fabulous" @click.stop="fabulous(items.gcircleContentId, items)" >
+								<image :style="{'margin-bottom': items.gcircleContentLikeState === 1 ? '2px': ''}" :src="items.gcircleContentLikeState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
 								<text>{{items.gcircleContentLikeNum}}</text>
 							</view>
 						</view>
@@ -210,7 +210,7 @@
 			<view class="look-more">-{{statusMore== 'end' ? '没有更多' : '上拉加载更多'}}-</view>
 		</view>
 		<!-- 点击右边三点显示的遮罩层 start -->
-		<view id="mask" v-show="showEdit"></view>
+		<view id="mask" v-show="showEdit" @click="closeMask"></view>
 		<!-- 点击右边三点显示的遮罩层 end -->
 		
 		<!-- G圈列表 end -->
@@ -306,24 +306,25 @@
 				</view>
 				<view class="uni-comments-content">
 					<view class="comments-detail" v-for="(row, index) in commentItem" :key="index">
-						<view class="comments-user" @click.stop="goUser(row.userId)">
-							<image :src="row.head" mode=""></image>
+						<view class="comments-user">
+							<image :src="row.head" mode=""  @click.stop="goUser(row.userId)"></image>
 							<view>
 								<text class="comments-name">{{row.nick_name}}</text>
 								<text class="date">{{row.createTime}}</text>
 							</view>
-							<view class="fabulous"  @click.stop="commentsFabulous(index, row.id, row.state)">
+							<view class="fabulous"  @click.stop="commentsFabulous(row.id, row)">
 								{{row.likenum}}
-								<image :src="(activeIndex == index && isCommentsFabulous) ||  row.state != 0 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
+								<image :src="row.state != 0 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
 							</view>
 						</view>
 						<view class="comments-content">
-							<text  @click="testreply(row.id, row.nick_name)">{{row.gcircle_content_discuss}}</text>
-							<view class="reply-comments" v-show="row.zilist.length > 0">
+							<text  @click="testreply(row.id, row.nick_name, row.userId)">{{row.gcircle_content_discuss}}</text>
+							<view v-if="row.zilist.length == 0"></view>
+							<view class="reply-comments" v-else>
 								<view v-for="(rows, indexs) in row.zilist" :key="indexs">
 									<text @click.stop="replyComments(rows.pid, rows.id, rows.nick_name)">{{rows.ziNickName+'回复'+rows.outUserName}}：{{rows.gcircle_content_discuss}}</text>
 								</view>
-								<text v-show="row.sonCount>2" class="all-replay" @tap="reply(row.id)">共{{row.sonCount}}条回复 ></text>
+								<text v-if=" row.sonCount > 2" class="all-replay" @tap="reply(row.id)">共{{row.sonCount}}条回复 ></text>
 							</view>
 							<text class="parting-line"></text>
 						</view>
@@ -331,7 +332,7 @@
 				</view>
 				<!-- <view class="uni-share-btn" @click="cancel('share')">取消分享</view> -->
 				<view class="comments-botton">
-					<input :placeholder="replySay" :value="inputValue" type="text" />
+					<input :placeholder="replySay" :value="inputValue"  @input="relpyContent" />
 					<view class="send" @click.stop="recordName">发送</view>
 				</view>
 			</view>
@@ -428,7 +429,9 @@
 				height: '',
 				userTitle: '',
 				messageState: 0,
-				totalPage: 0
+				totalPage: 0,
+				is_refresh: true
+				
 	        }
 		},
 		filters: {
@@ -457,8 +460,8 @@
 				}
 			})
 			this.page = 1;
-			// this.releaseImgList = [];
-			this.init();
+			this.releaseImgList = [];
+			// this.init();
 			
 			
 		},
@@ -534,7 +537,7 @@
 			});
 			this.initVideo()
 			// this.page = 1;
-			// this.releaseImgList = [];
+			
 			this.init();
 		},
 		// 上拉加载
@@ -544,11 +547,13 @@
 			// 	this.status = 'end';
 			// 	return;
 			// }
-			console.log(this.totalPage)
 			if(this.page < this.totalPage) {
 				this.page++;
 				this.init();
 			}
+		},
+		onHide() {
+			this.is_refresh = true;
 		},
         methods: {
 			// 修改背景图片
@@ -917,6 +922,9 @@
 					title: '加载中...',
 					mask: true
 				})
+				if(this.is_refresh) {
+					this.releaseImgList = [];
+				}
 				uni.request({
 					url: this.url + "/controller/usercontroller/getgcirclecontentlist",
 					data: parmas,
@@ -1029,13 +1037,18 @@
 								duration: 500,
 							});
 							this.showEdit = !this.showEdit;
-							this.init();
+							this.releaseImgList.forEach((item, index, array) => {
+								if(item.gcircleContentId == id) {
+									array.splice(index,1)
+								}
+							})
+							// this.init();
 						}
 					})
 				})
 			},
 			// 收藏
-			collect(index, id, state) {
+			collect(id, item) {
 			    uni.request({
 			        url: this.url + 'controller/usercontroller/addusercollection',
 			        method: 'post',
@@ -1043,13 +1056,13 @@
 			        header : {'content-type':'application/x-www-form-urlencoded', 'token': this.Tokens, 'port': 'app'},
 			        success:(res) => {
 			            if(res.data.code == 200) {
-			                 this.init();
-			                this.activeIndex = index;
-							if(state == 1) {
-								this.isShowCollect = false;
-								return;
-							}
-			                this.isShowCollect = !this.isShowCollect;
+			                if(item.collectionState == 0) {
+			                 	item.collectionState = 1;
+			                 	item.collectionNum++;
+			                } else {
+			                 	item.collectionState = 0
+			                 	item.collectionNum--;
+			                }
 			            } else {
 			                uni.showToast({
 			                    icon: 'none',
@@ -1061,7 +1074,7 @@
 			    });
 			},
 			// 点赞
-			fabulous(index, id, state) {
+			fabulous(id, item) {
 			    uni.request({
 			        url: this.url + 'controller/usercontroller/addgcirclecontentlike',
 			        method: 'post',
@@ -1069,13 +1082,13 @@
 			        header : {'content-type':'application/x-www-form-urlencoded', 'token': this.Tokens, 'port': 'app'},
 			        success:((res) => {
 			            if(res.data.code == 200) {
-			                this.init();
-			                this.fabulousIndex = index;
-							if(state == 1) {
-								this.isShowFabulous = false;
-								return;
+							if(item.gcircleContentLikeState == 0) {
+								item.gcircleContentLikeState = 1;
+								item.gcircleContentLikeNum++;
+							} else {
+								item.gcircleContentLikeState = 0
+								item.gcircleContentLikeNum--;
 							}
-							this.isShowFabulous = !this.isShowFabulous;
 			            } else {
 			                uni.showToast({
 			                    icon: 'none',
@@ -1094,7 +1107,7 @@
 				})
 			},
 			// 评论点赞
-			commentsFabulous(index, id, state) {
+			commentsFabulous(id, item) {
 				
 				let token = '';
 				uni.getStorage({
@@ -1110,13 +1123,16 @@
 					header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
 					success:(res) => {
 						if(res.data.code == 200) {
-							this.activeIndex = index;
+							// this.activeIndex = index;
 							this.comments(this.getsvdiscussId)
-							if(state == 1) {
-								this.isCommentsFabulous = false;
-								return;
+							console.log(item)
+							if(item.state == 0) {
+								item.state = 1;
+								item.likenum++;
+							} else {
+								item.state = 0;
+								item.likenum--;
 							}
-							this.isCommentsFabulous = !this.isCommentsFabulous;
 						} else {
 							uni.showToast({
 								icon: 'none',
@@ -1167,14 +1183,17 @@
 				})
 			},
 			// 回复谁
-			testreply(id, name){
+			testreply(id, name, user_id){
 				this.recommendId = id
 				this.recommendName = name
 				this.replySay = '回复@' + name + ' :';
+				this.outUserId = user_id;
 			},
-			recordName(e) {  
+			// 评论内容
+			relpyContent(e) {
 				this.inputValue = e.detail.value;
-				console.log(e.detail.value)
+			},
+			recordName() {  
 				let token
 				let self = this
 				uni.getStorage({
@@ -1191,7 +1210,7 @@
 							outUserId: self.outUserId,
 							id: self.recommendId,
 							outUserName: self.recommendName,
-							gcircleContentDiscuss: e.detail.value
+							gcircleContentDiscuss: this.inputValue
 						},
 						method: 'POST',
 						header : {
@@ -1206,11 +1225,20 @@
 									title: '已发送',
 									duration: 1000
 								});
-								this.inputValue = '说点什么吧...'
+								this.inputValue = '';
+								this.replySay = '说点什么吧...'
 								this.cancelPopup('comments');
+								this.is_refresh = true;
 								this.init();
 							}else{
-								console.log("请求异常")
+								uni.showToast({
+									title: res.data.message,
+									duration: 1000,
+									icon: 'none'
+								});
+								this.inputValue = '';
+								this.cancelPopup('comments');
+								this.replySay = '说点什么吧...'
 							}
 						})
 					})
@@ -1221,7 +1249,7 @@
 							outUserId: self.outUserId,
 							gcircleContentId: self.gcircleContentId,
 							outUserName: self.nickName,
-							gcircleContentDiscuss: e.detail.value
+							gcircleContentDiscuss:this.inputValue
 						},
 						method: 'POST',
 						header : {
@@ -1236,11 +1264,20 @@
 									title: '已发送',
 									duration: 1000
 								});
-								this.inputValue = ' ';
+								this.inputValue = '';
 								this.cancelPopup('comments');
-								
+								this.is_refresh = true;
+								this.replySay = '说点什么吧...'
+								this.init();
 							}else{
-								console.log("请求异常")
+								uni.showToast({
+									title: res.data.message,
+									duration: 1000,
+									icon: 'none'
+								});
+								this.inputValue = '';
+								this.cancelPopup('comments');
+								this.replySay = '说点什么吧...'
 							}
 						})
 					})
@@ -1298,6 +1335,7 @@
 			},
 			// 弹出层弹出的方式  i:当前标签的下标, name: 当前标签的name
 			togglePopup(type, open, id, commendId, name, gCollectionDiscussNum) {
+				this.replySay = '说点什么吧...'
 				this.getsvdiscussId = commendId;
 				this.outUserId = id;
 				this.gcircleContentId = commendId;
@@ -1413,6 +1451,9 @@
 					url: '/pages/otherUser/otherUser?userid=' + id
 				})
 				uni.showTabBar();
+			},
+			closeMask() {
+				this.showEdit = false;
 			}
 		},
 		// 侧边栏
@@ -1978,4 +2019,7 @@
 		line-height:23px;
 	}
 	/* 缺省页end */
+	.comments-user .comments-name {
+		height: 15px;
+	}
 </style>
