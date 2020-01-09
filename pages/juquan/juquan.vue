@@ -634,7 +634,7 @@
 					this.releaseImgList = []
 				}
 				if(index == 0) {
-					this.releaseImgList = []
+					this.releaseImgList = [];
 					this.init();
 				}
 				this.isShow = !this.isShow;
@@ -915,7 +915,7 @@
 		top: 54rpx;
 		text-align: center;
 		z-index: 2;
-		text-shadow:1px 1px 0px rgba(0, 0, 0, 0.61);
+		
 	}
 	.category-detial view:last-child {
 		width: 100%;

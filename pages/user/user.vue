@@ -424,9 +424,11 @@
 					contentnomore: '没有更多'
 				},
 				page: 1,
+				pageSize: 10,
 				height: '',
 				userTitle: '',
-				messageState: 0
+				messageState: 0,
+				totalPage: 0
 	        }
 		},
 		filters: {
@@ -536,13 +538,17 @@
 			this.init();
 		},
 		// 上拉加载
-		onReachBottom: function() {
-			this.statusMore = 'more';
-			if( this.page == 1) {
-				this.status = 'end';
-				return;
+		onReachBottom() {
+			// this.statusMore = 'more';
+			// if( this.page == 1) {
+			// 	this.status = 'end';
+			// 	return;
+			// }
+			console.log(this.totalPage)
+			if(this.page < this.totalPage) {
+				this.page++;
+				this.init();
 			}
-			this.init();
 		},
         methods: {
 			// 修改背景图片
@@ -905,7 +911,7 @@
 			init() {
 				let parmas = {
 					pageIndex: this.page,
-					pageSize: 20
+					pageSize: this.pageSize
 				}
 				uni.showLoading({
 					title: '加载中...',
@@ -918,14 +924,14 @@
 					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.Tokens},
 					success: ((res) => {
 						uni.hideLoading()
-						let totalPage = res.data.data.pageSize * res.data.data.totalPage;
+						this.totalPage = res.data.data.totalPage;
 						if(res.data.data.dataList.length==0){
 							this.requiresGcircle = 1
 						}
-						if(this.releaseImgList.length == totalPage) {
-							this.statusMore = 'end';
-							return;
-						}
+						// if(this.releaseImgList.length == totalPage) {
+						// 	this.statusMore = 'end';
+						// 	return;
+						// }
 						if(res.data.code == 200) {
 							let data = res.data.data.dataList;
 							// 
@@ -933,11 +939,11 @@
 								data[i].imgList = JSON.parse(data[i].imgList);
 								data[i].title = JSON.parse(data[i].title);
 							}
-							this.releaseImgList = data;
-							// this.releaseImgList = this.reload ? data : this.releaseImgList.concat(data);
-							if(res.data.data.totalPage < 2) {
-								return;
-							}
+							// this.releaseImgList = data;
+							this.releaseImgList = this.reload ? data : this.releaseImgList.concat(data);
+							// if(res.data.data.totalPage < 2) {
+							// 	return;
+							// }
 							// this.page++;
 						}
 					})
