@@ -120,7 +120,7 @@
 			  if (value.length > 20) {
 				return value.slice(0,20) + '...'
 			  }
-			  return value.replace(/\n/g, '<br>');
+			  return value;
 			}
 		},
 		onLoad(option) {
