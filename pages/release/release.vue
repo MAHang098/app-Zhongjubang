@@ -137,12 +137,19 @@
 			let _this = this;
 			_this.imgList = [];
 			_this.tempFilePaths = [];
+			
 		},
 		// 监听安卓物理返回键
 		onBackPress(e) {
 			let _this = this;
 			_this.imgList = [];
 			_this.tempFilePaths = [];
+			uni.removeStorage({
+				key: 'topic_detail',
+				success: ((res) => {
+					// this.desc = '';
+				})
+			})
 		},
     }
 </script>

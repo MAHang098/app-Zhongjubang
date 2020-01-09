@@ -3,7 +3,7 @@
 		<view class="collection-list" v-for="(item, index) in allData " :key="index">
 			<view class="details-list">
 				<view class="left">
-					<view class="avatar">
+					<view class="avatar"  @tap="goOtheruser(item.userId)">
 						<image :src="item.msg.head" mode=""></image>
 					</view>
 					<view class="details">

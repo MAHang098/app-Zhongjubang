@@ -104,7 +104,6 @@
 						if(res.data.code==200){
 							let data = res.data.data;
 							this.item = data;
-							this.item.fanCount = 10;
 							this.good = data.goods[0];
 							this.system = data.system[0];
 						}

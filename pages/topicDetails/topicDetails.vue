@@ -15,7 +15,7 @@
 		</view>
 		<view class="topic-detail">
 			<view class="title">
-				<image :src="talkThemeImg" mode=""></image>
+				<image :src="talkThemeImg" mode="aspectFill"></image>
 				<view class="content">
 					<view class="main-title">
 						<image src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/money.png" mode=""></image>
@@ -44,7 +44,7 @@
 								<view class="name">{{item.nickName}} 
 									<!-- <image src="http://www.zhongjubang.com/api/upload/static/fans-logo.png" mode=""></image> -->
 									<image v-if="item.title == '设计达人'" src="../../static/img/title/design-people.png" mode=""></image>
-									<image v-if="item.title == '人气网红'" src="../../static/img/title/red-hot.png" mode=""></image>
+									<image v-if="item.title == '人气网红'" src="../../static/img/title/red-hot.png" mode="widthFix"></image>
 									<image v-if="item.title == '居圈达人'" src="../../static/img/title/circle-people.png" mode=""></image>
 									<image v-if="item.title == '金牌业主'" src="../../static/img/title/gold-owner.png" mode=""></image>
 								</view>
@@ -364,7 +364,7 @@
 				let parmas = {
 					talkThemeId: id,
 					pageIndex: this.page,
-					pageSize: 20
+					pageSize: 10
 				}
 				uni.request({
 					url: this.url + 'controller/contentcontroller/getgcriclecontentlistbytalkthemeid',
@@ -382,7 +382,7 @@
 						this.talkThemeState = data.talkThemeState;
 						if(data.talkThemeRemarks == null) {
 						    this.talkThemeRemarks = ' ';
-						    return;
+						    // return;
 						}
 						this.talkThemeRemarks = data.talkThemeRemarks;
 						if(this.topicList.length == totalPage) {
@@ -801,6 +801,8 @@
 	.left {
 		display: flex;
 		justify-content: flex-start;
+		position: relative;
+		align-items: center;
 	}
 	.left view {
 		display: block;
@@ -824,8 +826,8 @@
 		color: #666666;
 	}
 	.avatar {
-		width: 122rpx;
-		height: 130rpx;
+		width: 110rpx;
+		height: 120rpx;
 		display: inline-block;
 		margin-right: 14rpx;
 		margin-top: 0!important;
@@ -839,12 +841,18 @@
 
 	}
 	.user-details image {
-		width: 94rpx;
+		border-radius: 0 !important;
+		/*height: 20px;
+		width: 100rpx;
+		margin-bottom: -3px; */
+		width: 110rpx;
 		height: 31rpx;
 		display: block;
-		float: right;
-		margin-top: 2%;
-		margin-left: 7px;
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		top: 75%;
+		
 	}
 	.right {
 		display: flex;

@@ -10,10 +10,10 @@
 			<image class="head" style="width: 132upx;height: 126upx;border-radius: 50%;" :src="head" />
 			<view class="nick-name">{{nickName}}</view>
 			<view class="user-state">
-				<image v-if="userTitle == '设计达人'" src="../../static/img/title/design-people.png" mode=""></image>
-				<image v-if="userTitle == '人气网红'" src="../../static/img/title/red-hot.png" mode=""></image>
-				<image v-if="userTitle == '居圈达人'" src="../../static/img/title/circle-people.png" mode=""></image>
-				<image v-if="userTitle == '金牌业主'" src="../../static/img/title/gold-owner.png" mode=""></image>
+				<image v-if="userTitle == '设计达人'" src="../../static/img/title/big_design-people.png" mode=""></image>
+				<image v-if="userTitle == '人气网红'" src="../../static/img/title/big_red-hot.png" mode=""></image>
+				<image v-if="userTitle == '居圈达人'" src="../../static/img/title/big_circle-people.png" mode=""></image>
+				<image v-if="userTitle == '金牌业主'" src="../../static/img/title/big_gold-owner.png" mode=""></image>
 			</view>
 			
 		</view>
@@ -44,7 +44,7 @@
 					<view class="title-designe">{{item.title}}</view>
 					<view class="radios">
 						<label>
-							<radio value="r1" :checked="item.isDefault == 1 ? true : false" color="#FFCC33" style="transform:scale(0.7)" @click.stop="singleChecked(item.id)"/>
+							<radio value="r1" :checked="item.isDefault == 1 ? true : false" color="#FFCC33" style="transform:scale(0.7)" @click.stop="singleChecked(item.id, item)"/>
 						</label>
 					</view>
 				</view>
@@ -112,7 +112,7 @@
 		},
 		methods: {
 			// 选择标签
-			singleChecked(id){
+			singleChecked(id, item){
 				let token
 				let self = this
 				uni.getStorage({
@@ -138,6 +138,14 @@
 				    },
 				    success: function (res){
 						if(res.data.code == 200) {
+							console.log( item)
+							if(item.isDefault == 1) {
+								item.isDefault  = 0;
+								self.userTitle = ';'
+							} else {
+								item.isDefault  = 1;
+								self.userTitle = item.title
+							}
 							self.init();
 							uni.hideLoading()
 						}
@@ -213,7 +221,7 @@
 						}
 				        self.nickName = res.data.data.nickName
 				        self.head = res.data.data.head
-						self.userTitle = res.data.data.title
+						// self.userTitle = res.data.data.title
 				    }
 				})
 			},
@@ -239,7 +247,13 @@
 					},
 					success: function (res){
 						if(res.data.code==200){
-							self.dataList = res.data.data
+							self.dataList = res.data.data;
+							let data =  res.data.data;
+							data.forEach((item) => {
+								if(item.isDefault == 1) {
+									self.userTitle = item.title;
+								}
+							})
 							if(res.data.data.length>0){
 								self.show = true
 							}
@@ -508,7 +522,7 @@
 		z-index: 100;
 	}
 	.user-state image{
-		width: 149rpx;
-		height: 53rpx;
+		width: 158rpx;
+		height: 48rpx;
 	}
 </style>

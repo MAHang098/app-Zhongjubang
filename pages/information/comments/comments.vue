@@ -288,6 +288,9 @@
 		font-size:24rpx;
 		text-align: left;
 	}
+	.details  image {
+		top: 73%;
+	}
 	#comment-input {
 		border: 1px solid #e2e2e2;
 		border-radius: 20px;

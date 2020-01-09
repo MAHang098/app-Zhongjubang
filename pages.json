@@ -628,7 +628,7 @@
 				{
 				    "path": "all-fans/all-fans",  // 所有粉丝
 				    "style": {
-				       "navigationBarTitleText": "所有粉丝"
+				       "navigationBarTitleText": " "
 				    }
 				},
 				{

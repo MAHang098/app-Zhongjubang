@@ -141,15 +141,37 @@
 			    }
 			}); 
 			this.clientHeight = height;
+			
 		},
 		// 监听页面卸载
 		onUnload: function() {
 			this.$store.commit('clearData', []);
 			console.log(this.$store.state.uploadImage)
+			uni.removeStorage({
+				key: 'topic_detail',
+				success: ((res) => {
+					// this.desc = '';
+					
+				})
+			})
+			uni.removeStorage({
+				key: 'topic_title',
+				success: ((res) => {
+					// this.participationTopic = '';
+					// this.participationTopicId = ''
+				})
+			})
 		},
 		// 监听安卓物理返回键
 		onBackPress(e) {
 			this.$store.commit('clearData', []);
+			uni.removeStorage({
+				key: 'topic_detail',
+				success: ((res) => {
+					// this.desc = '';
+					
+				})
+			})
 		},
 		methods: {
 			// 返回

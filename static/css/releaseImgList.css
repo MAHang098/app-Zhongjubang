@@ -22,10 +22,11 @@
 	justify-content: flex-start;
 	line-height: 35rpx;
 	width: 80%;
+	position: relative;
 }
 .user-message image {
-	width: 90rpx;
-	height: 100%;
+	width: 100rpx;
+	height: 100rpx;
 	border-radius: 50%;
 	display: inline-block;
 	margin-right: 10px;
@@ -39,6 +40,19 @@
 	color:rgba(51,51,51,1);
 	margin-top: 16rpx;
 	margin-bottom: 12rpx;
+}
+.user-message .name image {
+	 border-radius: 0 !important;
+	/*height: 20px;
+	width: 100rpx;
+	margin-bottom: -3px; */
+	width: 100rpx;
+	height: 31rpx;
+	display: block;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	top: 84%;
 }
 .user-message .time {
 	height:19rpx;
@@ -87,7 +101,6 @@
 	line-height:33rpx;
 	/* float: left; */
 	position: relative;
-	white-space: pre-wrap;
 }
 .relese-image_detail .content .anCotent {
 	font-size:24rpx;

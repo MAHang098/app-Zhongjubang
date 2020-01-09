@@ -88,7 +88,7 @@
 			</view>
 		</view>
 		<!-- 居圈列表 end -->
-		<!-- <view class="look-more">-没有更多-</view> -->
+		<view class="look-more">-{{ is_more ? '上拉加载更多' : '没有更多'}}-</view>
 	</view>
 </template>
 
@@ -104,6 +104,11 @@
 				activeIndex: -1,
 				productList: [],
 				userList: [],
+				pageSize: 10,
+				page: 1,
+				reload: false,
+				totalPage: 0,
+				is_more: true,
 				requiresGcircle: 0,
 				requiresGoods: 0,
 				requiresUser: 0,
@@ -131,13 +136,31 @@
 			})
 			this.init();
 		},
+		// 滚动到底部请求第二页数据
+		onReachBottom() {
+			// if(this.current == 1) {
+			// 	this.page_attention++;
+			// 	this.focusUserContent();
+			// 	return;
+			// }
+			if(this.page < this.totalPage) {
+				this.page++;
+				this.init();
+				this.is_more = true;
+			} else {
+				this.is_more = false;
+			}
+		},
 		methods: {
 			init() {
 				let parmas = {
-					pageIndex: 1,
-					pageSize: 100,
+					pageIndex: this.page,
+					pageSize: this.pageSize,
 					content: this.searchValue
 				}
+				uni.showLoading({
+					title: '加载中',
+				})
 				uni.request({
 				    url: this.url + 'controller/shopcontroller/getgcriclecontentbycontent',
 				    method: 'post',
@@ -149,8 +172,14 @@
 								url: '/pages/loginPhone/loginPhone'
 							})
 						}
+						// let totalPage = res.data.data.pageSize * res.data.data.totalPage;
+						// if(this.releaseImgList.length == totalPage) {
+						// 	this.status = 'end';
+						// 	return;
+						// }
 				        if(res.data.code == 200) {
 							let data = res.data.data.dataList;
+							this.totalPage = res.data.data.totalPage;
 							if(data.length==0){
 								this.requiresGcircle = 1
 							}else{
@@ -159,13 +188,10 @@
 							for(let i=0; i<data.length; i++) {
 								data[i].imgList = JSON.parse(data[i].imgList);
 							}
-							this.circleData = data;
+							// this.circleData = data;
+							this.circleData = this.reload ? data : this.circleData.concat(data);
+							uni.hideLoading();
 				        } 
-						if(res.data.code == 421) {
-							uni.navigateTo({
-								url: '/pages/loginPhone/loginPhone'
-							})
-						}
 				    })
 				});
 			},
@@ -292,6 +318,7 @@
 			},
 			// 跳转到用户信息
 			getUser(id) {
+				
 				uni.navigateTo({
 					url: '/pages/otherUser/otherUser?userid=' + id
 				})
@@ -307,6 +334,7 @@
 </script>
 
 <style>
+	@import '../../../static/css/information.css'; /*引入收藏点赞消息的样式*/
 	.header {
 		width: 100%;
 		height: 140rpx;
@@ -555,7 +583,7 @@
 		padding: 32rpx 0;
 		
 	}
-	.left {
+	/* .left {
 		display: flex;
 		justify-content: flex-start;
 	}
@@ -598,6 +626,9 @@
 		float: right;
 		margin-top: 2%;
 		margin-left: 7px;
+	} */
+	.details image {
+		bottom: -4px;
 	}
 	.look-more {
 		width: 100%;

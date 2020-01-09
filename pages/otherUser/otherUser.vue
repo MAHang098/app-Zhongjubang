@@ -7,9 +7,10 @@
 			<image src="http://www.zhongjubang.com/api/upload/static/img/back.png" mode=""></image>
 		</view>
 		
-		<view class="right-wechat">
+		<!-- <view class="right-wechat">
 			<image src="http://www.zhongjubang.com/api/upload/static/img/user/right-wechat.png" mode=""></image>
-		</view>
+		</view> -->
+		
 		<view class="user-avater">
 			<image :src="head" mode=""></image>
 		</view>
@@ -319,6 +320,9 @@
 					},
 					success: function (res){
 					if(res.data.code==200){
+						if(res.data.data.dataList.length == 0) {
+							return;
+						}
 						console.log(res.data.data.dataList[0])
 						self.feverBranch = res.data.data.dataList[0].feverBranch
 						self.head = res.data.data.dataList[0].head
