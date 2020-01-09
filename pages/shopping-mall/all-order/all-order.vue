@@ -12,8 +12,10 @@
 			</view>
 			<!-- 订单类型 start -->
 			<view class="order-type">
+				
 				<view class="all-order" @click.stop="changeOrder(0)">
-					<image :src=" currentType == 0 ? 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/order-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/order.png'" mode=""></image>
+					
+					<image :src="currentType == 0 ? 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/order-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/order/order.png'" mode=""></image>
 					<text>全部订单</text>
 				</view>
 				<view class="all-order" @click.stop="changeOrder(1)">
@@ -45,6 +47,10 @@
 		
 		<!-- 订单详情 start -->
 		<view id="all-order_detail">
+			 <view class="requires-images">
+			 	<image style="width: 447rpx;height: 344rpx;" src="../../../static/img/requiresPage/order.png" mode=""></image>
+			 	<text class="requires-collect-text">没有相关订单</text>
+			 </view>
 			<view class="order-detail" v-for="(item, index) in orderList" :key="index">
 				<view class="shop" @click.stop="goshop(item.shopId)">
 					<view class="shop-detail">
@@ -116,6 +122,7 @@
 		components:{ uniPopup},
 		data() {
 			return {
+				requiresSaleNum2: 0,
 				currentType: 0,
 				popupShow: false,
 				popupType: '',
@@ -153,7 +160,12 @@
 						// console.log(res.data.code)
 						if(res.data.code==200){
 							let data = res.data.data.dataList;
-							this.orderList = data;
+							if(data.length==0){
+								this.requiresSaleNum2 = 1
+							}else{
+								this.requiresSaleNum2 = 0
+							}
+							// this.orderList = data;
 						}
 						if(res.data.code == 421) {
 							uni.navigateTo({
@@ -661,4 +673,24 @@
 		color: #F9B72C;
 		border-left: 1px solid #E2E2E2;
 	}
+	/* 缺省页start */
+	.requires-images{
+		position: relative;
+		display: flex;
+		margin-left: 38rpx;
+		margin-top: 60rpx;
+		width: 447rpx;
+		height: 344rpx;
+	}
+	.requires-collect-text{
+		position: absolute;
+		top: 400rpx;
+		left: 230rpx;
+		font-size:30rpx;
+		font-family:PingFang SC;
+		font-weight:400;
+		color:rgba(102,102,102,1);
+		line-height:23px;
+	}
+	/* 缺省页end */
 </style>
