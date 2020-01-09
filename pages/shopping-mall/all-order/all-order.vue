@@ -47,10 +47,12 @@
 		
 		<!-- 订单详情 start -->
 		<view id="all-order_detail">
+			<!-- 缺省页start -->
 			 <view class="requires-images" v-if="orderList.length == 0">
 			 	<image style="width: 447rpx;height: 344rpx;" src="../../../static/img/requiresPage/order.png" mode=""></image>
 			 	<text class="requires-collect-text">没有相关订单</text>
 			 </view>
+			 <!-- 缺省页end -->
 			<view class="order-detail" v-else v-for="(item, index) in orderList" :key="index">
 				<view class="shop" @click.stop="goshop(item.shopId)">
 					<view class="shop-detail">
@@ -122,7 +124,6 @@
 		components:{ uniPopup},
 		data() {
 			return {
-				requiresSaleNum2: 0,
 				currentType: 0,
 				popupShow: false,
 				popupType: '',
@@ -160,11 +161,6 @@
 						// console.log(res.data.code)
 						if(res.data.code==200){
 							let data = res.data.data.dataList;
-							// if(data.length==0){
-							// 	this.requiresSaleNum2 = 1
-							// }else{
-							// 	this.requiresSaleNum2 = 0
-							// }
 							this.orderList = data;
 						}
 						if(res.data.code == 421) {
@@ -677,8 +673,6 @@
 	.requires-images{
 		position: relative;
 		display: flex;
-		/* margin-left: 38rpx;
-		margin-top: 60rpx; */
 		width: 447rpx;
 		height: 344rpx;
 		margin: auto;

@@ -101,7 +101,7 @@
 			</view>
 			<!-- 短视频内容start -->
 			<!-- 短视频缺省页start -->
-			<view v-if="current==1&&requiresShortvideo==1" class="requires-images">
+			<view v-if="current==1&&videoList.length==0" class="requires-images">
 				<image style="width: 629rpx;height: 463rpx;" src="../../static/img/requiresPage/video.png" mode=""></image>
 				<text class="requires-images-text">还没有视频，快去发布吧~</text>
 			</view>
@@ -124,7 +124,7 @@
 		</view>
 		<!-- G圈列表 start -->
 		<!-- 居圈缺省页start -->
-		<view v-if="current==0&&requiresGcircle==1" class="requires-images">
+		<view v-if="current==0&&releaseImgList.length==0" class="requires-images">
 			<image style="width: 629rpx;height: 463rpx;" src="../../static/img/user/Gcircle.png" mode=""></image>
 		</view>
 		<!-- 居圈缺省页end -->
@@ -221,7 +221,7 @@
 				<view class="collect-type">
 					<view v-for="(item, index) in collectType" :class="index == current2 ? 'collect-active' : '' " @click="changeCollect(index)" :key="index">
 						{{item}}
-						<text v-bind:class="index == current ? 'collect-active-status' : '' "></text>
+						<text v-bind:class="index == current2 ? 'collect-active-status' : '' "></text>
 					</view>
 				</view>
 				<!-- 收藏缺省页start -->
@@ -452,17 +452,22 @@
 		},
 		onLoad(options){
 			this.showLeft = false
-			let _this = this;
-			uni.getStorage({
-				key:"token",
-				success: function (res) {
-					_this.Tokens = res.data;
-				}
-			})
-			this.page = 1;
-			this.releaseImgList = [];
+			// let _this = this;
+			// uni.getStorage({
+			// 	key:"token",
+			// 	success: function (res) {
+			// 		_this.Tokens = res.data;
+			// 	}
+			// })
+			// this.page = 1;
+			// this.releaseImgList = [];
 			// this.init();
 			
+			// this.releaseImgList = [];
+			// this.init();
+			if(options.type==2){
+				
+			}
 			
 		},
         onShow(){

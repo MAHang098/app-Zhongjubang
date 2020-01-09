@@ -231,7 +231,7 @@
 						console.log(res.data.code)
 						if(res.data.code==200){
 							uni.switchTab({
-								url: "/pages/user/user"
+								url: "/pages/user/user？type=2"
 							})
 						}else{
 							console.log('请求异常')

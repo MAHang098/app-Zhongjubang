@@ -2,7 +2,6 @@
 	export default {
 		onLaunch: function() {
 			uni.onTabBarMidButtonTap((e)=>{
-							 console.log('222')
 			       uni.navigateTo({
 			       	url: '/pages/release/release'
 			       })

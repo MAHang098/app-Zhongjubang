@@ -22,7 +22,9 @@
 				<view class="wrap-content-top-left">已获得称号</view>
 				<view class="wrap-content-top-right" @tap="goAllauthentication">
 					<view class="wrap-content-top-get">去获取</view>
-					<image class="more" style="width: 19upx;height: 30upx;" src="http://www.zhongjubang.com/api/upload/static/img/designation/more.png" />
+					<view class="more">
+						<image style="width: 19upx;height: 30upx;" src="http://www.zhongjubang.com/api/upload/static/img/designation/more.png" />
+					</view>
 				</view>
 			</view>
 			<!-- 缺省页 -->
@@ -354,7 +356,7 @@
 	}
 	.more{
 		float: left;
-		top: 38upx;
+		margin-top: 10upx;
 		margin-left: 10upx;
 	}
 	.wrap-content-all{

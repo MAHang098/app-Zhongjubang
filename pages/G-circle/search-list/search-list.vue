@@ -88,7 +88,7 @@
 			</view>
 		</view>
 		<!-- 居圈列表 end -->
-		<view class="look-more">-{{ is_more ? '上拉加载更多' : '没有更多'}}-</view>
+		<!-- <view class="look-more">-{{ is_more ? '上拉加载更多' : '没有更多'}}-</view> -->
 	</view>
 </template>
 

@@ -138,6 +138,8 @@
 				// 	data: {
 				//         pageIndex: this.page,
 				// 		pageSize: this.pageSize,
+				//         pageIndex: 1,
+				// 		pageSize: 100,
 				// 		search: e.detail.value
 				// 	},
 				// 	method: 'POST',
@@ -155,6 +157,10 @@
 				//            self.searchList = res.data.data.dataList
 							
 							
+				// 			for(var i = 0;i < res.data.data.dataList.length;i++){
+				// 				res.data.data.dataList[i].videoUrl = self.changeVideoType(res.data.data.dataList[i].videoUrl)
+				// 			}
+				//             self.searchList = res.data.data.dataList
 				// 		}else{
 				// 			console.log("请求异常")
 				// 		}

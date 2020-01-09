@@ -35,14 +35,14 @@
 			</view>
 			<view class="border-fix"></view>
 		</view>
-		<view class="" v-show="!isShow">
-			<image class="init" style="width:24upx;height:24upx;" src="http://www.zhongjubang.com/api/upload/static/img/category/init.png" />
+		<view class="goods" v-show="!isShow">
+			<image class="init" v-if="showPrice==1" style="width:24upx;height:24upx;" src="http://www.zhongjubang.com/api/upload/static/img/category/init.png" />
 			<image class="up" v-if="showPrice==3" style="width:22upx;height:14upx;" src="http://www.zhongjubang.com/api/upload/static/img/category/up.png" />
 			<image class="down" v-if="showPrice==2" style="width:22upx;height:14upx;" src="http://www.zhongjubang.com/api/upload/static/img/category/down.png" />
 			<view class="G-list_content2">
-				<view v-for="(item, index) in tabType2" :class="index == current ? 'active2' : '' " @click="changeProduct2(index)" :key="index">
+				<view v-for="(item, index) in tabType2" :class="index == current2 ? 'active2' : '' " @click="changeProduct2(index)" :key="index">
 					{{item}}
-					<text v-bind:class="index == current ? 'active-status2' : '' "></text>
+					<text v-bind:class="index == current2 ? 'active-status2' : '' "></text>
 				</view>
 			</view>
 			<view class="category-content" v-for="(item, index) in goodsList" :key="index" @tap="goDetails(item.goodsId)">
@@ -63,6 +63,7 @@
 			return {
 				tabType: ['首页', '商品'],
 				current: 0,
+				current2: 0,
 				isShow: true,
 				style: 1,
 				tabType2: ['综合', '价格', '销量', '评分'],
@@ -224,12 +225,13 @@
 				this.current = index;
 				console.log(index)
 				this.isShow = !this.isShow;
+				this.changeProduct2(0)
 				
 			},
 			// 导航栏切换
 			changeProduct2(index) {
 				let self = this
-				this.current = index;
+				this.current2 = index;
 				this.num = index + 1;
 				var test = index + 1;
 				if(test==2){
@@ -521,38 +523,25 @@
 		top: 417upx;
 		left: 292upx;
 	}
+	.goods{
+		position: relative;
+	}
 	.init{
-		position: fixed;
+		position: absolute;
 		left: 316upx;
-		top: 158upx;
+		top: 30upx;
 	}
 	.up{
-		position: fixed;
+		position: absolute;
 		left: 316upx;
-		top: 158upx;
+		top: 30upx;
 		z-index: 10;
 	}
 	.down{
-		position: fixed;
+		position: absolute;
 		left: 316upx;
-		top: 170upx;
+		top: 40upx;
 		z-index: 10;
 	}
-	.init{
-		position: fixed;
-		left: 316upx;
-		top: 777upx;
-	}
-	.up{
-		position: fixed;
-		left: 316upx;
-		top: 777upx;
-		z-index: 10;
-	}
-	.down{
-		position: fixed;
-		left: 316upx;
-		top: 789upx;
-		z-index: 10;
-	}
+	
 </style>

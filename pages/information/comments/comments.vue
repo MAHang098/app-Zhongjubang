@@ -1,5 +1,11 @@
 <template>
 	<view class="collection">
+		<!-- 缺省页start -->
+		<view class="requires-images" v-if="allData.length == 0">
+			<image style="width: 382rpx;height: 235rpx;" src="../../../static/img/requiresPage/commend.png" mode=""></image>
+			<text class="requires-collect-text">暂无评论哦，快去发表吧！</text>
+		</view>
+		<!-- 缺省页end -->
 		<view class="collection-list" v-for="(item, index) in allData" :key="index">
 			<view class="details-list">
 				<view class="left">
@@ -479,4 +485,26 @@
 		text-align: center;
 		color: #666;
 	}
+	/* 缺省页start */
+	.requires-images{
+		position: relative;
+		top: 300rpx;
+		display: flex;
+		width: 382rpx;
+		height: 235rpx;
+		margin: auto;
+	}
+	.requires-collect-text{
+		position: absolute;
+		top: 300rpx;
+		/* left: 230rpx; */
+		font-size:30rpx;
+		font-family:PingFang SC;
+		font-weight:400;
+		color:#999999;
+		line-height:23px;
+		text-align: center;
+		width: 100%;
+	}
+	/* 缺省页end */
 </style>
