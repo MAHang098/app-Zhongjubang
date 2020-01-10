@@ -1,0 +1,2 @@
+setCssToHead([".",[1],"rednet { width: 100%; height: 100%; overflow: hidden; position: relative; }\n.",[1],"rednet-img { width: 100%; height: 100%; display: block; }\n.",[1],"authentication { width: 85.3%; position: absolute; bottom: 1.2%; right: 0; left: 0; margin: 0 auto; }\n",],undefined,{path:"./pages/identity/designer/designer.wxss"})();
+document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/identity/designer/designer.wxml') } }));

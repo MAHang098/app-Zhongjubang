@@ -27,6 +27,7 @@
         methods: {
             back(){
 				// uni.navigateBack()
+				
 				uni.switchTab({
 					url: '/pages/juquan/juquan'
 				})
