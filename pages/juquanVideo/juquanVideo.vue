@@ -79,7 +79,9 @@
 				searchList: [],
 				inputValue: '',
 				type: 0,
-				wanghongtuList: ''
+				wanghongtuList: '',
+				page: 1,
+				pageSize: 10
 				
 			}
 		},
