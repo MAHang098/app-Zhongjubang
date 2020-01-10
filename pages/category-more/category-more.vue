@@ -3,7 +3,7 @@
 		<view class="top">
 			<image @tap="back" class="back" style="width:26upx;height:35upx;" src="http://www.zhongjubang.com/api/upload/static/img/category/back.png" />
 			<text class="title">{{goodsStyle}}</text>
-			<image class="search" style="width:42upx;height:42upx;" src="http://www.zhongjubang.com/api/upload/static/img/category/search.png" />
+			<image class="search" style="width:42upx;height:42upx;" src="http://www.zhongjubang.com/api/upload/static/img/category/search.png" @tap="searchContent"/>
 		</view>
 		<!-- 价格切换 -->
 		<image class="init" v-if="showPrice==1" style="width:24upx;height:24upx;" src="http://www.zhongjubang.com/api/upload/static/img/category/init.png" />
@@ -64,6 +64,11 @@
 			// this.changeProduct(0)
 		},
 		methods: {
+			searchContent(){
+				uni.navigateTo({
+					url: '/pages/G-circle/search-content/search-content'
+				})
+			},
 			goDetails(id){
 				uni.navigateTo({
 					url: '/pages/shopping-mall/detail/detail?id='+id
@@ -227,18 +232,18 @@
 		left: 292upx;
 	}
 	.init{
-		position: fixed;
+		position: absolute;
 		left: 316upx;
 		top: 158upx;
 	}
 	.up{
-		position: fixed;
+		position: absolute;
 		left: 316upx;
 		top: 158upx;
 		z-index: 10;
 	}
 	.down{
-		position: fixed;
+		position: absolute;
 		left: 316upx;
 		top: 170upx;
 		z-index: 10;

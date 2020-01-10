@@ -197,23 +197,28 @@
 										success: function(infoRes) {
 											// console.log('-------获取微信用户所有-----');
 											// console.log(JSON.stringify(infoRes.userInfo));
-											// console.log(11)
+											
 											let userInfo = JSON.stringify(infoRes.userInfo)
+											console.log(userInfo)
+											// return
 											userInfo = JSON.parse(userInfo)
+											let data = {
+												wxToken: userInfo.openId,
+												nickName: userInfo.nickName,
+												sex: userInfo.gender,
+												region: userInfo.province,
+												head: userInfo.avatarUrl,
+												unionId: userInfo.unionId
+											}
+											console.log(data)
 											uni.request({
 												url: self.url + "/controller/usercontroller/weixinlogin",
-												data: {
-													wxToken: userInfo.openId,
-													nickName: userInfo.nickName,
-													sex: userInfo.gender,
-													region: userInfo.province,
-													head: userInfo.avatarUrl,
-													unionId: userInfo.unionId
-												},
+												data: data,
 												method: 'POST',
 												header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app'},
 												success: function (res){
 													if(res.data.code==200){
+														
 														// console.log(22)
 														// console.log(res.data.token)
 														uni.setStorage({
@@ -233,10 +238,7 @@
 																'token': token
 															},
 															success: function (res){
-																console.log(res)
-																
 																// console.log("1111")
-																// console.log(res)
 																// console.log(res.data.data)
 																// if(res.data.data.state==0){
 																	

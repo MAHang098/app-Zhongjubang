@@ -207,7 +207,7 @@
 					<!-- 操作按钮 end -->
 				</view>
 			</view>
-			<view class="look-more">-{{statusMore== 'end' ? '没有更多' : '上拉加载更多'}}-</view>
+			<!-- <view class="look-more">-{{statusMore== 'end' ? '没有更多' : '上拉加载更多'}}-</view> -->
 		</view>
 		<!-- 点击右边三点显示的遮罩层 start -->
 		<view id="mask" v-show="showEdit"></view>
@@ -488,6 +488,7 @@
 						uni.navigateTo({
 							url: '/pages/loginPhone/loginPhone'
 						})
+						return
 					}
 					// console.log(res.data.code)
 					if(res.data.code==200){

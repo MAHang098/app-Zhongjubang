@@ -625,7 +625,7 @@
 				this.current = index;
 				if(index == 2) {
 					uni.navigateTo({
-						url: '/pages/juquanVideo/juquanVideo'
+						url: '/pages/juquanVideo/juquanVideo?type=2'
 					})
 				}
 				if(index == 1) {

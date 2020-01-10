@@ -2,7 +2,7 @@
 	<view>
 		<!-- G圈内容 start -->
         <view class="G-cicle_content" v-if="!show">
-            <image style="width:38upx;height:56upx;" src="http://www.zhongjubang.com/api/upload/static/img/juquanVideo/back.png" mode="" class="back"  @tap="back"></image>
+            <image style="width:38upx;height:56upx;" src="http://www.zhongjubang.com/api/upload/static/img/juquanVideo/back.png" mode="" class="back"  @tap="searchBack"></image>
 		    <image style="width:30upx;height:28upx;" src="http://www.zhongjubang.com/api/upload/static/img/juquanVideo/search.png" mode="" class="input-search"></image>
             <text class="search-text" @tap="search">取消</text>
 			<input class="input" @confirm="recordName" placeholder="搜索视频内容" type="text" :value="inputValue">
@@ -22,7 +22,7 @@
         </view>
 		<view v-if="show" class="G-cicle_content">
 			<!-- 居圈分类 居圈/关注/短视频 start-->
-		    <image style="width:38upx;height:56upx;" src="http://www.zhongjubang.com/api/upload/static/img/juquanVideo/back.png" mode="" class="back"  @tap="back"></image>
+		    <image style="width:38upx;height:56upx;" src="http://www.zhongjubang.com/api/upload/static/img/juquanVideo/back.png" mode="" class="back"  @tap="goBack"></image>
 		    <image style="width:38upx;height:38upx;" src="http://www.zhongjubang.com/api/upload/static/img/juquanVideo/search.png" mode="" class="search"  @tap="search"></image>
 			<view class="G-list_content">
 				<view v-for="(item, index) in tabType" :class="index == current ? 'active' : '' " @click="changeProduct(index)" :key="index">
@@ -78,10 +78,11 @@
                 InternetCelebrityList: [],
 				searchList: [],
 				inputValue: '',
+				type: 0
 			}
 		},
 		onLoad(options){
-			let selef = this
+			this.type = options.type
 			if(options.type==1){
 				this.changeProduct(1)
 			}
@@ -108,37 +109,37 @@
 					url: '/pages/otherUser/otherUser?userid=' + id
 				})
 			},
+			// 搜索短视频
 			recordName(e) {
 				this.inputValue = e.detail.value;
 				console.log(e.detail.value)
 				let self = this
 				
 				const url = this.url
-				// 获取全部视频内容
-				// uni.request({
-				// 	url: url + "controller/videocontroller/getallshortvideolist",
-				// 	data: {
-				//         pageIndex: 1,
-				// 		pageSize: 100,
-				// 		search: e.detail.value
-				// 	},
-				// 	method: 'POST',
-				// 	header : {
-				// 		'content-type':'application/x-www-form-urlencoded'
-				// 	},
-				// 	success: function (res){
-				// 		// console.log(res.data.code)
-				// 		if(res.data.code==200){
-				//             console.log(res)
-				// 			for(var i = 0;i < res.data.data.dataList.length;i++){
-				// 				res.data.data.dataList[i].videoUrl = self.changeVideoType(res.data.data.dataList[i].videoUrl)
-				// 			}
-				//             self.searchList = res.data.data.dataList
-				// 		}else{
-				// 			console.log("请求异常")
-				// 		}
-				// 	}
-				// });
+				uni.request({
+					url: url + "controller/videocontroller/getallshortvideolist",
+					data: {
+				        pageIndex: 1,
+						pageSize: 100,
+						search: e.detail.value
+					},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded'
+					},
+					success: function (res){
+						// console.log(res.data.code)
+						if(res.data.code==200){
+				            console.log(res)
+							for(var i = 0;i < res.data.data.dataList.length;i++){
+								res.data.data.dataList[i].videoUrl = self.changeVideoType(res.data.data.dataList[i].videoUrl)
+							}
+				            self.searchList = res.data.data.dataList
+						}else{
+							console.log("请求异常")
+						}
+					}
+				});
 			},
 			
             search(){
@@ -150,13 +151,26 @@
 				console.log(index)
 				
             },
-            back(){
+			searchBack(){
+				uni.navigateBack()
+			},
+            goBack(){
     //             uni.navigateBack({
 				// 	delta: 2
 				// })
-				uni.switchTab({
-					url: '/pages/main/main'
-				})
+				console.log(this.type)
+				if(this.type==1){
+					uni.switchTab({
+						url: '/pages/main/main'
+					})
+				}
+				if(this.type==2){
+					uni.switchTab({
+						url: '/pages/juquan/juquan'
+					})
+				}
+				
+				
             },
             // 获取短视频内容
 			initVideo(type) {
