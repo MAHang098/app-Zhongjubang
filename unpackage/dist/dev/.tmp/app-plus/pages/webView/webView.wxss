@@ -1,0 +1,10 @@
+
+.image{
+	position: fixed;
+	width: 15px;
+	height: 25px;
+	left: 5px;
+	top: 16px;
+	z-index: 1000;
+}
+

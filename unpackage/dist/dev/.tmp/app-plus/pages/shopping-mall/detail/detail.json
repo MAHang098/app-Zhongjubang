@@ -1,0 +1,7 @@
+{
+  "titleNView": false,
+  "usingComponents": {
+    "uni-popup": "/components/uni-popup/uni-popup",
+    "uni-swiper-dot": "/components/uni-swiper-stop/uni-swiper-stop"
+  }
+}

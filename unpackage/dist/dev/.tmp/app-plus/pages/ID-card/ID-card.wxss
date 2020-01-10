@@ -1,0 +1,98 @@
+
+.horizen{
+    width:750rpx;
+    height:1px;
+    background:rgba(226,226,226,1);
+}
+.ID-card{
+    position: absolute;
+    left: 281rpx;
+    top: 50rpx;
+    width:189rpx;
+    height:189rpx;
+}
+.notice{
+    position: absolute;
+    left: 316rpx;
+    top: 250rpx;
+    font-size:30rpx;
+    font-family:PingFang SC;
+    color:rgba(59,66,72,1);
+}
+.notice1{
+    position: absolute;
+    left: 99rpx;
+    top: 300rpx;
+    font-size:24rpx;
+    font-family:PingFang SC;
+    color:rgba(137,137,139,1);
+}
+.name{
+    position: relative;
+    left: 33rpx;
+    top: 450rpx;
+    font-size:28rpx;
+    font-family:PingFang SC;
+    color:rgba(51,51,51,1);
+}
+.name-input{
+    position: absolute;
+    left: 123px;
+    top: -6px;
+    width: 400rpx;
+    height: 60rpx;
+    font-size:30rpx;
+    font-family:PingFang SC;
+    color:rgba(153,153,153,1);
+}
+.horizen1{
+    position: absolute;
+    top: 500rpx;
+    width:750rpx;
+    height:1px;
+    background:rgba(226,226,226,1);
+}
+.card-num{
+    position: relative;
+    left: 33rpx;
+    top: 490rpx;
+    font-size:28rpx;
+    font-family:PingFang SC;
+    color:rgba(51,51,51,1);
+}
+.card-num-input{
+    position: absolute;
+    left: 123px;
+    top: -6px;
+    width: 400rpx;
+    height: 60rpx;
+    font-size:30rpx;
+    font-family:PingFang SC;
+    color:rgba(153,153,153,1);
+}
+.horizen2{
+    position: absolute;
+    top: 590rpx;
+    width:750rpx;
+    height:1px;
+    background:rgba(226,226,226,1);
+}
+.submit{
+    position: absolute;
+    text-align: center;
+    line-height: 90rpx;
+    left: 30rpx;
+    top: 670rpx;
+    width:690rpx;
+    height:90rpx;
+    background:rgba(250,186,50,1);
+    border-radius:45rpx;
+    font-size:32rpx;
+    font-family:Source Han Sans CN;
+    color:rgba(255,255,255,1);
+}
+.uni-tip{
+    width:436rpx;
+    height:393rpx;
+}
+

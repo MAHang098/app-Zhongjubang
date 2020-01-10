@@ -137,6 +137,9 @@
 				uni.navigateBack({
 					delta:1
 				})
+				// uni.switchTab({
+				// 	url: '/pages/user/user'
+				// })
 			},
 			descInput(e) {
 				this.remnant = e.detail.value.length
@@ -230,8 +233,11 @@
 						console.log(res)
 						console.log(res.data.code)
 						if(res.data.code==200){
-							uni.navigateTo({
-								url: "/pages/juquanVideo/juquanVideo?type=3"
+							// uni.navigateTo({
+							// 	url: "/pages/juquanVideo/juquanVideo?type=3"
+							// })
+							uni.switchTab({
+								url: "/pages/user/user"
 							})
 							
 						}else{

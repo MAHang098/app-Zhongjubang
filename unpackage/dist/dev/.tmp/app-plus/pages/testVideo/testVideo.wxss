@@ -1,0 +1,76 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 头部样式start */
+.release-video{
+	width:750rpx;
+	position:  fixed;
+	z-index:1000 !important;
+	top: 0;
+	left: 0;
+	width:750rpx;
+	height:64px;
+	background-color:rgba(0,0,0,1);
+}
+.back{
+	position:  absolute;
+	left: 31rpx;
+	top: 67rpx;
+	width: 15px;
+	height: 51rpx;
+}
+.fly{
+	position:  absolute;
+	right: 27rpx;
+	top: 67rpx;
+	width: 39rpx;
+	height: 37rpx;
+}
+
