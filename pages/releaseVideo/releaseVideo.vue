@@ -230,9 +230,10 @@
 						console.log(res)
 						console.log(res.data.code)
 						if(res.data.code==200){
-							uni.switchTab({
-								url: "/pages/user/user？type=2"
+							uni.navigateTo({
+								url: "/pages/juquanVideo/juquanVideo?type=3"
 							})
+							
 						}else{
 							console.log('请求异常')
 						}

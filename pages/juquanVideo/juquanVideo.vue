@@ -47,7 +47,7 @@
                 </view>
 				<!-- 网红 -->
                 <view class="video-wrap" v-if="current==1">
-                    <image class="video-wrap-image" style="width:750rpx;height:359rpx;" src="http://www.zhongjubang.com/api/upload/static/img/juquanVideo/miao.png" mode=""></image>
+                    <image class="video-wrap-image" style="width:750rpx;height:359rpx;" :src="wanghongtuList" mode=""></image>
                     <view class="video-detail" v-for="(item, index) in InternetCelebrityList" :key="index">
                         <view class="video-content">
                             <image class="video-content-start" style="width:52rpx;height:52rpx;" src="http://www.zhongjubang.com/api/upload/static/img/user/start.png" mode=""></image>
@@ -78,7 +78,9 @@
                 InternetCelebrityList: [],
 				searchList: [],
 				inputValue: '',
-				type: 0
+				type: 0,
+				wanghongtuList: ''
+				
 			}
 		},
 		onLoad(options){
@@ -90,6 +92,7 @@
 		},
 		onShow() {
 			this.initVideo()
+			this.getWanghongtu()
 		},
 		onReachBottom() {
 			if(this.current == 1) {
@@ -104,6 +107,36 @@
 			}
 		},
 		methods: {
+			// 获取网红列表图片
+			getWanghongtu(){
+				const url = this.url
+				let self = this
+				uni.request({
+					url: url + "public/public/getresourcesbyresourcestype",
+					data: {
+				       resourcesTypeName:'app_video_top_img',
+					   'port':'app'
+					},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded',
+						'port':'app'
+					},
+					success: function (res){
+						// console.log(res.data.code)
+						if(res.data.code=="200"){
+							self.wanghongtuList = res.data.data[0].resource
+							console.log(self.wanghongtuList)
+						}
+					},
+					fail:((res) =>{
+						uni.showToast({
+							title:'网络异常',
+							icon:'none'
+						})
+					})
+				});
+			},
 			changeVideoType(id){
 				id = id.replace('MP4','jpg')
 				id = id.replace('mp4','jpg')
@@ -179,6 +212,11 @@
 				if(this.type==2){
 					uni.switchTab({
 						url: '/pages/juquan/juquan'
+					})
+				}
+				if(this.type==3){
+					uni.navigateTo({
+						url: '/pages/releaseVideo/releaseVideo'
 					})
 				}
 				
