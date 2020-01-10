@@ -14,10 +14,10 @@
 					</view>
 					<view class="details">
 						<view class="name">{{item.msg.nickName}} 
-							<image v-if="item.msg.title == '设计达人'" src="../../../static/img/title/design-people.png" mode=""></image>
-							<image v-if="item.msg.title == '人气网红'" src="../../../static/img/title/red-hot.png" mode=""></image>
-							<image v-if="item.msg.title == '居圈达人'" src="../../../static/img/title/circle-people.png" mode=""></image>
-							<image v-if="item.msg.title == '金牌业主'" src="../../../static/img/title/gold-owner.png" mode=""></image>
+							<image v-if="item.title == '设计达人'" src="../../../static/img/title/design-people.png" mode=""></image>
+							<image v-if="item.title == '人气网红'" src="../../../static/img/title/red-hot.png" mode=""></image>
+							<image v-if="item.title == '居圈达人'" src="../../../static/img/title/circle-people.png" mode=""></image>
+							<image v-if="item.title == '金牌业主'" src="../../../static/img/title/gold-owner.png" mode=""></image>
 						</view>
 						<view class="time">{{item.createTime}}</view>
 						<view class="follow">

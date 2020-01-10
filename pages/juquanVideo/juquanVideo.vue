@@ -86,11 +86,23 @@
 			if(options.type==1){
 				this.changeProduct(1)
 			}
+			this.page_type = options.page_type
 		},
 		onShow() {
 			this.initVideo()
 		},
-		
+		onReachBottom() {
+			if(this.current == 1) {
+				
+				return
+			}
+			if(this.page < this.totalPage) {
+				this.page++;
+				this.initVideo();
+			} else {
+				this.status_more = 'end'
+			}
+		},
 		methods: {
 			changeVideoType(id){
 				id = id.replace('MP4','jpg')
@@ -156,7 +168,7 @@
 			},
             goBack(){
     //             uni.navigateBack({
-				// 	delta: 2
+				// 	delta: 1
 				// })
 				console.log(this.type)
 				if(this.type==1){
@@ -175,14 +187,16 @@
             // 获取短视频内容
 			initVideo(type) {
 				let self = this
-				
+				uni.showLoading({
+					title: '加载中'
+				})
 				const url = this.url
 				// 获取全部视频内容
 				uni.request({
 					url: url + "controller/videocontroller/getallshortvideolist",
 					data: {
-                        pageIndex: 1,
-						pageSize: 100
+                       pageIndex: this.page,
+                       pageSize: this.pageSize
 					},
 					method: 'POST',
 					header : {
@@ -191,15 +205,24 @@
 					success: function (res){
 						// console.log(res.data.code)
 						if(res.data.code==200){
-                            console.log(res)
+                            self.totalPage = res.data.data.totalPage;
 							for(var i = 0;i < res.data.data.dataList.length;i++){
 								res.data.data.dataList[i].videoUrl = self.changeVideoType(res.data.data.dataList[i].videoUrl)
 							}
-                            self.videoList = res.data.data.dataList
+                            let data = res.data.data.dataList
+							self.videoList = self.reload ? data : self.videoList.concat(data);
+							
 						}else{
 							console.log("请求异常")
 						}
-					}
+						uni.hideLoading()
+					},
+					fail:((res) =>{
+						uni.showToast({
+							title:'网络异常',
+							icon:'none'
+						})
+					})
 				});
 				// 获取网红视频内容
 				uni.request({

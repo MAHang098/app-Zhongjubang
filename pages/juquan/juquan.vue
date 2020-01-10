@@ -132,8 +132,8 @@
 			<!-- 点击右边三点显示的遮罩层 start -->
 			<view id="mask" v-show="showEdit"></view>
 			<!-- 点击右边三点显示的遮罩层 end -->
-			<!-- <view class="look-more">-{{status== 'end' ? '没有更多' : '上拉加载更多'}}-</view> -->
-			<view class="look-more">-没有更多-</view>
+			<view class="look-more">-{{status_more== 'end' ? '没有更多' : '上拉加载更多'}}-</view>
+			<!-- <view class="look-more">-没有更多-</view> -->
 			<!-- <uni-load-more :status="status" :content-text="contentText" /> -->
 			<!-- G圈所有内容 end -->
 		</view>
@@ -148,7 +148,8 @@
 		data() {
 			return {
 				reload: false,
-				status: 'more',
+				status_more: 'more',
+				
 				contentText: {
 					contentdown: '上拉加载更多',
 					// contentrefresh: '加载中',
@@ -185,7 +186,10 @@
 				click_index: 0,				// 点击当前tabbar按钮几次，超过1刷新当前页面并返回顶部 
 				isShow_attention: false,
 				isShow_current: false,
-				page_attention: 1        // 关注G圈用户的G圈内容
+				page_attention: 1 ,       // 关注G圈用户的G圈内容
+				totalPage: 0,
+				pageSize: 10,
+				is_refresh: true
 			}
 		},
 		filters: {
@@ -198,36 +202,83 @@
 			}
 		},
 		onLoad() {
+			// uni.getStorage({
+			// 	key:"token",
+			// 	success:((res) => {
+			// 	this.token = res.data;
+			//   })
+			// });
+			// this.current = 0;
+			// this.isShow = true;
+			// this.page = 1;
+			// this.releaseImgList = [];
+			// this.init();
+			// this.recommend();
+		},
+		onHide() {
+			let _this = this;
+			_this.click_index = 0;
+			// _this.current = 0;
+		},
+		onShow() {
+			// let _this = this;
+			// _this.click_index = 0;
 			uni.getStorage({
 				key:"token",
 				success:((res) => {
 				this.token = res.data;
 			  })
 			});
-			this.current = 0;
 			this.isShow = true;
-			this.page = 1;
-			this.releaseImgList = [];
-			this.init();
-			this.recommend();
-		},
-		onHide() {
-			let _this = this;
-			_this.click_index = 0;
-		},
-		onShow() {
-			// let _this = this;
-			// _this.click_index = 0;
+			if(this.current == 0) {
+				this.current = 0;
+				
+				this.recommend();
+			} else if(this.current == 1 ) {
+				this.focusUser();
+				this.focusUserContent();
+				// this.releaseImgList = [];
+				this.isShow = false;
+			} else {
+				uni.navigateTo({
+					url: '/pages/juquanVideo/juquanVideo?page_type=circle'
+				})
+			}
+			// 如果is_refresh为false则不清空数组
+			let pages = getCurrentPages();
+			let currPage = pages[pages.length-1];
+			// #ifdef APP-PLUS
+			if(currPage.data.is_refresh==undefined || currPage.data.selectedAddress==''){
+				
+			}else{
+				this.is_refresh = currPage.data.is_refresh
+			}
+			// #endif
+			
+			if(this.is_refresh) {
+				this.releaseImgList = [];
+				this.page = 1;
+				this.init();
+			}
+			
 		},
 		// 滚动到底部请求第二页数据
 		onReachBottom() {
 			if(this.current == 1) {
-				this.page_attention++;
-				this.focusUserContent();
-				return;
+				if(this.page_attention <this.totalPage) {
+					this.page_attention++;
+					this.focusUserContent();
+				} else {
+					this.status_more = 'end'
+				}
+				return
 			}
-			this.page++;
-			this.init();
+			if(this.page < this.totalPage) {
+				this.page++;
+				this.init();
+			} else {
+				this.status_more = 'end'
+			}
 		},
 		// 点击底部tabbar刷新页面，并滚动到最前面
 		onTabItemTap() {
@@ -275,7 +326,7 @@
 			init() {
 				let parmas = {
 					pageIndex: this.page,
-					pageSize: 10
+					pageSize: this.pageSize
 				}
 				uni.showLoading({
 					title: '加载中...',
@@ -289,11 +340,11 @@
 					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
 					success: ((res) => {
 						uni.hideLoading()
-						let totalPage = res.data.data.pageSize * res.data.data.totalPage;
-						if(this.releaseImgList.length == totalPage) {
-							this.status = 'end';
-							return;
-						}
+						this.totalPage = res.data.data.totalPage;
+						// if(this.releaseImgList.length == totalPage) {
+						// 	this.status = 'end';
+						// 	return;
+						// }
 						if(res.data.code == 200) {
 							let data = res.data.data.dataList;
 							for(let i=0; i<data.length; i++) {
@@ -304,11 +355,15 @@
 							// if(this.page == res.data.data.currentPage) {
 							// 	this.reload = true;
 							// }
+							if(data.length == 0) {
+								this.status_more = 'end';
+								return
+							}
 							this.releaseImgList = this.reload ? data : this.releaseImgList.concat(data);
 							// console.log(this.page)
-							if(res.data.data.totalPage < 2) {
-								return;
-							}
+							// if(res.data.data.totalPage < 2) {
+							// 	return;
+							// }
 							// this.page++;
 						}
 						if(res.data.code == 421) {
@@ -361,7 +416,7 @@
 				});
 				let parmas = {
 					pageIndex: this.page_attention,
-					pageSize: 10
+					pageSize: this.pageSize
 				}
 				uni.request({
 				    url: this.url + 'controller/contentcontroller/getGcircleContentListByAttention',
@@ -378,10 +433,10 @@
 							// }
 				   //          this.releaseImgList = data;
 				   //      }
-						let totalPage = res.data.data.pageSize * res.data.data.totalPage;
-						if(this.releaseImgList.length == totalPage) {
-							return;
-						}
+						this.totalPage = res.data.data.totalPage;
+						// if(this.releaseImgList.length == totalPage) {
+						// 	return;
+						// }
 						if(res.data.code == 200) {
 							let data = res.data.data.dataList;
 							for(let i=0; i<data.length; i++) {
@@ -394,9 +449,9 @@
 							// }
 							this.releaseImgList = this.reload ? data : this.releaseImgList.concat(data);
 							// console.log(this.page)
-							if(res.data.data.totalPage < 2) {
-								return;
-							}
+							// if(res.data.data.totalPage < 2) {
+							// 	return;
+							// }
 							// this.page++;
 						}
 						if(res.data.code == 421) {
@@ -631,13 +686,16 @@
 				if(index == 1) {
 					this.focusUser();
 					this.focusUserContent();
-					this.releaseImgList = []
+					this.releaseImgList = [];
+					this.isShow = false;
 				}
 				if(index == 0) {
-					this.releaseImgList = []
+					this.releaseImgList = [];
+					this.recommend();
 					this.init();
+					this.isShow = true;
 				}
-				this.isShow = !this.isShow;
+				// this.isShow = !this.isShow;
 			},
 			// 文字展开收起
 			open(index) {
@@ -952,7 +1010,7 @@
 		top: 54rpx;
 		text-align: center;
 		z-index: 2;
-		text-shadow:1px 1px 0px rgba(0, 0, 0, 0.61);
+		
 	}
 	.category-detial view:last-child {
 		width: 100%;

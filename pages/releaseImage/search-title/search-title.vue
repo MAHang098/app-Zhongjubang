@@ -24,7 +24,7 @@
 					<text class="left-name" :class="index==categoryActive?'in':''">{{item.talkThemeType}}</text>
 				</view>
 			</scroll-view>
-			<scroll-view class="nav-right" scroll-y :scroll-top="scrollTop" @scroll="scroll" :style="'height:'+height+'px'" scroll-with-animation>
+			<scroll-view class="nav-right" scroll-y :scroll-top="scrollTop" @scrolltolower="scrolltolower" @scroll="scroll" :style="'height:'+height+'px'" scroll-with-animation>
 				<view  :id="index===0?'first':''" class="nav-right-item" v-for="(item,index) in subCategoryList" :key="index" @click.stop="topicDetail(item.talkThemeId)">
 					<view class="contnet">
 						<view class="left">
@@ -43,6 +43,7 @@
 					
 					<text class="border"></text>
 				</view>
+				<view class="look-more">-{{!statusMore ? '没有更多' : '上拉加载更多'}}-</view>
 			</scroll-view>
 		</view>
 		<!-- 列表 end -->
@@ -65,7 +66,11 @@
 				showChoose: true,
 				current_id: -1,
 				current_index: -1,
-				content: ''
+				content: '',
+				page: 1,
+				pageSize: 10,
+				total_page: 0,
+				statusMore: true
 			}
 		},
 		onShow() {
@@ -99,17 +104,44 @@
 			// this.detailId = 1;
 		},
 		methods: {
+			scrolltolower() {
+				if(this.categoryActive != '-1') {
+					this.statusMore = false;
+					return;
+				}
+				if(this.page < this.total_page) {
+					this.page++;
+					this.init();
+				} else {
+					this.statusMore = false;
+				}
+				if(this.page == this.total_page) {
+					this.statusMore = false;
+				}
+			},
 			init() {
+				uni.showLoading({
+					title: '加载中'
+				})
 				uni.request({
 					url: this.url + '/controller/contentcontroller/gettalkthemelist',
 					method: 'post',
 					header : {'content-type':'application/x-www-form-urlencoded', token: this.token, 'port': 'app'},
-					data:  {pageIndex: 1, pageSize: 1000, content: this.content},
+					data:  {pageIndex: this.page, pageSize: this.pageSize, content: this.content},
 					success: ((res) => {
 						if(res.data.code == 200) {
-							this.subCategoryList = res.data.data.dataList;
+							this.total_page = res.data.data.totalPage;
+							// this.subCategoryList = res.data.data.dataList;
+							let data = res.data.data.dataList;
+							this.subCategoryList = this.reload ? data : this.subCategoryList.concat(data);
 						}
-						
+						uni.hideLoading()
+					}),
+					fail:((res) =>{
+						uni.showToast({
+							title: '网络异常',
+							icon: 'none'
+						})
 					})
 				});
 			},
@@ -135,6 +167,8 @@
 					this.followTopic();
 					return;
 				}
+				this.subCategoryList = [];
+				this.page = 1;
 				this.init();
 			},
 			// 搜索话题
@@ -361,7 +395,7 @@
 		margin-left: 30%;
 		background: #FFFFFF;
 		box-sizing: border-box;
-		padding-bottom: 150rpx;
+		/* padding-bottom: 150rpx; */
 	}
 	
 	.nav-right-item {
@@ -419,6 +453,17 @@
 	}
 	.in {
 		border-left: 13rpx solid #FABE3F;
+	}
+	/* 查看更多 start */
+	.look-more {
+		width: 100%;
+		height: 200rpx;
+		line-height: 140rpx;
+		text-align: center;
+		font-size:24rpx;
+		font-family:PingFang SC;
+		color:rgba(204,204,204,1);
+		margin-bottom: 100rpx;
 	}
 </style>
 

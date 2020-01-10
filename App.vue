@@ -1,11 +1,12 @@
 <script>
 	export default {
 		onLaunch: function() {
-			uni.onTabBarMidButtonTap((e)=>{
-			       uni.navigateTo({
-			       	url: '/pages/release/release'
-			       })
-			   });  
+			// uni.onTabBarMidButtonTap((e)=>{
+			//        uni.navigateTo({
+			//        	url: '/pages/release/release'
+			//        })
+			//    });  
+			
 		},
 		onShow: function() {
 			console.log('App Show');
