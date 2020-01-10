@@ -4,7 +4,7 @@
 		<view class="no-adress" v-show="isShow">
 			<view class="not">一个地址也没有</view>
 			<view class="add">"快去添加地址买买买吧"</view>
-			<view class="addAress" @click="goAddaDress">添加收获地址</view>
+			<view class="addAress" @click="goAddaDress">添加收货地址</view>
 		</view>
 		<!-- 无地址 end -->
 		
