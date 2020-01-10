@@ -178,6 +178,16 @@
 			});
 			this.init();
 		},
+		// 监听页面卸载
+		onUnload: function() {
+			let _this = this;
+			_this.isRefresh();
+		},
+		// // 监听安卓物理返回键
+		onBackPress(e) {
+			let _this = this;
+			_this.isRefresh();
+		}, 
 	    methods: {
 			back(){
 				uni.navigateBack()
@@ -480,6 +490,7 @@
 			},
 			// 返回上一页
 			cacelPage() {
+				this.isRefresh();
 				uni.navigateBack({
 					delta:1
 				})
@@ -489,6 +500,23 @@
 				uni.navigateTo({
 					url: '/pages/otherUser/otherUser?userid=' + id
 				})
+			},
+			isRefresh() {
+				let pages=getCurrentPages(), prevPage=null;
+				if(pages.length>1){
+					prevPage=pages[pages.length-2];
+				}
+			   	if(prevPage){
+			       	// #ifdef H5
+						prevPage.is_refresh=false;
+					// #endif
+					// #ifdef APP-PLUS || MP-WEIXIN
+						prevPage.setData({
+							is_refresh : false
+						})
+					// #endif
+			   	}
+					
 			},
 		}
 	}

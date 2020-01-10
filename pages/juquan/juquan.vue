@@ -232,7 +232,7 @@
 			this.isShow = true;
 			if(this.current == 0) {
 				this.current = 0;
-				this.init();
+				
 				this.recommend();
 			} else if(this.current == 1 ) {
 				this.focusUser();
@@ -245,9 +245,20 @@
 				})
 			}
 			// 如果is_refresh为false则不清空数组
+			let pages = getCurrentPages();
+			let currPage = pages[pages.length-1];
+			// #ifdef APP-PLUS
+			if(currPage.data.is_refresh==undefined || currPage.data.selectedAddress==''){
+				
+			}else{
+				this.is_refresh = currPage.data.is_refresh
+			}
+			// #endif
+			
 			if(this.is_refresh) {
 				this.releaseImgList = [];
 				this.page = 1;
+				this.init();
 			}
 			
 		},

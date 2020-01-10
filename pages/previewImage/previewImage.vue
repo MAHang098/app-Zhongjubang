@@ -116,19 +116,42 @@
 			this.clientHeight = height;
 			
 		},
-		   
+		// 监听页面卸载
+		onUnload: function() {
+			let _this = this;
+			_this.$store.commit('clearData', []);
+			_this.isRefresh();
+		},
+		// // 监听安卓物理返回键
+		onBackPress(e) {
+			let _this = this;
+			_this.$store.commit('clearData', []);
+			_this.isRefresh();
+		}, 
 		methods: {
 			// 返回
 			cancel() {
 				this.$store.commit('clearData', []);
+				this.isRefresh();
 				uni.navigateBack();
-				let pages = getCurrentPages(); //获取所有页面栈实例列表
-				let nowPage = pages[pages.length - 1]; //当前页页面实例
-				let prevPage = pages[pages.length - 2]; //上一页页面实例
-				prevPage.$vm.is_refresh = false; //修改上一页data里面的searchVal参数值为1211
 			},
-			
-			
+			isRefresh() {
+				let pages=getCurrentPages(), prevPage=null;
+				if(pages.length>1){
+					prevPage=pages[pages.length-2];
+				}
+			   	if(prevPage){
+			       	// #ifdef H5
+						prevPage.is_refresh=false;
+					// #endif
+					// #ifdef APP-PLUS || MP-WEIXIN
+						prevPage.setData({
+							is_refresh : false
+						})
+					// #endif
+			   	}
+					
+			},
 		
 			// 滑动图片
 			changeImage(e) {

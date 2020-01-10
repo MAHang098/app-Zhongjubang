@@ -133,7 +133,7 @@
 				<!-- <view v-if="items.length==0" class="requires-images">
 					<image style="width: 629rpx;height: 463rpx;" src="../../static/img/user/requires.png" mode=""></image>
 				</view> -->
-				<view class="relese-image_detail" >
+				<view class="relese-image_detail" @click.stop="contentDetail(items.gcircleContentId)">
 					<!-- 用户信息 start -->
 					<view class="user">
 						<view class="user-message">
@@ -190,7 +190,11 @@
 					<view class="operate-bottom">
 						<view class="operate-bottom_share"><image src="http://www.zhongjubang.com/api/upload/static/img/user/share.png" mode=""></image></view>
 						<view class="operate-bottom_number">
-							<view class="number-message"  @click.stop="togglePopup('bottom', 'comments',items.userId, items.gcircleContentId, nickName,items.gCollectionDiscussNum)">
+							<!-- <view class="number-message"  @click.stop="togglePopup('bottom', 'comments',items.userId, items.gcircleContentId, nickName,items.gCollectionDiscussNum)">
+								<image src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/message.png" mode=""></image>
+								<text>{{items.gCollectionDiscussNum}}</text>
+							</view> -->
+							<view class="number-message"  @click.stop="contentDetail(items.gcircleContentId)">
 								<image src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/message.png" mode=""></image>
 								<text>{{items.gCollectionDiscussNum}}</text>
 							</view>
@@ -296,7 +300,7 @@
 		<!-- 收藏end -->
 		
 		<!-- 评论弹窗 start -->
-		<uni-popup ref="comments" :type="popupType" :custom="true" class="comments-list" @change="popupChange">
+		<!-- <uni-popup ref="comments" :type="popupType" :custom="true" class="comments-list" @change="popupChange">
 			<view class="uni-comments">
 				<view class="uni-comments-title">
 					<view>全部评论({{gCollectionDiscussNum}})</view>
@@ -331,12 +335,12 @@
 					</view>
 				</view>
 				<!-- <view class="uni-share-btn" @click="cancel('share')">取消分享</view> -->
-				<view class="comments-botton">
+				<!-- <view class="comments-botton">
 					<input :placeholder="replySay" :value="inputValue"  @input="relpyContent" />
 					<view class="send" @click.stop="recordName">发送</view>
 				</view>
 			</view>
-		</uni-popup>
+		</uni-popup> -->
 		<!-- 评论 end -->
 		
     </view>
@@ -543,7 +547,24 @@
 			this.initVideo()
 			// this.page = 1;
 			
-			this.init();
+			// 图片返回不刷新
+			let pages = getCurrentPages();
+			let currPage = pages[pages.length-1];
+			// #ifdef APP-PLUS
+			if(currPage.data.is_refresh==undefined || currPage.data.selectedAddress==''){
+				
+			}else{
+				this.is_refresh = currPage.data.is_refresh
+			}
+			// #endif
+			
+			console.log(this.is_refresh)
+			if(this.is_refresh) {
+				this.releaseImgList = [];
+				this.page = 1;
+				this.init();
+			}
+			// this.init();
 		},
 		// 上拉加载
 		onReachBottom() {
@@ -1459,6 +1480,12 @@
 			},
 			closeMask() {
 				this.showEdit = false;
+			},
+			// 跳转G圈详情
+			contentDetail(id) {
+				uni.navigateTo({
+					url: '/pages/releaseImage-details/releaseImage-details?id=' + id
+				})
 			}
 		},
 		// 侧边栏
