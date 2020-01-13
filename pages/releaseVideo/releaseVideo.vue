@@ -137,6 +137,9 @@
 				uni.navigateBack({
 					delta:1
 				})
+				// uni.switchTab({
+				// 	url: '/pages/user/user'
+				// })
 			},
 			descInput(e) {
 				this.remnant = e.detail.value.length
