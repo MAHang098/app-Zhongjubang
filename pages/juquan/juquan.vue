@@ -240,9 +240,9 @@
 				// this.releaseImgList = [];
 				this.isShow = false;
 			} else {
-				uni.navigateTo({
-					url: '/pages/juquanVideo/juquanVideo?page_type=circle'
-				})
+				// uni.navigateTo({
+				// 	url: '/pages/juquanVideo/juquanVideo?page_type=circle'
+				// })
 			}
 			// 如果is_refresh为false则不清空数组
 			let pages = getCurrentPages();

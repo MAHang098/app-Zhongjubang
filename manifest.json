@@ -94,5 +94,10 @@
     },
     "mp-toutiao" : {
         "usingComponents" : true
+    },
+    "mp-qq" : {
+        "setting" : {
+            "postcss" : false
+        }
     }
 }

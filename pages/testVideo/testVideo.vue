@@ -1,9 +1,9 @@
 <template>
     <view>
-		<!-- <view class="release-video">
+		<view class="release-video">
 		    <view class="back" @tap="back"><image style="width:15rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/back.png" mode="" /></view> 
 			<image class="fly" style="width:39rpx;height:37rpx;" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/share.png" mode="" />
-		</view> -->
+		</view>
 		
 		
         <web-view :src="url"></web-view>
@@ -38,7 +38,7 @@ export default {
 				width = res.screenWidth
 			},
 		})
-		this.url = "http://192.168.0.117:8081/#/pages/swiper-vertical2/swiper-vertical2?token=" + token + "&h=" + height + "&w=" + width + "&id=" + options.id + "&type=" + options.type
+		this.url = "http://192.168.0.131:8081/#/pages/swiper-vertical/swiper-vertical?token=" + token + "&h=" + height + "&w=" + width + "&id=" + options.id + "&type=" + options.type
 	},
 	methods: {
 		back(){

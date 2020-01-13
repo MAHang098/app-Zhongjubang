@@ -1,147 +1,65 @@
 <template>
     <view class="page">
-		<div class="release-video">
-		    <div class="back" @tap="back"><image style="width:15rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/back.png" mode="" /></div> 
-			<image class="fly" style="width:39rpx;height:37rpx;" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/share.png" mode="" />
-		</div>
         <swiper class="swiper" :circular="circular" :vertical="true" @change="onSwiperChange">
-            <swiper-item v-for="(item,index) in videoList" :key="index" @change="change(item.shortVideoId)">
-                <video class="video" :ref="index" :src="item.videoUrl" :controls="false" :loop="true"
+            <swiper-item v-for="item in videoList" :key="item.id">
+                <video class="video" :id="item.id" :ref="item.id" :src="item.src" :controls="false" :loop="true"
                     :show-center-play-btn="false"></video>
-				<div class="user-info">
-					<div class="my-active-image10">
-						<image style="width:80rpx;height:80rpx;border-radius: 50%;" :src="head" mode="" />
-					</div>
-					<text class="my-active-nickName10">{{nickName}}</text>
-					<!-- <div class="edit-del" :style="{bottom:height+'px'}" @tap="attention">
-						<image style="width:106rpx;height:48rpx;" src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/interest.png" mode=""></image>
-					</div> -->
-					<div class="element">
-						<!-- <text v-if="!isShowAllContent" class="text">{{content2}}</text> -->
-						<text class="text">{{content2}}</text>
-						<!-- <text class="content-last" v-if="content2.length > 60 " @click="open()">{{brandFold  ? '收起' : '展开'}}</text>
-						<image @click="open()" style="width:26rpx;height:19rpx;margin-bottom: -1rpx;" :class="brandFold ? '' : 'in'" src="http://www.zhongjubang.com/api/upload/static/drafts/arrow-bottom.png" mode=""></image> -->
-					</div>
-				</div>
-				<div class="footer">
-					<!-- 点赞 -->
-					<div class="good">
-						<image style="width:31rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/good.png"  v-if="showUpImg2" @click="good" />
-						<image style="width:31rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png"  v-if="!showUpImg2" @click="good" />
-					</div>
-					<text class="text10">{{shortVideoLikeNum}}</text>
-					<!-- 收藏 -->
-					<div class="star">
-						<image style="width:31rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/star.png"  v-if="showUpImg" @click="collect" mode="" />
-						<image style="width:31rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/topic/collect-select.png"  v-if="!showUpImg" @click="collect" mode="" />
-					</div>
-					<text class="text11">{{shortVideoCollectionNum}}</text>
-					<!-- 评论 -->
-					<div @click="openBottomPopup" class="message">
-						<image style="width:31rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/message.png" mode="" />
-					</div>
-					<text class="text12">{{shortVideoDiscussNum}}</text>
-					<div class="topic" @click="openBottomPopup">
-						<image class="topic-image" style="width:24rpx;height:24rpx;" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/message.png" mode="" />
-						<text class="text20">说点什么吧...</text>
-					</div>
-					<!-- 评论弹窗 -->
-					 <div class="btn yellow  btn-margin">
-					      <!-- <text class="btn-txt">点击弹出底部面板</text> -->
-					    
-					    <wxc-popup popup-color="#fff"
-					               :show="isBottomShow"
-					               @wxcPopupOverlayClicked="popupOverlayBottomClick"
-					               pos="bottom"
-					               height="450"
-								   ref="close"
-								   >
-					      <div class="recommend">
-							<div class="recommend-content">
-								<text class="all-recommend">全部评论 ({{shortVideoDiscussNum}})</text>
-								<view class="close" @tap="popupOverlayBottomClick" ><image style="width: 25rpx;height: 25rpx;" src="http://www.zhongjubang.com/api/upload/static/img/releaseVideo2/close.png" mode="" /></view> 
-							</div>
-							<div class="vertify"></div>
-							
-							<scroll-view scroll-y="true" class="replay-detail">
-								<div v-for="(row, index) in dataList" :key="index">
-									<div>
-										<div class="replay-detail-left">
-											<div class="my-active-image">
-												<image style="width: 68rpx;height: 68rpx;border-radius: 50%;" :src="row.head" mode="" />
-											</div>
-											<div class="my-active-nickName-data">
-												<text class="my-active-nickName">{{row.nick_name}}</text>
-												<text class="my-active-data">{{row.cratee_time}}</text>
-											</div>
-											
-										</div>
-										<div class="replay-detail-right">
-											
-											<div @click="commentsFabulous(index, row.id)">
-												<text class="my-active-like">{{row.likenum}}</text>
-												<image  style="width: 31rpx;height: 31rpx;" class="my-active-good" :class="(activeIndex == index && isCommentsFabulous) ||  row.state == '1'? 'select' : '' " :src="(activeIndex == index && isCommentsFabulous) ||  row.state == '1' ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
-											</div>
-										</div>	
-									</div>
-									<div class="recommend-text-text-text">
-										<text class="recommend-text-text" 
-											@touchstart.prevent="touchin(row.id)" 
-											@touchend.prevent="cleartime"
-											@click="testreply(row.id, row.nick_name)"
-										>
-											{{row.short_video_discuss}}
-										</text>
-									</div>
-									
-									
-									
-									<div v-if="row.zilist.length>0" class="recommend-text-reply">
-										<div v-for="(rows, indexs) in row.zilist" :key="indexs">
-											<text class="recommend-text-reply-user" 
-												v-if="rows.nick_name==row.nick_name" 
-												@tap="testreply(row.id, row.nick_name)"
-												@touchstart.prevent="touchin(rows.id)"
-												@touchend.prevent="cleartime"
-											>{{rows.nick_name}} : {{rows.short_video_discuss}}</text>
-											<text class="recommend-text-reply-user" v-else @tap="testreply(rows.id, rows.nick_name,rows.inUserId)">{{rows.nick_name}}回复{{row.nick_name}}:{{rows.short_video_discuss}}</text>
-										</div>
-										<text v-if="row.sonCount>2" class="recommend-text-reply-count" @tap="reply(row.id, row.nick_name)">共{{row.sonCount}}条回复></text>
-									</div>
-									<div class="horizon2"></div>
-								</div>
-								
-							</scroll-view>
-							
-							<div class="replay-input">
-								<input @confirm="recordName" class="say-something" :placeholder="replySay" :value="inputValue" />
-							</div>
-						</div>
-					    </wxc-popup>
-					</div>
-				</div>
             </swiper-item>
         </swiper>
     </view>
 </template>
 <script>
-    import { WxcPopup } from 'weex-ui';
+    const videoData = [{
+            src: 'https://img-cdn-qiniu.dcloud.net.cn/hello-nvue-swiper-vertical-01.mp4'
+        },
+        {
+            src: 'https://img-cdn-qiniu.dcloud.net.cn/hello-nvue-swiper-vertical-02.mp4'
+        },
+        {
+            src: 'https://img-cdn-qiniu.dcloud.net.cn/hello-nvue-swiper-vertical-03.mp4'
+        },
+        {
+            src: 'https://img-cdn-qiniu.dcloud.net.cn/hello-nvue-swiper-vertical-01.mp4'
+        },
+        {
+            src: 'https://img-cdn-qiniu.dcloud.net.cn/hello-nvue-swiper-vertical-02.mp4'
+        },
+        {
+            src: 'https://img-cdn-qiniu.dcloud.net.cn/hello-nvue-swiper-vertical-03.mp4'
+        }
+    ];
+
     export default {
-		components: { WxcPopup },
         data() {
             return {
                 circular: true,
-                videoList: [],
+                // videoList: [{
+                //         id: "video0",
+                //         src: "",
+                //         img: ""
+                //     },
+                //     {
+                //         id: "video1",
+                //         src: "",
+                //         img: ""
+                //     },
+                //     {
+                //         id: "video2",
+                //         src: "",
+                //         img: ""
+                //     }
+                // ],
                 videoDataList: [],
+				attention: '',
+				circular: true,
+				videoList: [],
+				videoDataList: [],
 				isBottomShow: false,
 				height: 400,
-				btn: false,
 				isShowAllContent: true,
 				brandFold: false,
 				showUpImg3:false,
 				activeIndex: 0,
-				showUpImg2:true,
-				showUpImg:true,//收藏点亮
 				replySay: '说点什么吧...',
 				onOff:true,    //默认开启 展示
 				onNO:false,    //默认关闭 收起
@@ -160,6 +78,7 @@
 				shortVideoCollection: '',//收藏判断
 				shortVideoDiscussNum: '',//评论次数
 				shortVideoLikeNum: '',//点赞次数
+				shortVideoLike: '',
 				inputValue: '',
 				outUserId: '',
 				id: '',
@@ -179,315 +98,24 @@
 				isCommentsFabulous: false,
 				userID222: '',
 				url: "https://www.zhongjubang.com/test/",
-				token: ''
+				token: '',
+				item_id: ''
             }
         },
-		filters: {
-			ellipsis (value) {
-				console.log(value);
-			  if (!value) return ''
-			  if (value.length > 45) {
-				return value.slice(0,45) + '...'
-			  }
-			  return value.replace('↵', ''); 
-			}
-		},
-        onLoad(options) {
-			this.token = options.token
-		},
-		onShow(){
-			let self = this
-			const url = this.url
-			// 获取全部视频内容
-			uni.request({
-				url: url + "controller/videocontroller/getallshortvideolist",
-				data: {
-			        pageIndex: 1,
-					pageSize: 100
-				},
-				method: 'POST',
-				header : {
-					'content-type':'application/x-www-form-urlencoded'
-				},
-				success: function (res){
-					// console.log(res.data.code)
-					if(res.data.code==200){
-			            console.log(res)
-			            self.videoList = res.data.data.dataList
-			            self.id = res.data.data.dataList[0].shortVideoId
-						self.initInfo(res.data.data.dataList[0].shortVideoId)
-						// 获取评论内容
-						self.id = res.data.data.dataList[0].shortVideoId
-						self.getsvdiscussId = id;
-						self.init(res.data.data.dataList[0].shortVideoId)
-						// self.init(res.data.data.dataList[0].shortVideoId);
-					}else{
-						console.log("请求异常")
-					}
-				}
-			});
-			// 获取评论内容
-		},
+        onLoad(e) {},
         onReady() {
-            // this.init();
-            // this.getData();
+            this.init();
+            this.getData();
         },
         methods: {
-			// 删除评论
-			 touchin(id,content) {
-				clearInterval(this.Loop); //再次清空定时器，防止重复注册定时器
-				this.Loop = setTimeout(function() {
-					this.actionSheetTap(id)
-					this.copyUrl(content)
-				}.bind(this), 1000);
-			},
-			cleartime(id) {
-				// 这个方法主要是用来将每次手指移出之后将计时器清零
-				clearInterval(this.Loop);
-			},
-			
-			actionSheetTap(id) {
-				let self = this
-				uni.showActionSheet({
-					itemList: ['删除'],
-					success: (e) => {
-						// console.log(e.tapIndex);
-						// uni.showToast({
-						// 	title:"点击了第" + e.tapIndex + "个选项",
-						// 	icon:"none"
-						// })
-						let idd = self.id
-						let token = this.token
-						const url = self.url
-						
-								
-						console.log(id)
-						//获取短视频内容
-						uni.request({
-							url: self.url + "controller/usercontroller/delshortvideodiscuss",
-							data: {shortVideoDiscussId:id},
-							method: 'POST',
-							header : {
-								'content-type':'application/x-www-form-urlencoded', 
-								'port': 'app',
-								'token': token
-							},
-							success: function (res){
-								if(res.data.code==200){
-									console.log("请求成功")
-									self.init(idd)
-								}else{
-									console.log("请求失败")
-								}
-							}
-						})
-					}
-				})
-			},
-			recordName(e) {
-				this.inputValue = e.detail.value;
-				console.log(e.detail.value)
-				let token = this.token
-				let self = this
-				
-				const url = this.url
-				
-				console.log(self.outUserId)
-				console.log(self.nickName)
-				if(this.recommendId!=''){
-					if(this.userID222!=undefined){
-						console.log('cechi::::'+self.userID222)
-						uni.request({
-							url: self.url + "controller/usercontroller/addanswershortvideodiscuss",
-							data: {
-								outUserId: self.userID222,
-								id: self.recommendId,
-								outUserName: self.recommendName,
-								shortVideoDiscuss: e.detail.value
-							},
-							method: 'POST',
-							header : {
-								'content-type':'application/x-www-form-urlencoded', 
-								'port': 'app',
-								'token': token
-							},
-							success: function (res){
-								console.log(res)
-								if(res.data.code==200){
-									console.log(self.recommendId)
-									self.init(self.id)
-									self.userID222 = ''
-									self.recommendId=''
-									e.detail.value=''
-									self.inputValue = ''
-									self.replySay = '说点什么吧...'
-								}else{
-									console.log("请求异常")
-								}
-							}
-						})
-					}else{
-						uni.request({
-							url: self.url + "controller/usercontroller/addanswershortvideodiscuss",
-							data: {
-								outUserId: self.outUserId,
-								id: self.recommendId,
-								outUserName: self.recommendName,
-								shortVideoDiscuss: e.detail.value
-							},
-							method: 'POST',
-							header : {
-								'content-type':'application/x-www-form-urlencoded', 
-								'port': 'app',
-								'token': token
-							},
-							success: function (res){
-								console.log(res)
-								if(res.data.code==200){
-									console.log('子评论回复')
-									console.log(self.recommendId)
-									self.init(self.id)
-									
-									self.recommendId=''
-									e.detail.value=''
-									self.inputValue = ''
-									self.replySay = '说点什么吧...'
-								}else{
-									console.log("请求异常")
-								}
-							}
-						})
-					}
-					
-				}else{
-					uni.request({
-						url: self.url + "controller/usercontroller/addshortvideodiscuss",
-						data: {
-							outUserId: self.outUserId,
-							shortVideoId: self.id,
-							outUserName: self.nickName,
-							shortVideoDiscuss: e.detail.value
-						},
-						method: 'POST',
-						header : {
-							'content-type':'application/x-www-form-urlencoded', 
-							'port': 'app',
-							'token': token
-						},
-						success: function (res){
-							console.log(res.data.code)
-							if(res.data.code==200){
-								console.log('评论内容')
-								console.log(self.id)
-								self.init(self.id)
-								self.recommendId=''
-								e.detail.value=''
-								self.inputValue = ''
-								self.replySay = '说点什么吧...'
-							}else{
-								console.log("请求异常")
-							}
-						}
-					})
-					
-				}
-				
-			},
-			back(){
-				uni.switchTab({
-					url: '/pages/user/user'
-				})
-			},
-			// 子回复跳转
-			reply(id){
-				console.log(id)
-				uni.navigateTo({
-					url: "/pages/answer/answer?Id=" + id
-				})
-			},
-			
-			// 点击视频内容获取id和名字
-			testreply(id, name,inUserId){
-				console.log(id, name)
-				this.userID222 = inUserId
-				console.log(inUserId)
-				this.recommendId = id
-				this.recommendName = name
-				this.replySay = '回复' + name + ':';
-				this.inputValue = ''
-				console.log(this.replySay)
-			},
-			openBottomPopup () {
-				this.isBottomShow = true;
-				// this.comments();
-			  },
-			 //非状态组件，需要在这里关闭
-			popupOverlayBottomClick () {
-				this.isBottomShow = false;
-			},
-			
-			open() {
-				let self = this
-				this.isShowAllContent = !this.isShowAllContent;
-				this.brandFold = !this.brandFold
-				// setTimeout(function() {
-				// 	let views = uni.createSelectorQuery().select(".content");
-				// 	views.fields({
-				// 		size: true
-				// 	}, data => {
-				// 		console.log("得到节点信息" + JSON.stringify(data));
-				// 		console.log("节点的宽为" + data.height);
-				// 		self.height = data.height
-				// 		console.log(data.height)
-				// 	}).exec();
-				// },1)
-				
-			},
-			// 评论点赞
-			commentsFabulous(index, id) {
-				let self = this
-				let token = this.token
-				uni.request({
-					url: self.url + "controller/usercontroller/adddiscusslike",
-					method: 'post',
-					data: {discussId: id, type: '2'},
-					header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
-					success:(res) => {
-						if(res.data.code == 200) {
-							self.activeIndex = id;
-							self.isCommentsFabulous = !self.isCommentsFabulous;
-							console.log(self.activeIndex, self.isCommentsFabulous)
-							// console.log(res.data.data);
-							// let data = res.data.data;
-							// this.commentsList = data.dataList;
-							// self.comments()
-							self.init(self.getsvdiscussId)
-						} else {
-							uni.showToast({
-								icon: 'none',
-								title: res.data.message
-							});
-							uni.hideToast();
-						}
-					}
-				});
-			},
-			change(e) {
-				console.log(e.show)
-			},
-			// 切换视频请求数据
-			onSwiperChange(e){
-				this.initVideo(e.detail.current)
-			},
-			// 获取短视频内容
-			initVideo(index) {
+			// 获取网红短视频
+			getWanghongVideo(id){
 				let self = this
 				const url = this.url
-				// 获取全部视频内容
 				uni.request({
-					url: url + "controller/videocontroller/getallshortvideolist",
+					url: url + "controller/videocontroller/getInternetCelebrityShortVideo",
 					data: {
-			            pageIndex: 1,
+				        pageIndex: 1,
 						pageSize: 100
 					},
 					method: 'POST',
@@ -497,172 +125,99 @@
 					success: function (res){
 						// console.log(res.data.code)
 						if(res.data.code==200){
-			                console.log(res)
-			                self.videoList = res.data.data.dataList
-			                self.id = res.data.data.dataList[index].shortVideoId
-							console.log(res.data.data.dataList[index].shortVideoId);
-							self.initInfo(res.data.data.dataList[index].shortVideoId)
-							// 获取评论内容
-							self.getsvdiscussId = res.data.data.dataList[index].shortVideoId;
-							self.init(res.data.data.dataList[index].shortVideoId);
-						}else{
-							console.log("请求异常")
-						}
-					}
-				});
-			},
-			// 获取评论列表
-			init(id) {
-				console.log(id)
-				let token = this.token
-				console.log(id)
-				let self = this
-				uni.request({
-					url: self.url + "controller/videocontroller/getsvdiscusslist",
-					data: {
-						id: id,
-						pageIndex: 1,
-						pageSize: 1000
-					},
-					method: 'POST',
-					header : {
-						'content-type':'application/x-www-form-urlencoded', 
-						'port': 'app',
-						'token': token
-					},
-					success: (res) => {
-						// console.log(res)
-						// console.log(res.data.code)
-						if(res.data.code==200){
-							console.log('init请求成功')
-							console.log(res)
-							this.dataList = res.data.data.dataList
-							// console.log(res)
-							if(res.data.data.shortVideoLike==1){
-								this.showUpImg2 = false
-							}
-							// console.log(this.dataList)
-						}else{
-							console.log('请求异常')
-						}
-					}
-				})
-			},
-			// 点赞
-			good(){
-				this.showUpImg2 = !this.showUpImg2
-				let token = this.token
-				const url = this.url
-				let self = this
-				console.log(self.id)
-				//添加、删除点赞
-				uni.request({
-					url: self.url + "controller/usercontroller/addshortvideolike",
-					data: {
-						shortVideoId: self.id,
-					},
-					method: 'POST',
-					header : {
-						'content-type':'application/x-www-form-urlencoded', 
-						'port': 'app',
-						'token': token
-					},
-					success: function (res){
-						console.log(res.data.code)
-						if(res.data.code==200){
-							console.log(res)
+				            console.log(res)
+				            self.videoList = res.data.data.dataList
 							
+							self.getsvdiscussId = self.id;
+							self.init(self.id)
+							self.initInfo(self.id)
 						}else{
 							console.log("请求异常")
 						}
 					}
 				})
-				if(this.showUpImg2==false){
-					self.shortVideoLikeNum = self.shortVideoLikeNum+1
-				}else{
-					self.shortVideoLikeNum = self.shortVideoLikeNum-1
-				}
 			},
-			// 收藏
-			collect(){
-				this.showUpImg = !this.showUpImg 
-				let token = this.token
-				let self = this
-				
-				const url = this.url
-				
-				console.log(self.id)
-				uni.request({
-					url: self.url + "controller/usercontroller/addusercollection",
-					data: {
-						type: 2,
-						collectionContentId: self.id,
-					},
-					method: 'POST',
-					header : {
-						'content-type':'application/x-www-form-urlencoded', 
-						'port': 'app',
-						'token': token
-					},
-					success: function (res){
-						console.log(res.data.code)
-						if(res.data.code==200){
-							console.log(res)
-						}else{
-							console.log("请求异常")
-						}
-					}
-				})
-				
-				if(this.showUpImg==false){
-					//添加收藏
-					self.shortVideoCollectionNum = self.shortVideoCollectionNum+1
-				}else{
-					self.shortVideoCollectionNum = self.shortVideoCollectionNum-1
-				}
-				
-			},
-			// 获取第一页客户信息
-			initInfo(id){
-				let token = this.token
-				const url = this.url
-				
-						
-				let self = this
-				//获取短视频内容
-				uni.request({
-					url: self.url + "controller/usercontroller/getshortvideobyid",
-					data: {shortVideoId:id},
-					method: 'POST',
-					header : {
-						'content-type':'application/x-www-form-urlencoded', 
-						'port': 'app',
-						'token': token
-					},
-					success: function (res){
-						// console.log(res)
-						console.log(res.data.data.nickName)
-						self.nickName = res.data.data.nickName
-						self.head = res.data.data.head
-						self.content2 = res.data.data.content
-						// console.log(res.data.data.content);
-						// console.log(self.content2.length)
-						self.videoUrl = res.data.data.videoUrl
-						self.shortVideoCollectionNum = res.data.data.shortVideoCollectionNum
-						self.shortVideoDiscussNum = res.data.data.shortVideoDiscussNum
-						self.shortVideoLikeNum = res.data.data.shortVideoLikeNum
-						self.outUserId = res.data.data.id
-						
-						if(res.data.data.shortVideoCollection==1){
-							self.showUpImg = false
-						}
-						if(res.data.data.shortVideoLike==1){
-							self.showUpImg2 = false
-						}
-					}
-				})
-			}
-            
+            init() {
+                this._videoIndex = 0;
+                this._videoContextList = [];
+                for (var i = 0; i < this.videoList.length; i++) {
+                    this._videoContextList.push(uni.createVideoContext('video' + i, this));
+                }
+                this._videoDataIndex = 0;
+            },
+            getData(e) {
+                this.videoDataList = videoData;
+                setTimeout(() => {
+                    this.updateVideo(true);
+                }, 200)
+            },
+            onSwiperChange(e) {
+                let currentIndex = e.detail.current;
+                if (currentIndex === this._videoIndex) {
+                    return;
+                }
+
+                let isNext = false;
+                if (currentIndex === 0 && this._videoIndex === this.videoList.length - 1) {
+                    isNext = true;
+                } else if (currentIndex === this.videoList.length - 1 && this._videoIndex === 0) {
+                    isNext = false;
+                } else if (currentIndex > this._videoIndex) {
+                    isNext = true;
+                }
+
+                if (isNext) {
+                    this._videoDataIndex++;
+                } else {
+                    this._videoDataIndex--;
+                }
+
+                if (this._videoDataIndex < 0) {
+                    this._videoDataIndex = this.videoDataList.length - 1;
+                } else if (this._videoDataIndex >= this.videoDataList.length) {
+                    this._videoDataIndex = 0;
+                }
+
+                this.circular = (this._videoDataIndex != 0);
+
+                if (this._videoIndex >= 0) {
+                    this._videoContextList[this._videoIndex].pause();
+                    this._videoContextList[this._videoIndex].seek(0);
+                }
+
+                this._videoIndex = currentIndex;
+
+                setTimeout(() => {
+                    this.updateVideo(isNext);
+                }, 200);
+            },
+            getNextIndex(isNext) {
+                let index = this._videoIndex + (isNext ? 1 : -1);
+                if (index < 0) {
+                    return this.videoList.length - 1;
+                } else if (index >= this.videoList.length) {
+                    return 0;
+                }
+                return index;
+            },
+            getNextDataIndex(isNext) {
+                let index = this._videoDataIndex + (isNext ? 1 : -1);
+                if (index < 0) {
+                    return this.videoDataList.length - 1;
+                } else if (index >= this.videoDataList.length) {
+                    return 0;
+                }
+                return index;
+            },
+            updateVideo(isNext) {
+                this.$set(this.videoList[this._videoIndex], 'src', this.videoDataList[this._videoDataIndex].src);
+                this.$set(this.videoList[this.getNextIndex(isNext)], 'src', this.videoDataList[this.getNextDataIndex(isNext)].src);
+                setTimeout(() => {
+                    this._videoContextList[this._videoIndex].play();
+                }, 200);
+                console.log("v:" + this._videoIndex + " d:" + this._videoDataIndex + "; next v:" + this.getNextIndex(
+                    isNext) + " next d:" + this.getNextDataIndex(isNext));
+            }
         }
     }
 </script>
@@ -696,374 +251,4 @@
         width: 100%;
         /* #endif */
     }
-	/* 头部样式start */
-	.release-video{
-		position:  relative;
-		width:750rpx;
-		height:128rpx;
-		background-color: #000000;
-	}
-	.back{
-		position:  absolute;
-		left: 31rpx;
-		top: 67rpx;
-		width: 15px;
-		height: 51rpx;
-	}
-	.fly{
-		position:  absolute;
-		right: 27rpx;
-		top: 67rpx;
-		width: 39rpx;
-		height: 37rpx;
-	}
-	/* 头部样式end */
-	/* 视频内容 */
-	.user-info{
-		position: absolute;
-		/* align-items: center; */
-		left: 30rpx;
-		bottom: 0;
-		width: 690rpx;
-		height: 328rpx;
-	}
-	.my-active-image10{
-		position: absolute;
-		margin-bottom: 0rpx;
-		width:80rpx;
-		height:80rpx;
-		background-color:#ff0;
-		border-radius:50%;
-	}
-	.my-active-nickName10{
-		position: absolute;
-		left: 120rpx;
-		top: 30rpx;
-		font-size:32rpx;
-		font-family:PingFang SC;
-		font-weight:bold;
-		color:rgba(255,255,255,1);
-	}
-	/* 展开start */
-	.element {
-		position: absolute;
-		width: 690rpx;
-		/* height: 66rpx; */
-		top: 90rpx;
-		height: 100rpx;
-		overflow: hidden;
-		/* padding: 0 30rpx; */
-	}
-	/* .content div {
-		display: inline;
-		z-index:99;
-	} */
-	.text {
-		/* width: 100%; */
-		font-size:28rpx;
-		font-family:PingFang SC;
-		color:rgba(255,255,255,1);
-		line-height:33rpx;
-		
-	}
-	.content-last {
-		/* position: absolute;
-		bottom: 30rpx;
-		left: 600rpx; */
-		font-size:24rpx;
-		font-family:PingFang SC;
-		/* color:rgba(90,124,171,1); */
-		color:rgba(255,255,255,1);
-		line-height:33rpx;
-		margin-left: 20rpx;
-	}
-	.in {
-		transform: rotate(180deg);
-		margin-bottom: 0 !important;
-	}
-	/* 展开end */
-	.footer{
-		position: fixed;
-		bottom: 0;
-		width:750rpx;
-		height:104rpx;
-		background-color:rgba(0,0,0,1);
-	}
-	.good{
-		position: absolute;
-		right: 27rpx;
-		bottom: 32rpx;
-		width: 31rpx;
-		height: 31rpx;
-	}
-	.text10{
-		position: absolute;
-		right: 62rpx;
-		bottom: 28rpx;
-		font-size:26rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(153,153,153,1);
-	}
-	.star{
-		position: absolute;
-		right: 151rpx;
-		bottom: 32rpx;
-		width: 31rpx;
-		height: 31rpx;
-	}
-	.text11{
-		position: absolute;
-		right: 190rpx;
-		bottom: 28rpx;
-		font-size:26rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(153,153,153,1);
-	}
-	.message{
-		position: absolute;
-		right: 274rpx;
-		bottom: 32rpx;
-		width: 31rpx;
-		height: 31rpx;
-	}
-	.text12{
-		position: absolute;
-		right: 311rpx;
-		bottom: 28rpx;
-		font-size:26rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(153,153,153,1);
-	}
-	.topic{
-		position: absolute;
-		left: 30rpx;
-		bottom: 14rpx;
-		width:302rpx;
-		height:70rpx;
-		background-color:rgba(86,86,86,1);
-		border-radius:35rpx;
-	}
-	.topic-image{
-		position: absolute;
-		left: 20rpx;
-		bottom: 23rpx;
-		width:24rpx;
-		height:24rpx;
-	}
-	.text20{
-		position: absolute;
-		left: 58rpx;
-		bottom: 18rpx;
-		font-size:24rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(255,255,255,1);
-	}
-	/* 评论弹窗 */
-	.recommend{
-		z-index: 99;
-		width:750rpx;
-		height:100%;
-		padding-bottom: 140rpx;
-		background-color: #fff;
-	}
-	
-	.recommend-content{
-		/* position: relative; */
-		height: 111rpx;
-		width:750rpx;
-		background-color: #fff;
-	}
-	
-	.all-recommend{
-		position: absolute;
-		left: 30rpx;
-		top: 41rpx;
-		font-size:32rpx;
-		font-family:PingFang SC;
-		font-weight:bold;
-		color:rgba(51,51,51,1);
-	}
-	.close{
-		position: absolute;
-		right: 30rpx;
-		top: 54rpx;
-		width:40rpx;
-		height:40rpx;
-	}
-	.vertify{
-		width:750rpx;
-		height:1px;
-		background-color:rgba(226,226,226,1);
-	}
-	/* 评论内容 */
-	.replay-detail{
-		/* z-index: 99; */
-		/* position: relative; */
-		/* flex: 1; */
-		/* position: absolute; */
-		/* left: -375rpx; */
-		width:750rpx;
-		height:340px;
-		/* padding-bottom: 140rpx; */
-		background-color: #fff;
-	}
-	.replay-detail-left{
-		/* flex: 1; */
-	}
-	.replay-detail-right{
-		/* flex: 1; */
-	}
-	.my-active-image{
-		/* flex: 1; */
-		/* position: absolute; */
-		left: 30rpx;
-		margin-top: 40rpx;
-		width:68rpx;
-		height:68rpx;
-		background-color:rgba(149,149,149,1);
-		border-radius:50%;
-	}
-	.my-active-nickName-data{
-		/* flex: 2; */
-	}
-	.my-active-nickName{
-		/* position: absolute; */
-		left: 126rpx;
-		margin-top: -68rpx;
-		font-size:30rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(102,102,102,1);
-	}
-	.my-active-data{
-		/* position: absolute; */
-		left: 126rpx;
-		/* top: 70rpx; */
-		font-size:24rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(102,102,102,1);
-		line-height:46rpx;
-	}
-	.my-active-like{
-		/* position: absolute; */
-		left: 671rpx;
-		margin-top:-68rpx;
-		/* top: 70rpx; */
-		font-size:26rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(153,153,153,1);
-	}
-	.my-active-good{
-		/* position: absolute; */
-		left: 690rpx;
-		margin-top:-38rpx;
-		/* top: 60rpx; */
-		width:31rpx;
-		height:31rpx;
-	}
-	.recommend-good{
-		/* padding-top: 40rpx; */
-		width:31rpx;
-		height:31rpx;
-		  /* flex-direction: row; */
-		        align-items: center;
-		        justify-content: space-between;
-	}
-	
-	.recommend-text{
-		/* width: 566rpx;
-		margin-left: 125rpx;
-		margin-right: 57rpx; */
-		/* border: 1px solid red; */
-		  /* flex-direction: row; */
-		        align-items: center;
-		        justify-content: space-between;
-	}
-	.recommend-text-text{
-		
-		/* align-items: left; */
-		font-size:26rpx;
-		font-family:PingFang SC;
-		color:rgba(51,51,51,1);
-		/* color: red; */
-		
-	}
-	.recommend-text-text-text{
-		margin-top: -42px;
-		left: 125rpx;
-		width: 235px;
-		color: red;
-		
-	}
-	
-	.recommend-text-reply{
-		top: 12rpx;
-		left: 123rpx;
-		width:566rpx;
-		/* height:135rpx; */
-		padding-bottom: 14px;
-		margin-top: 8rpx;
-		position: relative;
-		color:rgba(102,102,102,1);
-		background-color:rgba(248,248,248,1);
-		/* border:1px solid rgba(239,239,239,1); */
-		border-radius:6rpx;
-	}
-	.recommend-text-reply-user{
-		top: 10rpx;
-		margin-top: 8rpx;
-		margin-left: 16rpx;
-		font-size:24rpx;
-		font-family:PingFang SC;
-		color:rgba(102,102,102,1);
-	}
-	.recommend-text-reply-count{
-		top: 10rpx;
-		margin-top: 8rpx;
-		margin-left: 16rpx;
-		font-size:22rpx;
-		font-family:PingFang SC;
-		font-weight:500;
-		color:rgba(249,183,44,1);
-	}
-	.horizon2{
-		margin-left: 125rpx;
-		margin-top: 40rpx;
-		width:594rpx;
-		height:1px;
-		background-color:rgba(226,226,226,1);
-	}
-	
-	
-	.replay-input {
-		width: 730rpx;
-		height: 120rpx;
-		background-color: #FFFFFF;
-		/* box-sizing: border-box; */
-		padding: 20rpx;
-		position: fixed;
-		bottom: 0;
-	}
-	.replay-input2 {
-		/* display: none; */
-	}
-	.say-something{
-		/* position: absolute;
-		right: 30rpx;
-		bottom: 30rpx;	
-		width:671rpx;*/
-		height:70rpx; 
-		background-color:rgba(240,240,240,1);
-		border-radius:30rpx;
-		padding-left: 30rpx;
-		/* border: 1px solid red; */
-		font-size:24rpx;
-		font-family:PingFang SC;
-	}
 </style>

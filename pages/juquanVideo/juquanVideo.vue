@@ -202,9 +202,6 @@
 				uni.navigateBack()
 			},
             goBack(){
-    //             uni.navigateBack({
-				// 	delta: 1
-				// })
 				console.log(this.type)
 				if(this.type==1){
 					uni.switchTab({

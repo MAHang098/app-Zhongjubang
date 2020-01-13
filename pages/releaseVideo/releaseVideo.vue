@@ -230,8 +230,11 @@
 						console.log(res)
 						console.log(res.data.code)
 						if(res.data.code==200){
-							uni.navigateTo({
-								url: "/pages/juquanVideo/juquanVideo?type=3"
+							// uni.navigateTo({
+							// 	url: "/pages/juquanVideo/juquanVideo?type=3"
+							// })
+							uni.switchTab({
+								url: '/pages/user/user'
 							})
 							
 						}else{
