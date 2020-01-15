@@ -34,11 +34,13 @@ export default {
 		})
 		uni.getSystemInfo({
 		    success: function (res) {
-				height = res.screenHeight - 60
+				height = res.screenHeight - 100
 				width = res.screenWidth
 			},
 		})
-		this.url = "http://192.168.0.131:8081/#/pages/swiper-vertical/swiper-vertical?token=" + token + "&h=" + height + "&w=" + width + "&id=" + options.id + "&type=" + options.type
+		// this.url = "http://192.168.0.131:8082/#/pages/swiper-vertical2/swiper-vertical2?token=" + token + "&h=" + height + "&w=" + width + "&id=" + options.id + "&type=" + options.type
+		this.url = "http://video.zhongjubang.com/#/pages/swiper-vertical2/swiper-vertical2?token=" + token + "&h=" + height + "&w=" + width + "&id=" + options.id + "&type=" + options.type
+		console.log(this.url)
 	},
 	methods: {
 		back(){
@@ -52,7 +54,7 @@ export default {
 	.release-video{
 		width:750rpx;
 		position:  fixed;
-		z-index:1000 !important;
+		z-index:10000 !important;
 		top: 0;
 		left: 0;
 		width:750rpx;

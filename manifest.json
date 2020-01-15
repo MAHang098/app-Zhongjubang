@@ -1,5 +1,5 @@
 {
-    "name" : "11",
+    "name" : "众居邦",
     "appid" : "__UNI__wxc3e14a97aca4bf99",
     "description" : "登录模板",
     "versionName" : "1.0.0",
@@ -57,9 +57,9 @@
             },
             "splashscreen" : {
                 "android" : {
-                    "hdpi" : "/Users/mahang/Documents/logo.png",
+                    "hdpi" : "/Users/mahang/Documents/启动页闪屏.png",
                     "xhdpi" : "/Users/mahang/Documents/logo.png",
-                    "xxhdpi" : "/Users/mahang/Documents/logo.png"
+                    "xxhdpi" : "/Users/mahang/Documents/启动页闪屏.png"
                 }
             },
             "icons" : {

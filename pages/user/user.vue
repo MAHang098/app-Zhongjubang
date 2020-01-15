@@ -708,7 +708,6 @@
 				this.showDelete = !this.showDelete
 			},
 			videoDelete(id){
-				
 				let token
 				let self = this
 				uni.getStorage({
@@ -832,7 +831,7 @@
 								
 								res.data.data.dataList[i].videoUrl = res.data.data.dataList[i].videoUrl.replace('MP4','jpg')
 								res.data.data.dataList[i].videoUrl = res.data.data.dataList[i].videoUrl.replace('mp4','jpg')
-								console.log(res.data.data.dataList[i].videoUrl)
+								// console.log(res.data.data.dataList[i].videoUrl)
 							}
 							self.collectVideo = res.data.data.dataList;
 							

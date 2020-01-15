@@ -54,7 +54,7 @@
 	    "path" : "pages/testVideo/testVideo",
 	    "style" : {
 			 "navigationBarBackgroundColor":"#000000",
-			 "navigationBarTitleText": "短视频",
+			 "navigationBarTitleText": "",
 			 "navigationBarTextStyle":"white"
 	    }
 	},
