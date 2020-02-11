@@ -210,7 +210,7 @@
 												head: userInfo.avatarUrl,
 												unionId: userInfo.unionId
 											}
-											console.log(data)
+											// console.log(data)
 											uni.request({
 												url: self.url + "/controller/usercontroller/weixinlogin",
 												data: data,
