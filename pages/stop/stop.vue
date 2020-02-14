@@ -247,7 +247,13 @@
 					success: function (res){
 						// console.log(res.data.code)
 						if(res.data.code==200){
-							self.wanghongList = res.data.data.dataList
+							if(res.data.data.dataList.length>3){
+								for(var i = 0;i<3;i++){
+									self.wanghongList[i]=res.data.data.dataList[i]
+								}
+							}else{
+								self.wanghongList = res.data.data.dataList
+							}
 							
 						}else{
 							console.log("请求异常")
@@ -544,6 +550,7 @@
 	}
 	.balance-content{
 		float: left;
+		white-space:nowrap;
 	}
 	.balance-content-image{
 		float: left;
@@ -682,8 +689,8 @@
 	.footer{
 		position: relative;
 		text-align: center;
-		margin-top: -30upx;
-		margin-bottom: 120upx;
+		margin-top: 30upx;
+		margin-bottom: 80upx;
 		font-size:24upx;
 		font-family:PingFang SC;
 		color:rgba(204,204,204,1);

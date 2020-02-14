@@ -24,7 +24,7 @@
 					<text class="left-name" :class="index==categoryActive?'in':''">{{item.goodsType}}</text>
 				</view>
 			</scroll-view>
-			<image class="banner" style="width: 262px;height: 121px;" :src="imageStyle" mode="" />
+			<image class="banner" style="width: 520rpx;height: 242rpx;" :src="imageStyle" mode="" />
 			<scroll-view class="nav-right" scroll-y :scroll-top="scrollTop" @scroll="scroll" :style="'height:'+height+'px'" scroll-with-animation>
 				<view  :id="index===0?'first':''" class="nav-right-item" v-for="(item,index) in subCategoryList" :key="index" @click.stop="goMorecategory(type,item.goodsStyleId)">
 					<view class="content">
@@ -330,18 +330,18 @@
 	}
 	.banner{
 		position: relative;
-		left: 138px;
-		top: 31px;
+		left: 200rpx;
+		top: 40rpx;
 	}
 	
 	.nav-right {
-		margin-top: 50px;
-		margin-left: 138px;
-		/* width: 70%;
+		margin-top: 60rpx;
+		/* margin-left: 200rpx; */
+		width: 70%;
 		margin-left: 30%;
 		background: #FFFFFF;
 		box-sizing: border-box;
-		padding-bottom: 150rpx; */
+		padding-bottom: 150rpx;
 	}
 	
 	.nav-right-item {
@@ -356,7 +356,7 @@
 	}
 	.content-packet{
 		float: left;
-		margin-right: 50upx;
+		margin-right: 32upx;
 		margin-bottom: 58upx;
 		text-align: center;
 		width: 130upx;
@@ -374,8 +374,10 @@
 	
 	
 	.active {
-		color: #FABE3F;
+		/* color: #FABE3F; */
+		font-weight: bolder;
 		background: #FFFFFF;
+		font-size: 30rpx;
 	}
 	.in {
 		border-left: 13rpx solid #FABE3F;

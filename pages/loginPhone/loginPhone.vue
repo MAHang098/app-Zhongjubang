@@ -365,6 +365,7 @@
 	}
 	.send-code{
 		position: absolute;
+		z-index: 1000;
 		text-align: center;
 		line-height: 57rpx;
 		top: 803rpx;
