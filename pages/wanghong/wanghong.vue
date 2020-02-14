@@ -10,7 +10,7 @@
 				<image class="wang-content-image" style="width:200upx;height:190upx;" :src="item.top_img_list[0].url" mode=""></image>
 			    <text class="wang-content-des">{{item.goods_name}}</text>
 			    <text class="price">￥{{item.goods_price}}</text>
-			    <text class="wang-content-tit">索菲亚衣柜</text>
+			    <text class="wang-content-tit">{{item.shop_name}}</text>
 			    <view class="know">立即了解</view>
 			</view>
 		</view>

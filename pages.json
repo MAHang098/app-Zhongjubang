@@ -35,25 +35,25 @@
 	// 		}
 	// 	}
 	// },
-	{
-		"path": "pages/testVideo/testVideo",
-		"style": {
-			"navigationBarTitleText": "SubNvue",
-			"app-plus": {
-				"titleNView": false,
-				"subNVues": [{
-					"id": "drawer",
-					"path": "subnvue/drawer",
-					"type": "popup",
-					"style": {
-						"width": "70%",
-						"right":"0"
-						// "left":"20%"
-					}
-				}]
-			}
-		}
-	},
+	// {
+	// 	"path": "pages/testVideo/testVideo",
+	// 	"style": {
+	// 		"navigationBarTitleText": "SubNvue",
+	// 		"app-plus": {
+	// 			"titleNView": false,
+	// 			"subNVues": [{
+	// 				"id": "drawer",
+	// 				"path": "subnvue/drawer",
+	// 				"type": "popup",
+	// 				"style": {
+	// 					"width": "70%",
+	// 					"right":"0"
+	// 					// "left":"20%"
+	// 				}
+	// 			}]
+	// 		}
+	// 	}
+	// },
 	{
 	    "path" : "pages/loginPhone/loginPhone",
 	    "style" : {
@@ -88,14 +88,14 @@
 	// 		}
 	// 	}
 	// },
-	// {
-	//     "path" : "pages/testVideo/testVideo",
-	//     "style" : {
-	// 		 "navigationBarBackgroundColor":"#000000",
-	// 		 "navigationBarTitleText": "",
-	// 		 "navigationBarTextStyle":"white"
-	//     }
-	// },
+	{
+	    "path" : "pages/testVideo/testVideo",
+	    "style" : {
+			 "navigationBarBackgroundColor":"#000000",
+			 "navigationBarTitleText": "",
+			 "navigationBarTextStyle":"white"
+	    }
+	},
 	{
 	    "path" : "pages/testVideo2/testVideo2",
 	    "style" : {
