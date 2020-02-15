@@ -574,6 +574,7 @@
 			// 	this.status = 'end';
 			// 	return;
 			// }
+			this.is_refresh = false;
 			if(this.page < this.totalPage) {
 				this.page++;
 				this.init();
@@ -979,6 +980,12 @@
 							// 	return;
 							// }
 							// this.page++;
+						}
+						if(res.data.code == 421) {
+							uni.hideLoading();
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
 						}
 					})
 				})
