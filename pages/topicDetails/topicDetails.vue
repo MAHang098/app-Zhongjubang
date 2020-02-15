@@ -456,6 +456,30 @@
             	this.isShowAllContent = !this.isShowAllContent;
             	this.brandFold = !this.brandFold
             },
+			// 删除G圈内容
+			deleteRelease(id) {
+				uni.request({
+					url: this.url + "/controller/usercontroller/delgcirclecontent",
+					data: {circlecontentId: id},
+					method: 'POST',
+					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
+					success: ((res) => {
+						if(res.data.code == 200) {
+							uni.showToast({
+								title: '删除成功',
+								duration: 500,
+							});
+							this.showEdit = !this.showEdit;
+							this.init();
+						}
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+					})
+				})
+			},
             // 关注
             focus(id,currents, items, index) {
 				let self = this
