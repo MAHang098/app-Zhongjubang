@@ -37,7 +37,7 @@
 				<view class="anCotent" v-if="contentLength > 45 " @click="open()">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'in'" src="http://www.zhongjubang.com/api/upload/static/drafts/arrow-bottom.png" mode=""></image></view>
 			</view>
 			<view class="release-image_topic" v-if="titleItem.topic != '' ">
-				<view class="left"  @click.stop="goTopic(titleItem.title.topicId)">
+				<view class="left"  @click.stop="goTopic(titleItem)">
 					<image src="http://www.zhongjubang.com/api/upload/static/topic/topic.png" mode=""></image>
 					<view>{{titleItem.topic}}</view>
 				</view>
@@ -218,6 +218,7 @@
 							this.imageLength = data.imgList.length;
 							this.contentLength = data.content.length;
 							this.titleItem = JSON.parse(data.title);
+							// console.log(this.titleItem)
 							this.dataItem = data;
 							uni.hideLoading()
 				        } 
@@ -483,9 +484,10 @@
 				})
 			},
 			// 点击话题跳转到话题详情
-			goTopic(id) {
+			goTopic(obj) {
+				let id = obj.topicId;
 				uni.navigateTo({
-					url:'/pages/topicDetails/topicDetails?id=' + id
+					url: '/pages/topicDetails/topicDetails?id=' + id
 				})
 			},
 			// 返回上一页
