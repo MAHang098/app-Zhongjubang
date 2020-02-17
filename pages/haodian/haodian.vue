@@ -7,7 +7,7 @@
         </view>
 		<view class="wang-content-wrap">
 			<view class="wang-content" v-for="(item, index) in goodsList" :key="index" @tap="goDetails(item.id)">
-				<image class="wang-content-image" style="width:200upx;height:190upx;" :src="item.shop_logo" mode=""></image>
+				<image class="wang-content-image" style="width:200upx;height:190upx;" :src="item.shop_logo[0].url" mode=""></image>
 			    <text class="wang-content-des">{{item.shop_name}}</text>
 			    <text class="price">{{item.goodsCount}}个商品</text>
 			    <text class="wang-content-tit">{{item.collectionCount}}人收藏</text>
@@ -55,6 +55,12 @@
 						
 						if(res.data.code==200){
 							console.log(res)
+							for(var i = 0;i<res.data.data.dataList.length;i++){
+								res.data.data.dataList[i].shop_logo = JSON.parse(res.data.data.dataList[i].shop_logo)
+							}
+							// res.data.data.dataList[0].shop_logo = JSON.parse(res.data.data.dataList[0].shop_logo)
+							// console.log(typeof(res.data.data.dataList[0]))
+							console.log(res.data.data.dataList[0].shop_logo[0].url)
 							self.goodsList = res.data.data.dataList
 							
 						}else{
