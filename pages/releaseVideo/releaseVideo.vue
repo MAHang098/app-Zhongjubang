@@ -236,10 +236,12 @@
 							// uni.navigateTo({
 							// 	url: "/pages/juquanVideo/juquanVideo?type=3"
 							// })
-							uni.switchTab({
-								url: '/pages/user/user'
+							// uni.switchTab({
+							// 	url: '/pages/user/user'
+							// })
+							uni.navigateTo({
+								url: '/pages/juquanVideo/juquanVideo?type=' + 2
 							})
-							
 						}else{
 							console.log('请求异常')
 						}

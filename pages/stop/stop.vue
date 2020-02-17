@@ -32,7 +32,7 @@
 				<text class="buy-left-title">网红品，大家都在买></text>
 				<view class="balance-content">
 					<view class="wanghong-box" v-for="(item, index) in wanghongList" :key="index">
-						<image class="balance-content-image" style="width:74upx;height:76upx;border-radius: 50%;" :src="item.top_img_list[0]" mode="aspectFill" />
+						<image class="balance-content-image" style="width:74upx;height:76upx;border-radius: 50%;" :src="item.top_img_list[0].url" mode="aspectFill" />
 					</view>
 					<text class="balance">...</text>
 				</view>
@@ -42,7 +42,7 @@
 				<text class="buy-left-title">优选店铺></text>
 				<view class="balance-content">
 					<view class="wanghong-box" v-for="(item, index) in haodianList" :key="index">
-						<image class="balance-content-image" style="width:74upx;height:76upx;border-radius: 6upx;" :src="item.shop_logo" mode="aspectFill" />
+						<image class="balance-content-image" style="width:74upx;height:76upx;border-radius: 6upx;" :src="item.shop_logo[0].url" mode="aspectFill" />
 					</view>
 					<text class="balance">...</text>
 				</view>
@@ -72,7 +72,7 @@
 						<!-- <view @tap="goShop(item.shop_id)" class="swiper-item-immeuble"> -->
 						<view @tap="goShop(item.shop_id)" class="swiper-item-immeuble">
 							<image class="swiper-item-immeuble-take" style="width:80upx;height:38upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/take.png" mode="" />
-							<image class="" style="width:283upx;height:240upx;" :src="item.top_img_list[0]" mode="" />
+							<image class="" style="width:283upx;height:240upx;" :src="item.top_img_list[0].url" mode="" />
 							<view class="immeuble">
 								<view class="immeuble-desc">{{item.goods_name | ellipsis}}</view>
 								<view class="immeuble-price">
@@ -220,8 +220,16 @@
 						// console.log(res.data.code)
 						
 						if(res.data.code==200){
-							console.log(res)
-							self.haodianList = res.data.data.dataList
+							for(var a = 0;a<res.data.data.dataList.length;a++){
+							  res.data.data.dataList[a].shop_logo = JSON.parse(res.data.data.dataList[a].shop_logo)
+							}
+							if(res.data.data.dataList.length>3){
+								for(var i = 0;i<3;i++){
+									self.haodianList[i]=res.data.data.dataList[i]
+								}
+							}else{
+								self.haodianList = res.data.data.dataList
+							}
 							
 						}else{
 							console.log("请求异常")
@@ -247,6 +255,9 @@
 					success: function (res){
 						// console.log(res.data.code)
 						if(res.data.code==200){
+							for(var a = 0;a<res.data.data.dataList.length;a++){
+							  res.data.data.dataList[a].top_img_list[0] = JSON.parse(res.data.data.dataList[a].top_img_list[0])
+							}
 							if(res.data.data.dataList.length>3){
 								for(var i = 0;i<3;i++){
 									self.wanghongList[i]=res.data.data.dataList[i]
@@ -279,6 +290,10 @@
 					success: function (res){
 						// console.log(res.data.code)
 						if(res.data.code==200){
+							for(let b = 0;b<res.data.data.dataList.length;b++){
+							  res.data.data.dataList[b].top_img_list[0] = JSON.parse(res.data.data.dataList[b].top_img_list[0])
+							}
+							console.log(res.data.data.dataList[0].top_img_list[0].url)
 							self.goodsList = res.data.data.dataList
 							
 						}else{
@@ -344,6 +359,7 @@
 							for(var i = 0, j = res.data.data.length;i < j;i += chunk){
 								result.push(res.data.data.slice(i, i + chunk));
 							}
+							console.log()
 							this.categoryList = result
 						}
 						
