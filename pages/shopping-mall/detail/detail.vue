@@ -22,7 +22,7 @@
 					<uni-swiper-dot :info="swiperItem" :current="swiperCurrent" :mode="mode" :dotsStyles="dotsStyles">
 					    <swiper class="swiper-box" @change="swiperChange" :autoplay="true" :interval="2000" :duration="1000" :circular="true">
 					        <swiper-item v-for="(item ,index) in swiperItem" :key="index">
-					           <image :src="item" mode=""></image>
+					           <image :src="item.url" mode=""></image>
 					        </swiper-item>
 					    </swiper>
 					</uni-swiper-dot>
@@ -48,7 +48,7 @@
 		<view class="guarantee">
 			<view v-for="(item, index) in detailItem.tag" :key="index">
 				<image src="http://www.zhongjubang.com/api/upload/static/img/shopping-mall/detail/checked.png" mode=""></image>
-				<text>{{item}}</text>
+				<text>{{item.contents}}</text>
 			</view>
 			
 		</view>
@@ -89,7 +89,7 @@
 		<view class="shop-detail">
 			<view class="shop">
 				<view class="shop-content">
-					<image :src="shopItem.shopLogo" mode=""></image>
+					<image :src="shopLogo" mode=""></image>
 					<view class="shop-name">{{shopItem.shopName}}</view>
 					<view>{{shopItem.num}}粉丝</view>
 				</view>
@@ -131,7 +131,7 @@
 				<view>商品详情</view>
 				<text></text>
 			</view>
-			<image :src="item" mode="widthFix"  v-for="(item, index) in imaData" :key="index" @click.stop="imgPreview(imaData, index)"></image>
+			<image :src="item.url" mode="widthFix"  v-for="(item, index) in imaData" :key="index" @click.stop="imgPreview(imaData, index)"></image>
 			
 		</view>
 		<!-- 商品详情 end -->
@@ -218,14 +218,15 @@
 				swiperCurrent: 0,
 				mode: 'round',
 				dotsStyles: {
-						width: 7,
-						height: 6,
-						backgroundColor: 'rgba(0, 0, 0,0.3)',
-						border: '1px rgba(0, 0, 0,0) solid',
-						color: '#fff',
-						selectedBackgroundColor: 'rgba(249,183,45,1)',
-						selectedBorder: '1px rgba(249,183,45,1) solid'
-					},
+					width: 7,
+					height: 6,
+					backgroundColor: 'rgba(0, 0, 0,0.3)',
+					border: '1px rgba(0, 0, 0,0) solid',
+					color: '#fff',
+					selectedBackgroundColor: 'rgba(249,183,45,1)',
+					selectedBorder: '1px rgba(249,183,45,1) solid'
+				},
+				shopLogo: ''
 			}
 		},
 		filters: {
@@ -314,18 +315,12 @@
 							let data = res.data.data[0];
 							this.commentList = data.goodsDiscussList;
 							this.shopItem = data.shop;
-							data.goodsDTO.tag = JSON.parse(data.goodsDTO.tag);
+							let shop_logo = data.shop.shopLogo;
+							this.shopLogo = shop_logo[0].url;
+							data.goodsDTO.tag = data.goodsDTO.tag;
 							this.detailItem = data.goodsDTO;
-							this.swiperItem = (data.goodsDTO.topImgList).split(",");
-							let richtext=  data.goodsDTO.goodsContent;
-							let srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i // 匹配图片中的src
-							let arr =richtext.match(/<img[^>]+>/g);
-							for (let i = 0; i < arr.length; i++) {
-								let src = arr[i].match(srcReg)
-								// 获取图片地址
-								result.push(src[1])
-							}
-							this.imaData = result;
+							this.swiperItem = data.goodsDTO.topImgList;
+							this.imaData = data.goodsDTO.goodsContent;
 				        } else {
 				            uni.showToast({
 				                icon: 'none',

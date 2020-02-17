@@ -57,7 +57,7 @@
 		<!-- 商品列表 start -->
 		<view class="product-list" v-show="current == 1">
 			<view class="product-list_detail" v-for="(item, index) in productList" :key="index" @tap.stop="goDetail(item.goodsId)">
-				<image :src="item.topImgList[0]" mode=""></image>
+				<image :src="item.topImgList[0].url" mode=""></image>
 				<view class="product-list_detail_title">{{item.goodsName | ellipsis }}</view>
 				<view class="product-list_detail_price">{{'￥' + item.goodsPrice}}</view>
 				<view class="product-list_detail_shop" @click.stop="goShop(item.shopId)">
