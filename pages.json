@@ -80,22 +80,30 @@
 			}
 		}
 	},
-	// {
-	//     "path" : "pages/testVideo/testVideo",
-	//     "style" : {
-	// 		"app-plus": {
-	// 			"titleNView": false //禁用原生导航栏  
-	// 		}
-	// 	}
-	// },
 	{
 	    "path" : "pages/testVideo/testVideo",
 	    "style" : {
-			 "navigationBarBackgroundColor":"#000000",
-			 "navigationBarTitleText": "",
-			 "navigationBarTextStyle":"white"
-	    }
+			"app-plus": {
+				"titleNView": false //禁用原生导航栏  
+			}
+		}
 	},
+	{
+	    "path" : "pages/swiper-vertical/swiper-vertical",
+	    "style" : {
+			"app-plus": {
+				"titleNView": false //禁用原生导航栏  
+			}
+		}
+	},
+	// {
+	//     "path" : "pages/testVideo/testVideo",
+	//     "style" : {
+	// 		 "navigationBarBackgroundColor":"#000000",
+	// 		 "navigationBarTitleText": "",
+	// 		 "navigationBarTextStyle":"white"
+	//     }
+	// },
 	{
 	    "path" : "pages/testVideo2/testVideo2",
 	    "style" : {

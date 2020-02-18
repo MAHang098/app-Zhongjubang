@@ -429,20 +429,24 @@
 	}
 	/* 分类end */
 	.wrap{
-		position: relative;
+		/* position: relative;
 		width: 750upx;
-		height: 40upx;
+		height: 40upx; */
+		display: flex;
+		justify-content: space-between;
+		padding: 0 260rpx;
+		padding-top: 30rpx;
 	}
-	.home{
+	/* .home{
 		position: absolute;
-		left: 248upx;
+		left: 250upx;
 		top: 22upx;
 	}
 	.bag{
 		position: absolute;
-		left: 459upx;
+		left: 464upx;
 		top: 22upx;
-	}
+	} */
 	.border-fix{
 		margin-top: -4upx;
 		width:750upx;

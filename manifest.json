@@ -58,8 +58,16 @@
             "splashscreen" : {
                 "android" : {
                     "hdpi" : "/Users/mahang/Documents/启动页闪屏.png",
-                    "xhdpi" : "/Users/mahang/Documents/logo.png",
+                    "xhdpi" : "/Users/mahang/Documents/启动页闪屏.png",
                     "xxhdpi" : "/Users/mahang/Documents/启动页闪屏.png"
+                },
+                "ios" : {
+                    "iphone" : {
+                        "portrait-896h@3x" : "/Users/mahang/Documents/启动页闪屏.png",
+                        "landscape-896h@3x" : "/Users/mahang/Documents/启动页闪屏.png",
+                        "portrait-896h@2x" : "/Users/mahang/Documents/启动页闪屏.png",
+                        "landscape-896h@2x" : "/Users/mahang/Documents/启动页闪屏.png"
+                    }
                 }
             },
             "icons" : {

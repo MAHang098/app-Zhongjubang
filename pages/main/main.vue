@@ -97,7 +97,7 @@
 							
 							<view v-for="(item, index) in gootList[index]" @tap="goShop(item.id)" :key="index">
 								<view class="immeuble">
-									<image class="" style="width:179upx;height:160upx;" :src="item.top_img_list[0]" mode="" />
+									<image class="" style="width:179upx;height:160upx;" :src="item.top_img_list[0].url" mode="" />
 									<view class="immeuble-desc">{{item.goods_name}}</view>
 									<view class="immeuble-price">￥{{item.goods_price}}</view>
 								</view>
@@ -285,10 +285,14 @@
 					if(res.data.code=="200"){
 						var result = [];
 						var chunk = 3;
+						for(let b = 0;b<res.data.data.dataList.length;b++){
+						  res.data.data.dataList[b].top_img_list[0] = JSON.parse(res.data.data.dataList[b].top_img_list[0])
+						}
 						for(var i = 0, j = res.data.data.dataList.length;i < j;i += chunk){
 							result.push(res.data.data.dataList.slice(i, i + chunk));
 						}
 						self.gootList = result
+						console.log(result)
 					}
 				}
 			})
@@ -377,7 +381,7 @@
 					}
 				})
 				// 判断token过期
-				const url = "https://www.zhongjubang.com/test/"
+				const url = this.url
 				
 				//获取短视频内容
 				uni.request({
@@ -437,7 +441,7 @@
 					}
 				})
 				// 判断token过期
-				const url = "https://www.zhongjubang.com/test/"
+				const url = this.url
 				
 				//获取短视频内容
 				uni.request({

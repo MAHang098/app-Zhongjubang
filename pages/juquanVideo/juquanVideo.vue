@@ -473,7 +473,7 @@
         width: 100%;
 		height: 100%;
         box-sizing: border-box;
-		padding: 0 20rpx;
+		padding: 0 10rpx;
     }
 	.video-wrap{
 		margin-top: 15px;
@@ -489,7 +489,7 @@
 	}
 	.video-content{
 		position: relative;
-		margin-left: 4upx;
+		margin-left: 10upx;
 	}
 	.video-content-start{
 		position: absolute;
