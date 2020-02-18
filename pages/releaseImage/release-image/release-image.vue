@@ -136,13 +136,7 @@
 		// 发布图片
 		onNavigationBarButtonTap(e) {
 		},
-		onBackPress(e) {
-			console.log(e)
-			 if(e.from == 'backbutton'){
-				 
-			    return true;//阻止默认返回行为
-			    }
-		},
+		
 		
 		methods: {
 			// 发布
@@ -166,7 +160,7 @@
 				}
 				let topicObj = {
 					topic: this.participationTopic,
-					topicId: this.participationTopicId
+					topicId: parseInt(this.participationTopicId)
 				}
 				let parmas = {
 					content: this.desc,
@@ -196,11 +190,17 @@
 									title: '发布成功',
 									duration: 500,
 								});
-								setTimeout(() => {
-									uni.switchTab({
-										url: '/pages/user/user'
+								if(this.$store.state.topic != '') {
+									uni.navigateTo({
+										url: '/pages/topicDetails/topicDetails?id=' + this.participationTopicId
 									})
-								}, 500);
+								} else {
+									setTimeout(() => {
+										uni.switchTab({
+											url: '/pages/juquan/juquan'
+										})
+									}, 500);
+								}
 								uni.removeStorage({
 									key: 'topic_detail',
 									success: ((res) => {
@@ -242,11 +242,19 @@
 								title: '发布成功',
 								duration: 500,
 							});
-							setTimeout(() => {
-								uni.switchTab({
-									url: '/pages/user/user'
+							if(this.$store.state.topic != '') {
+								uni.navigateTo({
+									url: '/pages/topicDetails/topicDetails?id=' + this.participationTopicId
 								})
-							}, 500);
+							} else {
+								setTimeout(() => {
+									uni.switchTab({
+										url: '/pages/juquan/juquan'
+									})
+								}, 500);
+							}
+								
+							
 							uni.hideLoading();
 							this.$store.commit('clearData', []);    // 清空存在vuex中图片上的所有数据
 							this.$store.commit('clearDrafts', []);  // 清空草稿箱到发布页的数据
@@ -618,7 +626,32 @@
 					this.saveDrafts();
 				}
 			},
-		}
+		},
+		onBackPress(e) {
+			let _this = this;
+			_this.$store.state.topic = '';
+			_this.participationTopicId = '';
+			uni.removeStorage({
+				key: 'topic_title',
+				success: ((res) => {
+					_this.participationTopic = '';
+					_this.participationTopicId = ''
+				})
+			})
+		},
+		// 监听页面卸载
+		onUnload: function() {
+			let _this = this;
+			_this.$store.state.topic = '';
+			_this.participationTopicId = '';
+			uni.removeStorage({
+				key: 'topic_title',
+				success: ((res) => {
+					_this.participationTopic = '';
+					_this.participationTopicId = '';
+				})
+			})
+		},
 	}
 </script>
 

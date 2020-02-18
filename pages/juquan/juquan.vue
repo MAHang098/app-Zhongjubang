@@ -479,13 +479,13 @@
 			        data: {outUserId: id},
 			        header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 			        success:((res) => {
+							uni.hideLoading()
 						if(res.data.code == 421) {
 							uni.navigateTo({
 								url: '/pages/loginPhone/loginPhone'
 							})
 						}
 			            if(res.data.code == 200) {
-							uni.hideLoading()
 							// if(currents == 0) {
 							// 	this.init();
 							// }
@@ -559,13 +559,14 @@
 			        data: {collectionContentId: id, type: '1'},
 			        header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 			        success:(res) => {
+						uni.hideLoading();
 						if(res.data.code == 421) {
 							uni.navigateTo({
 								url: '/pages/loginPhone/loginPhone'
 							})
 						}
 			            if(res.data.code == 200) {
-							uni.hideLoading();
+							
 							// if(currents == 0) {
 							// 	// this.page = 1;
 							// 	this.init();
@@ -615,13 +616,13 @@
 			        data: {gcircleContentId: id},
 			        header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 			        success:((res) => {
+							uni.hideLoading();
 						if(res.data.code == 421) {
 							uni.navigateTo({
 								url: '/pages/loginPhone/loginPhone'
 							})
 						}
 			            if(res.data.code == 200) {
-							uni.hideLoading();
 							// if(currents == 0) {
 							// 	this.init();
 								

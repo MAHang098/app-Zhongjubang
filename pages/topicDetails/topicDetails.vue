@@ -51,8 +51,25 @@
 								<view class="time">{{item.createTime}}</view>
 							</view>
 						</view>
-						<view class="right" @click.stop="focus(index, item.userId, item.attentionState)">
+						<!-- <view class="right" @click.stop="focus(index, item.userId, item.attentionState)">
 							<image :src="( activeIndex == index && isShowFocus) || item.attentionState != 0 ? 'http://www.zhongjubang.com/api/upload/static/topic/focus.png' : 'http://www.zhongjubang.com/api/upload/static/img/topicDetails/interest.png'" mode=""></image>
+						</view> -->
+						<view class="operate-user" @click.stop="operate(index)" v-if="item.state == 1">
+							<text></text>
+							<text></text>
+							<text></text>
+							<view class="operate-detail" v-show="cIndex == index && showEdit">
+								<view class="operate-arrow"></view>
+								<view class="operate-btn">
+									<!-- <view @click.stop="editRelease(items, items.gcircleContentId)"><image src="http://www.zhongjubang.com/api/upload/static/edit.png" mode=""></image>编辑</view> -->
+									<view @click.stop="deleteRelease(item.gcircleContentId)"><image src="http://www.zhongjubang.com/api/upload/static/delete.png" mode=""></image>删除</view>
+								</view>
+							</view>
+						</view>
+						<view v-else class="user-right" @click.stop="focus(item.userId, current, item, index)">
+							<image v-if="current == 0" :src="item.attentionState == 0 ? 'http://www.zhongjubang.com/api/upload/static/follow.png' : item.attentionState == 2 ? 'http://www.zhongjubang.com/api/upload/static/mutual-follow.png' : 'http://www.zhongjubang.com/api/upload/static/follow-checked.png'" mode=""></image>
+							<image v-if="current == 1" :src="item.attentionState == 2 ? 'http://www.zhongjubang.com/api/upload/static/follow.png' : item.attentionState == 1 ? 'http://www.zhongjubang.com/api/upload/static/mutual-follow.png' : 'http://www.zhongjubang.com/api/upload/static/follow-checked.png'" mode=""></image>
+												
 						</view>
 					</view>
 					
@@ -80,12 +97,14 @@
 								<image src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/message.png" mode=""></image>
 								<text>{{item.gCollectionDiscussNum}}</text>
 							</view>
-							<view class="collect" @click.stop="collect(index, item.gcircleContentId, item.collectionState)">
-								<image :src="(activeIndex == index && isShowCollect) || item.collectionState != 0 ? 'http://www.zhongjubang.com/api/upload/static/topic/collect-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/star.png' " mode=""></image>
+							<view class="collect" @click.stop="collect(index, item.gcircleContentId, item.collectionState, current, item)">
+								<!-- <image :src="(collect_currentIndex == index && isShowCollect) || item.collectionState != 0 ? 'http://www.zhongjubang.com/api/upload/static/topic/collect-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/star.png' " mode=""></image> -->
+								<image :src="(collect_currentIndex == index && isShowCollect) || item.collectionState === 1  ? 'http://www.zhongjubang.com/api/upload/static/topic/collect-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/star.png' " mode=""></image>
 								<text>{{item.collectionNum}}</text>
 							</view>
-							<view class="fabulous"  @click.stop="fabulous(index, item.gcircleContentId,  item.gContentLikeState)">
-								<image :style="{'margin-bottom': item.gContentLikeState === 1 ? '2px': ''}" :src="(fabulousIndex == index && isShowFabulous) || item.gContentLikeState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
+							<view class="fabulous"  @click.stop="fabulous(index, item.gcircleContentId, item.gcircleContentLikeState, current, item)">
+								<!-- <image :style="{'margin-bottom': item.gContentLikeState === 1 ? '2px': ''}" :src="(fabulous_currentIndex == index && isShowFabulous) || item.gContentLikeState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image> -->
+								<image :style="{'margin-bottom': item.gcircleContentLikeState === 1 || fabulous_currentIndex == index && isShowFabulous ? '2px': ''}" :src="(fabulous_currentIndex == index && isShowFabulous) || item.gcircleContentLikeState === 1 ? 'http://www.zhongjubang.com/api/upload/static/topic/fabulous-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/user/good.png'" mode=""></image>
 								<text>{{item.gCollectionLikeNum}}</text>
 								
 							</view>
@@ -156,6 +175,9 @@
 			</view>
 		</uni-popup> -->
 		<!-- 评论 end -->
+		<!-- 点击右边三点显示的遮罩层 start -->
+		<view id="mask" v-show="showEdit"></view>
+		<!-- 点击右边三点显示的遮罩层 end -->
     </view>
 </template>
 
@@ -208,8 +230,12 @@
 				pageSize: 10,
 				totalPage: 0,
 				id: '',
-				talkThemeImg: ''
-				
+				talkThemeImg: '',
+				showEdit: false,
+				cIndex: -1,
+				current: 0,
+				collect_currentIndex: -1,
+				fabulous_currentIndex: -1
 			}
 		},
 		filters: {
@@ -430,8 +456,32 @@
             	this.isShowAllContent = !this.isShowAllContent;
             	this.brandFold = !this.brandFold
             },
+			// 删除G圈内容
+			deleteRelease(id) {
+				uni.request({
+					url: this.url + "/controller/usercontroller/delgcirclecontent",
+					data: {circlecontentId: id},
+					method: 'POST',
+					header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app', 'token': this.token},
+					success: ((res) => {
+						if(res.data.code == 200) {
+							uni.showToast({
+								title: '删除成功',
+								duration: 500,
+							});
+							this.showEdit = !this.showEdit;
+							this.init();
+						}
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+					})
+				})
+			},
             // 关注
-            focus(index, id, state) {
+            focus(id,currents, items, index) {
 				let self = this
                 let token = '';
                 uni.getStorage({
@@ -440,20 +490,64 @@
                         token = res.data;
                     }
                 });
+				uni.showLoading({
+					title: '加载中'
+				})
                 uni.request({
                     url: this.url + 'controller/usercontroller/addattentionrelationship',
                     method: 'post',
                     data: {outUserId: id},
                     header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
                     success:(res) => {
+						uni.hideLoading();
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
                         if(res.data.code == 200) {
-                            self.init(self.topicId);
-                            this.activeIndex = index;
-							if(state == 1) {
-								this.isShowFocus = false;
+                            // self.init(self.topicId);
+       //                      this.activeIndex = index;
+							// if(state == 1) {
+							// 	this.isShowFocus = false;
+							// 	return;
+							// }
+       //                      this.isShowFocus = !this.isShowFocus;
+						   if(!items) {
+							return;
+						   }
+						   if(this.current == 0) {
+							if(items.attentionState == 2) {
+								items.attentionState = 0;
 								return;
 							}
-                            this.isShowFocus = !this.isShowFocus;
+							if(items.attentionState == 0 &&　items.fanState == 1) {
+								items.attentionState = 2;
+								return;
+							}
+							if(items.attentionState == 1) {
+								items.attentionState = 0;
+								return;
+							}
+							if(items.attentionState == 0 && items.fanState　== 0) {
+								items.attentionState = 1;
+								return;
+							}
+						   }
+						   if(this.current == 1) {
+							if(items.attentionState == 1 || items.attentionState == 0) {
+								items.attentionState = 2;
+								return;
+							}
+							if(items.attentionState == 2 &&　items.fanState　== 1) {
+								items.attentionState = 1;
+								return;
+							}
+							if(items.attentionState == 2 &&　items.fanState　== 0) {
+								items.attentionState = 0;
+								return;
+							}
+						   }
                         } else {
                             uni.showToast({
                                 icon: 'none',
@@ -465,7 +559,7 @@
                 });
             },
             // 收藏
-            collect(index, id, state) {
+            collect(index, id, state, currents, items) {
                 let token = '';
                 uni.getStorage({
                     key:"token",
@@ -473,32 +567,60 @@
                         token = res.data;
                     }
                 });
+				uni.showLoading({
+					title: '加载中'
+				})
                 uni.request({
                     url: this.url + 'controller/usercontroller/addusercollection',
                     method: 'post',
                     data: {collectionContentId: id, type: '1'},
                     header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
                     success:(res) => {
+						uni.hideLoading();
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
                         if(res.data.code == 200) {
-                            this.init(this.topicId);
+                            // this.init(this.topicId);
                             this.activeIndex = index;
+							this.collect_currentIndex = index;
+							this.isShowCollect = !this.isShowCollect;
 							if(state == 1) {
 								this.isShowCollect = false;
-								return;
+								items.collectionState = 0;
+							} else {
+								this.isShowCollect = true;
+								items.collectionState = 1;
 							}
-                            this.isShowCollect = !this.isShowCollect;
+							if(this.isShowCollect == false) {
+								items.collectionNum--
+							} else {
+								items.collectionNum++
+							}
+							// if(state == 1) {
+							// 	this.isShowCollect = false;
+							// 	return;
+							// }
+       //                      this.isShowCollect = !this.isShowCollect;
                         } else {
                             uni.showToast({
-                                icon: 'none',
-                                title: res.data.message
-                            });
-                            uni.hideToast();
+                            	title: '网络异常',
+                            	icon: 'none'
+                            })
                         }
-                    }
+                    },
+					fail: ((res) => {
+						uni.showToast({
+							title: '网络异常',
+							icon: 'none'
+						})
+					})
                 });
             },
             // 点赞
-            fabulous(index, id, state) {
+            fabulous(index, id, state, currents, items) {
                 let token = '';
                 uni.getStorage({
                     key:"token",
@@ -506,20 +628,43 @@
                         token = res.data;
                     }
                 });
+				uni.showLoading({
+					title: '加载中'
+				})
                 uni.request({
                     url: this.url + 'controller/usercontroller/addgcirclecontentlike',
                     method: 'post',
                     data: {gcircleContentId: id},
                     header : {'content-type':'application/x-www-form-urlencoded', 'token': token, 'port': 'app'},
                     success:((res) => {
+						uni.hideLoading();
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
                         if(res.data.code == 200) {
-                            this.init(this.topicId);
-                            this.fabulousIndex = index;
+                            // this.init(this.topicId);
+                            // this.fabulousIndex = index;
+							this.isShowFabulous = !this.isShowFabulous;
+							this.fabulous_currentIndex = index;
 							if(state == 1) {
 								this.isShowFabulous = false;
-								return;
+								items.gcircleContentLikeState = 0;
+							} else {
+								this.isShowFabulous = true;
+								items.gcircleContentLikeState = 1;
 							}
-							this.isShowFabulous = !this.isShowFabulous;
+							if(this.isShowFabulous == false) {
+								items.gCollectionLikeNum--;
+							} else {
+								items.gCollectionLikeNum++;
+							}
+							// if(state == 1) {
+							// 	this.isShowFabulous = false;
+							// 	return;
+							// }
+							// this.isShowFabulous = !this.isShowFabulous;
                         } else {
                             uni.showToast({
                                 icon: 'none',
@@ -654,6 +799,11 @@
 				uni.navigateTo({
 					url: '/pages/releaseImage-details/releaseImage-details?id=' + id
 				})
+			},
+			// 操作删除/编辑弹窗
+			operate(index) {
+				this.cIndex = index;
+				this.showEdit = !this.showEdit;
 			},
         }
     }
@@ -831,7 +981,7 @@
 		color: #666666;
 	}
 	.avatar {
-		width: 110rpx;
+		width: 120rpx;
 		height: 120rpx;
 		display: inline-block;
 		margin-right: 14rpx;
@@ -1010,5 +1160,36 @@
 		font-family:PingFang SC;
 		color:rgba(204,204,204,1);
 		margin-bottom: 100rpx;
+	}
+	.operate-user {
+		position: relative;
+	}
+	.operate-user text {
+		width:8rpx;
+		height:8rpx;
+		background:rgba(153,153,153,1);
+		border-radius:50%;
+		display: inline-block;
+		margin-left: 6rpx;
+	}
+	.user-right {
+		display: flex;
+		height: 100%;
+		align-items: center;
+	}
+	.user-right image {
+		width: 106rpx;
+		height: 48rpx;
+		display: block;
+		margin-top: 25%;
+	}
+	#mask {
+		width: 100%;
+		height: 100%;
+		background: rgba(0,0,0,.4);
+		position: fixed;
+		z-index: 999;
+		top: 0;
+		left: 0;
 	}
 </style>
