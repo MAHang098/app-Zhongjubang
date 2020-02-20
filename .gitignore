@@ -1,0 +1,68 @@
+# IDE support files
+/.classpath
+/.launch
+/.project
+/.settings
+/*.launch
+/*.tmproj
+/ivy*
+/eclipse
+/.idea
+/.vscode
+
+# logs
+/stacktrace.log
+/test/reports
+/logs
+*.log
+*.log.*
+ 
+# "temporary" build files
+target/
+out/
+build/
+/unpackage/
+
+ 
+## .gitignore for intellij
+ 
+*.iml
+*.ipr
+*.iws
+.idea/
+ 
+## .gitignore for linux
+.*
+!.gitignore
+!.gitattributes
+!.editorconfig
+!.eslintrc
+!.travis.yml
+*~
+ 
+## .gitignore for windows
+ 
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+ 
+# Folder config file
+Desktop.ini
+ 
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+ 
+## .gitignore for mac os x
+ 
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+ 
+ 
+# Thumbnails
+._*
+ 
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
