@@ -280,8 +280,6 @@
     }
 </script>
 
-</script>
-
 <style>
 	.bg{
 		width: 750rpx;

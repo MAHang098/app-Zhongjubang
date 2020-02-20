@@ -11,6 +11,8 @@
         <view class="horizen11"></view>
     </view>
 </template>
+<script>  
+</script>
 <style>
     .horizen{
         height: 1px;
