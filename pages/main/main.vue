@@ -41,8 +41,8 @@
 				>
 					<swiper-item v-for="(item, index) in videoList" :key="index" :class="cardvvideo == index ? 'cur' : ''">
 						<view class="swiper-item">
-							<image @tap="goIndex2(item.shortVideoId)" :src="item.videoUrl" mode="aspectFill"></image>
-							<image @tap="goIndex2(item.shortVideoId)" v-if="cardvvideo == index" class="video-image" style="width:94upx;height:94upx;z-index:400;" src="http://www.zhongjubang.com/api/upload/static/img/main/start.png" mode="aspectFill"></image>
+							<image @tap="goIndex3(item.shortVideoId)" :src="item.videoUrl" mode="aspectFill"></image>
+							<image @tap="goIndex3(item.shortVideoId)" v-if="cardvvideo == index" class="video-image" style="width:94upx;height:94upx;z-index:400;" src="http://www.zhongjubang.com/api/upload/static/img/main/start.png" mode="aspectFill"></image>
 						</view>
 					</swiper-item>
 				</swiper>
@@ -494,6 +494,11 @@
 							
 						}
 					}
+				})
+			},
+			goIndex3(id) {
+				uni.navigateTo({
+					url: '/pages/index3/index3?id=' + id
 				})
 			},
 			goIndex2(id){

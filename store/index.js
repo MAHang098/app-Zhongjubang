@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import imageUpload from './module/image.js'
 import history from './module/history.js'
+import videoComment from './module/videoComment.js'
 
 Vue.use(Vuex)
 
@@ -103,7 +104,8 @@ const store = new Vuex.Store({
     },
 	modules: {
 		imageUpload,
-		history
+		history,
+		videoComment
 	}
 })
 

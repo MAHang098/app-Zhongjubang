@@ -1,0 +1,163 @@
+<template>
+	<div class="container">
+		<div class="main">
+			<div class="header">
+				<text class="title">{{title}}</text>
+			</div>
+			
+			<div class="comment-pnl">
+				<div class="comment-content-box">
+					<textarea v-model="shortVideoDiscuss" class="comment-content" name="comment-content" id="comment-content" 
+					auto-height="true" placeholder="说点什么吧" placeholder-class="textarea-placeholder"
+					cursor-spacing="10" focus="true"></textarea>
+				</div>
+				
+				<!-- <input class="uni-input" style="background-color: #fff;" cursor-spacing="20px" /> -->
+				<div class="comment-action-box">
+					<button class="btn-send" plain="true" size="mini" @tap="send">发送</button>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</template>
+
+<script>
+	import helper from "../../../common/helper.js"
+	export default {
+		data() {
+			return {
+				title:"评论：",
+				titleTpl1:"评论：",
+				titleTpl2:'回复${name}:',
+				currentSubNVue:null,
+				commentData:{},
+				token:'',
+				url: "https://www.zhongjubang.com/api/"
+			}
+		},
+		onLoad() {
+			this.currentSubNVue = uni.getCurrentSubNVue()
+			this.currentSubNVue.setStyle({
+				"position":"absolute",
+				"height":"600px",
+				"bottom":"0px",
+				"background": "transparent",
+				"zindex":"1000"
+			})
+			/* uni.$on('transferCommentData', (res)=>{
+				console.log('transfer', res);
+				this.commentData = res
+			}) */
+		},
+		onUnload(){
+			// uni.$off('transferCommentData')
+		},
+		computed: {
+		  shortVideoDiscuss: {
+		    get () {
+		      return this.$store.state.videoComment.commentData.shortVideoDiscuss
+		    },
+		    set (val) {
+		      this.$store.commit('videoComment/setShortVideoDiscuss', val)
+		    }
+		  }
+		},
+		methods: {
+			getToken() {
+				if (this.token === '') {
+					this.token = helper.getTokenOrLogin();
+				}
+				return this.token
+			},
+			send(){
+				
+				let token = this.getToken();
+				uni.request({
+					url: this.url + "controller/usercontroller/addshortvideodiscuss",
+					data: this.$store.state.videoComment.commentData,
+					method: 'POST',
+					header: {
+						'content-type': 'application/x-www-form-urlencoded',
+						'port': 'app',
+						'token': token
+					},
+					success: (res)=> {
+						console.log('commented',res)
+						if (res.data.code == 200) {
+							this.$store.commit('videoComment/init', {})
+							uni.$emit('afterCommentSuccess')
+							this.currentSubNVue.hide()
+						} else {
+							console.log("请求异常")
+						}
+					},
+					fail(){
+						console.log("请求异常.")
+					}
+				})
+			}
+		}
+	}
+</script>
+
+<style>
+
+	.container {
+		background-color: transparent
+	}
+	
+	.main{
+		position: absolute;
+		bottom: 0;
+	}
+
+	.header {
+		width: 750rpx;
+		border-bottom-width: 1px;
+		border-bottom-color: #eee;
+		background-color: #fff;
+		
+	}
+	.title {
+		line-height: 80rpx;
+		width: 670rpx;
+		padding-left: 10px;
+	}
+	.comment-pnl {
+		width: 750rpx;
+		border-top-width: 1px;
+		border-top-color: #eee;
+		background-color: #eee;
+		padding: 10px 0;
+		flex-direction: row;
+		
+	}
+	.comment-content-box{
+		width: 650rpx;
+		
+	}
+	.comment-content{
+		width: 625rpx;
+		border-width: 1px;
+		border-color: #ccc;
+		margin-left: 25rpx;
+		border-radius: 10px;
+		font-size: 14px;
+		line-height: 18px;
+		padding: 5px;
+	}
+	.comment-action-box{
+		width: 100rpx;
+	}
+	.btn-send{
+		/* height: 25px;
+		border-width: 0;
+		background-color: transparent; */
+		border-width: 0;
+	}
+	.textarea-placeholder {
+	  color: #666;
+	  font-size: 12px;
+	}
+</style>

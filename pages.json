@@ -7,7 +7,25 @@
 				"titleNView": false //禁用原生导航栏  
 			}
 		}
-	},
+	}, {
+			"path": "pages/index3/index3",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "white",
+				"app-plus": {
+					"bounce": "none",
+					"subNVues": [{
+						"id": "actionBar", // 唯一标识  
+						"path": "pages/index3/subNVue/actionBar" // 页面路径  
+						
+					},{
+						"id": "videoComments", 
+						"path": "pages/index3/subNVue/videoComments",   
+						"type": "popup"
+					}]
+				}
+			}
+		},
 	{
 		"path": "pages/loginPhone/loginPhone",
 		"style": {
