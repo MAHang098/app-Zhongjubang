@@ -108,7 +108,7 @@
 							<swiper-item class="swiper-item" v-for="(item, index) in recommendItem" :key="index" @click.stop="recommendDetails(item.id)">
 								<!-- <view class="swiper-item uni-bg-red">A</view> -->
 								<view class="recommend-detail">
-									<image :src="item.top_img_list[0]" mode=""></image>
+									<image :src="item.top_img_list[0].url" mode=""></image>
 									<view class="recommend-detail_text">
 										<text>{{item.goods_name　|　ellipsis}}</text>
 										<view>￥{{item.goods_price}}</view>
@@ -140,7 +140,7 @@
 		<uni-popup ref="spec" :type="popupType" :custom="true" id="spec" >
 			<view class="spec-type">
 				<view class="message">
-					<image :src="swiperItem[0]" mode=""></image>
+					<image :src="swiperItem[0].url" mode=""></image>
 					<view><text>{{'￥' + detailItem.goodsPrice}}</text><text>库存:{{activeIndex == -1 ? '请选择规格' :  reserve}}</text></view>
 					<image src="http://www.zhongjubang.com/api/upload/static/img/shopping-mall/detail/close.png" mode="" @click.stop="cancelPopup('spec')"></image>
 				</view>	
@@ -232,8 +232,8 @@
 		filters: {
 			ellipsis (value) {
 			  if (!value) return ''
-			  if (value.length > 20) {
-				return value.slice(0,20) + '...'
+			  if (value.length > 10) {
+				return value.slice(0,10) + '...'
 			  }
 			  return value
 			}
@@ -318,6 +318,7 @@
 							let shop_logo = data.shop.shopLogo;
 							this.shopLogo = shop_logo[0].url;
 							data.goodsDTO.tag = data.goodsDTO.tag;
+							console.log(data.goodsDTO)
 							this.detailItem = data.goodsDTO;
 							this.swiperItem = data.goodsDTO.topImgList;
 							this.imaData = data.goodsDTO.goodsContent;
@@ -340,6 +341,9 @@
 				    header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 				    success:((res) => {
 				        if(res.data.code == 200) {
+							for(var i = 0;i<res.data.data.dataList.length;i++){
+							  res.data.data.dataList[i].top_img_list = JSON.parse(res.data.data.dataList[i].top_img_list)
+							}
 							this.recommendItem = res.data.data.dataList;
 				        } 
 						
@@ -436,10 +440,11 @@
 				uni.request({
 				    url: this.url + 'controller/shopcontroller/getgoodsspecificationslist',
 				    method: 'post',
-				    data: {goodsId: '1'},
+				    data: {goodsId: this.detailId},
 				    header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 				    success:((res) => {
 				        if(res.data.code == 200) {
+							
 							this.typeItem = res.data.data;
 				        } 
 						if(res.data.code == 421) {
@@ -1124,7 +1129,8 @@
 	.join {
 		width: 100%;
 		color: #fff;
-		line-height: 42px;
+		line-height: 36px;
+		/* line-height: 42px; */
 		font-size: 14px;
 		border-radius: 25px;
 		background: linear-gradient(90deg,rgba(252,190,58,1),rgba(249,183,44,1));
@@ -1133,6 +1139,7 @@
 		background: rgba(255,255,255,.4);
 	}
 	.join text {
+		/* line-height: 42px; */
 		width: 50%;
 		height: 100%;
 		display: inline-block;

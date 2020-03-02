@@ -108,7 +108,7 @@
 					<!-- 话题 end -->
 					<!-- 操作按钮 start -->
 					<view class="operate-bottom">
-						<view class="operate-bottom_share"><image src="http://www.zhongjubang.com/api/upload/static/img/user/share.png" mode=""></image></view>
+						<view class="operate-bottom_share" @click="togglePopup('bottom', 'share')"><image src="http://www.zhongjubang.com/api/upload/static/img/user/share.png" mode=""></image></view>
 						<view class="operate-bottom_number">
 							<view class="number-message" @click.stop="contentDetail(items.gcircleContentId)">
 								<image src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/message.png" mode=""></image>
@@ -139,14 +139,38 @@
 		</view>
 		<!-- G圈内容 end -->
 		
-		
+		<!-- 强制更新 start -->
+		<uni-popup :show="show10" :popupType ="popupType" :custom="true" :mask-click="false" >
+			<view class="uni-tip">
+				<!-- <view class="uni-tip-title">提示</view> -->
+				<view class="uni-tip-content">请更新版本</view>
+				<view class="uni-tip-group-button">
+					<view class="uni-tip-button insist-skip" @click="cancelPopup('skip')" style="color: #F9B72C;">确定</view>
+				</view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
 <script>
+	import uniPopup from '@/components/uni-popup/uni-popup.vue'
 	export default {
+		components:{ uniPopup},
 		data() {
 			return {
+				show10: false,
+				type: '',
+				bottomData: [{
+						text: '微信',
+						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-2.png',
+						name: 'wx'
+					},
+					{
+						text: '新浪',
+						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-1.png',
+						name: 'sina'
+					}
+				],
 				reload: false,
 				status_more: 'more',
 				
@@ -192,6 +216,31 @@
 				is_refresh: true
 			}
 		},
+		computed:{
+			isDisableButton() {
+				return function(item) {
+					if(this.shareType === 0 && item.id === 'qq'){
+						return true;
+					}
+					if(this.shareType === 5 && item.name !== '分享到微信好友'){
+						return true;
+					}
+					return false;
+				}
+			}
+		},
+		onShareAppMessage() {
+			return {
+				title: this.shareText ? this.shareText : "欢迎体验uni-app",
+				path: '/pages/tabBar/component/component',
+				imageUrl:this.image ? this.image : 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/app/share-logo@3.png'
+			}
+		},
+		onUnload:function(){
+			this.shareText='uni-app可以同时发布成原生App、小程序、H5，邀请你一起体验！',
+			this.href = 'https://uniapp.dcloud.io',
+			this.image='';
+		},
 		filters: {
 			ellipsis (value) {
 			  if (!value) return ''
@@ -214,6 +263,76 @@
 			// this.releaseImgList = [];
 			// this.init();
 			// this.recommend();
+			// 判断是否强制更新，是否需要更新
+			const url = this.url
+			let self = this
+			plus.runtime.getProperty(plus.runtime.appid,function(inf){
+				let wgtVer=inf.version
+				console.log(inf.version)
+				uni.request({
+					url: url + 'controller/versioncontroller/getappversion',
+					data: {
+						version: inf.version,
+						appCode: 'zjb_app'
+					},
+					method:"POST",
+					header : {'content-type':'application/x-www-form-urlencoded'},
+					success: function (res){
+						if(res.data.code=="200"){
+							console.log(res.data.data.hasNewVersion)
+							
+							if(res.data.data.isForceUpdate==1){
+								self.show10 = true
+							}
+							
+						}
+					}
+				})
+			})
+			// 微信分享
+			uni.getProvider({
+				service: 'share',
+				success: (e) => {
+					console.log('success', e);
+					let data = []
+					for (let i = 0; i < e.provider.length; i++) {
+						switch (e.provider[i]) {
+							case 'weixin':
+								data.push({
+									name: '分享到微信好友',
+									id: 'weixin',
+									sort:0
+								})
+								data.push({
+									name: '分享到微信朋友圈',
+									id: 'weixin',
+									type:'WXSenceTimeline',
+									sort:1
+								})
+								break;
+							case 'sinaweibo':
+								data.push({
+									name: '分享到新浪微博',
+									id: 'sinaweibo',
+									sort:2
+								})
+								break;
+							default:
+								break;
+						}
+					}
+					this.providerList = data.sort((x,y) => {
+						return x.sort - y.sort
+					});
+				},
+				fail: (e) => {
+					console.log('获取分享通道失败', e);
+					uni.showModal({
+						content:'获取分享通道失败',
+						showCancel:false
+					})
+				}
+			});
 		},
 		onHide() {
 			let _this = this;
@@ -300,6 +419,92 @@
 			}
 		},
 		methods: {
+			async share() {
+				
+				
+				let shareOPtions = {
+					provider: 'weixin',
+					scene: 'WXSceneSession', //WXSceneSession”分享到聊天界面，“WXSenceTimeline”分享到朋友圈，“WXSceneFavorite”分享到微信收藏     
+					type: 1,
+					success: (e) => {
+						console.log('success', e);
+						uni.showModal({
+							content: '已分享',
+							showCancel:false
+						})
+					},
+					fail: (e) => {
+						console.log('fail', e)
+						uni.showModal({
+							content: e.errMsg,
+							showCancel:false
+						})
+					},
+					complete:function(){
+						console.log('分享操作结束!')
+					}
+				}
+				
+				switch (this.shareType){
+					case 0:
+						shareOPtions.summary = this.shareText;
+						shareOPtions.imageUrl = this.image;
+						shareOPtions.title = '欢迎体验uniapp';
+						shareOPtions.href = 'https://uniapp.dcloud.io';
+						break;
+					case 1:
+						shareOPtions.summary = this.shareText;
+						break;
+					case 2:
+						shareOPtions.imageUrl = this.image;
+						break;
+					case 5:
+						shareOPtions.imageUrl = this.image ? this.image : 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/app/share-logo@3.png'
+						shareOPtions.title = '欢迎体验uniapp';
+						shareOPtions.miniProgram = {
+							id:'gh_33446d7f7a26',
+							path:'/pages/tabBar/component/component',
+							webUrl:'https://uniapp.dcloud.io',
+							type:0
+						};
+						break;
+					default:
+						break;
+				}
+				
+				uni.share(shareOPtions);
+			},
+			togglePopup(type, open) {
+				switch (type) {
+					case 'top':
+						this.content = '顶部弹出 popup'
+						break
+			
+					case 'bottom':
+						this.content = '底部弹出 popup'
+						break
+					case 'center':
+						this.content = '居中弹出 popup'
+						break
+				}
+				this.type = type
+				this.$nextTick(() => {
+					this.$refs['show' + open].open()
+				})
+			
+			
+			// if (open === 'tip') {
+			// 	this.popupShow = true
+			// } else {
+			// 	this.$refs[open].open()
+			// }
+			},
+			cancel(type) {
+				this.$refs['show' + type].close()
+			},
+			change(e) {
+				console.log('是否打开:' + e.show)
+			},
 			goOtheruser(id){
 				uni.navigateTo({
 					url: '/pages/otherUser/otherUser?userid=' + id
@@ -1118,5 +1323,139 @@
 		height: 25rpx;
 		display: block;
 		margin-left: 10rpx;
+	}
+	
+	/* 底部分享 */
+	.uni-share {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		flex-direction: column;
+		/* #endif */
+		background-color: #fff;
+	}
+	
+	.uni-share-title {
+		line-height: 60rpx;
+		font-size: 24rpx;
+		padding: 15rpx 0;
+		text-align: center;
+	}
+	
+	.uni-share-content {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: center;
+		padding: 15px;
+	}
+	
+	.uni-share-content-box {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		flex-direction: column;
+		align-items: center;
+		width: 200rpx;
+	}
+	
+	.uni-share-content-image {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		width: 60rpx;
+		height: 60rpx;
+		overflow: hidden;
+		border-radius: 10rpx;
+	}
+	
+	.content-image {
+		width: 60rpx;
+		height: 60rpx;
+	}
+	
+	.uni-share-content-text {
+		font-size: 26rpx;
+		color: #333;
+		padding-top: 5px;
+		padding-bottom: 10px;
+	}
+	
+	.uni-share-btn {
+		height: 90rpx;
+		line-height: 90rpx;
+		font-size: 14px;
+		border-top-color: #f5f5f5;
+		border-top-width: 1px;
+		border-top-style: solid;
+		text-align: center;
+		color: #666;
+	}
+	/* 提示窗口 */
+	.uni-tip {
+		padding-top: 15px;
+		width: 300px;
+		background: #fff;
+		box-sizing: border-box;
+		border-radius: 10rpx;
+	}
+	
+	.uni-tip-title {
+		text-align: center;
+		font-weight: bold;
+		font-size: 41rpx;
+		color: #333;
+	}
+	
+	.uni-tip-content {
+		padding: 44rpx 0;
+		font-size: 32rpx;
+		color: #666;
+		width: 360rpx;
+		color: #666666;
+		font-weight: 500;
+		margin: auto;
+		text-align: center;
+	}
+	
+	.uni-tip-group-button {
+		margin-top: 10px;
+		display: flex;
+	}
+	
+	.uni-tip-button:nth-child(1) {
+		width: 100%;
+		text-align: center;
+		font-size: 14px;
+		color: #333333;
+		font-size: 37rpx;
+		font-weight: 500;
+		border-top: 1px solid #E2E2E2;
+		border-right: 1px solid #E2E2E2;
+		padding: 10px 0;
+	}
+	.uni-tip-button {
+		width: 100%;
+		text-align: center;
+		font-size: 14px;
+		color: #333333;
+		font-size: 37rpx;
+		font-weight: 500;
+		border-top: 1px solid #E2E2E2;
+		padding: 10px 0;
+	}
+	.name-input{
+	    position: absolute;
+	    left: 250px;
+	    top: 19px;
+	    width: 400rpx;
+	    height: 60rpx;
+	    font-size:30rpx;
+	    font-family:PingFang SC;
+	    color:rgba(153,153,153,1);
 	}
 </style>

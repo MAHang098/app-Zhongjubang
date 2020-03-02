@@ -261,7 +261,7 @@
 				<view class="video-wrap" v-if="current2==2" >
 					<view class="wang-content-wrap">
 						<view class="wang-content" v-for="(item, index) in collectCommand" :key="index">
-							<image class="wang-content-image" style="width:200upx;height:190upx;" :src="item.topImgList[0]" @tap="goDetails(item.goodsId)" mode=""></image>
+							<image class="wang-content-image" style="width:200upx;height:190upx;" :src="item.topImgList[0].url" @tap="goDetails(item.goodsId)" mode=""></image>
 						    <text class="wang-content-des">{{item.goodsName}}</text>
 						    <text class="price">￥{{item.goodsPrice}}</text>
 						    <image class="wang-collect-delete" style="width:66upx;height:66upx;" src="http://www.zhongjubang.com/api/upload/static/img/user/collect-delete.png" @tap="deleteCommand(item.goodsId)" mode=""></image>
@@ -273,7 +273,7 @@
 				<view class="video-wrap" v-if="current2==3" >
 					<view class="wang-content-wrap">
 						<view class="wang-content" v-for="(item, index) in collectShop" :key="index">
-							<image class="wang-content-image" style="width:200upx;height:190upx;" :src="item.shopLogo" @tap="goDetailsShop(item.shopId)" mode=""></image>
+							<image class="wang-content-image" style="width:200upx;height:190upx;" :src="item.shopLogo[0].url" @tap="goDetailsShop(item.shopId)" mode=""></image>
 						    <text class="wang-content-des">{{item.shop_name}}</text>
 						    <text class="wang-content-goods">{{item.goodsNum}}个商品</text>
 						    <text class="wang-content-tit">{{item.colNum}}人收藏</text>
@@ -342,7 +342,16 @@
 			</view>
 		</uni-popup> -->
 		<!-- 评论 end -->
-		
+		<!-- 强制更新 start -->
+		<uni-popup :show="show10" :popupType ="popupType" :custom="true" :mask-click="false" >
+			<view class="uni-tip">
+				<!-- <view class="uni-tip-title">提示</view> -->
+				<view class="uni-tip-content">请更新版本</view>
+				<view class="uni-tip-group-button">
+					<view class="uni-tip-button insist-skip" @click="cancelPopup('skip')" style="color: #F9B72C;">确定</view>
+				</view>
+			</view>
+		</uni-popup>
     </view>
 </template>
 
@@ -360,6 +369,7 @@
 		},
 		data() {
 	        return {
+				show10: false,
 				requiresCpic: 0,
 				requiresCvideo: 0,
 				requiresCgoods: 0,
@@ -455,6 +465,32 @@
 			},
 		},
 		onLoad(options){
+			// 判断是否强制更新，是否需要更新
+			const url = this.url
+			let self = this
+			plus.runtime.getProperty(plus.runtime.appid,function(inf){
+				let wgtVer=inf.version
+				console.log(inf.version)
+				uni.request({
+					url: url + 'controller/versioncontroller/getappversion',
+					data: {
+						version: inf.version,
+						appCode: 'zjb_app'
+					},
+					method:"POST",
+					header : {'content-type':'application/x-www-form-urlencoded'},
+					success: function (res){
+						if(res.data.code=="200"){
+							console.log(res.data.data.hasNewVersion)
+							
+							if(res.data.data.isForceUpdate==1){
+								self.show10 = true
+							}
+							
+						}
+					}
+				})
+			})
 			this.showLeft = false
 			// let _this = this;
 			// uni.getStorage({
@@ -860,7 +896,12 @@
 						uni.hideLoading()
 						if(res.data.code == 200) {
 							console.log(res)
+							for(var i = 0;i<res.data.data.dataList.length;i++){
+							  res.data.data.dataList[i].topImgList[0] = JSON.parse(res.data.data.dataList[i].topImgList[0])
+							}
 							self.collectCommand = res.data.data.dataList
+							
+							// console.log(res.data.data.dataList[0].topImgList[0].url)
 							if(res.data.data.dataList.length==0){
 								this.requiresCgoods = 1
 							}else{
@@ -896,6 +937,10 @@
 							}else{
 								this.requiresCshop = 0
 							}
+							for(var i = 0;i<res.data.data.dataList.length;i++){
+							  res.data.data.dataList[i].shopLogo = JSON.parse(res.data.data.dataList[i].shopLogo)
+							}
+							// console.log(res.data.data.dataList[0].shopLogo[0].url)
 							self.collectShop = res.data.data.dataList;
 							
 						}
@@ -2060,5 +2105,68 @@
 	/* 缺省页end */
 	.comments-user .comments-name {
 		height: 15px;
+	}
+	/* 提示窗口 */
+	.uni-tip {
+		padding-top: 15px;
+		width: 300px;
+		background: #fff;
+		box-sizing: border-box;
+		border-radius: 10rpx;
+	}
+	
+	.uni-tip-title {
+		text-align: center;
+		font-weight: bold;
+		font-size: 41rpx;
+		color: #333;
+	}
+	
+	.uni-tip-content {
+		padding: 44rpx 0;
+		font-size: 32rpx;
+		color: #666;
+		width: 360rpx;
+		color: #666666;
+		font-weight: 500;
+		margin: auto;
+		text-align: center;
+	}
+	
+	.uni-tip-group-button {
+		margin-top: 10px;
+		display: flex;
+	}
+	
+	.uni-tip-button:nth-child(1) {
+		width: 100%;
+		text-align: center;
+		font-size: 14px;
+		color: #333333;
+		font-size: 37rpx;
+		font-weight: 500;
+		border-top: 1px solid #E2E2E2;
+		border-right: 1px solid #E2E2E2;
+		padding: 10px 0;
+	}
+	.uni-tip-button {
+		width: 100%;
+		text-align: center;
+		font-size: 14px;
+		color: #333333;
+		font-size: 37rpx;
+		font-weight: 500;
+		border-top: 1px solid #E2E2E2;
+		padding: 10px 0;
+	}
+	.name-input{
+	    position: absolute;
+	    left: 250px;
+	    top: 19px;
+	    width: 400rpx;
+	    height: 60rpx;
+	    font-size:30rpx;
+	    font-family:PingFang SC;
+	    color:rgba(153,153,153,1);
 	}
 </style>

@@ -1,7 +1,7 @@
 <template>
 	<view>
-		<view class="banner">
-			<image class="banner-image" style="width:750rpx;height:300rpx;" src="http://www.zhongjubang.com/api/upload/static/img/shop-command/banner.png" mode=""></image>
+		<view class="banner" :style="{height:infoHeight+'px'}">
+			<image class="banner-image" style="width:750rpx;height:300rpx;" :src="spare3" mode=""></image>
 			<image @tap="goBack" class="back" style="width:37rpx;height:46rpx;" src="http://www.zhongjubang.com/api/upload/static/img/shop-command/back.png" mode=""></image>
 			<image class="search-image" style="width:31rpx;height:31rpx;" src="http://www.zhongjubang.com/api/upload/static/img/shop-command/search.png" mode=""></image>
 			<!-- <input placeholder="搜索品牌内商品" class="search" type="text" value="" /> -->
@@ -13,12 +13,15 @@
 			<view @tap="addCollect" v-if="state==0" class="collect">+收藏</view>
 			<image @tap="addCollect" v-if="state==1" class="no-collect" style="width:127upx;height:55upx;" src="../../static/img/shop-command/no-collect.png" mode=""></image>
 			<view class="des">
-				{{spare1 | ellipsis}}
+				<!-- {{spare1 | ellipsis}} -->
+				<view v-if="!isShowAllContent" class="text">{{spare1 }}</view>
+				<view v-else class="text">{{spare1 | ellipsis}}</view>
+				<!-- {{spare1}} -->
 			</view>
-			<view class="horizen"></view>
-			<view class="more-info">更多品牌信息</view>
-			<image class="arrow" style="width:25upx;height:23upx;" src="http://www.zhongjubang.com/api/upload/static/img/shop-command/arrow.png" mode=""></image>
-			<view class="horizen2"></view>
+			<view class="horizen" :style="{top:horizenHeight+'px'}"></view>
+			<view class="more-info" :style="{top:testHeight+'px'}" @tap="InfoDes">更多品牌信息</view>
+			<image :style="{top:arrowHeight+'px'}" class="arrow" :class="!brandFold ? '' : 'inn'" style="width:25upx;height:23upx;" src="http://www.zhongjubang.com/api/upload/static/img/shop-command/arrow.png" mode=""></image>
+			<view class="horizen2" :style="{top:horizenHeight+'px'}"></view>
 		</view>
 		<view class="border"></view>
 		<view class="">
@@ -35,6 +38,10 @@
 			</view>
 			<view class="border-fix"></view>
 		</view>
+		<image v-show="isShow" :src="spare2" mode="widthFix" style="width: 100%;"></image>
+		<!-- <view class="" v-show="isShow">
+			<image :src="spare2" mode="" style="width: 136;height: 736px;"></image>
+		</view> -->
 		<view class="goods" v-show="!isShow">
 			<image class="init" v-if="showPrice==1" style="width:24upx;height:24upx;" src="http://www.zhongjubang.com/api/upload/static/img/category/init.png" />
 			<image class="up" v-if="showPrice==3" style="width:22upx;height:14upx;" src="http://www.zhongjubang.com/api/upload/static/img/category/up.png" />
@@ -45,10 +52,10 @@
 					<text v-bind:class="index == current2 ? 'active-status2' : '' "></text>
 				</view>
 			</view>
-			<view class="category-content" v-for="(item, index) in goodsList" :key="index" @tap="goDetails(item.goodsId)">
+			<view class="category-content" v-for="(item, index) in goodsList" :key="index" @tap="goDetails(item.id)">
 				<view class="category-content-box">
-					<image class="category-content-image" style="width:345upx;height:345upx;" :src="item.topImgList[1]" />
-					<view class="category-content-des">{{item.goodsName}}</view>
+					<image class="category-content-image" style="width:345upx;height:345upx;" :src="item.topImgList[0].url" />
+					<view class="category-content-des">{{item.goodsName | ellipsis2}}</view>
 					<text class="category-content-price">￥{{item.goodsPrice}}</text>
 					<image class="category-content-car" style="width:38upx;height:35upx;" src="http://www.zhongjubang.com/api/upload/static/img/category/car.png" />
 				</view>
@@ -61,6 +68,8 @@
 	export default {
 		data() {
 			return {
+				brandFold: false,
+				isShowAllContent: true,
 				tabType: ['首页', '商品'],
 				current: 0,
 				current2: 0,
@@ -78,18 +87,28 @@
 				shopName: '',
 				fansnum: '',
 				state: 0,
-				spare1: ''
+				spare1: '',
+				spare2: '',
+				spare3: '',
+				infoHeight: 308,
+				horizenHeight: 286,
+				testHeight: 277,
+				arrowHeight: 280,
 			}
 		},
 		onLoad(options) {
+			
 			if(options.id){
 				this.id = options.id
 			}
 			this.initInfoshop(options.id)
 			this.type = 1
 			this.style = 1
-			this.init(1)
+			this.init(1,options.id)
 		},
+		// onReady(){
+		// 	this.InfoDes()
+		// },
 		filters: {
 			ellipsis (value) {
 			  if (!value) return ''
@@ -98,8 +117,47 @@
 			  }
 			  return value
 			},
+			ellipsis2 (value) {
+			  if (!value) return ''
+			  if (value.length > 20) {
+				return value.slice(0,20) + '...'
+			  }
+			  return value
+			},
 		},
 		methods: {
+			InfoDes(){
+				console.log(this.testHeight)
+				let self = this
+				this.brandFold = !this.brandFold;
+				this.isShowAllContent = !this.isShowAllContent;
+				setTimeout(function(){
+					uni.getSystemInfo({
+					　　success: function(res) { // res - 各种参数
+					
+					　　    let info = uni.createSelectorQuery().select(".des");
+						　　　  　info.boundingClientRect(function(data) { //data - 各种参数
+								self.infoHeight = data.height + 270
+								console.log(self.testHeight)
+								self.testHeight = data.height + 240
+								self.arrowHeight = data.height + 242
+								self.horizenHeight = data.height + 248
+								console.log(self.testHeight)  // 获取元素宽度
+					　　    }).exec()
+					       }
+					});
+				},1);
+				uni.getSystemInfo({
+				　　success: function(res) { // res - 各种参数
+				
+				　　    let info = uni.createSelectorQuery().select(".des");
+					　　　  　info.boundingClientRect(function(data) { //data - 各种参数
+					　　　  　console.log(data.height)  // 获取元素宽度
+							this.infoheight = data.height
+				　　    }).exec()
+				       }
+				});
+			},
 			goBack(){
 				uni.navigateBack({
 					delta: 1
@@ -145,7 +203,6 @@
 							})
 						}
 						if(res.data.code==200){
-							console.log(res)
 							self.initInfoshop(self.id)
 						}
 						
@@ -153,7 +210,7 @@
 				    }
 				})
 			},
-			// 根据id获取商品内容
+			// 根据id获取商铺内容
 			initInfoshop(id){
 				let token;
 				let url = this.url
@@ -182,8 +239,12 @@
 							})
 						}
 						if(res.data.code==200){
-							console.log(res)
-							self.shopLogo = res.data.data.shopLogo
+							res.data.data.shopLogo = JSON.parse(res.data.data.shopLogo)
+							res.data.data.spare2 = JSON.parse(res.data.data.spare2)
+							res.data.data.spare3 = JSON.parse(res.data.data.spare3)
+							self.shopLogo = res.data.data.shopLogo[0].url
+							self.spare2 = res.data.data.spare2[0].url
+							self.spare3 = res.data.data.spare3[0].url
 							self.fansnum = res.data.data.num
 							self.shopName = res.data.data.shopName
 							self.state = res.data.data.state
@@ -194,14 +255,13 @@
 				    }
 				})
 			},
-			init(num){
+			init(num,id){
 				let self = this
 				uni.request({
-					url: this.url + 'controller/shopcontroller/getgoodslistbystyle',
+					url: this.url + 'controller/shopcontroller/getshopgoodslist',
 					data: {
 						state:num,
-						goodsStyleId: self.style,
-						goodsTypeId: self.type,
+						shopId:id,
 						pageIndex: 1,
 						pageSize: 1000
 					},
@@ -209,9 +269,6 @@
 					header : {'content-type':'application/x-www-form-urlencoded','port':'app','token':''},
 					success: function (res){
 						if(res.data.code=="200"){
-							console.log(res)
-							console.log(res.data.data.dataList)
-							console.log(res.data.data.dataList[0])
 							for(var i = 0; i < res.data.data.dataList.length;i++){
 								res.data.data.dataList[i].topImgList = JSON.parse(res.data.data.dataList[i].topImgList)
 							}
@@ -223,7 +280,6 @@
 			// 首页/商品
 			changeProduct(index) {
 				this.current = index;
-				console.log(index)
 				this.isShow = !this.isShow;
 				this.changeProduct2(0)
 				
@@ -250,8 +306,7 @@
 				}if(test==4){
 					this.num = 5
 				}
-				this.init(this.num)
-				console.log(this.num)
+				this.init(this.num,this.id)
 			},
 		}
 	}
@@ -261,7 +316,7 @@
 	.banner{
 		position: relative;
 		width:750rpx;
-		height:612rpx;
+		/* height:612rpx; */
 	}
 	.banner-image{
 		position: absolute;
@@ -350,7 +405,8 @@
 		top: 469upx;
 		left: 27upx;
 		width:680upx;
-		height:60upx;
+		/* height:60upx; */
+		/* height:60upx; */
 		font-size:24upx;
 		font-family:PingFang SC;
 		font-weight:400;
@@ -375,7 +431,7 @@
 	}
 	.more-info{
 		position: absolute;
-		top: 554upx;
+		/* top: 554upx; */
 		left: 289upx;
 		font-size:24upx;
 		font-family:PingFang SC;
@@ -423,7 +479,7 @@
 		margin: 9px auto;
 		display: block;
 		width:52rpx;
-		height:6rpx;
+		height:2rpx;
 		background:rgba(249,183,44,1);
 	    border-radius:4px;
 	}
@@ -434,8 +490,11 @@
 		height: 40upx; */
 		display: flex;
 		justify-content: space-between;
-		padding: 0 260rpx;
+		/* padding: 0 270rpx; */
+		padding-left: 270rpx;
+		padding-right: 240rpx;
 		padding-top: 30rpx;
+		box-sizing: border-box;
 	}
 	/* .home{
 		position: absolute;
@@ -547,5 +606,15 @@
 		top: 40upx;
 		z-index: 10;
 	}
-	
+	.inn {
+		transform: rotateX(180deg);
+	}
+	/* .imageDeteils{
+		background:url(bg-login.png)no-repeat;
+		    width:100%;
+		    height:100%;
+		    background-size:100% 100%;
+		    position:absolute;
+		    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='bg-login.png',sizingMethod='scale');
+	} */
 </style>

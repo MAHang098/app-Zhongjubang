@@ -33,10 +33,10 @@
 		</view>
 		<!-- <button size="mini" class="send-code" v-bind:class="isActive == true ? 'in' : ''" @tap="sendCod">{{isActive == true ? second + 's' : '发送验证码'}}</button> -->
 		<view class="phone-login" @tap="bindLogin">
-			<image src="http://www.zhongjubang.com/api/upload/static/img/loginPhone/phone-login.png" mode=""></image>
+			<image src="../../static/img/login.png" mode=""></image>
 		</view>
 		<view class="wechat-login"  @tap="wechatbindLogin">
-			<image src="http://www.zhongjubang.com/api/upload/static/img/loginPhone/wechat-login.png" mode=""></image>
+			<image src="../../static/img/wechat.png" mode=""></image>
 		</view>
 		<text class="bottom-left">点击登录按钮代表您同意</text>
 		<text class="bottom-right" @tap="toAgreement">《众居邦用户协议》</text>
@@ -210,7 +210,7 @@
 												head: userInfo.avatarUrl,
 												unionId: userInfo.unionId
 											}
-											// console.log(data)
+											console.log(data)
 											uni.request({
 												url: self.url + "/controller/usercontroller/weixinlogin",
 												data: data,
@@ -300,7 +300,7 @@
 		position: absolute;
 		left: 73rpx;
 		top: 449rpx;
-		font-size:46rpx;
+		font-size:40rpx;
 		font-family:PingFang SC;
 		font-weight:bold;
 		color:rgba(249,183,44,1);
@@ -309,7 +309,7 @@
 		position: absolute;
 		right: 73rpx;
 		top: 449rpx;
-		font-size:43rpx;
+		font-size:40rpx;
 		font-family:PingFang SC;
 		font-weight:500;
 		color:rgba(136,136,136,1);
@@ -317,7 +317,7 @@
 	.phone{
 		position: absolute;
 		left: 44rpx;
-		top: 580rpx;
+		top: 600rpx;
 		width: 36rpx;
 		height: 42rpx;
 	}
@@ -328,7 +328,7 @@
 	.title-phone{
 		position: absolute;
 		left: 94rpx;
-		top: 580rpx;
+		top: 600rpx;
 		font-size:34rpx;
 		font-family:PingFang SC;
 		font-weight:500;
@@ -407,12 +407,12 @@
 		bottom: 27rpx;
 		font-size:24rpx;
 		font-family:PingFang SC;
-		font-weight:500;
+		font-weight:400;
 		color:rgba(153,153,153,1);
 	}
 	.bottom-right{
 		position: absolute;
-		right: 136rpx;
+		right: 158rpx;
 		bottom: 27rpx;
 		font-size:24rpx;
 		font-family:PingFang SC;

@@ -52,7 +52,13 @@
             "ios" : {},
             /* SDK配置 */
             "sdkConfigs" : {
-                "oauth" : {},
+                "oauth" : {
+                    "weixin" : {
+                        "appid" : "wxc3e14a97aca4bf99",
+                        "appsecret" : "7a657ad78387371fe29162fd5433ed6f",
+                        "UniversalLinks" : ""
+                    }
+                },
                 "payment" : {}
             },
             "splashscreen" : {

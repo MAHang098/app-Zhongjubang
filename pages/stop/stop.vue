@@ -18,7 +18,7 @@
 				<swiper class="swiper-box" @change="change">
 					<swiper-item v-for="(item, index) in categoryList" :key="index">
 						<view :class="item.colorClass" class="swiper-item">
-							<view class="banner-content-des" v-for="(item, index) in categoryList[index]" @tap="goCategory(item.id)" :key="index">
+							<view class="banner-content-des" v-for="(item, index22) in categoryList[index]" @tap="goCategory(item.id)" :key="index22">
 								<image class="banner-content-des-image" style="width:85upx;height:86upx;border-radius: 50%;" :src="item.goodsImg" mode="aspectFill" />
 								<view class="banner-content-des-title">{{item.goodsType}}</view>
 							</view>
@@ -70,7 +70,7 @@
 				>
 					<swiper-item v-for="(item, index) in goodsList" :key="index" :class="cardCur == index ? 'cur' : ''">
 						<!-- <view @tap="goShop(item.shop_id)" class="swiper-item-immeuble"> -->
-						<view @tap="goShop(item.shop_id)" class="swiper-item-immeuble">
+						<view @tap="goShop(item.id)" class="swiper-item-immeuble">
 							<image class="swiper-item-immeuble-take" style="width:80upx;height:38upx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/take.png" mode="" />
 							<image class="" style="width:283upx;height:240upx;" :src="item.top_img_list[0].url" mode="" />
 							<view class="immeuble">
@@ -89,19 +89,30 @@
 		<view class="footer">
 			-亲，已经到底了-
 		</view>
-		
+		<!-- 强制更新 start -->
+		<uni-popup :show="show10" :popupType ="popupType" :custom="true" :mask-click="false" >
+			<view class="uni-tip">
+				<!-- <view class="uni-tip-title">提示</view> -->
+				<view class="uni-tip-content">请更新版本</view>
+				<view class="uni-tip-group-button">
+					<view class="uni-tip-button insist-skip" @click="cancelPopup('skip')" style="color: #F9B72C;">确定</view>
+				</view>
+			</view>
+		</uni-popup>
     </view>
 </template>
 
 <script>
-    
+    import uniPopup from "@/components/uni-popup/uni-popup.vue"
 	import uniSwiperDot from '@/components/uni-swiper-stop/uni-swiper-stop.vue'
     export default {
 		components: {
-			uniSwiperDot
+			uniSwiperDot,
+			uniPopup
 		},
         data() {
 			return {
+				show10: false,
 				releaseImgList: [],
 				dotStyle: {
 					backgroundColor: '#CCCCCC',
@@ -152,6 +163,34 @@
 				currentIndex: 0
 			}
 		},
+		onLoad() {
+			// 判断是否强制更新，是否需要更新
+			const url = this.url
+			let self = this
+			plus.runtime.getProperty(plus.runtime.appid,function(inf){
+				let wgtVer=inf.version
+				console.log(inf.version)
+				uni.request({
+					url: url + 'controller/versioncontroller/getappversion',
+					data: {
+						version: inf.version,
+						appCode: 'zjb_app'
+					},
+					method:"POST",
+					header : {'content-type':'application/x-www-form-urlencoded'},
+					success: function (res){
+						if(res.data.code=="200"){
+							console.log(res.data.data.hasNewVersion)
+							
+							if(res.data.data.isForceUpdate==1){
+								self.show10 = true
+							}
+							
+						}
+					}
+				})
+			})
+		},
 		onShow(){
 			this.init()
 			this.getCategory()
@@ -172,11 +211,12 @@
 		
         methods: {
 			// 第二轮播
-		  change(e) {
-			console.log(e.detail.current)
-			this.current = e.detail.current
-		  },
+		    change(e) {
+				console.log(e.detail.current)
+				this.current = e.detail.current
+		    },
 			goShop(id){
+				console.log(id)
 				uni.navigateTo({
 					url: '/pages/shopping-mall/detail/detail?id=' + id
 				})
@@ -256,8 +296,9 @@
 						// console.log(res.data.code)
 						if(res.data.code==200){
 							for(var a = 0;a<res.data.data.dataList.length;a++){
-							  res.data.data.dataList[a].top_img_list[0] = JSON.parse(res.data.data.dataList[a].top_img_list[0])
+							  res.data.data.dataList[a].top_img_list = JSON.parse(res.data.data.dataList[a].top_img_list)
 							}
+							console.log(res.data.data.dataList[0].top_img_list[0].url)
 							if(res.data.data.dataList.length>3){
 								for(var i = 0;i<3;i++){
 									self.wanghongList[i]=res.data.data.dataList[i]
@@ -291,9 +332,9 @@
 						// console.log(res.data.code)
 						if(res.data.code==200){
 							for(let b = 0;b<res.data.data.dataList.length;b++){
-							  res.data.data.dataList[b].top_img_list[0] = JSON.parse(res.data.data.dataList[b].top_img_list[0])
+							  res.data.data.dataList[b].top_img_list = JSON.parse(res.data.data.dataList[b].top_img_list)
 							}
-							console.log(res.data.data.dataList[0].top_img_list[0].url)
+							console.log(res.data.data.dataList[0].top_img_list)
 							self.goodsList = res.data.data.dataList
 							
 						}else{
@@ -669,6 +710,7 @@
 		width: 241upx;
 	}
 	.immeuble-desc{
+		height: 60rpx;
 		margin: 5px auto;
 		font-size:22upx;
 		font-family:PingFang SC;
@@ -677,7 +719,9 @@
 		line-height: 30upx;
 	}
 	.immeuble-price{
-		margin-top: 16upx;
+		position: relative;
+		bottom: 8rpx;
+		// margin-top: 16upx;
 		display: flex;
 		justify-content: space-between;
 		font-size:24upx;
@@ -795,5 +839,68 @@
 		.iconfont{
 			margin-left: 10upx;
 		}
+	}
+	/* 提示窗口 */
+	.uni-tip {
+		padding-top: 15px;
+		width: 300px;
+		background: #fff;
+		box-sizing: border-box;
+		border-radius: 10rpx;
+	}
+	
+	.uni-tip-title {
+		text-align: center;
+		font-weight: bold;
+		font-size: 41rpx;
+		color: #333;
+	}
+	
+	.uni-tip-content {
+		padding: 44rpx 0;
+		font-size: 32rpx;
+		color: #666;
+		width: 360rpx;
+		color: #666666;
+		font-weight: 500;
+		margin: auto;
+		text-align: center;
+	}
+	
+	.uni-tip-group-button {
+		margin-top: 10px;
+		display: flex;
+	}
+	
+	.uni-tip-button:nth-child(1) {
+		width: 100%;
+		text-align: center;
+		font-size: 14px;
+		color: #333333;
+		font-size: 37rpx;
+		font-weight: 500;
+		border-top: 1px solid #E2E2E2;
+		border-right: 1px solid #E2E2E2;
+		padding: 10px 0;
+	}
+	.uni-tip-button {
+		width: 100%;
+		text-align: center;
+		font-size: 14px;
+		color: #333333;
+		font-size: 37rpx;
+		font-weight: 500;
+		border-top: 1px solid #E2E2E2;
+		padding: 10px 0;
+	}
+	.name-input{
+	    position: absolute;
+	    left: 250px;
+	    top: 19px;
+	    width: 400rpx;
+	    height: 60rpx;
+	    font-size:30rpx;
+	    font-family:PingFang SC;
+	    color:rgba(153,153,153,1);
 	}
 </style>

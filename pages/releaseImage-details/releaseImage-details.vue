@@ -34,7 +34,7 @@
 			<view class="content" :style="{marginTop: scrollFlag ? '10px' : '0'}">
 				<view v-if="!isShowAllContent" class="text">{{dataItem.content }}</view>
 				<view v-else class="text">{{dataItem.content | ellipsis}}</view>
-				<view class="anCotent" v-if="contentLength > 45 " @click="open()">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'in'" src="http://www.zhongjubang.com/api/upload/static/drafts/arrow-bottom.png" mode=""></image></view>
+				<view class="anCotent" v-if="contentLength > 45 " @click="open()">{{ brandFold  ? '收起' : '展开'}}<image :class="!brandFold ? '' : 'inn'" src="http://www.zhongjubang.com/api/upload/static/drafts/arrow-bottom.png" mode=""></image></view>
 			</view>
 			<view class="release-image_topic" v-if="titleItem.topic != '' ">
 				<view class="left"  @click.stop="goTopic(titleItem)">
@@ -860,5 +860,9 @@
 		width: 100%;
 		height: 10px;
 		background:rgba(245,245,245,1);
+	}
+	.inn {
+		background: #FFFFFF;
+		transform: rotateX(180deg);
 	}
 </style>

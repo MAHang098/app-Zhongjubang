@@ -77,7 +77,7 @@
 					<view class="describe">
 						<view v-if="(activeIndex == index && !isShowAllContent)" class="text" @click.stop="contentDetail(item.gcircleContentId)">{{item.content }}</view>
 						<view v-else class="text" @click.stop="contentDetail(item.gcircleContentId)">{{item.content | ellipsis}}</view>
-						<view class="anCotent" v-if="item.content.length > 60 " @click.stop="open(index)">{{activeIndex == index && brandFold  ? '收起' : '展开'}}<image :class="brandFold ? '' : 'in'" src="http://www.zhongjubang.com/api/upload/static/drafts/arrow-bottom.png" mode=""></image></view>
+						<view class="anCotent" v-if="item.content.length > 60 " @click.stop="open(index)">{{activeIndex == index && brandFold  ? '收起' : '展开'}}<image :class="brandFold ? 'inn' : ''" src="http://www.zhongjubang.com/api/upload/static/drafts/arrow-bottom.png" mode=""></image></view>
 					</view>
 					<!-- 文字内容 end -->
 					
@@ -820,6 +820,10 @@
 	}
 	.in {
 		background: #FFFFFF;
+	}
+	.inn {
+		background: #FFFFFF;
+		transform: rotateX(180deg);
 	}
 	.header {
 		width: 100%;

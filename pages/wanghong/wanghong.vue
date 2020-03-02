@@ -61,7 +61,7 @@
 						// console.log(res.data.code)
 						if(res.data.code==200){
 							for(var i = 0;i<res.data.data.dataList.length;i++){
-							  res.data.data.dataList[i].top_img_list[0] = JSON.parse(res.data.data.dataList[i].top_img_list[0])
+							  res.data.data.dataList[i].top_img_list = JSON.parse(res.data.data.dataList[i].top_img_list)
 							}
 							self.goodsList = res.data.data.dataList
 						}else{

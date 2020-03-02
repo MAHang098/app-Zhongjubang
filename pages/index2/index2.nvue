@@ -199,6 +199,15 @@
 			}
 		},
 		onLoad(options){
+			uni.getSystemInfo({
+			　　success: function(res) { // res - 各种参数
+			
+			　　    let info = uni.createSelectorQuery().select(".des");
+			　　　  　info.boundingClientRect(function(data) { //data - 各种参数
+			　　　  　console.log(data.height)  // 获取元素宽度
+			　　    }).exec()
+			       }
+			});
 			let self = this
 			uni.getSystemInfo({
 			    success: function (res) {
@@ -209,7 +218,7 @@
 					self.width = res.screenWidth
 				},
 			})
-			console.log(options.id)
+			// console.log(options.id)
 			this.id = options.id
 		},
 		onShow:function(){
@@ -242,7 +251,7 @@
 						'token': token
 					},
 					success: function (res){
-						console.log(res)
+						// console.log(res)
 						self.getContent()
 					}
 				})
@@ -274,7 +283,7 @@
 								url: '/pages/loginPhone/loginPhone'
 							})
 						}
-						console.log(res)
+						// console.log(res)
 						self.nickName = res.data.data.nickName
 						self.head = res.data.data.head
 						self.content2 = res.data.data.content
@@ -284,7 +293,7 @@
 						self.shortVideoLikeNum = res.data.data.shortVideoLikeNum
 						self.attention = res.data.data.attention
 						self.outUserId = res.data.data.userId
-						console.log(res.data.data.attention)
+						// console.log(res.data.data.attention)
 						
 						if(res.data.data.shortVideoCollection==1){
 							self.showUpImg = false
@@ -329,7 +338,7 @@
 						const url = self.url
 						
 								
-						console.log(id)
+						// console.log(id)
 						//获取短视频内容
 						uni.request({
 							url: self.url + "controller/usercontroller/delshortvideodiscuss",
@@ -369,7 +378,7 @@
 				console.log(self.nickName)
 				if(this.recommendId!=''){
 					if(this.userID222!=undefined){
-						console.log('cechi::::'+self.userID222)
+						// console.log('cechi::::'+self.userID222)
 						uni.request({
 							url: self.url + "controller/usercontroller/addanswershortvideodiscuss",
 							data: {

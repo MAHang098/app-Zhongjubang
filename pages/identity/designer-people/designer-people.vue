@@ -53,7 +53,7 @@
 				<view class="identify-pic">
 					名片(从业资格证)照片：
 				</view>
-				<image  @tap="chooseImageHome" v-if="!homeImage" src="http://www.zhongjubang.com/api/upload/static/img/identity/add.png" mode="" class="add-img"></image>
+				<image  @tap="chooseImageHome" v-if="!homeImage" src="../../../static/img/designation/updown1.png" mode="" class="add-img"></image>
 				<image  @tap="chooseImageHome" v-if="homeImage" :src="homeImage" mode="" class="add-img"></image>
 			</view>
 			
@@ -82,7 +82,7 @@
 			</view>
 			<!-- 屋内照片 start -->
 			<view class="authentication2">
-				<image @click.stop="chooseImage" v-if="!showVideo" src="http://www.zhongjubang.com/api/upload/static/img/identity/add.png" mode="" class="add-img"></image>
+				<image @click.stop="chooseImage" v-if="!showVideo" src="../../../static/img/designation/updown2.png" mode="" class="add-img"></image>
 				
 			</view>
 			<view class="upload-list" v-if="showVideo">

@@ -12,18 +12,61 @@
 		<view class="close" @tap="back">
 			<image src="http://www.zhongjubang.com/api/upload/static/img/release/close.png" mode="" />
 		</view>
+		<!-- 强制更新 start -->
+		<uni-popup :show="show10" :popupType ="popupType" :custom="true" :mask-click="false" >
+			<view class="uni-tip">
+				<!-- <view class="uni-tip-title">提示</view> -->
+				<view class="uni-tip-content">请更新版本</view>
+				<view class="uni-tip-group-button">
+					<view class="uni-tip-button insist-skip" @click="cancelPopup('skip')" style="color: #F9B72C;">确定</view>
+				</view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
 <script>
+	import uniPopup from "@/components/uni-popup/uni-popup.vue"
     export default {
+		components:{
+			uniPopup
+		},
         data() {
             return {
+			show10: false,
                src: '',
 			   imgList: [],
 			   tempFilePaths: []
             }
         },
+		onLoad() {
+			// 判断是否强制更新，是否需要更新
+			const url = this.url
+			let self = this
+			plus.runtime.getProperty(plus.runtime.appid,function(inf){
+				let wgtVer=inf.version
+				console.log(inf.version)
+				uni.request({
+					url: url + 'controller/versioncontroller/getappversion',
+					data: {
+						version: inf.version,
+						appCode: 'zjb_app'
+					},
+					method:"POST",
+					header : {'content-type':'application/x-www-form-urlencoded'},
+					success: function (res){
+						if(res.data.code=="200"){
+							console.log(res.data.data.hasNewVersion)
+							
+							if(res.data.data.isForceUpdate==1){
+								self.show10 = true
+							}
+							
+						}
+					}
+				})
+			})
+		},
         methods: {
             back(){
 				// uni.navigateBack()
@@ -215,5 +258,68 @@
 	.close image{
 		width: 38rpx;
 		height: 38rpx;
+	}
+	/* 提示窗口 */
+	.uni-tip {
+		padding-top: 15px;
+		width: 300px;
+		background: #fff;
+		box-sizing: border-box;
+		border-radius: 10rpx;
+	}
+	
+	.uni-tip-title {
+		text-align: center;
+		font-weight: bold;
+		font-size: 41rpx;
+		color: #333;
+	}
+	
+	.uni-tip-content {
+		padding: 44rpx 0;
+		font-size: 32rpx;
+		color: #666;
+		width: 360rpx;
+		color: #666666;
+		font-weight: 500;
+		margin: auto;
+		text-align: center;
+	}
+	
+	.uni-tip-group-button {
+		margin-top: 10px;
+		display: flex;
+	}
+	
+	.uni-tip-button:nth-child(1) {
+		width: 100%;
+		text-align: center;
+		font-size: 14px;
+		color: #333333;
+		font-size: 37rpx;
+		font-weight: 500;
+		border-top: 1px solid #E2E2E2;
+		border-right: 1px solid #E2E2E2;
+		padding: 10px 0;
+	}
+	.uni-tip-button {
+		width: 100%;
+		text-align: center;
+		font-size: 14px;
+		color: #333333;
+		font-size: 37rpx;
+		font-weight: 500;
+		border-top: 1px solid #E2E2E2;
+		padding: 10px 0;
+	}
+	.name-input{
+	    position: absolute;
+	    left: 250px;
+	    top: 19px;
+	    width: 400rpx;
+	    height: 60rpx;
+	    font-size:30rpx;
+	    font-family:PingFang SC;
+	    color:rgba(153,153,153,1);
 	}
 </style>

@@ -95,10 +95,10 @@
 					<swiper-item v-for="(item, index) in gootList" :key="index" :class="cardCur == index ? 'cur' : ''">
 						<view class="swiper-item-immeuble">
 							
-							<view v-for="(item, index) in gootList[index]" @tap="goShop(item.id)" :key="index">
+							<view v-for="(item, index22) in gootList[index]" @tap="goShop(item.id)" :key="index22">
 								<view class="immeuble">
 									<image class="" style="width:179upx;height:160upx;" :src="item.top_img_list[0].url" mode="" />
-									<view class="immeuble-desc">{{item.goods_name}}</view>
+									<view class="immeuble-desc">{{item.goods_name | ellipsis2}}</view>
 									<view class="immeuble-price">￥{{item.goods_price}}</view>
 								</view>
 								
@@ -131,17 +131,42 @@
 		</view>
 		<view style="clear:both"></view>
 		<view class="footer-more">-亲，我们是有底线的-</view>
+		<!-- 是否需要更新 start -->
+		<uni-popup :show="show" :popupType ="popupType" :custom="true" :mask-click="false" >
+			<view class="uni-tip">
+				<!-- <view class="uni-tip-title">提示</view> -->
+				<view class="uni-tip-content">请选择是否要更新版本</view>
+				<view class="uni-tip-group-button">
+					<view class="uni-tip-button" @click="cancelPopup('tip')">取消</view>
+					<view class="uni-tip-button insist-skip" @click="cancelPopup('skip')" style="color: #F9B72C;">确定</view>
+				</view>
+			</view>
+		</uni-popup>
+		<!-- 强制更新 start -->
+		<uni-popup :show="show1" :popupType ="popupType" :custom="true" :mask-click="false" >
+			<view class="uni-tip">
+				<!-- <view class="uni-tip-title">提示</view> -->
+				<view class="uni-tip-content">请更新版本</view>
+				<view class="uni-tip-group-button">
+					<view class="uni-tip-button insist-skip" @click="cancelPopup('skip')" style="color: #F9B72C;">确定</view>
+				</view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
 <script>
 	import uniSwiperDot from '@/components/uni-swiper-banner/uni-swiper-banner.vue'
+	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 	export default {
 		components: {
-			uniSwiperDot
+			uniSwiperDot,
+			uniPopup
 		},
 		data() {
 			return {
+				show: false,
+				show1: false,
 				dotStyle: {
 					backgroundColor: '#CCCCCC',
 					border: '1px #CCCCCC solid',
@@ -199,15 +224,62 @@
 				return value.slice(0,22) + '...'
 			  }
 			  return value
+			},
+			ellipsis2 (value) {
+			  if (!value) return ''
+			  if (value.length > 12) {
+				return value.slice(0,12) + '...'
+			  }
+			  return value
 			}
 		},
-		onLoad() {},
+		onLoad() {
+			// 判断是否强制更新，是否需要更新
+			const url = this.url
+			let self = this
+			plus.runtime.getProperty(plus.runtime.appid,function(inf){
+				let wgtVer=inf.version
+				console.log(inf.version)
+				uni.request({
+					url: url + 'controller/versioncontroller/getappversion',
+					data: {
+						version: inf.version,
+						appCode: 'zjb_app'
+					},
+					method:"POST",
+					header : {'content-type':'application/x-www-form-urlencoded'},
+					success: function (res){
+						if(res.data.code=="200"){
+							console.log(res.data.data.hasNewVersion)
+							
+							if(res.data.data.isForceUpdate==1){
+								self.show1 = true
+							}else{
+								if(res.data.data.hasNewVersion==1){
+									self.show = true
+								}
+							}
+							
+						}
+					}
+				})
+			})
+		},
 		onShow() {
 			
 			const url = this.url
 			let self = this
+			uni.getStorage({
+				key:"token",
+				success: function (res) {
+					self.token = res.data
+				}
+			})
 			// app主页轮播图
-			
+			uni.showLoading({
+				title: '加载中...',
+				mask: true
+			})
 			uni.request({
 				url: url + 'public/public/getresourcesbyresourcestype',
 				data: {
@@ -216,6 +288,7 @@
 				method:"POST",
 				header : {'content-type':'application/x-www-form-urlencoded','port':'app'},
 				success: function (res){
+					uni.hideLoading()
 					if(res.data.code=="200"){
 						self.bannerList = res.data.data
 					}
@@ -292,7 +365,6 @@
 							result.push(res.data.data.dataList.slice(i, i + chunk));
 						}
 						self.gootList = result
-						console.log(result)
 					}
 				}
 			})
@@ -307,10 +379,8 @@
 				header : {'content-type':'application/x-www-form-urlencoded'},
 				success: function (res){
 					if(res.data.code=="200"){
-						// console.log(res)
 						for(var i = 0; i<res.data.data.dataList.length;i++){
 							res.data.data.dataList[i].img_list = JSON.parse(res.data.data.dataList[i].img_list);
-							// console.log(res.data.data.dataList[i].img_list[0].fileUrl)
 						}
 						self.topList = res.data.data.dataList
 					}
@@ -318,9 +388,20 @@
 			})
 		},
 		methods: {
+			// 取消弹出层
+			cancelPopup(type) {
+			
+			    if (type === 'tip') {
+			        this.show = false
+			        return
+			    }
+			    if(type === 'skip') {
+			        console.log("1111")
+					plus.runtime.openURL( "http://www.zhongjubang.com/api/upload/app/zjb1.0.0-test-download.apk" );  
+			    }
+			},
 			goBanner(id){
 				var str = id;
-				// console.log(str.indexOf("http") != -1 ); 
 				if(str.indexOf("http") != -1){
 					uni.navigateTo({
 						url: '/pages/webView/webView?lian=' + id
@@ -333,12 +414,36 @@
 			},
 			// 跳转到消息页面
 			goInformation() {
-				uni.navigateTo({
-					url: '/pages/information/information-list/information-list'
+				//根据id获取短视频内容，是用来判断用户是否注册
+				console.log('111')
+				uni.request({
+					url: this.url + "controller/usercontroller/getshortvideobyid",
+					data: {shortVideoId:12},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': this.token
+					},
+					success: function (res){
+						
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+						if(res.data.code==200){
+							uni.navigateTo({
+								url: '/pages/information/information-list/information-list'
+							})
+							
+							
+						}
+					}
 				})
+				
 			},
 			bindPickerChange(e) {
-				// console.log('picker发送选择改变，携带值为', e.target.value)
 				this.index = e.target.value
 			},
 			goJingpin(){
@@ -363,8 +468,32 @@
 				})
 			},
 			goShop(id){
-				uni.navigateTo({
-					url: '/pages/shopping-mall/detail/detail?id=' + id
+				
+				//根据id获取短视频内容，是用来判断用户是否注册
+				uni.request({
+					url: this.url + "controller/usercontroller/getshortvideobyid",
+					data: {shortVideoId:id},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': this.token
+					},
+					success: function (res){
+						
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+						if(res.data.code==200){
+							uni.navigateTo({
+								url: '/pages/shopping-mall/detail/detail?id=' + id
+							})
+							
+							
+						}
+					}
 				})
 			},
 			goIndex2(id){
@@ -383,7 +512,7 @@
 				// 判断token过期
 				const url = this.url
 				
-				//获取短视频内容
+				//根据id获取短视频内容，是用来判断用户是否注册
 				uni.request({
 					url: url + "controller/usercontroller/getshortvideobyid",
 					data: {shortVideoId:id},
@@ -405,19 +534,16 @@
 								url: '/pages/testVideo/testVideo?id=' + id + '&type=2'
 							})
 							// uni.navigateTo({
+							// 	url: '/pages/testVideo2/testVideo2?id=' + id
+							// })
+							// uni.navigateTo({
+							// 	url: '/pages/index2/index2?id=' + id
+							// })
+							// uni.navigateTo({
 							// 	url: '/pages/swiper-vertical/swiper-vertical?id=' + id + '&type=2'
 							// })
-							// let height,width
-							// uni.getSystemInfo({
-							//     success: function (res) {
-							// 		height = res.screenHeight
-							// 		width = res.screenWidth
-							// 	},
-							// })
-							// let urlWebview = "http://192.168.0.131:8081/#/pages/swiper-vertical2/swiper-vertical2?token=" + token + "&h=" + height + "&w=" + width + "&id=" + id + "&type=2"
-							// uni.navigateTo({
-							// 	url: '/pages/testVideo/testVideo?urlWebview=' + urlWebview
-							// })
+							
+							
 						}
 					}
 				})
@@ -471,9 +597,33 @@
 				
 			},
 			goTopicDetails(id){
-				uni.navigateTo({
-					url: '/pages/topicDetails/topicDetails?id=' + id
+				//根据id获取短视频内容，是用来判断用户是否注册
+				uni.request({
+					url: this.url + "controller/usercontroller/getshortvideobyid",
+					data: {shortVideoId:id},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': this.token
+					},
+					success: function (res){
+						
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+						if(res.data.code==200){
+							uni.navigateTo({
+								url: '/pages/topicDetails/topicDetails?id=' + id
+							})
+							
+							
+						}
+					}
 				})
+				
 			},
 			goJuquanVideo(){
 				uni.navigateTo({
@@ -826,6 +976,8 @@
 		line-height: 30upx;
 	}
 	.immeuble-price{
+		/* position: absolute; */
+		bottom: 40rpx;
 		font-size:24upx;
 		font-family:PingFang SC;
 		font-weight:bold;
@@ -908,5 +1060,68 @@
 		height: var(--status-bar-height);
 		padding-top: 44px;
 		box-sizing: content-box;
+	}
+	/* 提示窗口 */
+	.uni-tip {
+		padding-top: 15px;
+		width: 300px;
+		background: #fff;
+		box-sizing: border-box;
+		border-radius: 10rpx;
+	}
+	
+	.uni-tip-title {
+		text-align: center;
+		font-weight: bold;
+		font-size: 41rpx;
+		color: #333;
+	}
+	
+	.uni-tip-content {
+		padding: 44rpx 0;
+		font-size: 32rpx;
+		color: #666;
+		width: 360rpx;
+		color: #666666;
+		font-weight: 500;
+		margin: auto;
+		text-align: center;
+	}
+	
+	.uni-tip-group-button {
+		margin-top: 10px;
+		display: flex;
+	}
+	
+	.uni-tip-button:nth-child(1) {
+		width: 100%;
+		text-align: center;
+		font-size: 14px;
+		color: #333333;
+		font-size: 37rpx;
+		font-weight: 500;
+		border-top: 1px solid #E2E2E2;
+		border-right: 1px solid #E2E2E2;
+		padding: 10px 0;
+	}
+	.uni-tip-button {
+		width: 100%;
+		text-align: center;
+		font-size: 14px;
+		color: #333333;
+		font-size: 37rpx;
+		font-weight: 500;
+		border-top: 1px solid #E2E2E2;
+		padding: 10px 0;
+	}
+	.name-input{
+	    position: absolute;
+	    left: 250px;
+	    top: 19px;
+	    width: 400rpx;
+	    height: 60rpx;
+	    font-size:30rpx;
+	    font-family:PingFang SC;
+	    color:rgba(153,153,153,1);
 	}
 </style>

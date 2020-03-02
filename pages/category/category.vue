@@ -330,7 +330,7 @@
 	}
 	.banner{
 		position: relative;
-		left: 200rpx;
+		left: 246rpx;
 		top: 40rpx;
 	}
 	

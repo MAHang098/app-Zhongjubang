@@ -46,14 +46,26 @@
             <!-- <view class="signature-infini">未填写</view> -->
             <view v-show="okRemark" class="nick-name-text3">{{remarks_num}}/30</view>
         </view>
-        <view class="gender">
+		<!-- <view class="uni-title uni-common-pl">日期选择器</view> -->
+		<!-- <view class="uni-list">
+			<view class="uni-list-cell">
+				<view class="uni-list-cell-left">
+					我的生日
+				</view>
+				<view class="uni-list-cell-db">
+					<picker mode="date" :value="date" :start="startDate" :end="endDate" @change="bindDateChange">
+						<view class="uni-input">{{date}}</view>
+					</picker>
+				</view>
+			</view>
+		</view> -->
+        <!-- <view class="gender">
             <view class="gender-text">我的生日</view>
             <picker mode="date" :value="birthday" @change="bindDateChange">
                 <view class="born-date">{{birthday}}</view>
-                <!-- <view class="uni-input">{{birthday}}</view> -->
             </picker>
-            <!-- <view class="born-date">{{birthday}}</view> -->
-        </view>
+			
+        </view> -->
         <view class="gender" @tap="chooseImage2">
             <view class="gender-text">个人封面</view>
         </view>
@@ -197,10 +209,7 @@
                                 that.cover = data.data.fileUrl
                             }
                         })
-						
-						
-						
-				    }
+					}
 				})
 			},
             save(e){
@@ -320,7 +329,7 @@
     }
     .click-change{
         position: absolute;
-        left: 292rpx;
+        left: 300rpx;
         bottom: 11rpx;
         font-size:26rpx;
         font-family:PingFang SC;
@@ -338,7 +347,7 @@
     .nick-name-text{
         position: absolute;
         left: 30rpx;
-        bottom: 34rpx;
+        bottom: 26rpx;
         font-size:30rpx;
         font-family:PingFang SC;
         font-weight:500;
@@ -347,7 +356,7 @@
     .nick-name-text2{
         position: absolute;
         left: 259rpx;
-        bottom: 34rpx;
+        bottom: 24rpx;
         font-size:32rpx;
         font-family:PingFang SC;
         font-weight:500;
@@ -356,7 +365,7 @@
     .nick-name-text3{
         position: absolute;
         right: 32rpx;
-        bottom: 34rpx;
+        bottom: 20rpx;
         font-size:30rpx;
         font-family:PingFang SC;
         font-weight:500;
@@ -373,7 +382,7 @@
     .gender-text{
         position: absolute;
         left: 30rpx;
-        bottom: 36rpx;
+        bottom: 30rpx;
         font-size:30rpx;
         font-family:PingFang SC;
         font-weight:500;
@@ -431,7 +440,7 @@
     .signature-infini{
         position: absolute;
         left: 260rpx;
-        bottom: 37rpx;
+        bottom: 28rpx;
         font-size:30rpx;
         font-family:PingFang SC;
         font-weight:500;
@@ -449,7 +458,7 @@
     .address{
         position: absolute;
         left: 31rpx;
-        bottom: 38rpx;
+        bottom: 32rpx;
         font-size:30rpx;
         font-family:PingFang SC;
         font-weight:500;

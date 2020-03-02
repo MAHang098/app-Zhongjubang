@@ -27,7 +27,7 @@
 				<input type="text" value="" placeholder="必填" @input = "urlInput"/>
 			</view>
 			<view class="authentication" >
-				<image @tap="chooseVideo" v-if="!showVideo" src="http://www.zhongjubang.com/api/upload/static/img/identity/add.png" mode="" class="add-img"></image>
+				<image @tap="chooseVideo" v-if="!showVideo" src="../../../static/img/designation/updown9.png" mode="" class="add-img"></image>
 				<view class="video-class" v-if="showVideo">
 					<view class="video-class-image" v-for="(item, index) in vidList" :key="index">
 						<video class="video-image" :src="item.videoUrl" mode=""></video>
