@@ -75,10 +75,10 @@
 							</view>
 						</view>
 						<view v-else class="user-right" @click.stop="focus(items.userId, current, items, index)">
-							<image v-if="current == 0" :src="items.attentionState == 0 ? 'http://www.zhongjubang.com/api/upload/static/follow.png' : items.attentionState == 2 ? 'http://www.zhongjubang.com/api/upload/static/mutual-follow.png' : 'http://www.zhongjubang.com/api/upload/static/follow-checked.png'" mode=""></image>
-							<image v-if="current == 1" :src="items.attentionState == 2 ? 'http://www.zhongjubang.com/api/upload/static/follow.png' : items.attentionState == 1 ? 'http://www.zhongjubang.com/api/upload/static/mutual-follow.png' : 'http://www.zhongjubang.com/api/upload/static/follow-checked.png'" mode=""></image>
-												
-						</view>
+						              <image v-if="current == 0" :src="items.attentionState == 0 || !items.attentionState? 'http://www.zhongjubang.com/api/upload/static/follow.png' : items.attentionState == 2  ? 'http://www.zhongjubang.com/api/upload/static/mutual-follow.png' : 'http://www.zhongjubang.com/api/upload/static/follow-checked.png'" mode=""></image>
+						              <image v-if="current == 1" :src="items.attentionState == 2 || !items.attentionState ? 'http://www.zhongjubang.com/api/upload/static/follow.png' : items.attentionState == 1 ? 'http://www.zhongjubang.com/api/upload/static/mutual-follow.png' : 'http://www.zhongjubang.com/api/upload/static/follow-checked.png'" mode=""></image>
+						                        
+						 </view>
 					</view>
 					<!-- 用户信息 start -->
 					
@@ -346,6 +346,10 @@
 				key:"token",
 				success:((res) => {
 				this.token = res.data;
+				if(res.data == 0) {
+					this.token = '';
+					return;
+				  }
 			  })
 			});
 			this.isShow = true;

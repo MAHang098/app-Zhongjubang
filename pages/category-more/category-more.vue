@@ -15,14 +15,20 @@
 				<text v-bind:class="index == current ? 'active-status' : '' "></text>
 			</view>
 		</view>
-		<view class="category-content" v-for="(item, index) in goodsList" :key="index" @tap="goDetails(item.goodsId)">
-			<view class="category-content-box">
-				<image class="category-content-image" style="width:345upx;height:345upx;" :src="item.topImgList[1]" />
-				<view class="category-content-des">{{item.goodsName}}</view>
-				<text class="category-content-price">￥{{item.goodsPrice}}</text>
-				<image class="category-content-car" style="width:38upx;height:35upx;" src="http://www.zhongjubang.com/api/upload/static/img/category/car.png" />
+		<view class="noData" v-if="show">
+			暂时没有数据
+		</view>
+		<view class="" v-if="!show">
+			<view class="category-content" v-for="(item, index) in goodsList" :key="index" @tap="goDetails(item.goodsId)">
+				<view class="category-content-box">
+					<image class="category-content-image" style="width:345upx;height:345upx;" :src="item.topImgList[1]" />
+					<view class="category-content-des">{{item.goodsName}}</view>
+					<text class="category-content-price">￥{{item.goodsPrice}}</text>
+					<image class="category-content-car" style="width:38upx;height:35upx;" src="http://www.zhongjubang.com/api/upload/static/img/category/car.png" />
+				</view>
 			</view>
 		</view>
+		
 	</view>
 </template>
 
@@ -40,6 +46,7 @@
 				goodsStyle: '',
 				showPrice: 1,
 				style: 1,
+				show: false
 				
 			}
 		},
@@ -116,12 +123,20 @@
 						if(res.data.code=="200"){
 							console.log(res)
 							console.log(res.data.data.dataList)
-							console.log(res.data.data.dataList[0].goodsStyle)
-							self.goodsStyle = res.data.data.dataList[0].goodsStyle
-							for(var i = 0; i < res.data.data.dataList.length;i++){
-								res.data.data.dataList[i].topImgList = JSON.parse(res.data.data.dataList[i].topImgList)
+							console.log(res.data.data.dataList.length)
+							if(res.data.data.dataList.length == 0){
+								self.show = true
+								console.log('1111')
+							}else{
+								console.log(res.data.data.dataList[0].goodsStyle)
+								self.goodsStyle = res.data.data.dataList[0].goodsStyle
+								for(var i = 0; i < res.data.data.dataList.length;i++){
+									res.data.data.dataList[i].topImgList = JSON.parse(res.data.data.dataList[i].topImgList)
+								}
+								self.goodsList = res.data.data.dataList
 							}
-							self.goodsList = res.data.data.dataList
+							
+							
 						}
 					}
 				})
@@ -247,6 +262,11 @@
 		left: 316upx;
 		top: 170upx;
 		z-index: 10;
+	}
+	.noData{
+		text-align: center;
+		color: #AFAFAF;
+		margin-top: 350rpx;
 	}
 </style>
 
