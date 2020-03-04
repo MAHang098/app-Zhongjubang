@@ -146,7 +146,7 @@
 				showAllDesc: false,
 				token: '',
 				connectingServer: false
-
+				
 			}
 		},
 		onLoad(options) {
@@ -177,7 +177,13 @@
 				this.connectingServer = false
 			},
 			getContent() {
-				let token = this.getToken();
+				// let token = this.getToken();
+				uni.getStorage({
+					key:"token",
+					success:((res) => {
+					this.token = res.data;
+				  })
+				});
 				let id = this.id
 				let url = this.url
 				let self = this
@@ -191,7 +197,7 @@
 					header: {
 						'content-type': 'application/x-www-form-urlencoded',
 						'port': 'app',
-						'token': token
+						'token': this.token
 					},
 					success: (res) => {
 						console.log('got video res', res);
@@ -349,7 +355,7 @@
 			},
 			getCommentList() {
 				let id = this.id
-				let token = this.getToken();
+				// let token = this.getToken();
 				let self = this
 				if (!this.tryConnectServer()) return;
 				uni.request({
@@ -363,7 +369,7 @@
 					header: {
 						'content-type': 'application/x-www-form-urlencoded',
 						'port': 'app',
-						'token': token
+						'token': this.token
 					},
 					success: (res) => {
 						console.log('got comment list res', res)

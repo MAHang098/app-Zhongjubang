@@ -836,23 +836,23 @@
 		/* background: #0FAEFF; */
 		position: fixed;
 		z-index: 1;
-
+		margin-top: 20rpx;
 	}
 	.header view {
 		display:flex;
 		align-items:center;
 		height: 100%;
-		margin-top: 15rpx;
+		margin-top: 4rpx;
 	}
 	.header-left image {
 		width: 15rpx;
 		height: 31rpx;
 		display: block;
-		margin-right: 18rpx;
+		/* margin-right: 58rpx; */
 	}
 	.header-left-image{
-		width: 80rpx;
-		height: 80rpx;
+		width: 40rpx;
+		height: 40rpx;
 	}
 	.header-right image:first-child {
 		width: 106rpx;
@@ -866,6 +866,7 @@
 		margin-left: 40rpx;
 	}
 	.header-topic {
+		/* margin-left: 40rpx; */
 		font-size: 32rpx;
 	}
 	/* 话题标题 */

@@ -14,6 +14,7 @@
 				"navigationBarTextStyle": "white",
 				"app-plus": {
 					"bounce": "none",
+					"softinputMode" : "adjustPan",
 					"subNVues": [{
 						"id": "actionBar", // 唯一标识  
 						"path": "pages/index3/subNVue/actionBar" // 页面路径  
@@ -936,7 +937,7 @@
             "pagePath": "pages/release/release",
             "text": "发布",
             "iconPath": "static/img/release.png",
-            "selectedIconPath": "static/img/homeHL.png"
+            "selectedIconPath": "static/img/release.png"
         },
 		// //#ifdef MP-WEIXIN
 		// {

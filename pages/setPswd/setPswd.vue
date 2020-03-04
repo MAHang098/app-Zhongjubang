@@ -12,7 +12,8 @@
 				<!-- <image src="../../static/phone.png" mode=""></image> -->
 			</view>
 		</view>
-		<button class="complete" @click="completes">完成</button>
+		<!-- <button class="complete" @click="completes">完成</button> -->
+		<image style="margin: 0 auto;margin-top:93rpx;width:660rpx;height: 92rpx;" @click="completes" src="../../static/img/setPsw/done.png" mode=""></image>
 	</view>
 </template>
 

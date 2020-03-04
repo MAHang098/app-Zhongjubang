@@ -12,11 +12,16 @@
 			<view class="yzm">
 				<image src="http://www.zhongjubang.com/api/upload/static/lock.png" mode=""></image>
 				<input type="text" placeholder="请输入验证码"  v-model="validationCode"/>
-				<button size="mini" class="send" v-bind:class="isActive == true ? 'in' : ''" @tap="sendCod">{{isActive == true ? second + 's' : '获取验证码'}}</button>
+				<!-- <button size="mini" class="send" v-bind:class="isActive == true ? 'in' : ''" @tap="sendCod">{{isActive == true ? second + 's' : '获取验证码'}}</button> -->
+				<view size="mini" class="send-code" v-bind:class="isActive == true ? 'in' : ''" @tap="sendCod">
+					{{isActive == true ? second + 's' : '获取验证码'}}
+				</view>
 			</view>
 		</view>
-		<button class="next" @tap="bindLogin">下一步</button>
-		<button class="next" @click="navigateTo">测试</button>
+		<image style="margin: 0 auto;margin-top:93rpx;width:660rpx;height: 92rpx;" @tap="bindLogin" src="../../static/img/setPsw/next.png" mode=""></image>
+		<!-- <image @click="navigateTo" src="../../static/img/setPsw/done.png" mode=""></image> -->
+		<!-- <button class="next" @tap="bindLogin">下一步</button>
+		<button class="next" @click="navigateTo">测试</button> -->
 	</view>
 </template>
 
@@ -241,6 +246,9 @@
 		color: #999999;
 		font-weight: 500;
 	}
+	.yzm {
+		margin-top: 20rpx;
+	}
 	.send {
 		width: 164rpx;
 		height: 53rpx;
@@ -265,5 +273,21 @@
 		font-size: 38rpx;
 		font-weight: 500;
 		color: #FFFFFF;
+	}
+	.send-code{
+		position: absolute;
+		z-index: 1000;
+		text-align: center;
+		line-height: 57rpx;
+		top: 560rpx;
+		right: 48rpx;
+		width:176rpx;
+		height:57rpx;
+		background:rgba(235,235,235,1);
+		border-radius:28rpx;
+		font-size:26rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(153,153,153,1);
 	}
 </style>

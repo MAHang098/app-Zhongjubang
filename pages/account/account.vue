@@ -10,7 +10,7 @@
 		<view class="account1" @tap='goSetpwd'>
             <image class="phone" src="http://www.zhongjubang.com/api/upload/static/img/account/wechat.png" />
             <text class="public-text">微信</text>
-            <image v-if="wxToken!=''" @click="togglePopup1('center', 'tip')" class="binded" src="http://www.zhongjubang.com/api/upload/static/img/account/binded.png" />
+            <image v-if="wxToken!='null'" @click="togglePopup1('center', 'tip')" class="binded" src="http://www.zhongjubang.com/api/upload/static/img/account/binded.png" />
             <image v-else class="binded" @tap="wechatbindLogin" src="http://www.zhongjubang.com/api/upload/static/img/account/no-bind.png" />
         </view>
 		<view class="account1" @tap='goSetpwd'>
@@ -105,7 +105,7 @@
 		methods: {
 			goSetpwd(){
 				uni.navigateTo({
-					url: ''
+					url: '/pages/updatePswd1/updatePswd1'
 				})
 			},
 			// 绑定微信
@@ -242,15 +242,17 @@
 			},
 			// 取消弹出层
 			cancelPopup(type) {
+				
 				if (type === 'tip') {
 					this.show = false
 					return
 				}
 				if(type === 'skip') {
 					console.log("1111")
-					// uni.switchTab({
-					// 	url: "/pages/main/main"
-					// })
+					uni.showToast({
+					    title: '该功能正在开发中',
+					    duration: 2000,
+					});
 				}
 			},
 			// 取消弹出层
@@ -386,6 +388,7 @@
 		background: #fff;
 		box-sizing: border-box;
 		border-radius: 10rpx;
+		font-weight: 400;
 	}
 	
 	.uni-tip-title {

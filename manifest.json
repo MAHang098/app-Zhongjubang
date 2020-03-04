@@ -17,7 +17,9 @@
         /* 模块配置 */
         "modules" : {
             "OAuth" : {},
-            "Payment" : {}
+            "Payment" : {},
+            "Share" : {},
+            "VideoPlayer" : {}
         },
         /* 应用发布信息 */
         "distribute" : {
@@ -57,6 +59,11 @@
                         "appid" : "wxc3e14a97aca4bf99",
                         "appsecret" : "7a657ad78387371fe29162fd5433ed6f",
                         "UniversalLinks" : ""
+                    },
+                    "sina" : {
+                        "appkey" : "966121895",
+                        "appsecret" : "1309a2829a72c881d13507a2f7f20b9d",
+                        "redirect_uri" : "http://www.zhongjubang.com/api/upload/app/"
                     }
                 },
                 "payment" : {}
@@ -82,12 +89,14 @@
                     "xhdpi" : "/Users/mahang/Documents/logo.png",
                     "xxhdpi" : "/Users/mahang/Documents/logo.png",
                     "xxxhdpi" : "/Users/mahang/Documents/logo.png"
+                },
+                "ios" : {
+                    "appstore" : "/Users/mahang/Documents/logo.png"
                 }
             }
         },
         "softinput" : {
-            "auxiliary" : false, //是否开启辅助输入功能
-            "mode" : "adjustPan" //软键盘弹出模式，
+            "auxiliary" : false//, //是否开启辅助输入功能
         }
     },
     /* 快应用特有相关 */

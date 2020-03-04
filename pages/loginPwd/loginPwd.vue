@@ -158,44 +158,51 @@
 				uni.getProvider({
 					service: 'oauth',
 					success: function(res) {
-						console.log(res.provider);
+						// console.log(res.provider);
 						//支持微信、qq和微博等
 						if (~res.provider.indexOf('weixin')) {
 							uni.login({
 								provider: 'weixin',
 								success: function(loginRes) {
-									console.log('-------获取openid(unionid)-----');
-									console.log(JSON.stringify(loginRes));
+									// console.log('-------获取openid(unionid)-----');
+									// console.log(JSON.stringify(loginRes));
 									// 获取用户信息
 									uni.getUserInfo({
 										provider: 'weixin',
 										success: function(infoRes) {
-											console.log('-------获取微信用户所有-----');
-											console.log(JSON.stringify(infoRes.userInfo));
+											// console.log('-------获取微信用户所有-----');
+											// console.log(JSON.stringify(infoRes.userInfo));
+											
 											let userInfo = JSON.stringify(infoRes.userInfo)
+											console.log(userInfo)
+											// return
 											userInfo = JSON.parse(userInfo)
+											let data = {
+												wxToken: userInfo.openId,
+												nickName: userInfo.nickName,
+												sex: userInfo.gender,
+												region: userInfo.province,
+												head: userInfo.avatarUrl,
+												unionId: userInfo.unionId
+											}
+											console.log(data)
 											uni.request({
 												url: self.url + "/controller/usercontroller/weixinlogin",
-												data: {
-													wxToken: userInfo.openId,
-													nickName: userInfo.nickName,
-													sex: userInfo.gender,
-													region: userInfo.province,
-													head: userInfo.avatarUrl,
-													unionId: userInfo.unionId
-												},
+												data: data,
 												method: 'POST',
 												header : {'content-type':'application/x-www-form-urlencoded', 'port': 'app'},
 												success: function (res){
 													if(res.data.code==200){
-														console.log(res.data.token)
+														
+														// console.log(22)
+														// console.log(res.data.token)
 														uni.setStorage({
 															key:"token",
 															data: res.data.token
 														})
 														// 获取APP用户资料判断是否有手机号
 														const token = res.data.token
-														console.log("22222")
+														// console.log("22222")
 														uni.request({
 															url: self.url + "/controller/usercontroller/getappuser",
 															data: {},
@@ -206,25 +213,27 @@
 																'token': token
 															},
 															success: function (res){
-																console.log("1111")
-																console.log(res)
-																console.log(res.data.data.state)
-																if(res.data.data.state==0){
+																// console.log("1111")
+																// console.log(res.data.data)
+																// if(res.data.data.state==0){
+																	
 																	uni.switchTab({
 																		url: "/pages/main/main"
 																	})
-																}else{
-																	uni.navigateTo({
-																		url: "/pages/bindPhone/bindPhone"
-																	})
-																}
+																// 	uni.navigateTo({
+																// 		url: "/pages/releaseVideo2/releaseVideo2"
+																// 	})
+																// }else{
+																// 	uni.navigateTo({
+																// 		url: "/pages/bindPhone/bindPhone"
+																// 	})
+																// }
 															}
 														})
 														
 													}else{
 														console.log("请求异常")
 													}
-													console.log(res.data.code)
 												}
 											})
 											
@@ -368,8 +377,9 @@
     	position: absolute;
     	left: 65rpx;
     	top: 630rpx;
+    	/* top: 500rpx; */
         height: 100rpx;
-    	width: 635rpx;;
+    	width: 635rpx;
         border-bottom: 2px solid #DADADA;
         box-sizing: border-box;
         padding: 30rpx 0;

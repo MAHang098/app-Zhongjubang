@@ -198,15 +198,16 @@
 					pageIndex: 1,
 					gcircleContentId: this.detailId
 				}
-				uni.showLoading({
-					title: '加载中'
-				})
+				// uni.showLoading({
+				// 	title: '加载中'
+				// })
 				uni.request({
 				    url: this.url + 'controller/usercontroller/getgcdiscusslist',
 				    method: 'post',
 				    data: parmas,
 				    header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 				    success:((res) => {
+						// uni.hideLoading()
 						if(res.data.code==421){
 							uni.navigateTo({
 								url: '/pages/loginPhone/loginPhone'
@@ -220,13 +221,12 @@
 							this.titleItem = JSON.parse(data.title);
 							// console.log(this.titleItem)
 							this.dataItem = data;
-							uni.hideLoading()
 				        } 
-						if(res.data.code == 421) {
-							uni.navigateTo({
-								url: '/pages/loginPhone/loginPhone'
-							})
-						}
+						// if(res.data.code == 421) {
+						// 	uni.navigateTo({
+						// 		url: '/pages/loginPhone/loginPhone'
+						// 	})
+						// }
 				    }),
 					fail:((res) => {
 						uni.showToast({

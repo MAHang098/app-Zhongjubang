@@ -9,10 +9,14 @@
 				<image src="http://www.zhongjubang.com/api/upload/static/phone.png" mode=""></image>
 				<input v-model="phone" type="text" placeholder="请输入手机号" />
 			</view>
+			
 			<view class="yzm">
 				<image src="http://www.zhongjubang.com/api/upload/static/lock.png" mode=""></image>
 				<input type="text" placeholder="请输入验证码"  v-model="validationCode"/>
-				<button size="mini" class="send" v-bind:class="isActive == true ? 'in' : ''" @tap="sendCod">{{isActive == true ? second + 's' : '获取验证码'}}</button>
+				<!-- <button size="mini" class="send" v-bind:class="isActive == true ? 'in' : ''" @tap="sendCod">{{isActive == true ? second + 's' : '获取验证码'}}</button> -->
+				<view size="mini" class="send-code" v-bind:class="isActive == true ? 'in' : ''" @tap="sendCod">
+					{{isActive == true ? second + 's' : '获取验证码'}}
+				</view>
 			</view>
 		</view>
 		<button class="next" @tap="bindLogin">下一步</button>
@@ -265,5 +269,21 @@
 		font-size: 38rpx;
 		font-weight: 500;
 		color: #FFFFFF;
+	}
+	.send-code{
+		position: absolute;
+		z-index: 1000;
+		text-align: center;
+		line-height: 57rpx;
+		top: 540rpx;
+		right: 48rpx;
+		width:176rpx;
+		height:57rpx;
+		background:rgba(235,235,235,1);
+		border-radius:28rpx;
+		font-size:26rpx;
+		font-family:PingFang SC;
+		font-weight:500;
+		color:rgba(153,153,153,1);
 	}
 </style>

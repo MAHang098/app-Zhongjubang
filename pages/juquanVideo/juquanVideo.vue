@@ -299,11 +299,10 @@
 					}
 				})
 				// 判断token过期
-				const url = "https://www.zhongjubang.com/test/"
 				
 				//获取短视频内容
 				uni.request({
-					url: url + "controller/usercontroller/getshortvideobyid",
+					url: this.url + "controller/usercontroller/getshortvideobyid",
 					data: {shortVideoId:id},
 					method: 'POST',
 					header : {
@@ -319,8 +318,11 @@
 							})
 						}
 						if(res.data.code==200){
+							// uni.navigateTo({
+							// 	url: '/pages/testVideo/testVideo?id=' + id + '&type=1'
+							// })
 							uni.navigateTo({
-								url: '/pages/testVideo/testVideo?id=' + id + '&type=1'
+								url: '/pages/index3/index3?id=' + id
 							})
 						}
 					}
@@ -339,11 +341,10 @@
 					}
 				})
 				// 判断token过期
-				const url = "https://www.zhongjubang.com/test/"
 				
 				//获取短视频内容
 				uni.request({
-					url: url + "controller/usercontroller/getshortvideobyid",
+					url: this.url + "controller/usercontroller/getshortvideobyid",
 					data: {shortVideoId:id},
 					method: 'POST',
 					header : {
@@ -359,8 +360,11 @@
 							})
 						}
 						if(res.data.code==200){
+							// uni.navigateTo({
+							// 	url: '/pages/testVideo/testVideo?id=' + id + '&type=2'
+							// })
 							uni.navigateTo({
-								url: '/pages/testVideo/testVideo?id=' + id + '&type=2'
+								url: '/pages/index3/index3?id=' + id
 							})
 						}
 					}

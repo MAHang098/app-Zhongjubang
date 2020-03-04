@@ -561,45 +561,9 @@
 				})
 			},
 			goJuquan(id){
-				// 判断421
-				let self = this
-				let token
-				uni.getStorage({
-					key:"token",
-					success: function (res) {
-						self.token = res.data
-						token = res.data
-					}
+				uni.navigateTo({
+					url: '/pages/releaseImage-details/releaseImage-details?id=' + id
 				})
-				// 判断token过期
-				const url = this.url
-				
-				//获取短视频内容
-				uni.request({
-					url: url + "controller/usercontroller/getshortvideobyid",
-					data: {shortVideoId:id},
-					method: 'POST',
-					header : {
-						'content-type':'application/x-www-form-urlencoded', 
-						'port': 'app',
-						'token': token
-					},
-					success: function (res){
-						
-						if(res.data.code==421){
-							uni.navigateTo({
-								url: '/pages/loginPhone/loginPhone'
-							})
-						}
-						if(res.data.code==200){
-							
-							uni.navigateTo({
-								url: '/pages/releaseImage-details/releaseImage-details?id=' + id
-							})
-						}
-					}
-				})
-				
 			},
 			goTopicDetails(id){
 				//根据id获取短视频内容，是用来判断用户是否注册

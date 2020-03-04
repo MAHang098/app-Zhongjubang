@@ -144,7 +144,7 @@
                             console.log(res)
 							uni.setStorage({
 								key:"token",
-								data: '0',
+								data: '',
 							})
                             uni.navigateTo({
                                 url: '/pages/loginPhone/loginPhone'
