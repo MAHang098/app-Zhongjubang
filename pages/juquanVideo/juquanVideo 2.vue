@@ -288,10 +288,46 @@
 				})
             },
             sendVideo(id){
-				
-				uni.navigateTo({
-					url: '/pages/index3/index3?id=' + id
+				// uni.navigateTo({
+				// 	url: '/pages/index2/index2?id=' + id
+				// })
+				let token
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+						token = res.data
+					}
 				})
+				// 判断token过期
+				
+				//获取短视频内容
+				uni.request({
+					url: this.url + "controller/usercontroller/getshortvideobyid",
+					data: {shortVideoId:id},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': token
+					},
+					success: function (res){
+						
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+						if(res.data.code==200){
+							// uni.navigateTo({
+							// 	url: '/pages/testVideo/testVideo?id=' + id + '&type=1'
+							// })
+							uni.navigateTo({
+								url: '/pages/index3/index3?id=' + id
+							})
+						}
+					}
+				})
+				
 			},
 			sendVideoWanghong(id){
 				// uni.navigateTo({

@@ -146,7 +146,7 @@
 				showAllDesc: false,
 				token: '',
 				connectingServer: false
-				
+
 			}
 		},
 		onLoad(options) {
@@ -155,19 +155,6 @@
 			uni.$on('afterCommentSuccess', ()=>{
 				this.getCommentList()
 			})
-			
-		},
-		onShow(){
-			let id = this.id
-			console.log('star show');
-			setTimeout(function(){ 
-				uni.$emit('transferVideoData',{
-					'videoId': id
-				})
-			}, 30);
-				
-
-			
 		},
 		onUnload(){
 			uni.$off('afterCommentSuccess')
@@ -190,13 +177,7 @@
 				this.connectingServer = false
 			},
 			getContent() {
-				// let token = this.getToken();
-				uni.getStorage({
-					key:"token",
-					success:((res) => {
-					this.token = res.data;
-				  })
-				});
+				let token = this.getToken();
 				let id = this.id
 				let url = this.url
 				let self = this
@@ -210,12 +191,11 @@
 					header: {
 						'content-type': 'application/x-www-form-urlencoded',
 						'port': 'app',
-						'token': this.token
+						'token': token
 					},
 					success: (res) => {
-						// console.log('got video res', res);
+						console.log('got video res', res);
 						if (res.data.code == 421) {
-							
 							uni.navigateTo({
 								url: '/pages/loginPhone/loginPhone'
 							})
@@ -277,7 +257,7 @@
 						'token': token
 					},
 					success: (res) => {
-						// console.log('attent res', res)
+						console.log('attent res', res)
 						this.getContent()
 					},
 					complete: () => {
@@ -305,7 +285,7 @@
 						'token': token
 					},
 					success: function(res) {
-						// console.log(res)
+						console.log(res)
 						if (res.data.code == 421) {
 							uni.navigateTo({
 								url: '/pages/loginPhone/loginPhone'
@@ -369,7 +349,7 @@
 			},
 			getCommentList() {
 				let id = this.id
-				// let token = this.getToken();
+				let token = this.getToken();
 				let self = this
 				if (!this.tryConnectServer()) return;
 				uni.request({
@@ -383,10 +363,10 @@
 					header: {
 						'content-type': 'application/x-www-form-urlencoded',
 						'port': 'app',
-						'token': this.token
+						'token': token
 					},
 					success: (res) => {
-						// console.log('got comment list res', res)
+						console.log('got comment list res', res)
 						if (res.data.code == 200) {
 							this.commentList = res.data.data.dataList
 							/* uni.$emit('gotCommentList', {  
@@ -406,14 +386,14 @@
 			},
 			// todo 子回复跳转，未实现，具体再参考index2.nvue
 			reply(id) {
-				// console.log(id)
+				console.log(id)
 				uni.navigateTo({
 					url: "/pages/answer/answer?Id=" + id
 				})
 			},
 			// todo 回复评论，未实现
 			replyComment(id, name, inUserId) {
-				// console.log(`${id} ${name} ${inUserId}`);
+				console.log(`${id} ${name} ${inUserId}`);
 				let self = this
 				uni.request({
 					url: self.url + "controller/usercontroller/addanswershortvideodiscuss",
@@ -430,9 +410,9 @@
 						'token': token
 					},
 					success: function(res) {
-						// console.log(res)
+						console.log(res)
 						if (res.data.code == 200) {
-							// console.log(self.recommendId)
+							console.log(self.recommendId)
 							self.init(self.id)
 							self.userID222 = ''
 							self.recommendId = ''

@@ -3,30 +3,283 @@
 		<view class="back-wrapper" @tap="back">
 			<text class="back">&lt;</text>
 		</view>
+		<view class="share-wrapper" @click="togglePopup('bottom', 'share')">
+			
+			<image style="width: 38rpx;height: 38rpx;" src="../../../static/img/icon/share.png" mode=""></image>
+			
+		</view>
+		<!-- 底部分享弹窗 -->
+		<uni-popup ref="showshare" :type="type" @change="change">
+			<view class="share-bottom">
+				<view class="uni-share">
+					<text class="uni-share-title">分享到</text>
+					<view class="uni-share-content">
+						<view v-for="(item, index) in bottomData" :key="index" class="uni-share-content-box">
+							<view class="uni-share-content-image">
+								<image :src="item.icon" @tap="clickImage(item.name)" class="content-image" mode="widthFix" />
+							</view>
+							<text class="uni-share-content-text">{{ item.text }}</text>
+						</view>
+					</view>
+					<text class="uni-share-btn" @click="cancel('share')">取消分享</text>
+				</view>
+			</view>
+			
+		</uni-popup>
 	</view>
 </template>
 
 <script>
+	import helper from "../../../common/helper.js"
+	import uniPopup from "@/components/uni-popup/uni-popup.vue"
 	export default {
+		components:{ uniPopup},
 		data() {
 			return {
+				bottomData: [{
+						text: '微信好友',
+						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-2.png',
+						name: 'wx'
+					},{
+						text: '微信朋友圈',
+						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-2.png',
+						name: 'wxcircle'
+					},
+					{
+						text: '新浪',
+						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-1.png',
+						name: 'sina'
+					}
+				],
 				currentSubNVue:null,
 				token:'',
+				shareText:'',
+				id: '',
 			}
 		},
 		onLoad() {
+			console.log('start onload');
+			uni.$on('transferVideoData', (res)=>{
+				this.id = res.videoId
+				console.log(res.videoId);
+			})
 			this.currentSubNVue = uni.getCurrentSubNVue()
 			this.currentSubNVue.setStyle({
-				"position": "absolute",
-				"width": "30px",
-				"height": "30px",
+				"position": "dock",
+				"dock":"bottom",
+				"width": "750rpx",
+				"height": "92%",
 				"top": "30px",
-				"left": "10px",
+				"left": "0px",
 				"background": "transparent",
 				"zindex":"100"
 			})
 		},
+		onUnload() {
+			uni.$off('transferVideoData')
+		},
 		methods: {
+			clickImage(name){
+				if(name == 'wx'){
+					this.shareWx()
+				}
+				if(name == 'wxcircle'){
+					this.shareWxcircle()
+				}
+				if(name == 'sina'){
+					this.shareSina()
+				}
+			},
+			//微信好友
+			async shareWx() {
+				
+				this.shareText = 'xinxinxkai'
+				let shareOPtions = {
+					provider: 'weixin',
+					scene: 'WXSceneSession',
+					type: 0,
+					success: (e) => {
+						console.log('success', e);
+						uni.showModal({
+							content: '已分享',
+							showCancel:false
+						})
+					},
+					fail: (e) => {
+						console.log('fail', e)
+						uni.showModal({
+							content: e.errMsg,
+							showCancel:false
+						})
+					},
+					complete:function(){
+						console.log('分享操作结束!')
+					}
+				}
+				console.log(this.id)
+				switch (0){
+					case 0:
+						shareOPtions.summary = this.shareText;
+						shareOPtions.imageUrl = "../../static/img/logo.png";
+						shareOPtions.title = '欢迎体验众居邦APP';
+						shareOPtions.href = 'http://192.168.0.108:8082/#/pages/index3/index3?id=' + this.id;
+						break;
+					case 1:
+						shareOPtions.summary = this.shareText;
+						break;
+					case 2:
+						shareOPtions.imageUrl = this.image;
+						break;
+					case 5:
+						shareOPtions.imageUrl = this.image ? this.image : 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/app/share-logo@3.png'
+						shareOPtions.title = '欢迎体验uniapp';
+						shareOPtions.miniProgram = {
+							id:'gh_33446d7f7a26',
+							path:'/pages/tabBar/component/component',
+							webUrl:'https://uniapp.dcloud.io',
+							type:0
+						};
+						break;
+					default:
+						break;
+				}
+				
+				uni.share(shareOPtions);
+			},
+			//微信朋友圈
+			async shareWxcircle() {
+				
+				this.shareText = 'xinxinxkai'
+				let shareOPtions = {
+					provider: 'weixin',
+					scene: 'WXSenceTimeline',
+					type: 0,
+					success: (e) => {
+						console.log('success', e);
+						uni.showModal({
+							content: '已分享',
+							showCancel:false
+						})
+					},
+					fail: (e) => {
+						console.log('fail', e)
+						uni.showModal({
+							content: e.errMsg,
+							showCancel:false
+						})
+					},
+					complete:function(){
+						console.log('分享操作结束!')
+					}
+				}
+				console.log(this.shareText)
+				switch (0){
+					case 0:
+						shareOPtions.summary = this.shareText;
+						shareOPtions.imageUrl = "../../static/img/logo.png";
+						shareOPtions.title = '欢迎体验众居邦APP';
+						shareOPtions.href = 'http://192.168.0.108:8083/#/pages/index3/index3?id=' + this.id;
+						break;
+					case 1:
+						shareOPtions.summary = this.shareText;
+						break;
+					case 2:
+						shareOPtions.imageUrl = this.image;
+						break;
+					case 5:
+						shareOPtions.imageUrl = this.image ? this.image : 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/app/share-logo@3.png'
+						shareOPtions.title = '欢迎体验uniapp';
+						shareOPtions.miniProgram = {
+							id:'gh_33446d7f7a26',
+							path:'/pages/tabBar/component/component',
+							webUrl:'https://uniapp.dcloud.io',
+							type:0
+						};
+						break;
+					default:
+						break;
+				}
+				
+				uni.share(shareOPtions);
+			},
+			async shareSina() {
+				
+				this.shareText = 'xinxinxkai'
+				let shareOPtions = {
+					provider: 'sinaweibo',
+					scene: 'WXSceneSession',
+					type: 0,
+					success: (e) => {
+						console.log('success', e);
+						uni.showModal({
+							content: '已分享',
+							showCancel:false
+						})
+					},
+					fail: (e) => {
+						console.log('fail', e)
+						uni.showModal({
+							content: e.errMsg,
+							showCancel:false
+						})
+					},
+					complete:function(){
+						console.log('分享操作结束!')
+					}
+				}
+				console.log(this.shareText)
+				switch (0){
+					case 0:
+						shareOPtions.summary = this.shareText;
+						shareOPtions.imageUrl = "../../static/img/logo.png";
+						shareOPtions.title = '欢迎体验众居邦APP';
+						shareOPtions.href = 'http://192.168.0.108:8083/#/pages/index3/index3?id=' + this.id;
+						break;
+					case 1:
+						shareOPtions.summary = this.shareText;
+						break;
+					case 2:
+						shareOPtions.imageUrl = this.image;
+						break;
+					case 5:
+						shareOPtions.imageUrl = this.image ? this.image : 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/app/share-logo@3.png'
+						shareOPtions.title = '欢迎体验uniapp';
+						shareOPtions.miniProgram = {
+							id:'gh_33446d7f7a26',
+							path:'/pages/tabBar/component/component',
+							webUrl:'https://uniapp.dcloud.io',
+							type:0
+						};
+						break;
+					default:
+						break;
+				}
+				
+				uni.share(shareOPtions);
+			},
+			togglePopup(type, open) {
+				console.log(this.id)
+				switch (type) {
+					case 'top':
+						this.content = '顶部弹出 popup'
+						break
+			
+					case 'bottom':
+						this.content = '底部弹出 popup'
+						break
+					case 'center':
+						this.content = '居中弹出 popup'
+						break
+				}
+				this.type = type
+				this.$nextTick(() => {
+					this.$refs['show' + open].open()
+				})
+			
+			},
+			cancel(type) {
+				this.$refs['show' + type].close()
+			},
 			back() {
 				uni.navigateBack({
 
@@ -37,20 +290,25 @@
 </script>
 
 <style>
+	/* page{
+		height: 100%;
+	} */
 	.action-bar {
-		/* position: relative;
-		width: 100%;
+		position: relative;
+		/* width: 100%;
 		height: 100%;
 		top: 0;
-		height: 0; */
-		height: 30px;
+		height: 0;
+		height: 30px; */
 	}
 	.back-wrapper{
 		width: 30px;
 		height: 30px;
 		border-radius: 50%;
 		background-color: rgba(0, 0, 0, 0.2);
-		position: relative;
+		position: absolute;
+		top: 0;
+		left: 10px;
 	}
 	.back {
 		line-height: 30px;
@@ -62,17 +320,96 @@
 		top: 0px;
 		left: 0px;
 	}
-
-	/* .hello {
-		position: absolute;
-		width: 50%;
+	.share-wrapper{
+		width: 30px;
 		height: 30px;
-		top: 50%;
-		left: 50%;
-		transform: translate(50%, 50%);
-		line-height: 30px;
-		background-color: red;
-		color: yellow;
-		font-size: 18px;
-	} */
+		position: relative;
+		top: 12rpx;
+		left: 670rpx;
+	}
+	.share {
+		position: absolute;
+		top: 0;
+		right: 0;
+		
+	}
+
+	/* 底部分享 */
+	.uni-share {
+		/* top: 1200px; */
+		/* #ifndef APP-NVUE */
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		/* #endif */
+		background-color: #fff;
+	}
+	
+	.uni-share-title {
+		line-height: 60rpx;
+		font-size: 24rpx;
+		padding: 15rpx 0;
+		text-align: center;
+	}
+	
+	.uni-share-content {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: center;
+		padding: 15px;
+	}
+	
+	.uni-share-content-box {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		flex-direction: column;
+		align-items: center;
+		width: 200rpx;
+	}
+	
+	.uni-share-content-image {
+		/* #ifndef APP-NVUE */
+		display: flex;
+		/* #endif */
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		width: 60rpx;
+		height: 60rpx;
+		overflow: hidden;
+		border-radius: 10rpx;
+	}
+	
+	.content-image {
+		width: 60rpx;
+		height: 60rpx;
+	}
+	
+	.uni-share-content-text {
+		font-size: 26rpx;
+		color: #333;
+		padding-top: 5px;
+		padding-bottom: 10px;
+	}
+	
+	.uni-share-btn {
+		height: 90rpx;
+		line-height: 90rpx;
+		font-size: 14px;
+		border-top-color: #f5f5f5;
+		border-top-width: 1px;
+		border-top-style: solid;
+		text-align: center;
+		color: #666;
+	}
+	.share-bottom{
+		position: fixed;
+		width: 750rpx;
+		bottom: 0;
+		left: 0;
+	}
 </style>
