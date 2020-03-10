@@ -112,9 +112,6 @@
 </script>
 
 <style>
-	page{
-		background-color: #fff;
-	}
 	.swiper-item {
 		display: flex;
 		justify-content: center;

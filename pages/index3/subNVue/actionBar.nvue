@@ -10,6 +10,7 @@
 		</view>
 		<!-- 底部分享弹窗 -->
 		<!-- <uni-popup ref="showshare" :type="type" @change="change">
+
 			<view class="share-bottom">
 				<view class="uni-share">
 					<text class="uni-share-title">分享到</text>
@@ -53,8 +54,8 @@
 				// ],
 				currentSubNVue:null,
 				token:'',
-				// shareText:'',
-				// id: '',
+				shareText:'',
+				id: '',
 			}
 		},
 		onLoad() {
@@ -146,6 +147,7 @@
 				
 			// 	uni.share(shareOPtions);
 			// },
+
 			//微信朋友圈
 			async shareWxcircle() {
 				
@@ -290,16 +292,8 @@
 </script>
 
 <style>
-	/* page{
-		height: 100%;
-	} */
 	.action-bar {
 		position: relative;
-		/* width: 100%;
-		height: 100%;
-		top: 0;
-		height: 0;
-		height: 30px; */
 	}
 	.back-wrapper{
 		width: 30px;
