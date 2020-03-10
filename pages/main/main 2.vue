@@ -215,8 +215,6 @@
 				zhongList: [],
 				bannerList: [],
 				gcircleList: '',
-				loadUrl: '',
-				
 			}
 		},
 		filters: {
@@ -235,13 +233,6 @@
 			  return value
 			}
 		},
-		onLaunch(){
-			
-			// uni.setStorage({
-			// 	key:"first_login",
-			// 	data: '',
-			// })
-		},
 		onLoad() {
 			// 判断是否强制更新，是否需要更新
 			const url = this.url
@@ -258,44 +249,14 @@
 					method:"POST",
 					header : {'content-type':'application/x-www-form-urlencoded'},
 					success: function (res){
-						console.log(res)
 						if(res.data.code=="200"){
-							//console.log(res.data.data.isForceUpdate)
-							//console.log(res.data.data)
-							self.loadUrl = res.data.data.newVersionUrl
+							console.log(res.data.data.hasNewVersion)
 							
 							if(res.data.data.isForceUpdate==1){
-								
 								self.show1 = true
 							}else{
-								// 如果需求更新
 								if(res.data.data.hasNewVersion==1){
-									let key = uni.getStorageSync('lastCheckVersionTime')
-									// 判断是否第一次登陆
-									if(!key){
-										uni.setStorage({
-											key:"lastCheckVersionTime",
-											data: self.getTime()
-										})
-										self.show = true
-									}else{
-										// 否则
-										uni.getStorage({
-											key:"lastCheckVersionTime",
-											success: function (res) {
-												let time = self.getTime() - res.data
-												console.log(time)
-												// 86400000
-												if(time>86400000){
-													self.show = true
-													uni.setStorage({
-														key:"lastCheckVersionTime",
-														data: self.getTime()
-													})
-												}
-											}
-										})
-									}
+									self.show = true
 								}
 							}
 							
@@ -305,12 +266,9 @@
 			})
 		},
 		onShow() {
-			let self = this
-			console.log(this.getTime())
-			
-			
 			
 			const url = this.url
+			let self = this
 			uni.getStorage({
 				key:"token",
 				success: function (res) {
@@ -430,23 +388,16 @@
 			})
 		},
 		methods: {
-			getTime(){
-			
-				var date = new Date();
-				var timer = date.getTime();
-				return timer;
-			},
 			// 取消弹出层
 			cancelPopup(type) {
-				let self = this
+			
 			    if (type === 'tip') {
 			        this.show = false
 			        return
 			    }
 			    if(type === 'skip') {
 			        console.log("1111")
-					console.log(self.loadUrl)
-					plus.runtime.openURL( self.loadUrl );
+					plus.runtime.openURL( "http://www.zhongjubang.com/api/upload/app/zjb1.0.0-test-download.apk" );  
 			    }
 			},
 			goBanner(id){
@@ -485,6 +436,8 @@
 							uni.navigateTo({
 								url: '/pages/information/information-list/information-list'
 							})
+							
+							
 						}
 					}
 				})
@@ -608,15 +561,74 @@
 				})
 			},
 			goJuquan(id){
-				uni.navigateTo({
-					url: '/pages/releaseImage-details/releaseImage-details?id=' + id
+				// 判断421
+				let self = this
+				let token
+				uni.getStorage({
+					key:"token",
+					success: function (res) {
+						self.token = res.data
+						token = res.data
+					}
 				})
+				// 判断token过期
+				const url = this.url
+				
+				//获取短视频内容
+				uni.request({
+					url: url + "controller/usercontroller/getshortvideobyid",
+					data: {shortVideoId:id},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': token
+					},
+					success: function (res){
+						
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+						if(res.data.code==200){
+							
+							uni.navigateTo({
+								url: '/pages/releaseImage-details/releaseImage-details?id=' + id
+							})
+						}
+					}
+				})
+				
 			},
 			goTopicDetails(id){
-				
-				uni.navigateTo({
-					url: '/pages/topicDetails/topicDetails?id=' + id
+				//根据id获取短视频内容，是用来判断用户是否注册
+				uni.request({
+					url: this.url + "controller/usercontroller/getshortvideobyid",
+					data: {shortVideoId:id},
+					method: 'POST',
+					header : {
+						'content-type':'application/x-www-form-urlencoded', 
+						'port': 'app',
+						'token': this.token
+					},
+					success: function (res){
+						
+						if(res.data.code==421){
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
+						if(res.data.code==200){
+							uni.navigateTo({
+								url: '/pages/topicDetails/topicDetails?id=' + id
+							})
+							
+							
+						}
+					}
 				})
+				
 			},
 			goJuquanVideo(){
 				uni.navigateTo({

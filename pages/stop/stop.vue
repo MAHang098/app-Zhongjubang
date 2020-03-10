@@ -155,6 +155,7 @@
 				cardCur: 0,
 				showEdit: false,
 				Tokens: '',
+				loadUrl: '',
 				categoryList: [],
 				goodsList: [],
 				wanghongList: [],
@@ -180,6 +181,7 @@
 					header : {'content-type':'application/x-www-form-urlencoded'},
 					success: function (res){
 						if(res.data.code=="200"){
+							self.loadUrl = res.data.data.newVersionUrl
 							console.log(res.data.data.hasNewVersion)
 							
 							if(res.data.data.isForceUpdate==1){
@@ -210,6 +212,19 @@
 		},
 		
         methods: {
+			// 取消弹出层
+			cancelPopup(type) {
+				let self = this
+			    if (type === 'tip') {
+			        this.show = false
+			        return
+			    }
+			    if(type === 'skip') {
+			        console.log("1111")
+					console.log(self.loadUrl)
+					plus.runtime.openURL( self.loadUrl );
+			    }
+			},
 			// 第二轮播
 		    change(e) {
 				console.log(e.detail.current)
@@ -682,7 +697,7 @@
 	}
 
 	.card-swiper-immeuble swiper-item .swiper-item-immeuble {
-		height: 360rpx !important;
+		height: 380rpx !important;
 		border:1px solid rgba(226,226,226,1);
 		box-shadow:-2upx 1upx 16upx 0px rgba(0, 0, 0, 0.08);
 		width: 100%;

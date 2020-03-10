@@ -75,10 +75,10 @@
 							</view>
 						</view>
 						<view v-else class="user-right" @click.stop="focus(items.userId, current, items, index)">
-						              <image v-if="current == 0" :src="items.attentionState == 0 || !items.attentionState? 'http://www.zhongjubang.com/api/upload/static/follow.png' : items.attentionState == 2  ? 'http://www.zhongjubang.com/api/upload/static/mutual-follow.png' : 'http://www.zhongjubang.com/api/upload/static/follow-checked.png'" mode=""></image>
-						              <image v-if="current == 1" :src="items.attentionState == 2 || !items.attentionState ? 'http://www.zhongjubang.com/api/upload/static/follow.png' : items.attentionState == 1 ? 'http://www.zhongjubang.com/api/upload/static/mutual-follow.png' : 'http://www.zhongjubang.com/api/upload/static/follow-checked.png'" mode=""></image>
-						                        
-						 </view>
+							<image v-if="current == 0" :src="items.attentionState == 0 ? 'http://www.zhongjubang.com/api/upload/static/follow.png' : items.attentionState == 2 ? 'http://www.zhongjubang.com/api/upload/static/mutual-follow.png' : 'http://www.zhongjubang.com/api/upload/static/follow-checked.png'" mode=""></image>
+							<image v-if="current == 1" :src="items.attentionState == 2 ? 'http://www.zhongjubang.com/api/upload/static/follow.png' : items.attentionState == 1 ? 'http://www.zhongjubang.com/api/upload/static/mutual-follow.png' : 'http://www.zhongjubang.com/api/upload/static/follow-checked.png'" mode=""></image>
+												
+						</view>
 					</view>
 					<!-- 用户信息 start -->
 					
@@ -108,7 +108,7 @@
 					<!-- 话题 end -->
 					<!-- 操作按钮 start -->
 					<view class="operate-bottom">
-						<view class="operate-bottom_share" @click="togglePopup('bottom', 'share',items.gcircleContentId)"><image src="http://www.zhongjubang.com/api/upload/static/img/user/share.png" mode=""></image></view>
+						<view class="operate-bottom_share" @click="togglePopup('bottom', 'share')"><image src="http://www.zhongjubang.com/api/upload/static/img/user/share.png" mode=""></image></view>
 						<view class="operate-bottom_number">
 							<view class="number-message" @click.stop="contentDetail(items.gcircleContentId)">
 								<image src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/message.png" mode=""></image>
@@ -139,16 +139,6 @@
 		</view>
 		<!-- G圈内容 end -->
 		
-		<!-- 强制更新 start -->
-		<uni-popup :show="show10" :popupType ="popupType" :custom="true" :mask-click="false" >
-			<view class="uni-tip">
-				<!-- <view class="uni-tip-title">提示</view> -->
-				<view class="uni-tip-content">请更新版本</view>
-				<view class="uni-tip-group-button">
-					<view class="uni-tip-button insist-skip" @click="cancelPopup('skip')" style="color: #F9B72C;">确定</view>
-				</view>
-			</view>
-		</uni-popup>
 		<!-- 底部分享弹窗 -->
 		<uni-popup ref="showshare" :type="type" @change="change">
 			<view class="uni-share">
@@ -156,7 +146,7 @@
 				<view class="uni-share-content">
 					<view v-for="(item, index) in bottomData" :key="index" class="uni-share-content-box">
 						<view class="uni-share-content-image">
-							<image :src="item.icon" @tap="clickImage(item.name)" class="content-image" mode="widthFix" />
+							<image @tap="share" :src="item.icon" class="content-image" mode="widthFix" />
 						</view>
 						<text class="uni-share-content-text">{{ item.text }}</text>
 					</view>
@@ -173,16 +163,11 @@
 		components:{ uniPopup},
 		data() {
 			return {
-				show10: false,
 				type: '',
 				bottomData: [{
-						text: '微信好友',
+						text: '微信',
 						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-2.png',
 						name: 'wx'
-					},{
-						text: '微信朋友圈',
-						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-2.png',
-						name: 'wxcircle'
 					},
 					{
 						text: '新浪',
@@ -211,7 +196,7 @@
 				showEdit: false,
 				draftsList: [],
 				imageDrafts: [],
-				content: '',
+				content: '某臣氏骑剑活动！水雾质地 很轻薄 不沾黏！在上待几分钟会变成雾面哑光感某臣氏骑剑活动！水雾质地 很轻薄 不沾黏！在上待几分钟会变成雾面哑光感 超高级！显色很持久...不沾黏！在上待几分钟会变成雾面哑光感 超高级！显色很持久...',
 				userList: [],
 				isScrollbar: false,
 				releaseImgList: [],
@@ -232,10 +217,7 @@
 				page_attention: 1 ,       // 关注G圈用户的G圈内容
 				totalPage: 0,
 				pageSize: 10,
-				is_refresh: true,
-				shareText: 'kaixin',
-				loadUrl: '',
-				circleId: ''
+				is_refresh: true
 			}
 		},
 		computed:{
@@ -285,33 +267,6 @@
 			// this.releaseImgList = [];
 			// this.init();
 			// this.recommend();
-			// 判断是否强制更新，是否需要更新
-			const url = this.url
-			let self = this
-			plus.runtime.getProperty(plus.runtime.appid,function(inf){
-				let wgtVer=inf.version
-				console.log(inf.version)
-				uni.request({
-					url: url + 'controller/versioncontroller/getappversion',
-					data: {
-						version: inf.version,
-						appCode: 'zjb_app'
-					},
-					method:"POST",
-					header : {'content-type':'application/x-www-form-urlencoded'},
-					success: function (res){
-						if(res.data.code=="200"){
-							console.log(res.data.data.hasNewVersion)
-							self.loadUrl = res.data.data.newVersionUrl
-							if(res.data.data.isForceUpdate==1){
-								self.show10 = true
-							}
-							
-						}
-					}
-				})
-			})
-			// 微信分享
 			uni.getProvider({
 				service: 'share',
 				success: (e) => {
@@ -368,10 +323,6 @@
 				key:"token",
 				success:((res) => {
 				this.token = res.data;
-				if(res.data == 0) {
-					this.token = '';
-					return;
-				  }
 			  })
 			});
 			this.isShow = true;
@@ -445,38 +396,13 @@
 			}
 		},
 		methods: {
-			// 取消弹出层
-			cancelPopup(type) {
-				let self = this
-			    if (type === 'tip') {
-			        this.show = false
-			        return
-			    }
-			    if(type === 'skip') {
-			        console.log("1111")
-					console.log(self.loadUrl)
-					plus.runtime.openURL( self.loadUrl );
-			    }
-			},
-			clickImage(name){
-				if(name == 'wx'){
-					this.shareWx()
-				}
-				if(name == 'wxcircle'){
-					this.shareWxcircle()
-				}
-				if(name == 'sina'){
-					this.shareSina()
-				}
-			},
-			//微信好友
-			async shareWx() {
+			async share() {
 				
-				this.shareText = 'xinxinxkai'
+				
 				let shareOPtions = {
 					provider: 'weixin',
-					scene: 'WXSceneSession',
-					type: 0,
+					scene: 'WXSceneSession', //WXSceneSession”分享到聊天界面，“WXSenceTimeline”分享到朋友圈，“WXSceneFavorite”分享到微信收藏     
+					type: 1,
 					success: (e) => {
 						console.log('success', e);
 						uni.showModal({
@@ -495,13 +421,13 @@
 						console.log('分享操作结束!')
 					}
 				}
-				console.log(this.shareText)
-				switch (0){
+				
+				switch (this.shareType){
 					case 0:
 						shareOPtions.summary = this.shareText;
-						shareOPtions.imageUrl = "../../static/img/logo.png";
-						shareOPtions.title = '欢迎体验众居邦APP';
-						shareOPtions.href = 'http://192.168.0.108:8081/#/pages/releaseImage-details/releaseImage-details?id=' + this.circleId;
+						shareOPtions.imageUrl = this.image;
+						shareOPtions.title = '欢迎体验uniapp';
+						shareOPtions.href = 'https://uniapp.dcloud.io';
 						break;
 					case 1:
 						shareOPtions.summary = this.shareText;
@@ -525,120 +451,7 @@
 				
 				uni.share(shareOPtions);
 			},
-			//微信朋友圈
-			async shareWxcircle() {
-				
-				this.shareText = 'xinxinxkai'
-				let shareOPtions = {
-					provider: 'weixin',
-					scene: 'WXSenceTimeline',
-					type: 0,
-					success: (e) => {
-						console.log('success', e);
-						uni.showModal({
-							content: '已分享',
-							showCancel:false
-						})
-					},
-					fail: (e) => {
-						console.log('fail', e)
-						uni.showModal({
-							content: e.errMsg,
-							showCancel:false
-						})
-					},
-					complete:function(){
-						console.log('分享操作结束!')
-					}
-				}
-				console.log(this.shareText)
-				switch (0){
-					case 0:
-						shareOPtions.summary = this.shareText;
-						shareOPtions.imageUrl = "../../static/img/logo.png";
-						shareOPtions.title = '欢迎体验众居邦APP';
-						shareOPtions.href = 'http://192.168.0.108:8082/#/pages/releaseImage-details/releaseImage-details?id=' + this.circleId;
-						break;
-					case 1:
-						shareOPtions.summary = this.shareText;
-						break;
-					case 2:
-						shareOPtions.imageUrl = this.image;
-						break;
-					case 5:
-						shareOPtions.imageUrl = this.image ? this.image : 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/app/share-logo@3.png'
-						shareOPtions.title = '欢迎体验uniapp';
-						shareOPtions.miniProgram = {
-							id:'gh_33446d7f7a26',
-							path:'/pages/tabBar/component/component',
-							webUrl:'https://uniapp.dcloud.io',
-							type:0
-						};
-						break;
-					default:
-						break;
-				}
-				
-				uni.share(shareOPtions);
-			},
-			async shareSina() {
-				
-				this.shareText = 'xinxinxkai'
-				let shareOPtions = {
-					provider: 'sinaweibo',
-					scene: 'WXSceneSession',
-					type: 0,
-					success: (e) => {
-						console.log('success', e);
-						uni.showModal({
-							content: '已分享',
-							showCancel:false
-						})
-					},
-					fail: (e) => {
-						console.log('fail', e)
-						uni.showModal({
-							content: e.errMsg,
-							showCancel:false
-						})
-					},
-					complete:function(){
-						console.log('分享操作结束!')
-					}
-				}
-				console.log(this.shareText)
-				switch (0){
-					case 0:
-						shareOPtions.summary = this.shareText;
-						shareOPtions.imageUrl = "../../static/img/logo.png";
-						shareOPtions.title = '欢迎体验众居邦APP';
-						shareOPtions.href = 'http://192.168.0.108:8081/#/pages/releaseImage-details/releaseImage-details?id=' + this.circleId;
-						break;
-					case 1:
-						shareOPtions.summary = this.shareText;
-						break;
-					case 2:
-						shareOPtions.imageUrl = this.image;
-						break;
-					case 5:
-						shareOPtions.imageUrl = this.image ? this.image : 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/app/share-logo@3.png'
-						shareOPtions.title = '欢迎体验uniapp';
-						shareOPtions.miniProgram = {
-							id:'gh_33446d7f7a26',
-							path:'/pages/tabBar/component/component',
-							webUrl:'https://uniapp.dcloud.io',
-							type:0
-						};
-						break;
-					default:
-						break;
-				}
-				
-				uni.share(shareOPtions);
-			},
-			togglePopup(type, open, id) {
-				this.circleId = id
-				console.log(id)
+			togglePopup(type, open) {
 				switch (type) {
 					case 'top':
 						this.content = '顶部弹出 popup'
@@ -1558,68 +1371,5 @@
 		border-top-style: solid;
 		text-align: center;
 		color: #666;
-	}
-	/* 提示窗口 */
-	.uni-tip {
-		padding-top: 15px;
-		width: 300px;
-		background: #fff;
-		box-sizing: border-box;
-		border-radius: 10rpx;
-	}
-	
-	.uni-tip-title {
-		text-align: center;
-		font-weight: bold;
-		font-size: 41rpx;
-		color: #333;
-	}
-	
-	.uni-tip-content {
-		padding: 44rpx 0;
-		font-size: 32rpx;
-		color: #666;
-		width: 360rpx;
-		color: #666666;
-		font-weight: 500;
-		margin: auto;
-		text-align: center;
-	}
-	
-	.uni-tip-group-button {
-		margin-top: 10px;
-		display: flex;
-	}
-	
-	.uni-tip-button:nth-child(1) {
-		width: 100%;
-		text-align: center;
-		font-size: 14px;
-		color: #333333;
-		font-size: 37rpx;
-		font-weight: 500;
-		border-top: 1px solid #E2E2E2;
-		border-right: 1px solid #E2E2E2;
-		padding: 10px 0;
-	}
-	.uni-tip-button {
-		width: 100%;
-		text-align: center;
-		font-size: 14px;
-		color: #333333;
-		font-size: 37rpx;
-		font-weight: 500;
-		border-top: 1px solid #E2E2E2;
-		padding: 10px 0;
-	}
-	.name-input{
-	    position: absolute;
-	    left: 250px;
-	    top: 19px;
-	    width: 400rpx;
-	    height: 60rpx;
-	    font-size:30rpx;
-	    font-family:PingFang SC;
-	    color:rgba(153,153,153,1);
 	}
 </style>

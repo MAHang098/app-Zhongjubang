@@ -51,8 +51,7 @@
 		<view class="all-comments" id="all-comments">
 			<text>全部评论</text>
 			<view class="comments-input">
-				<image v-if="!showImage" :src="head" mode=""></image>
-				<image v-else src="http://www.zhongjubang.com/api/upload/lALPBE1XYuM93nPMssyy_178_178.png" mode=""></image>
+				<image :src="dataItem.head" mode=""></image>
 				<view class="comments-text">
 					<image src="http://www.zhongjubang.com/api/upload/static/img/releaseImage-details/recommend.png" mode=""></image>
 					<input type="text" :value="commentsContent" placeholder="留下你的评论..." @click.stop="togglePopup('bottom', 'popup')" maxlength="200" :disabled="true"/>
@@ -124,8 +123,6 @@
 		components:{ uniPopup},
 	    data() {
 	        return {
-				head: '',
-				showImage: false,
 	            detailId: '',
 				current: 0,
 				indexImg: 1,
@@ -173,36 +170,11 @@
 			}
 		},
 		onShow() {
-			let self = this
 			uni.getStorage({
 				key:"token",
 				success:((res) => {
 				this.token = res.data;
-				if(res.data=='undefined'){
-					this.token = ''
-				}
 			  })
-			});
-			uni.request({
-				url: this.url + "/controller/usercontroller/getappuser",
-				data: {},
-				method: 'POST',
-				header : {
-					'content-type':'application/x-www-form-urlencoded', 
-					'port': 'app',
-					'token': this.token
-				},
-				success: function (res){
-				// console.log(res.data.code)
-				if(res.data.code==421){
-					self.showImage = true
-				}
-				if(res.data.code==200){
-					self.head = res.data.data.head
-					}else{
-						console.log("请求异常")
-					}
-				}
 			});
 			this.init();
 		},
@@ -226,16 +198,15 @@
 					pageIndex: 1,
 					gcircleContentId: this.detailId
 				}
-				// uni.showLoading({
-				// 	title: '加载中'
-				// })
+				uni.showLoading({
+					title: '加载中'
+				})
 				uni.request({
 				    url: this.url + 'controller/usercontroller/getgcdiscusslist',
 				    method: 'post',
 				    data: parmas,
 				    header : {'content-type':'application/x-www-form-urlencoded', 'token': this.token, 'port': 'app'},
 				    success:((res) => {
-						// uni.hideLoading()
 						if(res.data.code==421){
 							uni.navigateTo({
 								url: '/pages/loginPhone/loginPhone'
@@ -249,12 +220,13 @@
 							this.titleItem = JSON.parse(data.title);
 							// console.log(this.titleItem)
 							this.dataItem = data;
+							uni.hideLoading()
 				        } 
-						// if(res.data.code == 421) {
-						// 	uni.navigateTo({
-						// 		url: '/pages/loginPhone/loginPhone'
-						// 	})
-						// }
+						if(res.data.code == 421) {
+							uni.navigateTo({
+								url: '/pages/loginPhone/loginPhone'
+							})
+						}
 				    }),
 					fail:((res) => {
 						uni.showToast({
@@ -766,7 +738,7 @@
 		width: 72rpx;
 		height: 70rpx;
 		display: inline-block;
-		/* border: 1px solid #E2E2E2; */
+		border: 1px solid #E2E2E2;
 		border-radius: 50%;
 		margin-right: 8px;
 	}

@@ -348,7 +348,7 @@
 				<!-- <view class="uni-tip-title">提示</view> -->
 				<view class="uni-tip-content">请更新版本</view>
 				<view class="uni-tip-group-button">
-					<view class="uni-tip-button insist-skip" @click="cancelPopup('skip')" style="color: #F9B72C;">确定</view>
+					<view class="uni-tip-button insist-skip" @click="cancelPopup1('skip')" style="color: #F9B72C;">确定</view>
 				</view>
 			</view>
 		</uni-popup>
@@ -427,6 +427,7 @@
 				isShowTopic: true,
 				replySay: '说点什么把',
 				replyType: '',
+				loadUrl: '',
 				activeVideo: 0,
 				commentItem: [],
 				deleteType: 0,
@@ -482,7 +483,7 @@
 					success: function (res){
 						if(res.data.code=="200"){
 							console.log(res.data.data.hasNewVersion)
-							
+							self.loadUrl = res.data.data.newVersionUrl
 							if(res.data.data.isForceUpdate==1){
 								self.show10 = true
 							}
@@ -620,6 +621,19 @@
 			this.is_refresh = true;
 		},
         methods: {
+			// 取消弹出层
+			cancelPopup1(type) {
+				let self = this
+			    if (type === 'tip') {
+			        this.show = false
+			        return
+			    }
+			    if(type === 'skip') {
+			        console.log("1111")
+					console.log(self.loadUrl)
+					plus.runtime.openURL( self.loadUrl );
+			    }
+			},
 			// 修改背景图片
 			getCover(){
 				uni.request({

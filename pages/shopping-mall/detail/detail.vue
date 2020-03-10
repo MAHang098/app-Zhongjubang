@@ -9,8 +9,12 @@
 					<view :class="current == index ? 'active' : '' " @tap.stop="changeType(index)" v-for="(item, index) in detailType" :key="index">{{item}}</view>
 				</view>
 			</scroll-view>
+			<!-- <view class="header-shop">
+				
+			</view> -->
 			
 			<view class="header-right">
+				<!-- <image @tap="goShopCar" style="margin-right: 10rpx;" src="http://www.zhongjubang.com/api/upload/static/img/stop/car.png" mode=""></image> -->
 				<image :class="scrollFlag ? 'scroolImg' : '' " :src="scrollFlag ? 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/detail/share-select.png' : 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/detail/product-share.png'" mode=""></image>
 			</view>
 		</view>
@@ -165,21 +169,28 @@
 		<!-- 弹窗 end -->
 		
 		<view id="detail-bottom">
-			<view class="kefu">
+			
+			
+			<!-- <view class="kefu">
 				<image src="http://www.zhongjubang.com/api/upload/static/img/shopping-mall/detail/kefu.png" mode=""></image>
 				<view>客服</view>
-			</view>
+			</view> -->
+			
 			<view class="kefu" @tap="goShop(shopItem.shopId)">
 				<image src="http://www.zhongjubang.com/api/upload/static/img/shopping-mall/detail/shop.png" mode=""></image>
 				<view>进店</view>
 			</view>
 			<view class="in-shop" @tap.stop="collectProduct(detailItem.id)">
-				<image :src="detailItem.state == 0 ? 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/detail/collet.png' : 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/detail/collet-select.png'" mode=""></image>
+				<image style="margin-right: 20rpx;" :src="detailItem.state == 0 ? 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/detail/collet.png' : 'http://www.zhongjubang.com/api/upload/static/img/shopping-mall/detail/collet-select.png'" mode=""></image>
 				<view>收藏</view>
+			</view>
+			<view class="kefu" @tap="goShopCar()">
+				<image style="margin-right: 26rpx;" src="../../../static/img/icon/shopCar.png" mode=""></image>
+				<view>购物车</view>
 			</view>
 			<view class="join">
 				<text @click.stop="addCart">加入购物车</text>
-				<text  @click.stop="buy">立即购买</text>
+				<text @click.stop="buy">立即购买</text>
 			</view>
 		</view>
 	</view>
@@ -262,6 +273,11 @@
 			this.gainProductRecommend();
 		},
 		methods: {
+			goShopCar(){
+				uni.navigateTo({
+					url: '/pages/shop/shop'
+				})
+			},
 			goShop(id){
 				uni.navigateTo({
 					url: '/pages/shop-command/shop-command?id=' + id
@@ -625,6 +641,11 @@
 		height: 100%;
 		margin-top: 19rpx;
 	}
+	/* .header-shop{
+		position: absolute;
+		top: 0;
+		left: 0;
+	} */
 	.header-left, .header-right {
 		margin-top: 24rpx !important;
 	}
@@ -634,7 +655,7 @@
 		display: block;
 		margin-right: 18rpx;
 	}
-	.header-right image:first-child {
+	.header-right image {
 		width: 52rpx;
 		height: 52rpx;
 		display: inline-block;
@@ -1120,6 +1141,9 @@
 		display: block;
 		margin: 0 auto;
 	}
+	/* #detail-bottom image:nth-child(3){
+		margin-right: 1px;
+	} */
 	.kefu, .in-shop {
 		width: 20%;
 		text-align: center;

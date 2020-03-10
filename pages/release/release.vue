@@ -35,6 +35,7 @@
             return {
 			show10: false,
                src: '',
+               loadUrl: '',
 			   imgList: [],
 			   tempFilePaths: []
             }
@@ -56,6 +57,7 @@
 					header : {'content-type':'application/x-www-form-urlencoded'},
 					success: function (res){
 						if(res.data.code=="200"){
+							self.loadUrl = res.data.data.newVersionUrl
 							console.log(res.data.data.hasNewVersion)
 							
 							if(res.data.data.isForceUpdate==1){
@@ -68,6 +70,19 @@
 			})
 		},
         methods: {
+			// 取消弹出层
+			cancelPopup(type) {
+				let self = this
+			    if (type === 'tip') {
+			        this.show = false
+			        return
+			    }
+			    if(type === 'skip') {
+			        console.log("1111")
+					console.log(self.loadUrl)
+					plus.runtime.openURL( self.loadUrl );
+			    }
+			},
             back(){
 				// uni.navigateBack()
 				

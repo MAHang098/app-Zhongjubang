@@ -108,7 +108,7 @@
 					<!-- 话题 end -->
 					<!-- 操作按钮 start -->
 					<view class="operate-bottom">
-						<view class="operate-bottom_share" @click="togglePopup('bottom', 'share',items.gcircleContentId)"><image src="http://www.zhongjubang.com/api/upload/static/img/user/share.png" mode=""></image></view>
+						<view class="operate-bottom_share" @click="togglePopup('bottom', 'share')"><image src="http://www.zhongjubang.com/api/upload/static/img/user/share.png" mode=""></image></view>
 						<view class="operate-bottom_number">
 							<view class="number-message" @click.stop="contentDetail(items.gcircleContentId)">
 								<image src="http://www.zhongjubang.com/api/upload/static/img/topicDetails/message.png" mode=""></image>
@@ -234,8 +234,6 @@
 				pageSize: 10,
 				is_refresh: true,
 				shareText: 'kaixin',
-				loadUrl: '',
-				circleId: ''
 			}
 		},
 		computed:{
@@ -302,7 +300,7 @@
 					success: function (res){
 						if(res.data.code=="200"){
 							console.log(res.data.data.hasNewVersion)
-							self.loadUrl = res.data.data.newVersionUrl
+							
 							if(res.data.data.isForceUpdate==1){
 								self.show10 = true
 							}
@@ -445,19 +443,6 @@
 			}
 		},
 		methods: {
-			// 取消弹出层
-			cancelPopup(type) {
-				let self = this
-			    if (type === 'tip') {
-			        this.show = false
-			        return
-			    }
-			    if(type === 'skip') {
-			        console.log("1111")
-					console.log(self.loadUrl)
-					plus.runtime.openURL( self.loadUrl );
-			    }
-			},
 			clickImage(name){
 				if(name == 'wx'){
 					this.shareWx()
@@ -501,7 +486,7 @@
 						shareOPtions.summary = this.shareText;
 						shareOPtions.imageUrl = "../../static/img/logo.png";
 						shareOPtions.title = '欢迎体验众居邦APP';
-						shareOPtions.href = 'http://192.168.0.108:8081/#/pages/releaseImage-details/releaseImage-details?id=' + this.circleId;
+						shareOPtions.href = 'https://uniapp.dcloud.io';
 						break;
 					case 1:
 						shareOPtions.summary = this.shareText;
@@ -557,7 +542,7 @@
 						shareOPtions.summary = this.shareText;
 						shareOPtions.imageUrl = "../../static/img/logo.png";
 						shareOPtions.title = '欢迎体验众居邦APP';
-						shareOPtions.href = 'http://192.168.0.108:8082/#/pages/releaseImage-details/releaseImage-details?id=' + this.circleId;
+						shareOPtions.href = 'https://uniapp.dcloud.io';
 						break;
 					case 1:
 						shareOPtions.summary = this.shareText;
@@ -612,7 +597,7 @@
 						shareOPtions.summary = this.shareText;
 						shareOPtions.imageUrl = "../../static/img/logo.png";
 						shareOPtions.title = '欢迎体验众居邦APP';
-						shareOPtions.href = 'http://192.168.0.108:8081/#/pages/releaseImage-details/releaseImage-details?id=' + this.circleId;
+						shareOPtions.href = 'https://uniapp.dcloud.io';
 						break;
 					case 1:
 						shareOPtions.summary = this.shareText;
@@ -636,9 +621,7 @@
 				
 				uni.share(shareOPtions);
 			},
-			togglePopup(type, open, id) {
-				this.circleId = id
-				console.log(id)
+			togglePopup(type, open) {
 				switch (type) {
 					case 'top':
 						this.content = '顶部弹出 popup'

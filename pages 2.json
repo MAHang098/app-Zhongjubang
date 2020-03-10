@@ -1,30 +1,19 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页,
 	{
-	    "path" : "pages/firstAccess/firstAccess",
-	    "style": {
-	    	"app-plus": {
-	    		"titleNView": false //禁用原生导航栏  
-	    	}
-	    }
-	},
-	{
 		"path": "pages/main/main",
 		"style": {
 			"app-plus": {
 				"titleNView": false //禁用原生导航栏  
 			}
 		}
-	},
-	
-	 {
+	}, {
 			"path": "pages/index3/index3",
 			"style": {
 				"navigationStyle": "custom",
 				"navigationBarTextStyle": "white",
 				"app-plus": {
 					"bounce": "none",
-					"softinputMode" : "adjustPan",
 					"subNVues": [{
 						"id": "actionBar", // 唯一标识  
 						"path": "pages/index3/subNVue/actionBar" // 页面路径  

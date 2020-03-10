@@ -24,7 +24,7 @@
 					<text class="left-name" :class="index==categoryActive?'in':''">{{item.goodsType}}</text>
 				</view>
 			</scroll-view>
-			<image class="banner" style="width: 520rpx;height: 242rpx;" :src="imageStyle" mode="" />
+			<image class="banner" style="width: 480rpx;height: 242rpx;" :src="imageStyle" mode="" />
 			<scroll-view class="nav-right" scroll-y :scroll-top="scrollTop" @scroll="scroll" :style="'height:'+height+'px'" scroll-with-animation>
 				<view  :id="index===0?'first':''" class="nav-right-item" v-for="(item,index) in subCategoryList" :key="index" @click.stop="goMorecategory(type,item.goodsStyleId)">
 					<view class="content">
@@ -330,7 +330,7 @@
 	}
 	.banner{
 		position: relative;
-		left: 246rpx;
+		left: 248rpx;
 		top: 40rpx;
 	}
 	
@@ -356,7 +356,8 @@
 	}
 	.content-packet{
 		float: left;
-		margin-right: 32upx;
+		margin-left: 32rpx;
+		/* margin-right: 32upx; */
 		margin-bottom: 58upx;
 		text-align: center;
 		width: 130upx;
